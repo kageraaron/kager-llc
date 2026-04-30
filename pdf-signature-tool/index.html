@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Signature Tool</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>PDF Signature Tool</h1>
+        <p class="subtitle">Add your signature to PDF documents online</p>
+
+        <div class="upload-section">
+            <input type="file" id="pdfUpload" accept=".pdf" hidden>
+            <label for="pdfUpload" class="upload-button">Upload PDF File</label>
+            <p>Or drag and drop your PDF file here</p>
+        </div>
+
+        <div id="pdfPreviewContainer" class="pdf-preview-section" hidden>
+            <h2>PDF Preview:</h2>
+            <div class="pdf-viewer">
+                <canvas id="pdfCanvas"></canvas>
+                <div id="signatureOverlay">
+                    <div id="signaturePadContainer">
+                        <p>Draw your signature below:</p>
+                        <canvas id="signatureCanvas"></canvas>
+                        <div class="signature-controls">
+                            <input type="color" id="signatureColor" value="#000000">
+                            <button id="clearSignatureBtn">Clear</button>
+                        </div>
+                    </div>
+                    <div id="textSignatureSection" hidden>
+                        <p>Or type your signature:</p>
+                        <input type="text" id="textSignatureInput" placeholder="Your Name">
+                        <select id="signatureFont">
+                            <option value="Times New Roman">Times New Roman</option>
+                            <option value="Arial">Arial</option>
+                            <option value="Courier New">Courier New</option>
+                        </select>
+                        <input type="color" id="textColor" value="#000000">
+                    </div>
+                    <button id="toggleSignatureType">Use Text Signature</button>
+                </div>
+            </div>
+            <div class="controls">
+                <button id="signPdfBtn" disabled>Apply Signature</button>
+                <button id="downloadSignedPdfBtn" hidden>Download Signed PDF</button>
+            </div>
+        </div>
+
+        <div class="ad-banner">
+            <!-- Ad Placeholder -->
+            <p>Ad Space</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

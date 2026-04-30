@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEX Code Color Picker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Color Picker</h1>
+        <p class="subtitle">Pick colors from an image and get HEX, RGB, HSL values</p>
+
+        <div class="upload-section">
+            <input type="file" id="imageUpload" accept="image/*" hidden>
+            <label for="imageUpload" class="upload-button">Upload Image</label>
+            <p>Or drag and drop an image file here</p>
+        </div>
+
+        <div id="imagePreviewContainer" class="image-preview-section" hidden>
+            <h2>Image Preview:</h2>
+            <div class="image-viewer">
+                <canvas id="imageCanvas"></canvas>
+                <div id="colorPickerOverlay"></div>
+            </div>
+        </div>
+
+        <div id="colorInfoSection" class="color-info-section" hidden>
+            <h2>Picked Color:</h2>
+            <div class="color-display" id="pickedColorDisplay"></div>
+            <div class="color-values">
+                <div class="value-item">
+                    <span class="label">HEX:</span>
+                    <span id="hexValue" class="copyable">#000000</span>
+                </div>
+                <div class="value-item">
+                    <span class="label">RGB:</span>
+                    <span id="rgbValue" class="copyable">rgb(0, 0, 0)</span>
+                </div>
+                <div class="value-item">
+                    <span class="label">HSL:</span>
+                    <span id="hslValue" class="copyable">hsl(0, 0%, 0%)</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="resetBtn">Reset</button>
+        </div>
+
+        <div class="ad-banner">
+            <!-- Ad Placeholder -->
+            <p>Ad Space</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,254 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f2f5;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 800px;
+    width: 100%;
+}
+
+h1 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: 2.2em;
+    font-weight: 600;
+}
+
+.subtitle {
+    color: #7f8c8d;
+    font-style: italic;
+    margin-bottom: 30px;
+}
+
+.upload-section {
+    margin-bottom: 30px;
+    border: 2px dashed #bdc3c7;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.upload-section:hover {
+    border-color: #3498db;
+}
+
+.upload-section input[type="file"] {
+    display: none;
+}
+
+.upload-button {
+    display: inline-block;
+    background-color: #3498db;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.upload-button:hover {
+    background-color: #2980b9;
+}
+
+.upload-section p {
+    color: #555;
+    font-size: 0.95em;
+    margin: 0;
+}
+
+.pdf-preview-section {
+    margin-top: 30px;
+    background-color: #fdfdfd;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.pdf-preview-section h2 {
+    color: #34495e;
+    font-size: 1.4em;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ecf0f1;
+    padding-bottom: 10px;
+}
+
+.pdf-viewer {
+    position: relative;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    background-color: #ecf0f1;
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+}
+
+#pdfCanvas {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+#signatureOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Allows interaction with PDF canvas underneath */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#signaturePadContainer, #textSignatureSection {
+    pointer-events: auto; /* Enable interaction with signature controls */
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 8px;
+    margin: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+#signatureCanvas {
+    border: 1px solid #bdc3c7;
+    cursor: crosshair;
+    width: 100%;
+    max-width: 300px;
+    height: 150px; /* Adjust height as needed */
+    background-color: white;
+}
+
+.signature-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+#signatureColor, #textColor {
+    width: 30px;
+    height: 30px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+}
+#signatureColor::-webkit-color-swatcher,
+#textColor::-webkit-color-swatcher {
+    border: none;
+}
+
+#clearSignatureBtn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+#textSignatureInput {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    flex-grow: 1;
+}
+
+#signatureFont {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+#toggleSignatureType {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-top: 10px;
+}
+#toggleSignatureType:hover {
+    background-color: #2980b9;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+button {
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease;
+    flex: 1;
+    min-width: 180px;
+}
+
+button:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+}
+
+#signPdfBtn {
+    background-color: #3498db;
+}
+
+#signPdfBtn:hover:not(:disabled) {
+    background-color: #2980b9;
+}
+
+#downloadSignedPdfBtn {
+    background-color: #27ae60;
+}
+
+#downloadSignedPdfBtn:hover:not(:disabled) {
+    background-color: #229954;
+}
+
+.ad-banner {
+    background-color: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 30px;
+}

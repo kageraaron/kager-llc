@@ -1,0 +1,215 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f7f6;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 700px;
+    width: 100%;
+}
+
+h1 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: 2.2em;
+    font-weight: 600;
+}
+
+.subtitle {
+    color: #7f8c8d;
+    font-style: italic;
+    margin-bottom: 30px;
+}
+
+.upload-section {
+    margin-bottom: 30px;
+    border: 2px dashed #bdc3c7;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.upload-section:hover {
+    border-color: #3498db;
+}
+
+.upload-section input[type="file"] {
+    display: none;
+}
+
+.upload-button {
+    display: inline-block;
+    background-color: #3498db;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.upload-button:hover {
+    background-color: #2980b9;
+}
+
+.upload-section p {
+    color: #555;
+    font-size: 0.95em;
+    margin: 0;
+}
+
+.image-preview-section {
+    margin-top: 30px;
+    background-color: #fdfdfd;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.image-preview-section h2 {
+    color: #34495e;
+    font-size: 1.4em;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ecf0f1;
+    padding-bottom: 10px;
+}
+
+.image-viewer {
+    position: relative;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    background-color: #ecf0f1;
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+}
+
+#imageCanvas {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    cursor: crosshair; /* Indicate clickable area */
+}
+
+#colorPickerOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+}
+
+.color-info-section {
+    margin-top: 30px;
+    background-color: #fdfdfd;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    text-align: center;
+}
+
+.color-info-section h2 {
+    color: #34495e;
+    font-size: 1.4em;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ecf0f1;
+    padding-bottom: 10px;
+}
+
+.color-display {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 20px auto;
+    border: 3px solid #ccc;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+.color-values {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.value-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.label {
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.copyable {
+    background-color: #ecf0f1;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border: 1px solid #e0e0e0;
+}
+
+.copyable:hover {
+    background-color: #dcdcdc;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+#resetBtn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease;
+    min-width: 180px;
+}
+
+#resetBtn:hover {
+    background-color: #c0392b;
+}
+
+.ad-banner {
+    background-color: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 30px;
+}
