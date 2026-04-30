@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import Script from 'next/script';
 import './globals.css';
 
 const baseUrl = 'https://local-convert.com';
@@ -48,30 +49,34 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
-        <script
+        <Script
           async 
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2940894836192894" 
           crossOrigin="anonymous"
+          strategy="afterInteractive"
         />
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-TT7HYVRZGJ"></script>
-        <script dangerouslySetInnerHTML={{ __html: `
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-TT7HYVRZGJ" strategy="afterInteractive" />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-TT7HYVRZGJ');
+          `}
+        </Script>
 
-          gtag('config', 'G-TT7HYVRZGJ');
-        `}} />
-
-        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-401588546"></script>
-        <script dangerouslySetInnerHTML={{ __html: `
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', 'AW-401588546');
-        `}} />
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=AW-401588546" strategy="afterInteractive" />
+        <Script id="aw-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-401588546');
+          `}
+        </Script>
       </head>
       <body>
+
         <nav style={{ padding: '1.5rem 2rem', borderBottom: '1px solid var(--border)' }}>
           <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <a href="/" style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--primary)' }}>
