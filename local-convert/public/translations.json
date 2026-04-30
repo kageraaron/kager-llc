@@ -61,7 +61,9 @@
         "about_why_title": "Why We Do This",
         "about_why_p1": "Our mission is to provide essential utility tools that are 100% free, require no signup, and respect user autonomy. We monetize through transparent display ads so that we can keep the lights on.",
         "about_footer_title": "Secure. Fast. Private.",
-        "about_footer_subtitle": "Thank you for choosing a more private web."
+        "about_footer_subtitle": "Thank you for choosing a more private web.",
+        "embed_powered_by": "Powered by",
+        "embed_not_supported": "Conversion {from} → {to} is not supported in the embed widget."
     },
     "es": {
         "hero_eyebrow": "100% local • Sin cargas • Sin registro",
@@ -125,7 +127,9 @@
         "about_why_title": "Por Qué Hacemos Esto",
         "about_why_p1": "Nuestra misión es proporcionar herramientas de utilidad esenciales que sean 100% gratuitas, no requieran registro y respeten la autonomía del usuario. Monetizamos a través de anuncios transparentes para que podamos mantener el servicio.",
         "about_footer_title": "Seguro. Rápido. Privado.",
-        "about_footer_subtitle": "Gracias por elegir una web más privada."
+        "about_footer_subtitle": "Gracias por elegir una web más privada.",
+        "embed_powered_by": "Desarrollado por",
+        "embed_not_supported": "La conversión {from} → {to} no es compatible con el widget de inserción."
     },
     "fr": {
         "hero_eyebrow": "100 % local • Pas de téléchargement • Pas d'inscription",
@@ -189,7 +193,9 @@
         "about_why_title": "Pourquoi nous faisons cela",
         "about_why_p1": "Notre mission est de fournir des outils utilitaires essentiels 100 % gratuits, ne nécessitant aucune inscription et respectant l'autonomie de l'utilisateur. Nous monétisons via des publicités transparentes afin de pouvoir maintenir le service.",
         "about_footer_title": "Sécurisé. Rapide. Privé.",
-        "about_footer_subtitle": "Merci d'avoir choisi un Web plus privé."
+        "about_footer_subtitle": "Merci d'avoir choisi un Web plus privé.",
+        "embed_powered_by": "Propulsé par",
+        "embed_not_supported": "La conversion {from} → {to} n'est pas prise en charge dans le widget d'intégration."
     },
     "de": {
         "hero_eyebrow": "100 % lokal • Keine Uploads • Keine Anmeldung",
@@ -253,7 +259,9 @@
         "about_why_title": "Warum wir das tun",
         "about_why_p1": "Unsere Mission ist es, unverzichtbare Hilfsmittel bereitzustellen, die zu 100 % kostenlos sind, keine Anmeldung erfordern und die Autonomie der Benutzer respektieren. Wir monetarisieren durch transparente Display-Anzeigen, damit wir den Betrieb aufrechterhalten können.",
         "about_footer_title": "Sicher. Schnell. Privat.",
-        "about_footer_subtitle": "Vielen Dank, dass Sie sich für ein privateres Web entschieden haben."
+        "about_footer_subtitle": "Vielen Dank, dass Sie sich für ein privateres Web entschieden haben.",
+        "embed_powered_by": "Präsentiert von",
+        "embed_not_supported": "Die Konvertierung {from} → {to} wird im Embed-Widget nicht unterstützt."
     },
     "zh": {
         "hero_eyebrow": "100% 本地 • 无需上传 • 无需登录",
@@ -317,7 +325,9 @@
         "about_why_title": "我们为什么这样做",
         "about_why_p1": "我们的使命是提供 100% 免费、无需注册且尊重用户自主权的必备实用工具。我们通过透明的展示广告获利，以便我们可以维持运营。",
         "about_footer_title": "安全。快速。私密。",
-        "about_footer_subtitle": "感谢您选择更加私密的网络。"
+        "about_footer_subtitle": "感谢您选择更加私密的网络。",
+        "embed_powered_by": "技术支持：",
+        "embed_not_supported": "嵌入组件不支持 {from} → {to} 转换。"
     },
     "ja": {
         "hero_eyebrow": "100% ローカル • アップロードなし • ログインなし",
@@ -381,6 +391,8 @@
         "about_why_title": "私たちがこれを行う理由",
         "about_why_p1": "私たちの使命は、100% 無料で登録不要、ユーザーの自律性を尊重する不可欠なユーティリティツールを提供することです。透明性のあるディスプレイ広告を通じて収益化し、サービスを維持できるようにしています。",
         "about_footer_title": "安全。高速。プライベート。",
-        "about_footer_subtitle": "よりプライベートな Web を選択していただきありがとうございます。"
-    }
+        "about_footer_subtitle": "よりプライベートな Web を選択していただきありがとうございます。",
+        "embed_powered_by": "Powered by",
+        "embed_not_supported": "埋め込みウィジェットでは、{from} → {to} の変換はサポートされていません。"
+    },
 }
