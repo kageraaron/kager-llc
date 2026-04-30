@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Formatter & Validator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>JSON Formatter</h1>
+        <p class="subtitle">Format, validate, and minify your JSON data instantly</p>
+
+        <div class="workspace">
+            <div class="editor-section">
+                <div class="editor-header">
+                    <span>Input JSON</span>
+                    <div class="editor-controls">
+                        <button id="formatBtn" class="primary-btn">Format</button>
+                        <button id="minifyBtn" class="secondary-btn">Minify</button>
+                        <button id="clearBtn" class="danger-btn">Clear</button>
+                    </div>
+                </div>
+                <textarea id="jsonInput" placeholder="Paste your JSON here..."></textarea>
+                <div id="errorMsg" class="error-msg hidden"></div>
+            </div>
+            
+            <div class="editor-section">
+                <div class="editor-header">
+                    <span>Output</span>
+                    <button id="copyBtn" class="secondary-btn">Copy to Clipboard</button>
+                </div>
+                <textarea id="jsonOutput" readonly placeholder="Output will appear here..."></textarea>
+            </div>
+        </div>
+
+        <div class="ad-banner">
+            <p>Ad Space</p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

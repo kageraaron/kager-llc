@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Editor & Previewer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Markdown Editor</h1>
+            <p class="subtitle">Write Markdown on the left, see the preview on the right instantly.</p>
+        </header>
+
+        <div class="workspace">
+            <div class="editor-pane">
+                <div class="pane-header">
+                    <span>Markdown Input</span>
+                    <button id="clearBtn" class="danger-btn">Clear</button>
+                </div>
+                <textarea id="markdownInput" placeholder="# Hello World\n\nWrite your markdown here..."></textarea>
+            </div>
+            
+            <div class="preview-pane">
+                <div class="pane-header">
+                    <span>Live Preview</span>
+                </div>
+                <div id="previewOutput" class="markdown-body"></div>
+            </div>
+        </div>
+
+        <div class="ad-banner">
+            <p>Ad Space</p>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
