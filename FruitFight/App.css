@@ -1,0 +1,499 @@
+:root {
+  --primary: #2c3e50;
+  --accent: #e67e22;
+  --bg: #f5f6fa;
+  --card-bg: #ffffff;
+  --active-border: #27ae60;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg);
+  color: var(--primary);
+}
+
+.game-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #ddd;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.btn-hint-toggle {
+  padding: 6px 12px;
+  font-size: 0.8em;
+  background: var(--primary);
+  opacity: 0.8;
+}
+
+.btn-hint-toggle:hover {
+  opacity: 1;
+}
+
+.hints-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+  border: 1px solid #eee;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.hints-panel h4 {
+  margin: 0 0 10px 0;
+  font-size: 0.9em;
+  color: #7f8c8d;
+  text-transform: uppercase;
+}
+
+.dist-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.dist-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8em;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.ev-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  font-size: 0.9em;
+}
+
+.highlight {
+  font-weight: bold;
+  color: var(--accent);
+}
+
+.recommendation {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.action-badge {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  color: white;
+}
+
+.action-badge.HIT { background: #3498db; }
+.action-badge.STAND { background: #e67e22; }
+.action-badge.STEAL { background: #27ae60; }
+
+.player-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.personality-tag {
+  font-size: 0.7em;
+  background: #eee;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #666;
+}
+
+.play-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.main-btns {
+  display: flex;
+  gap: 10px;
+}
+
+.hint-suggestion {
+  font-size: 0.9em;
+  color: #bdc3c7;
+}
+
+.hint-suggestion .bold {
+  color: #fff;
+  text-decoration: underline;
+  text-transform: uppercase;
+}
+
+.btn-decline {
+  background: #7f8c8d !important;
+}
+
+h1 {
+  margin: 0;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.deck-info {
+  font-weight: bold;
+  background: var(--primary);
+  color: white;
+  padding: 5px 15px;
+  border-radius: 20px;
+}
+
+.player-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  flex-grow: 1;
+}
+
+.player-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border: 3px solid transparent;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.player-card.active {
+  border-color: var(--active-border);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(39, 174, 96, 0.2);
+}
+
+.player-card h3 {
+  margin: 0 0 10px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.score {
+  font-size: 0.9em;
+  color: #7f8c8d;
+  margin-bottom: 10px;
+}
+
+.display-area {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 80px;
+  align-content: flex-start;
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.empty-display {
+  color: #bdc3c7;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.card {
+  width: 40px;
+  height: 60px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+  font-size: 1.2em;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Fruit Colors */
+/* Histogram Styles */
+.deck-dist {
+  flex: 1;
+}
+
+.dist-histogram {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 100px;
+  padding: 10px 5px;
+  background: #fcfcfc;
+  border-radius: 8px;
+  border: 1px solid #f0f0f0;
+}
+
+.histo-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.histo-bar-wrapper {
+  width: 100%;
+  height: 70px;
+  display: flex;
+  align-items: flex-end;
+  background: #eee;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.histo-bar {
+  width: 100%;
+  transition: height 0.3s ease;
+}
+
+.histo-val {
+  font-size: 0.7em;
+  font-weight: bold;
+  color: #7f8c8d;
+}
+
+.histo-count {
+  font-size: 0.65em;
+  color: #95a5a6;
+}
+
+/* EV Gauge Styles */
+/* Calculation Breakdown Styles */
+.calculation-breakdown {
+  margin-top: 10px;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px dashed #ced4da;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.calc-line {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.calc-line .label {
+  font-weight: bold;
+  color: #495057;
+  font-size: 0.85em;
+}
+
+.calc-line .formula {
+  font-size: 0.8em;
+  color: #6c757d;
+}
+
+.calc-line .res {
+  font-weight: bold;
+  color: var(--accent);
+}
+
+.ev-gauge-container {
+  margin-top: 15px;
+  padding: 10px;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+.ev-gauge-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75em;
+  font-weight: bold;
+  color: #7f8c8d;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.ev-gauge-track {
+  height: 12px;
+  background: linear-gradient(to right, #e67e22, #eee 50%, #3498db);
+  border-radius: 6px;
+  position: relative;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.ev-gauge-marker {
+  position: absolute;
+  top: -4px;
+  width: 4px;
+  height: 20px;
+  background: #2c3e50;
+  border-radius: 2px;
+  transition: left 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 0 4px rgba(0,0,0,0.3);
+}
+
+.ev-gauge-marker::after {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: -4px;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid #2c3e50;
+}
+
+/* Glossary Styles */
+.glossary-section {
+  margin-top: 40px;
+  padding: 25px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  border: 1px solid #eee;
+  animation: slideUp 0.5s ease-out;
+}
+
+.glossary-section h3 {
+  margin-top: 0;
+  color: var(--primary);
+  border-bottom: 2px solid var(--bg);
+  padding-bottom: 10px;
+}
+
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.glossary-item h4 {
+  margin: 0 0 5px 0;
+  color: var(--accent);
+}
+
+.glossary-item p {
+  margin: 0;
+  font-size: 0.9em;
+  line-height: 1.4;
+  color: #666;
+}
+
+/* Card Image Styles */
+.card {
+  width: 60px;
+  height: 90px;
+  overflow: hidden;
+  background: #dfe0e4; /* Fill entire card view */
+  border: 2px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+}
+
+.card img {
+  width: 90%; /* Margin effect */
+  height: 90%;
+  object-fit: contain;
+  background: transparent; /* Remove white strips */
+}
+
+.action-zone {
+  margin-top: 15px;
+  margin-bottom: 20px;
+  padding: 20px;
+  background: var(--primary);
+  color: white;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.game-message {
+  font-size: 1.2em;
+  margin-bottom: 15px;
+  min-height: 1.5em;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+button {
+  padding: 12px 25px;
+  font-size: 1em;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--accent);
+  color: white;
+}
+
+button:hover:not(:disabled) {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+button:disabled {
+  background: #7f8c8d;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.game-over {
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.game-over h2 {
+  color: var(--active-border);
+  font-size: 2em;
+  margin-top: 0;
+}

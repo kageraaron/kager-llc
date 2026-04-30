@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<title>Daily Word Nexus — A Lateral Thinking Word Puzzle</title>
+<meta name="description" content="A daily lateral-thinking word puzzle. Find the word that all eight axes of the 3×3 grid converge on.">
+
+<!-- ── PWA ────────────────────────────────────────────────────── -->
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#1a1714">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Word Nexus">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16.png">
+
+<!-- ── Open Graph / Twitter card ──────────────────────────────── -->
+<meta property="og:title" content="Daily Word Nexus — A Lateral Thinking Word Puzzle">
+<meta property="og:description" content="A daily lateral-thinking word puzzle.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="/icons/icon-512.png">
+<meta name="twitter:card" content="summary">
+
+<!-- ── Google AdSense ─────────────────────────────────────────────
+  After AdSense approves you, replace ca-pub-XXXXXXXXXXXXXXXX with
+  your publisher ID and uncomment the script below. The page already
+  has three <ins class="adsbygoogle"> slots (intro, win, sticky).
+  Update each slot's data-ad-client and data-ad-slot accordingly.
+
+  <script async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+    crossorigin="anonymous"></script>
+─────────────────────────────────────────────────────────────────── -->
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink:        #1a1714;
+  --paper:      #f5f0e8;
+  --paper2:     #ede7d9;
+  --paper3:     #e4ddd0;
+  --rule:       #c8bfad;
+  --rule2:      #b0a490;
+  --ghost:      #9e9282;
+  --gold:       #8b6914;
+  --gold-light: #c9a84c;
+  --green:      #2d6a3f;
+  --green-bg:   #e8f5ec;
+  --green-rule: #7fbf94;
+  --red:        #8b2020;
+  --red-bg:     #fbeaea;
+  --radius:     6px;
+  --radius-lg:  12px;
+  --bottom-ad-h: 60px;
+}
+
+html, body { -webkit-tap-highlight-color: transparent; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'DM Mono', monospace;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-image: repeating-linear-gradient(
+    transparent, transparent 27px,
+    rgba(180,165,140,0.18) 27px, rgba(180,165,140,0.18) 28px
+  );
+  padding-bottom: calc(var(--bottom-ad-h) + env(safe-area-inset-bottom));
+}
+
+/* ── INTRO SCREEN ─────────────────────────────────────────────── */
+#introScreen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  gap: 1.5rem;
+  padding: 2rem 1.5rem calc(var(--bottom-ad-h) + 2rem);
+  text-align: center;
+  width: 100%;
+  max-width: 480px;
+}
+.brand {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2.4rem;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+.brand em { font-style: italic; color: var(--gold); }
+.brand-sub {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ghost);
+  margin-top: 0.5rem;
+}
+.daily-card {
+  background: white;
+  border: 1.5px solid var(--rule);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 1.5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+.daily-meta { font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ghost); }
+.daily-num { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 2.4rem; line-height: 1; color: var(--ink); }
+.daily-num em { color: var(--gold); }
+.daily-date { font-size: 0.78rem; color: var(--ink); letter-spacing: 0.04em; }
+.daily-streak { display: flex; justify-content: center; gap: 0.4rem; font-size: 0.72rem; color: var(--ghost); letter-spacing: 0.06em; }
+.daily-streak strong { color: var(--ink); }
+.intro-btn {
+  background: var(--ink); color: var(--paper); border: none;
+  border-radius: var(--radius); padding: 0.95rem 1rem;
+  font-family: 'DM Mono', monospace; font-size: 0.78rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  cursor: pointer; transition: opacity 0.15s; width: 100%;
+}
+.intro-btn:hover { opacity: 0.85; }
+.intro-btn.secondary { background: white; color: var(--ink); border: 1.5px solid var(--rule); }
+.intro-btn.secondary:hover { background: var(--paper2); }
+.intro-btn.played { background: var(--green-bg); color: var(--green); border: 1.5px solid var(--green-rule); }
+.intro-footer { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ghost); display: flex; gap: 0.6rem; justify-content: center; }
+.intro-footer a { color: var(--ghost); text-decoration: none; }
+.intro-footer a:hover { color: var(--ink); }
+
+/* ── AD SLOTS ─────────────────────────────────────────────────── */
+.ad-slot {
+  width: 100%;
+  background: var(--paper3);
+  border: 1px dashed var(--rule2);
+  border-radius: var(--radius);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ghost);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  overflow: hidden;
+  position: relative;
+}
+.ad-slot.intro    { min-height: 180px; }
+.ad-slot.win      { min-height: 100px; margin: 1rem 0; }
+.ad-placeholder { display: flex; flex-direction: column; gap: 0.3rem; align-items: center; padding: 1.2rem 1rem; text-align: center; }
+.ad-placeholder small { font-size: 0.55rem; letter-spacing: 0.08em; text-transform: none; opacity: 0.7; max-width: 240px; line-height: 1.5; }
+
+/* sticky bottom banner */
+#bottomAd {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  height: calc(var(--bottom-ad-h) + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+  background: var(--paper2);
+  border-top: 1px solid var(--rule);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 50;
+}
+#bottomAd .ad-slot { background: transparent; border: none; min-height: var(--bottom-ad-h); }
+
+/* ── GAME SCREEN ──────────────────────────────────────────────── */
+#gameScreen {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding-bottom: 2rem;
+}
+.topbar {
+  width: 100%; max-width: 520px;
+  padding: 1.5rem 1.25rem 0.5rem;
+  display: flex; align-items: flex-end;
+  justify-content: space-between; gap: 1rem;
+}
+.game-brand { font-family: 'DM Serif Display', serif; font-size: 1.3rem; color: var(--ink); line-height: 1; }
+.game-brand em { font-style: italic; color: var(--gold); }
+.topbar-right { display: flex; align-items: center; gap: 0.5rem; }
+.puzzle-counter { font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ghost); }
+.timer-badge {
+  font-size: 0.78rem; letter-spacing: 0.06em; color: var(--ink);
+  font-variant-numeric: tabular-nums; background: var(--paper2);
+  border: 1px solid var(--rule); border-radius: 4px; padding: 3px 8px;
+}
+.icon-btn {
+  background: white; border: 1px solid var(--rule); border-radius: 6px;
+  padding: 4px 8px; font-size: 0.95rem; cursor: pointer; line-height: 1;
+  color: var(--ghost); transition: all 0.15s;
+}
+.icon-btn:hover { background: var(--paper2); color: var(--ink); }
+
+.progress-row { width: 100%; max-width: 520px; padding: 0.75rem 1.25rem 0.5rem; display: flex; gap: 5px; }
+.pip { flex: 1; height: 3px; border-radius: 99px; background: var(--rule); transition: background 0.4s; }
+.pip.active { background: var(--gold-light); }
+.pip.done   { background: var(--green); }
+
+.instructions {
+  width: 100%; max-width: 520px; padding: 0 1.25rem 1rem;
+  font-size: 0.7rem; letter-spacing: 0.04em; color: var(--ghost); line-height: 1.6;
+}
+.instructions strong { color: var(--ink); }
+
+/* ── BOARD ────────────────────────────────────────────────────── */
+.board-wrap { width: 100%; max-width: 520px; padding: 0 1.25rem; }
+.board {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 10px; aspect-ratio: 1;
+}
+
+.cell {
+  border-radius: var(--radius-lg);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 8px 6px; position: relative;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  overflow: hidden; min-height: 0;
+}
+.cell.corner { background: var(--ink); border: 2px solid var(--ink); cursor: default; }
+.cell.corner .word {
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: clamp(0.72rem, 2.4vw, 1rem);
+  color: var(--paper); text-align: center; line-height: 1.2; word-break: break-word;
+}
+.cell.edge { background: white; border: 2px solid var(--rule); cursor: text; }
+.cell.edge:hover:not(.solved) { border-color: var(--rule2); }
+.cell.edge.focused { border-color: var(--gold-light); box-shadow: 0 0 0 3px rgba(201,168,76,0.15); z-index: 2; }
+.cell.edge.solved { background: var(--green-bg); border-color: var(--green-rule); cursor: default; }
+.cell.edge.solved .word { color: var(--green); }
+
+.cell.center { background: var(--paper2); border: 2px dashed var(--rule2); cursor: default; }
+.cell.center.unlocked { background: white; border: 2px solid var(--gold-light); cursor: text; }
+.cell.center.focused { box-shadow: 0 0 0 3px rgba(201,168,76,0.15); z-index: 2; }
+.cell.center.solved { background: var(--green-bg); border: 2px solid var(--green-rule); cursor: default; }
+.cell.center.solved .word { color: var(--green); }
+
+.word {
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: clamp(0.72rem, 2.4vw, 1rem);
+  text-align: center; line-height: 1.2; word-break: break-word;
+  color: var(--ink);
+  animation: popIn 0.3s cubic-bezier(0.34,1.56,0.64,1) forwards;
+}
+.inp-wrap { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.cell-inp {
+  width: 100%; border: none; outline: none; background: transparent;
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: clamp(0.7rem, 2.2vw, 0.95rem);
+  color: var(--ink); text-align: center;
+  caret-color: var(--gold); padding: 0; line-height: 1.3;
+}
+.cell-inp::placeholder { color: var(--rule2); font-style: italic; }
+.cell-sublabel {
+  font-family: 'DM Mono'; font-size: 0.5rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--rule2); text-align: center; line-height: 1; pointer-events: none;
+}
+.cell.focused .cell-sublabel { color: var(--gold); }
+.lock-glyph { font-size: 1.1rem; color: var(--rule2); line-height: 1; }
+
+@keyframes popIn { from { transform: scale(0.7); opacity: 0; } 60% { transform: scale(1.06); } to { transform: scale(1); opacity: 1; } }
+@keyframes shake { 0%,100%{transform:translateX(0);} 18%{transform:translateX(-8px);} 36%{transform:translateX(8px);} 54%{transform:translateX(-5px);} 72%{transform:translateX(5px);} 88%{transform:translateX(-2px);} }
+.cell.wrong { animation: shake 0.44s ease; border-color: var(--red) !important; background: var(--red-bg) !important; }
+
+/* ── STATUS STRIP ─────────────────────────────────────────────── */
+.status-strip {
+  width: 100%; max-width: 520px;
+  padding: 0.75rem 1.25rem 0;
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 1rem;
+}
+.mistakes-badge { display: flex; align-items: center; gap: 0.4rem; font-size: 0.66rem; letter-spacing: 0.06em; color: var(--ghost); text-transform: uppercase; }
+.mdot { width: 7px; height: 7px; border-radius: 50%; background: var(--rule); transition: background 0.3s; }
+.mdot.on { background: var(--red); }
+.solved-count { font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ghost); }
+.solved-count strong { color: var(--green); }
+
+/* ── WIN / STATS OVERLAY ──────────────────────────────────────── */
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(245,240,232,0.88);
+  backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.4s;
+  padding: 1.5rem;
+}
+.overlay.show { opacity: 1; pointer-events: all; }
+.modal-card {
+  background: white; border: 1.5px solid var(--rule);
+  border-radius: var(--radius-lg); padding: 2rem 1.75rem;
+  max-width: 400px; width: 100%;
+  text-align: center; box-shadow: 0 8px 40px rgba(0,0,0,0.1);
+  transform: scale(0.92) translateY(10px);
+  transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1) 0.1s;
+  max-height: calc(100dvh - 3rem);
+  overflow-y: auto;
+  position: relative;
+}
+.overlay.show .modal-card { transform: scale(1) translateY(0); }
+.modal-close {
+  position: absolute; top: 0.6rem; right: 0.8rem;
+  background: none; border: none; font-size: 1.4rem;
+  color: var(--ghost); cursor: pointer; line-height: 1; padding: 0.25rem 0.5rem;
+}
+.modal-close:hover { color: var(--ink); }
+.win-title { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 2.2rem; color: var(--ink); margin-bottom: 0.2rem; }
+.win-lede { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ghost); margin-bottom: 0.25rem; }
+.win-word { font-family: 'DM Serif Display', serif; font-size: 2.4rem; font-style: italic; color: var(--green); margin-bottom: 1.25rem; display: block; }
+.win-mini-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 5px; margin-bottom: 1.25rem; }
+.wc { aspect-ratio:1; border-radius:8px; display:flex; align-items:center; justify-content:center; font-family:'DM Serif Display',serif; font-style:italic; font-size:clamp(0.55rem,1.8vw,0.78rem); text-align:center; padding:4px; line-height:1.2; }
+.wc.corner { background:var(--ink); color:var(--paper); }
+.wc.edge   { background:var(--green-bg); color:var(--green); border:1px solid var(--green-rule); }
+.wc.center { background:var(--green-bg); color:var(--green); border:1px solid var(--green-rule); font-size:clamp(0.6rem,2vw,0.82rem); }
+.win-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:1.25rem; }
+.wstat { background:var(--paper2); border-radius:var(--radius); padding:0.6rem 0.4rem; }
+.wstat-v { font-size:1.4rem; font-family:'DM Serif Display',serif; font-style:italic; color:var(--ink); display:block; line-height:1; }
+.wstat-l { font-size:0.55rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--ghost); display:block; margin-top:3px; }
+.win-btns { display:flex; gap:8px; }
+.wbtn { flex:1; padding:0.8rem 0.5rem; border-radius:var(--radius); font-family:'DM Mono'; font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; transition:all 0.15s; border:1px solid var(--rule); background:white; color:var(--ghost); }
+.wbtn:hover { background:var(--paper2); color:var(--ink); }
+.wbtn.primary { background:var(--ink); color:var(--paper); border-color:var(--ink); flex:1.4; }
+.wbtn.primary:hover { opacity:0.85; }
+.next-puzzle { margin-top: 1.25rem; font-size: 0.7rem; letter-spacing: 0.06em; color: var(--ghost); }
+.next-puzzle strong { color: var(--ink); font-variant-numeric: tabular-nums; }
+
+/* stats modal */
+.stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin: 1rem 0 1.25rem; }
+.sstat { background:var(--paper2); border-radius:var(--radius); padding:0.6rem 0.3rem; }
+.sstat-v { font-size:1.3rem; font-family:'DM Serif Display',serif; font-style:italic; color:var(--ink); display:block; line-height:1; }
+.sstat-l { font-size:0.5rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--ghost); display:block; margin-top:3px; }
+.dist-row { display:flex; align-items:center; gap:6px; margin: 3px 0; font-size: 0.7rem; }
+.dist-label { width: 12px; text-align: right; color: var(--ghost); font-variant-numeric: tabular-nums; }
+.dist-bar { flex: 1; background: var(--paper2); border-radius: 3px; height: 14px; position: relative; overflow: hidden; }
+.dist-bar-fill { background: var(--gold-light); height: 100%; transition: width 0.5s; min-width: 18px; }
+.dist-bar-val { position: absolute; right: 6px; top: 0; line-height: 14px; font-size: 0.6rem; color: var(--ink); font-variant-numeric: tabular-nums; }
+
+/* ── TOAST ────────────────────────────────────────────────────── */
+.toast {
+  position:fixed; bottom: calc(var(--bottom-ad-h) + 1rem + env(safe-area-inset-bottom)); left:50%;
+  transform:translateX(-50%) translateY(60px);
+  background:var(--ink); color:var(--paper);
+  padding:0.55rem 1.2rem; border-radius:99px;
+  font-size:0.72rem; letter-spacing:0.06em;
+  pointer-events:none; z-index:200; white-space:nowrap;
+  transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.toast.show { transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- ═══ INTRO SCREEN ═══════════════════════════════════════════ -->
+<div id="introScreen">
+  <div>
+    <div class="brand">Daily Word<em>Nexus</em></div>
+    <div class="brand-sub">A lateral thinking word puzzle</div>
+  </div>
+
+  <div class="daily-card">
+    <div>
+      <div class="daily-meta">Today's Puzzle</div>
+      <div class="daily-num">#<em id="introNum">—</em></div>
+      <div class="daily-date" id="introDate">—</div>
+    </div>
+
+    <div class="daily-streak">
+      <span>Streak: <strong id="introStreak">0</strong></span>
+      <span>·</span>
+      <span>Played: <strong id="introPlayed">0</strong></span>
+      <span>·</span>
+      <span>Win %: <strong id="introWinPct">—</strong></span>
+    </div>
+
+    <button class="intro-btn" id="playBtn" onclick="startGame()">Play today's puzzle →</button>
+    <button class="intro-btn secondary" onclick="openStats()">View stats</button>
+  </div>
+
+  <!-- PRE-GAME AD SLOT -->
+  <div class="ad-slot intro" id="adIntro" data-ad-key="intro">
+    <div class="ad-placeholder">
+      <span>Advertisement</span>
+      <small>Your AdSense pre-game ad renders here. Set AD_CLIENT in the script below to activate.</small>
+    </div>
+  </div>
+
+  <div class="intro-footer">
+    <a href="/privacy.html">Privacy</a>
+    <span>·</span>
+    <a href="#" onclick="openHowTo();return false;">How to play</a>
+  </div>
+</div>
+
+<!-- ═══ GAME SCREEN ════════════════════════════════════════════ -->
+<div id="gameScreen">
+  <div class="topbar">
+    <div class="game-brand">Word<em>Nexus</em></div>
+    <div class="topbar-right">
+      <span class="puzzle-counter" id="pCounter">#—</span>
+      <span class="timer-badge" id="timerEl">0:00</span>
+      <button class="icon-btn" title="Stats" onclick="openStats()">▣</button>
+    </div>
+  </div>
+  <div class="progress-row" id="pips"></div>
+  <div class="instructions">
+    The four <strong>dark corners</strong> are your anchors. For each blank tile, type the word that semantically bridges its two opposite corners, then press <strong>Enter</strong>. Unlock the center last.
+  </div>
+  <div class="board-wrap">
+    <div class="board" id="board"></div>
+  </div>
+  <div class="status-strip">
+    <div class="mistakes-badge">
+      Mistakes
+      <span class="mdot" id="md0"></span>
+      <span class="mdot" id="md1"></span>
+      <span class="mdot" id="md2"></span>
+      <span class="mdot" id="md3"></span>
+      <span class="mdot" id="md4"></span>
+    </div>
+    <div class="solved-count">Tiles: <strong id="tileCount">0</strong> / 5</div>
+  </div>
+</div>
+
+<!-- ═══ WIN OVERLAY ════════════════════════════════════════════ -->
+<div class="overlay" id="winOverlay">
+  <div class="modal-card">
+    <button class="modal-close" onclick="closeWin()">×</button>
+    <div class="win-title" id="winTitle">Solved!</div>
+    <div class="win-lede">The center was</div>
+    <span class="win-word" id="winWord">—</span>
+    <div class="win-mini-grid" id="winMiniGrid"></div>
+    <div class="win-stats">
+      <div class="wstat"><span class="wstat-v" id="wTime">0:00</span><span class="wstat-l">Time</span></div>
+      <div class="wstat"><span class="wstat-v" id="wMist">0</span><span class="wstat-l">Mistakes</span></div>
+      <div class="wstat"><span class="wstat-v" id="wStreak">0</span><span class="wstat-l">Streak</span></div>
+    </div>
+
+    <!-- POST-GAME AD SLOT -->
+    <div class="ad-slot win" id="adWin" data-ad-key="win">
+      <div class="ad-placeholder">
+        <span>Advertisement</span>
+        <small>Post-game AdSense ad renders here.</small>
+      </div>
+    </div>
+
+    <div class="win-btns">
+      <button class="wbtn" onclick="openStats()">Stats</button>
+      <button class="wbtn primary" onclick="shareResult()">Share result</button>
+    </div>
+    <div class="next-puzzle">Next puzzle in <strong id="nextIn">—</strong></div>
+  </div>
+</div>
+
+<!-- ═══ STATS MODAL ════════════════════════════════════════════ -->
+<div class="overlay" id="statsOverlay">
+  <div class="modal-card">
+    <button class="modal-close" onclick="closeStats()">×</button>
+    <div class="win-title" style="font-size:1.6rem">Your Stats</div>
+    <div class="stats-grid">
+      <div class="sstat"><span class="sstat-v" id="sPlayed">0</span><span class="sstat-l">Played</span></div>
+      <div class="sstat"><span class="sstat-v" id="sWinPct">0</span><span class="sstat-l">Win %</span></div>
+      <div class="sstat"><span class="sstat-v" id="sStreak">0</span><span class="sstat-l">Streak</span></div>
+      <div class="sstat"><span class="sstat-v" id="sMaxStreak">0</span><span class="sstat-l">Max</span></div>
+    </div>
+    <div style="font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ghost);margin-bottom:0.4rem;text-align:left">Mistake distribution</div>
+    <div id="distRows"></div>
+    <div class="next-puzzle" style="margin-top:1rem">Next puzzle in <strong id="nextIn2">—</strong></div>
+  </div>
+</div>
+
+<!-- ═══ HOW TO PLAY MODAL ══════════════════════════════════════ -->
+<div class="overlay" id="howToOverlay">
+  <div class="modal-card" style="text-align:left">
+    <button class="modal-close" onclick="closeHowTo()">×</button>
+    <div class="win-title" style="font-size:1.6rem;text-align:center;margin-bottom:1rem">How to Play</div>
+    <p style="font-size:0.82rem;line-height:1.7;margin-bottom:0.75rem">Each puzzle is a 3×3 grid where every row, column, and diagonal points to the same <strong>center word</strong>.</p>
+    <p style="font-size:0.82rem;line-height:1.7;margin-bottom:0.75rem">The four <strong>dark corners</strong> are given. Fill in the four blank edge tiles by finding the word that semantically bridges the two corners on its axis.</p>
+    <p style="font-size:0.82rem;line-height:1.7;margin-bottom:0.75rem">Once all four edges are solved, the <strong>center unlocks</strong> — guess the word every axis converges on.</p>
+    <p style="font-size:0.82rem;line-height:1.7;margin-bottom:1rem">You have <strong>5 mistakes</strong> per puzzle. New puzzle every day at midnight your time.</p>
+    <button class="intro-btn" onclick="closeHowTo()">Got it</button>
+  </div>
+</div>
+
+<!-- ═══ STICKY BOTTOM BANNER AD ════════════════════════════════ -->
+<div id="bottomAd">
+  <div class="ad-slot" data-ad-key="bottom" style="width:100%;max-width:728px;height:100%">
+    <div class="ad-placeholder">
+      <span>Advertisement — Banner 728×60</span>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   CONFIG
+═══════════════════════════════════════════════════════════════ */
+
+// Replace with your AdSense publisher ID once approved (e.g. 'ca-pub-1234567890123456').
+// Leave empty string to show placeholder boxes during development.
+const AD_CLIENT = '';
+
+// AdSense slot IDs (create these in AdSense → Ads → By ad unit).
+const AD_SLOTS = {
+  intro:  '0000000000',   // pre-game intro ad
+  win:    '0000000000',   // post-game win-modal ad
+  bottom: '0000000000',   // sticky 728x60 banner
+};
+
+// Path to the puzzles JSON. Defaults to /puzzles.json (Makefile target).
+const PUZZLES_URL = '/puzzles.json';
+
+// Day 0 — used to compute today's puzzle index. Pin this to your launch date so
+// puzzle #1 is the day you go live.
+const EPOCH = new Date(2026, 3, 28); // April 28, 2026 (month is 0-indexed)
+
+const STATS_KEY = 'wordnexus_stats_v1';
+const STATE_KEY = 'wordnexus_state_v1';
+
+/* ═══════════════════════════════════════════════════════════════
+   DEMO DATA (used as a fallback if puzzles JSON fails to load)
+═══════════════════════════════════════════════════════════════ */
+const DEMO_BOARDS = [
+  { grid:["flame","ember","ash","smoke","fire","candle","torch","burn","spark"],       center:"fire" },
+  { grid:["spirit","specter","memory","apparition","ghost","sheet","haunt","undead","silent"], center:"ghost" },
+  { grid:["treaty","copy","anvil","heat","forge","fake","counterfeit","hammer","metal"],center:"forge" },
+  { grid:["origin","soil","tree","tooth","root","ancestor","core","plant","heritage"], center:"root" },
+  { grid:["ship","harbor","foundation","dock","anchor","sea","burden","sailor","hold"],center:"anchor" },
+];
+
+/* ═══════════════════════════════════════════════════════════════
+   GRID LAYOUT
+═══════════════════════════════════════════════════════════════ */
+const CORNERS = [0,2,6,8];
+const EDGES   = [1,3,5,7];
+const EDGE_NEIGHBORS = { 1:[0,2], 3:[0,6], 5:[2,8], 7:[6,8] };
+const TAB_ORDER = [1,3,5,7,4];
+
+/* ═══════════════════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════════════════ */
+let allBoards = [];
+let curBoard  = null;
+let curIdx    = 0;
+let solved    = new Set();
+let mistakes  = 0;
+let tStart    = null;
+let tTick     = null;
+let activePos = null;
+let nextTick  = null;
+
+/* ═══════════════════════════════════════════════════════════════
+   BOOT
+═══════════════════════════════════════════════════════════════ */
+init();
+
+async function init() {
+  registerSW();
+  injectAdSenseScript();
+  await loadBoards();
+  setupTodaysPuzzle();
+  renderIntro();
+  renderAdSlots();
+  startNextPuzzleCountdown();
+}
+
+async function loadBoards() {
+  try {
+    const r = await fetch(PUZZLES_URL, { cache: 'no-cache' });
+    if (!r.ok) throw new Error('not ok');
+    const d = await r.json();
+    if (Array.isArray(d.boards) && d.boards.length) { allBoards = d.boards; return; }
+    if (Array.isArray(d) && d.length) { allBoards = d; return; }
+    throw new Error('shape');
+  } catch (e) {
+    console.warn('Falling back to demo boards:', e);
+    allBoards = DEMO_BOARDS;
+  }
+}
+
+function setupTodaysPuzzle() {
+  const today = new Date();
+  const todayMid = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const days = Math.floor((todayMid - EPOCH) / 86400000);
+  const idx = ((days % allBoards.length) + allBoards.length) % allBoards.length;
+  curIdx = days; // displayed puzzle number (0-based; +1 in UI)
+  curBoard = allBoards[idx];
+}
+
+function dayKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STATS / STATE PERSISTENCE
+═══════════════════════════════════════════════════════════════ */
+function loadStats() {
+  try { return JSON.parse(localStorage.getItem(STATS_KEY)) || defaultStats(); }
+  catch { return defaultStats(); }
+}
+function defaultStats() {
+  return {
+    played: 0, won: 0, streak: 0, maxStreak: 0,
+    lastWinDate: null, lastResultDate: null, bestTimeSec: null,
+    mistakeDist: [0,0,0,0,0,0],
+  };
+}
+function saveStats(s) { localStorage.setItem(STATS_KEY, JSON.stringify(s)); }
+
+function loadTodayState() {
+  try {
+    const s = JSON.parse(localStorage.getItem(STATE_KEY));
+    if (s && s.date === dayKey()) return s;
+  } catch {}
+  return null;
+}
+function saveTodayState(patch) {
+  const cur = loadTodayState() || {
+    date: dayKey(), solved: [], mistakes: 0,
+    won: false, completed: false, startedAt: null, elapsedSec: 0
+  };
+  Object.assign(cur, patch);
+  cur.date = dayKey();
+  localStorage.setItem(STATE_KEY, JSON.stringify(cur));
+  return cur;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   INTRO SCREEN
+═══════════════════════════════════════════════════════════════ */
+function renderIntro() {
+  const stats = loadStats();
+  const state = loadTodayState();
+  document.getElementById('introNum').textContent = curIdx + 1;
+  document.getElementById('introDate').textContent =
+    new Date().toLocaleDateString(undefined, { weekday:'long', month:'long', day:'numeric', year:'numeric' });
+  document.getElementById('introStreak').textContent = stats.streak;
+  document.getElementById('introPlayed').textContent = stats.played;
+  document.getElementById('introWinPct').textContent = stats.played ? Math.round(100*stats.won/stats.played) + '%' : '—';
+
+  const btn = document.getElementById('playBtn');
+  if (state && state.completed) {
+    btn.textContent = 'View today’s result →';
+    btn.classList.add('played');
+    btn.onclick = () => { startGame(); setTimeout(showWinFromState, 200); };
+  } else if (state) {
+    btn.textContent = 'Resume today’s puzzle →';
+    btn.onclick = startGame;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GAMEPLAY
+═══════════════════════════════════════════════════════════════ */
+function startGame() {
+  document.getElementById('introScreen').style.display = 'none';
+  const gs = document.getElementById('gameScreen');
+  gs.style.display = 'flex';
+
+  document.getElementById('pCounter').textContent = `#${curIdx+1}`;
+  buildPips();
+  loadPuzzle();
+}
+
+function buildPips() {
+  const row = document.getElementById('pips');
+  row.innerHTML = '';
+  const p = document.createElement('div');
+  p.className = 'pip active';
+  row.appendChild(p);
+}
+
+function loadPuzzle() {
+  const state = loadTodayState();
+  solved = new Set(state ? state.solved : []);
+  mistakes = state ? state.mistakes : 0;
+  activePos = null;
+  refreshMistakeDots();
+  refreshTileCount();
+  stopTimer();
+  startTimer(state ? state.elapsedSec : 0);
+  renderBoard();
+
+  if (state && state.completed) setTimeout(showWinFromState, 200);
+}
+
+function renderBoard() {
+  const grid = curBoard.grid;
+  const container = document.getElementById('board');
+  container.innerHTML = '';
+
+  for (let pos = 0; pos < 9; pos++) {
+    const el = document.createElement('div');
+    el.id = `cell${pos}`;
+    el.dataset.pos = pos;
+
+    if (CORNERS.includes(pos)) {
+      el.className = 'cell corner';
+      el.innerHTML = `<div class="word">${grid[pos]}</div>`;
+    } else if (pos === 4) {
+      el.className = 'cell center';
+      el.innerHTML = `
+        <div class="lock-glyph">○</div>
+        <div class="word" style="display:none">${grid[pos]}</div>
+        <div class="inp-wrap" style="display:none">
+          <input class="cell-inp" type="text" autocomplete="off" autocorrect="off"
+                 spellcheck="false" placeholder="…" data-pos="4" inputmode="text">
+          <div class="cell-sublabel">center</div>
+        </div>`;
+      el.addEventListener('click', () => {
+        if (el.classList.contains('unlocked') && !el.classList.contains('solved')) focusPos(4);
+      });
+    } else {
+      el.className = 'cell edge';
+      const [ca, cb] = EDGE_NEIGHBORS[pos];
+      el.innerHTML = `
+        <div class="word" style="display:none">${grid[pos]}</div>
+        <div class="inp-wrap">
+          <input class="cell-inp" type="text" autocomplete="off" autocorrect="off"
+                 spellcheck="false" placeholder="?" data-pos="${pos}" inputmode="text">
+          <div class="cell-sublabel">${grid[ca]} · ${grid[cb]}</div>
+        </div>`;
+      el.addEventListener('click', () => {
+        if (!el.classList.contains('solved')) focusPos(pos);
+      });
+    }
+
+    container.appendChild(el);
+
+    if (solved.has(pos)) {
+      el.classList.add('solved');
+      const inpWrap = el.querySelector('.inp-wrap');
+      const word = el.querySelector('.word');
+      if (inpWrap) inpWrap.style.display = 'none';
+      if (word) word.style.display = 'block';
+      const lock = el.querySelector('.lock-glyph');
+      if (lock) lock.style.display = 'none';
+    }
+
+    const inp = el.querySelector('.cell-inp');
+    if (inp) {
+      inp.addEventListener('keydown', onKey);
+      inp.addEventListener('focus', () => {
+        document.querySelectorAll('.cell').forEach(c => c.classList.remove('focused'));
+        el.classList.add('focused');
+        activePos = pos;
+      });
+    }
+  }
+
+  if (solved.size >= 4 && !solved.has(4)) unlockCenter(false);
+
+  setTimeout(() => {
+    const next = TAB_ORDER.find(p => !solved.has(p) && (p !== 4 || solved.size >= 4));
+    if (next !== undefined) focusPos(next);
+  }, 80);
+}
+
+function focusPos(pos) {
+  const cell = document.getElementById(`cell${pos}`);
+  if (!cell || cell.classList.contains('solved')) return;
+  if (pos === 4 && !cell.classList.contains('unlocked')) return;
+  const inp = cell.querySelector('.cell-inp');
+  if (inp) inp.focus();
+}
+
+function cycleTab(dir) {
+  const available = TAB_ORDER.filter(p => {
+    if (solved.has(p)) return false;
+    if (p === 4) return solved.size === 4;
+    return true;
+  });
+  if (!available.length) return;
+  const ci = available.indexOf(activePos);
+  const next = available[(ci + dir + available.length) % available.length];
+  focusPos(next);
+}
+
+function onKey(e) {
+  const pos = parseInt(e.target.dataset.pos);
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    const val = e.target.value.trim().toLowerCase();
+    if (val) checkAnswer(pos, val, e.target);
+  }
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    cycleTab(e.shiftKey ? -1 : 1);
+  }
+}
+
+function checkAnswer(pos, guess, inp) {
+  const answer = curBoard.grid[pos].toLowerCase();
+  if (guess === answer) {
+    solved.add(pos);
+    const cell = document.getElementById(`cell${pos}`);
+    cell.classList.remove('focused');
+    cell.classList.add('solved');
+    const inpWrap = cell.querySelector('.inp-wrap');
+    const word = cell.querySelector('.word');
+    if (inpWrap) inpWrap.style.display = 'none';
+    if (word) word.style.display = 'block';
+    refreshTileCount();
+    persistProgress();
+
+    if (solved.size === 4 && !solved.has(4)) unlockCenter(true);
+    if (solved.size === 5) { setTimeout(handleWin, 500); return; }
+
+    setTimeout(() => {
+      const next = TAB_ORDER.find(p => !solved.has(p) && (p !== 4 || solved.size >= 4));
+      if (next !== undefined) focusPos(next);
+    }, 100);
+  } else {
+    mistakes++;
+    refreshMistakeDots();
+    persistProgress();
+    const cell = document.getElementById(`cell${pos}`);
+    cell.classList.add('wrong');
+    setTimeout(() => cell.classList.remove('wrong'), 500);
+    setTimeout(() => { inp.value = ''; inp.focus(); }, 440);
+    if (mistakes >= 5) setTimeout(handleLoss, 600);
+  }
+}
+
+function unlockCenter(showHint) {
+  const cell = document.getElementById('cell4');
+  const lock = cell.querySelector('.lock-glyph');
+  const inpWrap = cell.querySelector('.inp-wrap');
+  cell.classList.add('unlocked');
+  if (lock) lock.style.display = 'none';
+  if (inpWrap) inpWrap.style.display = 'flex';
+  if (showHint) showToast('All edges found — now reveal the center!');
+  setTimeout(() => focusPos(4), 200);
+}
+
+function persistProgress() {
+  saveTodayState({ solved: [...solved], mistakes, elapsedSec: getElapsed() });
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   WIN / LOSS
+═══════════════════════════════════════════════════════════════ */
+function handleWin() {
+  stopTimer();
+  const time = getElapsed();
+  saveTodayState({ won: true, completed: true, elapsedSec: time, solved:[...solved], mistakes });
+  recordResult(true, time, mistakes);
+  showWinFromState();
+}
+
+function handleLoss() {
+  stopTimer();
+  const time = getElapsed();
+  saveTodayState({ won: false, completed: true, elapsedSec: time, solved:[...solved], mistakes });
+  recordResult(false, time, mistakes);
+  showWinFromState();
+}
+
+function recordResult(won, timeSec, mist) {
+  const stats = loadStats();
+  if (stats.lastResultDate === dayKey()) return; // idempotent per day
+  stats.lastResultDate = dayKey();
+  stats.played += 1;
+  stats.mistakeDist[Math.min(5, mist)] += 1;
+  if (won) {
+    stats.won += 1;
+    if (stats.bestTimeSec === null || timeSec < stats.bestTimeSec) stats.bestTimeSec = timeSec;
+    const yest = (() => {
+      const d = new Date(); d.setDate(d.getDate()-1);
+      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    })();
+    stats.streak = (stats.lastWinDate === yest) ? stats.streak + 1 : 1;
+    stats.lastWinDate = dayKey();
+    if (stats.streak > stats.maxStreak) stats.maxStreak = stats.streak;
+  } else {
+    stats.streak = 0;
+  }
+  saveStats(stats);
+}
+
+function showWinFromState() {
+  const state = loadTodayState() || {};
+  const stats = loadStats();
+  const { grid } = curBoard;
+  document.getElementById('winTitle').textContent = state.won ? 'Solved!' : 'Out of guesses';
+  document.getElementById('winWord').textContent = grid[4];
+  document.getElementById('winWord').style.color = state.won ? 'var(--green)' : 'var(--red)';
+  document.getElementById('wTime').textContent = formatTime(state.elapsedSec || 0);
+  document.getElementById('wMist').textContent = state.mistakes ?? 0;
+  document.getElementById('wStreak').textContent = stats.streak;
+
+  const mg = document.getElementById('winMiniGrid');
+  mg.innerHTML = '';
+  for (let p = 0; p < 9; p++) {
+    const d = document.createElement('div');
+    d.className = `wc ${CORNERS.includes(p) ? 'corner' : p===4 ? 'center' : 'edge'}`;
+    d.textContent = grid[p];
+    mg.appendChild(d);
+  }
+  document.getElementById('winOverlay').classList.add('show');
+}
+
+function closeWin() { document.getElementById('winOverlay').classList.remove('show'); }
+
+/* ═══════════════════════════════════════════════════════════════
+   STATS / HOW-TO
+═══════════════════════════════════════════════════════════════ */
+function openStats() {
+  const s = loadStats();
+  document.getElementById('sPlayed').textContent = s.played;
+  document.getElementById('sWinPct').textContent = s.played ? Math.round(100*s.won/s.played) : 0;
+  document.getElementById('sStreak').textContent = s.streak;
+  document.getElementById('sMaxStreak').textContent = s.maxStreak;
+  const max = Math.max(1, ...s.mistakeDist);
+  const rows = s.mistakeDist.map((v, i) => {
+    const pct = (v / max) * 100;
+    return `<div class="dist-row">
+      <div class="dist-label">${i}</div>
+      <div class="dist-bar"><div class="dist-bar-fill" style="width:${pct}%"></div><div class="dist-bar-val">${v}</div></div>
+    </div>`;
+  }).join('');
+  document.getElementById('distRows').innerHTML = rows;
+  document.getElementById('statsOverlay').classList.add('show');
+}
+function closeStats() { document.getElementById('statsOverlay').classList.remove('show'); }
+function openHowTo() { document.getElementById('howToOverlay').classList.add('show'); }
+function closeHowTo() { document.getElementById('howToOverlay').classList.remove('show'); }
+
+/* ═══════════════════════════════════════════════════════════════
+   SHARE
+═══════════════════════════════════════════════════════════════ */
+function shareResult() {
+  const state = loadTodayState() || {};
+  const status = state.won ? '★' : '✗';
+  const time = formatTime(state.elapsedSec || 0);
+  const mist = state.mistakes ?? 0;
+
+  const cellEmoji = (p) => {
+    if (CORNERS.includes(p)) return '⬛';
+    if (p === 4) return state.won ? '🟨' : '⬜';
+    return state.won ? '🟩' : '⬜';
+  };
+  const lines = [];
+  for (let r = 0; r < 3; r++) {
+    let line = '';
+    for (let c = 0; c < 3; c++) line += cellEmoji(r*3+c);
+    lines.push(line);
+  }
+  const url = location.origin || 'https://dailywordnexus.com';
+  const text = `Daily Word Nexus #${curIdx+1} ${status}\n⏱ ${time} · ✗ ${mist}\n\n${lines.join('\n')}\n\n${url}`;
+
+  if (navigator.share) {
+    navigator.share({ text }).catch(() => copyShare(text));
+  } else {
+    copyShare(text);
+  }
+}
+function copyShare(text) {
+  navigator.clipboard.writeText(text).then(
+    () => showToast('Result copied to clipboard'),
+    () => showToast('Copy failed — long-press to copy')
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   COUNTDOWN
+═══════════════════════════════════════════════════════════════ */
+function startNextPuzzleCountdown() {
+  const tick = () => {
+    const now = new Date();
+    const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1);
+    const ms = tomorrow - now;
+    const h = Math.floor(ms / 3600000);
+    const m = Math.floor((ms % 3600000) / 60000);
+    const s = Math.floor((ms % 60000) / 1000);
+    const out = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    const a = document.getElementById('nextIn');
+    const b = document.getElementById('nextIn2');
+    if (a) a.textContent = out;
+    if (b) b.textContent = out;
+  };
+  tick();
+  nextTick = setInterval(tick, 1000);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════════════════════════════ */
+function refreshTileCount() { document.getElementById('tileCount').textContent = solved.size; }
+function refreshMistakeDots() {
+  for (let i = 0; i < 5; i++) {
+    const d = document.getElementById(`md${i}`);
+    if (d) d.className = 'mdot' + (i < mistakes ? ' on' : '');
+  }
+}
+
+function startTimer(offset) {
+  tStart = Date.now() - (offset || 0) * 1000;
+  tTick = setInterval(() => {
+    const el = document.getElementById('timerEl');
+    if (el) el.textContent = formatTime(getElapsed());
+  }, 1000);
+}
+function stopTimer() { clearInterval(tTick); tTick = null; }
+function getElapsed() { return tStart ? Math.floor((Date.now()-tStart)/1000) : 0; }
+function formatTime(s){ return `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`; }
+
+let _tt;
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(_tt);
+  _tt = setTimeout(() => el.classList.remove('show'), 2400);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ADSENSE
+═══════════════════════════════════════════════════════════════ */
+function injectAdSenseScript() {
+  if (!AD_CLIENT) return;
+  if (document.querySelector('script[data-adsense]')) return;
+  const s = document.createElement('script');
+  s.async = true;
+  s.crossOrigin = 'anonymous';
+  s.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${AD_CLIENT}`;
+  s.dataset.adsense = '1';
+  document.head.appendChild(s);
+}
+
+function renderAdSlots() {
+  if (!AD_CLIENT) return; // placeholders during dev
+  document.querySelectorAll('.ad-slot').forEach(slot => {
+    const key = slot.dataset.adKey;
+    if (!key || !AD_SLOTS[key]) return;
+    const ins = document.createElement('ins');
+    ins.className = 'adsbygoogle';
+    ins.style.display = 'block';
+    ins.style.width = '100%';
+    ins.style.height = '100%';
+    ins.dataset.adClient = AD_CLIENT;
+    ins.dataset.adSlot = AD_SLOTS[key];
+    ins.dataset.adFormat = 'auto';
+    ins.dataset.fullWidthResponsive = 'true';
+    slot.innerHTML = '';
+    slot.appendChild(ins);
+    try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) { console.warn(e); }
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SERVICE WORKER
+═══════════════════════════════════════════════════════════════ */
+function registerSW() {
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').catch(err => console.warn('SW failed:', err));
+    });
+  }
+}
+</script>
+</body>
+</html>

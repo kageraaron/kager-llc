@@ -1,0 +1,853 @@
+{
+  "boards": [
+    {
+      "grid": [
+        "charge",
+        "voltage",
+        "wire",
+        "circuit",
+        "current",
+        "battery",
+        "trend",
+        "flow",
+        "stream"
+      ],
+      "center": "current",
+      "edges": {
+        "row_top": {
+          "pair": [
+            "charge",
+            "wire"
+          ],
+          "result": "voltage",
+          "score": 3.663
+        },
+        "row_bot": {
+          "pair": [
+            "trend",
+            "stream"
+          ],
+          "result": "flow",
+          "score": 3.276
+        },
+        "col_left": {
+          "pair": [
+            "charge",
+            "trend"
+          ],
+          "result": "circuit",
+          "score": 2.862
+        },
+        "col_right": {
+          "pair": [
+            "wire",
+            "stream"
+          ],
+          "result": "battery",
+          "score": 2.862
+        }
+      },
+      "lines_to_center": {
+        "diag_main": {
+          "pair": [
+            "charge",
+            "stream"
+          ],
+          "score": 2.849
+        },
+        "diag_anti": {
+          "pair": [
+            "wire",
+            "trend"
+          ],
+          "score": 2.4
+        },
+        "col_mid": {
+          "pair": [
+            "voltage",
+            "flow"
+          ],
+          "score": 3.4
+        },
+        "row_mid": {
+          "pair": [
+            "circuit",
+            "battery"
+          ],
+          "score": 2.449
+        }
+      },
+      "score": {
+        "overall": 2.42,
+        "weakest_line": 2.4,
+        "average_line": 2.97,
+        "corner_diversity": 4.93,
+        "corner_subthemes": 3,
+        "playable": true,
+        "line_scores": {
+          "row_top": 3.663,
+          "row_mid": 2.449,
+          "row_bot": 3.276,
+          "col_left": 2.862,
+          "col_mid": 3.4,
+          "col_right": 2.862,
+          "diag_main": 2.849,
+          "diag_anti": 2.4
+        }
+      },
+      "algorithm_params": {
+        "method": "subthemed_semantic_graph",
+        "equations_validated": 8,
+        "scoring": "geometric_mean_with_subtheme_bonus",
+        "morph_dedup": true,
+        "uniqueness_check": true,
+        "min_overall_score": 1.8,
+        "min_corner_subthemes": 3,
+        "center_selection": "max_cosine_distance"
+      }
+    },
+    {
+      "grid": [
+        "navigate",
+        "needle",
+        "sketch",
+        "bearing",
+        "compass",
+        "circle",
+        "ethics",
+        "north",
+        "direction"
+      ],
+      "center": "compass",
+      "edges": {
+        "row_top": {
+          "pair": [
+            "navigate",
+            "sketch"
+          ],
+          "result": "needle",
+          "score": 3.276
+        },
+        "row_bot": {
+          "pair": [
+            "ethics",
+            "direction"
+          ],
+          "result": "north",
+          "score": 3.75
+        },
+        "col_left": {
+          "pair": [
+            "navigate",
+            "ethics"
+          ],
+          "result": "bearing",
+          "score": 3.75
+        },
+        "col_right": {
+          "pair": [
+            "sketch",
+            "direction"
+          ],
+          "result": "circle",
+          "score": 3.276
+        }
+      },
+      "lines_to_center": {
+        "diag_main": {
+          "pair": [
+            "navigate",
+            "direction"
+          ],
+          "score": 3.0
+        },
+        "diag_anti": {
+          "pair": [
+            "sketch",
+            "ethics"
+          ],
+          "score": 2.849
+        },
+        "col_mid": {
+          "pair": [
+            "needle",
+            "north"
+          ],
+          "score": 3.0
+        },
+        "row_mid": {
+          "pair": [
+            "bearing",
+            "circle"
+          ],
+          "score": 3.4
+        }
+      },
+      "score": {
+        "overall": 2.58,
+        "weakest_line": 2.849,
+        "average_line": 3.29,
+        "corner_diversity": 1.82,
+        "corner_subthemes": 3,
+        "playable": true,
+        "line_scores": {
+          "row_top": 3.276,
+          "row_mid": 3.4,
+          "row_bot": 3.75,
+          "col_left": 3.75,
+          "col_mid": 3.0,
+          "col_right": 3.276,
+          "diag_main": 3.0,
+          "diag_anti": 2.849
+        }
+      },
+      "algorithm_params": {
+        "method": "subthemed_semantic_graph",
+        "equations_validated": 8,
+        "scoring": "geometric_mean_with_subtheme_bonus",
+        "morph_dedup": true,
+        "uniqueness_check": true,
+        "min_overall_score": 1.8,
+        "min_corner_subthemes": 3,
+        "center_selection": "max_cosine_distance"
+      }
+    },
+    {
+      "grid": [
+        "magnify",
+        "refract",
+        "focus",
+        "glass",
+        "lens",
+        "light",
+        "photo",
+        "camera",
+        "angle"
+      ],
+      "center": "lens",
+      "edges": {
+        "row_top": {
+          "pair": [
+            "magnify",
+            "focus"
+          ],
+          "result": "refract",
+          "score": 4.8
+        },
+        "row_bot": {
+          "pair": [
+            "photo",
+            "angle"
+          ],
+          "result": "camera",
+          "score": 2.862
+        },
+        "col_left": {
+          "pair": [
+            "magnify",
+            "photo"
+          ],
+          "result": "glass",
+          "score": 2.862
+        },
+        "col_right": {
+          "pair": [
+            "focus",
+            "angle"
+          ],
+          "result": "light",
+          "score": 2.862
+        }
+      },
+      "lines_to_center": {
+        "diag_main": {
+          "pair": [
+            "magnify",
+            "angle"
+          ],
+          "score": 2.849
+        },
+        "diag_anti": {
+          "pair": [
+            "focus",
+            "photo"
+          ],
+          "score": 2.849
+        },
+        "col_mid": {
+          "pair": [
+            "refract",
+            "camera"
+          ],
+          "score": 3.4
+        },
+        "row_mid": {
+          "pair": [
+            "glass",
+            "light"
+          ],
+          "score": 2.0
+        }
+      },
+      "score": {
+        "overall": 2.04,
+        "weakest_line": 2.0,
+        "average_line": 3.06,
+        "corner_diversity": 0.0,
+        "corner_subthemes": 3,
+        "playable": true,
+        "line_scores": {
+          "row_top": 4.8,
+          "row_mid": 2.0,
+          "row_bot": 2.862,
+          "col_left": 2.862,
+          "col_mid": 3.4,
+          "col_right": 2.862,
+          "diag_main": 2.849,
+          "diag_anti": 2.849
+        }
+      },
+      "algorithm_params": {
+        "method": "subthemed_semantic_graph",
+        "equations_validated": 8,
+        "scoring": "geometric_mean_with_subtheme_bonus",
+        "morph_dedup": true,
+        "uniqueness_check": true,
+        "min_overall_score": 1.8,
+        "min_corner_subthemes": 3,
+        "center_selection": "max_cosine_distance"
+      }
+    },
+    {
+      "grid": [
+        "smith",
+        "metal",
+        "build",
+        "anvil",
+        "forge",
+        "create",
+        "document",
+        "fake",
+        "shape"
+      ],
+      "center": "forge",
+      "edges": {
+        "row_top": {
+          "pair": [
+            "smith",
+            "build"
+          ],
+          "result": "metal",
+          "score": 3.276
+        },
+        "row_bot": {
+          "pair": [
+            "document",
+            "shape"
+          ],
+          "result": "fake",
+          "score": 2.862
+        },
+        "col_left": {
+          "pair": [
+            "smith",
+            "document"
+          ],
+          "result": "anvil",
+          "score": 3.276
+        },
+        "col_right": {
+          "pair": [
+            "build",
+            "shape"
+          ],
+          "result": "create",
+          "score": 3.2
+        }
+      },
+      "lines_to_center": {
+        "diag_main": {
+          "pair": [
+            "smith",
+            "shape"
+          ],
+          "score": 2.849
+        },
+        "diag_anti": {
+          "pair": [
+            "build",
+            "document"
+          ],
+          "score": 2.4
+        },
+        "col_mid": {
+          "pair": [
+            "metal",
+            "fake"
+          ],
+          "score": 3.4
+        },
+        "row_mid": {
+          "pair": [
+            "anvil",
+            "create"
+          ],
+          "score": 2.849
+        }
+      },
+      "score": {
+        "overall": 2.21,
+        "weakest_line": 2.4,
+        "average_line": 3.01,
+        "corner_diversity": 0.0,
+        "corner_subthemes": 3,
+        "playable": true,
+        "line_scores": {
+          "row_top": 3.276,
+          "row_mid": 2.849,
+          "row_bot": 2.862,
+          "col_left": 3.276,
+          "col_mid": 3.4,
+          "col_right": 3.2,
+          "diag_main": 2.849,
+          "diag_anti": 2.4
+        }
+      },
+      "algorithm_params": {
+        "method": "subthemed_semantic_graph",
+        "equations_validated": 8,
+        "scoring": "geometric_mean_with_subtheme_bonus",
+        "morph_dedup": true,
+        "uniqueness_check": true,
+        "min_overall_score": 1.8,
+        "min_corner_subthemes": 3,
+        "center_selection": "max_cosine_distance"
+      }
+    },
+    {
+      "grid": [
+        "audit",
+        "debt",
+        "fair",
+        "credit",
+        "balance",
+        "judge",
+        "harmony",
+        "court",
+        "justice"
+      ],
+      "center": "balance",
+      "edges": {
+        "row_top": {
+          "pair": [
+            "audit",
+            "fair"
+          ],
+          "result": "debt",
+          "score": 2.5
+        },
+        "row_bot": {
+          "pair": [
+            "harmony",
+            "justice"
+          ],
+          "result": "court",
+          "score": 2.862
+        },
+        "col_left": {
+          "pair": [
+            "audit",
+            "harmony"
+          ],
+          "result": "credit",
+          "score": 2.5
+        },
+        "col_right": {
+          "pair": [
+            "fair",
+            "justice"
+          ],
+          "result": "judge",
+          "score": 3.663
+        }
+      },
+      "lines_to_center": {
+        "diag_main": {
+          "pair": [
+            "audit",
+            "justice"
+          ],
+          "score": 2.849
+        },
+        "diag_anti": {
+          "pair": [
+            "fair",
+            "harmony"
+          ],
+          "score": 2.4
+        },
+        "col_mid": {
+          "pair": [
+            "debt",
+            "court"
+          ],
+          "score": 2.4
+        },
+        "row_mid": {
+          "pair": [
+            "credit",
+            "judge"
+          ],
+          "score": 2.4
+        }
+      },
+      "score": {
+        "overall": 2.18,
+        "weakest_line": 2.4,
+        "average_line": 2.7,
+        "corner_diversity": 1.46,
+        "corner_subthemes": 3,
+        "playable": true,
+        "line_scores": {
+          "row_top": 2.5,
+          "row_mid": 2.4,
+          "row_bot": 2.862,
+          "col_left": 2.5,
+          "col_mid": 2.4,
+          "col_right": 3.663,
+          "diag_main": 2.849,
+          "diag_anti": 2.4
+        }
+      },
+      "algorithm_params": {
+        "method": "subthemed_semantic_graph",
+        "equations_validated": 8,
+        "scoring": "geometric_mean_with_subtheme_bonus",
+        "morph_dedup": true,
+        "uniqueness_check": true,
+        "min_overall_score": 1.8,
+        "min_corner_subthemes": 3,
+        "center_selection": "max_cosine_distance"
+      }
+    },
+    {
+      "grid": [
+        "mine",
+        "stone",
+        "marble",
+        "excavate",
+        "quarry",
+        "blast",
+        "rock",
+        "hunt",
+        "prey"
+      ],
+      "center": "quarry",
+      "edges": {
+        "row_top": {
+          "pair": [
+            "mine",
+            "marble"
+          ],
+          "result": "stone",
+          "score": 4.193
+        },
+        "row_bot": {
+          "pair": [
+            "rock",
+            "prey"
+          ],
+          "result": "hunt",
+          "score": 3.276
+        },
+        "col_left": {
+          "pair": [
+            "mine",
+            "rock"
+          ],
+          "result": "excavate",
+          "score": 3.663
+        },
+        "col_right": {
+          "pair": [
+            "marble",
+            "prey"
+          ],
+          "result": "blast",
+          "score": 2.862
+        }
+      },
+      "lines_to_center": {
+        "diag_main": {
+          "pair": [
+            "mine",
+            "prey"
+          ],
+          "score": 3.4
+        },
+        "diag_anti": {
+          "pair": [
+            "marble",
+            "rock"
+          ],
+          "score": 2.0
+        },
+        "col_mid": {
+          "pair": [
+            "stone",
+            "hunt"
+          ],
+          "score": 3.4
+        },
+        "row_mid": {
+          "pair": [
+            "excavate",
+            "blast"
+          ],
+          "score": 2.0
+        }
+      },
+      "score": {
+        "overall": 2.08,
+        "weakest_line": 2.0,
+        "average_line": 3.1,
+        "corner_diversity": 2.13,
+        "corner_subthemes": 2,
+        "playable": true,
+        "line_scores": {
+          "row_top": 4.193,
+          "row_mid": 2.0,
+          "row_bot": 3.276,
+          "col_left": 3.663,
+          "col_mid": 3.4,
+          "col_right": 2.862,
+          "diag_main": 3.4,
+          "diag_anti": 2.0
+        }
+      },
+      "algorithm_params": {
+        "method": "subthemed_semantic_graph",
+        "equations_validated": 8,
+        "scoring": "geometric_mean_with_subtheme_bonus",
+        "morph_dedup": true,
+        "uniqueness_check": true,
+        "min_overall_score": 1.8,
+        "min_corner_subthemes": 3,
+        "center_selection": "max_cosine_distance"
+      }
+    },
+    {
+      "grid": [
+        "sunset",
+        "dawn",
+        "threshold",
+        "vista",
+        "horizon",
+        "boundary",
+        "possibility",
+        "sunrise",
+        "twilight"
+      ],
+      "center": "horizon",
+      "edges": {
+        "row_top": {
+          "pair": [
+            "sunset",
+            "threshold"
+          ],
+          "result": "dawn",
+          "score": 3.276
+        },
+        "row_bot": {
+          "pair": [
+            "possibility",
+            "twilight"
+          ],
+          "result": "sunrise",
+          "score": 2.862
+        },
+        "col_left": {
+          "pair": [
+            "sunset",
+            "possibility"
+          ],
+          "result": "vista",
+          "score": 3.276
+        },
+        "col_right": {
+          "pair": [
+            "threshold",
+            "twilight"
+          ],
+          "result": "boundary",
+          "score": 2.862
+        }
+      },
+      "lines_to_center": {
+        "diag_main": {
+          "pair": [
+            "sunset",
+            "twilight"
+          ],
+          "score": 2.449
+        },
+        "diag_anti": {
+          "pair": [
+            "threshold",
+            "possibility"
+          ],
+          "score": 2.4
+        },
+        "col_mid": {
+          "pair": [
+            "dawn",
+            "sunrise"
+          ],
+          "score": 3.0
+        },
+        "row_mid": {
+          "pair": [
+            "vista",
+            "boundary"
+          ],
+          "score": 3.4
+        }
+      },
+      "score": {
+        "overall": 2.19,
+        "weakest_line": 2.4,
+        "average_line": 2.94,
+        "corner_diversity": 0.0,
+        "corner_subthemes": 3,
+        "playable": true,
+        "line_scores": {
+          "row_top": 3.276,
+          "row_mid": 3.4,
+          "row_bot": 2.862,
+          "col_left": 3.276,
+          "col_mid": 3.0,
+          "col_right": 2.862,
+          "diag_main": 2.449,
+          "diag_anti": 2.4
+        }
+      },
+      "algorithm_params": {
+        "method": "subthemed_semantic_graph",
+        "equations_validated": 8,
+        "scoring": "geometric_mean_with_subtheme_bonus",
+        "morph_dedup": true,
+        "uniqueness_check": true,
+        "min_overall_score": 1.8,
+        "min_corner_subthemes": 3,
+        "center_selection": "max_cosine_distance"
+      }
+    },
+    {
+      "grid": [
+        "conquer",
+        "alpine",
+        "peak",
+        "cliff",
+        "mountain",
+        "range",
+        "summit",
+        "ridge",
+        "miracle"
+      ],
+      "center": "mountain",
+      "edges": {
+        "row_top": {
+          "pair": [
+            "conquer",
+            "peak"
+          ],
+          "result": "alpine",
+          "score": 3.276
+        },
+        "row_bot": {
+          "pair": [
+            "summit",
+            "miracle"
+          ],
+          "result": "ridge",
+          "score": 3.276
+        },
+        "col_left": {
+          "pair": [
+            "conquer",
+            "summit"
+          ],
+          "result": "cliff",
+          "score": 3.276
+        },
+        "col_right": {
+          "pair": [
+            "peak",
+            "miracle"
+          ],
+          "result": "range",
+          "score": 2.862
+        }
+      },
+      "lines_to_center": {
+        "diag_main": {
+          "pair": [
+            "conquer",
+            "miracle"
+          ],
+          "score": 2.4
+        },
+        "diag_anti": {
+          "pair": [
+            "peak",
+            "summit"
+          ],
+          "score": 3.0
+        },
+        "col_mid": {
+          "pair": [
+            "alpine",
+            "ridge"
+          ],
+          "score": 3.0
+        },
+        "row_mid": {
+          "pair": [
+            "cliff",
+            "range"
+          ],
+          "score": 2.449
+        }
+      },
+      "score": {
+        "overall": 2.23,
+        "weakest_line": 2.4,
+        "average_line": 2.94,
+        "corner_diversity": 0.84,
+        "corner_subthemes": 3,
+        "playable": true,
+        "line_scores": {
+          "row_top": 3.276,
+          "row_mid": 2.449,
+          "row_bot": 3.276,
+          "col_left": 3.276,
+          "col_mid": 3.0,
+          "col_right": 2.862,
+          "diag_main": 2.4,
+          "diag_anti": 3.0
+        }
+      },
+      "algorithm_params": {
+        "method": "subthemed_semantic_graph",
+        "equations_validated": 8,
+        "scoring": "geometric_mean_with_subtheme_bonus",
+        "morph_dedup": true,
+        "uniqueness_check": true,
+        "min_overall_score": 1.8,
+        "min_corner_subthemes": 3,
+        "center_selection": "max_cosine_distance"
+      }
+    }
+  ],
+  "total": 8
+}

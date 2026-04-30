@@ -1,0 +1,5 @@
+# ads.txt for Semantic Sudoku
+# Replace pub-XXXXXXXXXXXXXXXX below with your AdSense publisher ID
+# (find it in AdSense → Account → Account information).
+# AdSense will give you the exact line to paste here once approved.
+google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0

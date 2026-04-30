@@ -1,0 +1,28 @@
+# ── Bulky data files — keep on disk, never commit ──────────────
+# ConceptNet dump is ~10 GB and is regenerated/derived, not source.
+utils/conceptnet-assertions-5.7.0.csv.gz
+conceptnet-assertions-5.7.0.csv.gz
+*.csv.gz
+
+# v1 prototype intermediate artefacts (regenerated from ConceptNet)
+semantic_graph.json
+semantic_graph_expanded.json
+
+# ── Python ─────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ── OS / editor ────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo

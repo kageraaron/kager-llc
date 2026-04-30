@@ -1,0 +1,7 @@
+# Word Nexus — Python dependencies
+# The generator and graph builders are the only Python-touching surface.
+# The HTML player needs nothing.
+
+numpy>=1.24
+scipy>=1.10
+pillow

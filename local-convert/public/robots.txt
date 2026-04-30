@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://local-convert.com/sitemap.xml

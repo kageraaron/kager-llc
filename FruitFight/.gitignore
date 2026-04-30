@@ -1,0 +1,20 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependencies
+node_modules/
+node_modules
+
+# Custom Exclusions
+gemini-cli
+gemini-cli/
+
+# Production Builds
+dist/
+dist-ssr/
+
+# Environment Variables
+.env
+.env.local
