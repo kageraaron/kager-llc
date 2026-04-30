@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { I18nProvider } from '@/src/lib/i18n';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
 
 export const metadata: Metadata = {
   title: {
@@ -31,7 +33,16 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="dark">
-      <body className="min-h-screen bg-ink-950 text-ink-50 antialiased">{children}</body>
+      <body className="min-h-screen bg-ink-950 text-ink-50 antialiased">
+        <I18nProvider>
+          <header className="w-full border-b border-ink-800 bg-ink-900/40">
+            <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-center">
+              <LanguageSwitcher />
+            </div>
+          </header>
+          <main className="pt-4">{children}</main>
+        </I18nProvider>
+      </body>
     </html>
   );
 }

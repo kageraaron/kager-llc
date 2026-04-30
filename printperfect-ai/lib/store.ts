@@ -2,29 +2,54 @@
 
 import { create } from 'zustand';
 
-export type ToolId = 'upscale' | 'colorize' | 'inpaint' | 'restore' | 'remove-bg';
+export type ToolId =
+  | 'upscale'
+  | 'colorize'
+  | 'inpaint'
+  | 'restore'
+  | 'remove-bg'
+  | 'watermark-remove';
+
+/** Tools that need a paintable mask overlay on the canvas. */
+export const MASK_TOOLS: ToolId[] = ['inpaint', 'watermark-remove'];
 
 export type Job = {
   id: string;
   tool: ToolId;
   status: 'queued' | 'running' | 'done' | 'error';
-  progress: number; // 0..1
+  progress: number;
   message?: string;
   startedAt: number;
 };
 
+/**
+ * Imperative API the BrushCanvas registers with the store so any other
+ * component (e.g. FeaturePanel) can query/clear the current mask without
+ * prop-drilling refs.
+ */
+export type BrushApi = {
+  /**
+   * Returns an ImageData the same size as the source image, where painted
+   * pixels have alpha=0 and unpainted pixels are the original RGBA. Suitable
+   * to feed straight into the inpainter.
+   */
+  composeMaskedImage: () => ImageData | null;
+  hasMask: () => boolean;
+  clear: () => void;
+};
+
 type EditorState = {
-  /** The currently loaded source image (original, untouched). */
   sourceImage: ImageBitmap | null;
-  /** The current working image (after edits). */
   currentImage: ImageBitmap | null;
-  /** Edit history for undo/redo. */
   history: ImageBitmap[];
   historyIndex: number;
-  /** Active tool panel. */
   activeTool: ToolId | null;
-  /** Background jobs (model downloads, inference runs). */
   jobs: Job[];
+
+  /** Brush state (used by mask tools). */
+  brushSize: number;
+  brushMode: 'paint' | 'erase';
+  brushApi: BrushApi | null;
 
   setSource: (img: ImageBitmap) => void;
   setCurrent: (img: ImageBitmap) => void;
@@ -32,6 +57,9 @@ type EditorState = {
   undo: () => void;
   redo: () => void;
   setActiveTool: (tool: ToolId | null) => void;
+  setBrushSize: (n: number) => void;
+  setBrushMode: (mode: 'paint' | 'erase') => void;
+  setBrushApi: (api: BrushApi | null) => void;
   upsertJob: (job: Job) => void;
   reset: () => void;
 };
@@ -43,6 +71,10 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   historyIndex: -1,
   activeTool: null,
   jobs: [],
+
+  brushSize: 32,
+  brushMode: 'paint',
+  brushApi: null,
 
   setSource: (img) =>
     set({ sourceImage: img, currentImage: img, history: [img], historyIndex: 0 }),
@@ -71,6 +103,9 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   },
 
   setActiveTool: (tool) => set({ activeTool: tool }),
+  setBrushSize: (n) => set({ brushSize: n }),
+  setBrushMode: (mode) => set({ brushMode: mode }),
+  setBrushApi: (api) => set({ brushApi: api }),
 
   upsertJob: (job) => {
     const { jobs } = get();
@@ -92,5 +127,6 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       historyIndex: -1,
       activeTool: null,
       jobs: [],
+      brushApi: null,
     }),
 }));

@@ -1,6 +1,11 @@
+"use client";
+
 import Link from 'next/link';
+import { useI18n } from '@/src/lib/i18n';
 
 export function Hero() {
+  const { t } = useI18n();
+
   return (
     <section className="max-w-6xl mx-auto px-6 pt-16 pb-20 text-center">
       <p className="inline-flex items-center gap-2 rounded-full bg-ink-900 px-3 py-1 text-xs font-medium text-ink-300 ring-1 ring-ink-800 mb-6">
@@ -16,20 +21,14 @@ export function Hero() {
         restore old portraits. Then turn the result into a museum-quality print, shipped worldwide.
       </p>
       <div className="mt-10 flex items-center justify-center gap-3">
-        <Link
-          href="/editor"
-          className="rounded-md bg-accent px-5 py-3 text-sm font-medium text-white hover:bg-accent-hover transition"
-        >
-          Open the editor — it's free
+        <Link href="/editor" className="rounded-md bg-accent px-5 py-3 text-sm font-medium text-white hover:bg-accent-hover transition">
+          {t('open_editor')}
         </Link>
-        <Link
-          href="#features"
-          className="rounded-md px-5 py-3 text-sm font-medium text-ink-200 ring-1 ring-ink-700 hover:bg-ink-900 transition"
-        >
-          See features
+        <Link href="#features" className="rounded-md px-5 py-3 text-sm font-medium text-ink-200 ring-1 ring-ink-700 hover:bg-ink-900 transition">
+          {t('see_features')}
         </Link>
       </div>
-      <p className="mt-4 text-xs text-ink-500">No signup. No watermark. No upload to a server.</p>
+      <p className="mt-4 text-xs text-ink-500">{t('no_signup')}</p>
     </section>
   );
 }

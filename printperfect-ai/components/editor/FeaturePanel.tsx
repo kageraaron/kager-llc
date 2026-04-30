@@ -1,13 +1,20 @@
 'use client';
 
-import { useState } from 'react';
-import { useEditorStore, type ToolId } from '@/lib/store';
+import { useEffect, useState } from 'react';
+import { MASK_TOOLS, useEditorStore, type ToolId } from '@/lib/store';
 import { bitmapToImageData, imageDataToBitmap } from '@/lib/image/canvas';
 import { useInferenceWorker } from './useInferenceWorker';
 
 const COPY: Record<
   ToolId,
-  { title: string; cta: string; description: string; supported: boolean }
+  {
+    title: string;
+    cta: string;
+    description: string;
+    supported: boolean;
+    /** Watermark and inpaint share the same model with different framing. */
+    workerTool?: 'upscale' | 'colorize' | 'inpaint';
+  }
 > = {
   upscale: {
     title: 'AI Upscale',
@@ -15,6 +22,7 @@ const COPY: Record<
     description:
       'Enlarge your photo with sharp detail using Real-ESRGAN. Great for prepping low-res images for prints.',
     supported: true,
+    workerTool: 'upscale',
   },
   colorize: {
     title: 'AI Colorize',
@@ -22,6 +30,7 @@ const COPY: Record<
     description:
       'Bring black-and-white or sepia photos to life with realistic color (DDColor).',
     supported: true,
+    workerTool: 'colorize',
   },
   restore: {
     title: 'Face Restoration',
@@ -34,8 +43,17 @@ const COPY: Record<
     title: 'Inpaint / Object Removal',
     cta: 'Remove brushed areas',
     description:
-      'Brush over unwanted objects and let LaMa fill them in. Brush UI coming soon — currently fills any transparent regions in the image.',
+      'Brush over unwanted objects, then click Remove. LaMa fills the masked region using surrounding context.',
     supported: true,
+    workerTool: 'inpaint',
+  },
+  'watermark-remove': {
+    title: 'Watermark Remover',
+    cta: 'Remove watermark',
+    description:
+      'Brush precisely over the watermark, logo, or text you want gone. Smaller brush = cleaner result.',
+    supported: true,
+    workerTool: 'inpaint',
   },
   'remove-bg': {
     title: 'Background Remover',
@@ -45,45 +63,110 @@ const COPY: Record<
   },
 };
 
-const toolMap: Partial<Record<ToolId, 'upscale' | 'colorize' | 'inpaint'>> = {
-  upscale: 'upscale',
-  colorize: 'colorize',
-  inpaint: 'inpaint',
+const DEFAULT_BRUSH_SIZE: Record<ToolId, number> = {
+  upscale: 32,
+  colorize: 32,
+  restore: 32,
+  inpaint: 48,
+  'watermark-remove': 16, // smaller default for fine work
+  'remove-bg': 32,
 };
 
 export function FeaturePanel({ tool }: { tool: ToolId }) {
   const currentImage = useEditorStore((s) => s.currentImage);
   const pushHistory = useEditorStore((s) => s.pushHistory);
+  const brushSize = useEditorStore((s) => s.brushSize);
+  const setBrushSize = useEditorStore((s) => s.setBrushSize);
+  const brushMode = useEditorStore((s) => s.brushMode);
+  const setBrushMode = useEditorStore((s) => s.setBrushMode);
+  const brushApi = useEditorStore((s) => s.brushApi);
   const { run, cancelAll, state } = useInferenceWorker();
   const [localError, setLocalError] = useState<string | null>(null);
   const copy = COPY[tool];
-  const workerTool = toolMap[tool];
+  const isMaskTool = MASK_TOOLS.includes(tool);
+
+  // Reset brush size to a sensible default when tool changes.
+  useEffect(() => {
+    setBrushSize(DEFAULT_BRUSH_SIZE[tool]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tool]);
 
   async function handleRun() {
-    if (!currentImage || !workerTool) return;
+    if (!currentImage || !copy.workerTool) return;
     setLocalError(null);
+
+    let inputData: ImageData;
+    if (isMaskTool) {
+      const masked = brushApi?.composeMaskedImage();
+      if (!masked || !brushApi?.hasMask()) {
+        setLocalError('Brush over the area you want to remove first.');
+        return;
+      }
+      inputData = masked;
+    } else {
+      inputData = bitmapToImageData(currentImage);
+    }
+
     try {
-      // Take a fresh ImageData each run — the previous one was transferred to
-      // the worker and is now detached.
-      const inputData = bitmapToImageData(currentImage);
-      const outputData = await run(workerTool, inputData);
+      const outputData = await run(copy.workerTool, inputData);
       const outBitmap = await imageDataToBitmap(outputData);
       pushHistory(outBitmap);
+      // Clear the mask after a successful inpaint so a second pass starts fresh.
+      if (isMaskTool) brushApi?.clear();
     } catch (err) {
       setLocalError(err instanceof Error ? err.message : 'Something went wrong.');
     }
   }
 
   return (
-    <div className="p-6">
-      <h2 className="text-base font-semibold">{copy.title}</h2>
-      <p className="mt-2 text-sm text-ink-400 leading-relaxed">{copy.description}</p>
+    <div className="p-6 space-y-5">
+      <div>
+        <h2 className="text-base font-semibold">{copy.title}</h2>
+        <p className="mt-2 text-sm text-ink-400 leading-relaxed">{copy.description}</p>
+      </div>
+
+      {isMaskTool && copy.supported && (
+        <div className="space-y-3 rounded-lg ring-1 ring-ink-800 bg-ink-950/40 p-4">
+          <div>
+            <div className="flex items-center justify-between">
+              <label htmlFor="brush-size" className="text-xs font-medium text-ink-200">
+                Brush size
+              </label>
+              <span className="text-xs text-ink-400">{brushSize}px</span>
+            </div>
+            <input
+              id="brush-size"
+              type="range"
+              min={4}
+              max={200}
+              value={brushSize}
+              onChange={(e) => setBrushSize(Number(e.target.value))}
+              className="mt-2 w-full accent-accent"
+            />
+          </div>
+          <div className="flex gap-2">
+            <ModeButton active={brushMode === 'paint'} onClick={() => setBrushMode('paint')}>
+              Paint
+            </ModeButton>
+            <ModeButton active={brushMode === 'erase'} onClick={() => setBrushMode('erase')}>
+              Erase
+            </ModeButton>
+            <button
+              type="button"
+              onClick={() => brushApi?.clear()}
+              className="ml-auto rounded-md px-2.5 py-1 text-xs text-ink-300 ring-1 ring-ink-700 hover:bg-ink-800 transition"
+            >
+              Clear
+            </button>
+          </div>
+        </div>
+      )}
 
       <button
         type="button"
         onClick={handleRun}
         disabled={state.running || !currentImage || !copy.supported}
-        className="mt-6 w-full rounded-md bg-accent px-4 py-2.5 text-sm font-medium text-white hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed transition"
+        className="w-full rounded-md bg-accent px-4 py-2.5 text-sm font-medium text-white hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed transition"
       >
         {state.running ? 'Working…' : copy.supported ? copy.cta : 'Coming soon'}
       </button>
@@ -92,14 +175,14 @@ export function FeaturePanel({ tool }: { tool: ToolId }) {
         <button
           type="button"
           onClick={cancelAll}
-          className="mt-2 w-full rounded-md px-4 py-2 text-xs text-ink-300 ring-1 ring-ink-700 hover:bg-ink-800 transition"
+          className="w-full rounded-md px-4 py-2 text-xs text-ink-300 ring-1 ring-ink-700 hover:bg-ink-800 transition"
         >
           Cancel
         </button>
       )}
 
       {(state.running || state.progress > 0) && (
-        <div className="mt-5">
+        <div>
           <div className="h-1.5 w-full overflow-hidden rounded-full bg-ink-800">
             <div
               className="h-full bg-accent transition-all"
@@ -111,8 +194,32 @@ export function FeaturePanel({ tool }: { tool: ToolId }) {
       )}
 
       {(localError || state.error) && (
-        <p className="mt-4 text-xs text-red-400">{localError ?? state.error}</p>
+        <p className="text-xs text-red-400">{localError ?? state.error}</p>
       )}
     </div>
+  );
+}
+
+function ModeButton({
+  active,
+  children,
+  onClick,
+}: {
+  active: boolean;
+  children: React.ReactNode;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`flex-1 rounded-md px-3 py-1.5 text-xs font-medium transition ${
+        active
+          ? 'bg-accent text-white'
+          : 'text-ink-300 ring-1 ring-ink-700 hover:bg-ink-800'
+      }`}
+    >
+      {children}
+    </button>
   );
 }
