@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Speech Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Text to Speech Generator</h1>
+            <p class="subtitle">Convert text to natural sounding speech instantly in your browser</p>
+        </header>
+
+        <div class="workspace">
+            <div class="controls-section">
+                <div class="control-group">
+                    <label for="voiceSelect">Voice</label>
+                    <select id="voiceSelect"></select>
+                </div>
+
+                <div class="sliders">
+                    <div class="control-group">
+                        <label for="rateSlider">Speed (<span id="rateVal">1</span>)</label>
+                        <input type="range" id="rateSlider" min="0.5" max="2" value="1" step="0.1">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="pitchSlider">Pitch (<span id="pitchVal">1</span>)</label>
+                        <input type="range" id="pitchSlider" min="0" max="2" value="1" step="0.1">
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-section">
+                <textarea id="textInput" placeholder="Type or paste the text you want me to read..."></textarea>
+            </div>
+            
+            <div class="action-section">
+                <button id="playBtn" class="primary-btn">Play</button>
+                <button id="stopBtn" class="danger-btn">Stop</button>
+            </div>
+        </div>
+
+        <div class="ad-banner">
+            <p>Ad Space</p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Parser & Query String Editor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>URL Parser</h1>
+            <p class="subtitle">Deconstruct and edit URLs instantly in your browser</p>
+        </header>
+
+        <div class="url-input-section">
+            <label for="urlInput">Full URL</label>
+            <textarea id="urlInput" placeholder="https://example.com:8080/path/to/page?query=1#hash"></textarea>
+            <div id="urlError" class="error-msg hidden">Invalid URL format</div>
+        </div>
+
+        <div class="parsed-results hidden" id="parsedResults">
+            <div class="components-grid">
+                <div class="component-box">
+                    <label>Protocol</label>
+                    <input type="text" id="compProtocol" readonly>
+                </div>
+                <div class="component-box">
+                    <label>Hostname</label>
+                    <input type="text" id="compHostname" readonly>
+                </div>
+                <div class="component-box">
+                    <label>Port</label>
+                    <input type="text" id="compPort" readonly>
+                </div>
+                <div class="component-box">
+                    <label>Pathname</label>
+                    <input type="text" id="compPathname" readonly>
+                </div>
+                <div class="component-box">
+                    <label>Hash</label>
+                    <input type="text" id="compHash" readonly>
+                </div>
+            </div>
+
+            <div class="query-params-section">
+                <h3>Query Parameters</h3>
+                <table id="queryParamsTable">
+                    <thead>
+                        <tr>
+                            <th>Key</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody id="queryParamsBody">
+                        <!-- Rows injected via JS -->
+                    </tbody>
+                </table>
+                <div id="noParamsMsg" class="hidden">No query parameters found.</div>
+            </div>
+        </div>
+
+        <div class="ad-banner">
+            <p>Ad Space</p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
