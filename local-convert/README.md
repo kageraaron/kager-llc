@@ -4,6 +4,8 @@ A high-performance, privacy-focused, local-first file conversion web application
 
 ## 🚀 Getting Started
 
+TODO: fix translations, enable a dark mode
+
 ### Prerequisites
 
 - **Node.js**: 18.x or later
