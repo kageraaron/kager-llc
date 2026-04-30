@@ -20,9 +20,13 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
     const initialLang = savedLang || browserLang || 'en';
     setLang(initialLang);
 
+    console.debug('[i18n] initialLang=', initialLang);
     fetch('/translations.json')
       .then((res) => res.json())
-      .then((data) => setTranslations(data))
+      .then((data) => {
+        console.debug('[i18n] loaded translations', Object.keys(data || {}));
+        setTranslations(data);
+      })
       .catch((err) => console.error('Failed to load translations', err));
   }, []);
 
@@ -32,6 +36,7 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
   };
 
   const setLanguage = (newLang: string) => {
+    console.debug('[i18n] setLanguage ->', newLang);
     setLang(newLang);
     localStorage.setItem('preferredLang', newLang);
   };

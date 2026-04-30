@@ -162,7 +162,7 @@ export function FeaturePage({ config }: { config: FeaturePageConfig }) {
 
       <footer className="border-t border-ink-800 mt-12 py-10 text-sm text-ink-400">
         <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div>&copy; {new Date().getFullYear()} Kager LLC. All rights reserved.</div>
+          <div>&copy; {new Date().getFullYear()} Print Perfect AI. All rights reserved.</div>
           <div className="flex gap-6">
             <Link href="/privacy" className="hover:text-ink-200">Privacy</Link>
             <Link href="/terms" className="hover:text-ink-200">Terms</Link>

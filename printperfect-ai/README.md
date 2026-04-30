@@ -85,27 +85,4 @@ printperfect-ai/
 
 ## License
 
-Proprietary — Kager LLC. All rights reserved.
-
-## Developer notes (recent changes)
-
-The following maintenance and features were applied recently:
-
-- Added app-wide client-side i18n support:
-	- `src/lib/i18n.tsx` contains an `I18nProvider` and `useI18n()` hook that load `public/translations.json` and expose `t(key)` and `setLanguage()`.
-	- Language preference is persisted to `localStorage` under `preferredLang`.
-- Added `components/LanguageSwitcher.tsx` and wired it into `app/layout.tsx`.
-- Moved the language selector into a centered header bar to avoid overlapping the Print CTA.
-- Updated example components (`components/marketing/Hero.tsx` and `PrintCTA.tsx`) to consume translations via `t(key)`.
-- Fixed ESLint/build issues:
-	- Renamed a hook-like helper in `Editor.tsx` to avoid rules-of-hooks lint errors.
-	- Escaped apostrophes in marketing text to satisfy `react/no-unescaped-entities`.
-	- Added `@typescript-eslint/parser` and `@typescript-eslint/eslint-plugin` to devDependencies and updated `.eslintrc.json` to include the plugin and disable `no-explicit-any` where appropriate.
-
-How to add translations:
-
-1. Edit `public/translations.json` and add a new language key (e.g. `"fr"`) with string mappings.
-2. Add the language to the `languages` array in `components/LanguageSwitcher.tsx` if you want it to appear in the picker.
-3. Use `const { t } = useI18n();` in client components and reference translated strings with `t('key')`.
-
-If you'd like, I can convert additional UI strings across the app, add server-side i18n, or add tests for the i18n provider.
+Proprietary — Print Perfect AI. All rights reserved.
