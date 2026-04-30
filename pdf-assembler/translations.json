@@ -1,0 +1,68 @@
+{
+    "en": {
+        "title": "PDF Assembler",
+        "h1": "PDF Assembler",
+        "subtitle": "Merge multiple PDF files into one document",
+        "upload_label": "Select PDF Files",
+        "drag_drop_text": "Or drag and drop PDF files here",
+        "file_list_title": "Files to Merge:",
+        "merge_btn": "Merge PDFs",
+        "download_btn": "Download Merged PDF",
+        "ad_space": "Ad Space"
+    },
+    "es": {
+        "title": "Ensamblador de PDF",
+        "h1": "Ensamblador de PDF",
+        "subtitle": "Fusiona varios archivos PDF en un solo documento",
+        "upload_label": "Seleccionar archivos PDF",
+        "drag_drop_text": "O arrastra y suelta archivos PDF aquí",
+        "file_list_title": "Archivos a fusionar:",
+        "merge_btn": "Fusionar PDFs",
+        "download_btn": "Descargar PDF fusionado",
+        "ad_space": "Espacio Publicitario"
+    },
+    "fr": {
+        "title": "Assembleur PDF",
+        "h1": "Assembleur PDF",
+        "subtitle": "Fusionnez plusieurs fichiers PDF en un seul document",
+        "upload_label": "Sélectionner des fichiers PDF",
+        "drag_drop_text": "Ou glissez-déposez des fichiers PDF ici",
+        "file_list_title": "Fichiers à fusionner :",
+        "merge_btn": "Fusionner les PDF",
+        "download_btn": "Télécharger le PDF fusionné",
+        "ad_space": "Espace Publicitaire"
+    },
+    "de": {
+        "title": "PDF-Assembler",
+        "h1": "PDF-Assembler",
+        "subtitle": "Mehrere PDF-Dateien zu einem Dokument zusammenfügen",
+        "upload_label": "PDF-Dateien auswählen",
+        "drag_drop_text": "Oder ziehen Sie PDF-Dateien hierher",
+        "file_list_title": "Dateien zum Zusammenführen:",
+        "merge_btn": "PDFs zusammenführen",
+        "download_btn": "Zusammengefügtes PDF herunterladen",
+        "ad_space": "Werbefläche"
+    },
+    "zh": {
+        "title": "PDF 组装器",
+        "h1": "PDF 组装器",
+        "subtitle": "将多个 PDF 文件合并为一个文档",
+        "upload_label": "选择 PDF 文件",
+        "drag_drop_text": "或将 PDF 文件拖放至此处",
+        "file_list_title": "要合并的文件：",
+        "merge_btn": "合并 PDF",
+        "download_btn": "下载合并后的 PDF",
+        "ad_space": "广告位"
+    },
+    "ja": {
+        "title": "PDF アセンブラ",
+        "h1": "PDF アセンブラ",
+        "subtitle": "複数の PDF ファイルを 1 つのドキュメントに結合します",
+        "upload_label": "PDF ファイルを選択",
+        "drag_drop_text": "または、ここに PDF ファイルをドラッグ＆ドロップしてください",
+        "file_list_title": "結合するファイル:",
+        "merge_btn": "PDFを結合",
+        "download_btn": "結合された PDF をダウンロード",
+        "ad_space": "広告スペース"
+    }
+}

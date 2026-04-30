@@ -17,15 +17,15 @@ function setMode(encode) {
     if (encode) {
         modeEncodeBtn.classList.add('active');
         modeDecodeBtn.classList.remove('active');
-        inputLabel.textContent = 'Plain Text';
-        outputLabel.textContent = 'Base64 Output';
-        convertBtn.textContent = 'Encode';
+        inputLabel.textContent = i18n.t('input_label_plain');
+        outputLabel.textContent = i18n.t('output_label_base64');
+        convertBtn.textContent = i18n.t('convert_btn_encode');
     } else {
         modeDecodeBtn.classList.add('active');
         modeEncodeBtn.classList.remove('active');
-        inputLabel.textContent = 'Base64 Input';
-        outputLabel.textContent = 'Plain Text Output';
-        convertBtn.textContent = 'Decode';
+        inputLabel.textContent = i18n.t('input_label_base64');
+        outputLabel.textContent = i18n.t('output_label_plain');
+        convertBtn.textContent = i18n.t('convert_btn_decode');
     }
     // Clear on swap
     inputText.value = outputText.value;
@@ -64,7 +64,7 @@ convertBtn.addEventListener('click', () => {
             outputText.value = decoded;
         }
     } catch (e) {
-        errorMsg.textContent = 'Invalid Input: Cannot process string.';
+        errorMsg.textContent = i18n.t('error_invalid');
         errorMsg.classList.remove('hidden');
         inputText.style.borderColor = '#e74c3c';
         outputText.value = '';
@@ -84,7 +84,7 @@ copyBtn.addEventListener('click', () => {
     
     navigator.clipboard.writeText(outputText.value).then(() => {
         const originalText = copyBtn.textContent;
-        copyBtn.textContent = 'Copied!';
+        copyBtn.textContent = i18n.t('copied');
         copyBtn.style.backgroundColor = '#27ae60';
         
         setTimeout(() => {

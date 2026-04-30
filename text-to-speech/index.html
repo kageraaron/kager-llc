@@ -9,44 +9,53 @@
 <body>
     <div class="container">
         <header>
-            <h1>Text to Speech Generator</h1>
-            <p class="subtitle">Convert text to natural sounding speech instantly in your browser</p>
+            <div class="language-switcher">
+                <button class="lang-btn" onclick="i18n.setLanguage('en')" data-lang="en">EN</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('es')" data-lang="es">ES</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('fr')" data-lang="fr">FR</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('de')" data-lang="de">DE</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('zh')" data-lang="zh">ZH</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('ja')" data-lang="ja">JA</button>
+            </div>
+            <h1 data-i18n="h1">Text to Speech Generator</h1>
+            <p class="subtitle" data-i18n="subtitle">Convert text to natural sounding speech instantly in your browser</p>
         </header>
 
         <div class="workspace">
             <div class="controls-section">
                 <div class="control-group">
-                    <label for="voiceSelect">Voice</label>
+                    <label for="voiceSelect" data-i18n="voice_label">Voice</label>
                     <select id="voiceSelect"></select>
                 </div>
 
                 <div class="sliders">
                     <div class="control-group">
-                        <label for="rateSlider">Speed (<span id="rateVal">1</span>)</label>
+                        <label for="rateSlider"><span data-i18n="speed_label">Speed (</span><span id="rateVal">1</span>)</label>
                         <input type="range" id="rateSlider" min="0.5" max="2" value="1" step="0.1">
                     </div>
                     
                     <div class="control-group">
-                        <label for="pitchSlider">Pitch (<span id="pitchVal">1</span>)</label>
+                        <label for="pitchSlider"><span data-i18n="pitch_label">Pitch (</span><span id="pitchVal">1</span>)</label>
                         <input type="range" id="pitchSlider" min="0" max="2" value="1" step="0.1">
                     </div>
                 </div>
             </div>
 
             <div class="input-section">
-                <textarea id="textInput" placeholder="Type or paste the text you want me to read..."></textarea>
+                <textarea id="textInput" placeholder="Type or paste the text you want me to read..." data-i18n="placeholder"></textarea>
             </div>
             
             <div class="action-section">
-                <button id="playBtn" class="primary-btn">Play</button>
-                <button id="stopBtn" class="danger-btn">Stop</button>
+                <button id="playBtn" class="primary-btn" data-i18n="play_btn">Play</button>
+                <button id="stopBtn" class="danger-btn" data-i18n="stop_btn">Stop</button>
             </div>
         </div>
 
         <div class="ad-banner">
-            <p>Ad Space</p>
+            <p data-i18n="ad_space">Ad Space</p>
         </div>
     </div>
+    <script src="i18n.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

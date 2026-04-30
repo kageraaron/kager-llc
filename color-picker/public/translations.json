@@ -1,0 +1,44 @@
+{
+    "en": {
+        "h1": "Color Identifier",
+        "hint": "Think of this as a digital eye for your images—click any pixel to capture its hidden shade.",
+        "upload_label": "Select Image",
+        "selected_colors_title": "Selected Colors:",
+        "detected_colors_title": "Detected Colors:"
+    },
+    "es": {
+        "h1": "Identificador de Color",
+        "hint": "Piensa en esto como un ojo digital para tus imágenes: haz clic en cualquier píxel para capturar su tono oculto.",
+        "upload_label": "Seleccionar imagen",
+        "selected_colors_title": "Colores seleccionados:",
+        "detected_colors_title": "Colores detectados:"
+    },
+    "fr": {
+        "h1": "Identificateur de couleur",
+        "hint": "Considérez cela comme un œil numérique pour vos images : cliquez sur n'importe quel pixel pour capturer sa nuance cachée.",
+        "upload_label": "Sélectionner une image",
+        "selected_colors_title": "Couleurs sélectionnées :",
+        "detected_colors_title": "Couleurs détectées :"
+    },
+    "de": {
+        "h1": "Farb-Identifikator",
+        "hint": "Betrachten Sie dies als digitales Auge für Ihre Bilder – klicken Sie auf ein beliebiges Pixel, um seinen verborgenen Farbton zu erfassen.",
+        "upload_label": "Bild auswählen",
+        "selected_colors_title": "Ausgewählte Farben:",
+        "detected_colors_title": "Erkannte Farben:"
+    },
+    "zh": {
+        "h1": "颜色识别器",
+        "hint": "将其视为图像的数字眼睛 —— 点击任何像素以捕获其隐藏的色调。",
+        "upload_label": "选择图像",
+        "selected_colors_title": "所选颜色：",
+        "detected_colors_title": "检测到的颜色："
+    },
+    "ja": {
+        "h1": "カラー識別子",
+        "hint": "これを画像のデジタルな目と考えてください。任意のピクセルをクリックして、隠れた色合いをキャプチャします。",
+        "upload_label": "画像を選択",
+        "selected_colors_title": "選択された色:",
+        "detected_colors_title": "検出された色:"
+    }
+}

@@ -50,16 +50,16 @@ pdfUploadInput.addEventListener('change', async (event) => {
                 document.getElementById('textSignatureSection').hidden = true;
                 document.getElementById('signaturePadContainer').hidden = false;
                 currentSignatureType = 'draw';
-                toggleSignatureTypeBtn.textContent = 'Use Text Signature';
+                toggleSignatureTypeBtn.textContent = i18n.t('toggle_sig_type_text');
 
             } catch (error) {
-                alert("Error loading PDF. Please try again.");
+                alert(i18n.t('msg_error_loading'));
                 console.error("PDF Load Error:", error);
             }
         };
         reader.readAsArrayBuffer(file);
     } else if (file) {
-        alert("Please upload a valid PDF file.");
+        alert(i18n.t('msg_invalid_pdf'));
     }
 });
 
@@ -124,7 +124,7 @@ function setupSignatureOverlay(width, height) {
     textSignatureSection.hidden = true;
     signaturePadContainer.hidden = false;
     currentSignatureType = 'draw';
-    toggleSignatureTypeBtn.textContent = 'Use Text Signature';
+    toggleSignatureTypeBtn.textContent = i18n.t('toggle_sig_type_text');
 }
 
 
@@ -147,7 +147,7 @@ toggleSignatureTypeBtn.addEventListener('click', () => {
         currentSignatureType = 'text';
         signaturePadContainer.hidden = true;
         textSignatureSection.hidden = false;
-        toggleSignatureTypeBtn.textContent = 'Use Drawn Signature';
+        toggleSignatureTypeBtn.textContent = i18n.t('toggle_sig_type_draw');
         signPdfBtn.disabled = false; // Enable apply if text is typed
         updateTextSignature(); // Apply initial text/font/color if available
     } else {
@@ -155,7 +155,7 @@ toggleSignatureTypeBtn.addEventListener('click', () => {
         currentSignatureType = 'draw';
         textSignatureSection.hidden = true;
         signaturePadContainer.hidden = false;
-        toggleSignatureTypeBtn.textContent = 'Use Text Signature';
+        toggleSignatureTypeBtn.textContent = i18n.t('toggle_sig_type_text');
         // Re-enable drawing mode and clear if needed
         if (fabricCanvas) {
             fabricCanvas.isDrawingMode = true;
@@ -202,12 +202,12 @@ function updateTextSignature() {
 // --- Apply Signature and Download ---
 signPdfBtn.addEventListener('click', async () => {
     if (!pdfDoc) {
-        alert("Please upload a PDF first.");
+        alert(i18n.t('msg_upload_first'));
         return;
     }
 
     signPdfBtn.disabled = true;
-    signPdfBtn.textContent = 'Applying...';
+    signPdfBtn.textContent = i18n.t('msg_applying');
 
     // Get the signature as an image data URL
     let signatureDataUrl = null;
@@ -245,8 +245,8 @@ signPdfBtn.addEventListener('click', async () => {
     }
 
     if (!signatureDataUrl) {
-        alert("No signature created. Please draw or type one.");
-        signPdfBtn.textContent = 'Apply Signature';
+        alert(i18n.t('msg_no_signature'));
+        signPdfBtn.textContent = i18n.t('apply_btn');
         signPdfBtn.disabled = false;
         return;
     }
@@ -289,13 +289,13 @@ signPdfBtn.addEventListener('click', async () => {
 
         downloadSignedPdfBtn.hidden = false;
         downloadSignedPdfBtn.disabled = false; // Enable download
-        signPdfBtn.textContent = 'Signature Applied';
+        signPdfBtn.textContent = i18n.t('msg_signature_applied');
         signPdfBtn.disabled = true; // Already applied, can't apply again
 
     } catch (error) {
         console.error("Error applying signature:", error);
         alert(`Error applying signature: ${error.message}`);
-        signPdfBtn.textContent = 'Apply Signature';
+        signPdfBtn.textContent = i18n.t('apply_btn');
         signPdfBtn.disabled = false;
     }
 });
@@ -315,7 +315,7 @@ downloadSignedPdfBtn.addEventListener('click', async () => {
         // Clean up
         URL.revokeObjectURL(url);
         downloadSignedPdfBtn.hidden = true;
-        signPdfBtn.textContent = 'Signature Applied';
+        signPdfBtn.textContent = i18n.t('msg_signature_applied');
         signPdfBtn.disabled = true;
         pdfDoc = null; // Reset document for next upload
         pdfUploadInput.value = ''; // Clear file input

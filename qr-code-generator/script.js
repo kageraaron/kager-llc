@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const errorCorrectionLevel = qrErrorCorrectionSelect.value;
 
         if (!data) {
-            qrMessage.textContent = "Please enter data to generate a QR code.";
+            qrMessage.textContent = i18n.t('msg_please_enter_data');
             qrcodeContainer.innerHTML = ''; // Clear previous QR code
             downloadQrBtn.hidden = true;
             return;
@@ -59,13 +59,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
 
-            qrMessage.textContent = "QR Code generated successfully!";
+            qrMessage.textContent = i18n.t('msg_success');
             downloadQrBtn.hidden = false;
             downloadQrBtn.href = qrcodeContainer.querySelector('canvas')?.toDataURL('image/png') || qrcodeContainer.querySelector('img')?.src || '#';
             downloadQrBtn.setAttribute('download', `qrcode_${data.substring(0, 10).replace(/[^a-zA-Z0-9]/g, '_')}.png`);
 
         } catch (error) {
-            qrMessage.textContent = "Error generating QR code. Please check your input.";
+            qrMessage.textContent = i18n.t('msg_error');
             console.error("QR Code Generation Error:", error);
             qrcodeContainer.innerHTML = ''; // Clear QR code on error
             downloadQrBtn.hidden = true;
@@ -80,6 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // qrErrorCorrectionSelect.addEventListener('change', updateQRCode);
 
     // Initial message
-    qrMessage.textContent = "Enter data and click Generate.";
+    qrMessage.textContent = i18n.t('qr_message');
     downloadQrBtn.hidden = true;
 });

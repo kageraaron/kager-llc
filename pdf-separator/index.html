@@ -8,42 +8,52 @@
 </head>
 <body>
     <div class="container">
-        <h1>PDF Separator</h1>
-        <p class="subtitle">Split a multi-page PDF into individual pages</p>
+        <header>
+            <div class="language-switcher">
+                <button class="lang-btn" onclick="i18n.setLanguage('en')" data-lang="en">EN</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('es')" data-lang="es">ES</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('fr')" data-lang="fr">FR</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('de')" data-lang="de">DE</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('zh')" data-lang="zh">ZH</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('ja')" data-lang="ja">JA</button>
+            </div>
+            <h1 data-i18n="h1">PDF Separator</h1>
+            <p class="subtitle" data-i18n="subtitle">Split a multi-page PDF into individual pages</p>
+        </header>
 
         <div class="upload-section">
             <input type="file" id="pdfUpload" accept=".pdf" hidden>
-            <label for="pdfUpload" class="upload-button">Upload PDF File</label>
-            <p>Or drag and drop your PDF file here</p>
+            <label for="pdfUpload" class="upload-button" data-i18n="upload_label">Upload PDF File</label>
+            <p data-i18n="drag_drop_text">Or drag and drop your PDF file here</p>
         </div>
 
         <div id="fileInfo" class="file-info-section" hidden>
-            <p><strong>Selected File:</strong> <span id="selectedFileName"></span></p>
-            <p><strong>Total Pages:</strong> <span id="totalPages"></span></p>
+            <p><strong data-i18n="selected_file_label">Selected File:</strong> <span id="selectedFileName"></span></p>
+            <p><strong data-i18n="total_pages_label">Total Pages:</strong> <span id="totalPages"></span></p>
         </div>
 
         <div class="options-section" id="optionsSection" hidden>
-            <h2>Split Options</h2>
+            <h2 data-i18n="split_options_title">Split Options</h2>
             <div>
                 <input type="radio" id="splitAll" name="splitMode" value="all" checked>
-                <label for="splitAll">Split all pages</label>
+                <label for="splitAll" data-i18n="split_all_label">Split all pages</label>
             </div>
             <div>
                 <input type="radio" id="splitRange" name="splitMode" value="range">
-                <label for="splitRange">Split pages from:</label>
-                <input type="number" id="startPage" placeholder="Start Page" min="1" disabled>
-                <span>to</span>
-                <input type="number" id="endPage" placeholder="End Page" min="1" disabled>
+                <label for="splitRange" data-i18n="split_range_label">Split pages from:</label>
+                <input type="number" id="startPage" placeholder="Start Page" min="1" disabled data-i18n="start_page_placeholder">
+                <span data-i18n="to_label">to</span>
+                <input type="number" id="endPage" placeholder="End Page" min="1" disabled data-i18n="end_page_placeholder">
             </div>
         </div>
 
         <div class="controls">
-            <button id="splitPdfBtn" disabled>Split PDF</button>
-            <button id="downloadAllBtn" hidden>Download All Pages</button>
+            <button id="splitPdfBtn" disabled data-i18n="split_btn">Split PDF</button>
+            <button id="downloadAllBtn" hidden data-i18n="download_all_btn">Download All Pages</button>
         </div>
 
         <div class="download-links-section" id="downloadLinksSection" hidden>
-            <h2>Download Pages:</h2>
+            <h2 data-i18n="download_pages_title">Download Pages:</h2>
             <ul id="downloadLinksList">
                 <!-- Download links will be generated here -->
             </ul>
@@ -51,9 +61,10 @@
 
         <div class="ad-banner">
             <!-- Ad Placeholder -->
-            <p>Ad Space</p>
+            <p data-i18n="ad_space">Ad Space</p>
         </div>
     </div>
+    <script src="i18n.js"></script>
 
     <!-- Script for PDF splitting -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>

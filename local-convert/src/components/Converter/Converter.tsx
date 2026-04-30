@@ -179,7 +179,10 @@ async function runConversion(
  * Component
  * --------------------------------------------------------- */
 
+import { useI18n } from '@/lib/i18n';
+
 export default function Converter({ from, to, autoStart = false, compact = false }: ConverterProps) {
+  const { t } = useI18n();
   const [items, setItems] = useState<QueueItem[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -240,17 +243,6 @@ export default function Converter({ from, to, autoStart = false, compact = false
 
   /* ----- conversion ---------------------------------------- */
 
-  // TODO(monetization): Phase 3 — interstitial video ad rolls during conversion.
-  // When a conversion starts (status flips to 'converting'), open a modal that
-  // plays a ~15s rewarded/interstitial video ad. Disable the per-item Download
-  // button until BOTH (a) the conversion has finished AND (b) the user has
-  // watched at least 15 seconds of the ad. Premium / token-tier users should
-  // bypass this gate. Likely implementation:
-  //   - <ConversionAdGate> overlay component triggered from this callback
-  //   - track `adWatchedMs` per item in QueueItem, gate `downloadAll` + the
-  //     individual download buttons in the queue row on `adWatchedMs >= 15000`
-  //   - hook into AdSense / Ezoic rewarded video, fall back to silent skip
-  //     if the ad network can't deliver an ad (no fill).
   const convertItem = useCallback(async (id: string, seed?: QueueItem) => {
     setItems((prev) =>
       prev.map((it) => (it.id === id ? { ...it, status: 'converting', progress: 0, error: undefined, results: [] } : it))
@@ -383,14 +375,14 @@ export default function Converter({ from, to, autoStart = false, compact = false
   /* ----- render -------------------------------------------- */
 
   const heading = lockedFrom && lockedTo
-    ? `Drop ${lockedFrom} files here`
+    ? t('drop_specific_heading').replace('{format}', lockedFrom)
     : lockedFrom
-    ? `Drop ${lockedFrom} files here`
-    : 'Drop files here';
+    ? t('drop_specific_heading').replace('{format}', lockedFrom)
+    : t('drop_heading');
 
   const subheading = lockedFrom && lockedTo
-    ? `Convert ${lockedFrom} → ${lockedTo} locally — your files never leave the browser.`
-    : 'Or click to choose. Files are converted locally — nothing is uploaded.';
+    ? t('drop_specific_subheading').replace('{from}', lockedFrom).replace('{to}', lockedTo)
+    : t('drop_subheading');
 
   return (
     <div className="converter">
@@ -412,7 +404,7 @@ export default function Converter({ from, to, autoStart = false, compact = false
         </div>
         <div>
           <div className="dropzone__title">
-            {items.length > 0 ? 'Add more files' : heading}
+            {items.length > 0 ? t('drop_add_more') : heading}
           </div>
           <div className="dropzone__hint">{subheading}</div>
         </div>
@@ -457,17 +449,17 @@ export default function Converter({ from, to, autoStart = false, compact = false
           }}
         >
           <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
-            {items.length} file{items.length === 1 ? '' : 's'}
-            {doneCount > 0 && <> • <span style={{ color: 'var(--success)' }}>{doneCount} done</span></>}
-            {queuedCount > 0 && <> • {queuedCount} ready</>}
+            {items.length} {items.length === 1 ? 'file' : 'files'}
+            {doneCount > 0 && <> • <span style={{ color: 'var(--success)' }}>{doneCount} {t('queue_done').toLowerCase()}</span></>}
+            {queuedCount > 0 && <> • {queuedCount} {t('queue_ready').toLowerCase()}</>}
           </div>
           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
             <button className="btn btn--ghost" onClick={clearAll} disabled={isAnyConverting}>
-              Clear all
+              {t('btn_clear_all')}
             </button>
             {doneCount > 0 && (
               <button className="btn btn--outline" onClick={downloadAll}>
-                <IconDownload /> Download all
+                <IconDownload /> {t('btn_download_all')}
               </button>
             )}
             <button
@@ -477,10 +469,14 @@ export default function Converter({ from, to, autoStart = false, compact = false
             >
               {isAnyConverting ? (
                 <>
-                  <span className="spinner spin" aria-hidden /> Converting…
+                  <span className="spinner spin" aria-hidden /> {t('queue_converting')}…
                 </>
               ) : (
-                <>Convert {queuedCount > 1 ? `${queuedCount} files` : 'file'}</>
+                <>
+                  {queuedCount > 1 
+                    ? t('btn_convert_files').replace('{count}', queuedCount.toString()) 
+                    : t('btn_convert_file')}
+                </>
               )}
             </button>
           </div>
@@ -503,18 +499,19 @@ interface QueueRowProps {
 }
 
 function QueueRow({ item, lockedTo, onTargetChange, onConvert, onRemove }: QueueRowProps) {
+  const { t } = useI18n();
   const validTargets = item.fromCode ? getValidTargets(item.fromCode) : [];
 
   const statusChip = (() => {
     switch (item.status) {
       case 'queued':
-        return <span className="chip chip--neutral"><span className="chip__dot" /> Ready</span>;
+        return <span className="chip chip--neutral"><span className="chip__dot" /> {t('queue_ready')}</span>;
       case 'converting':
         return <span className="chip"><span className="spinner spin" aria-hidden style={{ width: 12, height: 12, borderWidth: 2 }} /> {Math.round(item.progress)}%</span>;
       case 'done':
-        return <span className="chip chip--success"><IconCheck /> Done</span>;
+        return <span className="chip chip--success"><IconCheck /> {t('queue_done')}</span>;
       case 'error':
-        return <span className="chip chip--danger"><IconAlert /> Error</span>;
+        return <span className="chip chip--danger"><IconAlert /> {t('queue_error')}</span>;
     }
   })();
 
@@ -583,7 +580,7 @@ function QueueRow({ item, lockedTo, onTargetChange, onConvert, onRemove }: Queue
               download={item.results[0].name}
               className="btn btn--primary"
             >
-              <IconDownload /> Download
+              <IconDownload /> {t('queue_download')}
             </a>
           ) : (
             <details style={{ position: 'relative' }}>
@@ -622,13 +619,13 @@ function QueueRow({ item, lockedTo, onTargetChange, onConvert, onRemove }: Queue
 
         {item.status === 'queued' && (
           <button className="btn btn--outline" onClick={onConvert}>
-            <IconArrow /> Convert
+            <IconArrow /> {t('btn_convert_file')}
           </button>
         )}
 
         {item.status === 'error' && (
           <button className="btn btn--outline" onClick={onConvert}>
-            Retry
+            {t('btn_retry')}
           </button>
         )}
 

@@ -1,0 +1,74 @@
+{
+    "en": {
+        "title": "Secure JWT Decoder",
+        "h1": "JWT Decoder",
+        "subtitle": "100% Client-Side. Your tokens never leave your browser.",
+        "encoded_jwt_label": "Encoded JWT",
+        "clear_btn": "Clear",
+        "placeholder": "Paste your JWT here (eyJhbGciOi...)",
+        "invalid_jwt_error": "Invalid JWT Format",
+        "header_title": "HEADER: Algorithm & Token Type",
+        "payload_title": "PAYLOAD: Data",
+        "ad_space": "Ad Space"
+    },
+    "es": {
+        "title": "Decodificador JWT Seguro",
+        "h1": "Decodificador JWT",
+        "subtitle": "100% en el lado del cliente. Tus tokens nunca salen de tu navegador.",
+        "encoded_jwt_label": "JWT Codificado",
+        "clear_btn": "Limpiar",
+        "placeholder": "Pega tu JWT aquí (eyJhbGciOi...)",
+        "invalid_jwt_error": "Formato JWT Inválido",
+        "header_title": "CABECERA: Algoritmo y tipo de token",
+        "payload_title": "CARGA ÚTIL: Datos",
+        "ad_space": "Espacio Publicitario"
+    },
+    "fr": {
+        "title": "Décodeur JWT Sécurisé",
+        "h1": "Décodeur JWT",
+        "subtitle": "100 % côté client. Vos jetons ne quittent jamais votre navigateur.",
+        "encoded_jwt_label": "JWT Encodé",
+        "clear_btn": "Effacer",
+        "placeholder": "Collez votre JWT ici (eyJhbGciOi...)",
+        "invalid_jwt_error": "Format JWT Invalide",
+        "header_title": "EN-TÊTE : Algorithme et type de jeton",
+        "payload_title": "CHARGE UTILE : Données",
+        "ad_space": "Espace Publicitaire"
+    },
+    "de": {
+        "title": "Sicherer JWT-Decoder",
+        "h1": "JWT-Decoder",
+        "subtitle": "100 % Client-seitig. Ihre Token verlassen niemals Ihren Browser.",
+        "encoded_jwt_label": "Kodierter JWT",
+        "clear_btn": "Löschen",
+        "placeholder": "JWT hier einfügen (eyJhbGciOi...)",
+        "invalid_jwt_error": "Ungültiges JWT-Format",
+        "header_title": "HEADER: Algorithmus & Token-Typ",
+        "payload_title": "PAYLOAD: Daten",
+        "ad_space": "Werbefläche"
+    },
+    "zh": {
+        "title": "安全 JWT 解码器",
+        "h1": "JWT 解码器",
+        "subtitle": "100% 客户端。您的令牌永远不会离开您的浏览器。",
+        "encoded_jwt_label": "编码的 JWT",
+        "clear_btn": "清除",
+        "placeholder": "在此处粘贴您的 JWT (eyJhbGciOi...)",
+        "invalid_jwt_error": "无效的 JWT 格式",
+        "header_title": "头部：算法和令牌类型",
+        "payload_title": "有效负载：数据",
+        "ad_space": "广告位"
+    },
+    "ja": {
+        "title": "安全な JWT デコーダー",
+        "h1": "JWT デコーダー",
+        "subtitle": "100% クライアント側。トークンがブラウザから流出することはありません。",
+        "encoded_jwt_label": "エンコードされた JWT",
+        "clear_btn": "クリア",
+        "placeholder": "ここに JWT を貼り付けてください (eyJhbGciOi...)",
+        "invalid_jwt_error": "無効な JWT 形式",
+        "header_title": "ヘッダー: アルゴリズムとトークンのタイプ",
+        "payload_title": "ペイロード: データ",
+        "ad_space": "広告スペース"
+    }
+}

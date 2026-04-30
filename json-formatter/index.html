@@ -8,36 +8,47 @@
 </head>
 <body>
     <div class="container">
-        <h1>JSON Formatter</h1>
-        <p class="subtitle">Format, validate, and minify your JSON data instantly</p>
+        <header>
+            <div class="language-switcher">
+                <button class="lang-btn" onclick="i18n.setLanguage('en')" data-lang="en">EN</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('es')" data-lang="es">ES</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('fr')" data-lang="fr">FR</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('de')" data-lang="de">DE</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('zh')" data-lang="zh">ZH</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('ja')" data-lang="ja">JA</button>
+            </div>
+            <h1 data-i18n="h1">JSON Formatter</h1>
+            <p class="subtitle" data-i18n="subtitle">Format, validate, and minify your JSON data instantly</p>
+        </header>
 
         <div class="workspace">
             <div class="editor-section">
                 <div class="editor-header">
-                    <span>Input JSON</span>
+                    <span data-i18n="input_label">Input JSON</span>
                     <div class="editor-controls">
-                        <button id="formatBtn" class="primary-btn">Format</button>
-                        <button id="minifyBtn" class="secondary-btn">Minify</button>
-                        <button id="clearBtn" class="danger-btn">Clear</button>
+                        <button id="formatBtn" class="primary-btn" data-i18n="format_btn">Format</button>
+                        <button id="minifyBtn" class="secondary-btn" data-i18n="minify_btn">Minify</button>
+                        <button id="clearBtn" class="danger-btn" data-i18n="clear_btn">Clear</button>
                     </div>
                 </div>
-                <textarea id="jsonInput" placeholder="Paste your JSON here..."></textarea>
+                <textarea id="jsonInput" placeholder="Paste your JSON here..." data-i18n="placeholder"></textarea>
                 <div id="errorMsg" class="error-msg hidden"></div>
             </div>
             
             <div class="editor-section">
                 <div class="editor-header">
-                    <span>Output</span>
-                    <button id="copyBtn" class="secondary-btn">Copy to Clipboard</button>
+                    <span data-i18n="output_label">Output</span>
+                    <button id="copyBtn" class="secondary-btn" data-i18n="copy_btn">Copy to Clipboard</button>
                 </div>
-                <textarea id="jsonOutput" readonly placeholder="Output will appear here..."></textarea>
+                <textarea id="jsonOutput" readonly placeholder="Output will appear here..." data-i18n="output_placeholder"></textarea>
             </div>
         </div>
 
         <div class="ad-banner">
-            <p>Ad Space</p>
+            <p data-i18n="ad_space">Ad Space</p>
         </div>
     </div>
+    <script src="i18n.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

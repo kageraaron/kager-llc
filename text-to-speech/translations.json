@@ -1,0 +1,74 @@
+{
+    "en": {
+        "title": "Text to Speech Generator",
+        "h1": "Text to Speech Generator",
+        "subtitle": "Convert text to natural sounding speech instantly in your browser",
+        "voice_label": "Voice",
+        "speed_label": "Speed (",
+        "pitch_label": "Pitch (",
+        "placeholder": "Type or paste the text you want me to read...",
+        "play_btn": "Play",
+        "stop_btn": "Stop",
+        "ad_space": "Ad Space"
+    },
+    "es": {
+        "title": "Generador de Texto a Voz",
+        "h1": "Generador de Texto a Voz",
+        "subtitle": "Convierte texto en voz con sonido natural al instante en tu navegador",
+        "voice_label": "Voz",
+        "speed_label": "Velocidad (",
+        "pitch_label": "Tono (",
+        "placeholder": "Escribe o pega el texto que quieres que lea...",
+        "play_btn": "Reproducir",
+        "stop_btn": "Detener",
+        "ad_space": "Espacio Publicitario"
+    },
+    "fr": {
+        "title": "Générateur de synthèse vocale",
+        "h1": "Générateur de synthèse vocale",
+        "subtitle": "Convertissez instantanément du texte en une voix naturelle dans votre navigateur",
+        "voice_label": "Voix",
+        "speed_label": "Vitesse (",
+        "pitch_label": "Hauteur (",
+        "placeholder": "Tapez ou collez le texte que vous voulez que je lise...",
+        "play_btn": "Lire",
+        "stop_btn": "Arrêter",
+        "ad_space": "Espace Publicitaire"
+    },
+    "de": {
+        "title": "Text-to-Speech-Generator",
+        "h1": "Text-to-Speech-Generator",
+        "subtitle": "Wandeln Sie Text sofort in Ihrem Browser in natürlich klingende Sprache um",
+        "voice_label": "Stimme",
+        "speed_label": "Geschwindigkeit (",
+        "pitch_label": "Tonhöhe (",
+        "placeholder": "Geben Sie den Text ein, den ich vorlesen soll...",
+        "play_btn": "Abspielen",
+        "stop_btn": "Stopp",
+        "ad_space": "Werbefläche"
+    },
+    "zh": {
+        "title": "文本转语音生成器",
+        "h1": "文本转语音生成器",
+        "subtitle": "在浏览器中立即将文本转换为自然的人声",
+        "voice_label": "语音",
+        "speed_label": "速度 (",
+        "pitch_label": "音调 (",
+        "placeholder": "输入或粘贴您想让我阅读的文本...",
+        "play_btn": "播放",
+        "stop_btn": "停止",
+        "ad_space": "广告位"
+    },
+    "ja": {
+        "title": "テキスト読み上げジェネレーター",
+        "h1": "テキスト読み上げジェネレーター",
+        "subtitle": "ブラウザでテキストを自然な音声に即座に変換します",
+        "voice_label": "音声",
+        "speed_label": "速度 (",
+        "pitch_label": "ピッチ (",
+        "placeholder": "読み上げたいテキストを入力または貼り付けてください...",
+        "play_btn": "再生",
+        "stop_btn": "停止",
+        "ad_space": "広告スペース"
+    }
+}

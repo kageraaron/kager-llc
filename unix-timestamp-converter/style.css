@@ -9,6 +9,37 @@ body {
     justify-content: center;
 }
 
+.language-switcher {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.lang-btn {
+    background: #fff;
+    border: 1px solid #bdc3c7;
+    color: #7f8c8d;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.lang-btn:hover {
+    border-color: #3498db;
+    color: #3498db;
+}
+
+.lang-btn.active {
+    background: #3498db;
+    border-color: #3498db;
+    color: white;
+}
+
 .container {
     background-color: #ffffff;
     padding: 30px 40px;

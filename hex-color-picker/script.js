@@ -155,7 +155,7 @@ function handleColorValueCopy(event) {
         const value = target.dataset.value;
         navigator.clipboard.writeText(value).then(() => {
             const originalText = target.textContent;
-            target.textContent = 'Copied!';
+            target.textContent = i18n.t('copied');
             setTimeout(() => {
                 target.textContent = originalText;
             }, 1500);

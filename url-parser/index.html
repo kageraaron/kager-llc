@@ -9,61 +9,70 @@
 <body>
     <div class="container">
         <header>
-            <h1>URL Parser</h1>
-            <p class="subtitle">Deconstruct and edit URLs instantly in your browser</p>
+            <div class="language-switcher">
+                <button class="lang-btn" onclick="i18n.setLanguage('en')" data-lang="en">EN</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('es')" data-lang="es">ES</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('fr')" data-lang="fr">FR</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('de')" data-lang="de">DE</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('zh')" data-lang="zh">ZH</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('ja')" data-lang="ja">JA</button>
+            </div>
+            <h1 data-i18n="h1">URL Parser</h1>
+            <p class="subtitle" data-i18n="subtitle">Deconstruct and edit URLs instantly in your browser</p>
         </header>
 
         <div class="url-input-section">
-            <label for="urlInput">Full URL</label>
-            <textarea id="urlInput" placeholder="https://example.com:8080/path/to/page?query=1#hash"></textarea>
-            <div id="urlError" class="error-msg hidden">Invalid URL format</div>
+            <label for="urlInput" data-i18n="full_url_label">Full URL</label>
+            <textarea id="urlInput" placeholder="https://example.com:8080/path/to/page?query=1#hash" data-i18n="placeholder"></textarea>
+            <div id="urlError" class="error-msg hidden" data-i18n="url_error">Invalid URL format</div>
         </div>
 
         <div class="parsed-results hidden" id="parsedResults">
             <div class="components-grid">
                 <div class="component-box">
-                    <label>Protocol</label>
+                    <label data-i18n="protocol_label">Protocol</label>
                     <input type="text" id="compProtocol" readonly>
                 </div>
                 <div class="component-box">
-                    <label>Hostname</label>
+                    <label data-i18n="hostname_label">Hostname</label>
                     <input type="text" id="compHostname" readonly>
                 </div>
                 <div class="component-box">
-                    <label>Port</label>
+                    <label data-i18n="port_label">Port</label>
                     <input type="text" id="compPort" readonly>
                 </div>
                 <div class="component-box">
-                    <label>Pathname</label>
+                    <label data-i18n="pathname_label">Pathname</label>
                     <input type="text" id="compPathname" readonly>
                 </div>
                 <div class="component-box">
-                    <label>Hash</label>
+                    <label data-i18n="hash_label">Hash</label>
                     <input type="text" id="compHash" readonly>
                 </div>
             </div>
 
             <div class="query-params-section">
-                <h3>Query Parameters</h3>
+                <h3 data-i18n="query_params_title">Query Parameters</h3>
                 <table id="queryParamsTable">
                     <thead>
                         <tr>
-                            <th>Key</th>
-                            <th>Value</th>
+                            <th data-i18n="key_header">Key</th>
+                            <th data-i18n="value_header">Value</th>
                         </tr>
                     </thead>
                     <tbody id="queryParamsBody">
                         <!-- Rows injected via JS -->
                     </tbody>
                 </table>
-                <div id="noParamsMsg" class="hidden">No query parameters found.</div>
+                <div id="noParamsMsg" class="hidden" data-i18n="no_params_msg">No query parameters found.</div>
             </div>
         </div>
 
         <div class="ad-banner">
-            <p>Ad Space</p>
+            <p data-i18n="ad_space">Ad Space</p>
         </div>
     </div>
+    <script src="i18n.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
