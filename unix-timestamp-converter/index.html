@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unix Timestamp Converter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Unix Epoch Converter</h1>
+            <p class="subtitle">Instantly convert Unix timestamps to human-readable dates</p>
+        </header>
+
+        <div class="live-clock">
+            <h2>Current Unix Timestamp</h2>
+            <div class="epoch-display" id="currentEpoch">Loading...</div>
+            <p class="clock-subtitle" id="currentDateStr"></p>
+        </div>
+
+        <div class="workspace">
+            <div class="conversion-section">
+                <h3>Epoch to Date</h3>
+                <div class="input-group">
+                    <input type="number" id="epochInput" placeholder="e.g. 1714521600">
+                    <button id="convertEpochBtn" class="primary-btn">Convert</button>
+                </div>
+                
+                <div class="results-grid">
+                    <div class="result-box">
+                        <label>Local Time</label>
+                        <input type="text" id="localResult" readonly>
+                    </div>
+                    <div class="result-box">
+                        <label>UTC Time</label>
+                        <input type="text" id="utcResult" readonly>
+                    </div>
+                    <div class="result-box">
+                        <label>ISO 8601</label>
+                        <input type="text" id="isoResult" readonly>
+                    </div>
+                </div>
+                <div id="epochErrorMsg" class="error-msg hidden">Invalid Timestamp</div>
+            </div>
+
+            <hr>
+
+            <div class="conversion-section">
+                <h3>Date to Epoch</h3>
+                <div class="input-group">
+                    <input type="datetime-local" id="dateInput">
+                    <button id="convertDateBtn" class="primary-btn">Convert</button>
+                </div>
+                <div class="results-grid">
+                    <div class="result-box">
+                        <label>Unix Timestamp (Seconds)</label>
+                        <input type="text" id="epochResult" readonly>
+                    </div>
+                    <div class="result-box">
+                        <label>Milliseconds</label>
+                        <input type="text" id="msResult" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">
+            <p>Ad Space</p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

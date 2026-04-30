@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regex Tester & Visualizer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Regex Tester</h1>
+            <p class="subtitle">Test Regular Expressions instantly in your browser</p>
+        </header>
+
+        <div class="workspace">
+            <div class="pattern-section">
+                <label>Regular Expression</label>
+                <div class="regex-input-wrapper">
+                    <span class="regex-slash">/</span>
+                    <input type="text" id="regexPattern" placeholder="[a-zA-Z0-9]+">
+                    <span class="regex-slash">/</span>
+                    <input type="text" id="regexFlags" placeholder="g" value="g" title="Flags (e.g. g, i, m)">
+                </div>
+                <div id="regexError" class="error-msg hidden">Invalid Regular Expression</div>
+            </div>
+
+            <div class="test-string-section">
+                <div class="pane-header">
+                    <label>Test String</label>
+                    <span id="matchCount">0 matches</span>
+                </div>
+                <div class="editor-container">
+                    <div id="highlightLayer" class="highlight-layer"></div>
+                    <textarea id="testString" spellcheck="false" placeholder="Type your test string here..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">
+            <p>Ad Space</p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #eef2f7;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h1 {
+    color: #2c3e50;
+    margin-bottom: 5px;
+    font-size: 2.2em;
+    font-weight: 600;
+}
+
+.subtitle {
+    color: #27ae60;
+    font-weight: bold;
+    font-size: 0.95em;
+}
+
+.workspace {
+    display: flex;
+    gap: 20px;
+    height: 70vh;
+}
+
+.input-pane, .output-pane {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-pane {
+    border: 1px solid #bdc3c7;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #f8f9fa;
+}
+
+.output-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #bdc3c7;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fdfdfd;
+}
+
+.pane-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #34495e;
+    color: white;
+    padding: 10px 15px;
+    font-weight: bold;
+}
+
+textarea {
+    flex: 1;
+    width: 100%;
+    padding: 20px;
+    border: none;
+    resize: none;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    box-sizing: border-box;
+    background-color: transparent;
+    color: #2c3e50;
+    word-break: break-all;
+}
+
+textarea:focus {
+    outline: none;
+    background-color: #ffffff;
+}
+
+.json-display {
+    flex: 1;
+    margin: 0;
+    padding: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    color: #2980b9;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+#payloadOutput {
+    color: #8e44ad;
+}
+
+.danger-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.85em;
+    transition: background-color 0.3s;
+}
+
+.danger-btn:hover {
+    background-color: #c0392b;
+}
+
+.error-msg {
+    background-color: #e74c3c;
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+.ad-banner {
+    background-color: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 25px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .workspace {
+        flex-direction: column;
+        height: auto;
+    }
+    .input-pane {
+        height: 300px;
+    }
+    .output-section {
+        min-height: 200px;
+    }
+}

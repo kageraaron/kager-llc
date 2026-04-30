@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure JWT Decoder</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>JWT Decoder</h1>
+            <p class="subtitle">100% Client-Side. Your tokens never leave your browser.</p>
+        </header>
+
+        <div class="workspace">
+            <div class="input-pane">
+                <div class="pane-header">
+                    <span>Encoded JWT</span>
+                    <button id="clearBtn" class="danger-btn">Clear</button>
+                </div>
+                <textarea id="jwtInput" placeholder="Paste your JWT here (eyJhbGciOi...)"></textarea>
+                <div id="errorMsg" class="error-msg hidden">Invalid JWT Format</div>
+            </div>
+            
+            <div class="output-pane">
+                <div class="output-section">
+                    <div class="pane-header">
+                        <span>HEADER: Algorithm & Token Type</span>
+                    </div>
+                    <pre id="headerOutput" class="json-display">{}</pre>
+                </div>
+                
+                <div class="output-section">
+                    <div class="pane-header">
+                        <span>PAYLOAD: Data</span>
+                    </div>
+                    <pre id="payloadOutput" class="json-display">{}</pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">
+            <p>Ad Space</p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

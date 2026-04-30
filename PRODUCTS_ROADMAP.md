@@ -41,6 +41,12 @@ This repository serves as a hub for developing and monetizing a suite of browser
 28. **Fruit Fight Card Game online:** Play against friends or AI
 29. **Security Based Suite**
 30. **Public / Private PGP Encryption / Decryption Tool:** i.e. dark web
-
+31. **JWT (JSON Web Token) Decoder & Verifier:** Client-side decoding of JWT header and payload.
+32. **Cron Expression Explainer & Generator:** Build cron schedules and see next local run times.
+33. **Regex Tester & Visualizer:** Real-time client-side regex matching.
+34. **Unix Timestamp Converter:** Instantly convert epochs to local/UTC dates and vice versa.
+35. **URL Parser & Query String Editor:** Break down URLs and edit query parameters.
+36. **CIDR Subnet Calculator:** Calculate network addresses, broadcast, and host ranges.
+37. **Text Diff Checker:** Side-by-side or inline text comparison highlighting changes.
 ## Next Steps:
 For each of these products, a dedicated directory will be created within the `kager-llc` repository. Each directory will contain a basic framework including `GEMINI.md`, `CLAUDE.md`, `README.md`, `index.html`, `style.css`, and `script.js`, along with any necessary configuration files for client-side development.
