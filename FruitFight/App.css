@@ -497,3 +497,131 @@ button:disabled {
   font-size: 2em;
   margin-top: 0;
 }
+
+/* Setup Styles */
+.setup-container {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  max-width: 500px;
+  margin: 100px auto;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.setup-container h2 {
+  margin-top: 0;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.setup-field {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.setup-field label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #7f8c8d;
+}
+
+.setup-field select, .setup-field input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 1em;
+}
+
+.setup-names {
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  padding-right: 10px;
+}
+
+.btn-start {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.error-text {
+  color: #e74c3c;
+  font-size: 0.9em;
+  margin-top: 10px;
+}
+
+/* Animations and Popups */
+.score-container {
+  position: relative;
+}
+
+.score-popup, .bust-popup {
+  position: absolute;
+  top: -20px;
+  right: 0;
+  font-weight: bold;
+  font-size: 1.2em;
+  animation: floatUp 2s forwards;
+  pointer-events: none;
+}
+
+.score-popup { color: #2ecc71; }
+.bust-popup { color: #e74c3c; font-size: 1.5em; }
+
+@keyframes floatUp {
+  0% { transform: translateY(0); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(-40px); opacity: 0; }
+}
+
+.drawn-card-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+  min-height: 120px;
+}
+
+.card-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.card-label {
+  font-size: 0.8em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+}
+
+.steal-arrow {
+  font-size: 2em;
+  color: var(--accent);
+}
+
+.stolen-cards-preview {
+  display: flex;
+  gap: 5px;
+}
+
+.card.mini {
+  width: 30px;
+  height: 45px;
+}
+
+.card.being-stolen {
+  animation: shake 0.5s infinite;
+  border-color: #e74c3c !important;
+}
+
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  100% { transform: translate(-1px, -2px) rotate(-1deg); }
+}
+

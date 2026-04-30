@@ -50,7 +50,7 @@ export default function Home() {
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
           <h2 style={{ marginBottom: '0.5rem' }}>Every conversion you need</h2>
           <p style={{ color: 'var(--text-muted)' }}>
-            Each link below is its own SEO landing page — bookmark the formats you use most.
+            Each link below is its own file conversion type — bookmark or embed the formats you use most.
           </p>
         </div>
 
@@ -125,15 +125,6 @@ export default function Home() {
             </p>
           </div>
         </div>
-      </section>
-
-      {/* Pricing teaser */}
-      <section id="pricing" style={{ marginTop: '5rem', textAlign: 'center' }}>
-        <h2>Free for everyone</h2>
-        <p style={{ color: 'var(--text-muted)', maxWidth: 540, margin: '0.75rem auto 0' }}>
-          Local conversion will always be free and ad-supported. A premium tier with cloud features is coming
-          soon for teams that need shared workflows.
-        </p>
       </section>
     </main>
   );

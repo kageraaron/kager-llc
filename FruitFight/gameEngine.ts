@@ -1,7 +1,5 @@
 import { SimpleNN } from './neuralNet';
 
-export const NUM_PLAYERS = 4;
-export const PLAYER_NAMES = ['You', 'AI-Alpha', 'AI-Beta', 'AI-Gamma'];
 export const CARD_VALUES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 export const CARD_COUNTS: Record<number, number> = {
   1: 11, 2: 11, 3: 11, 4: 11, 5: 11,
@@ -20,7 +18,10 @@ export type PendingSteal = {
   fromPlayers: { playerId: number; count: number }[];
 };
 
+export type GameStage = 'setup' | 'playing' | 'gameOver';
+
 export type GameState = {
+  stage: GameStage;
   deck: number[];
   players: Player[];
   discardPile: number[];
@@ -103,6 +104,7 @@ export class NeuralAI {
   static extractFeatures(state: GameState): number[] {
     const pIdx = state.activePlayerIndex;
     const player = state.players[pIdx];
+    const numPlayers = state.players.length;
     
     // Helper to normalize counts (0-11 -> 0.0-1.0 approx)
     const norm = (val: number) => val / 11.0;
@@ -113,23 +115,29 @@ export class NeuralAI {
     
     // 2. Deck Distribution (10) - Perfect Knowledge
     const deckDist = new Array(10).fill(0);
-    // We can calculate this from total - (discard + all displays + all score piles)
-    // Or just iterate the actual deck if we have access (we do in GameState)
     state.deck.forEach(c => deckDist[c-1]++);
     
-    // 3. Opponents (Relative Position: Next, +2, +3)
+    // 3. Opponents (Relative Position: Next, +2, +3, +4 if available)
+    // The model expects features for 3 opponents (Total: 30 for displays, 3 for scores)
     const oppDisplays: number[] = [];
     const oppScores: number[] = [];
     
-    for (let offset = 1; offset < NUM_PLAYERS; offset++) {
-      const oppIdx = (pIdx + offset) % NUM_PLAYERS;
-      const opp = state.players[oppIdx];
-      
-      const d = new Array(10).fill(0);
-      opp.display.forEach(c => d[c-1]++);
-      oppDisplays.push(...d.map(norm)); // Normalized display counts
-      
-      oppScores.push(calculateTotalScore(opp.scorePile) / 100.0); // Rough normalization
+    // Always provide 3 opponents' info. Pad with zeros if fewer than 4 players.
+    for (let offset = 1; offset <= 3; offset++) {
+      if (offset < numPlayers) {
+        const oppIdx = (pIdx + offset) % numPlayers;
+        const opp = state.players[oppIdx];
+        
+        const d = new Array(10).fill(0);
+        opp.display.forEach(c => d[c-1]++);
+        oppDisplays.push(...d.map(norm));
+        
+        oppScores.push(calculateTotalScore(opp.scorePile) / 100.0);
+      } else {
+        // Padding for non-existent opponents
+        oppDisplays.push(...new Array(10).fill(0));
+        oppScores.push(0);
+      }
     }
     
     // 4. Pending Steal Info
@@ -143,7 +151,7 @@ export class NeuralAI {
       
       state.pendingSteal.fromPlayers.forEach(fp => {
         // Find relative offset
-        let offset = (fp.playerId - pIdx + NUM_PLAYERS) % NUM_PLAYERS;
+        let offset = (fp.playerId - pIdx + numPlayers) % numPlayers;
         if (offset > 0 && offset <= 3) {
           stealCounts[offset - 1] = fp.count / 3.0; // Normalize
         }

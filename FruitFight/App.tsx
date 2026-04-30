@@ -6,8 +6,6 @@ import {
   AdvancedAI, 
   NeuralAI,
   GameState, 
-  NUM_PLAYERS, 
-  PLAYER_NAMES, 
   createDeck, 
   calculateTotalScore,
   getAIPersonality,
@@ -21,69 +19,154 @@ import { TRAINED_WEIGHTS } from './trainedModel_';
 
 const cardColors: Record<string, string> = cardColorsRaw;
 
-// --- Component ---
+// --- Sub-components ---
+
+function GameSetup({ onStart }: { onStart: (numHumans: number, numAIs: number, names: string[]) => void }) {
+  const [numHumans, setNumHumans] = useState(1);
+  const [numAIs, setNumAIs] = useState(3);
+  const [names, setNames] = useState<string[]>(['You']);
+
+  const handleNumHumansChange = (val: number) => {
+    setNumHumans(val);
+    const newNames = [...names];
+    if (val > names.length) {
+      for (let i = names.length; i < val; i++) {
+        newNames.push(`Player ${i + 1}`);
+      }
+    } else {
+      newNames.splice(val);
+    }
+    setNames(newNames);
+    
+    // Adjust AIs to keep total <= 5
+    if (val + numAIs > 5) {
+      setNumAIs(5 - val);
+    }
+  };
+
+  const handleNameChange = (idx: number, name: string) => {
+    const newNames = [...names];
+    newNames[idx] = name;
+    setNames(newNames);
+  };
+
+  return (
+    <div className="setup-container">
+      <h2>Game Setup</h2>
+      <div className="setup-field">
+        <label>Human Players (1-5):</label>
+        <select value={numHumans} onChange={(e) => handleNumHumansChange(parseInt(e.target.value))}>
+          {[1, 2, 3, 4, 5].map(n => <option key={n} value={n}>{n}</option>)}
+        </select>
+      </div>
+      
+      <div className="setup-names">
+        {names.map((name, i) => (
+          <div key={i} className="setup-field">
+            <label>Human {i + 1} Name:</label>
+            <input type="text" value={name} onChange={(e) => handleNameChange(i, e.target.value)} />
+          </div>
+        ))}
+      </div>
+
+      <div className="setup-field">
+        <label>AI Players (0-{5 - numHumans}):</label>
+        <select value={numAIs} onChange={(e) => setNumAIs(parseInt(e.target.value))}>
+          {Array.from({ length: 6 - numHumans }, (_, i) => (
+            <option key={i} value={i}>{i}</option>
+          ))}
+        </select>
+      </div>
+
+      <button className="btn-start" onClick={() => onStart(numHumans, numAIs, names)} disabled={numHumans + numAIs < 2}>
+        Start Fruit Fight
+      </button>
+      {numHumans + numAIs < 2 && <p className="error-text">Need at least 2 players total.</p>}
+    </div>
+  );
+}
+
+// --- Main Component ---
 export default function App() {
   const [gameState, setGameState] = useState<GameState>(() => ({
-    deck: createDeck(),
-    players: Array.from({ length: NUM_PLAYERS }, (_, i) => ({
-      id: i,
-      name: i === 0 ? PLAYER_NAMES[0] : (TRAINED_WEIGHTS.length > 0 ? `Neural-${i}` : PLAYER_NAMES[i]),
-      scorePile: [],
-      display: [],
-    })),
+    stage: 'setup',
+    deck: [],
+    players: [],
     activePlayerIndex: 0,
     turnStarted: false,
     pendingSteal: null,
     lastDrawn: null,
-    message: "Game Start! Your turn.",
+    message: "Welcome to Fruit Fight!",
     discardPile: [],
     isGameOver: false,
   }));
 
   const [scoreAnimation, setScoreAnimation] = useState<{ playerId: number, amount: number } | null>(null);
   const [bustAnimation, setBustAnimation] = useState<{ playerId: number } | null>(null);
-
-  const [aiPersonalities] = useState<AIParameters[]>(() => [
-    DEFAULT_AI_PARAMS, // Human (for hints)
-    getAIPersonality(DEFAULT_AI_PARAMS, 1),
-    getAIPersonality(DEFAULT_AI_PARAMS, 2),
-    getAIPersonality(DEFAULT_AI_PARAMS, 3),
-  ]);
-
+  const [aiPersonalities, setAiPersonalities] = useState<AIParameters[]>([]);
   const [showHints, setShowHints] = useState(false);
 
-  // --- Game Actions ---
-
-  const resetGame = useCallback(() => {
-    setGameState({
-      deck: createDeck(),
-      players: Array.from({ length: NUM_PLAYERS }, (_, i) => ({
+  const startGame = useCallback((numHumans: number, numAIs: number, humanNames: string[]) => {
+    const players = [];
+    // Add Humans
+    for (let i = 0; i < numHumans; i++) {
+      players.push({
         id: i,
-        name: i === 0 ? PLAYER_NAMES[0] : (TRAINED_WEIGHTS.length > 0 ? `Neural-${i}` : PLAYER_NAMES[i]),
+        name: humanNames[i],
         scorePile: [],
         display: [],
-      })),
+        isAI: false,
+      });
+    }
+    // Add AIs
+    for (let i = 0; i < numAIs; i++) {
+      players.push({
+        id: numHumans + i,
+        name: `AI-${i + 1}`,
+        scorePile: [],
+        display: [],
+        isAI: true,
+      });
+    }
+
+    const personalities = players.map((p, i) => 
+      p.isAI ? getAIPersonality(DEFAULT_AI_PARAMS, i) : DEFAULT_AI_PARAMS
+    );
+    setAiPersonalities(personalities);
+
+    setGameState({
+      stage: 'playing',
+      deck: createDeck(),
+      players,
       activePlayerIndex: 0,
       turnStarted: false,
       pendingSteal: null,
       lastDrawn: null,
-      message: "Game Start! Your turn.",
+      message: `Game Start! ${players[0].name}'s turn.`,
       discardPile: [],
       isGameOver: false,
     });
   }, []);
 
+  const resetGame = useCallback(() => {
+    setGameState(prev => ({
+      ...prev,
+      stage: 'setup',
+      isGameOver: false,
+    }));
+  }, []);
+
   const endTurn = useCallback(() => {
     setGameState(prev => {
       if (prev.isGameOver) return prev;
-      const nextPlayerIndex = (prev.activePlayerIndex + 1) % NUM_PLAYERS;
+      const nextPlayerIndex = (prev.activePlayerIndex + 1) % prev.players.length;
       return {
         ...prev,
         activePlayerIndex: nextPlayerIndex,
         turnStarted: false,
         pendingSteal: null,
         lastDrawn: null,
-        message: `${PLAYER_NAMES[nextPlayerIndex]}'s turn.`,
+        message: `${prev.players[nextPlayerIndex].name}'s turn.`,
       };
     });
   }, []);
@@ -95,17 +178,13 @@ export default function App() {
       const activePlayer = prev.players[prev.activePlayerIndex];
       let message = `${activePlayer.name}'s turn.`;
       
-      // Score the player's display from the previous round
       if (activePlayer.display.length > 0) {
         const scoreGained = calculateTotalScore(activePlayer.display);
         
-        // Trigger Score Animation
         setScoreAnimation({ playerId: activePlayer.id, amount: scoreGained });
         setTimeout(() => setScoreAnimation(null), 2000);
 
-        message = activePlayer.name === 'You'
-          ? `You scored ${scoreGained} points from your hand!`
-          : `${activePlayer.name} scored ${scoreGained} points from their hand!`;
+        message = `${activePlayer.name} scored ${scoreGained} points from their hand!`;
         
         const nextPlayers = prev.players.map((p, index) => {
           if (index === prev.activePlayerIndex) {
@@ -141,8 +220,6 @@ export default function App() {
       
       let message = `${activePlayer.name} drew a ${card}.`;
 
-      // 1. Check for Bust FIRST
-      // Rule: "Once they have at least 3 cards in their hand, the next time they draw a card of a value they already have, they bust."
       const isBust = activePlayer.display.length >= 3 && activePlayer.display.includes(card);
       
       if (isBust) {
@@ -152,7 +229,7 @@ export default function App() {
           return p;
         });
         
-        const nextIndex = (prev.activePlayerIndex + 1) % NUM_PLAYERS;
+        const nextIndex = (prev.activePlayerIndex + 1) % prev.players.length;
         
         setBustAnimation({ playerId: activePlayer.id });
         setTimeout(() => setBustAnimation(null), 1500);
@@ -166,11 +243,10 @@ export default function App() {
           pendingSteal: null,
           lastDrawn: null,
           discardPile: [...prev.discardPile, ...bustDisplay],
-          message: `${activePlayer.name} busted with a ${card}! ${PLAYER_NAMES[nextIndex]}'s turn.`,
+          message: `${activePlayer.name} busted with a ${card}! ${prev.players[nextIndex].name}'s turn.`,
         };
       }
 
-      // 2. Check for Steal opportunities (Only if NO bust)
       const stealablePlayers = prev.players.filter((p, i) => i !== prev.activePlayerIndex && p.display.some(c => c === card));
 
       if (stealablePlayers.length > 0) {
@@ -189,13 +265,11 @@ export default function App() {
         };
       }
 
-      // 3. Normal draw
       const nextPlayers = prev.players.map((p, index) => {
         if (index === prev.activePlayerIndex) return { ...p, display: [...p.display, card] };
         return p;
       });
 
-      // Check for game end
       if (newDeck.length === 0) {
         const finalPlayers = nextPlayers.map(p => ({
           ...p,
@@ -241,7 +315,6 @@ export default function App() {
         return p;
       });
 
-      // Update active player's display
       const finalPlayers = nextPlayers.map((p, index) => {
         if (index === prev.activePlayerIndex) {
           return { ...p, display: activePlayerNewDisplay };
@@ -249,7 +322,6 @@ export default function App() {
         return p;
       });
 
-      // Check for game end if deck is empty
       if (prev.deck.length === 0) {
         const gameEndPlayers = finalPlayers.map(p => ({
           ...p,
@@ -286,7 +358,6 @@ export default function App() {
         return p;
       });
       
-      // Check for game end if deck is empty
       if (prev.deck.length === 0) {
         const gameEndPlayers = nextPlayers.map(p => ({
           ...p,
@@ -311,38 +382,34 @@ export default function App() {
     });
   }, []);
 
-
-  // --- AI Player Logic ---
+  // AI logic
   useEffect(() => {
-    if (gameState.isGameOver || gameState.activePlayerIndex === 0) return;
+    if (gameState.stage !== 'playing' || gameState.isGameOver) return;
+    
+    const activePlayer = gameState.players[gameState.activePlayerIndex];
+    if (!activePlayer || !(activePlayer as any).isAI) return;
 
-    // Use a specific AI personality for the current CPU player
-    const personality = aiPersonalities[gameState.activePlayerIndex];
+    const timer = setTimeout(() => {
+       let action: string;
+       if (TRAINED_WEIGHTS.length > 0 && gameState.players.length === 4) {
+          action = NeuralAI.getAction(gameState, TRAINED_WEIGHTS);
+       } else {
+          action = AdvancedAI.getAction(gameState, aiPersonalities[gameState.activePlayerIndex]);
+       }
 
-    if (gameState.activePlayerIndex !== 0) {
-      const timer = setTimeout(() => {
-         let action: string;
-         // Use Neural AI for players 1, 2, 3 if weights are loaded
-         if (TRAINED_WEIGHTS.length > 0) {
-            action = NeuralAI.getAction(gameState, TRAINED_WEIGHTS);
-         } else {
-            // Fallback to advanced heuristic AI
-            action = AdvancedAI.getAction(gameState, aiPersonalities[gameState.activePlayerIndex]);
-         }
-
-         switch (action) {
-           case 'START_TURN': startTurn(); break;
-           case 'STEAL': confirmSteal(); break;
-           case 'SKIP_STEAL': declineSteal(); break;
-           case 'HIT': drawCard(); break;
-           case 'STAND': endTurn(); break;
-         }
-      }, 800);
-      return () => clearTimeout(timer);
-    }
-  }, [gameState.activePlayerIndex, gameState.turnStarted, gameState.pendingSteal, gameState.isGameOver, startTurn, confirmSteal, declineSteal, drawCard, endTurn, gameState, aiPersonalities]);
+       switch (action) {
+         case 'START_TURN': startTurn(); break;
+         case 'STEAL': confirmSteal(); break;
+         case 'SKIP_STEAL': declineSteal(); break;
+         case 'HIT': drawCard(); break;
+         case 'STAND': endTurn(); break;
+       }
+    }, 800);
+    return () => clearTimeout(timer);
+  }, [gameState, aiPersonalities, startTurn, confirmSteal, declineSteal, drawCard, endTurn]);
 
   const deckDistribution = useMemo(() => {
+    if (gameState.stage !== 'playing') return {};
     const dist: Record<number, number> = { ...CARD_COUNTS };
     gameState.players.forEach(p => {
       p.scorePile.forEach(c => dist[c]--);
@@ -350,10 +417,10 @@ export default function App() {
     });
     gameState.discardPile.forEach(c => dist[c]--);
     return dist;
-  }, [gameState.players, gameState.discardPile]);
+  }, [gameState.players, gameState.discardPile, gameState.stage]);
 
   const currentEV = useMemo(() => {
-    if (gameState.isGameOver) return null;
+    if (gameState.stage !== 'playing' || gameState.isGameOver) return null;
     return AdvancedAI.getEVDetails(gameState, aiPersonalities[gameState.activePlayerIndex]);
   }, [gameState, aiPersonalities]);
 
@@ -362,7 +429,9 @@ export default function App() {
     return [...gameState.players].sort((a, b) => calculateTotalScore(b.scorePile) - calculateTotalScore(a.scorePile))[0];
   }, [gameState.isGameOver, gameState.players]);
 
-  // --- Render ---
+  if (gameState.stage === 'setup') {
+    return <div className="game-container"><GameSetup onStart={startGame} /></div>;
+  }
 
   return (
     <div className="game-container">
@@ -383,12 +452,12 @@ export default function App() {
             <div className="dist-histogram">
               {CARD_VALUES.map(v => (
                 <div key={v} className="histo-column">
-                  <div className="histo-count">{deckDistribution[v]}</div>
+                  <div className="histo-count">{deckDistribution[v as keyof typeof deckDistribution]}</div>
                   <div className="histo-bar-wrapper">
                     <div
                       className="histo-bar"
                       style={{
-                        height: `${(deckDistribution[v] / 11) * 100}%`,
+                        height: `${((deckDistribution[v as keyof typeof deckDistribution] || 0) / 11) * 100}%`,
                         backgroundColor: cardColors[v.toString()] || '#ccc'
                       }}
                     ></div>
@@ -402,12 +471,6 @@ export default function App() {
                 <span style={{ fontSize: '0.8em', color: '#7f8c8d', textTransform: 'uppercase' }}>Bust Probability</span>
                 <div style={{ fontSize: '1.8em', fontWeight: 'bold', color: '#e74c3c' }}>
                   {(currentEV.bustProb * 100).toFixed(1)}%
-                </div>
-                <div style={{ marginTop: '10px' }}>
-                  <span style={{ fontSize: '0.8em', color: '#7f8c8d', textTransform: 'uppercase' }}>AI Recommendation</span>
-                  <div style={{ fontSize: '1.2em', fontWeight: 'bold', color: '#2ecc71' }}>
-                    {NeuralAI.getAction(gameState, TRAINED_WEIGHTS)}
-                  </div>
                 </div>
               </div>
             )}
@@ -451,7 +514,7 @@ export default function App() {
           
           {!gameState.isGameOver && (
             <div className="play-controls">
-               {gameState.activePlayerIndex === 0 ? (
+               {!(gameState.players[gameState.activePlayerIndex] as any).isAI ? (
                   <>
                     {gameState.pendingSteal ? (
                         <div className='main-btns'>
@@ -467,7 +530,7 @@ export default function App() {
                     {!gameState.turnStarted && <button onClick={startTurn}>Start Turn</button>}
                   </>
                ) : (
-                  <div style={{ fontStyle: 'italic', color: '#ccc' }}>Waiting for AI...</div>
+                  <div style={{ fontStyle: 'italic', color: '#ccc' }}>Waiting for {gameState.players[gameState.activePlayerIndex].name}...</div>
                )}
             </div>
           )}
@@ -484,7 +547,7 @@ export default function App() {
         {gameState.players.map((p, idx) => (
             <div key={p.id} className={`player-card ${idx === gameState.activePlayerIndex ? 'active' : ''}`}>
             <div className='player-header'>
-                <h3>{p.name}</h3>
+                <h3>{p.name} {(p as any).isAI ? '(AI)' : ''}</h3>
                 <div className="score-container">
                     <span className="score">Score: {calculateTotalScore(p.scorePile)}</span>
                     {scoreAnimation?.playerId === p.id && (
@@ -502,12 +565,10 @@ export default function App() {
                                           gameState.pendingSteal.card === c && 
                                           idx !== gameState.activePlayerIndex;
                     
-                    // Logic: If there is a pending steal, only the cards being stolen get their special color.
-                    // Otherwise (normal play), all cards get their special color.
                     let borderColor = cardColors[c.toString()] || '#ddd';
                     if (gameState.pendingSteal) {
                       if (!isBeingStolen && !(gameState.pendingSteal.card === c && idx === gameState.activePlayerIndex)) {
-                        borderColor = '#ddd'; // Fade out other cards
+                        borderColor = '#ddd';
                       }
                     }
 
@@ -521,31 +582,6 @@ export default function App() {
             </div>
         ))}
       </div>
-
-      {showHints && (
-        <div className="glossary-section">
-            <h3>Strategy Glossary</h3>
-            <div className="glossary-grid">
-                <div className="glossary-item">
-                    <h4>Deck Distribution</h4>
-                    <p>The number of cards remaining for each card value in the deck.</p>
-                </div>
-                <div className="glossary-item">
-                    <h4>Bust Probability</h4>
-                    <p>The chance of drawing a card you already have in your display (when you have 3 or more cards), which would cause you to lose all cards in your display.</p>
-                </div>
-                
-                <div className="glossary-item">
-                    <h4>AI Recommendation</h4>
-                    <p>The recommended action based on the AI's analysis of the current game state. The AI is a neural network, trained over thousands of games against rules-based opponents and checkpoints of itself. It's input is the entire game state, including deck distribution (card counting), player hands, and other relevant information.</p>
-                </div>
-
-            </div>
-        </div>
-      )}
-
     </div>
   );
 }
-console.log("cardColorsRaw after import:", cardColorsRaw);
-console.log("cardColors after assignment:", cardColors);

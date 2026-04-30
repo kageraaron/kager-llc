@@ -32,7 +32,7 @@ This repository serves as a hub for developing and monetizing a suite of browser
 19. **Image Color Palette Generator:** Extract dominant color palettes from uploaded images.
 20. **Unit Converter:** Convert between various units of measurement (length, weight, temperature, etc.).
 21. **SVG Optimization:** vector files to optimize paths
-22. **Parquet to CSV Converter:** Client-side conversion of .parquet files to .csv
+22. **Parquet to CSV Converter:** Client-side conversion of .parquet files to .csv [COMPLETED]
 23. **Reddit crawl bot:** spam reddit when users ask "How do I X my Y?" and reply with right tooling in our repertoire
 24. **Opus to any audio <-> any audio to Opus:** 
 25. **RAW Image to JPEG, PNG converter:**

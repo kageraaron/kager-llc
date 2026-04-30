@@ -2,18 +2,14 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Converter from '@/components/Converter/Converter';
 import AdSlot from '@/components/Ads/AdSlot';
+import EmbedCode from '@/components/Embed/EmbedCode';
 import { getFormat, isConversionSupported, getValidTargets } from '@/lib/formats';
+import { parseSlug, getBaseUrl } from '@/lib/utils';
 
 interface PageProps {
   params: Promise<{
     slug: string;
   }>;
-}
-
-function parseSlug(slug: string): { from: string; to: string } | null {
-  const parts = slug.split('-to-');
-  if (parts.length !== 2) return null;
-  return { from: parts[0].toUpperCase(), to: parts[1].toUpperCase() };
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -70,6 +66,7 @@ export default async function ConvertPage({ params }: PageProps) {
   const { from, to } = parsed;
   const fromFormat = getFormat(from);
   const supported = fromFormat && isConversionSupported(from, to);
+  const baseUrl = getBaseUrl();
 
   // Suggest related conversions for cross-linking (boosts internal SEO graph).
   const related = fromFormat
@@ -173,6 +170,8 @@ export default async function ConvertPage({ params }: PageProps) {
       </div>
 
       <AdSlot format="banner" style={{ marginTop: '3rem' }} />
+
+      <EmbedCode slug={slug} baseUrl={baseUrl} />
 
       {/* Why this tool */}
       <section style={{ marginTop: '4rem' }}>

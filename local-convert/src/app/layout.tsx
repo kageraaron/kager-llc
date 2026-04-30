@@ -44,8 +44,8 @@ export default function RootLayout({
               Local-Convert
             </a>
             <div style={{ display: 'flex', gap: '2rem', fontSize: '0.9rem' }}>
+              <a href="/">Home</a>
               <a href="/tools">Tools</a>
-              <a href="/pricing">Premium</a>
               <a href="/about">About</a>
             </div>
           </div>

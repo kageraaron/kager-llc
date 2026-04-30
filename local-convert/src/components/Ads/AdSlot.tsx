@@ -38,9 +38,7 @@ interface AdSlotProps {
   className?: string;
 }
 
-const adsEnabled = (): boolean =>
-  typeof process !== 'undefined' &&
-  process.env.NEXT_PUBLIC_ADSENSE_ENABLED === 'true';
+const adsEnabled = (): boolean => true;
 
 export default function AdSlot({
   slot,
