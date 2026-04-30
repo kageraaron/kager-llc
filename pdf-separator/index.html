@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Separator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>PDF Separator</h1>
+        <p class="subtitle">Split a multi-page PDF into individual pages</p>
+
+        <div class="upload-section">
+            <input type="file" id="pdfUpload" accept=".pdf" hidden>
+            <label for="pdfUpload" class="upload-button">Upload PDF File</label>
+            <p>Or drag and drop your PDF file here</p>
+        </div>
+
+        <div id="fileInfo" class="file-info-section" hidden>
+            <p><strong>Selected File:</strong> <span id="selectedFileName"></span></p>
+            <p><strong>Total Pages:</strong> <span id="totalPages"></span></p>
+        </div>
+
+        <div class="options-section" id="optionsSection" hidden>
+            <h2>Split Options</h2>
+            <div>
+                <input type="radio" id="splitAll" name="splitMode" value="all" checked>
+                <label for="splitAll">Split all pages</label>
+            </div>
+            <div>
+                <input type="radio" id="splitRange" name="splitMode" value="range">
+                <label for="splitRange">Split pages from:</label>
+                <input type="number" id="startPage" placeholder="Start Page" min="1" disabled>
+                <span>to</span>
+                <input type="number" id="endPage" placeholder="End Page" min="1" disabled>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="splitPdfBtn" disabled>Split PDF</button>
+            <button id="downloadAllBtn" hidden>Download All Pages</button>
+        </div>
+
+        <div class="download-links-section" id="downloadLinksSection" hidden>
+            <h2>Download Pages:</h2>
+            <ul id="downloadLinksList">
+                <!-- Download links will be generated here -->
+            </ul>
+        </div>
+
+        <div class="ad-banner">
+            <!-- Ad Placeholder -->
+            <p>Ad Space</p>
+        </div>
+    </div>
+
+    <!-- Script for PDF splitting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

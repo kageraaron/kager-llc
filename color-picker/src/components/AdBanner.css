@@ -1,0 +1,14 @@
+.ad-banner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+  border: 1px dashed #ccc;
+  width: 100%;
+  min-height: 100px;
+}
+
+.ad-placeholder {
+  color: #888;
+  font-size: 0.8rem;
+}

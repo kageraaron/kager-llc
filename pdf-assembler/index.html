@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Assembler</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>PDF Assembler</h1>
+        <p class="subtitle">Merge multiple PDF files into one document</p>
+
+        <div class="upload-section">
+            <input type="file" id="pdfUpload" multiple accept=".pdf" hidden>
+            <label for="pdfUpload" class="upload-button">Select PDF Files</label>
+            <p>Or drag and drop PDF files here</p>
+        </div>
+
+        <div class="file-list-container">
+            <h2>Files to Merge:</h2>
+            <ul id="pdfFileList">
+                <!-- PDF files will be listed here -->
+            </ul>
+        </div>
+
+        <div class="controls">
+            <button id="mergePdfBtn" disabled>Merge PDFs</button>
+            <button id="downloadPdfBtn" hidden>Download Merged PDF</button>
+        </div>
+
+        <div class="ad-banner">
+            <!-- Ad Placeholder -->
+            <p>Ad Space</p>
+        </div>
+    </div>
+
+    <!-- Script for PDF merging -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
