@@ -4,7 +4,7 @@ This monorepo contains various client-side web tools, utilities, and games devel
 
 ## 🚀 Projects
 
-*   **File-Converter**: A tool for converting files between formats.
+*   **Local-Convert**: A tool for converting files between formats.
 *   **FruitFight**: A browser-based game.
 *   **Word-Nexus**: A word puzzle or game.
 *   **color-picker**: A utility for selecting and managing colors.
