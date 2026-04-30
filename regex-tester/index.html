@@ -9,38 +9,47 @@
 <body>
     <div class="container">
         <header>
-            <h1>Regex Tester</h1>
-            <p class="subtitle">Test Regular Expressions instantly in your browser</p>
+            <div class="language-switcher">
+                <button class="lang-btn" onclick="i18n.setLanguage('en')" data-lang="en">EN</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('es')" data-lang="es">ES</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('fr')" data-lang="fr">FR</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('de')" data-lang="de">DE</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('zh')" data-lang="zh">ZH</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('ja')" data-lang="ja">JA</button>
+            </div>
+            <h1 data-i18n="h1">Regex Tester</h1>
+            <p class="subtitle" data-i18n="subtitle">Test Regular Expressions instantly in your browser</p>
         </header>
 
         <div class="workspace">
             <div class="pattern-section">
-                <label>Regular Expression</label>
+                <label data-i18n="regex_label">Regular Expression</label>
                 <div class="regex-input-wrapper">
                     <span class="regex-slash">/</span>
-                    <input type="text" id="regexPattern" placeholder="[a-zA-Z0-9]+">
+                    <input type="text" id="regexPattern" placeholder="[a-zA-Z0-9]+" data-i18n="pattern_placeholder">
                     <span class="regex-slash">/</span>
-                    <input type="text" id="regexFlags" placeholder="g" value="g" title="Flags (e.g. g, i, m)">
+                    <input type="text" id="regexFlags" placeholder="g" value="g" title="Flags (e.g. g, i, m)" data-i18n-title="flags_title">
                 </div>
-                <div id="regexError" class="error-msg hidden">Invalid Regular Expression</div>
+                <div id="regexError" class="error-msg hidden" data-i18n="regex_error">Invalid Regular Expression</div>
             </div>
 
             <div class="test-string-section">
                 <div class="pane-header">
-                    <label>Test String</label>
-                    <span id="matchCount">0 matches</span>
+                    <label data-i18n="test_string_label">Test String</label>
+                    <span id="matchCount">0 <span data-i18n="match_count_suffix">matches</span></span>
                 </div>
                 <div class="editor-container">
                     <div id="highlightLayer" class="highlight-layer"></div>
-                    <textarea id="testString" spellcheck="false" placeholder="Type your test string here..."></textarea>
+                    <textarea id="testString" spellcheck="false" placeholder="Type your test string here..." data-i18n="placeholder"></textarea>
                 </div>
             </div>
         </div>
 
         <div class="ad-banner">
-            <p>Ad Space</p>
+            <p data-i18n="ad_space">Ad Space</p>
         </div>
     </div>
+    <script src="i18n.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

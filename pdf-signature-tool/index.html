@@ -8,31 +8,41 @@
 </head>
 <body>
     <div class="container">
-        <h1>PDF Signature Tool</h1>
-        <p class="subtitle">Add your signature to PDF documents online</p>
+        <header>
+            <div class="language-switcher">
+                <button class="lang-btn" onclick="i18n.setLanguage('en')" data-lang="en">EN</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('es')" data-lang="es">ES</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('fr')" data-lang="fr">FR</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('de')" data-lang="de">DE</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('zh')" data-lang="zh">ZH</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('ja')" data-lang="ja">JA</button>
+            </div>
+            <h1 data-i18n="h1">PDF Signature Tool</h1>
+            <p class="subtitle" data-i18n="subtitle">Add your signature to PDF documents online</p>
+        </header>
 
         <div class="upload-section">
             <input type="file" id="pdfUpload" accept=".pdf" hidden>
-            <label for="pdfUpload" class="upload-button">Upload PDF File</label>
-            <p>Or drag and drop your PDF file here</p>
+            <label for="pdfUpload" class="upload-button" data-i18n="upload_label">Upload PDF File</label>
+            <p data-i18n="drag_drop_text">Or drag and drop your PDF file here</p>
         </div>
 
         <div id="pdfPreviewContainer" class="pdf-preview-section" hidden>
-            <h2>PDF Preview:</h2>
+            <h2 data-i18n="preview_title">PDF Preview:</h2>
             <div class="pdf-viewer">
                 <canvas id="pdfCanvas"></canvas>
                 <div id="signatureOverlay">
                     <div id="signaturePadContainer">
-                        <p>Draw your signature below:</p>
+                        <p data-i18n="draw_sig_hint">Draw your signature below:</p>
                         <canvas id="signatureCanvas"></canvas>
                         <div class="signature-controls">
                             <input type="color" id="signatureColor" value="#000000">
-                            <button id="clearSignatureBtn">Clear</button>
+                            <button id="clearSignatureBtn" data-i18n="clear_btn">Clear</button>
                         </div>
                     </div>
                     <div id="textSignatureSection" hidden>
-                        <p>Or type your signature:</p>
-                        <input type="text" id="textSignatureInput" placeholder="Your Name">
+                        <p data-i18n="type_sig_hint">Or type your signature:</p>
+                        <input type="text" id="textSignatureInput" placeholder="Your Name" data-i18n="name_placeholder">
                         <select id="signatureFont">
                             <option value="Times New Roman">Times New Roman</option>
                             <option value="Arial">Arial</option>
@@ -40,20 +50,21 @@
                         </select>
                         <input type="color" id="textColor" value="#000000">
                     </div>
-                    <button id="toggleSignatureType">Use Text Signature</button>
+                    <button id="toggleSignatureType" data-i18n="toggle_sig_type_text">Use Text Signature</button>
                 </div>
             </div>
             <div class="controls">
-                <button id="signPdfBtn" disabled>Apply Signature</button>
-                <button id="downloadSignedPdfBtn" hidden>Download Signed PDF</button>
+                <button id="signPdfBtn" disabled data-i18n="apply_btn">Apply Signature</button>
+                <button id="downloadSignedPdfBtn" hidden data-i18n="download_btn">Download Signed PDF</button>
             </div>
         </div>
 
         <div class="ad-banner">
             <!-- Ad Placeholder -->
-            <p>Ad Space</p>
+            <p data-i18n="ad_space">Ad Space</p>
         </div>
     </div>
+    <script src="i18n.js"></script>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>

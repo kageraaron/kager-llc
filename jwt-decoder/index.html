@@ -9,31 +9,39 @@
 <body>
     <div class="container">
         <header>
-            <h1>JWT Decoder</h1>
-            <p class="subtitle">100% Client-Side. Your tokens never leave your browser.</p>
+            <div class="language-switcher">
+                <button class="lang-btn" onclick="i18n.setLanguage('en')" data-lang="en">EN</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('es')" data-lang="es">ES</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('fr')" data-lang="fr">FR</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('de')" data-lang="de">DE</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('zh')" data-lang="zh">ZH</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('ja')" data-lang="ja">JA</button>
+            </div>
+            <h1 data-i18n="h1">JWT Decoder</h1>
+            <p class="subtitle" data-i18n="subtitle">100% Client-Side. Your tokens never leave your browser.</p>
         </header>
 
         <div class="workspace">
             <div class="input-pane">
                 <div class="pane-header">
-                    <span>Encoded JWT</span>
-                    <button id="clearBtn" class="danger-btn">Clear</button>
+                    <span data-i18n="encoded_jwt_label">Encoded JWT</span>
+                    <button id="clearBtn" class="danger-btn" data-i18n="clear_btn">Clear</button>
                 </div>
-                <textarea id="jwtInput" placeholder="Paste your JWT here (eyJhbGciOi...)"></textarea>
-                <div id="errorMsg" class="error-msg hidden">Invalid JWT Format</div>
+                <textarea id="jwtInput" placeholder="Paste your JWT here (eyJhbGciOi...)" data-i18n="placeholder"></textarea>
+                <div id="errorMsg" class="error-msg hidden" data-i18n="invalid_jwt_error">Invalid JWT Format</div>
             </div>
             
             <div class="output-pane">
                 <div class="output-section">
                     <div class="pane-header">
-                        <span>HEADER: Algorithm & Token Type</span>
+                        <span data-i18n="header_title">HEADER: Algorithm & Token Type</span>
                     </div>
                     <pre id="headerOutput" class="json-display">{}</pre>
                 </div>
                 
                 <div class="output-section">
                     <div class="pane-header">
-                        <span>PAYLOAD: Data</span>
+                        <span data-i18n="payload_title">PAYLOAD: Data</span>
                     </div>
                     <pre id="payloadOutput" class="json-display">{}</pre>
                 </div>
@@ -41,9 +49,10 @@
         </div>
 
         <div class="ad-banner">
-            <p>Ad Space</p>
+            <p data-i18n="ad_space">Ad Space</p>
         </div>
     </div>
+    <script src="i18n.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

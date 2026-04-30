@@ -1,0 +1,62 @@
+{
+    "en": {
+        "title": "Markdown Editor & Previewer",
+        "h1": "Markdown Editor",
+        "subtitle": "Write Markdown on the left, see the preview on the right instantly.",
+        "input_label": "Markdown Input",
+        "clear_btn": "Clear",
+        "placeholder": "# Hello World\\n\\nWrite your markdown here...",
+        "preview_label": "Live Preview",
+        "ad_space": "Ad Space"
+    },
+    "es": {
+        "title": "Editor y Previsualizador de Markdown",
+        "h1": "Editor de Markdown",
+        "subtitle": "Escribe Markdown a la izquierda, mira la vista previa a la derecha al instante.",
+        "input_label": "Entrada de Markdown",
+        "clear_btn": "Limpiar",
+        "placeholder": "# Hola Mundo\\n\\nEscribe tu markdown aquí...",
+        "preview_label": "Vista Previa en Vivo",
+        "ad_space": "Espacio Publicitario"
+    },
+    "fr": {
+        "title": "Éditeur et Prévisualiseur Markdown",
+        "h1": "Éditeur Markdown",
+        "subtitle": "Écrivez du Markdown à gauche, voyez l'aperçu à droite instantanément.",
+        "input_label": "Entrée Markdown",
+        "clear_btn": "Effacer",
+        "placeholder": "# Bonjour le monde\\n\\nÉcrivez votre markdown ici...",
+        "preview_label": "Aperçu en Direct",
+        "ad_space": "Espace Publicitaire"
+    },
+    "de": {
+        "title": "Markdown Editor & Vorschau",
+        "h1": "Markdown Editor",
+        "subtitle": "Schreiben Sie Markdown links, sehen Sie die Vorschau rechts sofort.",
+        "input_label": "Markdown-Eingabe",
+        "clear_btn": "Löschen",
+        "placeholder": "# Hallo Welt\\n\\nSchreiben Sie hier Ihr Markdown...",
+        "preview_label": "Live-Vorschau",
+        "ad_space": "Werbefläche"
+    },
+    "zh": {
+        "title": "Markdown 编辑器和预览器",
+        "h1": "Markdown 编辑器",
+        "subtitle": "在左侧编写 Markdown，在右侧即时查看预览。",
+        "input_label": "Markdown 输入",
+        "clear_btn": "清除",
+        "placeholder": "# 你好，世界\\n\\n在此处编写您的 Markdown...",
+        "preview_label": "实时预览",
+        "ad_space": "广告位"
+    },
+    "ja": {
+        "title": "Markdown エディタ & プレビューア",
+        "h1": "Markdown エディタ",
+        "subtitle": "左側で Markdown を書き、右側でプレビューを即座に確認できます。",
+        "input_label": "Markdown 入力",
+        "clear_btn": "クリア",
+        "placeholder": "# ハローワールド\\n\\nここに Markdown を入力してください...",
+        "preview_label": "ライブプレビュー",
+        "ad_space": "広告スペース"
+    }
+}

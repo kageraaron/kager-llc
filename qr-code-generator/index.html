@@ -8,34 +8,45 @@
 </head>
 <body>
     <div class="container">
-        <h1>QR Code Generator</h1>
+        <header>
+            <div class="language-switcher">
+                <button class="lang-btn" onclick="i18n.setLanguage('en')" data-lang="en">EN</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('es')" data-lang="es">ES</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('fr')" data-lang="fr">FR</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('de')" data-lang="de">DE</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('zh')" data-lang="zh">ZH</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('ja')" data-lang="ja">JA</button>
+            </div>
+            <h1 data-i18n="h1">QR Code Generator</h1>
+        </header>
         <div class="input-section">
-            <textarea id="qrData" placeholder="Enter text, URL, or vCard data here..."></textarea>
+            <textarea id="qrData" placeholder="Enter text, URL, or vCard data here..." data-i18n="placeholder"></textarea>
             <div class="options">
-                <label for="qrColor">Color:</label>
+                <label for="qrColor" data-i18n="color_label">Color:</label>
                 <input type="color" id="qrColor" value="#000000">
-                <label for="qrErrorCorrection">Error Correction:</label>
+                <label for="qrErrorCorrection" data-i18n="error_correction_label">Error Correction:</label>
                 <select id="qrErrorCorrection">
-                    <option value="L">Low (7%)</option>
-                    <option value="M" selected>Medium (15%)</option>
-                    <option value="Q">Quartile (25%)</option>
-                    <option value="H">High (30%)</option>
+                    <option value="L" data-i18n="low">Low (7%)</option>
+                    <option value="M" selected data-i18n="medium">Medium (15%)</option>
+                    <option value="Q" data-i18n="quartile">Quartile (25%)</option>
+                    <option value="H" data-i18n="high">High (30%)</option>
                 </select>
             </div>
-            <button id="generateQrBtn">Generate QR Code</button>
+            <button id="generateQrBtn" data-i18n="generate_btn">Generate QR Code</button>
         </div>
         <div class="qr-display">
             <div id="qrcode"></div>
-            <p id="qrMessage">Enter data and click Generate.</p>
+            <p id="qrMessage" data-i18n="qr_message">Enter data and click Generate.</p>
         </div>
         <div class="download-section">
-            <a id="downloadQrBtn" href="#" download="qrcode.png" hidden>Download QR Code</a>
+            <a id="downloadQrBtn" href="#" download="qrcode.png" hidden data-i18n="download_btn">Download QR Code</a>
         </div>
         <div class="ad-banner">
             <!-- Ad Placeholder -->
-            <p>Ad Space</p>
+            <p data-i18n="ad_space">Ad Space</p>
         </div>
     </div>
+    <script src="i18n.js"></script>
     <!-- Include a QR code generation library, e.g., qrcode-generator -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/2.0.0/qrcode.min.js"></script>
     <script src="script.js"></script>

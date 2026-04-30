@@ -4,9 +4,11 @@ import { AdRoll } from './components/AdRoll';
 import { Magnifier } from './components/Magnifier';
 import { ColorGrid } from './components/ColorGrid';
 import { sampleColorAt, getMedianColors } from './utils/colorExtractor';
+import { useI18n } from './lib/i18n';
 import './App.css';
 
 function App() {
+  const { t, lang, setLanguage } = useI18n();
   const [image, setImage] = useState<string | null>(null);
   const [selectedColors, setSelectedColors] = useState<{ hex: string, rgb: string }[]>([]);
   const [detectedColors, setDetectedColors] = useState<{ hex: string, rgb: string }[]>([]);
@@ -49,16 +51,37 @@ function App() {
     setShowAdRoll(false);
   };
 
+  const languages = ['en', 'es', 'fr', 'de', 'zh', 'ja'];
+
   return (
     <div className="app">
+      <div className="language-switcher" style={{ position: 'absolute', top: '1rem', right: '1rem', display: 'flex', gap: '0.5rem', zIndex: 100 }}>
+        {languages.map(l => (
+          <button 
+            key={l} 
+            onClick={() => setLanguage(l)}
+            style={{ 
+              padding: '0.2rem 0.5rem', 
+              fontSize: '0.7rem', 
+              borderRadius: '4px', 
+              border: '1px solid var(--border)',
+              background: lang === l ? 'var(--primary)' : 'rgba(255,255,255,0.1)',
+              color: 'white',
+              cursor: 'pointer'
+            }}
+          >
+            {l.toUpperCase()}
+          </button>
+        ))}
+      </div>
       <AdBanner />
       <main>
         {showAdRoll ? (
           <AdRoll onComplete={onAdComplete} />
         ) : (
           <div className="hero">
-            <h1>Color Identifier</h1>
-            <p className="hint">Think of this as a digital eye for your images—click any pixel to capture its hidden shade.</p>
+            <h1>{t('h1')}</h1>
+            <p className="hint">{t('hint')}</p>
             <input 
               type="file" 
               id="file-upload" 
@@ -67,7 +90,7 @@ function App() {
               accept="image/*" 
             />
             <label htmlFor="file-upload" className="upload-label">
-              Select Image
+              {t('upload_label')}
             </label>
             {image && (
               <div 
@@ -95,14 +118,14 @@ function App() {
             
             {selectedColors.length > 0 && (
               <div style={{ marginTop: '2rem' }}>
-                <h2>Selected Colors:</h2>
+                <h2>{t('selected_colors_title')}</h2>
                 <ColorGrid colors={selectedColors} />
               </div>
             )}
 
             {detectedColors.length > 0 && (
               <div style={{ marginTop: '2rem' }}>
-                <h2>Detected Colors:</h2>
+                <h2>{t('detected_colors_title')}</h2>
                 <ColorGrid colors={detectedColors} />
               </div>
             )}

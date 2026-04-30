@@ -358,7 +358,29 @@ body {
   transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
 }
 .toast.show { transform:translateX(-50%) translateY(0); }
+
+.lang-switcher-wrap {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.lang-btn {
+  background: white;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.6rem;
+  color: var(--ghost);
+  cursor: pointer;
+  font-family: 'DM Mono', monospace;
+}
+.lang-btn.active {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
 </style>
+<script src="i18n.js"></script>
 </head>
 <body>
 
@@ -366,28 +388,29 @@ body {
 
 <!-- ═══ INTRO SCREEN ═══════════════════════════════════════════ -->
 <div id="introScreen">
+  <div class="lang-switcher-wrap" id="introLangSwitcher"></div>
   <div>
     <div class="brand">Daily Word<em>Nexus</em></div>
-    <div class="brand-sub">A lateral thinking word puzzle</div>
+    <div class="brand-sub" data-i18n="brand_sub">A lateral thinking word puzzle</div>
   </div>
 
   <div class="daily-card">
     <div>
-      <div class="daily-meta">Today's Puzzle</div>
+      <div class="daily-meta" data-i18n="card_today">Today's Puzzle</div>
       <div class="daily-num">#<em id="introNum">—</em></div>
       <div class="daily-date" id="introDate">—</div>
     </div>
 
     <div class="daily-streak">
-      <span>Streak: <strong id="introStreak">0</strong></span>
+      <span><span data-i18n="label_streak">Streak:</span> <strong id="introStreak">0</strong></span>
       <span>·</span>
-      <span>Played: <strong id="introPlayed">0</strong></span>
+      <span><span data-i18n="label_played">Played:</span> <strong id="introPlayed">0</strong></span>
       <span>·</span>
-      <span>Win %: <strong id="introWinPct">—</strong></span>
+      <span><span data-i18n="label_win_pct">Win %:</span> <strong id="introWinPct">—</strong></span>
     </div>
 
-    <button class="intro-btn" id="playBtn" onclick="startGame()">Play today's puzzle →</button>
-    <button class="intro-btn secondary" onclick="openStats()">View stats</button>
+    <button class="intro-btn" id="playBtn" onclick="startGame()" data-i18n="btn_play_today">Play today's puzzle →</button>
+    <button class="intro-btn secondary" onclick="openStats()" data-i18n="btn_view_stats">View stats</button>
   </div>
 
   <!-- PRE-GAME AD SLOT -->
@@ -399,9 +422,9 @@ body {
   </div>
 
   <div class="intro-footer">
-    <a href="/privacy.html">Privacy</a>
+    <a href="/privacy.html" data-i18n="link_privacy">Privacy</a>
     <span>·</span>
-    <a href="#" onclick="openHowTo();return false;">How to play</a>
+    <a href="#" onclick="openHowTo();return false;" data-i18n="link_how_to">How to play</a>
   </div>
 </div>
 
@@ -410,13 +433,14 @@ body {
   <div class="topbar">
     <div class="game-brand">Word<em>Nexus</em></div>
     <div class="topbar-right">
+      <div class="lang-switcher-wrap" id="gameLangSwitcher" style="margin-bottom:0; margin-right:0.5rem"></div>
       <span class="puzzle-counter" id="pCounter">#—</span>
       <span class="timer-badge" id="timerEl">0:00</span>
       <button class="icon-btn" title="Stats" onclick="openStats()">▣</button>
     </div>
   </div>
   <div class="progress-row" id="pips"></div>
-  <div class="instructions">
+  <div class="instructions" data-i18n="instructions">
     The four <strong>dark corners</strong> are your anchors. For each blank tile, type the word that semantically bridges its two opposite corners, then press <strong>Enter</strong>. Unlock the center last.
   </div>
   <div class="board-wrap">
@@ -424,14 +448,14 @@ body {
   </div>
   <div class="status-strip">
     <div class="mistakes-badge">
-      Mistakes
+      <span data-i18n="label_mistakes">Mistakes</span>
       <span class="mdot" id="md0"></span>
       <span class="mdot" id="md1"></span>
       <span class="mdot" id="md2"></span>
       <span class="mdot" id="md3"></span>
       <span class="mdot" id="md4"></span>
     </div>
-    <div class="solved-count">Tiles: <strong id="tileCount">0</strong> / 5</div>
+    <div class="solved-count"><span data-i18n="label_tiles">Tiles:</span> <strong id="tileCount">0</strong> / 5</div>
   </div>
 </div>
 
@@ -439,14 +463,14 @@ body {
 <div class="overlay" id="winOverlay">
   <div class="modal-card">
     <button class="modal-close" onclick="closeWin()">×</button>
-    <div class="win-title" id="winTitle">Solved!</div>
-    <div class="win-lede">The center was</div>
+    <div class="win-title" id="winTitle" data-i18n="win_title">Solved!</div>
+    <div class="win-lede" data-i18n="win_lede">The center was</div>
     <span class="win-word" id="winWord">—</span>
     <div class="win-mini-grid" id="winMiniGrid"></div>
     <div class="win-stats">
-      <div class="wstat"><span class="wstat-v" id="wTime">0:00</span><span class="wstat-l">Time</span></div>
-      <div class="wstat"><span class="wstat-v" id="wMist">0</span><span class="wstat-l">Mistakes</span></div>
-      <div class="wstat"><span class="wstat-v" id="wStreak">0</span><span class="wstat-l">Streak</span></div>
+      <div class="wstat"><span class="wstat-v" id="wTime">0:00</span><span class="wstat-l" data-i18n="label_time">Time</span></div>
+      <div class="wstat"><span class="wstat-v" id="wMist">0</span><span class="wstat-l" data-i18n="label_mistakes_count">Mistakes</span></div>
+      <div class="wstat"><span class="wstat-v" id="wStreak">0</span><span class="wstat-l" data-i18n="label_streak_win">Streak</span></div>
     </div>
 
     <!-- POST-GAME AD SLOT -->
@@ -458,10 +482,10 @@ body {
     </div>
 
     <div class="win-btns">
-      <button class="wbtn" onclick="openStats()">Stats</button>
-      <button class="wbtn primary" onclick="shareResult()">Share result</button>
+      <button class="wbtn" onclick="openStats()" data-i18n="btn_view_stats">Stats</button>
+      <button class="wbtn primary" onclick="shareResult()" data-i18n="btn_share">Share result</button>
     </div>
-    <div class="next-puzzle">Next puzzle in <strong id="nextIn">—</strong></div>
+    <div class="next-puzzle"><span data-i18n="label_next_puzzle">Next puzzle in</span> <strong id="nextIn">—</strong></div>
   </div>
 </div>
 
@@ -469,16 +493,16 @@ body {
 <div class="overlay" id="statsOverlay">
   <div class="modal-card">
     <button class="modal-close" onclick="closeStats()">×</button>
-    <div class="win-title" style="font-size:1.6rem">Your Stats</div>
+    <div class="win-title" style="font-size:1.6rem" data-i18n="label_stats_title">Your Stats</div>
     <div class="stats-grid">
-      <div class="sstat"><span class="sstat-v" id="sPlayed">0</span><span class="sstat-l">Played</span></div>
-      <div class="sstat"><span class="sstat-v" id="sWinPct">0</span><span class="sstat-l">Win %</span></div>
-      <div class="sstat"><span class="sstat-v" id="sStreak">0</span><span class="sstat-l">Streak</span></div>
-      <div class="sstat"><span class="sstat-v" id="sMaxStreak">0</span><span class="sstat-l">Max</span></div>
+      <div class="sstat"><span class="sstat-v" id="sPlayed">0</span><span class="sstat-l" data-i18n="label_played">Played</span></div>
+      <div class="sstat"><span class="sstat-v" id="sWinPct">0</span><span class="sstat-l" data-i18n="label_win_pct">Win %</span></div>
+      <div class="sstat"><span class="sstat-v" id="sStreak">0</span><span class="sstat-l" data-i18n="label_streak_win">Streak</span></div>
+      <div class="sstat"><span class="sstat-v" id="sMaxStreak">0</span><span class="sstat-l" data-i18n="label_max_streak">Max</span></div>
     </div>
-    <div style="font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ghost);margin-bottom:0.4rem;text-align:left">Mistake distribution</div>
+    <div style="font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ghost);margin-bottom:0.4rem;text-align:left" data-i18n="label_mistake_dist">Mistake distribution</div>
     <div id="distRows"></div>
-    <div class="next-puzzle" style="margin-top:1rem">Next puzzle in <strong id="nextIn2">—</strong></div>
+    <div class="next-puzzle" style="margin-top:1rem"><span data-i18n="label_next_puzzle">Next puzzle in</span> <strong id="nextIn2">—</strong></div>
   </div>
 </div>
 
@@ -486,12 +510,12 @@ body {
 <div class="overlay" id="howToOverlay">
   <div class="modal-card" style="text-align:left">
     <button class="modal-close" onclick="closeHowTo()">×</button>
-    <div class="win-title" style="font-size:1.6rem;text-align:center;margin-bottom:1rem">How to Play</div>
-    <p style="font-size:0.82rem;line-height:1.7;margin-bottom:0.75rem">Each puzzle is a 3×3 grid where every row, column, and diagonal points to the same <strong>center word</strong>.</p>
-    <p style="font-size:0.82rem;line-height:1.7;margin-bottom:0.75rem">The four <strong>dark corners</strong> are given. Fill in the four blank edge tiles by finding the word that semantically bridges the two corners on its axis.</p>
-    <p style="font-size:0.82rem;line-height:1.7;margin-bottom:0.75rem">Once all four edges are solved, the <strong>center unlocks</strong> — guess the word every axis converges on.</p>
-    <p style="font-size:0.82rem;line-height:1.7;margin-bottom:1rem">You have <strong>5 mistakes</strong> per puzzle. New puzzle every day at midnight your time.</p>
-    <button class="intro-btn" onclick="closeHowTo()">Got it</button>
+    <div class="win-title" style="font-size:1.6rem;text-align:center;margin-bottom:1rem" data-i18n="how_to_title">How to Play</div>
+    <p style="font-size:0.82rem;line-height:1.7;margin-bottom:0.75rem" data-i18n="how_to_p1">Each puzzle is a 3×3 grid where every row, column, and diagonal points to the same <strong>center word</strong>.</p>
+    <p style="font-size:0.82rem;line-height:1.7;margin-bottom:0.75rem" data-i18n="how_to_p2">The four <strong>dark corners</strong> are given. Fill in the four blank edge tiles by finding the word that semantically bridges the two corners on its axis.</p>
+    <p style="font-size:0.82rem;line-height:1.7;margin-bottom:0.75rem" data-i18n="how_to_p3">Once all four edges are solved, the <strong>center unlocks</strong> — guess the word every axis converges on.</p>
+    <p style="font-size:0.82rem;line-height:1.7;margin-bottom:1rem" data-i18n="how_to_p4">You have <strong>5 mistakes</strong> per puzzle. New puzzle every day at midnight your time.</p>
+    <button class="intro-btn" onclick="closeHowTo()" data-i18n="btn_got_it">Got it</button>
   </div>
 </div>
 
@@ -572,10 +596,38 @@ async function init() {
   injectAdSenseScript();
   await loadBoards();
   setupTodaysPuzzle();
+  
+  await i18n.init();
+  renderLanguageSwitchers();
+  
   renderIntro();
   renderAdSlots();
   startNextPuzzleCountdown();
 }
+
+function renderLanguageSwitchers() {
+  const languages = ['en', 'es', 'fr', 'de', 'zh', 'ja'];
+  const cur = i18n.getLanguage();
+  const html = languages.map(l => `
+    <button class="lang-btn ${l === cur ? 'active' : ''}" onclick="changeLang('${l}')">
+      ${l.toUpperCase()}
+    </button>
+  `).join('');
+  
+  const introDiv = document.getElementById('introLangSwitcher');
+  const gameDiv = document.getElementById('gameLangSwitcher');
+  if (introDiv) introDiv.innerHTML = html;
+  if (gameDiv) gameDiv.innerHTML = html;
+}
+
+window.changeLang = async (l) => {
+  await i18n.setLanguage(l);
+  renderLanguageSwitchers();
+  renderIntro();
+  if (document.getElementById('gameScreen').style.display === 'flex') {
+    renderBoard();
+  }
+};
 
 async function loadBoards() {
   try {
@@ -654,11 +706,14 @@ function renderIntro() {
 
   const btn = document.getElementById('playBtn');
   if (state && state.completed) {
-    btn.textContent = 'View today’s result →';
+    btn.textContent = i18n.t('btn_view_result');
     btn.classList.add('played');
     btn.onclick = () => { startGame(); setTimeout(showWinFromState, 200); };
   } else if (state) {
-    btn.textContent = 'Resume today’s puzzle →';
+    btn.textContent = i18n.t('btn_resume_today');
+    btn.onclick = startGame;
+  } else {
+    btn.textContent = i18n.t('btn_play_today');
     btn.onclick = startGame;
   }
 }
@@ -719,7 +774,7 @@ function renderBoard() {
         <div class="inp-wrap" style="display:none">
           <input class="cell-inp" type="text" autocomplete="off" autocorrect="off"
                  spellcheck="false" placeholder="…" data-pos="4" inputmode="text">
-          <div class="cell-sublabel">center</div>
+          <div class="cell-sublabel">${i18n.t('center_label')}</div>
         </div>`;
       el.addEventListener('click', () => {
         if (el.classList.contains('unlocked') && !el.classList.contains('solved')) focusPos(4);
@@ -832,6 +887,7 @@ function checkAnswer(pos, guess, inp) {
     cell.classList.add('wrong');
     setTimeout(() => cell.classList.remove('wrong'), 500);
     setTimeout(() => { inp.value = ''; inp.focus(); }, 440);
+    showToast(i18n.t('toast_wrong'));
     if (mistakes >= 5) setTimeout(handleLoss, 600);
   }
 }
@@ -843,7 +899,7 @@ function unlockCenter(showHint) {
   cell.classList.add('unlocked');
   if (lock) lock.style.display = 'none';
   if (inpWrap) inpWrap.style.display = 'flex';
-  if (showHint) showToast('All edges found — now reveal the center!');
+  if (showHint) showToast(i18n.t('toast_unlocked') || 'All edges found — now reveal the center!');
   setTimeout(() => focusPos(4), 200);
 }
 
@@ -896,7 +952,7 @@ function showWinFromState() {
   const state = loadTodayState() || {};
   const stats = loadStats();
   const { grid } = curBoard;
-  document.getElementById('winTitle').textContent = state.won ? 'Solved!' : 'Out of guesses';
+  document.getElementById('winTitle').textContent = state.won ? i18n.t('win_title') : i18n.t('toast_bust');
   document.getElementById('winWord').textContent = grid[4];
   document.getElementById('winWord').style.color = state.won ? 'var(--green)' : 'var(--red)';
   document.getElementById('wTime').textContent = formatTime(state.elapsedSec || 0);
@@ -971,7 +1027,7 @@ function shareResult() {
 }
 function copyShare(text) {
   navigator.clipboard.writeText(text).then(
-    () => showToast('Result copied to clipboard'),
+    () => showToast(i18n.t('toast_copied')),
     () => showToast('Copy failed — long-press to copy')
   );
 }

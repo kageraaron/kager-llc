@@ -8,48 +8,59 @@
 </head>
 <body>
     <div class="container">
-        <h1>Password Generator</h1>
-        <p class="subtitle">Generate strong, secure passwords locally in your browser</p>
+        <header>
+            <div class="language-switcher">
+                <button class="lang-btn" onclick="i18n.setLanguage('en')" data-lang="en">EN</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('es')" data-lang="es">ES</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('fr')" data-lang="fr">FR</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('de')" data-lang="de">DE</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('zh')" data-lang="zh">ZH</button>
+                <button class="lang-btn" onclick="i18n.setLanguage('ja')" data-lang="ja">JA</button>
+            </div>
+            <h1 data-i18n="h1">Password Generator</h1>
+            <p class="subtitle" data-i18n="subtitle">Generate strong, secure passwords locally in your browser</p>
+        </header>
 
         <div class="result-section">
-            <input type="text" id="passwordResult" readonly placeholder="Click Generate">
-            <button id="copyBtn" class="copy-button">Copy</button>
+            <input type="text" id="passwordResult" readonly placeholder="Click Generate" data-i18n="placeholder">
+            <button id="copyBtn" class="copy-button" data-i18n="copy_btn">Copy</button>
         </div>
 
         <div class="options-section">
             <div class="length-group">
-                <label for="pwdLength">Password Length: <span id="lengthVal">16</span></label>
+                <label for="pwdLength"><span data-i18n="length_label">Password Length: </span><span id="lengthVal">16</span></label>
                 <input type="range" id="pwdLength" min="8" max="128" value="16">
             </div>
 
             <div class="checkbox-group">
                 <label>
                     <input type="checkbox" id="includeUpper" checked>
-                    Include Uppercase Letters
+                    <span data-i18n="uppercase_label">Include Uppercase Letters</span>
                 </label>
                 <label>
                     <input type="checkbox" id="includeLower" checked>
-                    Include Lowercase Letters
+                    <span data-i18n="lowercase_label">Include Lowercase Letters</span>
                 </label>
                 <label>
                     <input type="checkbox" id="includeNumbers" checked>
-                    Include Numbers
+                    <span data-i18n="numbers_label">Include Numbers</span>
                 </label>
                 <label>
                     <input type="checkbox" id="includeSymbols" checked>
-                    Include Symbols
+                    <span data-i18n="symbols_label">Include Symbols</span>
                 </label>
             </div>
         </div>
 
         <div class="controls">
-            <button id="generateBtn" class="primary-btn">Generate Password</button>
+            <button id="generateBtn" class="primary-btn" data-i18n="generate_btn">Generate Password</button>
         </div>
 
         <div class="ad-banner">
-            <p>Ad Space</p>
+            <p data-i18n="ad_space">Ad Space</p>
         </div>
     </div>
+    <script src="i18n.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

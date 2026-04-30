@@ -1,0 +1,74 @@
+{
+    "en": {
+        "title": "AI Watermark Remover - Clean Your Images Instantly",
+        "h1": "Watermark Remover",
+        "subtitle": "Effortlessly clean your images right in your browser",
+        "upload_hint": "Click to upload or drag & drop",
+        "file_type_hint": "Supports JPG, PNG, WEBP",
+        "instruction": "Draw a box around the watermark to remove it",
+        "remove_btn": "Remove Watermark",
+        "reset_btn": "Reset",
+        "download_btn": "Download",
+        "ad_space": "Ad Space - Supports free tools"
+    },
+    "es": {
+        "title": "Eliminador de Marcas de Agua AI - Limpia tus imágenes al instante",
+        "h1": "Eliminador de Marcas de Agua",
+        "subtitle": "Limpia tus imágenes sin esfuerzo directamente en tu navegador",
+        "upload_hint": "Haz clic para subir o arrastra y suelta",
+        "file_type_hint": "Soporta JPG, PNG, WEBP",
+        "instruction": "Dibuja un recuadro alrededor de la marca de agua para eliminarla",
+        "remove_btn": "Eliminar Marca de Agua",
+        "reset_btn": "Reiniciar",
+        "download_btn": "Descargar",
+        "ad_space": "Espacio Publicitario - Apoya herramientas gratuitas"
+    },
+    "fr": {
+        "title": "Suppresseur de filigrane AI - Nettoyez vos images instantanément",
+        "h1": "Suppresseur de filigrane",
+        "subtitle": "Nettoyez vos images sans effort directement dans votre navigateur",
+        "upload_hint": "Cliquez pour télécharger ou glisser-déposer",
+        "file_type_hint": "Prend en charge JPG, PNG, WEBP",
+        "instruction": "Dessinez un cadre autour du filigrane pour le supprimer",
+        "remove_btn": "Supprimer le filigrane",
+        "reset_btn": "Réinitialiser",
+        "download_btn": "Télécharger",
+        "ad_space": "Espace Publicitaire - Soutient les outils gratuits"
+    },
+    "de": {
+        "title": "KI-Wasserzeichen-Entferner - Bilder sofort bereinigen",
+        "h1": "Wasserzeichen-Entferner",
+        "subtitle": "Bereinigen Sie Ihre Bilder mühelos direkt in Ihrem Browser",
+        "upload_hint": "Klicken Sie zum Hochladen oder Drag & Drop",
+        "file_type_hint": "Unterstützt JPG, PNG, WEBP",
+        "instruction": "Zeichnen Sie einen Kasten um das Wasserzeichen, um es zu entfernen",
+        "remove_btn": "Wasserzeichen entfernen",
+        "reset_btn": "Zurücksetzen",
+        "download_btn": "Herunterladen",
+        "ad_space": "Werbefläche - Unterstützt kostenlose Tools"
+    },
+    "zh": {
+        "title": "AI 水印去除器 - 立即清理您的图像",
+        "h1": "水印去除器",
+        "subtitle": "在浏览器中轻松清理图像",
+        "upload_hint": "点击上传或拖放",
+        "file_type_hint": "支持 JPG、PNG、WEBP",
+        "instruction": "在水印周围画一个框将其移除",
+        "remove_btn": "移除水印",
+        "reset_btn": "重置",
+        "download_btn": "下载",
+        "ad_space": "广告位 - 支持免费工具"
+    },
+    "ja": {
+        "title": "AI透かし除去 - 画像を即座にクリーンアップ",
+        "h1": "透かし除去",
+        "subtitle": "ブラウザで簡単に画像をクリーンアップできます",
+        "upload_hint": "クリックしてアップロード、またはドラッグ＆ドロップ",
+        "file_type_hint": "JPG、PNG、WEBPをサポート",
+        "instruction": "透かしの周りにボックスを描いて削除します",
+        "remove_btn": "透かしを削除",
+        "reset_btn": "リセット",
+        "download_btn": "ダウンロード",
+        "ad_space": "広告スペース - 無料ツールをサポートしています"
+    }
+}

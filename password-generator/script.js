@@ -34,7 +34,7 @@ function generatePassword() {
     if (includeSymbols.checked) charPool += SYMBOL_CHARS;
 
     if (charPool === '') {
-        alert('Please select at least one character type.');
+        alert(i18n.t('alert_select_type'));
         return;
     }
 
@@ -64,7 +64,7 @@ copyBtn.addEventListener('click', () => {
     
     navigator.clipboard.writeText(passwordResult.value).then(() => {
         const originalText = copyBtn.textContent;
-        copyBtn.textContent = 'Copied!';
+        copyBtn.textContent = i18n.t('copied');
         copyBtn.style.backgroundColor = '#27ae60';
         
         setTimeout(() => {

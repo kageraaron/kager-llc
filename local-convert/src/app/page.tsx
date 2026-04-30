@@ -1,7 +1,10 @@
+'use client';
+
 import Link from 'next/link';
 import Converter from '@/components/Converter/Converter';
 import AdSlot from '@/components/Ads/AdSlot';
 import { CONVERSION_CATEGORIES } from '@/lib/formats';
+import { useI18n } from '@/lib/i18n';
 
 const FEATURE_ICONS: Record<string, React.ReactElement> = {
   shield: (
@@ -22,20 +25,26 @@ const FEATURE_ICONS: Record<string, React.ReactElement> = {
 };
 
 export default function Home() {
+  const { t } = useI18n();
+
   return (
     <main className="main container">
       {/* Hero with inline converter — drop a file and go */}
       <section className="hero">
         <div className="hero__eyebrow">
           <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'currentColor' }} />
-          100% local • No uploads • No sign-in
+          {t('hero_eyebrow')}
         </div>
         <h1 className="hero__title">
-          Convert files <span style={{ color: 'var(--primary)' }}>without leaving</span> your browser.
+          {t('hero_title').split('without leaving').map((part, i) => (
+            <span key={i}>
+              {part}
+              {i === 0 && <span style={{ color: 'var(--primary)' }}>without leaving</span>}
+            </span>
+          ))}
         </h1>
         <p className="hero__subtitle">
-          Drop your images, videos, audio or PDFs below. Everything is processed on your device with WebAssembly —
-          fast, private, and free.
+          {t('hero_subtitle')}
         </p>
       </section>
 
@@ -48,9 +57,9 @@ export default function Home() {
       {/* Conversion catalog */}
       <section id="tools" style={{ marginTop: '5rem' }}>
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <h2 style={{ marginBottom: '0.5rem' }}>Every conversion you need</h2>
+          <h2 style={{ marginBottom: '0.5rem' }}>{t('tools_title')}</h2>
           <p style={{ color: 'var(--text-muted)' }}>
-            Each link below is its own file conversion type — bookmark or embed the formats you use most.
+            {t('tools_subtitle')}
           </p>
         </div>
 
@@ -93,38 +102,42 @@ export default function Home() {
         }}
       >
         <div style={{ textAlign: 'center', maxWidth: 640, margin: '0 auto' }}>
-          <h2>Why convert locally?</h2>
+          <h2>{t('why_title')}</h2>
           <p style={{ color: 'var(--text-muted)', marginTop: '0.5rem' }}>
-            Most "online" converters quietly upload your files to a server. We don't.
+            {t('why_subtitle')}
           </p>
         </div>
 
         <div className="feature-grid">
           <div className="feature">
             <div className="feature__icon">{FEATURE_ICONS.shield}</div>
-            <h3>Privacy by design</h3>
+            <h3>{t('feature_privacy_title')}</h3>
             <p>
-              Conversion runs in a sandboxed WebAssembly engine inside your browser tab. Your files never travel
-              over the network — there's literally no server to leak them.
+              {t('feature_privacy_desc')}
             </p>
           </div>
           <div className="feature">
             <div className="feature__icon">{FEATURE_ICONS.zap}</div>
-            <h3>Instant results</h3>
+            <h3>{t('feature_speed_title')}</h3>
             <p>
-              No upload bar, no download bar, no queue. Conversions start the moment you drop a file and finish as
-              fast as your machine can crunch them.
+              {t('feature_speed_desc')}
             </p>
           </div>
           <div className="feature">
             <div className="feature__icon">{FEATURE_ICONS.infinity}</div>
-            <h3>No artificial limits</h3>
+            <h3>{t('feature_limit_title')}</h3>
             <p>
-              You're using your own CPU and memory, so there's no need for size caps or daily quotas. Convert a
-              1&nbsp;GB video the same way you'd convert a tiny icon.
+              {t('feature_limit_desc')}
             </p>
           </div>
         </div>
+      </section>
+      {/* Pricing teaser */}
+      <section id="pricing" style={{ marginTop: '5rem', textAlign: 'center' }}>
+        <h2>{t('pricing_title')}</h2>
+        <p style={{ color: 'var(--text-muted)', maxWidth: 540, margin: '0.75rem auto 0' }}>
+          {t('pricing_desc')}
+        </p>
       </section>
     </main>
   );
