@@ -19,12 +19,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const { from, to } = parsed;
   const title = `Free ${from} to ${to} Converter — 100% Private & Local`;
-  const description = `Convert ${from} to ${to} instantly in your browser. No uploads, no file size limits, total privacy. Free, secure, and runs entirely on your device.`;
+  const description = `Convert ${from} to ${to} instantly in your browser. No uploads, no file size limits, total privacy. Free, secure, and runs entirely on your device with WASM.`;
 
   return {
     title,
     description,
-    openGraph: { title, description, type: 'website' },
+    alternates: {
+      canonical: `/convert/${slug}`,
+    },
+    openGraph: { 
+      title, 
+      description, 
+      type: 'website',
+      url: `https://local-convert.com/convert/${slug}`,
+    },
     twitter: { card: 'summary_large_image', title, description },
   };
 }
@@ -120,10 +128,37 @@ export default async function ConvertPage({ params }: PageProps) {
     ],
   };
 
+  // Breadcrumb Schema
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://local-convert.com',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Tools',
+        item: 'https://local-convert.com/tools',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: `${from} to ${to}`,
+        item: `https://local-convert.com/convert/${slug}`,
+      },
+    ],
+  };
+
   return (
     <main className="main container">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
 
       {/* Breadcrumb-style header */}
       <div
