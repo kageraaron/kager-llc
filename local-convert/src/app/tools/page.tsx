@@ -1,21 +1,25 @@
+'use client';
+
 import Link from 'next/link';
 import { CONVERSION_CATEGORIES } from '@/lib/formats';
-import { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'All Conversion Tools | Local-Convert',
-  description: 'Browse our full catalog of 100% private, local file conversion tools.',
-};
+import { useI18n } from '@/lib/i18n';
 
 export default function ToolsPage() {
+  const { t } = useI18n();
+
   return (
     <main className="main container">
       <section className="hero">
         <h1 className="hero__title">
-          All <span style={{ color: 'var(--primary)' }}>conversion</span> tools
+          {t('tools_hero_title').split('conversion').map((part, i) => (
+            <span key={i}>
+              {part}
+              {i === 0 && <span style={{ color: 'var(--primary)' }}>conversion</span>}
+            </span>
+          ))}
         </h1>
         <p className="hero__subtitle">
-          Secure, browser-based conversion for all your files. No uploads, no waiting.
+          {t('tools_hero_subtitle')}
         </p>
       </section>
 
