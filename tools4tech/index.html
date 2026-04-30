@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools4Tech — Developer Toolbox</title>
+    <meta name="description" content="Free, client-side developer tools: Markdown Editor, Regex Tester, Unix Timestamp Converter, URL Parser, and Cron Schedule Explainer. Private &amp; fast.">
+    <meta property="og:title" content="Tools4Tech — Developer Toolbox">
+    <meta property="og:description" content="Five essential developer tools, all running in your browser.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Mobile menu button -->
+<button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
+
+<div class="app-layout">
+
+    <!-- ===== Sidebar ===== -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <h1>Tools4Tech</h1>
+            <p>Developer Toolbox</p>
+        </div>
+        <nav class="sidebar-nav" id="sidebarNav">
+            <a class="nav-item active" href="#markdown" data-tool="markdown">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                Markdown Editor
+            </a>
+            <a class="nav-item" href="#regex" data-tool="regex">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                Regex Tester
+            </a>
+            <a class="nav-item" href="#timestamp" data-tool="timestamp">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                Unix Timestamp
+            </a>
+            <a class="nav-item" href="#urlparser" data-tool="urlparser">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                URL Parser
+            </a>
+            <a class="nav-item" href="#cron" data-tool="cron">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                Cron Schedule
+            </a>
+        </nav>
+        <div class="sidebar-footer">100% Client-Side · No Data Leaves Your Browser</div>
+    </aside>
+
+    <!-- ===== Main Content ===== -->
+    <main class="main-content">
+
+        <!-- ===== MARKDOWN EDITOR ===== -->
+        <section class="tool-section active" id="tool-markdown">
+            <div class="tool-header">
+                <h2>Markdown Editor</h2>
+                <p>Write Markdown on the left, see the live preview on the right.</p>
+            </div>
+            <div class="md-workspace">
+                <div class="md-pane">
+                    <div class="md-pane-header">
+                        <span>Input</span>
+                        <div class="md-toolbar">
+                            <button class="btn-icon" data-md="bold" title="Bold"><b>B</b></button>
+                            <button class="btn-icon" data-md="italic" title="Italic"><i>I</i></button>
+                            <button class="btn-icon" data-md="code" title="Inline Code">&lt;/&gt;</button>
+                            <button class="btn-icon" data-md="link" title="Link">🔗</button>
+                            <button class="btn-icon" data-md="heading" title="Heading">H</button>
+                        </div>
+                    </div>
+                    <textarea id="markdownInput" spellcheck="false" placeholder="# Hello World&#10;&#10;Write your markdown here..."></textarea>
+                </div>
+                <div class="md-pane">
+                    <div class="md-pane-header">
+                        <span>Preview</span>
+                        <div class="flex-row">
+                            <button class="btn btn-sm btn-secondary" id="mdCopyHtml">Copy HTML</button>
+                            <button class="btn btn-sm btn-danger" id="mdClear">Clear</button>
+                        </div>
+                    </div>
+                    <div class="md-preview" id="markdownPreview"></div>
+                </div>
+            </div>
+            <div class="ad-banner"><p>Ad Space</p></div>
+        </section>
+
+        <!-- ===== REGEX TESTER ===== -->
+        <section class="tool-section" id="tool-regex">
+            <div class="tool-header">
+                <h2>Regex Tester</h2>
+                <p>Test regular expressions in real-time with match highlighting.</p>
+            </div>
+            <div class="glass-card">
+                <label>Regular Expression</label>
+                <div class="regex-input-row">
+                    <span class="regex-slash">/</span>
+                    <input type="text" id="regexPattern" placeholder="[a-zA-Z0-9]+">
+                    <span class="regex-slash">/</span>
+                    <input type="text" id="regexFlags" placeholder="g" value="g">
+                </div>
+                <div id="regexError" class="error-msg hidden">Invalid Regular Expression</div>
+            </div>
+            <div class="glass-card">
+                <div class="flex-between" style="margin-bottom: 10px;">
+                    <label style="margin-bottom:0">Test String</label>
+                    <span class="badge badge-accent" id="regexMatchCount">0 matches</span>
+                </div>
+                <div class="regex-editor-container">
+                    <div id="regexHighlightLayer"></div>
+                    <textarea id="regexTestString" spellcheck="false" placeholder="Type your test string here..."></textarea>
+                </div>
+            </div>
+            <div class="glass-card">
+                <label>Match Details</label>
+                <div class="match-details-list" id="regexMatchDetails">
+                    <div class="match-item"><span class="match-index" style="color:var(--text-muted)">No matches yet</span></div>
+                </div>
+            </div>
+            <div class="ad-banner"><p>Ad Space</p></div>
+        </section>
+
+        <!-- ===== UNIX TIMESTAMP ===== -->
+        <section class="tool-section" id="tool-timestamp">
+            <div class="tool-header">
+                <h2>Unix Timestamp Converter</h2>
+                <p>Instantly convert Unix timestamps to human-readable dates and vice versa.</p>
+            </div>
+            <div class="glass-card epoch-live-display">
+                <label>Current Unix Timestamp</label>
+                <div class="epoch-number" id="tsLiveEpoch">—</div>
+                <div class="epoch-date" id="tsLiveDate"></div>
+            </div>
+            <div class="glass-card">
+                <label>Epoch → Date</label>
+                <div class="flex-row" style="margin-bottom: 14px;">
+                    <input type="number" id="tsEpochInput" placeholder="e.g. 1714521600" style="flex:1">
+                    <button class="btn btn-primary" id="tsConvertEpochBtn">Convert</button>
+                </div>
+                <div id="tsEpochError" class="error-msg hidden">Invalid timestamp</div>
+                <div class="conversion-grid">
+                    <div class="result-row">
+                        <label>Local Time</label>
+                        <div class="result-value"><input type="text" id="tsLocalResult" readonly><button class="btn-icon" data-copy="tsLocalResult" title="Copy">📋</button></div>
+                    </div>
+                    <div class="result-row">
+                        <label>UTC Time</label>
+                        <div class="result-value"><input type="text" id="tsUtcResult" readonly><button class="btn-icon" data-copy="tsUtcResult" title="Copy">📋</button></div>
+                    </div>
+                    <div class="result-row">
+                        <label>ISO 8601</label>
+                        <div class="result-value"><input type="text" id="tsIsoResult" readonly><button class="btn-icon" data-copy="tsIsoResult" title="Copy">📋</button></div>
+                    </div>
+                    <div class="result-row">
+                        <label>Relative</label>
+                        <div class="result-value"><input type="text" id="tsRelativeResult" readonly></div>
+                    </div>
+                </div>
+            </div>
+            <hr class="section-divider">
+            <div class="glass-card">
+                <label>Date → Epoch</label>
+                <div class="flex-row" style="margin-bottom: 14px;">
+                    <input type="datetime-local" id="tsDateInput" style="flex:1">
+                    <button class="btn btn-primary" id="tsConvertDateBtn">Convert</button>
+                </div>
+                <div class="conversion-grid">
+                    <div class="result-row">
+                        <label>Unix Timestamp (Seconds)</label>
+                        <div class="result-value"><input type="text" id="tsEpochResult" readonly><button class="btn-icon" data-copy="tsEpochResult" title="Copy">📋</button></div>
+                    </div>
+                    <div class="result-row">
+                        <label>Milliseconds</label>
+                        <div class="result-value"><input type="text" id="tsMsResult" readonly><button class="btn-icon" data-copy="tsMsResult" title="Copy">📋</button></div>
+                    </div>
+                </div>
+            </div>
+            <div class="ad-banner"><p>Ad Space</p></div>
+        </section>
+
+        <!-- ===== URL PARSER ===== -->
+        <section class="tool-section" id="tool-urlparser">
+            <div class="tool-header">
+                <h2>URL Parser</h2>
+                <p>Deconstruct URLs and edit query parameters instantly.</p>
+            </div>
+            <div class="glass-card">
+                <label for="urlInput">Full URL</label>
+                <textarea id="urlInput" placeholder="https://example.com:8080/path/to/page?query=1&foo=bar#section"></textarea>
+                <div id="urlError" class="error-msg hidden">Invalid URL format</div>
+            </div>
+            <div id="urlParsedResults" class="hidden">
+                <div class="glass-card">
+                    <label>Components</label>
+                    <div class="url-components-grid">
+                        <div class="url-component-card"><label>Protocol</label><input type="text" id="urlCompProtocol" readonly></div>
+                        <div class="url-component-card"><label>Hostname</label><input type="text" id="urlCompHostname" readonly></div>
+                        <div class="url-component-card"><label>Port</label><input type="text" id="urlCompPort" readonly></div>
+                        <div class="url-component-card"><label>Pathname</label><input type="text" id="urlCompPathname" readonly></div>
+                        <div class="url-component-card"><label>Hash</label><input type="text" id="urlCompHash" readonly></div>
+                        <div class="url-component-card"><label>Origin</label><input type="text" id="urlCompOrigin" readonly></div>
+                    </div>
+                </div>
+                <div class="glass-card">
+                    <div class="flex-between" style="margin-bottom:10px;">
+                        <label style="margin-bottom:0">Query Parameters</label>
+                        <span class="badge badge-accent" id="urlParamCount">0 params</span>
+                    </div>
+                    <table class="query-params-table" id="urlQueryTable">
+                        <thead><tr><th>Key</th><th>Value</th></tr></thead>
+                        <tbody id="urlQueryBody"></tbody>
+                    </table>
+                    <div id="urlNoParams" class="hidden" style="color:var(--text-muted);font-size:0.85rem;padding:12px 0;">No query parameters found.</div>
+                </div>
+            </div>
+            <div class="ad-banner"><p>Ad Space</p></div>
+        </section>
+
+        <!-- ===== CRON SCHEDULE ===== -->
+        <section class="tool-section" id="tool-cron">
+            <div class="tool-header">
+                <h2>Cron Schedule</h2>
+                <p>Build cron expressions, see human-readable descriptions, and preview next run times.</p>
+            </div>
+            <div class="glass-card">
+                <label>Cron Expression</label>
+                <div class="cron-fields-grid" id="cronFieldsGrid">
+                    <div class="cron-field-box"><input type="text" id="cronMin" value="*"><span class="cron-field-label">Minute</span></div>
+                    <div class="cron-field-box"><input type="text" id="cronHour" value="*"><span class="cron-field-label">Hour</span></div>
+                    <div class="cron-field-box"><input type="text" id="cronDom" value="*"><span class="cron-field-label">Day (Month)</span></div>
+                    <div class="cron-field-box"><input type="text" id="cronMonth" value="*"><span class="cron-field-label">Month</span></div>
+                    <div class="cron-field-box"><input type="text" id="cronDow" value="*"><span class="cron-field-label">Day (Week)</span></div>
+                </div>
+                <div style="text-align:center;margin-top:10px;">
+                    <span class="mono" style="color:var(--text-secondary);font-size:0.9rem;" id="cronFullExpression">* * * * *</span>
+                </div>
+            </div>
+            <div class="glass-card">
+                <label>Common Presets</label>
+                <div class="cron-presets">
+                    <button class="cron-preset-btn" data-cron="* * * * *">Every Minute</button>
+                    <button class="cron-preset-btn" data-cron="*/5 * * * *">Every 5 Min</button>
+                    <button class="cron-preset-btn" data-cron="*/15 * * * *">Every 15 Min</button>
+                    <button class="cron-preset-btn" data-cron="0 * * * *">Every Hour</button>
+                    <button class="cron-preset-btn" data-cron="0 0 * * *">Daily (Midnight)</button>
+                    <button class="cron-preset-btn" data-cron="0 9 * * 1-5">Weekdays 9 AM</button>
+                    <button class="cron-preset-btn" data-cron="0 0 * * 0">Weekly (Sunday)</button>
+                    <button class="cron-preset-btn" data-cron="0 0 1 * *">Monthly (1st)</button>
+                    <button class="cron-preset-btn" data-cron="0 0 1 1 *">Yearly (Jan 1st)</button>
+                </div>
+            </div>
+            <div class="glass-card">
+                <label>Human-Readable Description</label>
+                <div class="cron-description" id="cronDescription">Runs every minute</div>
+            </div>
+            <div class="glass-card">
+                <label>Next 5 Runs</label>
+                <ul class="next-runs-list" id="cronNextRuns"></ul>
+            </div>
+            <div class="ad-banner"><p>Ad Space</p></div>
+        </section>
+
+    </main>
+</div>
+
+<!-- Copy toast -->
+<div class="copy-toast" id="copyToast">Copied to clipboard!</div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
