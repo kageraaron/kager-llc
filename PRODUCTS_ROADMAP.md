@@ -39,6 +39,8 @@ This repository serves as a hub for developing and monetizing a suite of browser
 26. **AI Image Upscaler:**
 27. **Watermark Remover for Video:**
 28. **Fruit Fight Card Game online:** Play against friends or AI
+29. **Security Based Suite**
+30. **Public / Private PGP Encryption / Decryption Tool:** i.e. dark web
 
 ## Next Steps:
 For each of these products, a dedicated directory will be created within the `kager-llc` repository. Each directory will contain a basic framework including `GEMINI.md`, `CLAUDE.md`, `README.md`, `index.html`, `style.css`, and `script.js`, along with any necessary configuration files for client-side development.
