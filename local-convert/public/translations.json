@@ -394,5 +394,5 @@
         "about_footer_subtitle": "よりプライベートな Web を選択していただきありがとうございます。",
         "embed_powered_by": "Powered by",
         "embed_not_supported": "埋め込みウィジェットでは、{from} → {to} の変換はサポートされていません。"
-    },
+    }
 }
