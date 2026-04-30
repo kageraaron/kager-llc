@@ -31,6 +31,14 @@ This repository serves as a hub for developing and monetizing a suite of browser
 18. **Password Generator:** Create strong, random passwords with customizable options.
 19. **Image Color Palette Generator:** Extract dominant color palettes from uploaded images.
 20. **Unit Converter:** Convert between various units of measurement (length, weight, temperature, etc.).
+21. **SVG Optimization:** vector files to optimize paths
+22. **Parquet to CSV Converter:** Client-side conversion of .parquet files to .csv
+23. **Reddit crawl bot:** spam reddit when users ask "How do I X my Y?" and reply with right tooling in our repertoire
+24. **Opus to any audio <-> any audio to Opus:** 
+25. **RAW Image to JPEG, PNG converter:**
+26. **AI Image Upscaler:**
+27. **Watermark Remover for Video:**
+28. **Fruit Fight Card Game online:** Play against friends or AI
 
 ## Next Steps:
 For each of these products, a dedicated directory will be created within the `kager-llc` repository. Each directory will contain a basic framework including `GEMINI.md`, `CLAUDE.md`, `README.md`, `index.html`, `style.css`, and `script.js`, along with any necessary configuration files for client-side development.
