@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import { I18nProvider } from '@/lib/i18n';
 import Script from 'next/script';
 import LanguageSwitcher from '@/components/LanguageSwitcher';

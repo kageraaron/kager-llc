@@ -98,11 +98,7 @@ export default function App() {
     turnStarted: false,
     pendingSteal: null,
     lastDrawn: null,
-<<<<<<< HEAD
-    message: "Welcome to Fruit Fight!",
-=======
-    message: "Game Start! Your turn.", // Will be localized in useEffect or via key
->>>>>>> 77400be (localiziations)
+    message: "Game Start! Your turn.", 
     discardPile: [],
     isGameOver: false,
   }));
@@ -112,13 +108,6 @@ export default function App() {
   const [aiPersonalities, setAiPersonalities] = useState<AIParameters[]>([]);
   const [showHints, setShowHints] = useState(false);
 
-<<<<<<< HEAD
-  const startGame = useCallback((numHumans: number, numAIs: number, humanNames: string[]) => {
-    const players = [];
-    // Add Humans
-    for (let i = 0; i < numHumans; i++) {
-      players.push({
-=======
   // Localization for dynamic messages
   const getLocalizedMessage = useCallback((msg: string) => {
     if (msg === "Game Start! Your turn.") return t('msg_game_start');
@@ -175,11 +164,11 @@ export default function App() {
 
   // --- Game Actions ---
 
-  const resetGame = useCallback(() => {
-    setGameState({
-      deck: createDeck(),
-      players: Array.from({ length: NUM_PLAYERS }, (_, i) => ({
->>>>>>> 77400be (localiziations)
+  const startGame = useCallback((numHumans: number, numAIs: number, humanNames: string[]) => {
+    const players = [];
+    // Add Humans
+    for (let i = 0; i < numHumans; i++) {
+      players.push({
         id: i,
         name: humanNames[i],
         scorePile: [],
@@ -289,10 +278,7 @@ export default function App() {
       
       let message = `${activePlayer.name} drew a ${card}.`;
 
-<<<<<<< HEAD
-=======
       // 1. Check for Bust FIRST
->>>>>>> 77400be (localiziations)
       const isBust = activePlayer.display.length >= 3 && activePlayer.display.includes(card);
       
       if (isBust) {
@@ -320,10 +306,7 @@ export default function App() {
         };
       }
 
-<<<<<<< HEAD
-=======
       // 2. Check for Steal opportunities
->>>>>>> 77400be (localiziations)
       const stealablePlayers = prev.players.filter((p, i) => i !== prev.activePlayerIndex && p.display.some(c => c === card));
 
       if (stealablePlayers.length > 0) {
