@@ -9,8 +9,8 @@ const tools: ToolDef[] = [
   { id: 'upscale', label: 'Upscale', icon: '⤢' },
   { id: 'colorize', label: 'Colorize', icon: '🎨' },
   { id: 'restore', label: 'Restore', icon: '✦' },
-  { id: 'inpaint', label: 'Inpaint', icon: '⊘' },
-  { id: 'watermark-remove', label: 'Watermark', icon: '⌧' },
+  // { id: 'inpaint', label: 'Inpaint', icon: '⊘' },
+  // { id: 'watermark-remove', label: 'Watermark', icon: '⌧' },
   { id: 'remove-bg', label: 'Remove BG', icon: '⊡' },
 ];
 

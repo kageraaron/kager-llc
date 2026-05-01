@@ -39,12 +39,25 @@ export const MANIFESTS: Record<
     sizeMb: 33,
   },
   colorize: {
-    id: 'ddcolor-paper-tiny',
-    url: env(
-      'NEXT_PUBLIC_MODEL_COLORIZE_URL',
-      'https://huggingface.co/onnx-community/ddcolor-paper-tiny/resolve/main/model.onnx',
-    ),
-    sizeMb: 86,
+    // Zhang ECCV16 "Colorful Image Colorization" — the classic L → ab regressor.
+    // ~129 MB, trained at 256×256. Output is more saturated than SIGGRAPH17,
+    // which is what we want for the "full spectrum RGB" goal.
+    //
+    // The ONNX file is too big for git. Two ways to host it:
+    //   (a) Local dev only: run `python scripts/export-eccv16-onnx.py` once
+    //       and the file lands at `public/models/eccv16.onnx`. The default
+    //       URL below ('/models/eccv16.onnx') resolves to that file.
+    //   (b) Production: upload the .onnx as a GitHub Release asset (or to
+    //       any CORS-enabled CDN), then set NEXT_PUBLIC_MODEL_COLORIZE_URL
+    //       to its public URL. The runtime caches it via the Cache API on
+    //       first use, so each browser only downloads it once.
+    id: 'eccv16',
+    url: env('NEXT_PUBLIC_MODEL_COLORIZE_URL', '/models/eccv16.onnx'),
+    sizeMb: 129,
+    // Zhang's training resolution. The model is fully convolutional in PyTorch,
+    // but ONNX exports typically pin it; we export at 256 to match. Plenty for
+    // chrominance because we recombine the ab output with the *original* L.
+    inputSize: 256,
   },
   inpaint: {
     id: 'lama-fp32',

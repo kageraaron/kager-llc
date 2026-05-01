@@ -13,7 +13,7 @@ const COPY: Record<
     cta: string;
     description: string;
     supported: boolean;
-    workerTool?: 'upscale' | 'colorize' | 'inpaint' | 'restore' | 'remove-bg';
+    workerTool?: 'upscale' | 'colorize' | 'restore' | 'remove-bg'; // | 'inpaint' 
   }
 > = {
   upscale: {
@@ -39,22 +39,22 @@ const COPY: Record<
     supported: true,
     workerTool: 'restore',
   },
-  inpaint: {
-    title: 'Inpaint / Object Removal',
-    cta: 'Remove brushed areas',
-    description:
-      'Brush over unwanted objects, then click Remove. The masked region is filled using surrounding context.',
-    supported: true,
-    workerTool: 'inpaint',
-  },
-  'watermark-remove': {
-    title: 'Watermark Remover',
-    cta: 'Remove watermark',
-    description:
-      'Brush precisely over the watermark, logo, or text you want gone. Smaller brush = cleaner result.',
-    supported: true,
-    workerTool: 'inpaint',
-  },
+  // inpaint: {
+  //   title: 'Inpaint / Object Removal',
+  //   cta: 'Remove brushed areas',
+  //   description:
+  //     'Brush over unwanted objects, then click Remove. The masked region is filled using surrounding context.',
+  //   supported: true,
+  //   workerTool: 'inpaint',
+  // },
+  // 'watermark-remove': {
+  //   title: 'Watermark Remover',
+  //   cta: 'Remove watermark',
+  //   description:
+  //     'Brush precisely over the watermark, logo, or text you want gone. Smaller brush = cleaner result.',
+  //   supported: true,
+  //   workerTool: 'inpaint',
+  // },
   'remove-bg': {
     title: 'Background Remover',
     cta: 'Remove background',

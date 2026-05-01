@@ -1,6 +1,0 @@
-# ONNX model files go here at runtime. They're gitignored (see project .gitignore)
-# because they're typically large (10MB - 100MB+).
-#
-# Model manifest URLs are configured in lib/ai/*.ts. Either:
-#   - Place files here directly during dev (filename matches manifest URL)
-#   - Or host them on a CDN and update the manifest `url` field.

@@ -33,6 +33,7 @@ next-env.d.ts
 .vscode/
 .idea/
 
-# large model files (fetched at runtime)
+# large model files (fetched at runtime, never committed)
 public/models/*.onnx
 public/models/*.bin
+public/models/*.pth

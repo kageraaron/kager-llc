@@ -22,10 +22,10 @@ function getToolFromQuery(): ToolId | null {
   const valid: ToolId[] = [
     'upscale',
     'colorize',
-    'inpaint',
+    // 'inpaint',
     'restore',
     'remove-bg',
-    'watermark-remove',
+    // 'watermark-remove',
   ];
   return valid.includes(t as ToolId) ? (t as ToolId) : null;
 }

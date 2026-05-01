@@ -1,12 +1,24 @@
 /**
- * Photo colorization using DDColor ONNX.
+ * Photo colorization using Zhang et al. ECCV 2016 ("Colorful Image Colorization").
+ *
+ * The model is a single-input regressor: it takes the **L** channel of a CIELAB
+ * image and predicts the **a/b** chrominance channels. We then recombine the
+ * predicted a/b with the *original* full-resolution L so detail is preserved
+ * exactly — only color is contributed by the network.
  *
  * Pipeline:
- *  1. Resize input to 256×256 (model's training resolution).
- *  2. Convert RGB → LAB; the L channel becomes the model input.
- *  3. Model returns ab chrominance channels.
- *  4. Upscale ab back to original size, recombine with the *original* L
- *     (preserves full-resolution detail), convert LAB → RGB.
+ *  1. Convert original RGB → LAB and keep the L plane at full resolution.
+ *  2. Resize the input to 256×256 (the model's training resolution) and take
+ *     its L plane.
+ *  3. Normalize: `(L − 50) / 100` (Zhang's `l_cent=50`, `l_norm=100`).
+ *  4. Run model → predicted ab at 256×256, normalized by `ab_norm=110`.
+ *  5. Denormalize: `ab × 110` → real CIELAB ab (typically [−110, 110]).
+ *  6. Resize ab back to the original dimensions (chrominance is smooth, so
+ *     bilinear is visually lossless here).
+ *  7. Combine [original_L, predicted_a, predicted_b] → RGB.
+ *
+ * Reference: https://github.com/richzhang/colorization (the `eccv16.py` /
+ * `util.py` pre/post-processing).
  *
  * Falls back to a sepia tint if the model fails to load.
  */
@@ -22,7 +34,13 @@ import {
   combineRgbPlanes,
 } from '@/lib/image/lab';
 
-const MODEL_SIZE = 256;
+// Zhang's published normalization constants. If you swap to SIGGRAPH17 weights,
+// these stay the same — both colorizers share the same I/O convention.
+const L_CENT = 50; // L is subtracted by this before normalization
+const L_NORM = 100; // ...then divided by this
+const AB_NORM = 110; // model's ab output is divided by 110 in training
+
+const DEFAULT_INPUT_SIZE = 256;
 
 export class Colorizer implements AIFeature {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -36,7 +54,14 @@ export class Colorizer implements AIFeature {
       this.session = await loadSession(MANIFESTS.colorize, onProgress);
       this.inputName = this.session.inputNames?.[0] ?? 'input';
     } catch (err) {
-      console.warn('[colorizer] model unavailable, using sepia fallback:', err);
+      console.warn(
+        '[colorizer] model unavailable, using sepia fallback:',
+        err,
+        '\n  Tried URL:',
+        MANIFESTS.colorize.url,
+        '\n  Drop eccv16.onnx into public/models/ or override',
+        'NEXT_PUBLIC_MODEL_COLORIZE_URL.',
+      );
       this.fallback = true;
     }
   }
@@ -46,46 +71,52 @@ export class Colorizer implements AIFeature {
     if (this.fallback) return sepiaFallback(input);
 
     const ort = await import('onnxruntime-web');
+    const N = MANIFESTS.colorize.inputSize ?? DEFAULT_INPUT_SIZE;
+
     onProgress?.(0.2, 'Preparing image');
 
-    // 1. Resize to model input size for the L channel feed.
-    const small = resizeImageData(input, MODEL_SIZE, MODEL_SIZE);
+    // 1. Get original full-resolution L for later recombination.
+    const origPlanes = splitRgbPlanes(input);
+    const origLab = rgbToLab(origPlanes.r, origPlanes.g, origPlanes.b);
+
+    // 2. Resize input to 256×256, extract its L plane, normalize.
+    const small = resizeImageData(input, N, N);
     const smallPlanes = splitRgbPlanes(small);
     const smallLab = rgbToLab(smallPlanes.r, smallPlanes.g, smallPlanes.b);
 
-    // DDColor expects L normalized to [-1, 1] (L is in [0, 100]).
-    const lTensor = new Float32Array(MODEL_SIZE * MODEL_SIZE);
+    const lTensor = new Float32Array(N * N);
     for (let i = 0; i < lTensor.length; i++) {
-      lTensor[i] = smallLab.L[i] / 50 - 1;
+      lTensor[i] = (smallLab.L[i] - L_CENT) / L_NORM;
     }
 
-    onProgress?.(0.5, 'Running colorizer');
-    const inputTensor = new ort.Tensor('float32', lTensor, [1, 1, MODEL_SIZE, MODEL_SIZE]);
+    // 3. Run model.
+    onProgress?.(0.45, 'Running ECCV16 colorizer');
+    const inputTensor = new ort.Tensor('float32', lTensor, [1, 1, N, N]);
     const result = await this.session.run({ [this.inputName!]: inputTensor });
     const outName = Object.keys(result)[0];
-    const ab = result[outName].data as Float32Array; // [1,2,H,W]
+    const abRaw = result[outName].data as Float32Array; // [1, 2, N, N], normalized
 
-    // 2. Extract a/b planes from model output (still at MODEL_SIZE).
-    const planeSize = MODEL_SIZE * MODEL_SIZE;
+    // 4. Denormalize ab and split into separate planes.
+    const planeSize = N * N;
     const aSmall = new Float32Array(planeSize);
     const bSmall = new Float32Array(planeSize);
     for (let i = 0; i < planeSize; i++) {
-      // DDColor outputs ab in [-128, 127] range (or normalized; clamp for safety)
-      aSmall[i] = ab[i];
-      bSmall[i] = ab[i + planeSize];
+      aSmall[i] = abRaw[i] * AB_NORM;
+      bSmall[i] = abRaw[i + planeSize] * AB_NORM;
     }
 
-    // 3. Upscale ab to original size by drawing into an ImageData and resizing.
-    const abAsImage = abPairToImageData(aSmall, bSmall, MODEL_SIZE, MODEL_SIZE);
+    onProgress?.(0.75, 'Upscaling color');
+
+    // 5. Pack ab into an RGBA image so we can use the canvas resampler, then
+    //    upscale to the original dimensions and unpack.
+    const abAsImage = packAbToImageData(aSmall, bSmall, N, N);
     const abFull = resizeImageData(abAsImage, input.width, input.height);
-    const { aFull, bFull } = imageDataToAbPair(abFull);
+    const { aFull, bFull } = unpackAbFromImageData(abFull);
 
-    onProgress?.(0.85, 'Recombining colors');
+    onProgress?.(0.9, 'Recombining channels');
 
-    // 4. Get L from the *original* high-res image to preserve detail.
-    const fullPlanes = splitRgbPlanes(input);
-    const fullLab = rgbToLab(fullPlanes.r, fullPlanes.g, fullPlanes.b);
-    const rgb = labToRgb(fullLab.L, aFull, bFull);
+    // 6. Combine original L with model ab → RGB.
+    const rgb = labToRgb(origLab.L, aFull, bFull);
 
     onProgress?.(1, 'Done');
     return combineRgbPlanes(rgb.r, rgb.g, rgb.b, input.width, input.height);
@@ -99,8 +130,16 @@ export class Colorizer implements AIFeature {
   }
 }
 
-/** Pack a/b planes into an RGBA image so we can use canvas resize. */
-function abPairToImageData(
+// ---------- helpers ----------
+
+/**
+ * Pack two ab planes (each in roughly [-110, 110]) into an RGBA image so
+ * `resizeImageData` can resample them on the GPU. We use the full 0–255 range
+ * mapped from [-AB_RANGE, AB_RANGE] so we don't lose dynamic range to clamping.
+ */
+const AB_RANGE = 128; // a hair over Zhang's typical ab amplitude; gives us headroom
+
+function packAbToImageData(
   a: Float32Array,
   b: Float32Array,
   w: number,
@@ -109,25 +148,37 @@ function abPairToImageData(
   const data = new Uint8ClampedArray(w * h * 4);
   for (let i = 0; i < a.length; i++) {
     const j = i * 4;
-    // a/b are roughly in [-128, 127]; map to [0, 255] with offset 128
-    data[j] = Math.max(0, Math.min(255, a[i] + 128));
-    data[j + 1] = Math.max(0, Math.min(255, b[i] + 128));
+    data[j] = mapToByte(a[i]);
+    data[j + 1] = mapToByte(b[i]);
     data[j + 2] = 0;
     data[j + 3] = 255;
   }
   return new ImageData(data, w, h);
 }
 
-function imageDataToAbPair(img: ImageData): { aFull: Float32Array; bFull: Float32Array } {
+function unpackAbFromImageData(img: ImageData): {
+  aFull: Float32Array;
+  bFull: Float32Array;
+} {
   const n = img.width * img.height;
   const aFull = new Float32Array(n);
   const bFull = new Float32Array(n);
   for (let i = 0; i < n; i++) {
     const j = i * 4;
-    aFull[i] = img.data[j] - 128;
-    bFull[i] = img.data[j + 1] - 128;
+    aFull[i] = byteToFloat(img.data[j]);
+    bFull[i] = byteToFloat(img.data[j + 1]);
   }
   return { aFull, bFull };
+}
+
+function mapToByte(v: number): number {
+  // [-AB_RANGE, AB_RANGE] → [0, 255]
+  const x = ((v + AB_RANGE) / (2 * AB_RANGE)) * 255;
+  return x < 0 ? 0 : x > 255 ? 255 : x;
+}
+
+function byteToFloat(byte: number): number {
+  return (byte / 255) * (2 * AB_RANGE) - AB_RANGE;
 }
 
 function sepiaFallback(input: ImageData): ImageData {
