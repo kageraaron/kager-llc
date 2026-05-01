@@ -66,6 +66,8 @@ Ad-Supported (like local-convert)
 10. ICO / Favicon Generator — Upload any image, generate favicon.ico, Apple touch icons, Android launcher icons at all required sizes. High developer traffic.
 11. PDF to Fillable Form Converter — Upload a flat PDF, add text fields, checkboxes, signature areas, export as fillable PDF. Strong B2B/office worker audience.
 12. Image Background Remover — Client-side using ML models (e.g., @imgly/background-removal). E-commerce sellers need this constantly. Interstitial ads + affiliate link to Canva/Photoshop.
+13. Text / Script to Audio, Overlay Subtitles on Video app (stitch with 'endless-stories', narrate reddit threads to ASMR video background and post to socials)
+
 Why These Work
 Idea	Est. Monthly Searches	RPM	Client-Side Feasible
 Resume Builder	500K+	$10-20	pdf-lib, canvas
