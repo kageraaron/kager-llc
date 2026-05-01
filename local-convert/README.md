@@ -5,6 +5,7 @@ A high-performance, privacy-focused, local-first file conversion web application
 ## 🚀 Getting Started
 
 TODO: fix translations, enable a dark mode
+TOOD: fix translations on convert pages
 
 ### Prerequisites
 
