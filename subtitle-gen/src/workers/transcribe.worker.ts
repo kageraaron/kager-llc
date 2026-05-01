@@ -1,5 +1,3 @@
-/// <reference lib="webworker" />
-
 import { env, pipeline } from "@huggingface/transformers";
 
 env.allowLocalModels = false;
