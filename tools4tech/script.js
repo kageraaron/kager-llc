@@ -11,7 +11,10 @@ import {
   formatJSON,
   encodeBase64,
   decodeBase64,
-  generatePassword
+  generatePassword,
+  decodeJWT,
+  parseColor,
+  hashText
 } from '@kager-llc/shared';
 
 (function () {
@@ -328,7 +331,148 @@ import {
   // Initial password
   if (pwOutput) triggerPwGen();
 
-  /* 10. SAMPLE DATA LOADING */
+  /* 10. JWT DECODER */
+  const jwtInput = $('#jwtInput');
+  const jwtError = $('#jwtError');
+  const jwtResults = $('#jwtResults');
+  const jwtHeader = $('#jwtHeader');
+  const jwtPayload = $('#jwtPayload');
+  const jwtSignature = $('#jwtSignature');
+  const jwtAlgBadge = $('#jwtAlgBadge');
+  const jwtExpBadge = $('#jwtExpBadge');
+  const jwtTimestamps = $('#jwtTimestamps');
+
+  function renderJwtTimestamp(label, date) {
+    const li = document.createElement('li');
+    li.className = 'jwt-ts-row';
+    const key = document.createElement('span');
+    key.className = 'jwt-ts-key';
+    key.textContent = label;
+    const val = document.createElement('span');
+    val.textContent = date.toLocaleString();
+    li.appendChild(key);
+    li.appendChild(val);
+    return li;
+  }
+
+  function decodeJwtUI() {
+    const raw = jwtInput.value.trim();
+    if (!raw) {
+      jwtError.classList.add('hidden');
+      jwtResults.classList.add('hidden');
+      return;
+    }
+    const res = decodeJWT(raw);
+    if (res.error) {
+      jwtError.textContent = res.error;
+      jwtError.classList.remove('hidden');
+      jwtResults.classList.add('hidden');
+      return;
+    }
+    jwtError.classList.add('hidden');
+    jwtResults.classList.remove('hidden');
+
+    jwtHeader.textContent = JSON.stringify(res.header, null, 2);
+    jwtPayload.textContent = JSON.stringify(res.payload, null, 2);
+    jwtSignature.value = res.signature;
+    jwtAlgBadge.textContent = res.header.alg || '';
+
+    if (res.isExpired === true) {
+      jwtExpBadge.textContent = 'Expired';
+      jwtExpBadge.className = 'badge badge-expired';
+    } else if (res.isExpired === false) {
+      jwtExpBadge.textContent = 'Valid';
+      jwtExpBadge.className = 'badge badge-valid';
+    } else {
+      jwtExpBadge.textContent = 'No expiry';
+      jwtExpBadge.className = 'badge';
+    }
+
+    jwtTimestamps.innerHTML = '';
+    const tsList = document.createElement('ul');
+    tsList.className = 'jwt-ts-list';
+    if (res.issuedAt) tsList.appendChild(renderJwtTimestamp('Issued at', res.issuedAt));
+    if (res.expiresAt) tsList.appendChild(renderJwtTimestamp('Expires at', res.expiresAt));
+    if (res.notBefore) tsList.appendChild(renderJwtTimestamp('Not before', res.notBefore));
+    if (tsList.children.length) jwtTimestamps.appendChild(tsList);
+  }
+
+  jwtInput.addEventListener('input', decodeJwtUI);
+
+  /* 11. COLOR CONVERTER */
+  const colorPicker = $('#colorPicker');
+  const colorTextInput = $('#colorTextInput');
+  const colorError = $('#colorError');
+  const colorResults = $('#colorResults');
+  const colorSwatch = $('#colorSwatch');
+  const colorSwatchLabel = $('#colorSwatchLabel');
+  const colorHex = $('#colorHex');
+  const colorRgb = $('#colorRgb');
+  const colorHsl = $('#colorHsl');
+  const colorCssVar = $('#colorCssVar');
+
+  function renderColorUI(c) {
+    colorError.classList.add('hidden');
+    colorResults.classList.remove('hidden');
+    colorSwatch.style.background = c.hex;
+    colorSwatchLabel.textContent = c.hex;
+    colorHex.value = c.hex;
+    colorRgb.value = `rgb(${c.r}, ${c.g}, ${c.b})`;
+    colorHsl.value = `hsl(${c.h}, ${c.s}%, ${c.l}%)`;
+    colorCssVar.value = `--color: ${c.hex};`;
+    colorPicker.value = c.hex;
+  }
+
+  function parseColorFromText() {
+    const raw = colorTextInput.value.trim();
+    if (!raw) {
+      colorError.classList.add('hidden');
+      colorResults.classList.add('hidden');
+      return;
+    }
+    const c = parseColor(raw);
+    if (!c) {
+      colorError.classList.remove('hidden');
+      colorResults.classList.add('hidden');
+      return;
+    }
+    renderColorUI(c);
+  }
+
+  colorTextInput.addEventListener('input', parseColorFromText);
+  colorPicker.addEventListener('input', () => {
+    colorTextInput.value = colorPicker.value;
+    const c = parseColor(colorPicker.value);
+    if (c) renderColorUI(c);
+  });
+
+  // Initialize with the default picker value
+  renderColorUI(parseColor(colorPicker.value));
+
+  /* 12. HASH GENERATOR */
+  const hashInput = $('#hashInput');
+  const hashOutput = $('#hashOutput');
+  const hashBitLength = $('#hashBitLength');
+
+  function getHashAlgo() {
+    const checked = $('input[name="hashAlgo"]:checked');
+    return checked ? checked.value : 'SHA-256';
+  }
+
+  function updateHashUI() {
+    const text = hashInput.value;
+    const algo = getHashAlgo();
+    const bits = { 'SHA-1': '160', 'SHA-256': '256', 'SHA-384': '384', 'SHA-512': '512' };
+    hashBitLength.textContent = (bits[algo] || '') + ' bits';
+    if (!text) { hashOutput.value = ''; return; }
+    hashText(text, algo).then(hex => { hashOutput.value = hex; });
+  }
+
+  hashInput.addEventListener('input', updateHashUI);
+  $$('input[name="hashAlgo"]').forEach(r => r.addEventListener('change', updateHashUI));
+  updateHashUI();
+
+  /* 13. SAMPLE DATA LOADING */
   const SAMPLES = {
     md: "# Tools4Tech\n\nThis is a **live preview** of the Markdown editor.\n\n### Features:\n- 100% Client-Side\n- Fast & Private\n- [Easy to use](https://tools4tech.com)\n\n```javascript\nconsole.log('Hello World');\n```",
     rx: { pattern: '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}', test: 'Contact us at hello@tools4tech.com or support@example.org' },
@@ -336,7 +480,10 @@ import {
     url: 'https://example.com:8080/path/to/resource?query=1&auth=true#section-1',
     cr: '0 9 * * 1-5',
     json: '{\n  "project": "Tools4Tech",\n  "version": "1.0.0",\n  "active": true,\n  "tools": ["JSON", "Base64", "Regex"]\n}',
-    b64: 'SGVsbG8gZnJvbSBUb29sczRUZWNoIQ=='
+    b64: 'SGVsbG8gZnJvbSBUb29sczRUZWNoIQ==',
+    jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE5OTk5OTk5OTl9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
+    color: '#6366F1',
+    hash: 'The quick brown fox jumps over the lazy dog'
   };
 
   $('#mdSample')?.addEventListener('click', () => {
@@ -374,6 +521,21 @@ import {
   $('#b64Sample')?.addEventListener('click', () => {
     b64Base64.value = SAMPLES.b64;
     b64Text.value = decodeBase64(SAMPLES.b64);
+  });
+
+  $('#jwtSample')?.addEventListener('click', () => {
+    jwtInput.value = SAMPLES.jwt;
+    decodeJwtUI();
+  });
+
+  $('#colorSample')?.addEventListener('click', () => {
+    colorTextInput.value = SAMPLES.color;
+    parseColorFromText();
+  });
+
+  $('#hashSample')?.addEventListener('click', () => {
+    hashInput.value = SAMPLES.hash;
+    updateHashUI();
   });
 
 })();

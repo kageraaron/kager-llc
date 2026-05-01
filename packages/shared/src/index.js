@@ -6,4 +6,7 @@ export * from './lib/cron.js';
 export * from './lib/json.js';
 export * from './lib/base64.js';
 export * from './lib/password.js';
+export * from './lib/jwt.js';
+export * from './lib/color.js';
+export * from './lib/hash.js';
 export * from './i18n.js';
