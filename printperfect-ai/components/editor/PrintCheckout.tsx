@@ -596,7 +596,7 @@ function ReviewStep({
       <Section title="Pricing">
         <p className="text-sm text-ink-300">
           Printify quotes the final price (product + shipping + taxes) when the order is submitted.
-          You'll see the breakdown on the order confirmation.
+          You&apos;ll see the breakdown on the order confirmation.
         </p>
       </Section>
       {submitting && (

@@ -11,7 +11,7 @@ export default function CancelPage() {
       <h1 className="text-3xl font-semibold tracking-tight">Checkout cancelled</h1>
       <p className="mt-3 text-ink-300">
         No charge was made. Your image is still in the editor — pick up where you left off whenever
-        you're ready.
+        you&apos;re ready.
       </p>
       <div className="mt-10 flex items-center justify-center gap-3">
         <Link

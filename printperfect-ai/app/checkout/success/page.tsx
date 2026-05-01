@@ -17,7 +17,7 @@ export default function SuccessPage({
       </div>
       <h1 className="mt-6 text-3xl font-semibold tracking-tight">Payment received</h1>
       <p className="mt-3 text-ink-300">
-        Your print order has been queued for fulfillment. You'll get an email confirmation shortly,
+        Your print order has been queued for fulfillment. You&apos;ll get an email confirmation shortly,
         followed by a tracking number when it ships.
       </p>
       {searchParams.session_id && (
