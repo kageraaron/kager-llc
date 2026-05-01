@@ -19,8 +19,7 @@ const COPY: Record<
   upscale: {
     title: 'AI Upscale',
     cta: 'Upscale 4×',
-    description:
-      'Enlarge your photo with sharp detail. Great for prepping low-res images for prints.',
+    description: 'Enlarge your photo with sharp detail. Great for prepping low-res images for prints.',
     supported: true,
     workerTool: 'upscale',
   },
@@ -34,8 +33,7 @@ const COPY: Record<
   restore: {
     title: 'Face Restoration',
     cta: 'Restore faces',
-    description:
-      'Sharpen blurry portraits and bring back facial detail. Works best on tight portraits where the face fills most of the frame.',
+    description: 'Sharpen blurry portraits and bring back facial detail. Works best on tight portraits where the face fills most of the frame.',
     supported: true,
     workerTool: 'restore',
   },
@@ -58,11 +56,24 @@ const COPY: Record<
   'remove-bg': {
     title: 'Background Remover',
     cta: 'Remove background',
-    description:
-      'Isolate the subject and produce a transparent PNG. Great for product shots and portraits.',
+    description: 'Isolate the subject and produce a transparent PNG. Great for product shots and portraits.',
     supported: true,
     workerTool: 'remove-bg',
   },
+  inpaint: {
+    title: '',
+    cta: '',
+    description: '',
+    supported: false,
+    workerTool: undefined
+  },
+  'watermark-remove': {
+    title: '',
+    cta: '',
+    description: '',
+    supported: false,
+    workerTool: undefined
+  }
 };
 
 const DEFAULT_BRUSH_SIZE: Record<ToolId, number> = {
