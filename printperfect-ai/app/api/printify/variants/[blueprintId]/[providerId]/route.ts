@@ -18,14 +18,16 @@ export async function GET(
   }
   try {
     const data = await listVariants(blueprintId, providerId);
-    // Strip disabled variants and present a small client payload.
+    // Note: Printify's catalog variants endpoint does NOT return prices —
+    // pricing is set per-shop on configured products. Don't include a price
+    // field in the response or the client renders $NaN. Final price +
+    // shipping are quoted by Printify when the order is submitted.
     const variants = (data.variants ?? [])
       .filter((v) => v.is_enabled !== false)
       .map((v) => ({
         id: v.id,
         title: v.title,
         options: v.options,
-        price: v.price,
       }));
     return NextResponse.json({ variants });
   } catch (err) {

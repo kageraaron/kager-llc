@@ -53,6 +53,9 @@ export const MANIFESTS: Record<
       'https://huggingface.co/Carve/LaMa-ONNX/resolve/main/lama_fp32.onnx',
     ),
     sizeMb: 196,
+    // Carve's LaMa export bakes in 512×512 input dims. Inputs of any other
+    // size will fail with `Got invalid dimensions for input: image`.
+    inputSize: 512,
   },
   restore: {
     id: 'gfpgan-v1.4',

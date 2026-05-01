@@ -4,9 +4,8 @@
  * Receives ImageData from the main thread, runs the requested AI feature,
  * streams progress events back, and returns the final ImageData.
  *
- * Why a worker: ONNX inference on a 12MP image can lock the main thread for
- * seconds; doing it here keeps the editor UI responsive (scroll, undo,
- * cancel button, etc.).
+ * One feature instance per tool is cached so model downloads don't repeat
+ * across runs.
  */
 
 /// <reference lib="webworker" />
@@ -14,10 +13,14 @@
 import { Upscaler } from '@/lib/ai/upscaler';
 import { Colorizer } from '@/lib/ai/colorizer';
 import { Inpainter } from '@/lib/ai/inpainter';
+import { FaceRestorer } from '@/lib/ai/face-restorer';
+import { BackgroundRemover } from '@/lib/ai/bg-remover';
 import type { AIFeature } from '@/lib/ai/types';
 
+export type WorkerTool = 'upscale' | 'colorize' | 'inpaint' | 'restore' | 'remove-bg';
+
 export type WorkerInbound =
-  | { type: 'run'; jobId: string; tool: 'upscale' | 'colorize' | 'inpaint'; imageData: ImageData }
+  | { type: 'run'; jobId: string; tool: WorkerTool; imageData: ImageData }
   | { type: 'cancel'; jobId: string };
 
 export type WorkerOutbound =
@@ -27,13 +30,28 @@ export type WorkerOutbound =
 
 const ctx: DedicatedWorkerGlobalScope = self as unknown as DedicatedWorkerGlobalScope;
 
-// Keep one feature instance per tool to avoid re-loading models per run.
-const cache: Partial<Record<'upscale' | 'colorize' | 'inpaint', AIFeature>> = {};
+const cache: Partial<Record<WorkerTool, AIFeature>> = {};
 
-function getFeature(tool: 'upscale' | 'colorize' | 'inpaint'): AIFeature {
+function getFeature(tool: WorkerTool): AIFeature {
   if (cache[tool]) return cache[tool]!;
-  const feat: AIFeature =
-    tool === 'upscale' ? new Upscaler() : tool === 'colorize' ? new Colorizer() : new Inpainter();
+  let feat: AIFeature;
+  switch (tool) {
+    case 'upscale':
+      feat = new Upscaler();
+      break;
+    case 'colorize':
+      feat = new Colorizer();
+      break;
+    case 'inpaint':
+      feat = new Inpainter();
+      break;
+    case 'restore':
+      feat = new FaceRestorer();
+      break;
+    case 'remove-bg':
+      feat = new BackgroundRemover();
+      break;
+  }
   cache[tool] = feat;
   return feat;
 }
@@ -61,12 +79,10 @@ ctx.addEventListener('message', async (event: MessageEvent<WorkerInbound>) => {
 
     const result = await feature.run(imageData, (p, message) => {
       if (cancelled.has(jobId)) return;
-      // Map inference progress into the remaining 70%.
       post({ type: 'progress', jobId, progress: 0.3 + p * 0.7, message });
     });
     if (cancelled.has(jobId)) return;
 
-    // Transfer the result buffer to avoid a copy.
     post({ type: 'done', jobId, result }, [result.data.buffer]);
   } catch (err) {
     post({

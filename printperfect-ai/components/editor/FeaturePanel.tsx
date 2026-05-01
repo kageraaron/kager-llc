@@ -13,7 +13,7 @@ const COPY: Record<
     cta: string;
     description: string;
     supported: boolean;
-    workerTool?: 'upscale' | 'colorize' | 'inpaint';
+    workerTool?: 'upscale' | 'colorize' | 'inpaint' | 'restore' | 'remove-bg';
   }
 > = {
   upscale: {
@@ -34,8 +34,10 @@ const COPY: Record<
   restore: {
     title: 'Face Restoration',
     cta: 'Restore faces',
-    description: 'Sharpen blurry portraits and restore facial detail. Coming soon.',
-    supported: false,
+    description:
+      'Sharpen blurry portraits and bring back facial detail. Works best on tight portraits where the face fills most of the frame.',
+    supported: true,
+    workerTool: 'restore',
   },
   inpaint: {
     title: 'Inpaint / Object Removal',
@@ -56,8 +58,10 @@ const COPY: Record<
   'remove-bg': {
     title: 'Background Remover',
     cta: 'Remove background',
-    description: 'Isolate the subject and produce a transparent PNG. Coming soon.',
-    supported: false,
+    description:
+      'Isolate the subject and produce a transparent PNG. Great for product shots and portraits.',
+    supported: true,
+    workerTool: 'remove-bg',
   },
 };
 

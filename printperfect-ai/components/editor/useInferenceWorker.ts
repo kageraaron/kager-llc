@@ -1,9 +1,9 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type { WorkerInbound, WorkerOutbound } from '@/workers/inference.worker';
+import type { WorkerInbound, WorkerOutbound, WorkerTool } from '@/workers/inference.worker';
 
-type ToolName = 'upscale' | 'colorize' | 'inpaint';
+type ToolName = WorkerTool;
 
 type RunState = {
   running: boolean;

@@ -50,3 +50,28 @@ This repository serves as a hub for developing and monetizing a suite of browser
 37. **Text Diff Checker:** Side-by-side or inline text comparison highlighting changes.
 ## Next Steps:
 For each of these products, a dedicated directory will be created within the `kager-llc` repository. Each directory will contain a basic framework including `GEMINI.md`, `CLAUDE.md`, `README.md`, `index.html`, `style.css`, and `script.js`, along with any necessary configuration files for client-side development.
+
+
+Fee/Margin-Based (like printperfect-ai)
+1. Resume/CV PDF Builder — Fill a form, generate a polished PDF resume in-browser. Free basic templates, $2-5 for premium templates or ATS-optimized layouts.
+2. Invitation & Card Designer — Browser-based designer for birthday, wedding, baby shower cards. Free to design, charge to download hi-res or order physical prints (print-on-demand integration).
+3. Meme Generator Pro — Template-based meme creator. Free with watermark, $1 to remove + access premium templates. High virality = free traffic.
+4. Social Media Post Scheduler Preview — Visual preview tool for Instagram/Twitter/LinkedIn post layouts. Charge for bulk template packs or export.
+5. Logo Maker — Client-side SVG logo generator from shapes, text, icons. Free low-res download, $5-10 for SVG/PNG pack with transparent background.
+6. Resume Photo Editor — Professional headshot enhancer: background removal, cropping to passport/LinkedIn ratios, brightness correction. Charge per download.
+Ad-Supported (like local-convert)
+7. Screenshot Annotator — Upload a screenshot, add arrows, blur sensitive info, highlight, crop, annotate. Huge search volume from support teams and tutorial makers.
+8. Audio Trimmer / Cutter — Drag audio file, select region, trim and download. Simple, high-volume, ffmpeg.wasm-based.
+9. Subtitle Generator from Audio — Upload audio/video, generate SRT via browser Whisper (whisper.wasm). Interstitial ads during processing. High CPC from creators.
+10. ICO / Favicon Generator — Upload any image, generate favicon.ico, Apple touch icons, Android launcher icons at all required sizes. High developer traffic.
+11. PDF to Fillable Form Converter — Upload a flat PDF, add text fields, checkboxes, signature areas, export as fillable PDF. Strong B2B/office worker audience.
+12. Image Background Remover — Client-side using ML models (e.g., @imgly/background-removal). E-commerce sellers need this constantly. Interstitial ads + affiliate link to Canva/Photoshop.
+Why These Work
+Idea	Est. Monthly Searches	RPM	Client-Side Feasible
+Resume Builder	500K+	$10-20	pdf-lib, canvas
+Invitation Designer	200K+	$8-15	canvas + print API
+Logo Maker	400K+	$10-20	SVG manipulation
+Screenshot Annotator	150K+	$15-25	canvas API
+Audio Trimmer	300K+	$15-25	ffmpeg.wasm
+Subtitle Generator	100K+	$20-30	whisper.wasm
+Background Remover	1M+	$15-25	@imgly/wasm

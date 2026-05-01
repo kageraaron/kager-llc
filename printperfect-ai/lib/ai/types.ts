@@ -17,4 +17,11 @@ export type ModelManifest = {
   /** Approximate size in megabytes — shown to the user before download. */
   sizeMb: number;
   sha256?: string;
+  /**
+   * Fixed spatial input size (width = height) the model was exported with.
+   * Set this only for models whose ONNX graph baked in static H/W dims (e.g.
+   * Carve/LaMa-ONNX/lama_fp32.onnx is fixed at 512). Leave undefined for
+   * fully-convolutional exports that accept arbitrary multiples of 8.
+   */
+  inputSize?: number;
 };
