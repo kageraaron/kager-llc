@@ -8,7 +8,7 @@ This monorepo contains various client-side web tools, utilities, and games devel
 *   **FruitFight**: A browser-based game.
 *   **Word-Nexus**: A word puzzle or game.
 *   **color-picker**: A utility for selecting and managing colors.
-*   **endless-stories**: An interactive storytelling application.
+*   **endless-stories**: Programatically stitch together ASMR / Subway Surfers background video with narrated (text-to-voice) reddit threads. Posted to Instagram, YouTube, TikTok feeds.
 *   **pdf-assembler**: A tool to merge or assemble PDF documents.
 *   **pdf-separator**: A tool to split or extract pages from PDF documents.
 *   **qr-code-generator**: A utility to generate custom QR codes.
