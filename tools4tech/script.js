@@ -1,8 +1,18 @@
-import { renderMarkdown } from '../utils/markdown-editor/lib.js';
-import { evaluateRegex, escapeHtml } from '../utils/regex-tester/lib.js';
-import { epochToDate, dateToEpoch, formatRelativeTime } from '../utils/unix-timestamp-converter/lib.js';
-import { parseURL, updateURLParam } from '../utils/url-parser/lib.js';
-import { describeCron, nextCronRuns } from '../utils/cron-schedule/lib.js';
+import {
+  renderMarkdown,
+  evaluateRegex,
+  epochToDate,
+  dateToEpoch,
+  formatRelativeTime,
+  parseURL,
+  updateURLParam,
+  describeCron,
+  nextCronRuns,
+  formatJSON,
+  encodeBase64,
+  decodeBase64,
+  generatePassword
+} from '@kager-llc/shared';
 
 (function () {
   'use strict';
@@ -19,7 +29,16 @@ import { describeCron, nextCronRuns } from '../utils/cron-schedule/lib.js';
   }
 
   function copyText(text) {
-    navigator.clipboard.writeText(text).then(() => showToast());
+    navigator.clipboard.writeText(text).then(() => showToast()).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.cssText = 'position:fixed;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast();
+    });
   }
 
   document.addEventListener('click', (e) => {
@@ -37,6 +56,7 @@ import { describeCron, nextCronRuns } from '../utils/cron-schedule/lib.js';
   const mobileBtn = $('#mobileMenuBtn');
 
   function switchTool(toolId) {
+    if (!toolId) toolId = 'markdown';
     navItems.forEach((n) => n.classList.toggle('active', n.dataset.tool === toolId));
     sections.forEach((s) => {
       s.classList.toggle('active', s.id === 'tool-' + toolId);
@@ -44,19 +64,16 @@ import { describeCron, nextCronRuns } from '../utils/cron-schedule/lib.js';
     if (window.innerWidth <= 768) sidebar.classList.remove('open');
   }
 
-  navItems.forEach((n) =>
-    n.addEventListener('click', (e) => {
-      e.preventDefault();
-      const tool = n.dataset.tool;
-      history.replaceState(null, '', '#' + tool);
-      switchTool(tool);
-    })
-  );
+  window.addEventListener('hashchange', () => {
+    const tool = location.hash.replace('#', '') || 'markdown';
+    switchTool(tool);
+  });
 
   if (mobileBtn) {
     mobileBtn.addEventListener('click', () => sidebar.classList.toggle('open'));
   }
 
+  // Initial routing
   const initHash = location.hash.replace('#', '') || 'markdown';
   switchTool(initHash);
 
@@ -96,14 +113,13 @@ import { describeCron, nextCronRuns } from '../utils/cron-schedule/lib.js';
   function evalRegexUI() {
     const res = evaluateRegex(rxPattern.value, rxFlags.value, rxTestStr.value);
     if (res.error) {
-        rxError.classList.remove('hidden');
-        rxHighlight.innerHTML = res.highlightedHtml;
-        rxMatchCount.textContent = 'Error';
+      rxError.classList.remove('hidden');
+      rxHighlight.innerHTML = res.highlightedHtml;
+      rxMatchCount.textContent = 'Error';
     } else {
-        rxError.classList.add('hidden');
-        rxHighlight.innerHTML = res.highlightedHtml + '
-';
-        rxMatchCount.textContent = res.matches + ' match' + (res.matches === 1 ? '' : 'es');
+      rxError.classList.add('hidden');
+      rxHighlight.innerHTML = res.highlightedHtml + '\n';
+      rxMatchCount.textContent = res.matches + ' match' + (res.matches === 1 ? '' : 'es');
     }
   }
 
@@ -144,6 +160,21 @@ import { describeCron, nextCronRuns } from '../utils/cron-schedule/lib.js';
     tsRelativeResult.value = formatRelativeTime(d);
   });
 
+  const tsDateInput = $('#tsDateInput');
+  const tsEpochResult = $('#tsEpochResult');
+  const tsMsResult = $('#tsMsResult');
+
+  $('#tsConvertDateBtn')?.addEventListener('click', () => {
+    const d = dateToEpoch(tsDateInput.value);
+    if (!d) {
+      tsEpochResult.value = '';
+      tsMsResult.value = '';
+      return;
+    }
+    tsEpochResult.value = d.seconds;
+    tsMsResult.value = d.milliseconds;
+  });
+
   /* 5. URL PARSER */
   const urlInput = $('#urlInput');
   const urlError = $('#urlError');
@@ -163,9 +194,9 @@ import { describeCron, nextCronRuns } from '../utils/cron-schedule/lib.js';
     const raw = urlInput.value.trim();
     const res = parseURL(raw);
     if (!res) {
-        if (raw) urlError.classList.remove('hidden');
-        urlParsed.classList.add('hidden');
-        return;
+      if (raw) urlError.classList.remove('hidden');
+      urlParsed.classList.add('hidden');
+      return;
     }
     urlError.classList.add('hidden');
     urlParsed.classList.remove('hidden');
@@ -178,21 +209,36 @@ import { describeCron, nextCronRuns } from '../utils/cron-schedule/lib.js';
     urlParamCount.textContent = res.params.length + ' param' + (res.params.length === 1 ? '' : 's');
 
     if (res.params.length === 0) {
-        urlQueryTable.classList.add('hidden');
-        urlNoParams.classList.remove('hidden');
+      urlQueryTable.classList.add('hidden');
+      urlNoParams.classList.remove('hidden');
     } else {
-        urlQueryTable.classList.remove('hidden');
-        urlNoParams.classList.add('hidden');
-        urlQueryBody.innerHTML = '';
-        res.params.forEach(([key, value]) => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = '<td><input type="text" value="' + key + '" readonly></td>' +
-                           '<td><input type="text" value="' + value + '" class="param-val"></td>';
-            tr.querySelector('.param-val').addEventListener('input', (e) => {
-                urlInput.value = updateURLParam(urlInput.value, key, e.target.value);
-            });
-            urlQueryBody.appendChild(tr);
+      urlQueryTable.classList.remove('hidden');
+      urlNoParams.classList.add('hidden');
+      urlQueryBody.innerHTML = '';
+      res.params.forEach(([key, value]) => {
+        const tr = document.createElement('tr');
+
+        const keyInput = document.createElement('input');
+        keyInput.type = 'text';
+        keyInput.value = key;
+        keyInput.readOnly = true;
+
+        const valInput = document.createElement('input');
+        valInput.type = 'text';
+        valInput.value = value;
+        valInput.addEventListener('input', (e) => {
+          urlInput.value = updateURLParam(urlInput.value, key, e.target.value);
         });
+
+        const tdKey = document.createElement('td');
+        tdKey.appendChild(keyInput);
+        const tdVal = document.createElement('td');
+        tdVal.appendChild(valInput);
+
+        tr.appendChild(tdKey);
+        tr.appendChild(tdVal);
+        urlQueryBody.appendChild(tr);
+      });
     }
   }
   urlInput.addEventListener('input', parseUrlUI);
@@ -209,9 +255,125 @@ import { describeCron, nextCronRuns } from '../utils/cron-schedule/lib.js';
     cronFullExpr.textContent = parts.join(' ');
     cronDesc.textContent = describeCron(parts);
     const runs = nextCronRuns(parts, 5);
-    cronNextRuns.innerHTML = runs.length ? runs.map((d, i) => '<li><span class="run-index">' + (i+1) + '.</span>' + d.toLocaleString() + '</li>').join('') : '<li>No upcoming runs</li>';
+    cronNextRuns.innerHTML = runs.length ? runs.map((d, i) => '<li><span class="run-index">' + (i + 1) + '.</span>' + d.toLocaleString() + '</li>').join('') : '<li>No upcoming runs</li>';
   }
   cronInputs.forEach(i => i.addEventListener('input', updateCronUI));
+
+  $$('.cron-preset-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const parts = btn.dataset.cron.split(' ');
+      cronInputs.forEach((el, i) => el.value = parts[i]);
+      updateCronUI();
+    });
+  });
+
   updateCronUI();
+
+  /* 7. JSON FORMATTER */
+  const jsonInput = $('#jsonInput');
+  const jsonOutput = $('#jsonOutput');
+  const jsonError = $('#jsonError');
+
+  function processJson(indent) {
+    const res = formatJSON(jsonInput.value, indent);
+    if (res.error) {
+      jsonError.classList.remove('hidden');
+      jsonOutput.value = '';
+    } else {
+      jsonError.classList.add('hidden');
+      jsonOutput.value = res.data;
+    }
+  }
+
+  $('#jsonBeautify')?.addEventListener('click', () => processJson(2));
+  $('#jsonMinify')?.addEventListener('click', () => processJson(0));
+  $('#jsonClear')?.addEventListener('click', () => {
+    jsonInput.value = '';
+    jsonOutput.value = '';
+    jsonError.classList.add('hidden');
+  });
+
+  /* 8. BASE64 CONVERTER */
+  const b64Text = $('#b64Text');
+  const b64Base64 = $('#b64Base64');
+
+  $('#b64Encode')?.addEventListener('click', () => {
+    b64Base64.value = encodeBase64(b64Text.value);
+  });
+  $('#b64Decode')?.addEventListener('click', () => {
+    b64Text.value = decodeBase64(b64Base64.value);
+  });
+
+  /* 9. PASSWORD GENERATOR */
+  const pwOutput = $('#pwOutput');
+  const pwLength = $('#pwLength');
+  const pwLengthVal = $('#pwLengthVal');
+  const pwOptions = ['pwUpper', 'pwLower', 'pwNumbers', 'pwSymbols'];
+
+  function triggerPwGen() {
+    const opts = {};
+    pwOptions.forEach(id => {
+      const el = $('#' + id);
+      if (el) opts[id.replace('pw', '').toLowerCase()] = el.checked;
+    });
+    pwOutput.value = generatePassword(parseInt(pwLength.value), opts);
+  }
+
+  pwLength?.addEventListener('input', () => {
+    pwLengthVal.textContent = pwLength.value;
+    triggerPwGen();
+  });
+  $('#pwGenBtn')?.addEventListener('click', triggerPwGen);
+  
+  // Initial password
+  if (pwOutput) triggerPwGen();
+
+  /* 10. SAMPLE DATA LOADING */
+  const SAMPLES = {
+    md: "# Tools4Tech\n\nThis is a **live preview** of the Markdown editor.\n\n### Features:\n- 100% Client-Side\n- Fast & Private\n- [Easy to use](https://tools4tech.com)\n\n```javascript\nconsole.log('Hello World');\n```",
+    rx: { pattern: '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}', test: 'Contact us at hello@tools4tech.com or support@example.org' },
+    ts: '1714521600',
+    url: 'https://example.com:8080/path/to/resource?query=1&auth=true#section-1',
+    cr: '0 9 * * 1-5',
+    json: '{\n  "project": "Tools4Tech",\n  "version": "1.0.0",\n  "active": true,\n  "tools": ["JSON", "Base64", "Regex"]\n}',
+    b64: 'SGVsbG8gZnJvbSBUb29sczRUZWNoIQ=='
+  };
+
+  $('#mdSample')?.addEventListener('click', () => {
+    mdInput.value = SAMPLES.md;
+    renderMd();
+  });
+
+  $('#rxSample')?.addEventListener('click', () => {
+    rxPattern.value = SAMPLES.rx.pattern;
+    rxTestStr.value = SAMPLES.rx.test;
+    evalRegexUI();
+  });
+
+  $('#tsSample')?.addEventListener('click', () => {
+    tsEpochInput.value = SAMPLES.ts;
+    tsConvertEpochBtn.click();
+  });
+
+  $('#urlSample')?.addEventListener('click', () => {
+    urlInput.value = SAMPLES.url;
+    parseUrlUI();
+  });
+
+  $('#crSample')?.addEventListener('click', () => {
+    const parts = SAMPLES.cr.split(' ');
+    cronInputs.forEach((el, i) => el.value = parts[i]);
+    updateCronUI();
+  });
+
+  $('#jsonSample')?.addEventListener('click', () => {
+    jsonInput.value = SAMPLES.json;
+    processJson(2);
+  });
+
+  $('#b64Sample')?.addEventListener('click', () => {
+    b64Base64.value = SAMPLES.b64;
+    b64Text.value = decodeBase64(SAMPLES.b64);
+  });
 
 })();

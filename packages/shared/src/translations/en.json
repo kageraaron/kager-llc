@@ -1,0 +1,18 @@
+{
+  "md_title": "Markdown Editor & Previewer",
+  "md_subtitle": "Write Markdown on the left, see the preview on the right instantly.",
+  "rx_title": "Regex Tester",
+  "rx_subtitle": "Test regular expressions in real-time with match highlighting.",
+  "ts_title": "Unix Timestamp Converter",
+  "ts_subtitle": "Instantly convert Unix timestamps to human-readable dates.",
+  "up_title": "URL Parser & Query String Editor",
+  "up_subtitle": "Deconstruct and edit URLs instantly in your browser.",
+  "cr_title": "Cron Schedule",
+  "cr_subtitle": "Build cron expressions and see human-readable descriptions.",
+  "js_title": "JSON Formatter",
+  "js_subtitle": "Beautify, minify, and validate JSON data instantly.",
+  "b64_title": "Base64 Converter",
+  "b64_subtitle": "Encode text to Base64 or decode Base64 back to human-readable text.",
+  "pw_title": "Password Generator",
+  "pw_subtitle": "Generate secure, random passwords locally using your browser's crypto API."
+}

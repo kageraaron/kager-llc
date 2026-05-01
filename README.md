@@ -1,27 +1,40 @@
-# Kager LLC Projects
+# Kager LLC Web Utility Suite
 
-This monorepo contains various client-side web tools, utilities, and games developed for the Kager LLC portfolio.
+A suite of high-performance, privacy-focused web utilities designed to run 100% in the browser. 
 
-## 🚀 Projects
+## 🏗 Repository Architecture (Monorepo)
 
-*   **Local-Convert**: A tool for converting files between formats.
-*   **FruitFight**: A browser-based game.
-*   **Word-Nexus**: A word puzzle or game.
-*   **color-picker**: A utility for selecting and managing colors.
-*   **endless-stories**: Programatically stitch together ASMR / Subway Surfers background video with narrated (text-to-voice) reddit threads. Posted to Instagram, YouTube, TikTok feeds.
-*   **pdf-assembler**: A tool to merge or assemble PDF documents.
-*   **pdf-separator**: A tool to split or extract pages from PDF documents.
-*   **qr-code-generator**: A utility to generate custom QR codes.
-*   **watermark-remover**: A client-side image processing tool to remove watermarks.
+This repository uses **NPM Workspaces** to manage multiple independent projects and shared logic efficiently.
 
-## 🏗 Architecture & Development
+- **`tools4tech/`**: A Vite-based dashboard of developer utilities (JSON, Regex, Base64, etc.).
+- **`local-convert/`**: A Next.js application for heavy file conversions (Video, Images, PDFs).
+- **`packages/shared/`**: The core logic and localization strings shared across all projects.
+- **`utils/`**: Individual standalone tools.
 
-This repository uses an **Isolated Monorepo** strategy designed for parallel agentic development. 
+## 🚀 Getting Started
 
-*   **Isolation**: Each project directory is completely independent. Avoid relative imports (`../`) to other projects unless a specific shared library is established.
-*   **Branching**: Agents and developers should work on feature branches specific to the tool they are modifying (e.g., `agent/fruitfight/add-scoring`).
-*   **Roadmap**: Consult the `PRODUCTS_ROADMAP.md` for the current status, deployment plan, and future features for all applications.
+To set up the entire suite for development, follow these steps:
 
-## 🌐 Deployment
+### 1. Global Setup (from the root)
+Install dependencies and link the workspaces:
+```bash
+npm install
+```
 
-These applications are client-side only (HTML/CSS/JS) and can be deployed directly to static hosting platforms (like Vercel, Netlify, or GitHub Pages) by specifying the root directory for the corresponding tool.
+### 2. Development
+You can run any project individually by navigating to its folder:
+
+**For Tools4Tech:**
+```bash
+cd tools4tech
+npm run dev
+```
+
+**For Local-Convert:**
+```bash
+cd local-convert
+npm run dev
+```
+
+## 🔒 Privacy-First Design
+Every tool in this repository follows a strict "zero-server" architecture. All processing happens via WebAssembly, Web Workers, or standard browser APIs inside your browser tab. Your data never leaves your device.

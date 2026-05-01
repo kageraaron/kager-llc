@@ -1,40 +1,30 @@
-# Tools4Tech
+# Tools4Tech — Developer Toolbox
 
-A premium, dark-themed developer toolbox — five essential tools in one unified interface. **100% client-side** — no data ever leaves your browser.
+A collection of 100% client-side developer utilities including Markdown editing, Regex testing, JSON formatting, and more.
 
-## 🛠 Tools Included
+## 🛠 Local Development
 
-| Tool | Description |
-|------|-------------|
-| **Markdown Editor** | Split-pane editor with live preview, toolbar shortcuts, and HTML export |
-| **Regex Tester** | Real-time regex matching with highlighted overlays and match details |
-| **Unix Timestamp** | Live epoch clock, epoch↔date conversion (local, UTC, ISO, relative) |
-| **URL Parser** | Deconstruct URLs into components with editable query parameters |
-| **Cron Schedule** | Build cron expressions, see human-readable descriptions, preview next runs |
+This project is part of the Kager LLC monorepo and depends on the `@kager-llc/shared` package.
 
-## 🚀 Getting Started
+### Prerequisites
+Ensure you have run `npm install` in the **repository root** to link the shared dependencies.
 
-No build step required — just open `index.html` in a browser or serve via any static file server:
-
+### Run Development Server
 ```bash
-# Option 1: Python
-python3 -m http.server 8080
-
-# Option 2: Node.js
-npx serve .
+npm run dev
 ```
 
-## 📁 Files
+### Build for Production
+```bash
+npm run build
+```
 
-- `index.html` — Single-page app structure with all five tool sections
-- `style.css` — Design system (dark theme, glassmorphism, responsive)
-- `script.js` — All tool logic (navigation, markdown, regex, timestamp, URL, cron)
-
-## ⚙️ External Dependencies
-
-- [marked.js](https://github.com/markedjs/marked) (CDN) — Markdown → HTML rendering
-- [Inter](https://fonts.google.com/specimen/Inter) + [JetBrains Mono](https://fonts.google.com/specimen/JetBrains+Mono) — Typography (Google Fonts)
-
-## 📄 License
-
-This project is private and proprietary.
+## 🧰 Included Tools
+- **Markdown Editor:** Live preview and HTML export.
+- **Regex Tester:** Real-time matching and highlighting.
+- **JSON Formatter:** Beautify, minify, and validate JSON.
+- **Base64 Converter:** Encode/Decode strings locally.
+- **Password Generator:** Secure, random generation using browser crypto.
+- **Unix Timestamp:** Bidirectional conversion.
+- **URL Parser:** Component breakdown and query param editing.
+- **Cron Schedule:** Human-readable descriptions and next-run previews.

@@ -1,0 +1,14 @@
+{
+  "name": "kager-llc-suite",
+  "private": true,
+  "workspaces": [
+    "tools4tech",
+    "local-convert",
+    "packages/*",
+    "utils/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present"
+  }
+}

@@ -57,6 +57,18 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                 Cron Schedule
             </a>
+            <a class="nav-item" href="#json" data-tool="json">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                JSON Formatter
+            </a>
+            <a class="nav-item" href="#base64" data-tool="base64">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4a2 2 0 0 1 2-2h3"/><path d="M20 7V4a2 2 0 0 0-2-2h-3"/><path d="M4 17v3a2 2 0 0 0 2 2h3"/><path d="M20 17v3a2 2 0 0 1-2 2h-3"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="12" y1="9" x2="12" y2="15"/></svg>
+                Base64 Converter
+            </a>
+            <a class="nav-item" href="#password" data-tool="password">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                Password Gen
+            </a>
         </nav>
         <div class="sidebar-footer">100% Client-Side · No Data Leaves Your Browser</div>
     </aside>
@@ -73,7 +85,10 @@
             <div class="md-workspace">
                 <div class="md-pane">
                     <div class="md-pane-header">
-                        <span>Input</span>
+                        <div class="flex-between" style="width:100%">
+                            <span>Input</span>
+                            <button class="btn-link" id="mdSample">Load Sample</button>
+                        </div>
                         <div class="md-toolbar">
                             <button class="btn-icon" data-md="bold" title="Bold"><b>B</b></button>
                             <button class="btn-icon" data-md="italic" title="Italic"><i>I</i></button>
@@ -105,7 +120,10 @@
                 <p>Test regular expressions in real-time with match highlighting.</p>
             </div>
             <div class="glass-card">
-                <label>Regular Expression</label>
+                <div class="flex-between">
+                    <label>Regular Expression</label>
+                    <button class="btn-link" id="rxSample">Load Sample</button>
+                </div>
                 <div class="regex-input-row">
                     <span class="regex-slash">/</span>
                     <input type="text" id="regexPattern" placeholder="[a-zA-Z0-9]+">
@@ -145,7 +163,10 @@
                 <div class="epoch-date" id="tsLiveDate"></div>
             </div>
             <div class="glass-card">
-                <label>Epoch → Date</label>
+                <div class="flex-between">
+                    <label>Epoch → Date</label>
+                    <button class="btn-link" id="tsSample">Load Sample</button>
+                </div>
                 <div class="flex-row" style="margin-bottom: 14px;">
                     <input type="number" id="tsEpochInput" placeholder="e.g. 1714521600" style="flex:1">
                     <button class="btn btn-primary" id="tsConvertEpochBtn">Convert</button>
@@ -198,7 +219,10 @@
                 <p>Deconstruct URLs and edit query parameters instantly.</p>
             </div>
             <div class="glass-card">
-                <label for="urlInput">Full URL</label>
+                <div class="flex-between">
+                    <label for="urlInput">Full URL</label>
+                    <button class="btn-link" id="urlSample">Load Sample</button>
+                </div>
                 <textarea id="urlInput" placeholder="https://example.com:8080/path/to/page?query=1&foo=bar#section"></textarea>
                 <div id="urlError" class="error-msg hidden">Invalid URL format</div>
             </div>
@@ -236,7 +260,10 @@
                 <p>Build cron expressions, see human-readable descriptions, and preview next run times.</p>
             </div>
             <div class="glass-card">
-                <label>Cron Expression</label>
+                <div class="flex-between">
+                    <label>Cron Expression</label>
+                    <button class="btn-link" id="crSample">Load Sample</button>
+                </div>
                 <div class="cron-fields-grid" id="cronFieldsGrid">
                     <div class="cron-field-box"><input type="text" id="cronMin" value="*"><span class="cron-field-label">Minute</span></div>
                     <div class="cron-field-box"><input type="text" id="cronHour" value="*"><span class="cron-field-label">Hour</span></div>
@@ -270,7 +297,91 @@
                 <label>Next 5 Runs</label>
                 <ul class="next-runs-list" id="cronNextRuns"></ul>
             </div>
-            <!-- <div class="ad-banner"><p>Ad Space</p></div> -->
+        </section>
+
+        <!-- ===== JSON FORMATTER ===== -->
+        <section class="tool-section" id="tool-json">
+            <div class="tool-header">
+                <h2>JSON Formatter</h2>
+                <p>Beautify, minify, and validate JSON data instantly.</p>
+            </div>
+            <div class="glass-card">
+                <div class="flex-between">
+                    <label>JSON Input</label>
+                    <button class="btn-link" id="jsonSample">Load Sample</button>
+                </div>
+                <textarea id="jsonInput" placeholder='{"name":"Tools4Tech","features":["speed","privacy"]}' spellcheck="false" style="height:200px;font-family:var(--font-mono)"></textarea>
+                <div id="jsonError" class="error-msg hidden">Invalid JSON</div>
+            </div>
+            <div class="flex-row" style="margin-bottom:15px; gap:10px;">
+                <button class="btn btn-primary" id="jsonBeautify">Beautify</button>
+                <button class="btn btn-secondary" id="jsonMinify">Minify</button>
+                <button class="btn btn-danger" id="jsonClear">Clear</button>
+            </div>
+            <div class="glass-card">
+                <label>Output</label>
+                <div class="result-value">
+                    <textarea id="jsonOutput" readonly style="height:200px;font-family:var(--font-mono)"></textarea>
+                    <button class="btn-icon" data-copy="jsonOutput" title="Copy">📋</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== BASE64 CONVERTER ===== -->
+        <section class="tool-section" id="tool-base64">
+            <div class="tool-header">
+                <h2>Base64 Converter</h2>
+                <p>Encode text to Base64 or decode Base64 back to human-readable text.</p>
+            </div>
+            <div class="glass-card">
+                <div class="flex-between">
+                    <label>Text</label>
+                    <button class="btn-link" id="b64Sample">Load Sample</button>
+                </div>
+                <textarea id="b64Text" placeholder="Type or paste text here..." spellcheck="false" style="height:150px"></textarea>
+            </div>
+            <div class="flex-row" style="margin-bottom:15px; gap:10px;">
+                <button class="btn btn-primary" id="b64Encode">Encode →</button>
+                <button class="btn btn-primary" id="b64Decode">← Decode</button>
+            </div>
+            <div class="glass-card">
+                <label>Base64</label>
+                <div class="result-value">
+                    <textarea id="b64Base64" placeholder="Base64 result..." spellcheck="false" style="height:150px;font-family:var(--font-mono)"></textarea>
+                    <button class="btn-icon" data-copy="b64Base64" title="Copy">📋</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== PASSWORD GENERATOR ===== -->
+        <section class="tool-section" id="tool-password">
+            <div class="tool-header">
+                <h2>Password Generator</h2>
+                <p>Generate secure, random passwords locally using your browser's crypto API.</p>
+            </div>
+            <div class="glass-card">
+                <label>Your New Password</label>
+                <div class="result-value" style="margin-top:10px">
+                    <input type="text" id="pwOutput" readonly style="font-size:1.5rem; letter-spacing:1px; text-align:center; height:60px">
+                    <button class="btn-icon" data-copy="pwOutput" title="Copy">📋</button>
+                </div>
+            </div>
+            <div class="glass-card">
+                <label>Settings</label>
+                <div style="margin-top:15px">
+                    <div class="flex-between" style="margin-bottom:10px">
+                        <span>Length: <span id="pwLengthVal">16</span></span>
+                        <input type="range" id="pwLength" min="8" max="64" value="16" style="width:200px">
+                    </div>
+                    <div class="flex-row" style="flex-wrap:wrap; gap:20px; margin-top:20px">
+                        <label class="flex-row" style="gap:8px; cursor:pointer"><input type="checkbox" id="pwUpper" checked> Uppercase</label>
+                        <label class="flex-row" style="gap:8px; cursor:pointer"><input type="checkbox" id="pwLower" checked> Lowercase</label>
+                        <label class="flex-row" style="gap:8px; cursor:pointer"><input type="checkbox" id="pwNumbers" checked> Numbers</label>
+                        <label class="flex-row" style="gap:8px; cursor:pointer"><input type="checkbox" id="pwSymbols" checked> Symbols</label>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary btn-lg" id="pwGenBtn" style="width:100%">Generate Password</button>
         </section>
 
     </main>
@@ -280,6 +391,6 @@
 <div class="copy-toast" id="copyToast">Copied to clipboard!</div>
 
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script src="script.js"></script>
+<script type="module" src="script.js"></script>
 </body>
 </html>
