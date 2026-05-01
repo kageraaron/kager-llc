@@ -2,6 +2,8 @@ import { Metadata } from 'next';
 import { I18nProvider } from '@/lib/i18n';
 import Script from 'next/script';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import './globals.css';
 
 const baseUrl = 'https://local-convert.com';
@@ -79,28 +81,9 @@ export default function RootLayout({
       </head>
       <body>
         <I18nProvider>
-          <nav style={{ padding: '1.5rem 2rem', borderBottom: '1px solid var(--border)' }}>
-            <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-                <a href="/" style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--primary)' }}>
-                  Local-Convert
-                </a>
-                <LanguageSwitcher />
-              </div>
-              <div style={{ display: 'flex', gap: '2rem', fontSize: '0.9rem' }}>
-                <a href="/">Home</a>
-                <a href="/tools">Tools</a>
-                <a href="/pricing">Premium</a>
-                <a href="/about">About</a>
-              </div>
-            </div>
-          </nav>
+          <Navbar />
           {children}
-          <footer style={{ padding: '4rem 2rem', borderTop: '1px solid var(--border)', marginTop: '4rem' }}>
-            <div className="container" style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-              <p>&copy; {new Date().getFullYear()} Local-Convert. All files processed locally.</p>
-            </div>
-          </footer>
+          <Footer />
         </I18nProvider>
       </body>
     </html>

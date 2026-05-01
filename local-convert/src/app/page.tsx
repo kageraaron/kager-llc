@@ -36,10 +36,10 @@ export default function Home() {
           {t('hero_eyebrow')}
         </div>
         <h1 className="hero__title">
-          {t('hero_title').split('without leaving').map((part, i) => (
+          {t('hero_title').split('{highlight}').map((part, i) => (
             <span key={i}>
               {part}
-              {i === 0 && <span style={{ color: 'var(--primary)' }}>without leaving</span>}
+              {i === 0 && <span style={{ color: 'var(--primary)' }}>{t('hero_title_highlight')}</span>}
             </span>
           ))}
         </h1>
@@ -66,8 +66,8 @@ export default function Home() {
         {CONVERSION_CATEGORIES.map((category) => (
           <div key={category.name} style={{ marginBottom: '3rem' }}>
             <div style={{ marginBottom: '1.25rem' }}>
-              <h3 style={{ fontSize: '1.35rem', marginBottom: '0.25rem' }}>{category.name}</h3>
-              <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>{category.description}</p>
+              <h3 style={{ fontSize: '1.35rem', marginBottom: '0.25rem' }}>{t(category.name)}</h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>{t(category.description)}</p>
             </div>
             <div className="catalog-grid">
               {category.conversions.map((conv) => (
@@ -76,7 +76,7 @@ export default function Home() {
                   href={`/convert/${conv.from.toLowerCase()}-to-${conv.to.toLowerCase()}`}
                   className="catalog-tile"
                 >
-                  <span className="catalog-tile__route">Convert</span>
+                  <span className="catalog-tile__route">{t('catalog_tile_convert')}</span>
                   <span className="catalog-tile__title">
                     {conv.from} <span style={{ color: 'var(--text-subtle)', fontWeight: 500 }}>→</span>{' '}
                     <strong>{conv.to}</strong>
@@ -131,13 +131,6 @@ export default function Home() {
             </p>
           </div>
         </div>
-      </section>
-      {/* Pricing teaser */}
-      <section id="pricing" style={{ marginTop: '5rem', textAlign: 'center' }}>
-        <h2>{t('pricing_title')}</h2>
-        <p style={{ color: 'var(--text-muted)', maxWidth: 540, margin: '0.75rem auto 0' }}>
-          {t('pricing_desc')}
-        </p>
       </section>
     </main>
   );

@@ -11,10 +11,10 @@ export default function ToolsPage() {
     <main className="main container">
       <section className="hero">
         <h1 className="hero__title">
-          {t('tools_hero_title').split('conversion').map((part, i) => (
+          {t('tools_hero_title').split('{highlight}').map((part, i) => (
             <span key={i}>
               {part}
-              {i === 0 && <span style={{ color: 'var(--primary)' }}>conversion</span>}
+              {i === 0 && <span style={{ color: 'var(--primary)' }}>{t('tools_hero_title_highlight')}</span>}
             </span>
           ))}
         </h1>
@@ -27,8 +27,8 @@ export default function ToolsPage() {
         {CONVERSION_CATEGORIES.map((category) => (
           <div key={category.name} style={{ marginBottom: '4rem' }}>
             <div style={{ marginBottom: '1.5rem', borderBottom: '1px solid var(--border)', paddingBottom: '0.75rem' }}>
-              <h2 style={{ fontSize: '1.75rem', marginBottom: '0.5rem' }}>{category.name}</h2>
-              <p style={{ color: 'var(--text-muted)' }}>{category.description}</p>
+              <h2 style={{ fontSize: '1.75rem', marginBottom: '0.5rem' }}>{t(category.name)}</h2>
+              <p style={{ color: 'var(--text-muted)' }}>{t(category.description)}</p>
             </div>
             <div className="catalog-grid">
               {category.conversions.map((conv) => (
@@ -37,7 +37,7 @@ export default function ToolsPage() {
                   href={`/convert/${conv.from.toLowerCase()}-to-${conv.to.toLowerCase()}`}
                   className="catalog-tile"
                 >
-                  <span className="catalog-tile__route">Convert</span>
+                  <span className="catalog-tile__route">{t('catalog_tile_convert')}</span>
                   <span className="catalog-tile__title">
                     {conv.from} <span style={{ color: 'var(--text-subtle)', fontWeight: 500 }}>→</span>{' '}
                     <strong>{conv.to}</strong>

@@ -24,7 +24,7 @@ export default function EmbedPageClient({
     <main style={{ padding: '1rem', maxWidth: '100%', overflow: 'hidden' }}>
       <div style={{ marginBottom: '1rem', textAlign: 'center' }}>
         <h2 style={{ fontSize: '1.25rem', marginBottom: '0.25rem' }}>
-          {from} to {to} Converter
+          {t('convert_page_title').replace('{from}', from).replace('{to}', to).replace('{highlight}', t('convert_page_title_highlight'))}
         </h2>
         <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
           {t('hero_eyebrow').split('•')[0]} {/* 100% Private & Local style */}

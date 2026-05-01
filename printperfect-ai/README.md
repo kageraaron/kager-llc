@@ -24,6 +24,14 @@ PrintPerfect.ai is a **fully client-side** AI image editor. Every model runs in 
 | Upload entire album to editor; persist state of changes to each photo, order entire albums | TODO IMPLEMENT PLAN | TODO
 | Print-on-demand checkout | Planned | Printify API |
 
+TODO:
+- get languages working right
+- remove mentions of models in copy
+- tailor copy to demographic / SEO. Get domain name for right niche
+- finish printful integration. Take 20% of orders
+- enable multi photo upload, download
+- Google analytics / Google ad banners, rolls while processing
+
 ## Tech stack
 
 - **Framework:** Next.js 14 (App Router) + TypeScript

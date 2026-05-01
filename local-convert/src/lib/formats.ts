@@ -115,8 +115,8 @@ export interface ConversionCategory {
 
 export const CONVERSION_CATEGORIES: ConversionCategory[] = [
   {
-    name: 'Images',
-    description: 'Lossless, in-browser image conversion across the formats you use every day.',
+    name: 'cat_images',
+    description: 'cat_images_desc',
     conversions: [
       { from: 'HEIC', to: 'JPG' },
       { from: 'HEIC', to: 'PNG' },
@@ -129,8 +129,8 @@ export const CONVERSION_CATEGORIES: ConversionCategory[] = [
     ],
   },
   {
-    name: 'Video & Audio',
-    description: 'Re-encode video, extract audio, or build a GIF — all locally with FFmpeg.wasm.',
+    name: 'cat_media',
+    description: 'cat_media_desc',
     conversions: [
       { from: 'MP4',  to: 'MP3' },
       { from: 'WAV',  to: 'MP3' },
@@ -140,8 +140,8 @@ export const CONVERSION_CATEGORIES: ConversionCategory[] = [
     ],
   },
   {
-    name: 'Documents',
-    description: 'Build PDFs from images or rasterise PDF pages — without uploading a thing.',
+    name: 'cat_docs',
+    description: 'cat_docs_desc',
     conversions: [
       { from: 'PDF', to: 'JPG' },
       { from: 'PDF', to: 'PNG' },

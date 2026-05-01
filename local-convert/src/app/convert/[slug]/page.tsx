@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import ConvertPageClient from '@/components/Converter/ConvertPageClient';
+import NotFoundClient from '@/components/Converter/NotFoundClient';
 import { getFormat, isConversionSupported, getValidTargets } from '@/lib/formats';
 import { parseSlug, getBaseUrl } from '@/lib/utils';
 
@@ -56,15 +57,7 @@ export default async function ConvertPage({ params }: PageProps) {
   if (!parsed) {
     return (
       <main className="main container">
-        <div style={{ padding: '4rem 0', textAlign: 'center' }}>
-          <h1>Conversion not found</h1>
-          <p style={{ color: 'var(--text-muted)', marginTop: '0.5rem' }}>
-            The URL doesn't match a recognized format. Pick a conversion below.
-          </p>
-          <Link href="/" className="btn btn--primary btn--lg" style={{ marginTop: '2rem' }}>
-            Browse all tools
-          </Link>
-        </div>
+        <NotFoundClient />
       </main>
     );
   }

@@ -9,10 +9,10 @@ export default function AboutPage() {
     <main className="main container" style={{ maxWidth: '800px' }}>
       <section className="hero">
         <h1 className="hero__title">
-          {t('about_hero_title').split('{privacy}').map((part, i) => (
+          {t('about_hero_title').split('{highlight}').map((part, i) => (
             <span key={i}>
               {part}
-              {i === 0 && <span style={{ color: 'var(--primary)' }}>privacy-first</span>}
+              {i === 0 && <span style={{ color: 'var(--primary)' }}>{t('about_hero_title_highlight')}</span>}
             </span>
           ))}
         </h1>

@@ -37,14 +37,19 @@ export default function ConvertPageClient({
           marginBottom: '1.25rem',
         }}
       >
-        <Link href="/">Home</Link>
+        <Link href="/">{t('nav_home')}</Link>
         <span>·</span>
         <span>{from} to {to}</span>
       </div>
 
       <section className="hero" style={{ marginTop: 0 }}>
         <h1 className="hero__title">
-          {from} to {to} <span style={{ color: 'var(--primary)' }}>converter</span>
+          {t('convert_page_title').replace('{from}', from).replace('{to}', to).split('{highlight}').map((part, i) => (
+            <span key={i}>
+              {part}
+              {i === 0 && <span style={{ color: 'var(--primary)' }}>{t('convert_page_title_highlight')}</span>}
+            </span>
+          ))}
         </h1>
         <p className="hero__subtitle">
           {t('drop_specific_subheading').replace('{from}', from).replace('{to}', to)}
@@ -118,7 +123,7 @@ export default function ConvertPageClient({
                 href={`/convert/${conv.from.toLowerCase()}-to-${conv.to.toLowerCase()}`}
                 className="catalog-tile"
               >
-                <span className="catalog-tile__route">Convert</span>
+                <span className="catalog-tile__route">{t('catalog_tile_convert')}</span>
                 <span className="catalog-tile__title">
                   {conv.from} <span style={{ color: 'var(--text-subtle)', fontWeight: 500 }}>→</span>{' '}
                   <strong>{conv.to}</strong>

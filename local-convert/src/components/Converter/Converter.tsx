@@ -223,10 +223,10 @@ export default function Converter({ from, to, autoStart = false, compact = false
         error: supported
           ? undefined
           : !fromCode
-          ? `Unsupported file type${detected ? '' : ' — couldn\'t detect format'}.`
+          ? t('error_unsupported_type')
           : !targetCode
-          ? `No conversion available for ${fromCode}.`
-          : `Can't convert ${fromCode} → ${targetCode} yet.`,
+          ? t('error_no_conversion').replace('{from}', fromCode)
+          : t('error_cant_convert').replace('{from}', fromCode).replace('{to}', targetCode),
       };
     });
 
@@ -274,7 +274,7 @@ export default function Converter({ from, to, autoStart = false, compact = false
         prev.map((it) => (it.id === id ? { ...it, status: 'done', progress: 100, results } : it))
       );
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Conversion failed.';
+      const message = err instanceof Error ? err.message : t('error_conversion_failed');
       setItems((prev) =>
         prev.map((it) => (it.id === id ? { ...it, status: 'error', error: message } : it))
       );
@@ -323,13 +323,13 @@ export default function Converter({ from, to, autoStart = false, compact = false
           ...it,
           toCode,
           status: supported ? 'queued' : 'error',
-          error: supported ? undefined : `Can't convert ${it.fromCode} → ${toCode} yet.`,
+          error: supported ? undefined : t('error_cant_convert').replace('{from}', it.fromCode).replace('{to}', toCode),
           results: [],
           progress: 0,
         };
       })
     );
-  }, []);
+  }, [t]);
 
   /* ----- drag & drop --------------------------------------- */
 
@@ -449,7 +449,7 @@ export default function Converter({ from, to, autoStart = false, compact = false
           }}
         >
           <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
-            {items.length} {items.length === 1 ? 'file' : 'files'}
+            {items.length} {items.length === 1 ? t('unit_file') : t('unit_files')}
             {doneCount > 0 && <> • <span style={{ color: 'var(--success)' }}>{doneCount} {t('queue_done').toLowerCase()}</span></>}
             {queuedCount > 0 && <> • {queuedCount} {t('queue_ready').toLowerCase()}</>}
           </div>
@@ -585,7 +585,7 @@ function QueueRow({ item, lockedTo, onTargetChange, onConvert, onRemove }: Queue
           ) : (
             <details style={{ position: 'relative' }}>
               <summary className="btn btn--primary" style={{ listStyle: 'none' }}>
-                <IconDownload /> {item.results.length} files
+                <IconDownload /> {item.results.length} {item.results.length === 1 ? t('unit_file') : t('unit_files')}
               </summary>
               <div
                 style={{
@@ -632,7 +632,7 @@ function QueueRow({ item, lockedTo, onTargetChange, onConvert, onRemove }: Queue
         <button
           className="btn btn--icon btn--ghost"
           onClick={onRemove}
-          aria-label="Remove file"
+          aria-label={t('queue_remove')}
           disabled={item.status === 'converting'}
         >
           <IconClose />
