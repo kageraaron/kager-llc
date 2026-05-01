@@ -81,6 +81,18 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>
                 Hash Generator
             </a>
+            <a class="nav-item" href="#diff" data-tool="diff">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/></svg>
+                Diff Viewer
+            </a>
+            <a class="nav-item" href="#baseconvert" data-tool="baseconvert">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h1v6"/><path d="M14 15h2"/><path d="M14 12h2"/><path d="M14 9h2"/></svg>
+                Base Converter
+            </a>
+            <a class="nav-item" href="#caseconvert" data-tool="caseconvert">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+                Case Converter
+            </a>
         </nav>
         <div class="sidebar-footer">100% Client-Side · No Data Leaves Your Browser</div>
     </aside>
@@ -523,6 +535,145 @@
                 <div class="result-value">
                     <input type="text" id="hashOutput" readonly style="font-family:var(--font-mono);font-size:0.82rem">
                     <button class="btn-icon" data-copy="hashOutput" title="Copy">📋</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== DIFF VIEWER ===== -->
+        <section class="tool-section" id="tool-diff">
+            <div class="tool-header">
+                <h2>Diff Viewer</h2>
+                <p>Paste two blocks of text to see a line-by-line comparison with added and removed lines highlighted.</p>
+            </div>
+            <div class="diff-inputs-grid">
+                <div class="glass-card">
+                    <div class="flex-between">
+                        <label>Original</label>
+                        <button class="btn-link" id="diffSample">Load Sample</button>
+                    </div>
+                    <textarea id="diffOriginal" placeholder="Paste original text here…" spellcheck="false" style="height:200px"></textarea>
+                </div>
+                <div class="glass-card">
+                    <label>Modified</label>
+                    <textarea id="diffModified" placeholder="Paste modified text here…" spellcheck="false" style="height:200px"></textarea>
+                </div>
+            </div>
+            <div class="glass-card">
+                <div class="flex-between" style="margin-bottom:12px">
+                    <label style="margin-bottom:0">Diff</label>
+                    <div class="diff-stats" id="diffStats"></div>
+                </div>
+                <div class="diff-output" id="diffOutput">
+                    <div class="diff-empty">Enter text in both fields to see the diff.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== NUMBER BASE CONVERTER ===== -->
+        <section class="tool-section" id="tool-baseconvert">
+            <div class="tool-header">
+                <h2>Base Converter</h2>
+                <p>Convert numbers between decimal, binary, octal, and hexadecimal. Type in any field to update the rest.</p>
+            </div>
+            <div class="glass-card">
+                <div class="flex-between">
+                    <label>Number</label>
+                    <button class="btn-link" id="baseSample">Load Sample</button>
+                </div>
+                <div class="base-inputs-grid">
+                    <div class="base-input-card">
+                        <label class="base-label">Decimal <span class="base-tag">base 10</span></label>
+                        <input type="text" id="baseDec" placeholder="255" inputmode="numeric">
+                    </div>
+                    <div class="base-input-card">
+                        <label class="base-label">Hexadecimal <span class="base-tag">base 16</span></label>
+                        <input type="text" id="baseHex" placeholder="FF" style="font-family:var(--font-mono)">
+                    </div>
+                    <div class="base-input-card">
+                        <label class="base-label">Binary <span class="base-tag">base 2</span></label>
+                        <input type="text" id="baseBin" placeholder="11111111" style="font-family:var(--font-mono)">
+                    </div>
+                    <div class="base-input-card">
+                        <label class="base-label">Octal <span class="base-tag">base 8</span></label>
+                        <input type="text" id="baseOct" placeholder="377" style="font-family:var(--font-mono)">
+                    </div>
+                </div>
+                <div id="baseError" class="error-msg hidden">Value out of range (0 – 4 294 967 295)</div>
+            </div>
+            <div class="glass-card" id="baseBitCard">
+                <label>Bit Representation</label>
+                <div class="bit-grid">
+                    <div>
+                        <div class="bit-label">8-bit</div>
+                        <div class="bit-display" id="bits8"></div>
+                    </div>
+                    <div>
+                        <div class="bit-label">16-bit</div>
+                        <div class="bit-display" id="bits16"></div>
+                    </div>
+                    <div>
+                        <div class="bit-label">32-bit</div>
+                        <div class="bit-display" id="bits32"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== CASE CONVERTER ===== -->
+        <section class="tool-section" id="tool-caseconvert">
+            <div class="tool-header">
+                <h2>Case Converter</h2>
+                <p>Type or paste any text — spaces, underscores, hyphens, or camelCase — and see it converted to every naming convention instantly.</p>
+            </div>
+            <div class="glass-card">
+                <div class="flex-between">
+                    <label for="caseInput">Input Text</label>
+                    <button class="btn-link" id="caseSample">Load Sample</button>
+                </div>
+                <input type="text" id="caseInput" placeholder="e.g. hello world, helloWorld, hello-world…">
+            </div>
+            <div id="caseResults" class="hidden">
+                <div class="case-grid">
+                    <div class="glass-card case-card">
+                        <label>camelCase</label>
+                        <div class="result-value"><input type="text" id="caseCamel" readonly style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="caseCamel" title="Copy">📋</button></div>
+                    </div>
+                    <div class="glass-card case-card">
+                        <label>PascalCase</label>
+                        <div class="result-value"><input type="text" id="casePascal" readonly style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="casePascal" title="Copy">📋</button></div>
+                    </div>
+                    <div class="glass-card case-card">
+                        <label>snake_case</label>
+                        <div class="result-value"><input type="text" id="caseSnake" readonly style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="caseSnake" title="Copy">📋</button></div>
+                    </div>
+                    <div class="glass-card case-card">
+                        <label>SCREAMING_SNAKE</label>
+                        <div class="result-value"><input type="text" id="caseScreaming" readonly style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="caseScreaming" title="Copy">📋</button></div>
+                    </div>
+                    <div class="glass-card case-card">
+                        <label>kebab-case</label>
+                        <div class="result-value"><input type="text" id="caseKebab" readonly style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="caseKebab" title="Copy">📋</button></div>
+                    </div>
+                    <div class="glass-card case-card">
+                        <label>Title Case</label>
+                        <div class="result-value"><input type="text" id="caseTitleCase" readonly style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="caseTitleCase" title="Copy">📋</button></div>
+                    </div>
+                    <div class="glass-card case-card">
+                        <label>lower case</label>
+                        <div class="result-value"><input type="text" id="caseLower" readonly style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="caseLower" title="Copy">📋</button></div>
+                    </div>
+                    <div class="glass-card case-card">
+                        <label>UPPER CASE</label>
+                        <div class="result-value"><input type="text" id="caseUpper" readonly style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="caseUpper" title="Copy">📋</button></div>
+                    </div>
+                    <div class="glass-card case-card">
+                        <label>dot.case</label>
+                        <div class="result-value"><input type="text" id="caseDot" readonly style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="caseDot" title="Copy">📋</button></div>
+                    </div>
+                    <div class="glass-card case-card">
+                        <label>path/case</label>
+                        <div class="result-value"><input type="text" id="casePath" readonly style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="casePath" title="Copy">📋</button></div>
+                    </div>
                 </div>
             </div>
         </section>

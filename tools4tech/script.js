@@ -14,7 +14,11 @@ import {
   generatePassword,
   decodeJWT,
   parseColor,
-  hashText
+  hashText,
+  computeDiff,
+  parseBaseInput,
+  convertBases,
+  convertCase
 } from '@kager-llc/shared';
 
 (function () {
@@ -472,7 +476,116 @@ import {
   $$('input[name="hashAlgo"]').forEach(r => r.addEventListener('change', updateHashUI));
   updateHashUI();
 
-  /* 13. SAMPLE DATA LOADING */
+  /* 13. DIFF VIEWER */
+  const diffOriginal = $('#diffOriginal');
+  const diffModified = $('#diffModified');
+  const diffOutput = $('#diffOutput');
+  const diffStats = $('#diffStats');
+
+  function escapeHtmlText(str) {
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function renderDiffUI() {
+    const a = diffOriginal.value;
+    const b = diffModified.value;
+    if (!a && !b) {
+      diffStats.innerHTML = '';
+      diffOutput.innerHTML = '<div class="diff-empty">Enter text in both fields to see the diff.</div>';
+      return;
+    }
+    const { hunks, added, removed, equal } = computeDiff(a, b);
+
+    diffStats.innerHTML =
+      (added   ? `<span class="diff-stat diff-stat-added">+${added} added</span>`   : '') +
+      (removed ? `<span class="diff-stat diff-stat-removed">−${removed} removed</span>` : '') +
+      `<span class="diff-stat diff-stat-equal">${equal} unchanged</span>`;
+
+    const fragment = document.createDocumentFragment();
+    hunks.forEach(({ type, value }) => {
+      const line = document.createElement('div');
+      line.className = 'diff-line diff-line-' + type;
+      const prefix = type === 'added' ? '+ ' : type === 'removed' ? '− ' : '  ';
+      line.textContent = prefix + value;
+      fragment.appendChild(line);
+    });
+    diffOutput.innerHTML = '';
+    diffOutput.appendChild(fragment);
+  }
+
+  diffOriginal.addEventListener('input', renderDiffUI);
+  diffModified.addEventListener('input', renderDiffUI);
+
+  /* 14. NUMBER BASE CONVERTER */
+  const baseFields = {
+    dec: { el: $('#baseDec'), base: 10 },
+    hex: { el: $('#baseHex'), base: 16 },
+    bin: { el: $('#baseBin'), base: 2  },
+    oct: { el: $('#baseOct'), base: 8  },
+  };
+  const baseError = $('#baseError');
+  const bits8El   = $('#bits8');
+  const bits16El  = $('#bits16');
+  const bits32El  = $('#bits32');
+
+  function updateBaseUI(sourceKey) {
+    const { el, base } = baseFields[sourceKey];
+    const n = parseBaseInput(el.value, base);
+
+    if (el.value.trim() === '') {
+      baseError.classList.add('hidden');
+      Object.values(baseFields).forEach(f => { if (f !== baseFields[sourceKey]) f.el.value = ''; });
+      bits8El.textContent = bits16El.textContent = bits32El.textContent = '';
+      return;
+    }
+
+    if (n === null) {
+      baseError.classList.remove('hidden');
+      return;
+    }
+
+    baseError.classList.add('hidden');
+    const result = convertBases(n);
+    baseFields.dec.el.value = sourceKey === 'dec' ? el.value : result.decimal;
+    baseFields.hex.el.value = sourceKey === 'hex' ? el.value.toUpperCase() : result.hex;
+    baseFields.bin.el.value = sourceKey === 'bin' ? el.value : result.binary;
+    baseFields.oct.el.value = sourceKey === 'oct' ? el.value : result.octal;
+
+    bits8El.textContent  = result.bits8;
+    bits16El.textContent = result.bits16;
+    bits32El.textContent = result.bits32;
+  }
+
+  Object.keys(baseFields).forEach(key => {
+    baseFields[key].el.addEventListener('input', () => updateBaseUI(key));
+  });
+
+  /* 15. CASE CONVERTER */
+  const caseInput   = $('#caseInput');
+  const caseResults = $('#caseResults');
+
+  function updateCaseUI() {
+    const result = convertCase(caseInput.value);
+    if (!result) {
+      caseResults.classList.add('hidden');
+      return;
+    }
+    caseResults.classList.remove('hidden');
+    $('#caseCamel').value     = result.camel;
+    $('#casePascal').value    = result.pascal;
+    $('#caseSnake').value     = result.snake;
+    $('#caseScreaming').value = result.screamingSnake;
+    $('#caseKebab').value     = result.kebab;
+    $('#caseTitleCase').value = result.titleCase;
+    $('#caseLower').value     = result.lower;
+    $('#caseUpper').value     = result.upper;
+    $('#caseDot').value       = result.dot;
+    $('#casePath').value      = result.path;
+  }
+
+  caseInput.addEventListener('input', updateCaseUI);
+
+  /* 16. SAMPLE DATA LOADING */
   const SAMPLES = {
     md: "# Tools4Tech\n\nThis is a **live preview** of the Markdown editor.\n\n### Features:\n- 100% Client-Side\n- Fast & Private\n- [Easy to use](https://tools4tech.com)\n\n```javascript\nconsole.log('Hello World');\n```",
     rx: { pattern: '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}', test: 'Contact us at hello@tools4tech.com or support@example.org' },
@@ -483,7 +596,11 @@ import {
     b64: 'SGVsbG8gZnJvbSBUb29sczRUZWNoIQ==',
     jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE5OTk5OTk5OTl9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
     color: '#6366F1',
-    hash: 'The quick brown fox jumps over the lazy dog'
+    hash: 'The quick brown fox jumps over the lazy dog',
+    diffA: 'function greet(name) {\n  console.log("Hello, " + name);\n  return true;\n}\n\nconst user = "Alice";\ngreet(user);',
+    diffB: 'function greet(name, greeting = "Hello") {\n  console.log(greeting + ", " + name + "!");\n  return name;\n}\n\nconst user = "Bob";\ngreet(user, "Hi");',
+    base: '255',
+    caseText: 'user profile settings'
   };
 
   $('#mdSample')?.addEventListener('click', () => {
@@ -536,6 +653,22 @@ import {
   $('#hashSample')?.addEventListener('click', () => {
     hashInput.value = SAMPLES.hash;
     updateHashUI();
+  });
+
+  $('#diffSample')?.addEventListener('click', () => {
+    diffOriginal.value = SAMPLES.diffA;
+    diffModified.value = SAMPLES.diffB;
+    renderDiffUI();
+  });
+
+  $('#baseSample')?.addEventListener('click', () => {
+    baseFields.dec.el.value = SAMPLES.base;
+    updateBaseUI('dec');
+  });
+
+  $('#caseSample')?.addEventListener('click', () => {
+    caseInput.value = SAMPLES.caseText;
+    updateCaseUI();
   });
 
 })();

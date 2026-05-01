@@ -9,4 +9,7 @@ export * from './lib/password.js';
 export * from './lib/jwt.js';
 export * from './lib/color.js';
 export * from './lib/hash.js';
+export * from './lib/diff.js';
+export * from './lib/numberbase.js';
+export * from './lib/caseconvert.js';
 export * from './i18n.js';
