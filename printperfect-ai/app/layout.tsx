@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { I18nProvider } from '@/src/lib/i18n';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
+import { AdSenseScript } from '@/components/analytics/AdSenseScript';
 
 export const metadata: Metadata = {
   title: {
@@ -34,13 +36,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className="dark">
       <body className="min-h-screen bg-ink-950 text-ink-50 antialiased">
+        <GoogleAnalytics />
+        <AdSenseScript />
         <I18nProvider>
-          <header className="w-full border-b border-ink-800 bg-ink-900/40">
-            <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-center">
+          {/* Fixed-height global header so per-page layouts can compute viewport offsets reliably. */}
+          <header className="h-14 w-full border-b border-ink-800 bg-ink-900/40">
+            <div className="h-full max-w-6xl mx-auto px-6 flex items-center justify-center">
               <LanguageSwitcher />
             </div>
           </header>
-          <main className="pt-4">{children}</main>
+          {/* Use a div, not a main — page components render their own <main>. */}
+          <div>{children}</div>
         </I18nProvider>
       </body>
     </html>

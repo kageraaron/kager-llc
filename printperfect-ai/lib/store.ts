@@ -13,6 +13,21 @@ export type ToolId =
 /** Tools that need a paintable mask overlay on the canvas. */
 export const MASK_TOOLS: ToolId[] = ['inpaint', 'watermark-remove'];
 
+/**
+ * One image in the user's working album. Each item carries its own edit
+ * history so they can switch between photos without losing in-progress edits.
+ */
+export type AlbumItem = {
+  id: string;
+  name: string;
+  sourceImage: ImageBitmap;
+  currentImage: ImageBitmap;
+  history: ImageBitmap[];
+  historyIndex: number;
+  /** True if the user has applied at least one edit. */
+  edited: boolean;
+};
+
 export type Job = {
   id: string;
   tool: ToolId;
@@ -22,53 +37,53 @@ export type Job = {
   startedAt: number;
 };
 
-/**
- * Imperative API the BrushCanvas registers with the store so any other
- * component (e.g. FeaturePanel) can query/clear the current mask without
- * prop-drilling refs.
- */
 export type BrushApi = {
-  /**
-   * Returns an ImageData the same size as the source image, where painted
-   * pixels have alpha=0 and unpainted pixels are the original RGBA. Suitable
-   * to feed straight into the inpainter.
-   */
   composeMaskedImage: () => ImageData | null;
   hasMask: () => boolean;
   clear: () => void;
 };
 
 type EditorState = {
-  sourceImage: ImageBitmap | null;
-  currentImage: ImageBitmap | null;
-  history: ImageBitmap[];
-  historyIndex: number;
+  /** Album items in upload order. Index 0 is the first uploaded photo. */
+  items: AlbumItem[];
+  /** Currently-selected item id, or null when the album is empty. */
+  activeItemId: string | null;
+
   activeTool: ToolId | null;
   jobs: Job[];
-
-  /** Brush state (used by mask tools). */
   brushSize: number;
   brushMode: 'paint' | 'erase';
   brushApi: BrushApi | null;
 
-  setSource: (img: ImageBitmap) => void;
-  setCurrent: (img: ImageBitmap) => void;
+  // Album operations
+  addItems: (entries: { name: string; bitmap: ImageBitmap }[]) => void;
+  selectItem: (id: string) => void;
+  removeItem: (id: string) => void;
+  clearAlbum: () => void;
+
+  // Edits operate on the active item
   pushHistory: (img: ImageBitmap) => void;
   undo: () => void;
   redo: () => void;
+  resetActiveToOriginal: () => void;
+
+  // Tool / brush state
   setActiveTool: (tool: ToolId | null) => void;
   setBrushSize: (n: number) => void;
   setBrushMode: (mode: 'paint' | 'erase') => void;
   setBrushApi: (api: BrushApi | null) => void;
+
   upsertJob: (job: Job) => void;
   reset: () => void;
 };
 
+function newId(): string {
+  return `item_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
+}
+
 export const useEditorStore = create<EditorState>((set, get) => ({
-  sourceImage: null,
-  currentImage: null,
-  history: [],
-  historyIndex: -1,
+  items: [],
+  activeItemId: null,
   activeTool: null,
   jobs: [],
 
@@ -76,30 +91,100 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   brushMode: 'paint',
   brushApi: null,
 
-  setSource: (img) =>
-    set({ sourceImage: img, currentImage: img, history: [img], historyIndex: 0 }),
+  addItems: (entries) => {
+    const newItems: AlbumItem[] = entries.map((e) => ({
+      id: newId(),
+      name: e.name,
+      sourceImage: e.bitmap,
+      currentImage: e.bitmap,
+      history: [e.bitmap],
+      historyIndex: 0,
+      edited: false,
+    }));
+    const { items, activeItemId } = get();
+    set({
+      items: [...items, ...newItems],
+      activeItemId: activeItemId ?? newItems[0]?.id ?? null,
+    });
+  },
 
-  setCurrent: (img) => set({ currentImage: img }),
+  selectItem: (id) => {
+    const { items } = get();
+    if (items.some((i) => i.id === id)) set({ activeItemId: id });
+  },
+
+  removeItem: (id) => {
+    const { items, activeItemId } = get();
+    const next = items.filter((i) => i.id !== id);
+    let nextActive = activeItemId;
+    if (activeItemId === id) {
+      const idx = items.findIndex((i) => i.id === id);
+      nextActive = next[idx] ? next[idx].id : next[idx - 1]?.id ?? next[0]?.id ?? null;
+    }
+    set({ items: next, activeItemId: nextActive });
+  },
+
+  clearAlbum: () => set({ items: [], activeItemId: null }),
 
   pushHistory: (img) => {
-    const { history, historyIndex } = get();
-    const trimmed = history.slice(0, historyIndex + 1);
-    const next = [...trimmed, img];
-    set({ history: next, historyIndex: next.length - 1, currentImage: img });
+    const { items, activeItemId } = get();
+    if (!activeItemId) return;
+    set({
+      items: items.map((it) => {
+        if (it.id !== activeItemId) return it;
+        const trimmed = it.history.slice(0, it.historyIndex + 1);
+        const nextHistory = [...trimmed, img];
+        return {
+          ...it,
+          currentImage: img,
+          history: nextHistory,
+          historyIndex: nextHistory.length - 1,
+          edited: true,
+        };
+      }),
+    });
   },
 
   undo: () => {
-    const { history, historyIndex } = get();
-    if (historyIndex <= 0) return;
-    const newIndex = historyIndex - 1;
-    set({ historyIndex: newIndex, currentImage: history[newIndex] });
+    const { items, activeItemId } = get();
+    if (!activeItemId) return;
+    set({
+      items: items.map((it) => {
+        if (it.id !== activeItemId || it.historyIndex <= 0) return it;
+        const newIndex = it.historyIndex - 1;
+        return { ...it, historyIndex: newIndex, currentImage: it.history[newIndex] };
+      }),
+    });
   },
 
   redo: () => {
-    const { history, historyIndex } = get();
-    if (historyIndex >= history.length - 1) return;
-    const newIndex = historyIndex + 1;
-    set({ historyIndex: newIndex, currentImage: history[newIndex] });
+    const { items, activeItemId } = get();
+    if (!activeItemId) return;
+    set({
+      items: items.map((it) => {
+        if (it.id !== activeItemId || it.historyIndex >= it.history.length - 1) return it;
+        const newIndex = it.historyIndex + 1;
+        return { ...it, historyIndex: newIndex, currentImage: it.history[newIndex] };
+      }),
+    });
+  },
+
+  resetActiveToOriginal: () => {
+    const { items, activeItemId } = get();
+    if (!activeItemId) return;
+    set({
+      items: items.map((it) =>
+        it.id !== activeItemId
+          ? it
+          : {
+              ...it,
+              currentImage: it.sourceImage,
+              history: [it.sourceImage],
+              historyIndex: 0,
+              edited: false,
+            },
+      ),
+    });
   },
 
   setActiveTool: (tool) => set({ activeTool: tool }),
@@ -121,12 +206,15 @@ export const useEditorStore = create<EditorState>((set, get) => ({
 
   reset: () =>
     set({
-      sourceImage: null,
-      currentImage: null,
-      history: [],
-      historyIndex: -1,
+      items: [],
+      activeItemId: null,
       activeTool: null,
       jobs: [],
       brushApi: null,
     }),
 }));
+
+/** Convenience selector — the currently-active album item, or null. */
+export function useActiveItem(): AlbumItem | null {
+  return useEditorStore((s) => s.items.find((i) => i.id === s.activeItemId) ?? null);
+}

@@ -1,22 +1,20 @@
 'use client';
 
 import { useCallback, useEffect, useRef } from 'react';
-import { useEditorStore, type BrushApi } from '@/lib/store';
+import { useActiveItem, useEditorStore, type BrushApi } from '@/lib/store';
 
 /**
- * Interactive canvas that lets the user brush a mask on top of the current
- * image. Exposes a `BrushApi` through the editor store so FeaturePanel can
- * pull the masked ImageData on Apply.
+ * Interactive canvas that lets the user brush a mask on top of the active
+ * album item's image. Exposes a `BrushApi` through the editor store so
+ * FeaturePanel can pull the masked ImageData on Apply.
  *
- * Layout is two stacked canvases at identical dimensions:
- *   - imageCanvas: shows the working image (read-only).
- *   - maskCanvas:  full-resolution paintable layer; we draw it on top with
- *                  reduced opacity as a red overlay so the user can see the
- *                  selection.
+ * Two stacked canvases at the image's native resolution. The mask canvas sits
+ * visually on top of the image canvas with pointer events enabled. Strokes
+ * are drawn directly into the mask canvas with a translucent red fill.
  *
- * The mask canvas is kept at the *image's* native resolution so brushed
- * regions translate 1:1 into the inpainter input. We use CSS to scale both
- * canvases to fit the viewport.
+ * The mask is intentionally NOT cleared when the user switches between album
+ * items — switching photos clears their displayed mask via the canvas being
+ * re-mounted, but the data layer rebinds to the new item's dimensions.
  */
 export function BrushCanvas() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -25,25 +23,23 @@ export function BrushCanvas() {
   const drawingRef = useRef(false);
   const lastPointRef = useRef<{ x: number; y: number } | null>(null);
 
-  const currentImage = useEditorStore((s) => s.currentImage);
+  const item = useActiveItem();
+  const currentImage = item?.currentImage ?? null;
   const brushSize = useEditorStore((s) => s.brushSize);
   const brushMode = useEditorStore((s) => s.brushMode);
   const setBrushApi = useEditorStore((s) => s.setBrushApi);
 
-  // Layout & draw the image when it changes.
   useEffect(() => {
     const container = containerRef.current;
     const imgC = imageCanvasRef.current;
     const maskC = maskCanvasRef.current;
     if (!container || !imgC || !maskC || !currentImage) return;
 
-    // Native dimensions (mask runs at full image resolution).
     imgC.width = currentImage.width;
     imgC.height = currentImage.height;
     maskC.width = currentImage.width;
     maskC.height = currentImage.height;
 
-    // Fit-to-container CSS sizing.
     const cw = container.clientWidth;
     const ch = container.clientHeight;
     const ar = currentImage.width / currentImage.height;
@@ -64,12 +60,8 @@ export function BrushCanvas() {
     ictx.imageSmoothingQuality = 'high';
     ictx.clearRect(0, 0, imgC.width, imgC.height);
     ictx.drawImage(currentImage, 0, 0);
-
-    // Don't auto-clear the mask on image change; the user may have committed
-    // an inpaint and want to refine. They can press "Clear mask" to reset.
   }, [currentImage]);
 
-  // Convert a pointer event into mask-canvas coordinates (image-native).
   const eventToCanvas = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
     const c = maskCanvasRef.current!;
     const rect = c.getBoundingClientRect();
@@ -86,7 +78,6 @@ export function BrushCanvas() {
       const c = maskCanvasRef.current;
       const ctx = c?.getContext('2d');
       if (!c || !ctx) return;
-      // Scale brush to image coordinates (CSS px → image px).
       const rect = c.getBoundingClientRect();
       const scale = c.width / rect.width;
       const radius = (brushSize / 2) * scale;
@@ -101,7 +92,6 @@ export function BrushCanvas() {
       ctx.moveTo(a.x, a.y);
       ctx.lineTo(b.x, b.y);
       ctx.stroke();
-      // Round caps at endpoints so single clicks register as a dot.
       ctx.beginPath();
       ctx.arc(b.x, b.y, radius, 0, Math.PI * 2);
       ctx.fill();
@@ -137,26 +127,19 @@ export function BrushCanvas() {
     e.currentTarget.releasePointerCapture(e.pointerId);
   }, []);
 
-  // Register the BrushApi with the store so FeaturePanel can read the mask.
   useEffect(() => {
     const api: BrushApi = {
       composeMaskedImage: () => {
         const imgC = imageCanvasRef.current;
         const maskC = maskCanvasRef.current;
         if (!imgC || !maskC || !currentImage) return null;
-
         const ictx = imgC.getContext('2d');
         const mctx = maskC.getContext('2d');
         if (!ictx || !mctx) return null;
         const img = ictx.getImageData(0, 0, imgC.width, imgC.height);
         const mask = mctx.getImageData(0, 0, maskC.width, maskC.height);
-
-        // Set alpha to 0 wherever the mask has any opacity. The inpainter
-        // treats alpha < 128 as "fill this in".
         for (let i = 0; i < img.data.length; i += 4) {
-          if (mask.data[i + 3] > 16) {
-            img.data[i + 3] = 0;
-          }
+          if (mask.data[i + 3] > 16) img.data[i + 3] = 0;
         }
         return img;
       },
@@ -165,7 +148,6 @@ export function BrushCanvas() {
         if (!maskC) return false;
         const ctx = maskC.getContext('2d');
         if (!ctx) return false;
-        // Sampling every pixel is O(n) — sample a sparse grid for speed.
         const data = ctx.getImageData(0, 0, maskC.width, maskC.height).data;
         const step = Math.max(4, Math.floor(data.length / 40000));
         for (let i = 3; i < data.length; i += step * 4) {
@@ -197,9 +179,6 @@ export function BrushCanvas() {
           onPointerUp={onPointerUp}
           onPointerCancel={onPointerUp}
           className="absolute inset-0 block max-h-full max-w-full rounded-md cursor-crosshair touch-none"
-          // The mask canvas sits visually on top of the image canvas with
-          // pointer events enabled. The red strokes are part of the canvas
-          // pixel data itself (drawn with semi-transparent red).
         />
       </div>
     </div>

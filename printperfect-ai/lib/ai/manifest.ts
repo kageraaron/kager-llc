@@ -26,7 +26,10 @@ import type { ModelManifest } from './types';
 const env = (key: string, fallback: string) =>
   (typeof process !== 'undefined' && process.env?.[key]) || fallback;
 
-export const MANIFESTS: Record<'upscale' | 'colorize' | 'inpaint', ModelManifest> = {
+export const MANIFESTS: Record<
+  'upscale' | 'colorize' | 'inpaint' | 'restore' | 'remove-bg',
+  ModelManifest
+> = {
   upscale: {
     id: 'real-esrgan-x4plus-fp16',
     url: env(
@@ -50,5 +53,21 @@ export const MANIFESTS: Record<'upscale' | 'colorize' | 'inpaint', ModelManifest
       'https://huggingface.co/Carve/LaMa-ONNX/resolve/main/lama_fp32.onnx',
     ),
     sizeMb: 196,
+  },
+  restore: {
+    id: 'gfpgan-v1.4',
+    url: env(
+      'NEXT_PUBLIC_MODEL_RESTORE_URL',
+      'https://huggingface.co/Xenova/gfpgan/resolve/main/onnx/model.onnx',
+    ),
+    sizeMb: 333,
+  },
+  'remove-bg': {
+    id: 'rmbg-1.4',
+    url: env(
+      'NEXT_PUBLIC_MODEL_REMOVE_BG_URL',
+      'https://huggingface.co/briaai/RMBG-1.4/resolve/main/onnx/model.onnx',
+    ),
+    sizeMb: 176,
   },
 };

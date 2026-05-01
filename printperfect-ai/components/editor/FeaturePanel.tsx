@@ -1,9 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { MASK_TOOLS, useEditorStore, type ToolId } from '@/lib/store';
+import { MASK_TOOLS, useActiveItem, useEditorStore, type ToolId } from '@/lib/store';
 import { bitmapToImageData, imageDataToBitmap } from '@/lib/image/canvas';
 import { useInferenceWorker } from './useInferenceWorker';
+import { AdSlot } from '@/components/analytics/AdSlot';
 
 const COPY: Record<
   ToolId,
@@ -12,7 +13,6 @@ const COPY: Record<
     cta: string;
     description: string;
     supported: boolean;
-    /** Watermark and inpaint share the same model with different framing. */
     workerTool?: 'upscale' | 'colorize' | 'inpaint';
   }
 > = {
@@ -20,30 +20,28 @@ const COPY: Record<
     title: 'AI Upscale',
     cta: 'Upscale 4×',
     description:
-      'Enlarge your photo with sharp detail using Real-ESRGAN. Great for prepping low-res images for prints.',
+      'Enlarge your photo with sharp detail. Great for prepping low-res images for prints.',
     supported: true,
     workerTool: 'upscale',
   },
   colorize: {
     title: 'AI Colorize',
     cta: 'Colorize',
-    description:
-      'Bring black-and-white or sepia photos to life with realistic color (DDColor).',
+    description: 'Bring black-and-white or sepia photos to life with realistic color.',
     supported: true,
     workerTool: 'colorize',
   },
   restore: {
     title: 'Face Restoration',
     cta: 'Restore faces',
-    description:
-      'Sharpen blurry portraits and restore facial detail. Coming soon — GFPGAN integration.',
+    description: 'Sharpen blurry portraits and restore facial detail. Coming soon.',
     supported: false,
   },
   inpaint: {
     title: 'Inpaint / Object Removal',
     cta: 'Remove brushed areas',
     description:
-      'Brush over unwanted objects, then click Remove. LaMa fills the masked region using surrounding context.',
+      'Brush over unwanted objects, then click Remove. The masked region is filled using surrounding context.',
     supported: true,
     workerTool: 'inpaint',
   },
@@ -58,7 +56,7 @@ const COPY: Record<
   'remove-bg': {
     title: 'Background Remover',
     cta: 'Remove background',
-    description: 'Isolate the subject and produce a transparent PNG. Coming soon — RMBG-1.4.',
+    description: 'Isolate the subject and produce a transparent PNG. Coming soon.',
     supported: false,
   },
 };
@@ -68,12 +66,14 @@ const DEFAULT_BRUSH_SIZE: Record<ToolId, number> = {
   colorize: 32,
   restore: 32,
   inpaint: 48,
-  'watermark-remove': 16, // smaller default for fine work
+  'watermark-remove': 16,
   'remove-bg': 32,
 };
 
 export function FeaturePanel({ tool }: { tool: ToolId }) {
-  const currentImage = useEditorStore((s) => s.currentImage);
+  const item = useActiveItem();
+  const currentImage = item?.currentImage ?? null;
+  const itemCount = useEditorStore((s) => s.items.length);
   const pushHistory = useEditorStore((s) => s.pushHistory);
   const brushSize = useEditorStore((s) => s.brushSize);
   const setBrushSize = useEditorStore((s) => s.setBrushSize);
@@ -85,7 +85,6 @@ export function FeaturePanel({ tool }: { tool: ToolId }) {
   const copy = COPY[tool];
   const isMaskTool = MASK_TOOLS.includes(tool);
 
-  // Reset brush size to a sensible default when tool changes.
   useEffect(() => {
     setBrushSize(DEFAULT_BRUSH_SIZE[tool]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -111,7 +110,6 @@ export function FeaturePanel({ tool }: { tool: ToolId }) {
       const outputData = await run(copy.workerTool, inputData);
       const outBitmap = await imageDataToBitmap(outputData);
       pushHistory(outBitmap);
-      // Clear the mask after a successful inpaint so a second pass starts fresh.
       if (isMaskTool) brushApi?.clear();
     } catch (err) {
       setLocalError(err instanceof Error ? err.message : 'Something went wrong.');
@@ -123,6 +121,12 @@ export function FeaturePanel({ tool }: { tool: ToolId }) {
       <div>
         <h2 className="text-base font-semibold">{copy.title}</h2>
         <p className="mt-2 text-sm text-ink-400 leading-relaxed">{copy.description}</p>
+        {itemCount > 1 && (
+          <p className="mt-2 text-xs text-ink-500">
+            Working on <span className="text-ink-300">{item?.name ?? 'untitled'}</span>. Switch to
+            another photo using the strip below.
+          </p>
+        )}
       </div>
 
       {isMaskTool && copy.supported && (
@@ -193,6 +197,15 @@ export function FeaturePanel({ tool }: { tool: ToolId }) {
         </div>
       )}
 
+      {/* Ad slot shown only while a job is running, so it never disrupts the
+          empty/idle UI. Falls back to a placeholder when AdSense isn't
+          configured. */}
+      {state.running && (
+        <div className="pt-2">
+          <AdSlot label="Ad while we work" />
+        </div>
+      )}
+
       {(localError || state.error) && (
         <p className="text-xs text-red-400">{localError ?? state.error}</p>
       )}
@@ -214,9 +227,7 @@ function ModeButton({
       type="button"
       onClick={onClick}
       className={`flex-1 rounded-md px-3 py-1.5 text-xs font-medium transition ${
-        active
-          ? 'bg-accent text-white'
-          : 'text-ink-300 ring-1 ring-ink-700 hover:bg-ink-800'
+        active ? 'bg-accent text-white' : 'text-ink-300 ring-1 ring-ink-700 hover:bg-ink-800'
       }`}
     >
       {children}

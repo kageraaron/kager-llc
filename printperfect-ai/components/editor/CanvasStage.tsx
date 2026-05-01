@@ -1,19 +1,19 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { useEditorStore } from '@/lib/store';
+import { useActiveItem } from '@/lib/store';
 
 export function CanvasStage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const currentImage = useEditorStore((s) => s.currentImage);
+  const item = useActiveItem();
+  const currentImage = item?.currentImage ?? null;
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const container = containerRef.current;
     if (!canvas || !container || !currentImage) return;
 
-    // Fit the image into the available container while preserving aspect.
     const cw = container.clientWidth;
     const ch = container.clientHeight;
     const ar = currentImage.width / currentImage.height;
