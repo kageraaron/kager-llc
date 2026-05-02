@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LongPaw — Pet Longevity & Raw Feeding Calculator</title>
+  <meta name="description" content="Evidence-based nutrition calculator for dogs and cats. Personalized raw feeding plans by breed and age, with clinical research on pet cancer, diet, and longevity." />
+  <meta property="og:title" content="LongPaw — Pet Longevity & Raw Feeding Calculator" />
+  <meta property="og:description" content="Calculate your pet's ideal raw diet by breed, age, and weight. Backed by peer-reviewed research on pet cancer and species-appropriate nutrition." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header id="site-header">
+    <nav>
+      <div class="nav-container">
+        <a href="#" class="logo">Long<span>Paw</span></a>
+        <ul class="nav-links">
+          <li><a href="#problem">The Problem</a></li>
+          <li><a href="#calculator">Calculator</a></li>
+          <li><a href="#diet">Raw Diet</a></li>
+          <li><a href="#supplements">Supplements</a></li>
+          <li><a href="#research">Research</a></li>
+          <li><a href="#shop" class="nav-cta">Shop</a></li>
+        </ul>
+        <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ===== HERO ===== -->
+    <section id="hero">
+      <div class="container">
+        <div class="hero-inner">
+          <div class="hero-badge">Pet Nutrition · Cancer · Longevity</div>
+          <h1>Feed for <span>Longevity.</span><br />Not Convenience.</h1>
+          <p class="hero-sub">Half of dogs over 10 die of cancer. Diet is the most modifiable factor we have. Calculate your pet's species-appropriate raw feeding plan — backed by peer-reviewed research on canine and feline nutrition.</p>
+          <div class="hero-actions">
+            <a href="#calculator" class="btn btn-primary">Open Calculator</a>
+            <a href="#research" class="btn btn-ghost">Read the Research</a>
+          </div>
+        </div>
+        <div class="hero-disclaimer">
+          <span class="disclaimer-icon">⚠</span>
+          <p><strong>This is not veterinary advice.</strong> Always consult a veterinarian — ideally one trained in nutrition — before changing your pet's diet, especially if they have a chronic condition, are pregnant, or are very young or old. Raw feeding done improperly can cause nutritional imbalance or pathogen exposure.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PROBLEM OVERVIEW ===== -->
+    <section id="problem">
+      <div class="container">
+        <h2 class="section-title centered">The Modern Pet Health Crisis</h2>
+        <div class="risk-grid">
+          <div class="risk-card risk-critical">
+            <div class="risk-icon">🦴</div>
+            <h3>Cancer Epidemic</h3>
+            <p>Roughly 1 in 4 dogs will develop cancer in their lifetime. Among dogs over 10, cancer accounts for nearly half of all deaths — far higher than in their wild ancestors.</p>
+          </div>
+          <div class="risk-card risk-high">
+            <div class="risk-icon">⚖</div>
+            <h3>Obesity Pandemic</h3>
+            <p>An estimated 56% of dogs and 60% of cats in the US are overweight or obese. Carb-heavy kibble drives chronic insulin spikes that wild canids and felids never evolved to handle.</p>
+          </div>
+          <div class="risk-card risk-critical">
+            <div class="risk-icon">🔥</div>
+            <h3>Ultra-Processed Diet</h3>
+            <p>Most kibble is extruded at 200–300°F, denaturing proteins and creating advanced glycation end products (AGEs) — compounds linked to inflammation, kidney disease, and cancer.</p>
+          </div>
+          <div class="risk-card risk-high">
+            <div class="risk-icon">🦷</div>
+            <h3>Dental & Gut Decay</h3>
+            <p>By age 3, 80% of dogs and 70% of cats have periodontal disease. Soft processed food provides no mechanical cleaning and feeds inflammatory oral bacteria.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CALCULATOR ===== -->
+    <section id="calculator">
+      <div class="container">
+        <div class="section-header">
+          <div class="step-pill">Calculator</div>
+          <h2>Personalized Raw Feeding Plan</h2>
+          <p class="section-sub">Enter your pet's details to compute species-appropriate caloric needs, the BARF/PMR ratio split (muscle, organ, bone), and supplement recommendations tailored by breed, age, and life stage.</p>
+        </div>
+
+        <div class="calc-wrap">
+          <form id="calc-form" class="calc-form" autocomplete="off">
+            <div class="calc-row">
+              <label class="calc-field">
+                <span class="calc-label">Species</span>
+                <select id="species" name="species">
+                  <option value="dog">Dog</option>
+                  <option value="cat">Cat</option>
+                </select>
+              </label>
+
+              <label class="calc-field">
+                <span class="calc-label">Weight</span>
+                <div class="calc-input-group">
+                  <input type="number" id="weight" name="weight" min="1" max="220" step="0.1" value="50" required />
+                  <select id="weight-unit" name="weight-unit">
+                    <option value="lb">lb</option>
+                    <option value="kg">kg</option>
+                  </select>
+                </div>
+              </label>
+
+              <label class="calc-field">
+                <span class="calc-label">Age</span>
+                <div class="calc-input-group">
+                  <input type="number" id="age" name="age" min="0.1" max="25" step="0.1" value="5" required />
+                  <select id="age-unit" name="age-unit">
+                    <option value="years">years</option>
+                    <option value="months">months</option>
+                  </select>
+                </div>
+              </label>
+            </div>
+
+            <div class="calc-row">
+              <label class="calc-field">
+                <span class="calc-label">Breed Size</span>
+                <select id="breed-size" name="breed-size">
+                  <option value="toy">Toy (under 10 lb)</option>
+                  <option value="small">Small (10–25 lb)</option>
+                  <option value="medium" selected>Medium (25–55 lb)</option>
+                  <option value="large">Large (55–90 lb)</option>
+                  <option value="giant">Giant (90+ lb)</option>
+                </select>
+              </label>
+
+              <label class="calc-field">
+                <span class="calc-label">Activity Level</span>
+                <select id="activity" name="activity">
+                  <option value="low">Low (couch / senior)</option>
+                  <option value="moderate" selected>Moderate (daily walks)</option>
+                  <option value="high">High (working / athletic)</option>
+                </select>
+              </label>
+
+              <label class="calc-field">
+                <span class="calc-label">Body Condition</span>
+                <select id="condition" name="condition">
+                  <option value="lean">Lean — needs gain</option>
+                  <option value="ideal" selected>Ideal weight</option>
+                  <option value="overweight">Overweight — needs loss</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="calc-row calc-row-checkbox">
+              <label class="calc-check">
+                <input type="checkbox" id="neutered" name="neutered" checked />
+                <span>Spayed / Neutered</span>
+              </label>
+              <label class="calc-check">
+                <input type="checkbox" id="cancer-prone" name="cancer-prone" />
+                <span>Cancer-prone breed (Boxer, Golden, Bernese, Rottweiler)</span>
+              </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-calc">Calculate My Pet's Plan</button>
+          </form>
+
+          <div id="calc-results" class="calc-results" hidden>
+            <div class="results-header">
+              <h3 id="results-title">Your Pet's Plan</h3>
+              <span id="results-subtitle" class="results-subtitle"></span>
+            </div>
+
+            <div class="metrics-grid">
+              <div class="metric-card metric-primary">
+                <span class="metric-label">Daily Calories</span>
+                <span class="metric-value"><span id="m-calories">—</span><small>kcal</small></span>
+                <span class="metric-note" id="m-calories-note"></span>
+              </div>
+              <div class="metric-card">
+                <span class="metric-label">Daily Food</span>
+                <span class="metric-value"><span id="m-food-oz">—</span><small>oz</small></span>
+                <span class="metric-note" id="m-food-note"></span>
+              </div>
+              <div class="metric-card">
+                <span class="metric-label">% of Body Weight</span>
+                <span class="metric-value"><span id="m-percent">—</span><small>%</small></span>
+                <span class="metric-note">Daily intake target</span>
+              </div>
+              <div class="metric-card">
+                <span class="metric-label">Estimated Lifespan Gain</span>
+                <span class="metric-value"><span id="m-lifespan">—</span><small>yrs</small></span>
+                <span class="metric-note">vs. processed diet (per Purdue/Belfield obs.)</span>
+              </div>
+            </div>
+
+            <div class="ratio-section">
+              <h4>BARF / Prey-Model Ratio</h4>
+              <div class="ratio-bar">
+                <div class="ratio-segment ratio-muscle" id="r-muscle-bar"><span>Muscle Meat</span></div>
+                <div class="ratio-segment ratio-bone" id="r-bone-bar"><span>Raw Bone</span></div>
+                <div class="ratio-segment ratio-organ" id="r-organ-bar"><span>Organ</span></div>
+                <div class="ratio-segment ratio-veg" id="r-veg-bar"><span>Veg / Misc</span></div>
+              </div>
+              <div class="ratio-table">
+                <div class="ratio-row"><span class="ratio-dot dot-muscle"></span><span class="ratio-name">Muscle Meat (incl. heart)</span><span class="ratio-grams" id="r-muscle">—</span></div>
+                <div class="ratio-row"><span class="ratio-dot dot-bone"></span><span class="ratio-name">Raw Meaty Bone</span><span class="ratio-grams" id="r-bone">—</span></div>
+                <div class="ratio-row"><span class="ratio-dot dot-organ"></span><span class="ratio-name">Organ (½ liver, ½ other secreting)</span><span class="ratio-grams" id="r-organ">—</span></div>
+                <div class="ratio-row"><span class="ratio-dot dot-veg"></span><span class="ratio-name">Vegetables / Fruit / Misc</span><span class="ratio-grams" id="r-veg">—</span></div>
+              </div>
+            </div>
+
+            <div class="supp-section">
+              <h4>Recommended Supplements</h4>
+              <div id="supp-grid" class="supp-grid"></div>
+            </div>
+
+            <div class="cost-section">
+              <h4>Estimated Monthly Cost</h4>
+              <div class="cost-grid">
+                <div class="cost-card cost-diy">
+                  <span class="cost-label">DIY Raw (sourced locally)</span>
+                  <span class="cost-value">$<span id="c-diy">—</span><small>/mo</small></span>
+                  <span class="cost-detail">Most affordable; requires sourcing & balancing</span>
+                </div>
+                <div class="cost-card cost-premium cost-featured">
+                  <span class="cost-label">Subscription Raw (Farmer's Dog / We Feed Raw)</span>
+                  <span class="cost-value">$<span id="c-sub">—</span><small>/mo</small></span>
+                  <span class="cost-detail">Pre-portioned, vet-formulated, delivered</span>
+                  <a href="#shop" class="cost-cta">See Plans →</a>
+                </div>
+                <div class="cost-card cost-kibble">
+                  <span class="cost-label">Premium Kibble (for comparison)</span>
+                  <span class="cost-value">$<span id="c-kibble">—</span><small>/mo</small></span>
+                  <span class="cost-detail">Cheaper, but linked to higher disease risk</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="results-caveats">
+              <p><strong>Note:</strong> These figures are estimates based on RER (Resting Energy Requirement = 70 × kg<sup>0.75</sup>) and BARF guidelines. Individual needs vary — monitor body condition every 2 weeks and adjust by ±10%. Transition to raw over 7–14 days. Source meat from human-grade or properly handled supply.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== DIET DEEP-DIVE ===== -->
+    <section id="diet">
+      <div class="container">
+        <div class="section-header">
+          <div class="step-pill">Foundation</div>
+          <h2>What Species-Appropriate Actually Means</h2>
+          <p class="section-sub">Dogs are facultative carnivores; cats are obligate carnivores. Their digestive anatomy hasn't meaningfully changed in 14,000+ years. Here's what evolutionary biology tells us they need.</p>
+        </div>
+
+        <div class="test-grid">
+          <div class="card">
+            <div class="card-icon-wrap icon-green">🥩</div>
+            <h3>The 80/10/10 Framework</h3>
+            <p>The Prey Model Raw (PMR) breakdown approximates the composition of a whole prey animal:</p>
+            <div class="reagent-table">
+              <div class="reagent-row header"><span>Component</span><span>Ratio</span></div>
+              <div class="reagent-row"><span class="reagent-name">Muscle Meat</span><span class="result result-green">80%</span></div>
+              <div class="reagent-row"><span class="reagent-name">Edible Bone</span><span class="result result-amber">10%</span></div>
+              <div class="reagent-row"><span class="reagent-name">Organ Meat</span><span class="result result-red">10% (½ liver)</span></div>
+            </div>
+            <p class="note-text">BARF (Biologically Appropriate Raw Food) adds ~10% vegetables, fruit, and seeds. Cats require pure PMR — they cannot efficiently use plant matter.</p>
+          </div>
+
+          <div class="card card-highlight">
+            <div class="card-icon-wrap icon-amber">🌾</div>
+            <h3>Why Carbohydrates Matter</h3>
+            <p class="danger-text"><strong>Cancer cells preferentially metabolize glucose (the Warburg effect).</strong> Most kibble is 30–60% carbohydrate by dry weight.</p>
+            <div class="instruction-box">
+              <h4>Carb load comparison:</h4>
+              <ol>
+                <li>Wild canine prey diet: ~5–8% carbs</li>
+                <li>BARF raw diet: ~5–15% carbs</li>
+                <li>Premium grain-free kibble: ~30–40% carbs</li>
+                <li class="result-critical"><strong>Standard kibble: 40–60% carbs (mostly corn, rice, wheat)</strong></li>
+              </ol>
+            </div>
+            <p class="note-text">Ketogenic diets are being studied as adjunct cancer therapy in dogs (KetoPet Sanctuary; CSU Flint Animal Cancer Center).</p>
+          </div>
+
+          <div class="card">
+            <div class="card-icon-wrap icon-blue">🐟</div>
+            <h3>Critical Fatty Acids</h3>
+            <p>Modern commercial pet food is heavily skewed toward inflammatory omega-6 (from corn/poultry fat). The wild diet maintains a ratio closer to 1:1 to 1:4 (omega-3:omega-6).</p>
+            <ul class="resource-list">
+              <li><span><strong>EPA + DHA</strong> — anti-inflammatory; reduces tumor growth in canine cancer models</span></li>
+              <li><span><strong>Sardines / mackerel</strong> — best whole-food source; 1 sardine 2–3× per week</span></li>
+              <li><span><strong>Avoid:</strong> high-omega-6 oils (corn, sunflower, soy)</span></li>
+            </ul>
+            <p class="note-text">Target ratio: 1:1 to 1:5 omega-3:omega-6. Most kibble runs 1:15 or worse.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SUPPLEMENTS ===== -->
+    <section id="supplements">
+      <div class="container">
+        <div class="section-header">
+          <div class="step-pill">Stack</div>
+          <h2>The Longevity Supplement Protocol</h2>
+          <p class="section-sub">Even an excellent diet has gaps. These are the supplements with the strongest evidence in canine and feline health, organized by life stage and risk profile.</p>
+        </div>
+
+        <div class="protocol-timeline">
+
+          <div class="timeline-card timeline-puppy">
+            <div class="timeline-label">Life Stage 1</div>
+            <h3>Puppy / Kitten</h3>
+            <p class="timeline-desc">Build the foundation. Focus on growth, brain development, and joint architecture.</p>
+            <div class="supp-list">
+              <div class="supp-item">
+                <div class="supp-header"><span class="supp-name">Fish Oil (EPA/DHA)</span><span class="supp-dose">~75mg combined / lb</span></div>
+                <p>DHA is critical for brain and retinal development. Supports learning and trainability.</p>
+                <a href="#shop" class="supp-link">Buy Fish Oil →</a>
+              </div>
+              <div class="supp-item">
+                <div class="supp-header"><span class="supp-name">Probiotics</span><span class="supp-dose">1–5B CFU daily</span></div>
+                <p>Establishes diverse gut microbiome. Linked to lifelong immune resilience.</p>
+              </div>
+              <div class="supp-item">
+                <div class="supp-header"><span class="supp-name">Bone broth</span><span class="supp-dose">2–4 oz daily</span></div>
+                <p>Glycine, proline, and minerals for joint and gut development. Easy first food.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-card timeline-primary">
+            <div class="timeline-label">Life Stage 2</div>
+            <h3>Adult (1–7 yrs)</h3>
+            <p class="timeline-desc">Maintain. Protect cells, support gut, prevent inflammation.</p>
+            <div class="supp-list">
+              <div class="supp-item">
+                <div class="supp-header"><span class="supp-name">Fish Oil (EPA/DHA)</span><span class="supp-dose">~50mg / lb</span></div>
+                <p>Foundation anti-inflammatory. Lowers oxidative stress and cardiovascular risk.</p>
+                <a href="#shop" class="supp-link">Buy Fish Oil →</a>
+              </div>
+              <div class="supp-item">
+                <div class="supp-header"><span class="supp-name">Turmeric / Curcumin</span><span class="supp-dose">15–20mg / lb</span></div>
+                <p>Pair with black pepper (piperine) for absorption. Anti-inflammatory; studied in canine osteosarcoma adjunct protocols.</p>
+                <a href="#shop" class="supp-link">Buy Curcumin →</a>
+              </div>
+              <div class="supp-item">
+                <div class="supp-header"><span class="supp-name">Medicinal Mushrooms</span><span class="supp-dose">~50mg / lb</span></div>
+                <p>Turkey tail (PSP), reishi, maitake. PSP showed extended survival in canine hemangiosarcoma trial (UPenn 2012).</p>
+                <a href="#shop" class="supp-link">Buy Mushrooms →</a>
+              </div>
+              <div class="supp-item">
+                <div class="supp-header"><span class="supp-name">Probiotics</span><span class="supp-dose">5–10B CFU daily</span></div>
+                <p>Supports immune function (70% of immune cells are gut-associated) and digestion of raw food.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-card timeline-during">
+            <div class="timeline-label">Life Stage 3</div>
+            <h3>Senior (7+ yrs)</h3>
+            <p class="timeline-desc">Defend. Joints, cognition, mitochondria — all need extra support.</p>
+            <div class="supp-list">
+              <div class="supp-item supp-featured">
+                <div class="supp-header"><span class="supp-name">Glucosamine + Chondroitin</span><span class="supp-dose">15mg/lb + 8mg/lb</span></div>
+                <p>The most-studied joint protocol in veterinary medicine. Reduces NSAID dependence in arthritic dogs.</p>
+                <a href="#shop" class="supp-link">Buy Joint Supplement →</a>
+              </div>
+              <div class="supp-item">
+                <div class="supp-header"><span class="supp-name">Green-Lipped Mussel</span><span class="supp-dose">~15mg/lb</span></div>
+                <p>Whole-food source of glycosaminoglycans and anti-inflammatory ETA. Strong evidence in canine osteoarthritis.</p>
+                <a href="#shop" class="supp-link">Buy GLM →</a>
+              </div>
+              <div class="supp-item">
+                <div class="supp-header"><span class="supp-name">CoQ10 / Ubiquinol</span><span class="supp-dose">1mg / lb</span></div>
+                <p>Mitochondrial support. Cardiac function in aging dogs; investigated in canine DCM.</p>
+              </div>
+              <div class="supp-item">
+                <div class="supp-header"><span class="supp-name">SAM-e</span><span class="supp-dose">~9mg / lb</span></div>
+                <p>Cognitive support and liver protection in senior pets. Studied in canine cognitive dysfunction.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-card timeline-recovery">
+            <div class="timeline-label">Cancer-Prone</div>
+            <h3>High-Risk Breeds</h3>
+            <p class="timeline-desc">Add for Goldens, Boxers, Berners, Rottweilers, Flat-Coats.</p>
+            <div class="supp-list">
+              <div class="supp-item supp-featured">
+                <div class="supp-header"><span class="supp-name">Turkey Tail (PSP)</span><span class="supp-dose">100mg / kg</span></div>
+                <p>UPenn Vet Med 2012 trial: median survival in hemangiosarcoma dogs nearly doubled vs. historical controls.</p>
+                <a href="#shop" class="supp-link">Buy Turkey Tail →</a>
+              </div>
+              <div class="supp-item">
+                <div class="supp-header"><span class="supp-name">Vitamin D</span><span class="supp-dose">Per serum 25-OH-D test</span></div>
+                <p>Low canine vitamin D status correlates with multiple cancers. <strong>Test before supplementing — toxicity risk.</strong></p>
+              </div>
+              <div class="supp-item">
+                <div class="supp-header"><span class="supp-name">CBD (full-spectrum)</span><span class="supp-dose">0.25–1mg / lb 2× daily</span></div>
+                <p>Anti-inflammatory and anxiolytic. Cornell studies show benefit in canine osteoarthritis and seizure control.</p>
+              </div>
+              <div class="supp-item">
+                <div class="supp-header"><span class="supp-name">Pet Insurance</span><span class="supp-dose">Critical for cancer breeds</span></div>
+                <p>Cancer treatment in dogs runs $5,000–$20,000+. Insurance pays for itself with one major diagnosis.</p>
+                <a href="#shop" class="supp-link">Compare Plans →</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="protocol-caveat">
+          <h4>Evidence Caveat</h4>
+          <p>Most supplement evidence in pets comes from <strong>small-scale veterinary trials, observational studies, and extrapolation from human or rodent research</strong>. Effects are real but modest. Diet and weight management have far stronger longevity evidence than any supplement. Always discuss new supplements with your veterinarian — particularly if your pet takes medications, has kidney/liver disease, or is undergoing cancer treatment.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== RESEARCH ===== -->
+    <section id="research">
+      <div class="container">
+        <div class="section-header">
+          <h2>Research & Evidence Base</h2>
+          <p class="section-sub">The peer-reviewed science behind raw feeding and pet longevity. Links open PubMed or source publications.</p>
+        </div>
+
+        <div class="research-grid">
+
+          <div class="research-card">
+            <span class="research-tag tag-cancer">Cancer Epidemiology</span>
+            <h4>Diet & Canine Cancer Risk</h4>
+            <p>A long-running observational study by Dr. Gerard Lippert tracking 522 client-owned dogs found that homemade fresh-food diets were associated with significantly longer lifespans than commercial-only diets, with multivariate adjustment for breed and weight.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/?term=Lippert+dog+lifespan+diet" target="_blank" rel="noopener" class="research-link">
+              Lippert & Sapy — Lifespan & Diet in Dogs →
+            </a>
+          </div>
+
+          <div class="research-card">
+            <span class="research-tag tag-thermo">Processing</span>
+            <h4>AGEs in Pet Food</h4>
+            <p>A 2018 University of Helsinki analysis quantified advanced glycation end products (AGEs) in commercial pet foods. Dry extruded foods contained 122× the dietary AGE load of the BARF-equivalent raw diet, with implications for inflammation and aging.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/30055590/" target="_blank" rel="noopener" class="research-link">
+              Hemida et al. — AGEs in Pet Food (PubMed) →
+            </a>
+          </div>
+
+          <div class="research-card">
+            <span class="research-tag tag-mushroom">Cancer Adjunct</span>
+            <h4>Turkey Tail Mushroom in Hemangiosarcoma</h4>
+            <p>A Penn Vet randomized trial in dogs with splenic hemangiosarcoma reported the longest median survival times reported for the disease in dogs receiving high-dose I'm-Yunity (PSP) — a polysaccharopeptide from Coriolus versicolor (turkey tail mushroom).</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/22500141/" target="_blank" rel="noopener" class="research-link">
+              Brown & Reetz (2012) — PubMed →
+            </a>
+          </div>
+
+          <div class="research-card">
+            <span class="research-tag tag-omega">Omega-3</span>
+            <h4>EPA/DHA in Canine Osteoarthritis</h4>
+            <p>A multi-center, double-blinded, randomized trial demonstrated that diets supplemented with high concentrations of fish-oil-derived omega-3 fatty acids significantly improved owner-assessed mobility and reduced pain scores in arthritic dogs.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/20043800/" target="_blank" rel="noopener" class="research-link">
+              Roush et al. (2010) — JAVMA →
+            </a>
+          </div>
+
+          <div class="research-card">
+            <span class="research-tag tag-microbiome">Microbiome</span>
+            <h4>Raw Diet & Gut Microbiome</h4>
+            <p>Research from the University of Helsinki and others shows that raw-fed dogs maintain higher microbial diversity, including more <em>Lactobacillus</em> and fewer pathogenic <em>Clostridium</em>, compared to kibble-fed dogs — with implications for systemic inflammation and immune health.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/?term=raw+diet+microbiome+dog" target="_blank" rel="noopener" class="research-link">
+              Search PubMed: raw diet microbiome dog →
+            </a>
+          </div>
+
+          <div class="research-card">
+            <span class="research-tag tag-clinical">Caloric Restriction</span>
+            <h4>Lifelong Caloric Restriction in Labs</h4>
+            <p>Purina's 14-year lifetime study of 48 Labrador Retrievers showed dogs fed 25% less than free-choice littermates lived a median of 1.8 years longer (~15% lifespan extension) and developed clinical osteoarthritis 2 years later. Body condition is a stronger lever than diet composition.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/11991408/" target="_blank" rel="noopener" class="research-link">
+              Kealy et al. (2002) — JAVMA →
+            </a>
+          </div>
+
+        </div>
+
+        <div class="trusted-resources">
+          <h3>Trusted Pet Nutrition Resources</h3>
+          <div class="resource-cards">
+            <a href="https://moderndogmag.com/" target="_blank" rel="noopener" class="resource-card">
+              <h4>Tufts Petfoodology</h4>
+              <p>Vet-nutritionist-run blog from Tufts CSAVN. Skeptical, evidence-anchored takes on pet diet trends.</p>
+            </a>
+            <a href="https://wsava.org" target="_blank" rel="noopener" class="resource-card">
+              <h4>WSAVA Nutrition</h4>
+              <p>World Small Animal Veterinary Association — global nutrition guidelines and toolkits.</p>
+            </a>
+            <a href="https://www.dogsnaturallymagazine.com" target="_blank" rel="noopener" class="resource-card">
+              <h4>Dogs Naturally</h4>
+              <p>Holistic vet community focused on raw, fresh, and minimally processed feeding practices.</p>
+            </a>
+            <a href="https://www.csuanimalcancercenter.org" target="_blank" rel="noopener" class="resource-card">
+              <h4>CSU Flint Animal Cancer Ctr</h4>
+              <p>Premier veterinary oncology research center. Source for canine cancer trial information.</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SHOP ===== -->
+    <section id="shop">
+      <div class="container">
+        <div class="section-header">
+          <h2>Longevity Essentials</h2>
+          <p class="section-sub">Products selected for evidence and quality. <span class="affiliate-note">Affiliate disclosure: links below may earn a commission at no extra cost to you. We only recommend what we'd feed our own animals.</span></p>
+        </div>
+
+        <!-- Subscription Raw -->
+        <div class="shop-category">
+          <h3>🥩 Subscription Raw — <em>The Easy Path</em></h3>
+          <div class="product-grid">
+            <div class="product-card product-essential">
+              <div class="product-badge">Top Pick</div>
+              <h4>The Farmer's Dog</h4>
+              <p>Vet-formulated, gently cooked human-grade meals. Pre-portioned by weight and age. Strongest brand in the fresh-food category. Best for owners new to fresh feeding.</p>
+              <div class="product-footer">
+                <span class="price">From ~$2/day</span>
+                <a href="#" class="btn btn-sm btn-primary">Get 50% Off Trial →</a>
+              </div>
+            </div>
+            <div class="product-card product-essential">
+              <div class="product-badge">True Raw</div>
+              <h4>We Feed Raw</h4>
+              <p>Frozen, complete-and-balanced raw meals delivered. 80/10/10 BARF formula. Ideal if you want truly raw rather than gently cooked.</p>
+              <div class="product-footer">
+                <span class="price">From ~$3/day</span>
+                <a href="#" class="btn btn-sm btn-primary">Build Your Plan →</a>
+              </div>
+            </div>
+            <div class="product-card">
+              <h4>Raised Right (cooked fresh)</h4>
+              <p>Limited-ingredient gently cooked meals. Lower carb than most fresh competitors. Excellent for sensitive pets and those transitioning from kibble.</p>
+              <div class="product-footer">
+                <span class="price">From ~$2.50/day</span>
+                <a href="#" class="btn btn-sm btn-secondary">View Plans →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Joint & Longevity Supplements -->
+        <div class="shop-category">
+          <h3>💊 Joint & Longevity Supplements</h3>
+          <div class="product-grid">
+            <div class="product-card">
+              <div class="product-timing-badge">Daily — All Ages</div>
+              <h4>Nordic Naturals Omega-3 Pet</h4>
+              <p>Third-party tested fish oil. Wild-caught, low-heat processed. Lower oxidation than most pet brands. The cornerstone supplement.</p>
+              <div class="product-footer">
+                <span class="price">~$30</span>
+                <a href="#" class="btn btn-sm btn-primary">Buy on Amazon →</a>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="product-timing-badge">Senior / Cancer-prone</div>
+              <h4>Real Mushrooms Pet Daily</h4>
+              <p>Organic turkey tail, reishi, maitake, shiitake. Hot-water extracted and standardized for beta-glucans — the active immunomodulatory fraction.</p>
+              <div class="product-footer">
+                <span class="price">~$45</span>
+                <a href="#" class="btn btn-sm btn-primary">Buy Real Mushrooms →</a>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="product-timing-badge">Senior / Joint</div>
+              <h4>Antinol Plus (Green-Lipped Mussel)</h4>
+              <p>Patented PCSO-524 lipid extract from NZ green-lipped mussel. Strong evidence in canine osteoarthritis trials; often more effective than glucosamine alone.</p>
+              <div class="product-footer">
+                <span class="price">~$60</span>
+                <a href="#" class="btn btn-sm btn-primary">Buy Antinol →</a>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="product-timing-badge">Adult / All Ages</div>
+              <h4>Adored Beast Probiotics</h4>
+              <p>Spore-form probiotic that survives stomach acid. Vet-formulated. Excellent for dogs transitioning to raw or recovering from antibiotics.</p>
+              <div class="product-footer">
+                <span class="price">~$40</span>
+                <a href="#" class="btn btn-sm btn-primary">Buy Adored Beast →</a>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="product-timing-badge">Adult / Inflammation</div>
+              <h4>Curcumin (CurcuVET)</h4>
+              <p>Phytosome-formulated turmeric for high oral bioavailability. Veterinary-grade dosing. Backed by inflammation and joint trials in dogs.</p>
+              <div class="product-footer">
+                <span class="price">~$35</span>
+                <a href="#" class="btn btn-sm btn-primary">Buy CurcuVET →</a>
+              </div>
+            </div>
+            <div class="product-card product-recovery">
+              <div class="product-timing-badge timing-recovery">Senior — Cognition</div>
+              <h4>Denamarin (SAM-e + Silybin)</h4>
+              <p>The veterinary-standard liver and cognitive support supplement. Used widely in senior wellness and post-treatment liver protection.</p>
+              <div class="product-footer">
+                <span class="price">~$60</span>
+                <a href="#" class="btn btn-sm btn-secondary">Buy Denamarin →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Insurance -->
+        <div class="shop-category">
+          <h3>🛡 Pet Health Insurance — <em>Critical for Cancer-Prone Breeds</em></h3>
+          <div class="product-grid">
+            <div class="product-card product-essential">
+              <div class="product-badge">Best for Cancer Coverage</div>
+              <h4>Healthy Paws</h4>
+              <p>No per-incident or annual cap. Covers cancer treatment, chemotherapy, and specialist care. Top consumer ratings; fast claim turnaround.</p>
+              <div class="product-footer">
+                <span class="price">From ~$30/mo</span>
+                <a href="#" class="btn btn-sm btn-primary">Get Quote →</a>
+              </div>
+            </div>
+            <div class="product-card product-essential">
+              <div class="product-badge">Best Customization</div>
+              <h4>Lemonade Pet</h4>
+              <p>Customizable deductibles and reimbursement. Add-ons for preventive care, behavioral, and physical therapy. Strong app and instant claims.</p>
+              <div class="product-footer">
+                <span class="price">From ~$15/mo</span>
+                <a href="#" class="btn btn-sm btn-primary">Get Quote →</a>
+              </div>
+            </div>
+            <div class="product-card">
+              <h4>Trupanion</h4>
+              <p>Pays vets directly at point of service (no reimbursement wait). 90% reimbursement, no payout caps. Ideal for emergency-prone breeds.</p>
+              <div class="product-footer">
+                <span class="price">From ~$45/mo</span>
+                <a href="#" class="btn btn-sm btn-secondary">Get Quote →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tools -->
+        <div class="shop-category">
+          <h3>⚖ Feeding Tools</h3>
+          <div class="product-grid">
+            <div class="product-card">
+              <h4>Digital Kitchen Scale (1g precision)</h4>
+              <p>Essential for accurate raw portioning. You can't hit BARF ratios by eye — weigh every meal until you've calibrated.</p>
+              <div class="product-footer">
+                <span class="price">~$20</span>
+                <a href="#" class="btn btn-sm btn-secondary">Buy on Amazon →</a>
+              </div>
+            </div>
+            <div class="product-card">
+              <h4>Stainless Steel Bowls (set of 2)</h4>
+              <p>Plastic bowls harbor bacteria and can cause "puppy acne." Stainless steel is non-porous, dishwasher-safe, and the only safe choice for raw.</p>
+              <div class="product-footer">
+                <span class="price">~$25</span>
+                <a href="#" class="btn btn-sm btn-secondary">Buy on Amazon →</a>
+              </div>
+            </div>
+            <div class="product-card">
+              <h4>Chest Freezer (5 cu ft)</h4>
+              <p>The single best ROI in raw feeding. Buy meat in bulk from local butcher or co-op and save 40–60%. Pays for itself in 3–6 months.</p>
+              <div class="product-footer">
+                <span class="price">~$200</span>
+                <a href="#" class="btn btn-sm btn-secondary">Find on Amazon →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="logo">Long<span>Paw</span></a>
+          <p>Evidence-based pet nutrition. Calculators, research, and tools to help your dog or cat live longer, healthier lives.</p>
+          <div class="footer-orgs">
+            <a href="https://wsava.org" target="_blank" rel="noopener">WSAVA</a>
+            <a href="https://www.csuanimalcancercenter.org" target="_blank" rel="noopener">CSU Flint</a>
+            <a href="https://vetnutrition.tufts.edu" target="_blank" rel="noopener">Tufts CSAVN</a>
+          </div>
+        </div>
+        <div class="footer-nav">
+          <h4>On This Page</h4>
+          <a href="#problem">The Problem</a>
+          <a href="#calculator">Calculator</a>
+          <a href="#diet">Raw Diet</a>
+          <a href="#supplements">Supplements</a>
+          <a href="#research">Research</a>
+          <a href="#shop">Shop</a>
+        </div>
+        <div class="footer-emergency">
+          <h4>Emergency Resources</h4>
+          <p><strong>If your pet is in crisis:</strong></p>
+          <ul>
+            <li>ASPCA Poison Control: 1-888-426-4435</li>
+            <li>Pet Poison Helpline: 1-855-764-7661</li>
+            <li>Your local emergency vet</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-disclaimer">
+        <p><strong>Disclaimer:</strong> This website provides nutrition information for educational purposes only. Nothing here constitutes veterinary or medical advice. Always consult a licensed veterinarian — ideally a board-certified veterinary nutritionist (DACVIM-Nutrition) — before making major changes to your pet's diet, especially if they are very young, pregnant, immunocompromised, or have any chronic disease. Affiliate links help support this resource — all product recommendations are based on independent research and personal use. Supplement evidence in pets is often limited; individual results vary.</p>
+      </div>
+      <p class="footer-copy">© 2026 LongPaw. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
