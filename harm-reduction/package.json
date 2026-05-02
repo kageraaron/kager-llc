@@ -1,0 +1,14 @@
+{
+  "name": "harm-reduction",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Evidence-based MDMA harm reduction information and products",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}
