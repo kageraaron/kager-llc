@@ -41,6 +41,7 @@ export default function Analytics({ ga4, ads, adsense }: AnalyticsProps) {
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
               ${gtagIds.map((id) => `gtag('config', '${id}');`).join('\n')}
+              window.trackEvent = function(name, params) { gtag('event', name, params); };
             `}
           </Script>
         </>

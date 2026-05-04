@@ -70,7 +70,8 @@
       "window.dataLayer = window.dataLayer || [];\n" +
       "function gtag(){dataLayer.push(arguments);}\n" +
       "gtag('js', new Date());\n" +
-      configLines
+      configLines + "\n" +
+      "window.trackEvent = function(name, params) { gtag('event', name, params); };"
     );
   }
 

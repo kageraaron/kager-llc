@@ -30,7 +30,7 @@ TODO:
 - tailor copy to demographic / SEO. Get domain name for right niche
 - finish printful integration. Take 20% of orders
 - enable multi photo upload, download
-- Google analytics / Google ad banners, rolls while processing
+- Google analytics / Google ad banners, rolls and animate while processing
 
 ## Tech stack
 

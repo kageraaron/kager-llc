@@ -1271,6 +1271,119 @@ footer {
   text-align: center;
 }
 
+/* ===== FAQ ===== */
+.faq-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.faq-item:hover {
+  border-color: var(--border-strong);
+}
+
+.faq-question {
+  width: 100%;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  gap: 16px;
+}
+
+.faq-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  transition: transform 0.3s;
+}
+
+.faq-icon::before,
+.faq-icon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 2px;
+  background: var(--text-muted);
+  transform: translate(-50%, -50%);
+  border-radius: 2px;
+}
+
+.faq-icon::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.faq-item.active .faq-icon {
+  transform: rotate(45deg);
+}
+
+.faq-item.active .faq-icon::before,
+.faq-item.active .faq-icon::after {
+  background: var(--purple-light);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, padding 0.3s;
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.faq-item.active .faq-answer {
+  max-height: 1000px;
+  padding-bottom: 24px;
+}
+
+.faq-answer-content {
+  padding: 0 24px 0 24px;
+  font-size: 1rem;
+  color: var(--text-muted);
+}
+
+.faq-answer-content p {
+  margin-bottom: 16px;
+}
+
+.faq-answer-content p:last-child {
+  margin-bottom: 0;
+}
+
+.faq-answer-content ul, .faq-answer-content ol {
+  margin-bottom: 16px;
+}
+
+.faq-category-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--purple-light);
+  margin: 48px 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.faq-category-title:first-of-type {
+  margin-top: 0;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
   .risk-grid { grid-template-columns: repeat(2, 1fr); }

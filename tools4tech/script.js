@@ -69,6 +69,11 @@ import {
       s.classList.toggle('active', s.id === 'tool-' + toolId);
     });
     if (window.innerWidth <= 768) sidebar.classList.remove('open');
+
+    // Track tool usage
+    if (window.trackEvent) {
+      window.trackEvent('switch_tool', { tool: toolId });
+    }
   }
 
   window.addEventListener('hashchange', () => {

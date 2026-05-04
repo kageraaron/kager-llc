@@ -4,6 +4,7 @@ import Script from 'next/script';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import Analytics from '@/components/Analytics';
 import './globals.css';
 
 const baseUrl = 'https://local-convert.com';
@@ -53,31 +54,11 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2940894836192894"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
+        <Analytics
+          ga4="G-TT7HYVRZGJ"
+          ads="AW-401588546"
+          adsense="ca-pub-2940894836192894"
         />
-        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-TT7HYVRZGJ" strategy="afterInteractive" />
-        <Script id="gtag-init" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-TT7HYVRZGJ');
-          `}
-        </Script>
-
-        <Script async src="https://www.googletagmanager.com/gtag/js?id=AW-401588546" strategy="afterInteractive" />
-        <Script id="aw-init" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'AW-401588546');
-          `}
-        </Script>
       </head>
       <body>
         <I18nProvider>

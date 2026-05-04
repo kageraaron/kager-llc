@@ -273,11 +273,25 @@ export default function Converter({ from, to, autoStart = false, compact = false
       setItems((prev) =>
         prev.map((it) => (it.id === id ? { ...it, status: 'done', progress: 100, results } : it))
       );
+
+      // Track successful conversion
+      (window as any).trackEvent?.('conversion_success', {
+        from: target.fromCode,
+        to: target.toCode,
+        filename: target.file.name
+      });
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : t('error_conversion_failed');
       setItems((prev) =>
         prev.map((it) => (it.id === id ? { ...it, status: 'error', error: message } : it))
       );
+
+      // Track conversion failure
+      (window as any).trackEvent?.('conversion_error', {
+        from: target.fromCode,
+        to: target.toCode,
+        error: message
+      });
     }
   }, []);
 
