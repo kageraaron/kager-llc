@@ -94,26 +94,34 @@ export default async function ConvertPage({ params }: PageProps) {
     mainEntity: [
       {
         '@type': 'Question',
-        name: `Is it safe to convert ${from} to ${to} online?`,
+        name: `How can I convert ${from} to ${to} without uploading to a server?`,
         acceptedAnswer: {
           '@type': 'Answer',
-          text: `Yes. Conversion runs in your browser with WebAssembly, so your file never leaves your device or touches a server.`,
+          text: `You can convert ${from} to ${to} locally using Local-Convert. Our tool uses WebAssembly to process your files directly in your browser, meaning your data never leaves your device. It is a 100% "no-upload" solution.`,
         },
       },
       {
         '@type': 'Question',
-        name: `Is there a file size limit?`,
+        name: `Is it safe to convert sensitive ${from} documents online?`,
         acceptedAnswer: {
           '@type': 'Answer',
-          text: `No artificial limit — only your browser's available memory and CPU.`,
+          text: `It is safe with Local-Convert because we don't upload your files. Traditional online converters send your files to their servers, but our "client-side" architecture ensures total privacy for your ${from} files.`,
         },
       },
       {
         '@type': 'Question',
-        name: `Do I need to install anything?`,
+        name: `Is there a file size limit for ${from} conversion?`,
         acceptedAnswer: {
           '@type': 'Answer',
-          text: `No. Everything runs in modern browsers using WebAssembly and Web Workers — no plugins or downloads.`,
+          text: `Unlike server-based converters that often cap files at 50MB or 100MB, Local-Convert has no artificial limits. You can convert large ${from} files as long as your device has enough RAM and disk space.`,
+        },
+      },
+      {
+        '@type': 'Question',
+        name: `Do I need to install software to convert ${from} to ${to} offline?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `No installation is required. While the conversion happens "offline" (locally on your CPU), it runs inside your standard web browser using modern WebAssembly technology.`,
         },
       },
     ],

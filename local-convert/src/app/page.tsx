@@ -1,10 +1,32 @@
 'use client';
 
 import Link from 'next/link';
-import Converter from '@/components/Converter/Converter';
+import dynamic from 'next/dynamic';
 import AdSlot from '@/components/Ads/AdSlot';
 import { CONVERSION_CATEGORIES } from '@/lib/formats';
 import { useI18n } from '@/lib/i18n';
+
+// Strict lazy-loading for the heavy Converter component.
+// This prevents WASM-related libraries and heavy conversion logic from
+// being included in the initial JS payload, crucial for mobile SEO.
+const Converter = dynamic(() => import('@/components/Converter/Converter'), {
+  ssr: false,
+  loading: () => (
+    <div 
+      className="card" 
+      style={{ 
+        height: '300px', 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center',
+        background: 'var(--surface-subtle)',
+        border: '2px dashed var(--border)'
+      }}
+    >
+      <div className="spinner spin" aria-hidden />
+    </div>
+  ),
+});
 
 const FEATURE_ICONS: Record<string, React.ReactElement> = {
   shield: (
