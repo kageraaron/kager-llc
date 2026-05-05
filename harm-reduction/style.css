@@ -203,6 +203,81 @@ p { color: var(--text-muted); line-height: 1.7; }
   font-size: 0.82rem;
 }
 
+/* ===== NAV DROPDOWN ===== */
+.nav-dropdown {
+  position: relative;
+}
+
+.nav-chevron {
+  display: inline-block;
+  font-size: 0.65rem;
+  opacity: 0.55;
+  margin-left: 2px;
+  transition: transform 0.2s;
+  vertical-align: middle;
+}
+
+.nav-dropdown:hover .nav-chevron,
+.nav-dropdown.open .nav-chevron {
+  transform: rotate(180deg);
+  opacity: 1;
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-6px);
+  background: rgba(6, 6, 26, 0.97);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  min-width: 172px;
+  padding: 6px;
+  z-index: 200;
+  list-style: none;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.18s, visibility 0.18s, transform 0.18s;
+  box-shadow: var(--shadow-lg);
+}
+
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown.open .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+.nav-dropdown-menu li {
+  margin: 0;
+}
+
+.nav-dropdown-menu a {
+  display: block;
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  border-radius: var(--radius-xs);
+  white-space: nowrap;
+  transition: color 0.15s, background 0.15s;
+}
+
+.nav-dropdown-menu a:hover {
+  color: var(--text);
+  background: var(--bg-card);
+}
+
+.nav-dropdown-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 4px 6px;
+}
+
 /* ===== NAV ===== */
 #site-header {
   position: sticky;
@@ -1423,6 +1498,39 @@ footer {
   .nav-links.nav-open { display: flex; }
   .nav-links li { width: 100%; }
   .nav-links a { display: block; padding: 10px 16px; font-size: 1rem; }
+
+  /* Mobile dropdown — inline expand */
+  .nav-dropdown-menu {
+    position: static;
+    opacity: 1;
+    visibility: hidden;
+    max-height: 0;
+    transform: none;
+    overflow: hidden;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: none;
+    background: none;
+    box-shadow: none;
+    padding: 0;
+    pointer-events: auto;
+    transition: max-height 0.28s ease, visibility 0.28s;
+  }
+
+  .nav-dropdown.open .nav-dropdown-menu {
+    visibility: visible;
+    max-height: 260px;
+    transform: none;
+  }
+
+  .nav-dropdown-menu a {
+    padding: 8px 16px 8px 32px;
+    font-size: 0.95rem;
+    color: var(--text-dim);
+    border-radius: 0;
+  }
+
+  .nav-dropdown-divider { display: none; }
   .nav-toggle { display: flex; }
 
   .test-grid { grid-template-columns: 1fr; }
@@ -1443,6 +1551,193 @@ footer {
   .hero-actions .btn { width: 100%; text-align: center; justify-content: center; }
   .db-grid { grid-template-columns: repeat(2, 1fr); }
   .earplug-grid { grid-template-columns: 1fr; }
+}
+
+/* ===== DRUG GUIDE CARDS ===== */
+.drug-guide-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.drug-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.drug-card-live {
+  border-color: rgba(139, 92, 246, 0.3);
+  text-decoration: none;
+  color: inherit;
+}
+
+.drug-card-live:hover {
+  border-color: var(--purple);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 32px rgba(139, 92, 246, 0.15);
+  color: inherit;
+}
+
+.drug-card-soon {
+  opacity: 0.6;
+}
+
+.drug-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.drug-icon {
+  font-size: 1.6rem;
+}
+
+.drug-status {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+
+.drug-status-live {
+  background: var(--purple-dim);
+  color: var(--purple-light);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.drug-status-soon {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+}
+
+.drug-card h3 {
+  color: var(--text);
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.drug-card p {
+  font-size: 0.84rem;
+  color: var(--text-dim);
+  flex: 1;
+  margin: 0;
+}
+
+.drug-card-topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.drug-card-topics span {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+}
+
+.drug-card-live .drug-card-topics span {
+  background: var(--purple-dim);
+  color: var(--purple-light);
+  border-color: rgba(139, 92, 246, 0.2);
+}
+
+.drug-card-cta {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--purple-light);
+  margin-top: 4px;
+}
+
+.drug-card-cta-soon {
+  color: var(--text-dim);
+}
+
+/* ===== HEARING PROMO ===== */
+.hearing-promo-section {
+  background: var(--bg-surface);
+}
+
+.hearing-promo-card {
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.08), rgba(139, 92, 246, 0.08));
+  border: 1px solid rgba(236, 72, 153, 0.2);
+  border-radius: var(--radius);
+  padding: 48px;
+  display: flex;
+  align-items: center;
+  gap: 48px;
+}
+
+.hearing-promo-content {
+  flex: 1;
+}
+
+.hearing-promo-content h2 {
+  margin: 16px 0 12px;
+}
+
+.hearing-promo-content p {
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.hearing-promo-points {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 28px;
+}
+
+.hearing-promo-points li {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  padding: 5px 0;
+  padding-left: 1.2rem;
+  position: relative;
+  margin: 0;
+}
+
+.hearing-promo-points li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--pink-light);
+}
+
+.hearing-promo-icon {
+  font-size: 6rem;
+  opacity: 0.4;
+  flex-shrink: 0;
+}
+
+.shop-more-link {
+  text-align: center;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  font-size: 0.9rem;
+  color: var(--text-dim);
+}
+
+@media (max-width: 1024px) {
+  .drug-guide-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .drug-guide-grid { grid-template-columns: 1fr; }
+  .hearing-promo-card { flex-direction: column; padding: 32px 24px; gap: 24px; }
+  .hearing-promo-icon { display: none; }
 }
 
 /* ===== LOGO GRADIENT ===== */
