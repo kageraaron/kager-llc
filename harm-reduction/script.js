@@ -1,3 +1,7 @@
+// ── Vercel Web Analytics ──────────────────────────────────────────────────
+import { inject } from '@vercel/analytics';
+inject();
+
 (function() {
   const navLinks = document.querySelector('.nav-links');
   const navToggle = document.querySelector('.nav-toggle');
