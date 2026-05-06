@@ -11,36 +11,37 @@
     const linkFile = (link.getAttribute('href') || '').split('#')[0];
     if (linkFile === currentFile) link.classList.add('active');
   });
-  // Also mark the dropdown parent active when on mdma.html
-  const mdmaDropdown = document.querySelector('.nav-dropdown');
-  if (mdmaDropdown && currentFile === 'mdma.html') {
-    mdmaDropdown.querySelector(':scope > a')?.classList.add('active');
+  // Mark Guides dropdown active when on any drug guide page
+  const guidePages = ['mdma.html', 'ketamine.html', 'lsd.html', 'psilocybin.html', 'nitrous.html', 'cocaine.html'];
+  const guidesDropdown = document.querySelector('.nav-dropdown');
+  if (guidesDropdown && guidePages.includes(currentFile)) {
+    guidesDropdown.querySelector(':scope > a')?.classList.add('active');
   }
 
   // ── Dropdown toggle (click, for mobile + keyboard users) ─────────────────
-  if (mdmaDropdown) {
-    const dropdownToggle = mdmaDropdown.querySelector(':scope > a');
+  if (guidesDropdown) {
+    const dropdownToggle = guidesDropdown.querySelector(':scope > a');
 
     // On mobile the tap should toggle open instead of navigating.
-    // On desktop CSS :hover handles it; clicks still navigate to mdma.html.
+    // On desktop CSS :hover handles it; clicks still navigate to the linked page.
     dropdownToggle?.addEventListener('click', (e) => {
       const isMobileMenuOpen = navLinks?.classList.contains('nav-open');
       if (isMobileMenuOpen) {
         e.preventDefault();
-        mdmaDropdown.classList.toggle('open');
+        guidesDropdown.classList.toggle('open');
       }
     });
 
     // Close dropdown when clicking outside (desktop)
     document.addEventListener('click', (e) => {
-      if (!mdmaDropdown.contains(e.target)) {
-        mdmaDropdown.classList.remove('open');
+      if (!guidesDropdown.contains(e.target)) {
+        guidesDropdown.classList.remove('open');
       }
     });
 
     // Escape key closes dropdown
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') mdmaDropdown.classList.remove('open');
+      if (e.key === 'Escape') guidesDropdown.classList.remove('open');
     });
   }
 
@@ -55,7 +56,7 @@
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         navLinks?.classList.remove('nav-open');
         navToggle?.setAttribute('aria-expanded', 'false');
-        mdmaDropdown?.classList.remove('open');
+        guidesDropdown?.classList.remove('open');
       }
     });
   });
@@ -98,7 +99,7 @@
     const isOpen = navLinks?.classList.toggle('nav-open');
     navToggle.setAttribute('aria-expanded', String(isOpen));
     // Reset dropdown state when closing the whole mobile menu
-    if (!isOpen) mdmaDropdown?.classList.remove('open');
+    if (!isOpen) guidesDropdown?.classList.remove('open');
   });
 
   // Close mobile nav on outside click
@@ -108,7 +109,7 @@
         !navToggle?.contains(e.target)) {
       navLinks.classList.remove('nav-open');
       navToggle?.setAttribute('aria-expanded', 'false');
-      mdmaDropdown?.classList.remove('open');
+      guidesDropdown?.classList.remove('open');
     }
   });
 
