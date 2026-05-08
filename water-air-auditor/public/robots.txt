@@ -1,0 +1,24 @@
+# https://waterairaudit.com/robots.txt
+User-agent: *
+Allow: /
+
+# Friendly, explicit allow for major social-preview crawlers so OG/Twitter cards render
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Facebot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: Slackbot
+Allow: /
+
+User-agent: Discordbot
+Allow: /
+
+Sitemap: https://waterairaudit.com/sitemap.xml

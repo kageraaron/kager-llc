@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#0c8ba1"/>
+  <!-- water droplet -->
+  <path d="M22 36c0-7 8-14 8-14s8 7 8 14a8 8 0 1 1-16 0z" fill="#ffffff" opacity="0.95"/>
+  <!-- air swoosh -->
+  <path d="M14 46c8 0 12-3 18-3s10 3 18 3" stroke="#ffffff" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.85"/>
+  <path d="M14 52c8 0 12-3 18-3s10 3 18 3" stroke="#ffffff" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.55"/>
+</svg>

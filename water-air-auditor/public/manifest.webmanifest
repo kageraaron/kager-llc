@@ -1,0 +1,20 @@
+{
+  "name": "WaterAirAudit — Water & Air Quality by ZIP Code",
+  "short_name": "WaterAirAudit",
+  "description": "Free local water and air quality audit by ZIP code. PFAS, lead, and PM2.5 with filter recommendations.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0c8ba1",
+  "lang": "en-US",
+  "categories": ["health", "utilities", "reference"],
+  "icons": [
+    {
+      "src": "/og-image.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
