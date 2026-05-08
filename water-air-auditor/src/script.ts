@@ -5,7 +5,10 @@ import {
   STATE_NAME_TO_CODE,
   classify,
   lookupZip,
+  lookupCity,
+  citiesForState,
   severityForState,
+  type CityEntry,
   type MapFilter,
   type ZipEntry,
 } from "./data";
@@ -63,11 +66,15 @@ function renderResults(zip: string, data: ZipEntry | null) {
   lastAuditShareSnippet =
     `My ${data.city} audit: ${STATUS_LABELS[overall].toLowerCase()} risk across PFAS, lead, and PM2.5.`;
 
+  const zipLine = zip
+    ? `<div class="results-zip">ZIP ${escapeHtml(zip)}</div>`
+    : "";
+
   results.hidden = false;
   results.innerHTML = `
     <div class="results-header">
       <div>
-        <div class="results-zip">ZIP ${escapeHtml(zip)}</div>
+        ${zipLine}
         <div class="results-city">${escapeHtml(data.city)}</div>
         <div class="results-source">Source: ${escapeHtml(data.source)}</div>
       </div>
@@ -443,6 +450,12 @@ let map: any = null;
 let geoLayer: any = null;
 let activeFilter: MapFilter = "overall";
 
+// City overlay state — set when a state is "drilled into".
+let cityLayer: any = null;
+let activeStateCode: string | null = null;
+let backToNationalControl: any = null;
+let savedNationalBounds: any = null;
+
 const FILTER_LEGENDS: Record<MapFilter, { title: string; scale: string }> = {
   overall: {
     title: "Overall risk",
@@ -538,8 +551,137 @@ function popupHtml(stateName: string, code: string) {
     <div class="popup-row" style="margin-top:6px;border-top:1px solid rgba(255,255,255,0.12);padding-top:6px;">
       <span>Overall</span><strong style="color:${getRiskColor(overall)}">${STATUS_LABELS[overall]}</strong>
     </div>
-    <div class="popup-cta">Click to audit ${escapeHtml(s.representativeZip)}</div>
+    <div class="popup-cta">Click to zoom in &amp; see top 10 cities</div>
   `;
+}
+
+function cityPopupHtml(city: CityEntry, data: ZipEntry) {
+  const overall = worstOf([
+    classify("pfas_ppt", data.pfas_ppt),
+    classify("lead_ppb", data.lead_ppb),
+    classify("pm25", data.pm25),
+  ]);
+  const popHint = city.population
+    ? `<div class="popup-pop">Pop. ~${(city.population / 1000).toFixed(city.population >= 1_000_000 ? 1 : 0)}${city.population >= 1_000_000 ? "M" : "K"}</div>`
+    : "";
+  const sourceHint = city.zip
+    ? `<div class="popup-cta">Click to audit ${escapeHtml(city.name)} (ZIP ${escapeHtml(city.zip)})</div>`
+    : `<div class="popup-cta">Click to audit ${escapeHtml(city.name)} (state composite)</div>`;
+  return `
+    <div class="popup-state">${escapeHtml(city.name)}, ${escapeHtml(city.state)}</div>
+    ${popHint}
+    <div class="popup-row"><span>PFAS</span><strong>${formatNumber(data.pfas_ppt)} ppt</strong></div>
+    <div class="popup-row"><span>Lead</span><strong>${formatNumber(data.lead_ppb)} ppb</strong></div>
+    <div class="popup-row"><span>PM2.5</span><strong>${formatNumber(data.pm25)} µg/m³</strong></div>
+    <div class="popup-row" style="margin-top:6px;border-top:1px solid rgba(255,255,255,0.12);padding-top:6px;">
+      <span>Overall</span><strong style="color:${getRiskColor(overall)}">${STATUS_LABELS[overall]}</strong>
+    </div>
+    ${sourceHint}
+  `;
+}
+
+function clearCityLayer() {
+  if (cityLayer && map) {
+    map.removeLayer(cityLayer);
+  }
+  cityLayer = null;
+  activeStateCode = null;
+  if (backToNationalControl) backToNationalControl.getContainer().style.display = "none";
+}
+
+function runCityAudit(city: CityEntry) {
+  const data = lookupCity(city);
+  // Use the city's mapped ZIP when present so the input reflects something real;
+  // otherwise leave the input untouched (the audit panel still renders the city).
+  if (city.zip && input) {
+    input.value = city.zip;
+  }
+  // Render with the city-specific data; pass the city's ZIP if known, else an
+  // empty string so renderResults shows just the city header.
+  renderResults(city.zip || "", data);
+}
+
+function showCitiesForState(code: string, layer: any) {
+  if (!map) return;
+  if (activeStateCode === code && cityLayer) return; // already drilled into this state
+  clearCityLayer();
+  activeStateCode = code;
+
+  // Zoom to the clicked state's polygon bounds.
+  try {
+    if (layer && typeof layer.getBounds === "function") {
+      map.fitBounds(layer.getBounds(), { padding: [24, 24], maxZoom: 8 });
+    }
+  } catch {
+    /* noop */
+  }
+
+  // Ensure city markers render in their own pane *above* the state polygons.
+  // Without this, the SVG path of the state polygon can swallow click events
+  // because both layers share the default overlay pane.
+  if (!map.getPane("citymarkers")) {
+    map.createPane("citymarkers");
+    const pane = map.getPane("citymarkers");
+    pane.style.zIndex = "650"; // overlayPane is 400, markerPane is 600
+    pane.style.pointerEvents = "auto";
+  }
+
+  // Build city markers.
+  const cities = citiesForState(code, 10);
+  const markers: any[] = [];
+  cities.forEach((city) => {
+    const data = lookupCity(city);
+    const overall = worstOf([
+      classify("pfas_ppt", data.pfas_ppt),
+      classify("lead_ppb", data.lead_ppb),
+      classify("pm25", data.pm25),
+    ]);
+    const marker = L.circleMarker(city.center, {
+      radius: 9,
+      fillColor: getRiskColor(overall),
+      color: "#ffffff",
+      weight: 1.6,
+      opacity: 1,
+      fillOpacity: 0.95,
+      className: "city-marker",
+      pane: "citymarkers",
+      interactive: true,
+      bubblingMouseEvents: false,
+    });
+    marker.bindPopup(cityPopupHtml(city, data), { closeButton: true });
+    marker.bindTooltip(city.name, {
+      direction: "top",
+      offset: [0, -6],
+      className: "city-tooltip",
+      permanent: false,
+    });
+    marker.on("click", (e: any) => {
+      // Stop the click from reaching the underlying state polygon, which
+      // would otherwise re-trigger the state's drill-in handler.
+      L.DomEvent.stopPropagation(e);
+      runCityAudit(city);
+    });
+    markers.push(marker);
+  });
+
+  cityLayer = L.layerGroup(markers).addTo(map);
+  // Belt and suspenders — explicitly raise to the top of the SVG draw order.
+  markers.forEach((m) => m.bringToFront && m.bringToFront());
+  if (backToNationalControl) backToNationalControl.getContainer().style.display = "block";
+}
+
+function backToNationalView() {
+  clearCityLayer();
+  if (!map) return;
+  try {
+    if (savedNationalBounds) {
+      map.fitBounds(savedNationalBounds, { padding: [12, 12] });
+    } else if (geoLayer) {
+      map.fitBounds(geoLayer.getBounds(), { padding: [12, 12] });
+    }
+  } catch {
+    /* noop */
+  }
 }
 
 function initMap() {
@@ -601,9 +743,7 @@ function initMap() {
               },
               click: () => {
                 if (!code || !STATE_DATA[code]) return;
-                const repZip = STATE_DATA[code].representativeZip;
-                if (input) input.value = repZip;
-                renderResults(repZip, lookupZip(repZip));
+                showCitiesForState(code, layer);
               },
             });
           },
@@ -611,7 +751,8 @@ function initMap() {
 
         // Fit the layer once it's loaded so the user sees the whole country.
         try {
-          map.fitBounds(geoLayer.getBounds(), { padding: [12, 12] });
+          savedNationalBounds = geoLayer.getBounds();
+          map.fitBounds(savedNationalBounds, { padding: [12, 12] });
         } catch {
           /* noop */
         }
@@ -669,6 +810,24 @@ function initMap() {
         renderResults(m.zip, lookupZip(m.zip));
       });
     });
+
+    // Custom Leaflet control: "← All states" — only visible after drilling in.
+    const BackControl = L.Control.extend({
+      options: { position: "topleft" },
+      onAdd: () => {
+        const el = L.DomUtil.create("div", "leaflet-bar back-to-national");
+        el.style.display = "none";
+        el.innerHTML = `<button type="button" class="back-to-national-btn" aria-label="Back to all states">← All states</button>`;
+        L.DomEvent.disableClickPropagation(el);
+        L.DomEvent.on(el.querySelector("button")!, "click", (ev: Event) => {
+          ev.preventDefault();
+          backToNationalView();
+        });
+        return el;
+      },
+    });
+    backToNationalControl = new BackControl();
+    backToNationalControl.addTo(map);
 
     updateLegend();
   } catch (err) {

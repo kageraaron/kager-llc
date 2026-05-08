@@ -1482,3 +1482,77 @@ footer {
   background: rgba(0,0,0,0.5) !important;
   color: var(--text-dim) !important;
 }
+
+/* ===== City drill-down — markers, tooltips, back control ============== */
+
+/* Subtle glow on the city circle markers so they read as a distinct overlay
+   above the per-state choropleth. We avoid `filter: drop-shadow` because
+   SVG filters can interfere with pointer hit-testing in some browsers — the
+   `paint-order` + heavier stroke gives a similar visual halo. */
+.city-marker {
+  paint-order: stroke fill;
+  cursor: pointer;
+  pointer-events: auto;
+}
+.city-marker:hover {
+  stroke: var(--blue-light, #67e8f9);
+  stroke-width: 2.4;
+}
+
+/* Make sure the dedicated city-marker pane accepts clicks. Leaflet sets
+   pointer-events on the pane element; this is a defensive override. */
+.leaflet-pane.leaflet-citymarkers-pane {
+  pointer-events: auto;
+}
+
+/* City name tooltip that appears on hover. */
+.leaflet-tooltip.city-tooltip {
+  background: var(--bg-card) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border-strong) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45) !important;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+.leaflet-tooltip.city-tooltip::before {
+  border-top-color: var(--border-strong) !important;
+}
+
+/* Population hint inside the city popup. */
+.popup-pop {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  margin: -2px 0 6px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* "← All states" back button (custom Leaflet control). */
+.leaflet-bar.back-to-national {
+  border: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+.back-to-national-btn {
+  background: var(--bg-card);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: 0.01em;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+.back-to-national-btn:hover {
+  background: var(--bg-card-hover);
+  color: var(--blue-light);
+}
+.back-to-national-btn:focus {
+  outline: 2px solid var(--blue-light);
+  outline-offset: 2px;
+}

@@ -1,3 +1,6 @@
+import { TOP_CITIES_BY_STATE, type CityEntry } from "./data/cities";
+export { TOP_CITIES_BY_STATE, type CityEntry } from "./data/cities";
+
 // ============================================================================
 // EMBEDDED POLLUTANT DATASET
 // ============================================================================
@@ -607,6 +610,61 @@ export function lookupZip(zip: string): ZipEntry {
 export function listSampleZips(n: number = 6): string[] {
   // Curated showcase — different risk profiles
   return ["05401", "28401", "48503", "93301", "97201", "10001"].slice(0, n);
+}
+
+// ============================================================================
+// CITY LOOKUP — returns ZipEntry-shaped data for a city dot on the map
+// ----------------------------------------------------------------------------
+// Resolution order:
+//   1. If the city has a mapped ZIP and that ZIP exists in ZIP_DATA, use it.
+//   2. Otherwise fall back to the state-level composite, with the city name
+//      and a "regional estimate" note in place of the state's representativeZip
+//      narrative.
+// In both cases the returned `city` is the city the user clicked, so the
+// audit results header reads correctly.
+// ============================================================================
+export function lookupCity(city: CityEntry): ZipEntry {
+  // 1. Specific ZIP-backed city
+  if (city.zip && ZIP_DATA[city.zip]) {
+    const base = ZIP_DATA[city.zip];
+    return {
+      ...base,
+      city: `${city.name}, ${city.state}`,
+    };
+  }
+
+  // 2. State composite fallback
+  const s = STATE_DATA[city.state];
+  if (s) {
+    return {
+      city: `${city.name}, ${city.state} (state composite)`,
+      state: city.state,
+      pfas_ppt: s.pfas_ppt,
+      lead_ppb: s.lead_ppb,
+      pm25: s.pm25,
+      source: `State-level composite for ${s.name}`,
+      notes: `${s.notes} City-specific values aren't in our embedded dataset — request your utility's Consumer Confidence Report or run a home test for utility-specific readings.`,
+    };
+  }
+
+  // 3. Last-resort fallback (shouldn't be hit if cities.ts state codes are valid)
+  return {
+    city: city.name,
+    state: city.state,
+    pfas_ppt: 0,
+    lead_ppb: 0,
+    pm25: 0,
+    source: "—",
+    notes: "City data unavailable.",
+  };
+}
+
+/**
+ * Return the top N cities for a given state (already population-sorted in the
+ * underlying table). Returns an empty array for unknown state codes.
+ */
+export function citiesForState(code: string, n: number = 10): CityEntry[] {
+  return (TOP_CITIES_BY_STATE[code] || []).slice(0, n);
 }
 
 // ============================================================================
