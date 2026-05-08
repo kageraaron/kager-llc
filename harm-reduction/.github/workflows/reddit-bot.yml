@@ -1,0 +1,34 @@
+name: Run Reddit Bot
+
+on:
+  schedule:
+    # Run every hour
+    - cron: '0 * * * *'
+  workflow_dispatch: # Allow manual triggering from the GitHub UI
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        
+    - name: Install dependencies
+      working-directory: ./bot
+      run: npm install
+      
+    - name: Run Bot
+      working-directory: ./bot
+      run: node index.js
+      env:
+        REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
+        REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+        REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+        REDDIT_USERNAME: ${{ secrets.REDDIT_USERNAME }}
+        REDDIT_PASSWORD: ${{ secrets.REDDIT_PASSWORD }}
