@@ -3,7 +3,7 @@ const snoowrap = require('snoowrap');
 const knowledgeBase = require('./knowledge_base');
 
 // Ensure required environment variables are set
-const requiredEnvs = ['REDDIT_USER_AGENT', 'REDDIT_CLIENT_ID', 'REDDIT_CLIENT_SECRET', 'REDDIT_USERNAME', 'REDDIT_PASSWORD'];
+const requiredEnvs = ['REDDIT_USER_AGENT', 'REDDIT_CLIENT_ID', 'REDDIT_CLIENT_SECRET', 'REDDIT_REFRESH_TOKEN'];
 for (const env of requiredEnvs) {
   if (!process.env[env]) {
     console.error(`Missing required environment variable: ${env}`);
@@ -11,13 +11,12 @@ for (const env of requiredEnvs) {
   }
 }
 
-// Initialize snoowrap client
+// Initialize snoowrap client with OAuth refresh token
 const r = new snoowrap({
   userAgent: process.env.REDDIT_USER_AGENT,
   clientId: process.env.REDDIT_CLIENT_ID,
   clientSecret: process.env.REDDIT_CLIENT_SECRET,
-  username: process.env.REDDIT_USERNAME,
-  password: process.env.REDDIT_PASSWORD,
+  refreshToken: process.env.REDDIT_REFRESH_TOKEN,
 });
 
 // Configure bot
