@@ -1,38 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="manifest" href="/site.webmanifest">
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
 
-  <!-- Primary SEO -->
-  <title>How to Test LSD for NBOMe + Safe Acid Trip Guide | Rave Wellness</title>
-  <meta name="description" content="NBOMe compounds are sold as LSD and can kill at recreational doses. Learn to test with Ehrlich reagent, recognize real acid, understand set &amp; setting, and manage difficult trips. Evidence-based." />
-  <meta name="keywords" content="LSD harm reduction, how to test LSD, how to test acid, acid harm reduction, acid trip safety, what is LSD, LSD effects, NBOMe identification, Ehrlich reagent LSD, LSD set and setting, Timothy Leary set and setting, bad trip support, LSD dose guide, acid dose guide, LSD drug interactions, LSD safety guide, HPPD LSD, lysergic acid diethylamide safety, acid trip harm reduction, is my LSD real, NBOMe vs LSD, LSD street names, acid drug, blotter drug, tabs drug, Lucy drug, window pane drug, trips drug, dots drug, tab acid" />
-  <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://www.ravewellness.org/lsd.html" />
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="How to Test LSD for NBOMe + Safe Acid Trip Guide | Rave Wellness" />
-  <meta property="og:description" content="Ehrlich reagent testing for NBOMe, set &amp; setting, dose guidance, managing difficult experiences, and dangerous combinations. The LSD harm reduction guide." />
-  <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://www.ravewellness.org/lsd.html" />
-  <meta property="og:site_name" content="Rave Wellness" />
-  <meta property="og:image" content="https://www.ravewellness.org/logo.svg" />
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="How to Test LSD for NBOMe + Safe Acid Trip Guide | Rave Wellness" />
-  <meta name="twitter:description" content="How to tell LSD from lethal NBOMe compounds using Ehrlich reagent, understand set &amp; setting, and manage a bad trip. Evidence-based acid harm reduction." />
-  <meta name="twitter:image" content="https://www.ravewellness.org/logo.svg" />
-  <meta name="author" content="Rave Wellness" />
-
-  <!-- JSON-LD -->
-  <script type="application/ld+json">
-  {
+const title       = `How to Test LSD for NBOMe + Safe Acid Trip Guide | Rave Wellness`;
+const description = `NBOMe compounds are sold as LSD and can kill at recreational doses. Learn to test with Ehrlich reagent, recognize real acid, understand set &amp; setting, and manage difficult trips. Evidence-based.`;
+const keywords    = `LSD harm reduction, how to test LSD, how to test acid, acid harm reduction, acid trip safety, what is LSD, LSD effects, NBOMe identification, Ehrlich reagent LSD, LSD set and setting, Timothy Leary set and setting, bad trip support, LSD dose guide, acid dose guide, LSD drug interactions, LSD safety guide, HPPD LSD, lysergic acid diethylamide safety, acid trip harm reduction, is my LSD real, NBOMe vs LSD, LSD street names, acid drug, blotter drug, tabs drug, Lucy drug, window pane drug, trips drug, dots drug, tab acid`;
+const canonical   = `https://www.ravewellness.org/lsd.html`;
+const ogTitle     = `How to Test LSD for NBOMe + Safe Acid Trip Guide | Rave Wellness`;
+const ogDesc      = `Ehrlich reagent testing for NBOMe, set &amp; setting, dose guidance, managing difficult experiences, and dangerous combinations. The LSD harm reduction guide.`;
+const twTitle     = ``;
+const twDesc      = ``;
+const schemaJson  = `{
     "@context": "https://schema.org",
     "@graph": [
       {
@@ -90,58 +67,45 @@
         ]
       }
     ]
-  }
-  </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
-</head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-ES9Z0KYP85"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-ES9Z0KYP85');
-</script>
-<body>
+  }`;
+---
 
-  <header id="site-header">
-    <nav>
-      <div class="nav-container">
-        <a href="/" class="logo"><img src="/logo.svg" width="32" height="32" alt="" class="logo-mark" aria-hidden="true" />Rave<span>Wellness</span></a>
-        <ul class="nav-links">
-          <li><a href="/">Home</a></li>
-          <li class="nav-dropdown">
-            <a href="index.html#guides">Guides <span class="nav-chevron">▾</span></a>
-            <ul class="nav-dropdown-menu">
-              <li><a href="mdma.html">MDMA</a></li>
-              <li><a href="ketamine.html">Ketamine</a></li>
-              <li><a href="lsd.html">LSD</a></li>
-              <li><a href="psilocybin.html">Psilocybin</a></li>
-              <li><a href="nitrous.html">Nitrous Oxide</a></li>
-              <li><a href="cocaine.html">Cocaine & Stimulants</a></li>
-              <li><a href="2cb.html">2C-B</a></li>
-              <li><a href="ghb.html">GHB / GBL</a></li>
-              <li><a href="poppers.html">Poppers</a></li>
-              <li><a href="test-kits.html">Test kit videos</a></li>
-              <li><a href="interactions.html">Interaction Checker</a></li>
-              <li class="nav-dropdown-divider"></li>
-              <li><a href="hearing.html">Hearing Health</a></li>
-            </ul>
-          </li>
-          <li><a href="hearing.html">Hearing</a></li>
-          <li><a href="faq.html">FAQ</a></li>
-          <li><a href="index.html#shop" class="nav-cta">Shop</a></li>
-        </ul>
-        <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
-    </nav>
-  </header>
+<BaseLayout
+  {title}
+  {description}
+  {keywords}
+  {canonical}
+  ogTitle={ogTitle}
+  ogDescription={ogDesc}
+  twitterTitle={twTitle}
+  twitterDescription={twDesc}
+  {schemaJson}
+>
+  <Fragment slot="footer-orgs">
+    <a href="https://dancesafe.org/r/ravewellness/" target="_blank" rel="noopener">DanceSafe</a>
+            <a href="https://maps.org" target="_blank" rel="noopener">MAPS</a>
+            <a href="https://firesideproject.org" target="_blank" rel="noopener">Fireside Project</a>
+  </Fragment>
+  <Fragment slot="footer-nav">
+    <h4>On This Page</h4>
+              <a href="#test">Test for NBOMe</a>
+              <a href="#setting">Set & Setting</a>
+              <a href="#dosing">Dose Guidance</a>
+              <a href="#difficult">Difficult Experiences</a>
+              <a href="#research">Research</a>
+  </Fragment>
+  <Fragment slot="footer-emergency">
+    <h4>Emergency Resources</h4>
+              <p><strong>If someone is in distress:</strong></p>
+              <ul>
+                <li>Call emergency services (911 in US)</li>
+                <li>Fireside Project: 62-FIRESIDE</li>
+                <li>SAMHSA Helpline: 1-800-662-4357</li>
+                <li>Poison Control: 1-800-222-1222</li>
+              </ul>
+  </Fragment>
 
-  <main>
+<main>
 
     <!-- ===== HERO ===== -->
     <section id="hero">
@@ -627,44 +591,4 @@
 
   </main>
 
-  <footer>
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <a href="/" class="logo"><img src="/logo.svg" width="32" height="32" alt="" class="logo-mark" aria-hidden="true" />Rave<span>Wellness</span></a>
-          <p>Evidence-based harm reduction. Information that saves lives.</p>
-          <div class="footer-orgs">
-            <a href="https://dancesafe.org/r/ravewellness/" target="_blank" rel="noopener">DanceSafe</a>
-            <a href="https://maps.org" target="_blank" rel="noopener">MAPS</a>
-            <a href="https://firesideproject.org" target="_blank" rel="noopener">Fireside Project</a>
-          </div>
-        </div>
-        <div class="footer-nav">
-          <h4>On This Page</h4>
-          <a href="#test">Test for NBOMe</a>
-          <a href="#setting">Set & Setting</a>
-          <a href="#dosing">Dose Guidance</a>
-          <a href="#difficult">Difficult Experiences</a>
-          <a href="#research">Research</a>
-        </div>
-        <div class="footer-emergency">
-          <h4>Emergency Resources</h4>
-          <p><strong>If someone is in distress:</strong></p>
-          <ul>
-            <li>Call emergency services (911 in US)</li>
-            <li>Fireside Project: 62-FIRESIDE</li>
-            <li>SAMHSA Helpline: 1-800-662-4357</li>
-            <li>Poison Control: 1-800-222-1222</li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-disclaimer">
-        <p><strong>Disclaimer:</strong> This website provides harm reduction information for educational purposes only. Nothing here constitutes medical advice. LSD is a Schedule I controlled substance in the United States and illegal in most jurisdictions. This site neither condones nor encourages illegal activity. Affiliate links (including DanceSafe referral links) help support this resource — all recommendations are based solely on harm reduction value.</p>
-      </div>
-      <p class="footer-copy">© 2025 Rave Wellness · www.ravewellness.org · All rights reserved.</p>
-    </div>
-  </footer>
-
-  <script type="module" src="script.js"></script>
-</body>
-</html>
+</BaseLayout>

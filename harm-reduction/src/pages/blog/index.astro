@@ -1,0 +1,55 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+const title = "Harm Reduction Blog — Evidence-Based Guides | Rave Wellness";
+const description = "Evidence-based harm reduction articles for the rave and festival community. Drug safety guides, practical protocols, and peer-reviewed research.";
+const canonical = "https://www.ravewellness.org/blog.html";
+---
+
+<BaseLayout {title} {description} {canonical} ogType="website">
+  <Fragment slot="footer-nav">
+    <h4>Blog</h4>
+    <a href="/">Home</a>
+    <a href="/#guides">Drug Guides</a>
+    <a href="/interactions.html">Interaction Checker</a>
+  </Fragment>
+
+  <main>
+    <section id="hero" style="padding-top: 72px;">
+      <div class="container">
+        <div class="section-header" style="margin-bottom: 40px;">
+          <div class="step-pill">Harm reduction knowledge base</div>
+          <h1>Blog</h1>
+          <p class="section-sub">Evidence-based articles on harm reduction, drug safety, and rave wellness. Cited, practical, and written for people who have already decided to participate.</p>
+        </div>
+
+        <div class="research-grid">
+          {posts.map(post => (
+            <a href={`/blog/${post.id}.html`} class="research-card" style="text-decoration: none; display: block;">
+              <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px;">
+                {post.data.tags?.map(tag => (
+                  <span class="research-tag tag-clinical">{tag}</span>
+                ))}
+              </div>
+              <h4>{post.data.title}</h4>
+              <p>{post.data.description}</p>
+              <div style="margin-top: 12px; font-size: 0.8rem; color: var(--text-muted);">
+                {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </div>
+              <span class="research-link" style="margin-top: 8px; display: inline-block;">Read article →</span>
+            </a>
+          ))}
+        </div>
+
+        {posts.length === 0 && (
+          <p class="section-sub" style="text-align: center; padding: 40px 0;">No articles yet — check back soon.</p>
+        )}
+      </div>
+    </section>
+  </main>
+</BaseLayout>

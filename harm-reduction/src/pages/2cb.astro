@@ -1,33 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="manifest" href="/site.webmanifest">
-  <title>2C-B Harm Reduction: Safe Dosing, Testing & Nexus Flip Guide | Rave Wellness</title>
-  <meta name="description" content="2C-B potency varies dramatically by route. Correct Marquis/Mecke reagent colors, oral vs. nasal dose differences, why MAOI combinations are lethal, and nexus flip safety." />
-  <meta name="keywords" content="2C-B harm reduction, 2cb harm reduction guide, 2cb dose, 2cb effects, 2C-B drug, 2cb trip, 2C-B marquis test, 2C-B Mecke test, 2C-B festival safety, phenethylamine psychedelic, phenethylamine harm reduction, 2C-B combinations, nexus flip, nexus flip safety, 2C-B MDMA, 2cb reagent test, 2cb safe dose, 2cb psychedelic, 2C-B street names, nexus drug, bees drug, venus drug, tucibi drug, 2cb slang, pink cocaine vs 2cb, tusi vs 2cb, is pink cocaine 2cb, tucibi vs tusi" />
-  <meta name="robots" content="index, follow" />
-  <meta name="author" content="Rave Wellness" />
-  <link rel="canonical" href="https://www.ravewellness.org/2cb.html" />
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
 
-  <meta property="og:title" content="2C-B Harm Reduction: Safe Dosing, Testing & Nexus Flip Guide | Rave Wellness" />
-  <meta property="og:description" content="Reagent testing colors, oral vs. nasal dosing, MAOI contraindication, nexus flip safety, and dangerous combinations. The 2C-B harm reduction guide." />
-  <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://www.ravewellness.org/2cb.html" />
-  <meta property="og:site_name" content="Rave Wellness" />
-  <meta property="og:image" content="https://www.ravewellness.org/logo.svg" />
-
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="2C-B Harm Reduction: Safe Dosing, Testing & Nexus Flip Guide | Rave Wellness" />
-  <meta name="twitter:description" content="Marquis/Mecke reagent colors, oral vs. nasal dosing differences, MAOI contraindication, nexus flip safety. Evidence-based 2C-B harm reduction." />
-  <meta name="twitter:image" content="https://www.ravewellness.org/logo.svg" />
-
-  <script type="application/ld+json">
-  {
+const title       = `2C-B Harm Reduction: Safe Dosing, Testing & Nexus Flip Guide | Rave Wellness`;
+const description = `2C-B potency varies dramatically by route. Correct Marquis/Mecke reagent colors, oral vs. nasal dose differences, why MAOI combinations are lethal, and nexus flip safety.`;
+const keywords    = `2C-B harm reduction, 2cb harm reduction guide, 2cb dose, 2cb effects, 2C-B drug, 2cb trip, 2C-B marquis test, 2C-B Mecke test, 2C-B festival safety, phenethylamine psychedelic, phenethylamine harm reduction, 2C-B combinations, nexus flip, nexus flip safety, 2C-B MDMA, 2cb reagent test, 2cb safe dose, 2cb psychedelic, 2C-B street names, nexus drug, bees drug, venus drug, tucibi drug, 2cb slang, pink cocaine vs 2cb, tusi vs 2cb, is pink cocaine 2cb, tucibi vs tusi`;
+const canonical   = `https://www.ravewellness.org/2cb.html`;
+const ogTitle     = `2C-B Harm Reduction: Safe Dosing, Testing & Nexus Flip Guide | Rave Wellness`;
+const ogDesc      = `Reagent testing colors, oral vs. nasal dosing, MAOI contraindication, nexus flip safety, and dangerous combinations. The 2C-B harm reduction guide.`;
+const twTitle     = ``;
+const twDesc      = ``;
+const schemaJson  = `{
     "@context": "https://schema.org",
     "@graph": [
       {
@@ -77,59 +59,45 @@
         ]
       }
     ]
-  }
-  </script>
+  }`;
+---
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
-</head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-ES9Z0KYP85"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-ES9Z0KYP85');
-</script>
-<body>
+<BaseLayout
+  {title}
+  {description}
+  {keywords}
+  {canonical}
+  ogTitle={ogTitle}
+  ogDescription={ogDesc}
+  twitterTitle={twTitle}
+  twitterDescription={twDesc}
+  {schemaJson}
+>
+  <Fragment slot="footer-orgs">
+    <a href="https://dancesafe.org/r/ravewellness/" target="_blank" rel="noopener">DanceSafe</a>
+            <a href="https://maps.org" target="_blank" rel="noopener">MAPS</a>
+            <a href="https://tripsit.me" target="_blank" rel="noopener">TripSit</a>
+  </Fragment>
+  <Fragment slot="footer-nav">
+    <h4>On this guide</h4>
+              <a href="#test">Reagent testing</a>
+              <a href="#dose">Dose & timeline</a>
+              <a href="#combinations">Combinations</a>
+              <a href="#research">Research</a>
+              <a href="#shop">Shop</a>
+  </Fragment>
+  <Fragment slot="footer-emergency">
+    <h4>Emergency resources</h4>
+              <p><strong>If someone is in distress:</strong></p>
+              <ul>
+                <li>Call emergency services (911 in US)</li>
+                <li>Fireside Project: 62-FIRESIDE (psychedelic support)</li>
+                <li>SAMHSA Helpline: 1-800-662-4357</li>
+                <li>Poison Control: 1-800-222-1222</li>
+              </ul>
+  </Fragment>
 
-  <header id="site-header">
-    <nav>
-      <div class="nav-container">
-        <a href="/" class="logo"><img src="/logo.svg" width="32" height="32" alt="" class="logo-mark" aria-hidden="true" />Rave<span>Wellness</span></a>
-        <ul class="nav-links">
-          <li><a href="/">Home</a></li>
-          <li class="nav-dropdown">
-            <a href="index.html#guides">Guides <span class="nav-chevron">▾</span></a>
-            <ul class="nav-dropdown-menu">
-              <li><a href="mdma.html">MDMA</a></li>
-              <li><a href="ketamine.html">Ketamine</a></li>
-              <li><a href="lsd.html">LSD</a></li>
-              <li><a href="psilocybin.html">Psilocybin</a></li>
-              <li><a href="nitrous.html">Nitrous Oxide</a></li>
-              <li><a href="cocaine.html">Cocaine & Stimulants</a></li>
-              <li><a href="2cb.html">2C-B</a></li>
-              <li><a href="ghb.html">GHB / GBL</a></li>
-              <li><a href="poppers.html">Poppers</a></li>
-              <li><a href="test-kits.html">Test kit videos</a></li>
-              <li><a href="interactions.html">Interaction Checker</a></li>
-              <li class="nav-dropdown-divider"></li>
-              <li><a href="hearing.html">Hearing Health</a></li>
-            </ul>
-          </li>
-          <li><a href="hearing.html">Hearing</a></li>
-          <li><a href="faq.html">FAQ</a></li>
-          <li><a href="#shop" class="nav-cta">Shop</a></li>
-        </ul>
-        <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
-    </nav>
-  </header>
-
-  <main>
+<main>
 
     <section id="hero">
       <div class="container">
@@ -532,44 +500,4 @@
 
   </main>
 
-  <footer>
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <a href="/" class="logo"><img src="/logo.svg" width="32" height="32" alt="" class="logo-mark" aria-hidden="true" />Rave<span>Wellness</span></a>
-          <p>Evidence-based harm reduction. Information that saves lives.</p>
-          <div class="footer-orgs">
-            <a href="https://dancesafe.org/r/ravewellness/" target="_blank" rel="noopener">DanceSafe</a>
-            <a href="https://maps.org" target="_blank" rel="noopener">MAPS</a>
-            <a href="https://tripsit.me" target="_blank" rel="noopener">TripSit</a>
-          </div>
-        </div>
-        <div class="footer-nav">
-          <h4>On this guide</h4>
-          <a href="#test">Reagent testing</a>
-          <a href="#dose">Dose & timeline</a>
-          <a href="#combinations">Combinations</a>
-          <a href="#research">Research</a>
-          <a href="#shop">Shop</a>
-        </div>
-        <div class="footer-emergency">
-          <h4>Emergency resources</h4>
-          <p><strong>If someone is in distress:</strong></p>
-          <ul>
-            <li>Call emergency services (911 in US)</li>
-            <li>Fireside Project: 62-FIRESIDE (psychedelic support)</li>
-            <li>SAMHSA Helpline: 1-800-662-4357</li>
-            <li>Poison Control: 1-800-222-1222</li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-disclaimer">
-        <p><strong>Disclaimer:</strong> This website provides harm reduction information for educational purposes only. Nothing here constitutes medical advice. 2C-B is a Schedule I controlled substance in the United States and controlled in most other jurisdictions. This site neither condones nor encourages illegal activity. Affiliate links help support this resource — all product recommendations are based solely on harm reduction value.</p>
-      </div>
-      <p class="footer-copy">© 2026 Rave Wellness · www.ravewellness.org · All rights reserved.</p>
-    </div>
-  </footer>
-
-  <script type="module" src="script.js"></script>
-</body>
-</html>
+</BaseLayout>

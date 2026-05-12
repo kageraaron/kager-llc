@@ -1,33 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="manifest" href="/site.webmanifest">
-  <title>Drug Interaction Checker — Is X Safe With Y? | Rave Wellness</title>
-  <meta name="description" content="Interactive drug interaction checker: MDMA, LSD, psilocybin, ketamine, cocaine, alcohol, SSRIs, MAOIs, benzos and more. Select two substances for evidence-based harm reduction guidance." />
-  <meta name="keywords" content="drug interaction checker, is mdma safe with antidepressants, mdma ssri interaction, lsd and lithium seizure, ketamine and alcohol dangerous, cocaethylene cocaine alcohol, mdma maoi serotonin syndrome, can you take shrooms on ssri, psychedelic drug interactions, candy flip mdma lsd, hippie flip mdma mushrooms, rave drug interactions" />
-  <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://www.ravewellness.org/interactions.html" />
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
 
-  <meta property="og:title" content="Drug Interaction Checker — Is X Safe With Y? | Rave Wellness" />
-  <meta property="og:description" content="Select two substances to see interaction risks, mechanisms, and harm reduction guidance. MDMA, LSD, ketamine, cocaine, alcohol, SSRIs, MAOIs, and more." />
-  <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://www.ravewellness.org/interactions.html" />
-  <meta property="og:site_name" content="Rave Wellness" />
-  <meta property="og:image" content="https://www.ravewellness.org/logo.svg" />
-
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Drug Interaction Checker — Is X Safe With Y?" />
-  <meta name="twitter:description" content="MDMA, LSD, ketamine, alcohol, SSRIs, MAOIs — select two substances to see the interaction risk and harm reduction advice." />
-  <meta name="twitter:image" content="https://www.ravewellness.org/logo.svg" />
-  <meta name="author" content="Rave Wellness" />
-
-  <script type="application/ld+json">
-  {
+const title       = `Drug Interaction Checker — Is X Safe With Y? | Rave Wellness`;
+const description = `Interactive drug interaction checker: MDMA, LSD, psilocybin, ketamine, cocaine, alcohol, SSRIs, MAOIs, benzos and more. Select two substances for evidence-based harm reduction guidance.`;
+const keywords    = `drug interaction checker, is mdma safe with antidepressants, mdma ssri interaction, lsd and lithium seizure, ketamine and alcohol dangerous, cocaethylene cocaine alcohol, mdma maoi serotonin syndrome, can you take shrooms on ssri, psychedelic drug interactions, candy flip mdma lsd, hippie flip mdma mushrooms, rave drug interactions`;
+const canonical   = `https://www.ravewellness.org/interactions.html`;
+const ogTitle     = `Drug Interaction Checker — Is X Safe With Y? | Rave Wellness`;
+const ogDesc      = `Select two substances to see interaction risks, mechanisms, and harm reduction guidance. MDMA, LSD, ketamine, cocaine, alcohol, SSRIs, MAOIs, and more.`;
+const twTitle     = ``;
+const twDesc      = ``;
+const schemaJson  = `{
     "@context": "https://schema.org",
     "@graph": [
       {
@@ -97,244 +79,35 @@
         ]
       }
     ]
-  }
-  </script>
+  }`;
+---
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    .substance-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-      gap: 10px;
-      max-width: 900px;
-      margin: 0 auto 16px;
-    }
-    .substance-tile {
-      background: var(--bg-card);
-      border: 1.5px solid var(--border-strong);
-      border-radius: var(--radius-sm);
-      padding: 14px 8px 12px;
-      text-align: center;
-      cursor: pointer;
-      transition: border-color 0.18s, background 0.18s, transform 0.12s;
-      user-select: none;
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      line-height: 1.2;
-    }
-    .substance-tile:hover {
-      border-color: var(--purple);
-      background: var(--bg-card-hover);
-      color: var(--text);
-      transform: translateY(-1px);
-    }
-    .substance-tile.selected {
-      background: var(--purple-dim);
-      border-color: var(--purple);
-      color: var(--text);
-    }
-    .substance-tile .tile-emoji {
-      display: block;
-      font-size: 1.5rem;
-      margin-bottom: 6px;
-    }
-    .substance-tile .tile-aka {
-      display: block;
-      font-size: 0.68rem;
-      color: var(--text-dim);
-      margin-top: 3px;
-      font-weight: 400;
-    }
+<BaseLayout
+  {title}
+  {description}
+  {keywords}
+  {canonical}
+  ogTitle={ogTitle}
+  ogDescription={ogDesc}
+  twitterTitle={twTitle}
+  twitterDescription={twDesc}
+  {schemaJson}
+>
+  <Fragment slot="footer-orgs">
+    <a href="https://dancesafe.org/r/ravewellness/" target="_blank" rel="noopener">DanceSafe</a>
+            <a href="https://maps.org" target="_blank" rel="noopener">MAPS</a>
+            <a href="https://tripsit.me" target="_blank" rel="noopener">TripSit</a>
+  </Fragment>
+  <Fragment slot="footer-nav">
+    <h4>Navigation</h4>
+              <a href="/">Home</a>
+              <a href="interactions.html">Interaction Checker</a>
+              <a href="faq.html">FAQ</a>
+              <a href="test-kits.html">Test kit videos</a>
+              <a href="index.html#shop">Shop</a>
+  </Fragment>
 
-    .checker-status {
-      max-width: 900px;
-      margin: 0 auto 32px;
-      text-align: center;
-      min-height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
-    .checker-status .sel-pill {
-      background: var(--purple-dim);
-      border: 1px solid var(--purple);
-      border-radius: 20px;
-      padding: 5px 16px;
-      font-weight: 600;
-      color: var(--text);
-      font-size: 0.88rem;
-    }
-    .checker-status .sel-plus {
-      font-size: 1.1rem;
-      color: var(--text-dim);
-    }
-    .checker-status .clear-btn {
-      background: none;
-      border: 1px solid var(--border-strong);
-      border-radius: 20px;
-      padding: 4px 14px;
-      color: var(--text-dim);
-      font-size: 0.78rem;
-      cursor: pointer;
-      font-family: var(--font);
-      transition: color 0.15s, border-color 0.15s;
-    }
-    .checker-status .clear-btn:hover {
-      color: var(--text-muted);
-      border-color: var(--text-muted);
-    }
-
-    #interaction-result {
-      display: none;
-      max-width: 720px;
-      margin: 0 auto 64px;
-    }
-    #interaction-result.visible { display: block; }
-
-    .interaction-card {
-      border-radius: var(--radius);
-      padding: 28px 32px;
-      border: 1.5px solid var(--border-strong);
-      background: var(--bg-card);
-    }
-    .interaction-card.sev-danger {
-      background: rgba(239,68,68,0.08);
-      border-color: rgba(239,68,68,0.4);
-    }
-    .interaction-card.sev-caution {
-      background: rgba(245,158,11,0.07);
-      border-color: rgba(245,158,11,0.35);
-    }
-    .interaction-card.sev-moderate {
-      background: rgba(6,182,212,0.06);
-      border-color: rgba(6,182,212,0.25);
-    }
-    .interaction-card.sev-low {
-      background: rgba(16,185,129,0.07);
-      border-color: rgba(16,185,129,0.3);
-    }
-
-    .sev-badge {
-      display: inline-block;
-      border-radius: 20px;
-      padding: 5px 16px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      margin-bottom: 14px;
-    }
-    .sev-danger .sev-badge  { background: rgba(239,68,68,0.2);  color: #fca5a5; border: 1px solid rgba(239,68,68,0.4); }
-    .sev-caution .sev-badge { background: rgba(245,158,11,0.18); color: #fcd34d; border: 1px solid rgba(245,158,11,0.4); }
-    .sev-moderate .sev-badge{ background: rgba(6,182,212,0.15);  color: #67e8f9; border: 1px solid rgba(6,182,212,0.3); }
-    .sev-low .sev-badge     { background: rgba(16,185,129,0.15); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.35); }
-    .sev-unknown .sev-badge { background: rgba(255,255,255,0.06); color: var(--text-muted); border: 1px solid var(--border-strong); }
-
-    .interaction-card h2 {
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: var(--text);
-      margin: 0 0 20px;
-    }
-    .ic-section { margin-bottom: 16px; }
-    .ic-section:last-of-type { margin-bottom: 0; }
-    .ic-label {
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: var(--text-dim);
-      margin-bottom: 5px;
-    }
-    .ic-section p {
-      font-size: 0.93rem;
-      color: var(--text-muted);
-      margin: 0;
-      line-height: 1.65;
-    }
-    .emergency-box {
-      margin-top: 20px;
-      padding: 12px 16px;
-      background: rgba(239,68,68,0.15);
-      border-left: 3px solid var(--red);
-      border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: #fca5a5;
-    }
-
-    .common-qs {
-      max-width: 720px;
-      margin: 0 auto;
-      padding-top: 16px;
-    }
-    .common-qs .section-title {
-      font-size: 1.5rem;
-      margin-bottom: 32px;
-    }
-
-    @media (max-width: 600px) {
-      .substance-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
-      .substance-tile { padding: 10px 4px 8px; font-size: 0.75rem; }
-      .substance-tile .tile-emoji { font-size: 1.25rem; }
-      .interaction-card { padding: 20px 18px; }
-    }
-  </style>
-</head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-ES9Z0KYP85"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-ES9Z0KYP85');
-</script>
-<body>
-
-  <header id="site-header">
-    <nav>
-      <div class="nav-container">
-        <a href="/" class="logo"><img src="/logo.svg" width="32" height="32" alt="" class="logo-mark" aria-hidden="true" />Rave<span>Wellness</span></a>
-        <ul class="nav-links">
-          <li><a href="/">Home</a></li>
-          <li class="nav-dropdown">
-            <a href="index.html#guides">Guides <span class="nav-chevron">▾</span></a>
-            <ul class="nav-dropdown-menu">
-              <li><a href="mdma.html">MDMA</a></li>
-              <li><a href="ketamine.html">Ketamine</a></li>
-              <li><a href="lsd.html">LSD</a></li>
-              <li><a href="psilocybin.html">Psilocybin</a></li>
-              <li><a href="nitrous.html">Nitrous Oxide</a></li>
-              <li><a href="cocaine.html">Cocaine & Stimulants</a></li>
-              <li><a href="2cb.html">2C-B</a></li>
-              <li><a href="ghb.html">GHB / GBL</a></li>
-              <li><a href="poppers.html">Poppers</a></li>
-              <li><a href="test-kits.html">Test kit videos</a></li>
-              <li><a href="interactions.html">Interaction Checker</a></li>
-              <li class="nav-dropdown-divider"></li>
-              <li><a href="hearing.html">Hearing Health</a></li>
-            </ul>
-          </li>
-          <li><a href="interactions.html">Interactions</a></li>
-          <li><a href="hearing.html">Hearing</a></li>
-          <li><a href="faq.html">FAQ</a></li>
-          <li><a href="index.html#shop" class="nav-cta">Shop</a></li>
-        </ul>
-        <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
-    </nav>
-  </header>
-
-  <main>
+<main>
     <section id="hero" style="padding-top: 72px; padding-bottom: 0;">
       <div class="container">
         <div class="section-header" style="margin-bottom: 16px;">
@@ -639,39 +412,8 @@
     </section>
   </main>
 
-  <footer>
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <a href="/" class="logo"><img src="/logo.svg" width="32" height="32" alt="" class="logo-mark" aria-hidden="true" />Rave<span>Wellness</span></a>
-          <p>Evidence-based harm reduction. Information that saves lives.</p>
-          <div class="footer-orgs">
-            <a href="https://dancesafe.org/r/ravewellness/" target="_blank" rel="noopener">DanceSafe</a>
-            <a href="https://maps.org" target="_blank" rel="noopener">MAPS</a>
-            <a href="https://tripsit.me" target="_blank" rel="noopener">TripSit</a>
-          </div>
-        </div>
-        <div class="footer-nav">
-          <h4>Navigation</h4>
-          <a href="/">Home</a>
-          <a href="interactions.html">Interaction Checker</a>
-          <a href="faq.html">FAQ</a>
-          <a href="test-kits.html">Test kit videos</a>
-          <a href="index.html#shop">Shop</a>
-        </div>
-        <div class="footer-emergency">
-          <h4>Emergency</h4>
-          <p>Overdose or medical emergency: call local emergency services. Administer naloxone if opioids may be involved.</p>
-        </div>
-      </div>
-      <div class="footer-disclaimer">
-        <p><strong>Disclaimer:</strong> This website provides harm reduction information for educational purposes only. Nothing here constitutes medical advice. Many substances discussed are controlled and illegal in most jurisdictions. This site neither condones nor encourages illegal activity. The DanceSafe link on this page is an affiliate referral link — we may earn a small commission at no extra cost to you. All recommendations are based solely on harm reduction value.</p>
-      </div>
-      <p class="footer-copy">© 2026 Rave Wellness · www.ravewellness.org · All rights reserved.</p>
-    </div>
-  </footer>
-
-  <script type="module">
+<script is:inline>
+(function () {
     const SUBSTANCES = {
       mdma: 'MDMA',
       lsd: 'LSD',
@@ -689,8 +431,7 @@
       '2cb': '2C-B',
       lithium: 'Lithium',
       ghb: 'GHB / GBL',
-      tramadol: 'Tramadol',
-      poppers: 'Poppers'
+      tramadol: 'Tramadol'
     };
 
     function key(a, b) { return [a, b].sort().join('+'); }
@@ -1074,7 +815,6 @@
         emergency: false
       },
 
-      // ── GHB / GBL ──────────────────────────────────────────────────────
       [key('ghb','alcohol')]: {
         severity: 'danger',
         label: 'DANGER — Respiratory depression & coma',
@@ -1121,7 +861,6 @@
         emergency: true
       },
 
-      // ── Tramadol ────────────────────────────────────────────────────────
       [key('tramadol','mdma')]: {
         severity: 'caution',
         label: 'HIGH RISK — Serotonin syndrome',
@@ -1186,46 +925,6 @@
         mechanism: 'CB1 activation by THC elevates resting heart rate. Cocaine\'s catecholamine effects add to this. In people with existing cardiovascular sensitivity, the combination can trigger arrhythmias.',
         advice: 'Limit cannabis use when using cocaine. Avoid concentrates or high-THC products. Be attentive to chest discomfort — it warrants stopping both substances and seeking medical assessment.',
         emergency: false
-      },
-
-      [key('poppers','cocaine')]: {
-        severity: 'caution',
-        label: 'HIGH RISK — Severe cardiovascular stress',
-        title: 'Poppers + Cocaine',
-        summary: 'Poppers (alkyl nitrites) cause rapid vasodilation and blood pressure drop; cocaine causes intense vasoconstriction and blood pressure spike. The combination creates erratic, unpredictable cardiovascular stress — the heart is responding to two opposing forces simultaneously.',
-        mechanism: 'Cocaine blocks norepinephrine and dopamine reuptake, causing intense vasoconstriction and hypertension. Alkyl nitrites act as NO donors, causing acute vasodilation and hypotension. The hemodynamic oscillation between these states stresses the myocardium and can trigger arrhythmias, particularly in people with underlying cardiovascular vulnerability.',
-        advice: 'Avoid combining. The combination is common in sexual settings but carries real cardiovascular risk. Chest pain, palpitations, or breathlessness during this combination warrants stopping and seeking medical assessment.',
-        emergency: false
-      },
-
-      [key('poppers','alcohol')]: {
-        severity: 'low',
-        label: 'LOW-MODERATE — Additive hypotension',
-        title: 'Poppers + Alcohol',
-        summary: 'Alcohol causes mild vasodilation and reduces blood pressure; poppers cause acute, pronounced vasodilation. Combined, the blood pressure drop is somewhat greater than poppers alone — the main risk is orthostatic hypotension and dizziness, particularly when standing.',
-        mechanism: 'Both alcohol and alkyl nitrites cause peripheral vasodilation. Combined, the hypotensive effect is additive — not synergistic — but can cause dizziness and fainting when changing position rapidly.',
-        advice: 'If drinking, use poppers cautiously — ensure you are seated or stable before and after inhaling. Avoid using while standing or dancing. The risk of falls from dizziness is real.',
-        emergency: false
-      },
-
-      [key('poppers','mdma')]: {
-        severity: 'low',
-        label: 'LOW-MODERATE — Cardiovascular overlap',
-        title: 'Poppers + MDMA',
-        summary: 'MDMA raises heart rate and blood pressure via norepinephrine release; poppers cause an acute but brief blood pressure drop. The cardiovascular effects partially oppose each other, but the transient hypotension from poppers may feel more pronounced against the MDMA background of elevated baseline BP.',
-        mechanism: 'MDMA\'s sympathomimetic effects (elevated heart rate, BP) are transiently counteracted by the nitric oxide-mediated vasodilation from poppers. The net effect depends on dose and timing — post-poppers rebound to elevated BP may be sharper.',
-        advice: 'No absolute contraindication, but be aware of pronounced head rush and dizziness. Ensure you are seated when using. Monitor heart rate — if you feel chest discomfort or palpitations, stop and rest.',
-        emergency: false
-      },
-
-      [key('poppers','nitrous')]: {
-        severity: 'low',
-        label: 'LOW — Additive dizziness / orthostatic hypotension',
-        title: 'Poppers + Nitrous Oxide',
-        summary: 'Both poppers and nitrous oxide cause brief blood pressure reduction and dizziness. Used close together they can compound lightheadedness and increase fall risk — particularly relevant as both are commonly used in rave settings.',
-        mechanism: 'Alkyl nitrites cause vasodilation via NO release; nitrous oxide also reduces blood pressure via direct cardiovascular effects. Combined, orthostatic hypotension (dizziness on standing) is more pronounced.',
-        advice: 'Do not use poppers and nitrous in rapid succession. Both cause dizziness — combining increases fall risk. Use both from a stable, seated position.',
-        emergency: false
       }
     };
 
@@ -1245,23 +944,23 @@
       if (selected.length === 0) {
         statusEl.innerHTML = '<span>Select two substances above</span>';
       } else if (selected.length === 1) {
-        statusEl.innerHTML = `<span class="sel-pill">${SUBSTANCES[selected[0]]}</span> <span>+ select one more</span> <button class="clear-btn" id="clearBtn">Clear</button>`;
+        statusEl.innerHTML = '<span class="sel-pill">' + SUBSTANCES[selected[0]] + '</span> <span>+ select one more</span> <button class="clear-btn" id="clearBtn">Clear</button>';
       } else {
-        statusEl.innerHTML = `<span class="sel-pill">${SUBSTANCES[selected[0]]}</span> <span class="sel-plus">+</span> <span class="sel-pill">${SUBSTANCES[selected[1]]}</span> <button class="clear-btn" id="clearBtn">Clear</button>`;
+        statusEl.innerHTML = '<span class="sel-pill">' + SUBSTANCES[selected[0]] + '</span> <span class="sel-plus">+</span> <span class="sel-pill">' + SUBSTANCES[selected[1]] + '</span> <button class="clear-btn" id="clearBtn">Clear</button>';
       }
-      document.getElementById('clearBtn')?.addEventListener('click', clearAll);
+      document.getElementById('clearBtn') && document.getElementById('clearBtn').addEventListener('click', clearAll);
     }
 
     function clearAll() {
       selected.length = 0;
-      tiles.forEach(t => t.classList.remove('selected'));
+      tiles.forEach(function(t) { t.classList.remove('selected'); });
       resultEl.classList.remove('visible');
       updateStatus();
     }
 
     function showInteraction(a, b) {
-      const k = key(a, b);
-      const data = INTERACTIONS[k];
+      var k = key(a, b);
+      var data = INTERACTIONS[k];
 
       cardEl.className = 'interaction-card';
       resultEl.classList.add('visible');
@@ -1270,7 +969,7 @@
         cardEl.classList.add('sev-unknown');
         badgeEl.className = 'sev-badge';
         badgeEl.textContent = 'No specific data';
-        titleEl.textContent = `${SUBSTANCES[a]} + ${SUBSTANCES[b]}`;
+        titleEl.textContent = SUBSTANCES[a] + ' + ' + SUBSTANCES[b];
         summaryEl.textContent = 'No specific interaction data exists in our database for this combination. This does not mean it is safe — it means it has not been well-studied or documented in harm reduction literature. Research each substance independently using resources like TripSit\'s combo chart and Erowid before combining.';
         mechEl.textContent = 'Unknown — insufficient data.';
         adviceEl.textContent = 'Treat as potentially risky until you have researched both substances thoroughly. When in doubt, do not combine.';
@@ -1278,8 +977,8 @@
         return;
       }
 
-      cardEl.classList.add(`sev-${data.severity}`);
-      badgeEl.className = `sev-badge`;
+      cardEl.classList.add('sev-' + data.severity);
+      badgeEl.className = 'sev-badge';
       badgeEl.textContent = data.label;
       titleEl.textContent = data.title;
       summaryEl.innerHTML = data.summary;
@@ -1290,10 +989,10 @@
       resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
-    tiles.forEach(tile => {
-      tile.addEventListener('click', () => {
-        const id = tile.dataset.id;
-        const idx = selected.indexOf(id);
+    tiles.forEach(function(tile) {
+      tile.addEventListener('click', function() {
+        var id = tile.dataset.id;
+        var idx = selected.indexOf(id);
 
         if (idx !== -1) {
           selected.splice(idx, 1);
@@ -1316,7 +1015,180 @@
     });
 
     updateStatus();
-  </script>
-  <script type="module" src="script.js"></script>
-</body>
-</html>
+})();
+</script>
+
+</BaseLayout>
+
+<style is:global>
+  .substance-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 10px;
+    max-width: 900px;
+    margin: 0 auto 16px;
+  }
+  .substance-tile {
+    background: var(--bg-card);
+    border: 1.5px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    padding: 14px 8px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.18s, background 0.18s, transform 0.12s;
+    user-select: none;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    line-height: 1.2;
+  }
+  .substance-tile:hover {
+    border-color: var(--purple);
+    background: var(--bg-card-hover);
+    color: var(--text);
+    transform: translateY(-1px);
+  }
+  .substance-tile.selected {
+    background: var(--purple-dim);
+    border-color: var(--purple);
+    color: var(--text);
+  }
+  .substance-tile .tile-emoji {
+    display: block;
+    font-size: 1.5rem;
+    margin-bottom: 6px;
+  }
+  .substance-tile .tile-aka {
+    display: block;
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    margin-top: 3px;
+    font-weight: 400;
+  }
+
+  .checker-status {
+    max-width: 900px;
+    margin: 0 auto 32px;
+    text-align: center;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+  .checker-status .sel-pill {
+    background: var(--purple-dim);
+    border: 1px solid var(--purple);
+    border-radius: 20px;
+    padding: 5px 16px;
+    font-weight: 600;
+    color: var(--text);
+    font-size: 0.88rem;
+  }
+  .checker-status .sel-plus {
+    font-size: 1.1rem;
+    color: var(--text-dim);
+  }
+  .checker-status .clear-btn {
+    background: none;
+    border: 1px solid var(--border-strong);
+    border-radius: 20px;
+    padding: 4px 14px;
+    color: var(--text-dim);
+    font-size: 0.78rem;
+    cursor: pointer;
+    font-family: var(--font);
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .checker-status .clear-btn:hover {
+    color: var(--text-muted);
+    border-color: var(--text-muted);
+  }
+
+  #interaction-result {
+    display: none;
+    max-width: 720px;
+    margin: 0 auto 64px;
+  }
+  #interaction-result.visible { display: block; }
+
+  .interaction-card {
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    border: 1.5px solid var(--border-strong);
+    background: var(--bg-card);
+  }
+  .interaction-card.sev-danger  { background: rgba(239,68,68,0.08);   border-color: rgba(239,68,68,0.4); }
+  .interaction-card.sev-caution { background: rgba(245,158,11,0.07);  border-color: rgba(245,158,11,0.35); }
+  .interaction-card.sev-moderate{ background: rgba(6,182,212,0.06);   border-color: rgba(6,182,212,0.25); }
+  .interaction-card.sev-low     { background: rgba(16,185,129,0.07);  border-color: rgba(16,185,129,0.3); }
+
+  .sev-badge {
+    display: inline-block;
+    border-radius: 20px;
+    padding: 5px 16px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .sev-danger  .sev-badge { background: rgba(239,68,68,0.2);   color: #fca5a5; border: 1px solid rgba(239,68,68,0.4); }
+  .sev-caution .sev-badge { background: rgba(245,158,11,0.18); color: #fcd34d; border: 1px solid rgba(245,158,11,0.4); }
+  .sev-moderate .sev-badge{ background: rgba(6,182,212,0.15);  color: #67e8f9; border: 1px solid rgba(6,182,212,0.3); }
+  .sev-low     .sev-badge { background: rgba(16,185,129,0.15); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.35); }
+  .sev-unknown .sev-badge { background: rgba(255,255,255,0.06); color: var(--text-muted); border: 1px solid var(--border-strong); }
+
+  .interaction-card h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 20px;
+  }
+  .ic-section { margin-bottom: 16px; }
+  .ic-section:last-of-type { margin-bottom: 0; }
+  .ic-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-dim);
+    margin-bottom: 5px;
+  }
+  .ic-section p {
+    font-size: 0.93rem;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.65;
+  }
+  .emergency-box {
+    margin-top: 20px;
+    padding: 12px 16px;
+    background: rgba(239,68,68,0.15);
+    border-left: 3px solid var(--red);
+    border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #fca5a5;
+  }
+
+  .common-qs {
+    max-width: 720px;
+    margin: 0 auto;
+    padding-top: 16px;
+  }
+  .common-qs .section-title {
+    font-size: 1.5rem;
+    margin-bottom: 32px;
+  }
+
+  @media (max-width: 600px) {
+    .substance-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .substance-tile { padding: 10px 4px 8px; font-size: 0.75rem; }
+    .substance-tile .tile-emoji { font-size: 1.25rem; }
+    .interaction-card { padding: 20px 18px; }
+  }
+</style>
