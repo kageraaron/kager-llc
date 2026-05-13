@@ -2,3 +2,4 @@ node_modules/
 dist/
 .astro/
 blog-ideas.md
+social/output/

@@ -1,0 +1,63 @@
+name: Post Instagram Reel
+
+on:
+  workflow_dispatch:
+    inputs:
+      blog_post:
+        description: 'Blog post filename (e.g. psilocybin-safety.md) — leave empty for most recent'
+        required: false
+        default: ''
+
+jobs:
+  post-reel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Node dependencies
+        run: npm install
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip install edge-tts instagrapi
+
+      - name: Install ffmpeg
+        run: sudo apt-get install -y ffmpeg
+
+      - name: Resolve blog post path
+        id: post
+        run: |
+          if [ -n "${{ github.event.inputs.blog_post }}" ]; then
+            echo "path=src/content/blog/${{ github.event.inputs.blog_post }}" >> $GITHUB_OUTPUT
+          else
+            LATEST=$(ls -t src/content/blog/*.md | head -1)
+            echo "path=$LATEST" >> $GITHUB_OUTPUT
+            echo "Using most recent post: $LATEST"
+          fi
+
+      - name: Generate slides (Claude → HTML → PNGs)
+        run: node social/scripts/generate-slides.js "${{ steps.post.outputs.path }}"
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+      - name: Generate narration audio (edge-tts)
+        run: python3 social/scripts/generate-audio.py
+
+      - name: Create reel and post to Instagram
+        run: python3 social/scripts/create-reel.py
+        env:
+          RAVEWELLNESS_INSTAGRAM_EMAIL: ${{ secrets.RAVEWELLNESS_INSTAGRAM_EMAIL }}
+          RAVEWELLNESS_INSTAGRAM_PASSWORD: ${{ secrets.RAVEWELLNESS_INSTAGRAM_PASSWORD }}
