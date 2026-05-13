@@ -1,0 +1,217 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { STATE_DATA, classify, STANDARDS } from '../../data';
+
+export function getStaticPaths() {
+  const states = Object.values(STATE_DATA);
+  return states.map(s => ({
+    params: { state: s.name.toLowerCase().replace(/\s+/g, '-') },
+    props: { stateData: s },
+  }));
+}
+
+const { stateData } = Astro.props;
+
+const pfasClass = classify('pfas_ppt', stateData.pfas_ppt);
+const leadClass = classify('lead_ppb', stateData.lead_ppb);
+const pm25Class = classify('pm25', stateData.pm25);
+
+const riskLabel: Record<string, string> = {
+  clean: 'Clean', ok: 'OK', elevated: 'Elevated', high: 'High', severe: 'Severe'
+};
+const riskColor: Record<string, string> = {
+  clean: '#10b981', ok: '#06b6d4', elevated: '#f59e0b', high: '#ef4444', severe: '#7f1d1d'
+};
+
+const stateName = stateData.name;
+const stateSlug = stateName.toLowerCase().replace(/\s+/g, '-');
+const canonical = `https://waterairaudit.com/water-quality/${stateSlug}.html`;
+
+const title = `Water & Air Quality in ${stateName} — PFAS, Lead & PM2.5 Data | WaterAirAudit`;
+const description = `${stateName} water quality data: PFAS at ${stateData.pfas_ppt} ppt, lead at ${stateData.lead_ppb} ppb, and PM2.5 at ${stateData.pm25} µg/m³. Check your ZIP code for local contamination levels and filter recommendations.`;
+
+const pfasVsLimit = ((stateData.pfas_ppt / 4) * 100).toFixed(0);
+const leadVsLimit = ((stateData.lead_ppb / 15) * 100).toFixed(0);
+const pm25VsLimit = ((stateData.pm25 / 9) * 100).toFixed(0);
+
+const schemaJson = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": `${canonical}#article`,
+      "headline": `Water & Air Quality in ${stateName}: PFAS, Lead & PM2.5 Data`,
+      "description": description,
+      "url": canonical,
+      "author": { "@type": "Organization", "name": "WaterAirAudit", "url": "https://waterairaudit.com" },
+      "publisher": { "@type": "Organization", "name": "WaterAirAudit", "url": "https://waterairaudit.com" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://waterairaudit.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Water Quality by State", "item": "https://waterairaudit.com/water-quality/" },
+        { "@type": "ListItem", "position": 3, "name": stateName, "item": canonical }
+      ]
+    }
+  ]
+});
+---
+
+<BaseLayout {title} {description} {canonical} {schemaJson}>
+  <Fragment slot="footer-nav">
+    <h4>Explore</h4>
+    <a href="/">ZIP Audit Tool</a>
+    <a href="/blog.html">Blog</a>
+    <a href="/#filters">Filtration Guide</a>
+    <a href="/#faq">FAQ</a>
+    <a href="/#shop">Shop</a>
+  </Fragment>
+
+  <main>
+    <section style="padding-top: 72px; padding-bottom: 24px;">
+      <div class="container">
+        <a href="/" style="color: var(--text-muted); font-size: 0.85rem; text-decoration: none; display: inline-block; margin-bottom: 16px;">&larr; ZIP Audit Tool</a>
+        <div style="display: inline-block; background: rgba(6,182,212,0.12); color: #06b6d4; border: 1px solid rgba(6,182,212,0.3); font-size: 0.8rem; padding: 4px 12px; border-radius: 20px; margin-bottom: 16px; margin-left: 12px;">State Report</div>
+        <h1 style="font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.2; margin-bottom: 12px;">
+          Water &amp; Air Quality in {stateName}
+        </h1>
+        <p style="color: var(--text-muted); font-size: 1.05rem; max-width: 680px; line-height: 1.6; margin-bottom: 32px;">
+          Regional composite data for PFAS, lead, and PM2.5 in {stateName}. Values are derived from EPA UCMR 5, EWG Tap Water Database, and AirNow annual averages. Check your specific ZIP code below for localized results.
+        </p>
+
+        <!-- Risk summary cards -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 40px;">
+          <div class="pollutant-card" style="border-top: 3px solid {riskColor[pfasClass]};">
+            <h3 style="margin-bottom: 8px;">PFAS</h3>
+            <div style="font-size: 2rem; font-weight: 700; color: {riskColor[pfasClass]}; margin-bottom: 4px;">{stateData.pfas_ppt} ppt</div>
+            <div style="font-size: 0.85rem; color: var(--text-muted);">{pfasVsLimit}% of EPA 4 ppt limit</div>
+            <div style="margin-top: 8px; font-size: 0.85rem; font-weight: 600; color: {riskColor[pfasClass]};">{riskLabel[pfasClass]}</div>
+          </div>
+          <div class="pollutant-card" style="border-top: 3px solid {riskColor[leadClass]};">
+            <h3 style="margin-bottom: 8px;">Lead</h3>
+            <div style="font-size: 2rem; font-weight: 700; color: {riskColor[leadClass]}; margin-bottom: 4px;">{stateData.lead_ppb} ppb</div>
+            <div style="font-size: 0.85rem; color: var(--text-muted);">{leadVsLimit}% of EPA 15 ppb action level</div>
+            <div style="margin-top: 8px; font-size: 0.85rem; font-weight: 600; color: {riskColor[leadClass]};">{riskLabel[leadClass]}</div>
+          </div>
+          <div class="pollutant-card" style="border-top: 3px solid {riskColor[pm25Class]};">
+            <h3 style="margin-bottom: 8px;">PM2.5</h3>
+            <div style="font-size: 2rem; font-weight: 700; color: {riskColor[pm25Class]}; margin-bottom: 4px;">{stateData.pm25} &micro;g/m&sup3;</div>
+            <div style="font-size: 0.85rem; color: var(--text-muted);">{pm25VsLimit}% of EPA 9 &micro;g/m&sup3; standard</div>
+            <div style="margin-top: 8px; font-size: 0.85rem; font-weight: 600; color: {riskColor[pm25Class]};">{riskLabel[pm25Class]}</div>
+          </div>
+        </div>
+
+        <!-- State notes -->
+        <div class="vulnerable-callout" style="margin-bottom: 40px;">
+          <h4>{stateName} Context</h4>
+          <p>{stateData.notes}</p>
+        </div>
+
+        <!-- ZIP CTA -->
+        <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 32px; margin-bottom: 48px; text-align: center;">
+          <h2 style="margin-bottom: 12px; font-size: 1.5rem;">Check Your Specific ZIP Code in {stateName}</h2>
+          <p style="color: var(--text-muted); margin-bottom: 20px; max-width: 540px; margin-left: auto; margin-right: auto;">State averages mask wide local variation. Your ZIP code may be significantly cleaner or more contaminated than the state composite — especially near industrial sites, military bases, or older housing stock.</p>
+          <a href={`/?zip=${stateData.representativeZip}`} class="btn btn-primary" style="display: inline-block;">
+            Audit {stateName} ZIP {stateData.representativeZip} &rarr;
+          </a>
+          <p style="margin-top: 12px; font-size: 0.8rem; color: var(--text-muted);">Or go to the <a href="/">home page</a> and enter any {stateName} ZIP code.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- What the numbers mean -->
+    <section style="padding-bottom: 60px;">
+      <div class="container" style="max-width: 760px;">
+        <h2 style="font-size: 1.4rem; margin-bottom: 24px;">What These Numbers Mean for {stateName} Residents</h2>
+
+        <div style="margin-bottom: 32px;">
+          <h3 style="font-size: 1.1rem; margin-bottom: 12px; color: #06b6d4;">PFAS in {stateName} Drinking Water</h3>
+          <p style="color: var(--text-muted); line-height: 1.75;">
+            {stateName}'s regional PFAS composite is <strong>{stateData.pfas_ppt} parts per trillion (ppt)</strong>,
+            {pfasClass === 'clean' || pfasClass === 'ok'
+              ? ` which is at or below the EPA's 2024 enforceable limit of 4 ppt for PFOA and PFOS. That said, the EPA limit reflects what's technically achievable — the agency's health goal is zero, and any PFAS exposure carries some risk given their persistence in the body.`
+              : ` which ${stateData.pfas_ppt > 4 ? 'exceeds' : 'approaches'} the EPA's 2024 enforceable limit of 4 ppt for PFOA and PFOS. Water utilities in ${stateName} have until 2029 to comply. In the interim, a point-of-use reverse osmosis filter (NSF 58 certified) removes 95%+ of PFAS at the tap.`
+            }
+          </p>
+        </div>
+
+        <div style="margin-bottom: 32px;">
+          <h3 style="font-size: 1.1rem; margin-bottom: 12px; color: #f59e0b;">Lead in {stateName} Tap Water</h3>
+          <p style="color: var(--text-muted); line-height: 1.75;">
+            Lead contamination in {stateName} averages <strong>{stateData.lead_ppb} ppb</strong> at the 90th percentile.
+            {leadClass === 'clean'
+              ? ` This is well below the EPA's 15 ppb action level. However, there is no safe level of lead for children — even low readings warrant an NSF 53-certified filter if young children or pregnant people are in the household.`
+              : leadClass === 'ok'
+              ? ` This is within the EPA's action level but above the zero health goal. Lead pipes in pre-1986 homes remain the primary risk factor — consider an NSF 53-certified filter as a precaution.`
+              : ` This is at or above concerning levels. Homes built before 1986 face the highest risk from lead service lines and solder. An NSF 53-certified under-sink filter or reverse osmosis system removes lead at the tap.`
+            }
+          </p>
+        </div>
+
+        <div style="margin-bottom: 32px;">
+          <h3 style="font-size: 1.1rem; margin-bottom: 12px; color: #10b981;">PM2.5 Air Quality in {stateName}</h3>
+          <p style="color: var(--text-muted); line-height: 1.75;">
+            {stateName}'s annual average PM2.5 is <strong>{stateData.pm25} &micro;g/m&sup3;</strong>.
+            {pm25Class === 'clean'
+              ? ` This is below both the EPA annual standard (9 µg/m³) and approaches the WHO guideline (5 µg/m³). Running a HEPA air purifier indoors can bring indoor air below the WHO threshold even in areas with clean outdoor air.`
+              : pm25Class === 'ok'
+              ? ` This meets the EPA annual standard (9 µg/m³) but exceeds the stricter WHO guideline of 5 µg/m³. A HEPA air purifier in sleeping areas is recommended, particularly for children and people with respiratory conditions.`
+              : ` This exceeds the EPA annual standard of 9 µg/m³. Long-term PM2.5 at this level is associated with increased cardiovascular mortality (Pope & Dockery). A high-CADR HEPA purifier in your main living and sleeping areas is strongly recommended.`
+            }
+          </p>
+        </div>
+
+        <!-- Filtration recommendations -->
+        <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 32px;">
+          <h3 style="font-size: 1.1rem; margin-bottom: 16px;">Filtration Recommendations for {stateName}</h3>
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            {(stateData.pfas_ppt > 4 || pfasClass === 'elevated' || pfasClass === 'high' || pfasClass === 'severe') && (
+              <li style="padding: 8px 0; border-bottom: 1px solid var(--border); color: var(--text-muted);">
+                <strong style="color: var(--text);">PFAS concern:</strong> AquaTru Countertop RO (NSF 58) removes &gt;95% of PFAS — the most effective countertop option.
+                <a href="https://www.amazon.com/s?k=AquaTru+countertop+reverse+osmosis&tag=ekager05-20" target="_blank" rel="noopener" style="color: #06b6d4; margin-left: 8px;">Shop AquaTru &rarr;</a>
+              </li>
+            )}
+            {(leadClass === 'elevated' || leadClass === 'high' || leadClass === 'severe' || stateData.lead_ppb > 3) && (
+              <li style="padding: 8px 0; border-bottom: 1px solid var(--border); color: var(--text-muted);">
+                <strong style="color: var(--text);">Lead concern:</strong> Any NSF 53-certified carbon block filter removes lead at the tap. An RO system covers both PFAS and lead.
+                <a href="https://www.amazon.com/s?k=Berkey+water+filter+lead&tag=ekager05-20" target="_blank" rel="noopener" style="color: #06b6d4; margin-left: 8px;">Shop Berkey &rarr;</a>
+              </li>
+            )}
+            {(pm25Class === 'elevated' || pm25Class === 'high' || pm25Class === 'severe') && (
+              <li style="padding: 8px 0; color: var(--text-muted);">
+                <strong style="color: var(--text);">PM2.5 concern:</strong> Blueair Blue Pure 211i Max (HEPA, 635 sq ft) is the top value pick for PM2.5 reduction.
+                <a href="https://www.amazon.com/s?k=Blueair+Blue+Pure+211i+Max&tag=ekager05-20" target="_blank" rel="noopener" style="color: #06b6d4; margin-left: 8px;">Shop Blueair &rarr;</a>
+              </li>
+            )}
+          </ul>
+        </div>
+
+        <!-- Resources -->
+        <div>
+          <h3 style="font-size: 1.1rem; margin-bottom: 16px;">{stateName} Water &amp; Air Resources</h3>
+          <div class="resource-cards">
+            <a href="https://www.ewg.org/tapwater/" target="_blank" rel="noopener" class="resource-card">
+              <h4>EWG Tap Water Database</h4>
+              <p>Search {stateName} utility test results for PFAS and other contaminants.</p>
+            </a>
+            <a href="https://www.airnow.gov" target="_blank" rel="noopener" class="resource-card">
+              <h4>EPA AirNow</h4>
+              <p>Real-time PM2.5 and AQI data for {stateName} cities.</p>
+            </a>
+            <a href="https://www.epa.gov/ccr" target="_blank" rel="noopener" class="resource-card">
+              <h4>Consumer Confidence Reports</h4>
+              <p>Your {stateName} utility's annual water quality disclosure.</p>
+            </a>
+          </div>
+        </div>
+
+        <div style="margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border);">
+          <p style="color: var(--text-muted); font-size: 0.85rem;">
+            Want to go deeper? Read our <a href="/blog.html" style="color: #06b6d4;">evidence-based articles</a> on PFAS health effects, water filter comparisons, and PM2.5 air quality. Or <a href="/" style="color: #06b6d4;">audit your specific ZIP code</a> for localized results.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

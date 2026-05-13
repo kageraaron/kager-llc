@@ -1,0 +1,713 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = "Free Water & Air Audit by ZIP Code — PFAS, Lead & PM2.5 | WaterAirAudit";
+const description = "Free water and air quality audit by ZIP code. See local PFAS, lead, and PM2.5 levels, learn the health impacts, and get filter recommendations matched to your contamination profile.";
+const keywords = "water quality by zip code, air quality by zip code, PFAS levels, lead in tap water, PM2.5 levels, water test, air quality map, water filter recommendations, HEPA air purifier";
+const canonical = "https://waterairaudit.com/";
+const ogTitle = "Water & Air Audit by ZIP Code — PFAS, Lead & PM2.5";
+const ogDescription = "Free PFAS, lead, and PM2.5 audit by ZIP code — with filter and air purifier recommendations matched to your local contamination profile.";
+
+const schemaJson = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://waterairaudit.com/#website",
+      "url": "https://waterairaudit.com/",
+      "name": "WaterAirAudit",
+      "description": "Free local water and air quality audit by ZIP code — PFAS, lead, and PM2.5 with filtration recommendations.",
+      "inLanguage": "en-US",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://waterairaudit.com/?zip={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "WebApplication",
+      "@id": "https://waterairaudit.com/#webapp",
+      "name": "WaterAirAudit ZIP-Code Auditor",
+      "url": "https://waterairaudit.com/",
+      "applicationCategory": "HealthApplication",
+      "operatingSystem": "Any (web)",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "description": "Enter a U.S. ZIP code to see local PFAS, lead, and PM2.5 levels with health context and matched filtration recommendations.",
+      "isAccessibleForFree": true
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://waterairaudit.com/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is tap water safe to drink in the United States?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For most people, municipal tap water meets federal legal standards — but 'legal' and 'safe' are not identical. The EPA's 2024 PFAS limit of 4 parts per trillion reflects decades of evidence, yet roughly 45% of U.S. tap supplies have detectable PFAS at some level. About 9.2 million homes still connect via lead service lines. Enter your ZIP code at WaterAirAudit to see what's documented in your area."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What water filter removes PFAS?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Reverse osmosis (RO) is the most effective point-of-use option, removing 95%+ of PFAS and certified to NSF/ANSI 58. Two-stage activated carbon block filters certified to NSF P473 can also significantly reduce PFAS. Standard pitcher carbon filters are not certified for PFAS removal."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the EPA limit for PFAS in drinking water?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In April 2024 the EPA finalized the first national drinking water standards for PFAS: 4 parts per trillion (ppt) for PFOA and PFOS individually. Water utilities must achieve compliance by 2029."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does a HEPA air purifier actually reduce PM2.5?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. True HEPA filters capture at least 99.97% of particles 0.3 micrometers and larger, which covers the full PM2.5 size range. The unit must be sized for the room (target 4-5 air changes per hour) and run continuously."
+          }
+        }
+      ]
+    }
+  ]
+});
+---
+
+<BaseLayout
+  {title}
+  {description}
+  {keywords}
+  {canonical}
+  {ogTitle}
+  {ogDescription}
+  {schemaJson}
+  includeLeaflet={true}
+>
+  <Fragment slot="footer-nav">
+    <h4>On This Page</h4>
+    <a href="/#lookup">ZIP Lookup</a>
+    <a href="/#pollutants">Pollutants</a>
+    <a href="/#health">Health Impacts</a>
+    <a href="/#filters">Filtration</a>
+    <a href="/#research">Research</a>
+    <a href="/#faq">FAQ</a>
+    <a href="/#shop">Shop</a>
+    <a href="/blog.html">Blog</a>
+  </Fragment>
+
+  <main>
+
+    <!-- HERO + LOOKUP -->
+    <section id="hero">
+      <div class="container">
+        <div class="hero-inner">
+          <div class="hero-badge">Water + Air Quality Audit by ZIP Code</div>
+          <h1>Free <span>Water</span> &amp; <span>Air</span> Audit<br />for Your ZIP Code.</h1>
+          <p class="hero-sub">Enter your ZIP code to see local PFAS, lead, and PM2.5 levels. WaterAirAudit translates the numbers into health impacts and recommends filters that actually remove what's in your supply.</p>
+
+          <form id="zip-form" class="zip-form" autocomplete="off">
+            <input
+              type="text"
+              id="zip-input"
+              name="zip"
+              inputmode="numeric"
+              pattern="[0-9]{5}"
+              maxlength="5"
+              placeholder="Enter ZIP code"
+              aria-label="ZIP code"
+              required
+            />
+            <button type="submit" class="btn btn-primary">Audit My Address &rarr;</button>
+          </form>
+
+          <div class="zip-samples">
+            <span class="zip-samples-label">Try a sample:</span>
+            <button type="button" class="sample-zip" data-zip="05401">05401 (Burlington, VT)</button>
+            <button type="button" class="sample-zip" data-zip="28401">28401 (Wilmington, NC)</button>
+            <button type="button" class="sample-zip" data-zip="48503">48503 (Flint, MI)</button>
+            <button type="button" class="sample-zip" data-zip="93301">93301 (Bakersfield, CA)</button>
+          </div>
+
+          <div class="share-bar" aria-label="Share WaterAirAudit with friends">
+            <span class="share-label">Share WaterAirAudit:</span>
+            <div class="share-buttons">
+              <button type="button" class="share-btn share-facebook" data-share="facebook" aria-label="Share to Facebook">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
+                <span>Facebook</span>
+              </button>
+              <button type="button" class="share-btn share-x" data-share="twitter" aria-label="Share to X">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                <span>X</span>
+              </button>
+              <button type="button" class="share-btn share-copy" data-share="copy" aria-label="Copy share link to clipboard">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span>Copy link</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div id="results" class="results-panel" hidden></div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE MAP -->
+    <section id="map-section">
+      <div class="container">
+        <div class="section-header centered">
+          <h2>Interactive Water &amp; Air Quality Risk Map</h2>
+          <p class="section-sub">Every U.S. state colored by its regional composite for PFAS, lead, and PM2.5. Switch the filter to see which pollutant drives each region's risk. Click a state to audit its representative ZIP.</p>
+        </div>
+        <div class="map-filters" role="tablist" aria-label="Risk filter">
+          <span class="filter-label">View by:</span>
+          <button class="filter-btn active" data-filter="overall" role="tab" aria-selected="true">Overall</button>
+          <button class="filter-btn" data-filter="pfas" role="tab" aria-selected="false">PFAS</button>
+          <button class="filter-btn" data-filter="lead" role="tab" aria-selected="false">Lead</button>
+          <button class="filter-btn" data-filter="pm25" role="tab" aria-selected="false">PM2.5</button>
+        </div>
+        <div id="map-container">
+          <div id="risk-map"></div>
+          <div id="map-legend">
+            <div class="legend-title" id="legend-title">Overall risk</div>
+            <div class="legend-item"><span class="legend-color color-clean"></span> Clean</div>
+            <div class="legend-item"><span class="legend-color color-ok"></span> OK</div>
+            <div class="legend-item"><span class="legend-color color-elevated"></span> Elevated</div>
+            <div class="legend-item"><span class="legend-color color-high"></span> High</div>
+            <div class="legend-item"><span class="legend-color color-severe"></span> Severe</div>
+            <div class="legend-scale" id="legend-scale"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- POLLUTANTS OVERVIEW -->
+    <section id="pollutants">
+      <div class="container">
+        <h2 class="section-title centered">PFAS, Lead &amp; PM2.5 — The Three Pollutants We Track</h2>
+        <p class="section-sub centered">There are dozens of regulated contaminants. PFAS, lead, and PM2.5 combine ubiquity, severity, and accessible mitigation — meaning if you only fix one thing, fix one of these.</p>
+
+        <div class="pollutant-grid">
+          <div class="pollutant-card">
+            <div class="pollutant-header">
+              <div class="pollutant-icon icon-blue">&#128167;</div>
+              <div>
+                <h3>PFAS</h3>
+                <span class="pollutant-tag">Drinking Water</span>
+              </div>
+            </div>
+            <p>Per- and polyfluoroalkyl substances — "forever chemicals" used in nonstick coatings, firefighting foam, and stain repellents. They don't break down in nature or in your body.</p>
+            <div class="pollutant-stats">
+              <div><span class="stat-value">4 ppt</span><span class="stat-label">EPA limit (2024)</span></div>
+              <div><span class="stat-value">~45%</span><span class="stat-label">of U.S. tap supplies</span></div>
+            </div>
+          </div>
+
+          <div class="pollutant-card">
+            <div class="pollutant-header">
+              <div class="pollutant-icon icon-amber">&#128297;</div>
+              <div>
+                <h3>Lead</h3>
+                <span class="pollutant-tag">Drinking Water</span>
+              </div>
+            </div>
+            <p>Leaches into water from lead service lines and older fixtures. There is no safe level of lead exposure, especially for children. Effects are cumulative and largely irreversible.</p>
+            <div class="pollutant-stats">
+              <div><span class="stat-value">15 ppb</span><span class="stat-label">EPA action level</span></div>
+              <div><span class="stat-value">~9.2M</span><span class="stat-label">lead service lines (US)</span></div>
+            </div>
+          </div>
+
+          <div class="pollutant-card">
+            <div class="pollutant-header">
+              <div class="pollutant-icon icon-green">&#127787;</div>
+              <div>
+                <h3>PM2.5</h3>
+                <span class="pollutant-tag">Indoor + Outdoor Air</span>
+              </div>
+            </div>
+            <p>Fine particles smaller than 2.5 microns. They cross from lung into bloodstream, driving cardiovascular and neurological damage. Indoor levels often track outdoor.</p>
+            <div class="pollutant-stats">
+              <div><span class="stat-value">9 &micro;g/m&sup3;</span><span class="stat-label">EPA annual standard</span></div>
+              <div><span class="stat-value">~6.7M</span><span class="stat-label">global deaths/yr (WHO)</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HEALTH IMPACTS -->
+    <section id="health">
+      <div class="container">
+        <div class="section-header">
+          <h2>Health Impacts at a Glance</h2>
+          <p class="section-sub">What the epidemiological literature actually says. Linked sources are peer-reviewed or from public health agencies.</p>
+        </div>
+
+        <div class="health-grid">
+
+          <div class="health-card health-blue">
+            <div class="health-card-header">
+              <span class="health-icon">&#128167;</span>
+              <h3>PFAS — What They Do</h3>
+            </div>
+            <ul class="health-list">
+              <li><strong>Cancer:</strong> EPA classifies PFOA as "likely carcinogenic" and PFOS as having "suggestive evidence." Kidney and testicular cancers most strongly linked.</li>
+              <li><strong>Immune suppression:</strong> Reduces vaccine antibody response in children — well-documented across multiple cohorts.</li>
+              <li><strong>Liver effects:</strong> Elevated liver enzymes; associations with non-alcoholic fatty liver disease.</li>
+              <li><strong>Cholesterol:</strong> Higher LDL and total cholesterol with increasing serum PFAS.</li>
+              <li><strong>Developmental:</strong> Lower birth weight, accelerated puberty, thyroid disruption.</li>
+            </ul>
+            <p class="health-note">PFAS bioaccumulate. Half-life in human serum is years to decades — exposure today is exposure for life.</p>
+          </div>
+
+          <div class="health-card health-amber">
+            <div class="health-card-header">
+              <span class="health-icon">&#128297;</span>
+              <h3>Lead — What It Does</h3>
+            </div>
+            <ul class="health-list">
+              <li><strong>Children:</strong> Even very low blood-lead levels are associated with measurable IQ deficits, attention problems, and behavioral changes.</li>
+              <li><strong>Cardiovascular:</strong> Lead exposure is now estimated to cause more deaths from cardiovascular disease than from acute poisoning.</li>
+              <li><strong>Kidney:</strong> Chronic exposure damages renal function over decades.</li>
+              <li><strong>Pregnancy:</strong> Crosses placenta; associated with preterm birth and reduced fetal growth.</li>
+              <li><strong>Neurological (adult):</strong> Cognitive decline associated with long-term cumulative exposure.</li>
+            </ul>
+            <p class="health-note">Lead damage is largely permanent. Prevention is the only effective intervention.</p>
+          </div>
+
+          <div class="health-card health-green">
+            <div class="health-card-header">
+              <span class="health-icon">&#127787;</span>
+              <h3>PM2.5 — What It Does</h3>
+            </div>
+            <ul class="health-list">
+              <li><strong>Cardiovascular:</strong> Strongest evidence — long-term PM2.5 exposure raises mortality from heart attacks, strokes, and arrhythmias.</li>
+              <li><strong>Respiratory:</strong> Worsens asthma, COPD, and increases risk of lung cancer (IARC Group 1 carcinogen).</li>
+              <li><strong>Neurological:</strong> Growing evidence linking chronic PM2.5 to dementia and accelerated cognitive aging.</li>
+              <li><strong>Metabolic:</strong> Associated with type 2 diabetes incidence and metabolic syndrome.</li>
+              <li><strong>Mortality:</strong> Each ~10 &micro;g/m&sup3; increase in long-term exposure tied to ~6&ndash;8% increase in all-cause mortality.</li>
+            </ul>
+            <p class="health-note">No safe threshold has been established. WHO's guideline (5 &micro;g/m&sup3;) is well below the U.S. standard.</p>
+          </div>
+
+        </div>
+
+        <div class="vulnerable-callout">
+          <h4>Highest-Risk Groups</h4>
+          <p>Children, pregnant people, older adults, and anyone with cardiovascular or respiratory disease should weight these exposures most heavily. If you fall into one of these groups, the case for filtration and indoor air management is strong even at "moderate" levels.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FILTRATION GUIDE -->
+    <section id="filters">
+      <div class="container">
+        <div class="section-header">
+          <h2>Water Filter &amp; Air Purifier Guide — What Actually Removes What</h2>
+          <p class="section-sub">Marketing claims are loose. These are the filtration mechanisms backed by NSF/ANSI standards for PFAS, lead, and PM2.5. Match the certification to your contaminant.</p>
+        </div>
+
+        <div class="filter-matrix">
+          <div class="matrix-header">
+            <span>Method</span>
+            <span>PFAS</span>
+            <span>Lead</span>
+            <span>Chlorine / Taste</span>
+            <span>Microbes</span>
+          </div>
+          <div class="matrix-row">
+            <span class="matrix-method">Activated Carbon Block</span>
+            <span class="matrix-cell ok">Partial (NSF P473)</span>
+            <span class="matrix-cell good">Yes (NSF 53)</span>
+            <span class="matrix-cell good">Yes (NSF 42)</span>
+            <span class="matrix-cell no">No</span>
+          </div>
+          <div class="matrix-row">
+            <span class="matrix-method">Reverse Osmosis (RO)</span>
+            <span class="matrix-cell good">Yes (NSF 58)</span>
+            <span class="matrix-cell good">Yes (NSF 58)</span>
+            <span class="matrix-cell good">Yes</span>
+            <span class="matrix-cell ok">Most</span>
+          </div>
+          <div class="matrix-row">
+            <span class="matrix-method">Gravity (Berkey-style)</span>
+            <span class="matrix-cell ok">Partial</span>
+            <span class="matrix-cell good">Yes (with PF-2)</span>
+            <span class="matrix-cell good">Yes</span>
+            <span class="matrix-cell good">Yes (NSF P231)</span>
+          </div>
+          <div class="matrix-row">
+            <span class="matrix-method">Ion Exchange</span>
+            <span class="matrix-cell ok">Anion exchange only</span>
+            <span class="matrix-cell good">Yes</span>
+            <span class="matrix-cell no">No</span>
+            <span class="matrix-cell no">No</span>
+          </div>
+          <div class="matrix-row">
+            <span class="matrix-method">UV Sterilization</span>
+            <span class="matrix-cell no">No</span>
+            <span class="matrix-cell no">No</span>
+            <span class="matrix-cell no">No</span>
+            <span class="matrix-cell good">Yes</span>
+          </div>
+          <div class="matrix-row">
+            <span class="matrix-method">HEPA (air)</span>
+            <span class="matrix-cell ok">Particulate-bound only</span>
+            <span class="matrix-cell na">N/A</span>
+            <span class="matrix-cell na">N/A</span>
+            <span class="matrix-cell good">Yes (&ge;0.3 &micro;m)</span>
+          </div>
+        </div>
+
+        <div class="filter-guide-grid">
+          <div class="guide-card">
+            <h4>If lead is your concern</h4>
+            <p>Any NSF 53-certified carbon block at the kitchen tap will do the job. Look for "lead reduction" specifically — not all carbon filters are certified for it. Replace cartridges on schedule.</p>
+          </div>
+          <div class="guide-card">
+            <h4>If PFAS is your concern</h4>
+            <p>Reverse osmosis at the point of use (under-sink) is the gold standard, removing 95%+ of PFAS. Berkey-style gravity systems with PF-2 cartridges are a secondary option. Standard pitcher carbon is not enough.</p>
+          </div>
+          <div class="guide-card">
+            <h4>If PM2.5 is your concern</h4>
+            <p>True HEPA air purifier sized for the room (target 4&ndash;5 air changes/hour). For wildfire smoke or persistent outdoor PM2.5, run continuously and seal the room. MERV 13+ HVAC filters help system-wide.</p>
+          </div>
+          <div class="guide-card">
+            <h4>If you want one solution</h4>
+            <p>For homes with multiple concerns, a whole-house carbon system + under-sink RO + bedroom HEPA covers the realistic threat surface. Total cost: roughly $700&ndash;$1,400 for capable mid-tier gear.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESEARCH -->
+    <section id="research">
+      <div class="container">
+        <div class="section-header">
+          <h2>Research &amp; Evidence Base</h2>
+          <p class="section-sub">Peer-reviewed and agency sources behind the recommendations. Every claim above traces to one of these.</p>
+        </div>
+
+        <div class="research-grid">
+
+          <div class="research-card">
+            <span class="research-tag tag-pfas">PFAS</span>
+            <h4>EPA Final PFAS Drinking Water Standards</h4>
+            <p>In April 2024 the EPA issued the first-ever enforceable drinking water standards for six PFAS compounds, including PFOA and PFOS at 4 parts per trillion. Utilities have until 2029 to comply.</p>
+            <a href="https://www.epa.gov/sdwa/and-polyfluoroalkyl-substances-pfas" target="_blank" rel="noopener" class="research-link">EPA: PFAS Drinking Water &rarr;</a>
+          </div>
+
+          <div class="research-card">
+            <span class="research-tag tag-pfas">PFAS</span>
+            <h4>Grandjean et al. — Vaccine Antibody Response</h4>
+            <p>Landmark Faroe Islands cohort showing children with higher PFAS exposure had reduced antibody response to routine childhood vaccinations, demonstrating immunotoxicity at common environmental levels.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/22274686/" target="_blank" rel="noopener" class="research-link">PubMed &rarr;</a>
+          </div>
+
+          <div class="research-card">
+            <span class="research-tag tag-lead">Lead</span>
+            <h4>Lanphear et al. — Low-Level Lead and IQ</h4>
+            <p>Pooled analysis of seven prospective cohorts found a steeper dose-response relationship at the lowest blood-lead levels, confirming there is no observable threshold below which lead is safe for children.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/16002379/" target="_blank" rel="noopener" class="research-link">PubMed &rarr;</a>
+          </div>
+
+          <div class="research-card">
+            <span class="research-tag tag-lead">Lead</span>
+            <h4>Lanphear et al. — Lead and Cardiovascular Mortality</h4>
+            <p>Analysis of NHANES data estimated low-level lead exposure may contribute to ~412,000 U.S. deaths annually, primarily from cardiovascular disease — far higher than previously recognized.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/29544878/" target="_blank" rel="noopener" class="research-link">The Lancet Public Health &rarr;</a>
+          </div>
+
+          <div class="research-card">
+            <span class="research-tag tag-pm">PM2.5</span>
+            <h4>Pope &amp; Dockery — Long-Term PM2.5 and Mortality</h4>
+            <p>Foundational analyses (Six Cities, ACS) established that each ~10 &micro;g/m&sup3; long-term increase in PM2.5 raises all-cause mortality by 6&ndash;13%, with cardiovascular and lung cancer effects most prominent.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/12379575/" target="_blank" rel="noopener" class="research-link">PubMed &rarr;</a>
+          </div>
+
+          <div class="research-card">
+            <span class="research-tag tag-pm">PM2.5</span>
+            <h4>WHO Global Air Quality Guidelines (2021)</h4>
+            <p>WHO sharply tightened PM2.5 guideline from 10 to 5 &micro;g/m&sup3; annual after re-analysis showed substantial mortality risk well below older thresholds. Most U.S. cities exceed this guideline.</p>
+            <a href="https://www.who.int/publications/i/item/9789240034228" target="_blank" rel="noopener" class="research-link">WHO Guidelines &rarr;</a>
+          </div>
+
+          <div class="research-card">
+            <span class="research-tag tag-water">Water Treatment</span>
+            <h4>Andrews &amp; Naidenko — Filter Performance for PFAS</h4>
+            <p>EWG laboratory testing comparing point-of-use filters found reverse osmosis and two-stage carbon achieved &gt;95% PFAS reduction; many pitcher filters performed inconsistently.</p>
+            <a href="https://www.ewg.org/research/pfas-filter-study" target="_blank" rel="noopener" class="research-link">EWG Filter Study &rarr;</a>
+          </div>
+
+          <div class="research-card">
+            <span class="research-tag tag-water">Lead Action Levels</span>
+            <h4>Lead and Copper Rule Revisions</h4>
+            <p>EPA's revised Lead and Copper Rule mandates full lead service line replacement within 10 years for most U.S. utilities and lowers the action level from 15 to 10 ppb starting 2027.</p>
+            <a href="https://www.epa.gov/ground-water-and-drinking-water/proposed-lead-and-copper-rule-improvements-lcri" target="_blank" rel="noopener" class="research-link">EPA: LCRI &rarr;</a>
+          </div>
+
+        </div>
+
+        <div class="trusted-resources">
+          <h3>Look Up Your Own Data</h3>
+          <div class="resource-cards">
+            <a href="https://www.ewg.org/tapwater/" target="_blank" rel="noopener" class="resource-card">
+              <h4>EWG Tap Water Database</h4>
+              <p>Searchable database of utility test results across the U.S.</p>
+            </a>
+            <a href="https://www.airnow.gov" target="_blank" rel="noopener" class="resource-card">
+              <h4>EPA AirNow</h4>
+              <p>Real-time and historical PM2.5 + AQI by location</p>
+            </a>
+            <a href="https://www.epa.gov/ccr" target="_blank" rel="noopener" class="resource-card">
+              <h4>Consumer Confidence Reports</h4>
+              <p>Annual water quality report your utility is required to publish</p>
+            </a>
+            <a href="https://www.cdc.gov/nceh/lead/" target="_blank" rel="noopener" class="resource-card">
+              <h4>CDC Childhood Lead Program</h4>
+              <p>Testing programs and prevention guidance</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="container">
+        <div class="section-header centered">
+          <h2>Frequently Asked Questions</h2>
+          <p class="section-sub">Science-backed answers to the most common questions about tap water safety, PFAS, lead, PM2.5, and filtration.</p>
+        </div>
+
+        <div class="faq-list">
+
+          <details class="faq-item">
+            <summary class="faq-question">Is tap water safe to drink in the United States?</summary>
+            <div class="faq-answer">
+              <p>For most people, municipal tap water meets federal legal standards — but "legal" and "safe" are not the same. The EPA's 2024 PFAS limit of 4 parts per trillion reflects decades of evidence, yet an estimated 45% of U.S. tap supplies have detectable PFAS at some level. Roughly 9.2 million homes still connect via lead service lines. Enter your ZIP code above to see what's documented in your area, and check your utility's annual <a href="https://www.epa.gov/ccr" target="_blank" rel="noopener">Consumer Confidence Report</a>.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">What are PFAS, and are they in my drinking water?</summary>
+            <div class="faq-answer">
+              <p>PFAS (per- and polyfluoroalkyl substances) are a family of thousands of synthetic chemicals used in nonstick cookware coatings, firefighting foam, water-resistant textiles, and food packaging. They are called "forever chemicals" because they do not break down in the environment or in the human body, accumulating in serum with half-lives of years to decades. The EPA set its first enforceable drinking water limits in April 2024: <strong>4 ppt for PFOA and PFOS</strong>. Studies estimate over 200 million Americans are exposed at some level.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">What water filter removes PFAS?</summary>
+            <div class="faq-answer">
+              <p><strong>Reverse osmosis (RO)</strong> is the most effective point-of-use technology, removing 95%+ of PFAS and certified to NSF/ANSI 58. Two-stage activated carbon block filters certified to NSF P473 can also significantly reduce PFAS, though performance varies by brand. Standard pitcher carbon filters (basic Brita, PUR, etc.) are <em>not</em> certified for PFAS removal and should not be relied upon. For whole-house coverage, a dedicated activated-carbon system rated for PFAS is needed. <a href="#filters">See the full filtration guide &rarr;</a></p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">Does a Brita or standard pitcher filter remove PFAS or lead?</summary>
+            <div class="faq-answer">
+              <p>Standard pitcher filters (basic Brita, PUR, etc.) reduce chlorine and improve taste, but most are <strong>not certified to remove PFAS</strong>. Some premium pitchers (Clearly Filtered, ZeroWater) are independently tested for PFAS reduction. For lead, look specifically for NSF/ANSI 53 certification labeled "lead reduction" — not all carbon cartridges carry this. An upgrade to an under-sink reverse osmosis system remains the most reliable solution for both PFAS and lead in a single unit.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">How do I know if I have lead pipes?</summary>
+            <div class="faq-answer">
+              <p>The age of your home is the strongest signal: homes built before <strong>1986</strong> are at highest risk since lead solder and lead service lines were common until the EPA banned them that year. Homes built before 1930 may have all-lead service lines. Under the EPA's Lead and Copper Rule Revision (LCRI), utilities must now provide a service line inventory — contact your utility or check their LCRI disclosure. An at-home water test (like Tap Score) is the only way to confirm actual lead levels at your tap.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">What is the EPA's PFAS limit for drinking water?</summary>
+            <div class="faq-answer">
+              <p>In April 2024 the EPA finalized the first national drinking water standards for PFAS: <strong>4 parts per trillion (ppt) for PFOA and PFOS</strong> individually, and a combined Hazard Index limit for PFNA, PFHxS, HFPO-DA (GenX), and PFBS. Water utilities must achieve compliance by 2029. This is the strictest PFAS drinking water standard in the world. Previously there was no federal enforceable limit.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">What are the health effects of PFAS exposure?</summary>
+            <div class="faq-answer">
+              <p>PFAS accumulate in human tissue with serum half-lives of years to decades. Documented effects include:</p>
+              <ul>
+                <li><strong>Immune suppression</strong> — reduced vaccine antibody response in children (<a href="https://pubmed.ncbi.nlm.nih.gov/22274686/" target="_blank" rel="noopener">Grandjean et al., 2012</a>)</li>
+                <li><strong>Cancer</strong> — EPA classifies PFOA as "likely carcinogenic"; kidney and testicular cancers most strongly linked</li>
+                <li><strong>Cholesterol</strong> — higher LDL and total cholesterol with increasing serum PFAS</li>
+                <li><strong>Developmental</strong> — lower birth weight, accelerated puberty, thyroid disruption</li>
+                <li><strong>Liver</strong> — elevated enzymes; associations with non-alcoholic fatty liver disease</li>
+              </ul>
+              <p>Because exposure accumulates over a lifetime, reducing ongoing intake is the most effective intervention even after past exposure has occurred.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">Does a HEPA air purifier actually reduce PM2.5?</summary>
+            <div class="faq-answer">
+              <p>Yes — true HEPA filters capture &ge;99.97% of particles &ge;0.3 &micro;m, which covers the entire PM2.5 size range. For effective reduction: the filter must be certified "true HEPA" (not "HEPA-type" or "HEPA-like"), the unit must be sized for your room (target 4&ndash;5 air changes per hour), and it must run continuously. AHAM Verifide CADR ratings are the most reliable independent measure of real-world performance. During wildfire events, keep windows closed and run the purifier on high.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">How do I test my tap water for PFAS and lead?</summary>
+            <div class="faq-answer">
+              <p>The most thorough option is a certified laboratory kit: <strong>Tap Score's Advanced City Water Test</strong> covers 110+ contaminants including PFAS, lead, and disinfection byproducts, and returns a detailed health-context report. Your utility is also required to publish an annual <a href="https://www.epa.gov/ccr" target="_blank" rel="noopener">Consumer Confidence Report (CCR)</a> listing tested contaminant levels — though it reflects the treatment plant output, not necessarily your specific tap. A lab test remains the gold standard for confirming what you're actually drinking. <a href="#shop">See testing kits &rarr;</a></p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">Is indoor air quality worse than outdoor air quality?</summary>
+            <div class="faq-answer">
+              <p>Often yes. The EPA estimates Americans spend about 90% of their time indoors, and indoor air can contain 2&ndash;5&times; higher concentrations of some pollutants than outdoor air. Buildings concentrate cooking byproducts, VOCs from furniture and cleaning products, and outdoor PM2.5 that infiltrates through gaps. A continuous air quality monitor (like the Airthings View Plus) will show your actual indoor PM2.5 levels in real time so you can verify whether your purifier is doing its job.</p>
+            </div>
+          </details>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SHOP -->
+    <section id="shop">
+      <div class="container">
+        <div class="section-header">
+          <h2>Recommended Water Filters &amp; Air Purifiers</h2>
+          <p class="section-sub">Products selected for independent third-party certification (NSF/ANSI, AHAM, CARB) and real-world performance.<br /><span class="affiliate-note">Affiliate disclosure: links below may earn a commission at no extra cost to you.</span></p>
+        </div>
+
+        <!-- Water Filtration -->
+        <div class="shop-category">
+          <h3>&#128167; Water Filtration &mdash; <em>Best for PFAS &amp; Lead</em></h3>
+          <div class="product-grid">
+
+            <div class="product-card product-essential">
+              <div class="product-badge">Editor's Pick</div>
+              <h4>AquaTru Countertop Reverse Osmosis</h4>
+              <p>Tested to NSF 58, 53, 42, and 401. Independently shown to remove &gt;95% of PFAS, lead, chromium-6, and arsenic. No plumbing required — sits on your counter. Best PFAS-removal value.</p>
+              <div class="product-meta">
+                <span class="meta-item">&#10003; NSF 58 / 53</span>
+                <span class="meta-item">&#10003; Removes PFAS</span>
+                <span class="meta-item">&#10003; No installation</span>
+              </div>
+              <div class="product-footer">
+                <span class="price">~$449</span>
+                <a href="https://www.amazon.com/s?k=AquaTru+countertop+reverse+osmosis&tag=ekager05-20" target="_blank" rel="noopener" class="btn btn-sm btn-primary">Shop AquaTru &rarr;</a>
+              </div>
+            </div>
+
+            <div class="product-card product-essential">
+              <div class="product-badge">Top Rated</div>
+              <h4>Berkey Big Berkey + PF-2 Fluoride/Lead Filters</h4>
+              <p>Gravity-fed system using Black Berkey elements + PF-2 add-ons for lead and fluoride. No electricity, no plumbing. Tested to NSF P231 for microorganisms; PFAS removal moderate.</p>
+              <div class="product-meta">
+                <span class="meta-item">&#10003; NSF P231</span>
+                <span class="meta-item">&#10003; Lead (with PF-2)</span>
+                <span class="meta-item">&#10003; Off-grid capable</span>
+              </div>
+              <div class="product-footer">
+                <span class="price">~$385</span>
+                <a href="https://www.amazon.com/s?k=Big+Berkey+water+filter+PF-2&tag=ekager05-20" target="_blank" rel="noopener" class="btn btn-sm btn-primary">Shop Berkey &rarr;</a>
+              </div>
+            </div>
+
+            <div class="product-card">
+              <h4>Clearly Filtered Pitcher</h4>
+              <p>Independent lab testing claims removal of 365+ contaminants including PFAS and lead. More effective than typical pitcher carbon, though slower flow rate. Good entry-level option.</p>
+              <div class="product-footer">
+                <span class="price">~$90</span>
+                <a href="https://www.amazon.com/s?k=Clearly+Filtered+water+pitcher&tag=ekager05-20" target="_blank" rel="noopener" class="btn btn-sm btn-primary">Shop Clearly Filtered &rarr;</a>
+              </div>
+            </div>
+
+            <div class="product-card">
+              <h4>Aquasana Whole House + Salt-Free Conditioner</h4>
+              <p>Whole-house carbon for PFAS reduction at every tap, plus a salt-free conditioner. Best for homes with documented contamination and the budget for a one-time installation.</p>
+              <div class="product-footer">
+                <span class="price">~$1,499</span>
+                <a href="https://www.amazon.com/s?k=Aquasana+whole+house+water+filter+salt+free&tag=ekager05-20" target="_blank" rel="noopener" class="btn btn-sm btn-secondary">Shop Aquasana &rarr;</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Air Purification -->
+        <div class="shop-category">
+          <h3>&#127787; Air Purification &mdash; <em>Best for PM2.5</em></h3>
+          <div class="product-grid">
+
+            <div class="product-card product-essential">
+              <div class="product-badge">Editor's Pick</div>
+              <h4>Blueair Blue Pure 211i Max</h4>
+              <p>HEPASilent technology rated for rooms up to 635 sq ft. Quiet, energy-efficient, AHAM Verifide. Strong CADR for PM2.5 at lower price than Molekule. Excellent value.</p>
+              <div class="product-meta">
+                <span class="meta-item">&#10003; HEPA</span>
+                <span class="meta-item">&#10003; AHAM Verifide</span>
+                <span class="meta-item">&#10003; 635 sq ft</span>
+              </div>
+              <div class="product-footer">
+                <span class="price">~$369</span>
+                <a href="https://www.amazon.com/s?k=Blueair+Blue+Pure+211i+Max&tag=ekager05-20" target="_blank" rel="noopener" class="btn btn-sm btn-primary">Shop Blueair &rarr;</a>
+              </div>
+            </div>
+
+            <div class="product-card">
+              <h4>Coway Airmega 400S</h4>
+              <p>True HEPA + activated carbon, 1,560 sq ft coverage with smart sensors. Consistently ranks at the top of independent reviews. Lower running cost than premium brands.</p>
+              <div class="product-footer">
+                <span class="price">~$729</span>
+                <a href="https://www.amazon.com/s?k=Coway+Airmega+400S&tag=ekager05-20" target="_blank" rel="noopener" class="btn btn-sm btn-primary">Shop Coway &rarr;</a>
+              </div>
+            </div>
+
+            <div class="product-card product-recovery">
+              <div class="product-timing-badge">Wildfire-ready</div>
+              <h4>IQAir HealthPro Plus</h4>
+              <p>HyperHEPA filter rated to 0.003 microns — well below standard HEPA. Hospital-grade build quality. The choice when air quality is non-negotiable (wildfire zones, severe asthma).</p>
+              <div class="product-footer">
+                <span class="price">~$899</span>
+                <a href="https://www.amazon.com/s?k=IQAir+HealthPro+Plus&tag=ekager05-20" target="_blank" rel="noopener" class="btn btn-sm btn-secondary">Shop IQAir &rarr;</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Testing -->
+        <div class="shop-category">
+          <h3>&#129514; At-Home Testing &mdash; <em>Verify Before You Filter</em></h3>
+          <div class="product-grid">
+
+            <div class="product-card">
+              <div class="product-timing-badge">Start here</div>
+              <h4>Tap Score Advanced City Water Test</h4>
+              <p>Lab-analyzed kit covering 110+ contaminants including PFAS, lead, and disinfection byproducts. Detailed report with health context. Used by environmental journalists and researchers.</p>
+              <div class="product-footer">
+                <span class="price">~$295</span>
+                <a href="https://www.amazon.com/s?k=Tap+Score+Advanced+City+Water+Test&tag=ekager05-20" target="_blank" rel="noopener" class="btn btn-sm btn-primary">Shop Tap Score &rarr;</a>
+              </div>
+            </div>
+
+            <div class="product-card">
+              <div class="product-timing-badge">Air</div>
+              <h4>Airthings View Plus PM2.5 Monitor</h4>
+              <p>Continuous monitor for PM2.5, CO&sup2;, radon, VOCs, humidity, and temperature. Phone app + historical trends. Closes the loop after installing a purifier — actually verify the result.</p>
+              <div class="product-footer">
+                <span class="price">~$299</span>
+                <a href="https://www.amazon.com/s?k=Airthings+View+Plus+PM2.5+monitor&tag=ekager05-20" target="_blank" rel="noopener" class="btn btn-sm btn-secondary">Shop Airthings &rarr;</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+</BaseLayout>
+
+<script>
+  import '../script.ts';
+</script>

@@ -1,0 +1,72 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+const title = "Water & Air Quality Blog — PFAS, Lead & PM2.5 Guides | WaterAirAudit";
+const description = "Evidence-based articles on PFAS contamination, lead in tap water, PM2.5 air quality, water filter comparisons, and protecting your family from environmental pollutants.";
+const canonical = "https://waterairaudit.com/blog.html";
+
+const schemaJson = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "@id": "https://waterairaudit.com/blog.html",
+  "name": "WaterAirAudit Blog",
+  "description": "Evidence-based guides on PFAS, lead in water, PM2.5 air quality, and filtration.",
+  "url": "https://waterairaudit.com/blog.html",
+  "publisher": {
+    "@type": "Organization",
+    "name": "WaterAirAudit",
+    "url": "https://waterairaudit.com/"
+  }
+});
+---
+
+<BaseLayout {title} {description} {canonical} {schemaJson} ogType="website">
+  <Fragment slot="footer-nav">
+    <h4>Blog</h4>
+    <a href="/">ZIP Audit Tool</a>
+    <a href="/#pollutants">Pollutants</a>
+    <a href="/#filters">Filtration Guide</a>
+    <a href="/#faq">FAQ</a>
+    <a href="/#shop">Shop</a>
+  </Fragment>
+
+  <main>
+    <section id="hero" style="padding-top: 72px;">
+      <div class="container">
+        <div class="section-header" style="margin-bottom: 40px;">
+          <div class="step-pill" style="background: rgba(6,182,212,0.12); color: #06b6d4; border-color: rgba(6,182,212,0.3); font-size: 0.8rem; padding: 4px 12px; border-radius: 20px; border: 1px solid; display: inline-block; margin-bottom: 16px;">WaterAirAudit knowledge base</div>
+          <h1>Blog</h1>
+          <p class="section-sub">Evidence-based articles on PFAS contamination, lead in tap water, PM2.5 air quality, and proven filtration. Written for people who want accurate information, not vague warnings.</p>
+        </div>
+
+        <div class="research-grid">
+          {posts.map(post => (
+            <a href={`/blog/${post.id}.html`} class="research-card" style="text-decoration: none; display: block;">
+              <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px;">
+                {post.data.tags?.map(tag => (
+                  <span class="research-tag tag-pfas">{tag}</span>
+                ))}
+              </div>
+              <h4>{post.data.title}</h4>
+              <p>{post.data.description}</p>
+              <div style="margin-top: 12px; font-size: 0.8rem; color: var(--text-muted);">
+                {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                {' · '}{post.data.author}
+              </div>
+              <span class="research-link" style="margin-top: 8px; display: inline-block;">Read article &rarr;</span>
+            </a>
+          ))}
+        </div>
+
+        {posts.length === 0 && (
+          <p class="section-sub" style="text-align: center; padding: 40px 0;">No articles yet — check back soon.</p>
+        )}
+      </div>
+    </section>
+  </main>
+</BaseLayout>

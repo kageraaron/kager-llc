@@ -1,0 +1,105 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const canonical = `https://waterairaudit.com/blog/${post.id}.html`;
+
+const schemaJson = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": `${canonical}#article`,
+      "headline": post.data.title,
+      "description": post.data.description,
+      "datePublished": post.data.date.toISOString(),
+      "url": canonical,
+      "author": { "@type": "Organization", "name": "WaterAirAudit", "url": "https://waterairaudit.com" },
+      "publisher": { "@type": "Organization", "name": "WaterAirAudit", "url": "https://waterairaudit.com" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://waterairaudit.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://waterairaudit.com/blog.html" },
+        { "@type": "ListItem", "position": 3, "name": post.data.title, "item": canonical }
+      ]
+    }
+  ]
+});
+---
+
+<BaseLayout
+  title={`${post.data.title} | WaterAirAudit`}
+  description={post.data.description}
+  {canonical}
+  {schemaJson}
+  ogType="article"
+>
+  <Fragment slot="footer-nav">
+    <h4>Blog</h4>
+    <a href="/blog.html">All articles</a>
+    <a href="/">ZIP Audit Tool</a>
+    <a href="/#filters">Filtration Guide</a>
+    <a href="/#shop">Shop</a>
+  </Fragment>
+
+  <main>
+    <article>
+      <section id="hero" style="padding-top: 72px;">
+        <div class="container">
+          <div class="section-header" style="max-width: 760px; margin: 0 auto 40px;">
+            <a href="/blog.html" style="color: var(--text-muted); font-size: 0.85rem; text-decoration: none; display: inline-block; margin-bottom: 16px;">&larr; All articles</a>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;">
+              {post.data.tags?.map(tag => (
+                <span class="research-tag tag-pfas">{tag}</span>
+              ))}
+            </div>
+            <h1 style="font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.2;">{post.data.title}</h1>
+            <p class="section-sub" style="margin-top: 12px;">{post.data.description}</p>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px;">
+              {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+              {' · '}{post.data.author}
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section style="padding-bottom: 80px;">
+        <div class="container">
+          <div class="prose" style="max-width: 760px; margin: 0 auto;">
+            <Content />
+          </div>
+        </div>
+      </section>
+    </article>
+  </main>
+</BaseLayout>
+
+<style is:global>
+  .prose h2 { font-size: 1.4rem; font-weight: 700; margin: 2rem 0 0.75rem; color: var(--text); }
+  .prose h3 { font-size: 1.15rem; font-weight: 600; margin: 1.5rem 0 0.5rem; color: var(--text); }
+  .prose p { line-height: 1.75; color: var(--text-muted); margin-bottom: 1rem; }
+  .prose a { color: var(--teal, #06b6d4); text-decoration: underline; }
+  .prose a:hover { color: var(--text); }
+  .prose ul, .prose ol { padding-left: 1.5rem; margin-bottom: 1rem; color: var(--text-muted); }
+  .prose li { line-height: 1.7; margin-bottom: 0.25rem; }
+  .prose strong { color: var(--text); font-weight: 600; }
+  .prose hr { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
+  .prose blockquote { border-left: 3px solid #06b6d4; padding-left: 1rem; margin: 1.5rem 0; color: var(--text-muted); font-style: italic; }
+  .prose code { background: var(--bg-card); padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+  .prose table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.9rem; }
+  .prose th { text-align: left; padding: 8px 12px; background: var(--bg-card); color: var(--text); font-weight: 600; border-bottom: 2px solid var(--border); }
+  .prose td { padding: 8px 12px; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+</style>

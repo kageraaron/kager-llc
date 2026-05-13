@@ -2,7 +2,6 @@
 User-agent: *
 Allow: /
 
-# Friendly, explicit allow for major social-preview crawlers so OG/Twitter cards render
 User-agent: facebookexternalhit
 Allow: /
 
@@ -21,4 +20,4 @@ Allow: /
 User-agent: Discordbot
 Allow: /
 
-Sitemap: https://waterairaudit.com/sitemap.xml
+Sitemap: https://waterairaudit.com/sitemap-index.xml

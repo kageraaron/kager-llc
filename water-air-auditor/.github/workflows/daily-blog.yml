@@ -1,0 +1,135 @@
+name: Daily Blog Generation
+
+on:
+  schedule:
+    - cron: '23 7 * * *'   # 7:23am UTC daily
+  workflow_dispatch:         # allow manual trigger from GitHub UI
+
+jobs:
+  generate-posts:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Claude CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Create branch
+        id: branch
+        run: |
+          DATE=$(date +%Y-%m-%d)
+          BRANCH="blog/auto-$DATE"
+          git checkout -b "$BRANCH"
+          echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
+          echo "date=$DATE" >> "$GITHUB_OUTPUT"
+
+      - name: Generate 3 blog posts
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          claude --dangerously-skip-permissions -p "
+          You are the daily blog generation agent for waterairaudit.com.
+          Working directory is the current directory (water-air-auditor repo root).
+
+          ## Your task: generate 3 new blog posts
+
+          ### Step 1 — Pick 3 topics
+          1. Read \`blog-ideas.md\` — find all lines marked \`[ ]\` (not started)
+          2. List all existing files in \`src/content/blog/\` — skip topics whose slug would conflict
+          3. Select 3 topics spanning different categories (not all PFAS — aim for variety: water, air, product comparisons, state/city spotlights)
+          4. Prioritize items in the High-Priority section
+
+          ### Step 2 — Write each post
+          For each topic, follow the complete workflow in \`.claude/commands/blog.md\` exactly.
+
+          Write each finished post to \`src/content/blog/<slug>.md\` using the Write tool.
+
+          Affiliate links to include where relevant (only when genuinely useful):
+          - Amazon tag: ekager05-20
+          - AquaTru: https://www.amazon.com/s?k=AquaTru+countertop+reverse+osmosis&tag=ekager05-20
+          - Berkey: https://www.amazon.com/s?k=Big+Berkey+water+filter+PF-2&tag=ekager05-20
+          - Blueair 211i: https://www.amazon.com/s?k=Blueair+Blue+Pure+211i+Max&tag=ekager05-20
+          - Coway Airmega: https://www.amazon.com/s?k=Coway+Airmega+400S&tag=ekager05-20
+          - Tap Score: https://www.amazon.com/s?k=Tap+Score+Advanced+City+Water+Test&tag=ekager05-20
+          - Airthings: https://www.amazon.com/s?k=Airthings+View+Plus+PM2.5+monitor&tag=ekager05-20
+
+          Internal pages to link to where relevant:
+          / (home / ZIP audit tool), /blog.html, /water-quality/[state-slug].html
+
+          ### Step 3 — Update ideas file
+          In \`blog-ideas.md\`, change each written topic from \`[ ]\` to \`[x]\`.
+
+          ### Step 4 — Verify build
+          Run: npm run build
+          If it fails, read the error and fix the offending file before finishing.
+
+          Write the titles of the 3 posts you wrote to a file called \`.blog-run-summary\` (one title per line).
+          "
+
+      - name: Verify build
+        run: npm run build
+
+      - name: Commit new posts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/content/blog/
+          git add blog-ideas.md
+          git diff --staged --quiet || git commit -m "blog: auto-generate 3 posts ${{ steps.branch.outputs.date }}"
+
+      - name: Push branch
+        run: git push origin ${{ steps.branch.outputs.branch }}
+
+      - name: Read post titles
+        id: summary
+        run: |
+          if [ -f .blog-run-summary ]; then
+            TITLES=$(cat .blog-run-summary | sed 's/^/- /')
+            rm .blog-run-summary
+          else
+            TITLES="- (titles unavailable)"
+          fi
+          echo "titles<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$TITLES" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Open pull request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr create \
+            --title "Blog: 3 new posts (${{ steps.branch.outputs.date }})" \
+            --body "## Auto-generated posts
+
+          ${{ steps.summary.outputs.titles }}
+
+          ## Review checklist
+          - [ ] Citations and sources verified
+          - [ ] Internal links resolve correctly
+          - [ ] Affiliate links are appropriate and not forced
+          - [ ] No factual errors or overclaiming
+          - [ ] Tone matches existing content (direct, evidence-based, practical)
+          - [ ] Build passed
+
+          ---
+          Generated by daily blog workflow · [Ideas backlog](../blob/main/blog-ideas.md)" \
+            --base main \
+            --head ${{ steps.branch.outputs.branch }}

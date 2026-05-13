@@ -1,0 +1,147 @@
+---
+import '../../style.css';
+
+interface Props {
+  title: string;
+  description: string;
+  keywords?: string;
+  canonical?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogType?: string;
+  schemaJson?: string;
+  includeLeaflet?: boolean;
+}
+
+const {
+  title,
+  description,
+  keywords = '',
+  canonical = 'https://waterairaudit.com/',
+  ogTitle,
+  ogDescription,
+  ogType = 'website',
+  schemaJson = '',
+  includeLeaflet = false,
+} = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  {keywords && <meta name="keywords" content={keywords} />}
+  <meta name="author" content="WaterAirAudit" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <meta name="theme-color" content="#0c8ba1" />
+  <link rel="canonical" href={canonical} />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+  <meta property="og:type" content={ogType} />
+  <meta property="og:site_name" content="WaterAirAudit" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:title" content={ogTitle || title} />
+  <meta property="og:description" content={ogDescription || description} />
+  <meta property="og:image" content="https://waterairaudit.com/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="WaterAirAudit — PFAS, lead, and PM2.5 by ZIP code." />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={ogTitle || title} />
+  <meta name="twitter:description" content={ogDescription || description} />
+  <meta name="twitter:image" content="https://waterairaudit.com/og-image.png" />
+
+  {schemaJson && <script type="application/ld+json" set:html={schemaJson} />}
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  {includeLeaflet && (
+    <>
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+      <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+    </>
+  )}
+</head>
+<script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-KSMHG4LFD7"></script>
+<script is:inline>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-KSMHG4LFD7');
+</script>
+<body>
+
+  <header id="site-header">
+    <nav>
+      <div class="nav-container">
+        <a href="/" class="logo" aria-label="WaterAirAudit home">Water<span>Air</span>Audit</a>
+        <ul class="nav-links">
+          <li><a href="/#lookup">Look Up</a></li>
+          <li><a href="/#pollutants">Pollutants</a></li>
+          <li><a href="/#health">Health Impacts</a></li>
+          <li><a href="/#filters">Filtration</a></li>
+          <li><a href="/#faq">FAQ</a></li>
+          <li><a href="/blog.html">Blog</a></li>
+          <li><a href="/#shop" class="nav-cta">Shop</a></li>
+        </ul>
+        <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <slot />
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="/" class="logo" aria-label="WaterAirAudit home">Water<span>Air</span>Audit</a>
+          <p>Local water and air quality data by ZIP code, plus filtration that matches the threat. Information that actually changes outcomes.</p>
+          <div class="footer-orgs">
+            <a href="https://www.ewg.org/tapwater/" target="_blank" rel="noopener">EWG</a>
+            <a href="https://www.airnow.gov" target="_blank" rel="noopener">AirNow</a>
+            <a href="https://www.epa.gov/sdwa" target="_blank" rel="noopener">EPA SDWA</a>
+          </div>
+        </div>
+        <div class="footer-nav">
+          <slot name="footer-nav">
+            <h4>Explore</h4>
+            <a href="/">ZIP Audit</a>
+            <a href="/blog.html">Blog</a>
+            <a href="/#pollutants">Pollutants</a>
+            <a href="/#filters">Filtration Guide</a>
+            <a href="/#faq">FAQ</a>
+            <a href="/#shop">Shop</a>
+          </slot>
+        </div>
+        <div class="footer-emergency">
+          <slot name="footer-emergency">
+            <h4>Have an Acute Concern?</h4>
+            <p>If your water tastes, smells, or looks wrong:</p>
+            <ul>
+              <li>EPA Safe Drinking Water Hotline: 1-800-426-4791</li>
+              <li>Your utility's emergency line (on your bill)</li>
+              <li>State health department</li>
+            </ul>
+          </slot>
+        </div>
+      </div>
+      <div class="footer-disclaimer">
+        <p><strong>Disclaimer:</strong> WaterAirAudit is for educational use. Pollutant values shown are illustrative composites of public data sources and may not reflect your specific tap, building, or current conditions. For health decisions, consult your utility's Consumer Confidence Report, an at-home water test, and a qualified medical professional. Affiliate links may earn a commission; product recommendations are based solely on independent third-party certifications and contaminant-removal performance.</p>
+      </div>
+      <p class="footer-copy">© 2026 WaterAirAudit. All rights reserved. · <a href="https://waterairaudit.com/">waterairaudit.com</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>
