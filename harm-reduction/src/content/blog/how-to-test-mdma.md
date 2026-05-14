@@ -12,7 +12,7 @@ Testing your MDMA before use is one of the highest-impact harm reduction steps y
 
 **Does MDMA get cut with fentanyl?** Yes, fentanyl contamination has been confirmed in MDMA samples at festivals and through drug checking services. A 2024 study at an electronic festival in Mexico found fentanyl in 14 of 22 confirmed MDMA samples.
 
-**What color should MDMA turn with a Marquis reagent?** MDMA turns **purple to black** with Marquis reagent. Any other color — orange, yellow, green — indicates the substance is not MDMA or contains something else.
+**What color should MDMA turn with a Marquis reagent?** MDMA turns **purple to black** with Marquis reagent. Any other color, orange, yellow, green, indicates the substance is not MDMA or contains something else.
 
 **Can one test tell you everything?** No. A Marquis test confirms the presence of MDMA but cannot rule out other substances present in the same sample. Use at least two reagent tests plus a fentanyl test strip for the most complete picture.
 
@@ -24,13 +24,13 @@ Testing your MDMA before use is one of the highest-impact harm reduction steps y
 
 Street MDMA is rarely pure. Common adulterants and substitutes include:
 
-- **Methamphetamine** — produces a similar stimulant effect but much longer duration, more cardiovascular stress, and higher addiction potential
-- **Synthetic cathinones** (methylone, MDPV, mephedrone) — similar effects but often more unpredictable, shorter-acting, and harder to dose
-- **Caffeine and other stimulants** — common cutting agents that add little harm but reduce the amount of active substance you're getting
-- **Fentanyl** — increasingly detected in stimulant drug supplies. Even a tiny amount can cause fatal respiratory depression, especially if combined with alcohol or opioids.
-- **Completely inactive substances** — some "MDMA" contains no active drug at all
+- **Methamphetamine**: produces a similar stimulant effect but much longer duration, more cardiovascular stress, and higher addiction potential
+- **Synthetic cathinones** (methylone, MDPV, mephedrone), similar effects but often more unpredictable, shorter-acting, and harder to dose
+- **Caffeine and other stimulants**: common cutting agents that add little harm but reduce the amount of active substance you're getting
+- **Fentanyl**: increasingly detected in stimulant drug supplies. Even a tiny amount can cause fatal respiratory depression, especially if combined with alcohol or opioids.
+- **Completely inactive substances**: some "MDMA" contains no active drug at all
 
-A 2019 study ([PMC6338488](https://pmc.ncbi.nlm.nih.gov/articles/PMC6338488/)) found that only a minority of MDMA users in an electronic dance music scene regularly tested their drugs — despite the fact that drug checking services consistently find a significant proportion of submitted samples contain unexpected substances.
+A 2019 study ([PMC6338488](https://pmc.ncbi.nlm.nih.gov/articles/PMC6338488/)) found that only a minority of MDMA users in an electronic dance music scene regularly tested their drugs, despite the fact that drug checking services consistently find a significant proportion of submitted samples contain unexpected substances.
 
 ---
 
@@ -38,7 +38,7 @@ A 2019 study ([PMC6338488](https://pmc.ncbi.nlm.nih.gov/articles/PMC6338488/)) f
 
 Each reagent reacts with different chemical classes. For MDMA, the standard protocol uses two reagents:
 
-### 1. Marquis reagent — the primary test
+### 1. Marquis reagent, the primary test
 
 Marquis reacts with phenethylamines (the chemical class MDMA belongs to).
 
@@ -53,7 +53,7 @@ Marquis reacts with phenethylamines (the chemical class MDMA belongs to).
 
 If your sample does not turn purple to black, it does not contain MDMA as the primary component.
 
-### 2. Simon's reagent — distinguishes MDMA from MDA
+### 2. Simon's reagent, distinguishes MDMA from MDA
 
 Both MDMA and MDA test positive (purple/black) with Marquis. Simon's reagent distinguishes them:
 
@@ -72,7 +72,7 @@ Mecke distinguishes additional substances and catches some cathinones. MDMA turn
 
 **What you need**: reagent test kit, a small ceramic plate or test kit tray, a toothpick or knife tip, good lighting.
 
-1. **Scrape a small amount** — about 10 mg (roughly the size of a match head, a grain of rice) onto the white ceramic surface. Do not use a large amount; you only need a tiny fragment.
+1. **Scrape a small amount**: about 10 mg (roughly the size of a match head, a grain of rice) onto the white ceramic surface. Do not use a large amount; you only need a tiny fragment.
 
 2. **Add 1–2 drops of reagent** directly onto the sample.
 
@@ -95,7 +95,7 @@ Fentanyl test strips (FTS) are immunoassay strips originally designed for urine 
 2. Dip the FTS for 15 seconds
 3. Wait 2–5 minutes and read the result
 4. **Two lines = negative** (no fentanyl detected), **one line = positive** (fentanyl detected)
-5. **No lines = invalid test** — repeat with a new strip
+5. **No lines = invalid test**: repeat with a new strip
 
 A positive result means fentanyl is present. Do not use the sample.
 

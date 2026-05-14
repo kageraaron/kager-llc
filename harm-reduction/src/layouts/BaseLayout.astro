@@ -40,20 +40,23 @@ const {
   <title>{title}</title>
   <meta name="description" content={description} />
   {keywords && <meta name="keywords" content={keywords} />}
-  <meta name="robots" content="index, follow" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
   {canonical && <link rel="canonical" href={canonical} />}
+  <link rel="sitemap" href="/sitemap-index.xml" />
+  <link rel="alternate" type="application/rss+xml" title="Rave Wellness Blog" href="https://www.ravewellness.org/rss.xml" />
 
   <meta property="og:title" content={ogTitle || title} />
   <meta property="og:description" content={ogDescription || description} />
   <meta property="og:type" content={ogType} />
   {canonical && <meta property="og:url" content={canonical} />}
   <meta property="og:site_name" content="Rave Wellness" />
-  <meta property="og:image" content="https://www.ravewellness.org/logo.svg" />
+  <meta property="og:image" content="https://www.ravewellness.org/android-chrome-512x512.png" />
+  <meta property="og:image:width" content="512" />
+  <meta property="og:image:height" content="512" />
+  <meta property="og:image:alt" content="Rave Wellness — harm reduction for the rave community" />
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content={twitterTitle || ogTitle || title} />
-  <meta name="twitter:description" content={twitterDescription || ogDescription || description} />
-  <meta name="twitter:image" content="https://www.ravewellness.org/logo.svg" />
+  <meta name="twitter:image" content="https://www.ravewellness.org/android-chrome-512x512.png" />
   <meta name="author" content="Rave Wellness" />
 
   {schemaJson && <script type="application/ld+json" set:html={schemaJson} />}

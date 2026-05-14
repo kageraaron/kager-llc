@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://www.ravewellness.org/sitemap-index.xml
+LLMs: https://www.ravewellness.org/llms.txt

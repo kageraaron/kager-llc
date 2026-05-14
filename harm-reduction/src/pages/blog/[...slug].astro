@@ -19,14 +19,23 @@ const schemaJson = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "Article",
+      "@type": "BlogPosting",
       "@id": `${canonical}#article`,
       "headline": post.data.title,
       "description": post.data.description,
       "datePublished": post.data.date.toISOString(),
+      "dateModified": post.data.date.toISOString(),
       "url": canonical,
+      "image": "https://www.ravewellness.org/android-chrome-512x512.png",
       "author": { "@type": "Organization", "name": "Rave Wellness", "url": "https://www.ravewellness.org" },
-      "publisher": { "@type": "Organization", "name": "Rave Wellness", "url": "https://www.ravewellness.org" }
+      "publisher": {
+        "@type": "Organization",
+        "name": "Rave Wellness",
+        "url": "https://www.ravewellness.org",
+        "logo": { "@type": "ImageObject", "url": "https://www.ravewellness.org/android-chrome-512x512.png" }
+      },
+      "isPartOf": { "@id": "https://www.ravewellness.org/blog.html#webpage" },
+      "mainEntityOfPage": { "@type": "WebPage", "@id": canonical }
     },
     {
       "@type": "BreadcrumbList",
@@ -67,7 +76,7 @@ const schemaJson = JSON.stringify({
             <h1 style="font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.2;">{post.data.title}</h1>
             <p class="section-sub" style="margin-top: 12px;">{post.data.description}</p>
             <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px;">
-              {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+              {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })}
               {' · '}{post.data.author}
             </p>
           </div>

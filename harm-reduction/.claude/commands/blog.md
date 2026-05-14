@@ -46,11 +46,13 @@ Generate a URL-friendly slug from the title. The file goes in:
 ---
 title: "<Full title — include the primary search query naturally>"
 description: "<155-char meta description — answers the question directly, includes primary keyword>"
-date: <today's date as YYYY-MM-DD>
+date: <YYYY-MM-DD — use the exact date from the currentDate system context, never guess or use a past date>
 tags: ["<tag1>", "<tag2>", "<tag3>"]
 author: "Rave Wellness"
 ---
 ```
+
+**Date rule:** Always read the `currentDate` value injected into the conversation context and use that exact date. Do not infer the date from git history, file timestamps, or training data. The date must be `YYYY-MM-DD` format (e.g. `2026-05-14`) — Astro parses this as UTC midnight, and the blog template renders it with `timeZone: 'UTC'` to avoid off-by-one display bugs in US timezones.
 
 ### Step 4 — Content structure
 
@@ -104,12 +106,18 @@ Link anchor text should be descriptive: `our [GHB harm reduction guide](/ghb.htm
 - [ ] No affiliate links that feel forced
 
 ### Style guide
-- Tone: direct, non-judgmental, evidence-based. Assume the reader has already decided to use — they need information, not a lecture.
+- Tone: direct, non-judgmental, evidence-based. Assume the reader has already decided to use. They need information, not a lecture.
 - Reading level: ~12th grade. Medical terms are fine but always define them.
 - Length: 800–1400 words. Long enough to be comprehensive, short enough to stay focused.
 - No fluff intros ("In today's world..."). Start immediately with the substance.
-- Use **bold** for key facts, warnings, and takeaways — makes scanning easy.
+- Use **bold** for key facts, warnings, and takeaways.
 - Use bullet lists for steps, protocols, and symptoms.
+
+### Style prohibitions (enforced — do not use)
+- **No em-dashes (—).** Use commas, colons, semicolons, or periods instead. In bullet items with a bolded term, use a colon: `**Term**: description`. This is the single most common AI tell.
+- **No:** "delve", "navigate" (metaphorical), "leverage" (metaphorical), "comprehensive", "crucial", "it's worth noting", "in other words", "essentially", "ultimately" as a sentence opener, "moreover", "furthermore", "shed light on", "deep dive", "unpack", "landscape" (metaphorical).
+- **No** passive throat-clearing: "It is important to note that...", "It should be mentioned that...", "It's worth emphasizing..."
+- **No** AI-flavored transitions between sections. Just start the next section.
 
 ### Step 6 — Output
 Write the file directly to `src/content/blog/<slug>.md` using the Write tool.
