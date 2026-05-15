@@ -86,6 +86,9 @@ const schemaJson = JSON.stringify({
       <section style="padding-bottom: 80px;">
         <div class="container">
           <div class="prose" style="max-width: 760px; margin: 0 auto;">
+            <div class="blog-disclaimer">
+              <strong>Not medical advice.</strong> This article is for harm reduction and educational purposes only. Nothing here is a recommendation to use any substance. If you are experiencing a medical emergency, call your local emergency services immediately. Some links may be affiliate links — we earn a small commission at no cost to you.
+            </div>
             <Content />
           </div>
         </div>
@@ -106,4 +109,6 @@ const schemaJson = JSON.stringify({
   .prose hr { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
   .prose blockquote { border-left: 3px solid var(--purple); padding-left: 1rem; margin: 1.5rem 0; color: var(--text-muted); font-style: italic; }
   .prose code { background: var(--bg-card); padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+  .blog-disclaimer { background: color-mix(in srgb, var(--purple) 8%, transparent); border-left: 3px solid var(--purple); border-radius: 0 6px 6px 0; padding: 12px 16px; margin-bottom: 2rem; font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; }
+  .blog-disclaimer strong { color: var(--text); }
 </style>

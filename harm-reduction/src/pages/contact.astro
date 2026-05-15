@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title       = "Contact | Rave Wellness";
+const description = "Get in touch with Rave Wellness. Questions about harm reduction, content corrections, or partnership inquiries.";
+const canonical   = "https://www.ravewellness.org/contact.html";
+---
+
+<BaseLayout {title} {description} {canonical} ogType="website">
+  <Fragment slot="footer-nav">
+    <h4>Site</h4>
+    <a href="/about.html">About</a>
+    <a href="/contact.html">Contact</a>
+    <a href="/privacy.html">Privacy Policy</a>
+    <a href="/terms.html">Terms of Use</a>
+  </Fragment>
+
+  <main>
+    <section style="padding: 80px 0 60px;">
+      <div class="container" style="max-width: 640px; margin: 0 auto;">
+
+        <h1 style="font-size: 2rem; margin-bottom: 12px;">Contact</h1>
+        <p style="color: var(--text-muted); margin-bottom: 48px;">We're a small team. Email is the best way to reach us.</p>
+
+        <div class="contact-card">
+          <a href="mailto:hello@ravewellness.org" class="contact-email">hello@ravewellness.org</a>
+        </div>
+
+        <div class="prose" style="margin-top: 48px;">
+          <h2>What we can help with</h2>
+          <ul>
+            <li><strong>Content corrections:</strong> If you spot an error, outdated citation, or inaccurate claim, please let us know. We take accuracy seriously and will respond promptly.</li>
+            <li><strong>Harm reduction questions:</strong> We are not medical professionals and cannot give personal medical advice, but we're happy to point you toward reliable resources.</li>
+            <li><strong>Partnership or media inquiries:</strong> For harm reduction organizations, researchers, or journalists.</li>
+            <li><strong>Privacy or data questions:</strong> See our <a href="/privacy.html">Privacy Policy</a> first — if your question isn't answered there, email us.</li>
+          </ul>
+
+          <h2>In an emergency</h2>
+          <p>If you or someone near you is experiencing a medical emergency, <strong>call your local emergency services immediately.</strong> Do not wait. In the US, call 911. In the UK, call 999. In the EU, call 112.</p>
+          <p>For immediate harm reduction support, <a href="https://fireside.community" target="_blank" rel="noopener">Fireside Project</a> (1-800-FIRESIDE) offers a free psychedelic peer support line.</p>
+        </div>
+
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .contact-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    text-align: center;
+  }
+  .contact-email {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--purple);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+  .contact-email:hover {
+    text-decoration: underline;
+  }
+</style>
