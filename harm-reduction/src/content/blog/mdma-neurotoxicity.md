@@ -54,7 +54,7 @@ This is one of the most important findings in this literature: it suggests SERT 
 
 ### Müller et al. 2015: no damage in moderate users
 
-A 2015 systematic review by Müller et al. in *Neuroscience & Biobehavioral Reviews* ([PMID 26746590](https://pubmed.ncbi.nlm.nih.gov/26746590/)) is particularly important for moderate users. Their analysis found **no convincing evidence of structural or functional brain alterations in users with fewer than 50 lifetime occasions.** This is a meaningful threshold: below approximately 50 lifetime uses, the neuroimaging literature does not reliably detect a signal.
+A 2016 systematic review by Müller et al. in *Neuroscience & Biobehavioral Reviews* ([PMID 26746590](https://pubmed.ncbi.nlm.nih.gov/26746590/)) is particularly important for moderate users. Their analysis found **no convincing evidence of structural or functional brain alterations in users with fewer than 50 lifetime occasions.** This is a meaningful threshold: below approximately 50 lifetime uses, the neuroimaging literature does not reliably detect a signal.
 
 This does not mean 49 uses is safe and 51 is not. It means the studies looking at lower-exposure populations have not found significant effects, which is genuinely different from the alarming picture painted by research on extreme users.
 
@@ -127,7 +127,7 @@ Here is what the current evidence actually supports, graded by strength:
 
 **Moderately supported (human studies with important limitations):**
 - SERT density can partially recover with extended abstinence, even in heavy users (Selvaraj et al. 2009).
-- Users with fewer than 50 lifetime occasions do not show consistent neuroimaging abnormalities (Müller et al. 2015).
+- Users with fewer than 50 lifetime occasions do not show consistent neuroimaging abnormalities (Müller et al. 2016).
 
 **Limited or uncertain (mechanistically plausible, insufficient human evidence):**
 - Whether SERT reductions in heavy users produce clinically meaningful cognitive or psychiatric impairment over time is not clearly established, imaging findings correlate only inconsistently with functional outcomes.
@@ -135,7 +135,7 @@ Here is what the current evidence actually supports, graded by strength:
 
 **Not supported (retracted or methodologically unsound):**
 - That MDMA causes severe dopaminergic neurotoxicity (the Ricaurte 2002 claim was retracted, the damage was from meth).
-- That neuroimaging findings in extreme heavy users apply to occasional recreational users (directly contradicted by Szigeti et al. 2018 and Müller et al. 2015).
+- That neuroimaging findings in extreme heavy users apply to occasional recreational users (directly contradicted by Szigeti et al. 2018 and Müller et al. 2016).
 
 ---
 

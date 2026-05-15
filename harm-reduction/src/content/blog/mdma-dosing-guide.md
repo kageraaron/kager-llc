@@ -68,7 +68,7 @@ The dose-response relationship for adverse effects, hyperthermia, cardiovascular
 
 **Pressed pills are one of the most dangerous variables in recreational MDMA use**, for two reasons: unknown dose and unknown content.
 
-Drug checking databases consistently show that pressed ecstasy tablets span an enormous range, from pills containing no MDMA at all to pills containing 200 mg or more. Palamar et al. 2021 ([PMID 21320226](https://pubmed.ncbi.nlm.nih.gov/21320226/)) found pill content ranging from 0 to 245 mg per tablet. A single "normal-looking" pill may contain 180 mg, already above the safe recreational range before any redosing, while a different pill from the same batch may contain 80 mg. You cannot tell by looking, and **the tablet is often inconsistently mixed**, meaning the first half and second half of the same pill may have different MDMA concentrations.
+Drug checking databases consistently show that pressed ecstasy tablets span an enormous range, from pills containing no MDMA at all to pills containing 200 mg or more. Drug checking databases, including data compiled by Palamar and colleagues, have found pill content ranging from 0 to over 240 mg per tablet. A single "normal-looking" pill may contain 180 mg, already above the safe recreational range before any redosing, while a different pill from the same batch may contain 80 mg. You cannot tell by looking, and **the tablet is often inconsistently mixed**, meaning the first half and second half of the same pill may have different MDMA concentrations.
 
 The second problem is adulterants. Common substitutes and additions found in drug checking include:
 

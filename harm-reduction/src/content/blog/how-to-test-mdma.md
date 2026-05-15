@@ -10,7 +10,7 @@ Testing your MDMA before use is one of the highest-impact harm reduction steps y
 
 ## Quick answers
 
-**Does MDMA get cut with fentanyl?** Yes, fentanyl contamination has been confirmed in MDMA samples at festivals and through drug checking services. A 2024 study at an electronic festival in Mexico found fentanyl in 14 of 22 confirmed MDMA samples.
+**Does MDMA get cut with fentanyl?** Yes, fentanyl contamination has been confirmed in MDMA samples at festivals and through drug checking services across North America and Europe. While fentanyl contamination in MDMA is less common than in opioids or cocaine, it has been documented in multiple drug checking datasets and has caused deaths.
 
 **What color should MDMA turn with a Marquis reagent?** MDMA turns **purple to black** with Marquis reagent. Any other color, orange, yellow, green, indicates the substance is not MDMA or contains something else.
 
@@ -88,10 +88,10 @@ Mecke distinguishes additional substances and catches some cathinones. MDMA turn
 
 Fentanyl test strips (FTS) are immunoassay strips originally designed for urine testing that can also detect fentanyl in drug samples. Research supports their effectiveness for harm reduction ([PMC7255931](https://pmc.ncbi.nlm.nih.gov/articles/PMC7255931/)).
 
-**Critical note for MDMA**: FTS can produce **false positives** with MDMA at high concentrations. To avoid this, use **at least 10 mL of water** when diluting your MDMA sample ([PMC7941948](https://pmc.ncbi.nlm.nih.gov/articles/PMC7941948/)). A smaller volume will concentrate the MDMA enough to trigger a false positive.
+**Critical note for MDMA**: FTS can produce **false positives** with MDMA at high concentrations. To avoid this, use **at least 5 mL of water** (about 1 teaspoon) when diluting your MDMA sample. Research suggests that 10 mL provides an extra margin against false positives ([PMC7941948](https://pmc.ncbi.nlm.nih.gov/articles/PMC7941948/)); if in doubt, use more water, not less.
 
 **How to use FTS with MDMA:**
-1. Dissolve a small sample of MDMA (about 10 mg) in **10 mL of water** (a shot-glass-sized amount)
+1. Dissolve a small sample of MDMA (about 10 mg) in **5–10 mL of water** (1–2 teaspoons)
 2. Dip the FTS for 15 seconds
 3. Wait 2–5 minutes and read the result
 4. **Two lines = negative** (no fentanyl detected), **one line = positive** (fentanyl detected)

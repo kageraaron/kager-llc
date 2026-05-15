@@ -18,7 +18,7 @@ author: "Rave Wellness"
 
 **How much ketamine causes bladder damage?** Case series consistently implicate heavy, frequent use, typically daily or near-daily use for months to years, with doses in the gram-per-day range. Single-session or infrequent recreational use has not been associated with uropathy in the published literature, but there is no established safe frequency threshold.
 
-**Does therapeutic ketamine (Spravato) cause the same damage?** No. Esketamine (Spravato) nasal spray is administered at low doses (56–84 mg) under clinical supervision, two to three times per week during the induction phase, then less often. This is a fundamentally different exposure pattern from recreational use. Bladder side effects have not been a significant finding in Spravato clinical trials at approved dosing.
+**Does therapeutic ketamine (Spravato) cause the same damage?** Rarely, and at much lower rates than recreational use. Esketamine (Spravato) nasal spray is administered at low doses (56–84 mg) under clinical supervision, two to three times per week during induction, then less often. A 2024 case report ([PMID 38166893](https://pubmed.ncbi.nlm.nih.gov/38166893/)) documented ketamine-induced cystitis in a patient on therapeutic ketamine, confirming the risk is not zero at clinical doses, but the exposure pattern is fundamentally different from recreational heavy use and bladder complications remain uncommon in clinical populations.
 
 ---
 

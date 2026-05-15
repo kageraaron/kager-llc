@@ -82,7 +82,7 @@ Full serotonin syndrome from MDMA + LSD alone is uncommon, but **subclinical ser
 
 MDMA's cardiovascular effects are well-documented in human pharmacokinetic studies. A single oral dose of 75–125 mg increases systolic blood pressure by approximately 20–40 mmHg and heart rate by 20–30 bpm above baseline. ([PMID 10731626](https://pubmed.ncbi.nlm.nih.gov/10731626/)) These effects persist for 4–6 hours after a standard dose.
 
-LSD adds its own modest cardiovascular contribution, mild tachycardia and elevated blood pressure are consistent findings in human pharmacology studies of LSD by Liechti's group at Basel. ([PMID 28232668](https://pubmed.ncbi.nlm.nih.gov/28232268/))
+LSD adds its own modest cardiovascular contribution, mild tachycardia and elevated blood pressure are consistent findings in human pharmacology studies of LSD by Liechti's group at Basel. ([PMID 28232268](https://pubmed.ncbi.nlm.nih.gov/28232268/))
 
 Over a 12–18 hour candy flip, you are sustaining elevated cardiovascular demand for a substantially longer period than either substance alone. In a festival context, ambient temperatures above 25–30°C, sustained dancing, impaired self-awareness, this creates real hyperthermia risk. MDMA-related deaths are primarily caused by **hyperthermia and hyponatremia (water intoxication)**, not by direct cardiac events in otherwise healthy users. The extended duration of a candy flip amplifies both risks.
 

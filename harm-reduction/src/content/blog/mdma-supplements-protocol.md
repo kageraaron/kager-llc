@@ -142,7 +142,7 @@ The correct guidance is **electrolyte replacement**, not fluid loading. If you a
 | R-ALA | Night before, morning of (not within 2hrs of dosing), post-use, days after | 100–200mg | Rat study (injected, PMID 10619665) |
 | Vitamin C | Before, during (every 2–4hrs), day after | 1000mg | Rat study (injected, PMID 11170222) |
 | 5-HTP | Day 2+ after (not before 24hrs have passed) | 100mg daily x 3–5 days | Mechanistic; community consensus |
-| EGCG | Not recommended without specific knowledge |, | Controversial; MAO-B inhibition concern |
+| EGCG | Not recommended | — | Controversial; MAO-B inhibition concern |
 
 ---
 

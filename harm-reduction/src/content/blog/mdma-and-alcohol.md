@@ -26,9 +26,11 @@ MDMA causes the body to generate excess heat through two pathways: **increased m
 
 Alcohol makes this significantly worse through multiple mechanisms documented in the "Hard Boiled" systematic review ([PMID 34554408](https://pubmed.ncbi.nlm.nih.gov/34554408/)):
 
-**Alcohol's early phase (first few drinks)**: acts as an antidiuretic, causing water retention that initially promotes hyperthermia by reducing the body's ability to cool through sweating.
+**Alcohol is a diuretic**: from the first drink, alcohol inhibits antidiuretic hormone (ADH) secretion, causing the kidneys to excrete more water than normal. This starts dehydration earlier than most people realize, especially when combined with sweating.
 
-**Alcohol's later phase**: triggers vasodilation and profuse sweating, causing rapid fluid and electrolyte loss, while simultaneously impairing antidiuretic hormone (ADH) secretion, meaning your kidneys keep dumping water even as you're already dehydrated.
+**The MDMA–alcohol ADH conflict**: MDMA independently triggers ADH release, causing water *retention* and raising hyponatremia risk. Alcohol inhibits ADH at the same time. These opposing signals make fluid balance unpredictable and difficult to manage through drinking behavior alone.
+
+**Alcohol's vasodilation**: as BAC rises, alcohol causes peripheral vasodilation and profuse sweating, accelerating fluid and electrolyte loss. Combined with MDMA's metabolic heat production and already-impaired thermoregulation, this drives peak body temperature higher.
 
 **The combination effect**: MDMA's vasoconstriction + alcohol's heat promotion + compromised fluid balance = significantly higher peak body temperatures and less ability to self-correct.
 
