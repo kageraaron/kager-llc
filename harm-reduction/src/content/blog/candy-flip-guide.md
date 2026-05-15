@@ -3,7 +3,7 @@ title: "Candy Flip (MDMA + LSD): Risks, Timing, and How to Do It Safer"
 description: "A candy flip combines MDMA and LSD for a 12–18 hour experience. Here's the timing rationale, the real risks, and practical harm reduction for both substances."
 date: 2026-05-12
 tags: ["mdma", "lsd", "drug combinations", "harm reduction", "candy flip", "serotonin"]
-author: "Rave Wellness"
+author: "Jordan Mercer"
 ---
 
 A candy flip, combining MDMA (ecstasy/molly) with LSD, is one of the most sought-after drug combinations in the rave and festival world. The experience can be profound, but it also stacks the risks of both substances, extends the physiological burden to 12–18 hours, and creates serotonergic load that most people dramatically underestimate. **This is not two separate experiences running in parallel, it's a synergistic interaction that deserves specific planning.** Here's what the pharmacology actually says, and how to reduce risk if you're going to do it.

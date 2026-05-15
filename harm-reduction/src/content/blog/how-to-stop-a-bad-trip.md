@@ -1,9 +1,9 @@
 ---
 title: "How to Stop a Bad Trip: What Actually Works"
-description: "Bad trip help, ranked by evidence: environment change first, benzos second, antipsychotics never. Includes the lithium emergency flag and when to call 911."
+description: "To stop a bad trip: change environment and music first, then diazepam 10–20 mg if needed. What works, what doesn't, and when to call 911."
 date: 2026-05-12
 tags: ["LSD", "psilocybin", "bad trip", "harm reduction", "psychedelics", "benzodiazepines"]
-author: "Rave Wellness"
+author: "Jordan Mercer"
 ---
 
 If you or someone nearby is having a bad trip, **the fastest effective intervention is changing the environment**: go outside, change the music, move to a quieter space. If that isn't enough and you have access to a benzodiazepine, diazepam 10–20 mg orally will blunt the experience within 30–60 minutes. There is one situation where none of this applies and you call emergency services immediately: if the person is on lithium and took LSD or psilocybin. That combination is a medical emergency.

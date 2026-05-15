@@ -1,16 +1,16 @@
 ---
-title: "MDMA Neurotoxicity: Does Ecstasy Cause Brain Damage?"
-description: "MDMA neurotoxicity is real but heavily dose- and frequency-dependent. The evidence for brain damage in moderate users is much weaker than headlines suggest. Here's what research actually shows."
+title: "MDMA Neurotoxicity: Does Molly Cause Brain Damage?"
+description: "Does molly cause brain damage? MDMA neurotoxicity is real but dose-dependent. Evidence in moderate users is far weaker than headlines suggest."
 date: 2026-05-12
-tags: ["mdma", "neurotoxicity", "harm reduction", "serotonin", "brain damage"]
-author: "Rave Wellness"
+tags: ["mdma", "molly", "neurotoxicity", "harm reduction", "serotonin", "brain damage"]
+author: "Jordan Mercer"
 ---
 
-**MDMA does cause serotonergic damage in heavy, frequent users at high cumulative doses, the evidence for that is real.** What the evidence does not show is significant, lasting brain damage from occasional, moderate-dose use. The alarming headlines you've read are based almost entirely on studies of people using MDMA 50 to 500+ times, at unverified doses, often with heavy polydrug use, a profile that bears little resemblance to someone who rolls a few times a year. That distinction matters enormously, and most media coverage ignores it entirely.
+**MDMA (molly, ecstasy) does cause serotonergic damage in heavy, frequent users at high cumulative doses, the evidence for that is real.** What the evidence does not show is significant, lasting brain damage from occasional, moderate-dose use. The alarming headlines you've read are based almost entirely on studies of people using molly 50 to 500+ times, at unverified doses, often with heavy polydrug use, a profile that bears little resemblance to someone who rolls a few times a year. That distinction matters enormously, and most media coverage ignores it entirely.
 
 ## Quick answers
 
-**Does MDMA cause brain damage?** At high cumulative doses and frequent use, MDMA causes measurable reductions in serotonin transporter (SERT) density in human imaging studies, a marker of serotonergic nerve terminal loss. Whether this constitutes permanent "brain damage" depends heavily on dose, frequency, and time since last use. The evidence in moderate, infrequent users is much weaker.
+**Does molly (MDMA) cause brain damage?** At high cumulative doses and frequent use, MDMA causes measurable reductions in serotonin transporter (SERT) density in human imaging studies, a marker of serotonergic nerve terminal loss. Whether this constitutes permanent "brain damage" depends heavily on dose, frequency, and time since last use. The evidence in moderate, infrequent users is much weaker.
 
 **Is MDMA safe long term?** Not established. There are no long-term prospective studies of health outcomes in recreational users at controlled, confirmed doses. "Safe" is not something the current evidence can confirm. What the evidence suggests is that moderate, infrequent use carries substantially lower, and less well-characterized, risk than the heavy use most studies examine.
 

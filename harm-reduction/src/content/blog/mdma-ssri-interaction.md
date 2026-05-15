@@ -1,12 +1,12 @@
 ---
 title: "MDMA and Antidepressants (SSRIs/SNRIs): What Actually Happens?"
-description: "Can you take MDMA on antidepressants? SSRIs blunt the roll, SNRIs raise cardiac risk, and MAOIs are life-threatening. Here's the evidence."
+description: "Can you take molly (MDMA/ecstasy) on antidepressants? SSRIs blunt the roll, SNRIs raise cardiac risk, and MAOIs are life-threatening. Here's the evidence."
 date: 2026-05-12
 tags: ["MDMA", "SSRIs", "drug interactions", "harm reduction", "serotonin syndrome"]
-author: "Rave Wellness"
+author: "Jordan Mercer"
 ---
 
-The MDMA–antidepressant interaction is one of the most common harm reduction questions in the rave community, and one of the most misunderstood. The short answer: **SSRIs and SNRIs don't make MDMA dangerous in the way most people fear, but they do make it largely ineffective**. The serious danger is a completely different class of antidepressant: MAOIs. Here's what the evidence actually shows.
+The MDMA (molly/ecstasy)–antidepressant interaction is one of the most common harm reduction questions in the rave community, and one of the most misunderstood. The short answer: **SSRIs and SNRIs don't make MDMA dangerous in the way most people fear, but they do make it largely ineffective**. The serious danger is a completely different class of antidepressant: MAOIs. Here's what the evidence actually shows.
 
 ## Quick answers
 

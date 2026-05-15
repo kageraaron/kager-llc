@@ -3,7 +3,7 @@ title: "How to Use Fentanyl Test Strips: A Step-by-Step Guide"
 description: "Step-by-step fentanyl test strip instructions, water ratios by substance, how to read results, false positives, and what to do if you test positive."
 date: 2026-05-12
 tags: ["fentanyl", "drug checking", "test kits", "harm reduction", "fentanyl test strips"]
-author: "Rave Wellness"
+author: "Jordan Mercer"
 ---
 
 To use a fentanyl test strip, dissolve a small residue of your substance in water, the exact amount of water depends on the drug, dip the strip for 15 seconds, lay it flat, and read the result after 2–5 minutes. **One line means fentanyl was detected (positive). Two lines means fentanyl was not detected (negative).** That reversed result is the single most important thing to understand before you test.

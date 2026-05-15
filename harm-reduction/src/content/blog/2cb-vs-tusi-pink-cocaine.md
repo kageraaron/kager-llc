@@ -3,7 +3,7 @@ title: "2C-B vs. Tusi (Pink Cocaine): They Are Not the Same Drug"
 description: "Tusi and 2C-B are not the same drug. Lab testing shows pink cocaine usually contains MDMA and ketamine, with very different risks than actual 2C-B."
 date: 2026-05-12
 tags: ["2C-B", "tusi", "pink cocaine", "drug checking", "ketamine", "MDMA"]
-author: "Rave Wellness"
+author: "Jordan Mercer"
 ---
 
 **Tusi and 2C-B are not the same drug.** The name "tusi" (also spelled "tucibi," "tuci," or "toosie") is a Spanish phonetic rendering of "2C-B", but what's actually sold under that name in the US and Europe is almost always a different mixture entirely, most commonly MDMA and ketamine with a pink dye. Lab testing data consistently finds **little to no 2C-B in samples sold as tusi**. This confusion is genuinely dangerous because the harm profiles, interaction risks, and overdose presentations are completely different.

@@ -1,12 +1,12 @@
 ---
 title: "Ketamine Bladder Damage: What K-Cramps Actually Mean"
-description: "Ketamine bladder damage causes severe pain, frequent urination, and can lead to permanent organ loss. Learn the symptoms, mechanism, and how to protect yourself."
+description: "Ketamine (K, special K) bladder damage causes severe pain and can lead to permanent organ loss. Learn the symptoms, mechanism, and how to protect yourself."
 date: 2026-05-13
 tags: ["ketamine", "harm reduction", "bladder damage"]
-author: "Rave Wellness"
+author: "Jordan Mercer"
 ---
 
-Ketamine bladder damage, clinically called ketamine-induced cystitis (KIC) or ketamine-induced uropathy (KIU), is a well-documented condition where regular ketamine use destroys the lining of the bladder and, in severe cases, the ureters and kidneys. **K-cramps are not a hangover or a cramp in the ordinary sense: they are a warning sign that your bladder is actively being damaged.** The damage can be permanent. In the worst cases, users have required surgical bladder removal or ended up on dialysis.
+Ketamine (street names: K, special K) bladder damage, clinically called ketamine-induced cystitis (KIC) or ketamine-induced uropathy (KIU), is a well-documented condition where regular ketamine use destroys the lining of the bladder and, in severe cases, the ureters and kidneys. **K-cramps are not a hangover or a cramp in the ordinary sense: they are a warning sign that your bladder is actively being damaged.** The damage can be permanent. In the worst cases, users have required surgical bladder removal or ended up on dialysis.
 
 ## Quick answers
 

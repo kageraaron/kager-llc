@@ -1,12 +1,12 @@
 ---
 title: "How to Have a Safe Psilocybin Trip: Set, Setting, and Dosing"
-description: "A practical guide to psilocybin safety: how to dose for your first time, prepare your set and setting, and handle a difficult trip if one occurs."
+description: "A practical guide to shrooms (psilocybin/magic mushrooms): how to dose your first time, prepare set and setting, and handle a difficult trip."
 date: 2026-05-13
 tags: ["psilocybin", "mushrooms", "psychedelics", "harm reduction"]
-author: "Rave Wellness"
+author: "Jordan Mercer"
 ---
 
-Psilocybin mushrooms have a well-established safety profile in both research and harm reduction literature, **no deaths have been attributed directly to psilocybin toxicity in clinical studies**, and emergency medical treatment for mushroom use is rare relative to total use ([PMID 35388724](https://pubmed.ncbi.nlm.nih.gov/35388724/)). But "rare" isn't "zero," and the experiences that do result in harm are largely preventable. This guide covers the practical steps that make the difference between a challenging experience and a dangerous one.
+Psilocybin mushrooms (shrooms, magic mushrooms) have a well-established safety profile in both research and harm reduction literature, **no deaths have been attributed directly to psilocybin toxicity in clinical studies**, and emergency medical treatment for mushroom use is rare relative to total use ([PMID 35388724](https://pubmed.ncbi.nlm.nih.gov/35388724/)). But "rare" isn't "zero," and the experiences that do result in harm are largely preventable. This guide covers the practical steps that make the difference between a challenging experience and a dangerous one.
 
 ## Quick answers
 

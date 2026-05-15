@@ -1,12 +1,12 @@
 ---
 title: "How to Test Your MDMA: A Complete Drug Checking Guide"
-description: "Testing MDMA with reagent kits and fentanyl test strips can prevent overdose and adulterant exposure. Here's exactly how to do it correctly."
+description: "Testing molly (MDMA/ecstasy) with reagent kits and fentanyl strips can prevent overdose and adulterant exposure. Here's exactly how to do it, step by step."
 date: 2026-05-13
 tags: ["mdma", "test kits", "drug checking", "harm reduction", "fentanyl"]
-author: "Rave Wellness"
+author: "Jordan Mercer"
 ---
 
-Testing your MDMA before use is one of the highest-impact harm reduction steps you can take. Reagent test kits can identify whether MDMA is actually present, flag dangerous substitutes like methamphetamine or synthetic cathinones ("bath salts"), and fentanyl test strips can detect fentanyl contamination. **No test is 100% accurate, but testing dramatically reduces the chance of taking something you didn't intend to.** This guide covers how to do it correctly.
+Testing your MDMA (molly/ecstasy) before use is one of the highest-impact harm reduction steps you can take. Reagent test kits can identify whether MDMA is actually present, flag dangerous substitutes like methamphetamine or synthetic cathinones ("bath salts"), and fentanyl test strips can detect fentanyl contamination. **No test is 100% accurate, but testing dramatically reduces the chance of taking something you didn't intend to.** This guide covers how to do it correctly.
 
 ## Quick answers
 

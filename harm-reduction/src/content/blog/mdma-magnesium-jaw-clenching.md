@@ -1,12 +1,12 @@
 ---
 title: "MDMA Jaw Clenching and Magnesium: What the Evidence Actually Shows"
-description: "Does magnesium reduce MDMA-induced jaw clenching? Evidence review of the mechanism, study quality, dosing, and what's missing from the research."
+description: "Does magnesium reduce MDMA (molly/ecstasy) jaw clenching? Evidence review of the mechanism, study quality, dosing, and what's missing from the research."
 date: 2026-05-13
 tags: ["mdma", "harm reduction", "magnesium", "bruxism", "jaw clenching", "supplements"]
-author: "Rave Wellness"
+author: "Jordan Mercer"
 ---
 
-Magnesium reduces MDMA-induced jaw clenching, this is the most mechanistically supported claim in the entire MDMA supplement protocol, and the one with the most consistent real-world backing. The mechanism is solid: MDMA drives repetitive jaw muscle activation through dopaminergic and serotonergic pathways, and magnesium blunts that activation by blocking NMDA receptors and reducing neuromuscular excitability. No human RCT has tested this combination directly, but the pharmacology is straightforward and the evidence tier is substantially stronger than most other MDMA supplement claims.
+Magnesium reduces MDMA (molly/ecstasy)-induced jaw clenching, this is the most mechanistically supported claim in the entire MDMA supplement protocol, and the one with the most consistent real-world backing. The mechanism is solid: MDMA drives repetitive jaw muscle activation through dopaminergic and serotonergic pathways, and magnesium blunts that activation by blocking NMDA receptors and reducing neuromuscular excitability. No human RCT has tested this combination directly, but the pharmacology is straightforward and the evidence tier is substantially stronger than most other MDMA supplement claims.
 
 ## Quick answers
 

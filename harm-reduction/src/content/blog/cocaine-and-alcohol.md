@@ -1,12 +1,12 @@
 ---
 title: "Cocaine and Alcohol: Cocaethylene and Why This Combination Is More Dangerous Than Either Drug Alone"
-description: "Mixing cocaine and alcohol creates cocaethylene, a unique third compound that is more cardiotoxic than cocaine alone and stays in your body far longer."
+description: "Mixing cocaine (coke) and alcohol creates cocaethylene, a third compound more cardiotoxic than cocaine alone that stays in your body far longer."
 date: 2026-05-14
 tags: ["cocaine", "alcohol", "harm reduction", "drug interactions", "cocaethylene"]
-author: "Rave Wellness"
+author: "Jordan Mercer"
 ---
 
-Cocaine and alcohol are the most common two-drug combination in emergency department presentations, and the reason they're so dangerous together isn't just additive toxicity. **When both are present in your liver at the same time, they react to form a third psychoactive compound called cocaethylene**: something that doesn't happen with any other drug combination. Cocaethylene is more cardiotoxic than cocaine alone, has a longer half-life, and accumulates with repeated dosing. Drinking on cocaine isn't just risky because you're using two drugs; it's risky because you're producing a third one.
+Cocaine (coke, blow) and alcohol are the most common two-drug combination in emergency department presentations, and the reason they're so dangerous together isn't just additive toxicity. **When both are present in your liver at the same time, they react to form a third psychoactive compound called cocaethylene**: something that doesn't happen with any other drug combination. Cocaethylene is more cardiotoxic than cocaine alone, has a longer half-life, and accumulates with repeated dosing. Drinking on cocaine isn't just risky because you're using two drugs; it's risky because you're producing a third one.
 
 ## Quick answers
 

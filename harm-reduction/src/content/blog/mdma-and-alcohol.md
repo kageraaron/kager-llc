@@ -1,12 +1,12 @@
 ---
 title: "Mixing MDMA and Alcohol: What Actually Happens"
-description: "Mixing MDMA and alcohol significantly raises hyperthermia and dehydration risk. Here's the mechanism, the specific dangers, and what to do instead."
+description: "Mixing molly (MDMA/ecstasy) and alcohol significantly raises hyperthermia risk. Here's the mechanism, the specific dangers, and what to do instead."
 date: 2026-05-13
 tags: ["mdma", "alcohol", "interactions", "harm reduction"]
-author: "Rave Wellness"
+author: "Jordan Mercer"
 ---
 
-Mixing MDMA and alcohol is one of the most common combinations at raves and festivals, and one of the most physiologically dangerous. The core problem isn't intoxication level: it's that **alcohol compounds MDMA's hyperthermia risk in ways that can be fatal**. A 2021 systematic review ([PMID 34554408](https://pubmed.ncbi.nlm.nih.gov/34554408/)) found that concurrent alcohol use is a consistent risk factor for MDMA-induced overheating, dehydration, and hyponatremia (dangerous low blood sodium). Understanding why helps you make informed choices.
+Mixing MDMA (molly/ecstasy) and alcohol is one of the most common combinations at raves and festivals, and one of the most physiologically dangerous. The core problem isn't intoxication level: it's that **alcohol compounds MDMA's hyperthermia risk in ways that can be fatal**. A 2021 systematic review ([PMID 34554408](https://pubmed.ncbi.nlm.nih.gov/34554408/)) found that concurrent alcohol use is a consistent risk factor for MDMA-induced overheating, dehydration, and hyponatremia (dangerous low blood sodium). Understanding why helps you make informed choices.
 
 ## Quick answers
 

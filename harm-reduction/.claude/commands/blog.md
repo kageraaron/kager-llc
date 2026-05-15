@@ -75,7 +75,7 @@ Use a `## Quick answers` section with 3–5 bolded Q&A pairs covering the most c
 ```
 
 **Body sections** (H2 headings — each targeting a secondary keyword):
-- Use evidence: cite specific studies inline as `[PMID XXXXXXXX](https://pubmed.ncbi.nlm.nih.gov/XXXXXXXX/)` or name the study/journal
+- Use evidence: cite specific studies inline as `[PMID XXXXXXXX](https://pubmed.ncbi.nlm.nih.gov/XXXXXXXX/)` or name the study/journal — **never write bare `PMID XXXXXXXX` text; it must always be a markdown hyperlink**
 - Write for someone who has already decided to participate — not preachy, practical
 - Be specific: doses, timings, mechanisms, not vague warnings
 - Include at least one mechanism section explaining *why* the risk exists
@@ -102,6 +102,7 @@ Link anchor text should be descriptive: `our [GHB harm reduction guide](/ghb.htm
 - [ ] Meta description is under 155 characters and answers the question
 - [ ] At least 2 internal links to drug guide pages
 - [ ] At least 2 citations with real PMIDs (verify they exist)
+- [ ] All PMID citations are markdown hyperlinks — both inline in body text and in the sources footer. No bare `PMID XXXXXXXX` text anywhere in the file.
 - [ ] FAQ block present
 - [ ] No affiliate links that feel forced
 

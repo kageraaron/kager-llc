@@ -3,7 +3,7 @@ title: "Poppers and Viagra (or Cialis): Why This Combination Can Be Fatal"
 description: "Combining poppers with Viagra, Cialis, or any PDE5 inhibitor can cause life-threatening hypotension. Here's the pharmacology and what to do instead."
 date: 2026-05-14
 tags: ["poppers", "harm reduction", "drug interactions", "sexual health", "pde5 inhibitors"]
-author: "Rave Wellness"
+author: "Jordan Mercer"
 ---
 
 **Poppers and Viagra is one of the only recreational drug combinations with an absolute medical contraindication**: meaning no dose, no timing, and no individual variation makes it safe. The combination of alkyl nitrites (the active ingredient in poppers) with any PDE5 inhibitor (sildenafil, tadalafil, vardenafil) floods the cardiovascular system with a vasodilating signal it cannot counteract, causing blood pressure to crash rapidly enough to cause fainting, cardiac ischemia, or death. This isn't a theoretical risk. A 2025 UK review documented at least one confirmed fatality from combined alkyl nitrite and tadalafil toxicity ([PMID 39860433](https://pubmed.ncbi.nlm.nih.gov/39860433/)). If you've taken Viagra, Cialis, or Levitra, or any generic version, you cannot safely use poppers.

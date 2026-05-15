@@ -1,12 +1,12 @@
 ---
 title: "GHB and Alcohol: Why This Combination Kills"
-description: "Mixing GHB and alcohol is one of the most dangerous drug combinations at raves. Here's the pharmacology, the real overdose risk, and how to stay alive."
+description: "Mixing GHB (G, liquid G) and alcohol is one of the most dangerous rave combinations. Here's the pharmacology, the real overdose risk, and how to stay alive."
 date: 2026-05-14
 tags: ["ghb", "alcohol", "harm reduction", "overdose", "drug interactions"]
-author: "Rave Wellness"
+author: "Jordan Mercer"
 ---
 
-GHB and alcohol is one of the most dangerous drug combinations you can take at a rave, not because either substance alone is unusually lethal at common doses, but because the two interact synergistically to produce CNS and respiratory depression that is greater than the sum of its parts. A 2023 pharmacological review ([PMID 36837798](https://pubmed.ncbi.nlm.nih.gov/36837798/)) concluded that while their pharmacokinetic interaction is modest, their combined toxicodynamic effect is substantial and clinically significant. People die from this combination at doses that would be survivable on their own.
+GHB (also called G, liquid G, or liquid ecstasy) and alcohol is one of the most dangerous drug combinations you can take at a rave, not because either substance alone is unusually lethal at common doses, but because the two interact synergistically to produce CNS and respiratory depression that is greater than the sum of its parts. A 2023 pharmacological review ([PMID 36837798](https://pubmed.ncbi.nlm.nih.gov/36837798/)) concluded that while their pharmacokinetic interaction is modest, their combined toxicodynamic effect is substantial and clinically significant. People die from this combination at doses that would be survivable on their own.
 
 ## Quick answers
 

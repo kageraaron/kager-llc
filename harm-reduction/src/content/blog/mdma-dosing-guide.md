@@ -1,12 +1,12 @@
 ---
 title: "MDMA Dosage Guide: What Is a Safe Dose of Ecstasy?"
-description: "How much MDMA is safe? The evidence-based dose guide: what clinical trials use, why body weight matters, redosing rules, and the pressed pill problem."
+description: "How much molly (MDMA/ecstasy) is safe? Evidence-based dose guide: what clinical trials use, body weight rules, redosing rules, and the pressed pill problem."
 date: 2026-05-14
 tags: ["mdma", "harm reduction", "dosing", "ecstasy", "drug safety"]
-author: "Rave Wellness"
+author: "Jordan Mercer"
 ---
 
-**This mdma dosage guide starts with the most important principle: the dose that feels modest for one person can be dangerously high for another.** MDMA has non-linear pharmacokinetics, meaning a small increase in dose produces a disproportionately large increase in blood levels and adverse effects. Understanding what "a safe dose of ecstasy" actually means requires understanding that relationship, not just memorizing a number.
+**This MDMA (molly/ecstasy) dosage guide starts with the most important principle: the dose that feels modest for one person can be dangerously high for another.** MDMA has non-linear pharmacokinetics, meaning a small increase in dose produces a disproportionately large increase in blood levels and adverse effects. Understanding what "a safe dose of ecstasy" actually means requires understanding that relationship, not just memorizing a number.
 
 ## Quick answers
 

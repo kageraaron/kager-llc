@@ -1,12 +1,12 @@
 ---
 title: "How Long Does LSD Last? A Complete Timeline of the Trip"
-description: "LSD lasts 8–12 hours depending on dose. Here's the full timeline from first alert to afterglow, backed by clinical pharmacokinetics data."
+description: "LSD (acid) lasts 8–12 hours depending on dose. The full timeline from first alert to afterglow, backed by clinical pharmacokinetics data."
 date: 2026-05-13
 tags: ["lsd", "psychedelics", "harm reduction", "duration"]
-author: "Rave Wellness"
+author: "Jordan Mercer"
 ---
 
-LSD lasts **8 to 12 hours** for most recreational doses, with the peak occurring around 2–3 hours after ingestion. The most precise data comes from a clinical pharmacokinetics study ([PMID 28197931](https://pubmed.ncbi.nlm.nih.gov/28197931/)) that measured both blood levels and subjective effects in human subjects: at 100 µg, effects lasted an average of 8.2 hours; at 200 µg, they lasted 11.6 hours. What follows is a detailed breakdown of what happens at each stage.
+LSD (acid) lasts **8 to 12 hours** for most recreational doses, with the peak occurring around 2–3 hours after ingestion. The most precise data comes from a clinical pharmacokinetics study ([PMID 28197931](https://pubmed.ncbi.nlm.nih.gov/28197931/)) that measured both blood levels and subjective effects in human subjects: at 100 µg, effects lasted an average of 8.2 hours; at 200 µg, they lasted 11.6 hours. What follows is a detailed breakdown of what happens at each stage.
 
 ## Quick answers
 

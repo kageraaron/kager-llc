@@ -3,10 +3,10 @@ title: "How to Sleep After a Rave (And Is It Safe to Take Xanax or Benzos?)"
 description: "Can't sleep after rolling or a rave? Here's what's actually happening in your brain, what helps, and whether taking Xanax or a benzo to sleep is safe."
 date: 2026-05-14
 tags: ["mdma", "harm reduction", "sleep", "benzos", "stimulants", "aftercare"]
-author: "Rave Wellness"
+author: "Jordan Mercer"
 ---
 
-Sleeping after a rave is hard because your brain is still flooded with stimulant activity, and with MDMA specifically, the neurochemistry that drives wakefulness can persist long after the subjective high is gone. The good news: melatonin, magnesium, a cold dark room, and patience are usually enough. The riskier question, whether it's safe to take Xanax or a benzo, has a real, nuanced answer that depends on timing, what else you took, and what you might have forgotten you took.
+Sleeping after a rave is hard because your brain is still flooded with stimulant activity, and with MDMA (molly/ecstasy) specifically, the neurochemistry that drives wakefulness can persist long after the subjective high is gone. The good news: melatonin, magnesium, a cold dark room, and patience are usually enough. The riskier question, whether it's safe to take Xanax or a benzo, has a real, nuanced answer that depends on timing, what else you took, and what you might have forgotten you took.
 
 ## Quick answers
 

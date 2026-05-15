@@ -1,12 +1,12 @@
 ---
 title: "MDMA Supplements Protocol: Pre-Loading and Post-Loading Guide"
-description: "The evidence-graded MDMA supplements protocol: what R-ALA, magnesium, Vitamin C, and 5-HTP actually do, when to take them, and what the research honestly supports."
+description: "Molly/MDMA (ecstasy) supplements protocol: what R-ALA, magnesium, Vitamin C, and 5-HTP actually do, when to take them, and what the research supports."
 date: 2026-05-12
 tags: ["mdma", "harm reduction", "supplements", "neuroprotection", "5-htp", "alpha lipoic acid"]
-author: "Rave Wellness"
+author: "Jordan Mercer"
 ---
 
-The MDMA supplements protocol, sometimes called "pre-loading" and "post-loading", is a set of supplements taken before, during, and after MDMA use with the goal of reducing oxidative stress, limiting jaw clenching, and supporting serotonin recovery. The protocol is widely used in the harm reduction community and is mechanistically plausible, but most of the underlying evidence comes from rodent studies, not human clinical trials. No human RCTs exist for this protocol. This guide explains what each supplement does, what the evidence actually shows, and the specific timing rules that matter for safety.
+The MDMA (molly/ecstasy) supplements protocol, sometimes called "pre-loading" and "post-loading", is a set of supplements taken before, during, and after MDMA use with the goal of reducing oxidative stress, limiting jaw clenching, and supporting serotonin recovery. The protocol is widely used in the harm reduction community and is mechanistically plausible, but most of the underlying evidence comes from rodent studies, not human clinical trials. No human RCTs exist for this protocol. This guide explains what each supplement does, what the evidence actually shows, and the specific timing rules that matter for safety.
 
 ## Quick answers
 

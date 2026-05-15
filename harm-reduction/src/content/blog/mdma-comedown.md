@@ -1,12 +1,12 @@
 ---
 title: "The MDMA Comedown: Why It Happens and How to Reduce It"
-description: "MDMA comedown depression ('Blue Tuesday') is caused by temporary serotonin depletion. Here's the mechanism, the timeline, and what evidence actually supports for recovery."
+description: "Molly (MDMA/ecstasy) comedown depression ('Blue Tuesday') is caused by serotonin depletion. The mechanism, timeline, and what evidence actually supports for recovery."
 date: 2026-05-12
 tags: ["mdma", "harm reduction", "supplements", "serotonin", "comedown"]
-author: "Rave Wellness"
+author: "Jordan Mercer"
 ---
 
-The MDMA comedown, sometimes called "Blue Tuesday", is a temporary dip in mood, energy, and motivation that typically peaks one to three days after use. The primary driver is acute serotonin depletion: MDMA forces a large release of serotonin from nerve terminals, and it takes 24–72 hours or more for the brain to resynthesize adequate supplies. For most people who use MDMA occasionally, the comedown is mild and resolves within a week. For heavier or more frequent users, it can be more pronounced and last longer.
+The MDMA (molly/ecstasy) comedown, sometimes called "Blue Tuesday", is a temporary dip in mood, energy, and motivation that typically peaks one to three days after use. The primary driver is acute serotonin depletion: MDMA forces a large release of serotonin from nerve terminals, and it takes 24–72 hours or more for the brain to resynthesize adequate supplies. For most people who use MDMA occasionally, the comedown is mild and resolves within a week. For heavier or more frequent users, it can be more pronounced and last longer.
 
 ## Quick answers
 
