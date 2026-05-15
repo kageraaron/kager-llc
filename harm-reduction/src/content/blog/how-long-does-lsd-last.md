@@ -2,6 +2,7 @@
 title: "How Long Does LSD Last? A Complete Timeline of the Trip"
 description: "LSD (acid) lasts 8–12 hours depending on dose. The full timeline from first alert to afterglow, backed by clinical pharmacokinetics data."
 date: 2026-05-13
+lastmod: 2026-05-15
 tags: ["lsd", "psychedelics", "harm reduction", "duration"]
 author: "Jordan Mercer"
 ---

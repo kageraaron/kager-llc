@@ -2,6 +2,7 @@
 title: "MDMA Supplements Protocol: Pre-Loading and Post-Loading Guide"
 description: "Molly/MDMA (ecstasy) supplements protocol: what R-ALA, magnesium, Vitamin C, and 5-HTP actually do, when to take them, and what the research supports."
 date: 2026-05-12
+lastmod: 2026-05-15
 tags: ["mdma", "harm reduction", "supplements", "neuroprotection", "5-htp", "alpha lipoic acid"]
 author: "Jordan Mercer"
 ---

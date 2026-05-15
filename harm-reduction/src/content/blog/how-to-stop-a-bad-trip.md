@@ -2,6 +2,7 @@
 title: "How to Stop a Bad Trip: What Actually Works"
 description: "To stop a bad trip: change environment and music first, then diazepam 10–20 mg if needed. What works, what doesn't, and when to call 911."
 date: 2026-05-12
+lastmod: 2026-05-15
 tags: ["LSD", "psilocybin", "bad trip", "harm reduction", "psychedelics", "benzodiazepines"]
 author: "Jordan Mercer"
 ---

@@ -9,6 +9,7 @@ const blog = defineCollection({
     date: z.date(),
     tags: z.array(z.string()).optional(),
     author: z.string().default('Rave Wellness'),
+    lastmod: z.date().optional(),
   }),
 });
 

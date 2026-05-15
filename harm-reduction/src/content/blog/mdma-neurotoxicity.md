@@ -2,6 +2,7 @@
 title: "MDMA Neurotoxicity: Does Molly Cause Brain Damage?"
 description: "Does molly cause brain damage? MDMA neurotoxicity is real but dose-dependent. Evidence in moderate users is far weaker than headlines suggest."
 date: 2026-05-12
+lastmod: 2026-05-15
 tags: ["mdma", "molly", "neurotoxicity", "harm reduction", "serotonin", "brain damage"]
 author: "Jordan Mercer"
 ---

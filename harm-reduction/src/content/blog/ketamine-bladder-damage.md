@@ -2,6 +2,7 @@
 title: "Ketamine Bladder Damage: What K-Cramps Actually Mean"
 description: "Ketamine (K, special K) bladder damage causes severe pain and can lead to permanent organ loss. Learn the symptoms, mechanism, and how to protect yourself."
 date: 2026-05-13
+lastmod: 2026-05-15
 tags: ["ketamine", "harm reduction", "bladder damage"]
 author: "Jordan Mercer"
 ---

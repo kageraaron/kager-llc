@@ -2,6 +2,7 @@
 title: "MDMA and Antidepressants (SSRIs/SNRIs): What Actually Happens?"
 description: "Can you take molly (MDMA/ecstasy) on antidepressants? SSRIs blunt the roll, SNRIs raise cardiac risk, and MAOIs are life-threatening. Here's the evidence."
 date: 2026-05-12
+lastmod: 2026-05-15
 tags: ["MDMA", "SSRIs", "drug interactions", "harm reduction", "serotonin syndrome"]
 author: "Jordan Mercer"
 ---

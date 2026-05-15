@@ -2,6 +2,7 @@
 title: "GHB and Alcohol: Why This Combination Kills"
 description: "Mixing GHB (G, liquid G) and alcohol is one of the most dangerous rave combinations. Here's the pharmacology, the real overdose risk, and how to stay alive."
 date: 2026-05-14
+lastmod: 2026-05-15
 tags: ["ghb", "alcohol", "harm reduction", "overdose", "drug interactions"]
 author: "Jordan Mercer"
 ---

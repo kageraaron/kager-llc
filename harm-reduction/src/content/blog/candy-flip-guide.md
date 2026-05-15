@@ -2,6 +2,7 @@
 title: "Candy Flip (MDMA + LSD): Risks, Timing, and How to Do It Safer"
 description: "A candy flip combines MDMA and LSD for a 12–18 hour experience. Here's the timing rationale, the real risks, and practical harm reduction for both substances."
 date: 2026-05-12
+lastmod: 2026-05-15
 tags: ["mdma", "lsd", "drug combinations", "harm reduction", "candy flip", "serotonin"]
 author: "Jordan Mercer"
 ---

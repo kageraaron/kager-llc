@@ -2,6 +2,7 @@
 title: "How to Test Your MDMA: A Complete Drug Checking Guide"
 description: "Testing molly (MDMA/ecstasy) with reagent kits and fentanyl strips can prevent overdose and adulterant exposure. Here's exactly how to do it, step by step."
 date: 2026-05-13
+lastmod: 2026-05-15
 tags: ["mdma", "test kits", "drug checking", "harm reduction", "fentanyl"]
 author: "Jordan Mercer"
 ---

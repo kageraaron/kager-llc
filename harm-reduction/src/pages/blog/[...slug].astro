@@ -24,7 +24,7 @@ const schemaJson = JSON.stringify({
       "headline": post.data.title,
       "description": post.data.description,
       "datePublished": post.data.date.toISOString(),
-      "dateModified": post.data.date.toISOString(),
+      "dateModified": (post.data.lastmod ?? post.data.date).toISOString(),
       "url": canonical,
       "image": "https://www.ravewellness.org/android-chrome-512x512.png",
       "author": post.data.author === 'Jordan Mercer'

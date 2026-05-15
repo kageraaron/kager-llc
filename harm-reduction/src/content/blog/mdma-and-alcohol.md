@@ -2,6 +2,7 @@
 title: "Mixing MDMA and Alcohol: What Actually Happens"
 description: "Mixing molly (MDMA/ecstasy) and alcohol significantly raises hyperthermia risk. Here's the mechanism, the specific dangers, and what to do instead."
 date: 2026-05-13
+lastmod: 2026-05-15
 tags: ["mdma", "alcohol", "interactions", "harm reduction"]
 author: "Jordan Mercer"
 ---
