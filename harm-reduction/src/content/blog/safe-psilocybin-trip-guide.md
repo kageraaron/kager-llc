@@ -1,6 +1,6 @@
 ---
-title: "How to Have a Safe Psilocybin Trip: Set, Setting, and Dosing"
-description: "A practical guide to shrooms (psilocybin/magic mushrooms): how to dose your first time, prepare set and setting, and handle a difficult trip."
+title: "How to Avoid a Bad Trip on Shrooms: Set, Setting, and Dosing"
+description: "How to avoid a bad trip on psilocybin: the set, setting, and dosing checklist for first-timers, plus what to do if a difficult experience starts anyway."
 date: 2026-05-13
 lastmod: 2026-05-15
 tags: ["psilocybin", "mushrooms", "psychedelics", "harm reduction"]

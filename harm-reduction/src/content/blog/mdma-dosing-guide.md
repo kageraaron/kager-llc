@@ -1,6 +1,6 @@
 ---
-title: "MDMA Dosage Guide: What Is a Safe Dose of Ecstasy?"
-description: "How much molly (MDMA/ecstasy) is safe? Evidence-based dose guide: what clinical trials use, body weight rules, redosing rules, and the pressed pill problem."
+title: "MDMA Dosage Guide: What Is a Safe Dose of Molly or Ecstasy?"
+description: "How much molly is a safe dose? Evidence-based MDMA dosage guide: clinical trial doses, body weight rules, redosing rules, and the pressed pill problem."
 date: 2026-05-14
 lastmod: 2026-05-15
 tags: ["mdma", "harm reduction", "dosing", "ecstasy", "drug safety"]

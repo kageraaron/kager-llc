@@ -123,7 +123,7 @@ This creates two concerns:
 1. **Potentiation of MDMA's effects**: MAO-B inhibition can amplify and prolong MDMA's monoaminergic effects unpredictably, making dose titration unreliable.
 2. **Elevated risk of serotonin toxicity**: especially if any other serotonergic agents are involved.
 
-EGCG is controversial in harm reduction circles for exactly this reason. Until better data exists, it is best omitted from the protocol unless you have specific experience with it and understand the interaction.
+EGCG is controversial in harm reduction circles for exactly this reason. Until better data exists, it is best omitted from the protocol. For the full pharmacology — including why the serotonin syndrome concern is overstated and what the actual mechanism of concern is — see the [MDMA and green tea extract guide](/blog/mdma-green-tea-extract-egcg).
 
 ---
 

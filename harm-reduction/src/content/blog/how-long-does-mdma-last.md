@@ -1,6 +1,6 @@
 ---
-title: "How Long Does MDMA Last? The Full Timeline from Onset to Comedown"
-description: "MDMA (molly/ecstasy) main effects last 3–5 hours; comedown extends to 24 hours. Full timeline from first alert to afterglow with pharmacokinetics data."
+title: "How Long Does a Molly High Last? Full MDMA Timeline from Onset to Comedown"
+description: "How long does molly last? Main effects run 3–5 hours, peak at 60–90 min. Full onset-to-comedown timeline and what affects duration."
 date: 2026-05-15
 lastmod: 2026-05-15
 tags: ["mdma", "molly", "ecstasy", "harm reduction", "duration", "timeline"]
