@@ -136,7 +136,7 @@ All of these are available in [DanceSafe's complete 9-kit set](https://dancesafe
 
 Testing is step one — it narrows the field but doesn't guarantee purity or dose. Once you have a result:
 
-- **Start with half a pill.** Wait a full 90 minutes before deciding whether to redose. MDMA takes longer to peak than people expect, especially on a full stomach.
+- **Harm reduction guidelines suggest starting with half a pill.** Wait a full 90 minutes before deciding whether to take more. MDMA takes longer to peak than people expect, especially on a full stomach.
 - **If effects feel "off" — too much stimulation, not enough warmth, effects fading fast then nothing**: this is consistent with a cathinone substitution. Do not redose. The stimulant effects may persist for hours.
 - **Don't mix with alcohol or other substances** — especially relevant if testing was inconclusive. See our [interaction checker](/interactions.html) for specific combinations.
 - **Stay hydrated but don't overdrink** — 250–500 mL of water per hour if dancing; less if not active.

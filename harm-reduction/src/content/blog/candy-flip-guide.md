@@ -13,11 +13,11 @@ A candy flip, combining MDMA (ecstasy/molly) with LSD, is one of the most sought
 
 **Is a candy flip safe?** No drug combination is "safe," but a candy flip is manageable with careful planning. The primary concerns are cumulative serotonergic load, cardiovascular strain over a very long duration, hyperthermia, and the psychological intensity of the combined peak. The risk profile is meaningfully higher than either substance alone.
 
-**What is the candy flip timing?** The standard harm reduction practice is to take LSD first, then take MDMA **3–4 hours into the LSD trip**: roughly when the LSD plateau begins. This aligns the two peaks so the MDMA doesn't arrive during the LSD come-up (when effects are unpredictable) or wear off before LSD does (leaving you tripping without the MDMA effect).
+**What is the candy flip timing?** The most commonly described timing in harm reduction contexts is to dose LSD first, with MDMA introduced **3–4 hours into the LSD trip**: roughly when the LSD plateau begins. This aligns the two peaks so the MDMA doesn't arrive during the LSD come-up (when effects are unpredictable) or wear off before LSD does.
 
 **How long does a candy flip last?** Expect 12–18 hours total, depending on LSD dose. LSD itself runs 8–12 hours; MDMA extends the experience and the combined comedown.
 
-**How much MDMA should you take for a candy flip?** The harm reduction ceiling is **75 mg or less**: well below a typical standalone dose. LSD potentiates MDMA's serotonergic effects, and some users find a lower-than-usual MDMA dose still produces a strong combined effect.
+**What MDMA dose is used for a candy flip?** Harm reduction guidelines point to **75 mg or less** — well below a typical standalone dose. LSD potentiates MDMA's serotonergic effects, and many people find a lower-than-usual MDMA dose still produces a strong combined effect.
 
 **Can you redose on a candy flip?** Redosing either substance during a candy flip is one of the higher-risk decisions you can make. See the redosing section below.
 
@@ -144,8 +144,8 @@ For 5-HTP supplementation after a candy flip, follow the same timing rule as for
 A candy flip is a high-intensity, long-duration experience that amplifies both the appeal and the risk profile of each constituent substance. The key harm reduction principles are specific and non-negotiable:
 
 - **Test both substances** before the event, Ehrlich for LSD (rules out NBOMe compounds), Marquis + fentanyl strips for MDMA
-- **Cap MDMA at 75 mg**: the combined serotonergic effect makes this adequate and higher doses meaningfully riskier
-- **Time MDMA at 3–4 hours into the LSD trip**: not at the same time
+- **Harm reduction guidelines cap MDMA at 75 mg**: the combined serotonergic effect makes this adequate and higher doses meaningfully riskier
+- **MDMA is typically timed 3–4 hours into the LSD trip**: not simultaneously
 - **Plan for 12–18 hours** and arrange accordingly: sober sitter, cool environment, no next-day obligations
 - **Manage temperature and hydration actively** throughout, not just when you feel bad
 - **Do not redose either substance**

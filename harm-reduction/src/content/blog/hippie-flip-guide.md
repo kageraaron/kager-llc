@@ -59,14 +59,14 @@ If you see clonus or muscle rigidity that won't release, treat it as a medical e
 
 The hippie flip timing question has a clear harm reduction rationale, not just tradition.
 
-**The recommended approach: mushrooms first, MDMA at T+60–90 minutes.**
+**The most common approach described in harm reduction contexts: mushrooms first, MDMA at T+60–90 minutes.**
 
-Take the mushrooms at the start of the session. Wait until you can clearly feel them coming on, typically 60–90 minutes in, then take MDMA. This approach has two advantages:
+People who use this combination typically take mushrooms at the start of the session, wait until the onset is clearly felt (typically 60–90 minutes), then introduce MDMA. This approach has two advantages:
 
 1. **You assess the mushroom dose before adding MDMA.** Mushroom potency is variable. Waiting an hour shows you where this batch is taking you before you commit to adding MDMA on top.
 2. **The MDMA peak aligns with the mushroom peak.** Psilocybin's peak effects typically arrive 90–150 minutes after ingestion. Dosing MDMA at T+60–90 means its peak (arriving 60–90 minutes later) coincides with the psilocybin plateau.
 
-**Alternative: take both at T+0.** This produces simultaneous onset but removes the ability to gauge the mushroom dose before adding MDMA. If this is your first hippie flip, this approach carries more uncertainty.
+**Alternative: some people take both simultaneously at T+0.** This produces simultaneous onset but removes the ability to gauge the mushroom dose before MDMA is already present. If this is your first hippie flip, this approach carries more uncertainty.
 
 **What to avoid: MDMA first, then mushrooms.** Psilocybin coming on into an already-active MDMA session is harder to manage. The stimulant properties of MDMA make it more difficult to settle into a psychedelic headspace if the mushrooms arrive late, and the come-down asymmetry (mushrooms still peaking when MDMA is declining) is less predictable.
 

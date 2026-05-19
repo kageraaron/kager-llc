@@ -154,6 +154,6 @@ Magnesium addresses the pharmacological driver. These approaches address other a
 
 ## Key takeaway
 
-Magnesium glycinate is the most mechanistically justified supplement in the MDMA harm reduction toolkit, specifically because NMDA receptor antagonism and reduced calcium-mediated neuromuscular excitability directly address how MDMA drives jaw clenching. No human RCT has tested this combination, but the pharmacology is established and real-world evidence across the harm reduction community is consistent. Pre-load with 400–800mg of magnesium glycinate starting the night before, not the hour before, and take a top-up dose mid-session if needed.
+Magnesium glycinate is the most mechanistically justified supplement in the MDMA harm reduction toolkit, specifically because NMDA receptor antagonism and reduced calcium-mediated neuromuscular excitability directly address how MDMA drives jaw clenching. No human RCT has tested this combination, but the pharmacology is established and real-world evidence across the harm reduction community is consistent. People using this protocol typically pre-load with 400–800mg of magnesium glycinate starting the night before (not the hour before), with an optional top-up during the session.
 
 For the full MDMA supplement protocol including R-ALA, Vitamin C, and 5-HTP timing, see our [MDMA supplements protocol guide](/blog/mdma-supplements-protocol.html). For a complete overview of MDMA risks, dosing, and harm reduction, see our [MDMA harm reduction guide](/mdma.html).

@@ -15,7 +15,7 @@ author: "Jordan Mercer"
 
 **How much MDMA is too much?** There is no universal threshold, but doses above 150 mg substantially increase cardiovascular strain, hyperthermia risk, and potential for serotonergic toxicity. Because of non-linear pharmacokinetics, going from 100 mg to 150 mg is not a 50% increase in effect, it produces a much steeper rise in plasma concentration. Many pressed pills contain 150–250 mg per pill, which exceeds the recreational dose before you've even redosed.
 
-**Should I redose?** At most once, at half the original dose (40–60 mg), no earlier than 90 minutes after the first dose. More than one redose significantly extends duration, increases total drug exposure, worsens the next-day comedown, and amplifies adverse effects. The active metabolite MDA has a longer half-life and peaks later, meaning you may not feel a second redose fully until it's already compounded.
+**Do people redose?** Harm reduction guidelines suggest at most once, at half the original dose (40–60 mg), no earlier than 90 minutes after the first dose. More than one redose significantly extends duration, increases total drug exposure, worsens the next-day comedown, and amplifies adverse effects. The active metabolite MDA has a longer half-life and peaks later, meaning you may not feel a second redose fully until it's already compounded.
 
 **How do I know what's in my pill?** You don't, without testing. Reagent testing and fentanyl test strips are essential, see [our drug testing guide](/test-kits.html).
 
@@ -47,7 +47,7 @@ The community harm reduction standard for MDMA dosing is **1–1.5 mg/kg body we
 
 This guideline is not RCT-validated, it comes from clinical pharmacology reasoning and community experience, not a randomized controlled trial. What it does reflect is the general principle that pharmacological effects scale with body mass, and that there's a ceiling above which the risk-benefit ratio deteriorates.
 
-**First-time ecstasy dose**: start at 75 mg or the low end of the weight-based range, whichever is lower. You can always take more; you cannot undo having taken too much. First experiences often feel more intense because there is no prior tolerance, and anxiety itself can amplify cardiovascular effects.
+**First-time ecstasy dose**: harm reduction guidelines suggest 75 mg or the low end of the weight-based range, whichever is lower. You can always take more; you cannot undo having taken too much. First experiences often feel more intense because there is no prior tolerance, and anxiety itself can amplify cardiovascular effects.
 
 ---
 

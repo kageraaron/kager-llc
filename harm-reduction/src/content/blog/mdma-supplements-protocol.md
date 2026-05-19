@@ -17,7 +17,7 @@ The MDMA (molly/ecstasy) supplements protocol, sometimes called "pre-loading" an
 
 **Does alpha lipoic acid protect against MDMA neurotoxicity?** In rat studies, yes, injected ALA fully prevented serotonergic deficits. In humans, the evidence is zero. The mechanism is plausible, but oral bioavailability is substantially lower than the injected doses used in animal research.
 
-**Should I take magnesium for jaw clenching on MDMA?** Yes, this is the strongest human-relevant application in the protocol. Magnesium acts as a calcium channel blocker and muscle relaxant, and the mechanistic rationale for reducing bruxism is solid. Take magnesium glycinate before and during.
+**Does magnesium help with jaw clenching on MDMA?** Yes, this is the strongest human-relevant application in the protocol. Magnesium acts as a calcium channel blocker and muscle relaxant, and the mechanistic rationale for reducing bruxism is solid. People using this protocol typically take magnesium glycinate before and during the experience.
 
 **Is EGCG (green tea extract) part of the protocol?** EGCG is sometimes included, but it has a meaningful drug interaction concern: it inhibits MAO-B, which can potentiate MDMA's effects unpredictably. It is controversial and best avoided unless you understand the specific risk.
 

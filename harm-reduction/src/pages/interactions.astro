@@ -113,7 +113,7 @@ const schemaJson  = `{
         <div class="section-header" style="margin-bottom: 16px;">
           <div class="step-pill">Harm reduction tool</div>
           <h1>Drug interaction checker</h1>
-          <p class="section-sub">Select any two substances to see the interaction risk, mechanism, and harm reduction guidance. Evidence-based, cited where possible.</p>
+          <p class="section-sub">Select two or more substances to see all pairwise interaction risks, mechanisms, and harm reduction guidance. Evidence-based, cited where possible.</p>
         </div>
         <div class="during-warning" style="max-width: 720px; margin: 0 auto 40px;">
           <strong>Important:</strong> This tool covers known interactions, an absent entry doesn't mean a combination is safe. When in doubt, research both substances independently and err on the side of caution. This is not medical advice.
@@ -215,33 +215,38 @@ const schemaJson  = `{
             Poppers
             <span class="tile-aka">Rush / Amyl / Jungle Juice</span>
           </button>
+          <button class="substance-tile" data-id="nicotine">
+            <span class="tile-emoji">🚬</span>
+            Nicotine
+            <span class="tile-aka">Cigarettes / Vapes / Nic</span>
+          </button>
+          <button class="substance-tile" data-id="dmt">
+            <span class="tile-emoji">🌀</span>
+            DMT
+            <span class="tile-aka">Changa / Ayahuasca</span>
+          </button>
+          <button class="substance-tile" data-id="opioids">
+            <span class="tile-emoji">🌸</span>
+            Opioids
+            <span class="tile-aka">Heroin / Oxy / Fentanyl</span>
+          </button>
+          <button class="substance-tile" data-id="mescaline">
+            <span class="tile-emoji">🌵</span>
+            Mescaline
+            <span class="tile-aka">Peyote / San Pedro</span>
+          </button>
+          <button class="substance-tile" data-id="viagra">
+            <span class="tile-emoji">🫀</span>
+            Viagra / PDE5i
+            <span class="tile-aka">Sildenafil / Cialis / Levitra</span>
+          </button>
         </div>
 
         <div class="checker-status" id="checkerStatus">
-          <span>Select two substances above</span>
+          <span>Select two or more substances above</span>
         </div>
 
-        <div id="interaction-result">
-          <div class="interaction-card" id="interactionCard">
-            <span class="sev-badge" id="sevBadge"></span>
-            <h2 id="cardTitle"></h2>
-            <div class="ic-section">
-              <div class="ic-label">Summary</div>
-              <p id="cardSummary"></p>
-            </div>
-            <div class="ic-section">
-              <div class="ic-label">Mechanism</div>
-              <p id="cardMechanism"></p>
-            </div>
-            <div class="ic-section">
-              <div class="ic-label">Harm Reduction</div>
-              <p id="cardAdvice"></p>
-            </div>
-            <div class="emergency-box" id="emergencyBox" style="display:none;">
-              🚨 If someone is experiencing symptoms, seizures, loss of consciousness, difficulty breathing, extreme agitation, or rapid/irregular heart rate, call emergency services immediately.
-            </div>
-          </div>
-        </div>
+        <div id="interaction-result"></div>
 
       </div>
     </section>
@@ -431,7 +436,13 @@ const schemaJson  = `{
       '2cb': '2C-B',
       lithium: 'Lithium',
       ghb: 'GHB / GBL',
-      tramadol: 'Tramadol'
+      tramadol: 'Tramadol',
+      poppers: 'Poppers',
+      nicotine: 'Nicotine',
+      dmt: 'DMT',
+      opioids: 'Opioids',
+      mescaline: 'Mescaline',
+      viagra: 'Viagra / PDE5 inhibitors'
     };
 
     function key(a, b) { return [a, b].sort().join('+'); }
@@ -488,7 +499,7 @@ const schemaJson  = `{
         title: 'MDMA + Cannabis',
         summary: 'Very common festival combination. Cannabis can intensify the psychedelic character of MDMA and amplify anxiety. Timing matters significantly, cannabis at the MDMA peak is riskier than during the comedown.',
         mechanism: 'THC amplifies serotonergic effects and sensory processing through CB1 receptor activation. At MDMA peak, this can push an already-intense experience toward anxiety or panic, particularly in less-experienced users or with high-THC products.',
-        advice: 'Wait until after the MDMA peak (T+2–3hrs) to use cannabis. Start with a small amount, a single low-THC puff rather than a concentrate. Avoid if prone to cannabis-induced anxiety.',
+        advice: 'Many people wait until after the MDMA peak (T+2–3hrs) before adding cannabis. Use a small amount — a single low-THC puff rather than a concentrate. Avoid if prone to cannabis-induced anxiety.',
         emergency: false
       },
       [key('mdma','ketamine')]: {
@@ -524,7 +535,7 @@ const schemaJson  = `{
         title: 'MDMA + 2C-B ("Nexus Flip")',
         summary: 'The nexus flip: taking 2C-B as the MDMA comedown begins. Designed to extend the peak. Combined serotonergic and psychedelic activity is very intense with significant cardiovascular demands.',
         mechanism: '2C-B acts as a 5-HT2A/2C agonist and partial agonist. Added to MDMA\'s serotonin release, receptor activation is high. If taken simultaneously rather than timed, intensity can be overwhelming.',
-        advice: 'Take 2C-B at the MDMA comedown (T+3–4hrs), not simultaneously. Keep 2C-B oral dose at 12–15mg or lower. Not recommended for inexperienced users. Have a sober sitter.',
+        advice: 'People typically introduce 2C-B at the MDMA comedown (T+3–4hrs) rather than simultaneously. Harm reduction practice suggests oral 2C-B at 12–15mg or lower. Not advisable for inexperienced users. Have a sober sitter.',
         emergency: false
       },
       [key('mdma','amphetamine')]: {
@@ -579,7 +590,7 @@ const schemaJson  = `{
         title: 'LSD + MAOIs',
         summary: 'MAOIs significantly potentiate LSD, potentially causing an experience many times more intense than expected at the same dose. Duration is also extended substantially. Even tiny doses can become overwhelming.',
         mechanism: 'MAOIs inhibit breakdown of serotonin and may reduce LSD metabolism, leading to dramatically higher effective concentrations. The experience can become unmanageable even at doses normally considered moderate.',
-        advice: 'Avoid. If on prescribed MAOIs, do not use psychedelics. If combining (intentionally in ceremonial contexts), start with 1/10th of a normal dose and have an experienced sitter.',
+        advice: 'Avoid. If on prescribed MAOIs, do not use psychedelics. In traditional ceremonial contexts, practitioners work with fractions of what might be considered a recreational dose, always with an experienced guide present.',
         emergency: false
       },
       [key('lsd','psilocybin')]: {
@@ -851,7 +862,7 @@ const schemaJson  = `{
         advice: 'Use very small amounts of GHB if combining. Avoid redosing GHB, its half-life means doses stack rapidly. Have a sober person present.',
         emergency: false
       },
-      [key('ghb','opioid')]: {
+      [key('ghb','opioids')]: {
         severity: 'danger',
         label: 'DANGER, Respiratory arrest',
         title: 'GHB + Opioids',
@@ -925,6 +936,393 @@ const schemaJson  = `{
         mechanism: 'CB1 activation by THC elevates resting heart rate. Cocaine\'s catecholamine effects add to this. In people with existing cardiovascular sensitivity, the combination can trigger arrhythmias.',
         advice: 'Limit cannabis use when using cocaine. Avoid concentrates or high-THC products. Be attentive to chest discomfort, it warrants stopping both substances and seeking medical assessment.',
         emergency: false
+      },
+
+      [key('nicotine','mdma')]: {
+        severity: 'moderate',
+        label: 'MODERATE, Vasoconstriction worsens heat risk',
+        title: 'Nicotine + MDMA',
+        summary: 'One of the most common festival combinations. Both are cardiovascular stimulants. Nicotine adds peripheral vasoconstriction and heart rate elevation on top of MDMA\'s already significant cardiovascular burden — and vasoconstriction directly impairs the skin-based heat dissipation that prevents hyperthermia, MDMA\'s primary acute risk.',
+        mechanism: 'Nicotine stimulates nicotinic acetylcholine receptors, releasing norepinephrine and dopamine. This compounds MDMA\'s monoamine release. Crucially, nicotine-induced peripheral vasoconstriction narrows skin blood vessels, reducing the body\'s ability to radiate heat outward — worsening MDMA\'s thermoregulatory impairment.',
+        advice: 'Minimize smoking or vaping while dancing on MDMA. The vasoconstriction effect is worst during peak MDMA effects and physical exertion. Step off the floor, cool down, and rehydrate before and after any nicotine use.',
+        emergency: false
+      },
+      [key('nicotine','cocaine')]: {
+        severity: 'moderate',
+        label: 'MODERATE, Compounded vasoconstriction',
+        title: 'Nicotine + Cocaine',
+        summary: 'Both cocaine and nicotine cause vasoconstriction. Combined, coronary artery constriction risk is elevated. Cocaine-induced coronary spasm plus nicotine-induced vasoconstriction raises cardiac event risk, particularly in people with underlying cardiovascular sensitivity.',
+        mechanism: 'Cocaine blocks norepinephrine reuptake, causing alpha-adrenergic vasoconstriction and coronary spasm. Nicotine independently triggers catecholamine release and peripheral vasoconstriction. Additive vasoconstrictive and cardiac burden is higher than either alone.',
+        advice: 'Avoid heavy nicotine use alongside cocaine. Be attentive to chest discomfort, jaw pain, or shortness of breath — these warrant stopping both and seeking medical assessment.',
+        emergency: false
+      },
+      [key('nicotine','amphetamine')]: {
+        severity: 'moderate',
+        label: 'MODERATE, Additive cardiovascular stimulation',
+        title: 'Nicotine + Amphetamines',
+        summary: 'Both are stimulants that elevate heart rate and blood pressure through catecholamine pathways. The combination is common among people taking prescription amphetamines (Adderall, Vyvanse) who also smoke or vape.',
+        mechanism: 'Additive norepinephrine and dopamine release from both compounds compounds cardiovascular demand. Heart rate and blood pressure elevation is pharmacodynamically additive.',
+        advice: 'If on prescription amphetamines and noticing elevated heart rate or blood pressure, reducing nicotine intake is the most accessible lever. Avoid smoking heavily during the peak of stimulant effect.',
+        emergency: false
+      },
+      [key('nicotine','alcohol')]: {
+        severity: 'low',
+        label: 'LOW RISK, Minor interaction',
+        title: 'Nicotine + Alcohol',
+        summary: 'Very common combination. Alcohol mildly increases nicotine\'s rewarding effects through cross-sensitization of reward pathways — which is partly why the two co-occur so frequently. The physiological interaction is modest at typical doses.',
+        mechanism: 'Alcohol enhances nicotinic acetylcholine receptor sensitivity in reward circuits, slightly increasing nicotine\'s subjective effects. Some evidence suggests alcohol mildly slows nicotine metabolism via CYP2A6 inhibition.',
+        advice: 'Short-term interaction risk is low. The main concern is behavioral: heavy drinking tends to increase cigarette or vape consumption, which has its own respiratory and cardiovascular consequences over time.',
+        emergency: false
+      },
+      [key('nicotine','cannabis')]: {
+        severity: 'low',
+        label: 'LOW RISK, Minor pharmacological interaction',
+        title: 'Nicotine + Cannabis',
+        summary: 'Commonly combined, particularly in countries where tobacco-cannabis mixtures are common. No significant pharmacokinetic interaction. The main harm concern is the tobacco combustion products, not the nicotine-cannabis pharmacology.',
+        mechanism: 'Endocannabinoid system modulates nicotinic receptor sensitivity modestly. No significant pharmacokinetic interaction between the two compounds has been established.',
+        advice: 'If smoking cannabis mixed with tobacco, the tobacco itself (not the nicotine-cannabis interaction) is the primary respiratory and addiction risk. Using a vaporizer eliminates combustion byproducts.',
+        emergency: false
+      },
+      [key('nicotine','caffeine')]: {
+        severity: 'low',
+        label: 'LOW RISK, Mild additive stimulation',
+        title: 'Nicotine + Caffeine',
+        summary: 'Extremely common combination. Both are mild stimulants with cardiovascular effects. At typical doses the combination is well-tolerated. At very high doses of both — multiple energy drinks plus heavy nicotine use — cardiovascular burden becomes more meaningful.',
+        mechanism: 'Caffeine blocks adenosine receptors (mild sympathomimetic). Nicotine stimulates catecholamine release. Combined cardiovascular stimulation — heart rate and blood pressure — is mildly additive.',
+        advice: 'At typical daily use levels, risk is low. At very high combined doses (energy drinks + chain-vaping), be mindful of elevated heart rate and anxiety. Reduce one or both if feeling overstimulated.',
+        emergency: false
+      },
+      [key('nicotine','maoi')]: {
+        severity: 'low',
+        label: 'LOW RISK, Slowed nicotine metabolism',
+        title: 'Nicotine + MAOIs',
+        summary: 'MAO-B is involved in nicotine metabolism. MAOIs slow nicotine breakdown, which is one reason some MAOIs have been studied for smoking cessation. This is a mild interaction relevant mainly at high nicotine doses or with irreversible MAOIs.',
+        mechanism: 'Nicotine is metabolized primarily by CYP2A6, with MAO-B contributing. MAOI inhibition of MAO-B slows a secondary nicotine metabolic pathway, mildly increasing nicotine exposure per cigarette or vape session.',
+        advice: 'If on prescribed MAOIs and smoking or vaping, nicotine effects may be slightly stronger than usual. No specific action required at normal nicotine doses, but avoid unusually high nicotine intake.',
+        emergency: false
+      },
+      [key('nicotine','ketamine')]: {
+        severity: 'low',
+        label: 'LOW RISK, Minor interaction',
+        title: 'Nicotine + Ketamine',
+        summary: 'No significant direct pharmacological interaction. Nicotine adds mild cardiovascular stimulation; ketamine adds dissociative cardiovascular sympathomimetic effects. Both elevate heart rate and blood pressure mildly.',
+        mechanism: 'Nicotinic receptor stimulation by nicotine causes mild catecholamine release. Ketamine\'s sympathomimetic effects are primarily NMDA-related. No significant pharmacokinetic interaction.',
+        advice: 'The main practical concern is smoking or vaping while in a ketamine-altered state — coordination impairment increases burn and accident risk. Use caution if combining.',
+        emergency: false
+      },
+      [key('nicotine','ghb')]: {
+        severity: 'low',
+        label: 'LOW RISK, Minor interaction',
+        title: 'Nicotine + GHB / GBL',
+        summary: 'No significant direct pharmacological interaction between nicotine and GHB. Nicotine\'s stimulant effects may partially mask GHB\'s sedation, making it slightly harder to gauge intoxication depth.',
+        mechanism: 'GHB\'s CNS depressant effects (GABA-B agonism) and nicotine\'s mild stimulant effects work in opposing directions at the receptor level without significant pharmacokinetic interaction.',
+        advice: 'The masking concern is the practical issue: nicotine\'s stimulation can make GHB sedation less apparent, leading to accidental redosing of GHB. Dose GHB conservatively and avoid relying on how alert you feel.',
+        emergency: false
+      },
+
+      // — DMT —
+      [key('dmt','maoi')]: {
+        severity: 'danger',
+        label: 'DANGER, Serotonin syndrome / massively prolonged experience',
+        title: 'DMT + MAOIs',
+        summary: 'MAOIs are the pharmacological basis of ayahuasca — harmaline/harmine (reversible MAO-A inhibitors) in the brew prevent gut and liver destruction of oral DMT. With prescription irreversible MAOIs (phenelzine, tranylcypromine), this combination is extremely dangerous: serotonin syndrome risk is high, the duration extends unpredictably to many hours, and the intensity is far beyond what smoked DMT produces.',
+        mechanism: 'DMT is orally inactive because gut and liver MAO-A destroys it before it reaches circulation. MAO-A inhibition bypasses this, allowing full oral bioavailability. Combined with DMT\'s 5-HT2A agonism and MAOI-mediated elevation of synaptic serotonin, the serotonergic load can reach dangerous levels. Irreversible MAOIs have a 2-week washout period during which any serotonergic substance is high risk.',
+        advice: 'Do not combine DMT with prescription MAOIs. Traditional ayahuasca ceremonies use carefully calibrated reversible MAO-A inhibitors — this is not the same as taking DMT while on prescribed phenelzine or tranylcypromine. If you are on a prescribed MAOI, DMT in any form is contraindicated.',
+        emergency: true
+      },
+      [key('dmt','mdma')]: {
+        severity: 'caution',
+        label: 'HIGH RISK, Serotonergic overload',
+        title: 'DMT + MDMA',
+        summary: 'Both are potent serotonergic compounds. MDMA causes a massive non-vesicular serotonin flood via SERT reversal. DMT is a 5-HT2A agonist that also has some affinity for serotonin transporters. Combined, the serotonergic load elevates serotonin syndrome risk and the cardiovascular burden (hyperthermia, tachycardia) from MDMA is unchanged.',
+        mechanism: 'MDMA drives synaptic serotonin to extremely high levels via SERT reversal. DMT activates 5-HT2A and 5-HT2C receptors — which MDMA\'s serotonin flood also overstimulates. The psychedelic intensity of DMT is substantially amplified, and serotonin syndrome diagnostic criteria (clonus, hyperthermia, agitation) overlap with MDMA toxicity, making recognition difficult.',
+        advice: 'Avoid this combination. If both are used, do not redose either substance. Have a sober sitter. Know the signs of serotonin syndrome: rapid heartbeat, high temperature, muscle twitching, agitation. Seek emergency care if these develop.',
+        emergency: false
+      },
+      [key('dmt','lithium')]: {
+        severity: 'caution',
+        label: 'HIGH RISK, Seizure risk',
+        title: 'DMT + Lithium',
+        summary: 'Lithium combined with serotonergic psychedelics (LSD, psilocybin) is documented to cause seizures and cardiac arrhythmia in multiple case reports. The same mechanism applies to DMT: lithium potentiates serotonergic activity and lowers seizure threshold, creating serious risk when combined with any 5-HT2A agonist.',
+        mechanism: 'Lithium augments serotonin neurotransmission and modulates glutamate signaling. Combined with DMT\'s 5-HT2A agonism, it can produce excessive neuronal excitability. Case reports of LSD+lithium seizures (the closest analogue) include grand mal seizures with cardiac complications.',
+        advice: 'Do not combine DMT with lithium. If you are prescribed lithium for bipolar disorder, all serotonergic psychedelics including DMT are contraindicated. Discuss any psychedelic use with your prescriber.',
+        emergency: false
+      },
+      [key('dmt','ssri')]: {
+        severity: 'moderate',
+        label: 'MODERATE, Blunted effects + serotonin concern',
+        title: 'DMT + SSRIs / SNRIs',
+        summary: 'Chronic SSRI use downregulates 5-HT2A receptors — the primary target of DMT\'s psychedelic action. Effects will be significantly blunted. Some serotonin syndrome risk exists from combining a direct 5-HT2A agonist with a serotonin reuptake inhibitor, particularly at higher DMT doses or with SNRIs.',
+        mechanism: 'SSRIs chronically reduce 5-HT2A receptor density through downregulation. DMT\'s psychedelic effect depends on 5-HT2A activation, so fewer receptors means less effect. However, SSRIs also elevate synaptic serotonin — adding DMT\'s serotonergic activity on top raises the overall serotonergic tone.',
+        advice: 'Blunted effects may tempt redosing — this increases risk without reliably restoring the experience. The serotonin concern is real at high doses. Do not combine SNRIs (which also block norepinephrine reuptake) with DMT without understanding the elevated risk profile.',
+        emergency: false
+      },
+      [key('dmt','psilocybin')]: {
+        severity: 'moderate',
+        label: 'MODERATE, Intensified psychedelic experience',
+        title: 'DMT + Psilocybin',
+        summary: 'Both act primarily at 5-HT2A receptors. Combining them produces a dramatically intensified psychedelic experience with largely unpredictable character. No specific dangerous pharmacological interaction beyond additive serotonergic load, but psychological overwhelm and loss of ability to signal distress is the primary risk.',
+        mechanism: 'Psilocin (the active metabolite of psilocybin) and DMT both agonize 5-HT2A. Additive receptor activation produces a more intense experience than either alone. Psilocybin\'s 4–6 hour duration means DMT is added on top of an ongoing psychedelic state.',
+        advice: 'If combining, use significantly reduced doses of each. Have an experienced, sober sitter. Ensure a controlled setting. The combined experience will be more intense and less predictable than either substance alone — plan accordingly.',
+        emergency: false
+      },
+      [key('dmt','cannabis')]: {
+        severity: 'low',
+        label: 'LOW–MODERATE, Intensification and destabilization',
+        title: 'DMT + Cannabis',
+        summary: 'Cannabis combined with psychedelics reliably intensifies and can destabilize the experience. DMT\'s naturally short and extremely intense window (5–20 min when smoked) is already at the upper limit of what most people can process. Adding cannabis before or during can cause panic, difficulty grounding, and prolonged altered state after DMT clears.',
+        mechanism: 'Cannabis (THC) modulates the endocannabinoid system and can potentiate serotonergic receptor signaling. It independently increases sensory intensity and can cause anxiety and paranoia. Combined with DMT\'s complete reality disruption, the risk of a destabilizing experience rises.',
+        advice: 'If combining, use cannabis after DMT has fully cleared — not before or during. Cannabis can significantly extend subjective alteration after DMT itself has metabolized. Start with a minimal cannabis amount.',
+        emergency: false
+      },
+      [key('dmt','alcohol')]: {
+        severity: 'low',
+        label: 'LOW RISK, Reduced experience quality',
+        title: 'DMT + Alcohol',
+        summary: 'Alcohol blunts psychedelic experiences and is generally considered a poor combination with DMT. No significant dangerous pharmacological interaction, but nausea, impaired coordination during the experience, and reduced set quality are concerns.',
+        mechanism: 'Alcohol\'s GABAergic CNS depression partially counteracts the excitatory effects of 5-HT2A agonism. This can flatten the psychedelic experience rather than enhance it. Alcohol also impairs the proprioception and coordination needed to stay safe during an intense dissociative experience.',
+        advice: 'Avoid alcohol before DMT. A poor set or impaired coordination during a breakthrough experience increases accident and psychological harm risk. If alcohol has been consumed, wait for it to clear before using DMT.',
+        emergency: false
+      },
+
+      // — Opioids —
+      [key('opioids','alcohol')]: {
+        severity: 'danger',
+        label: 'DANGER, Respiratory depression — leading overdose killer',
+        title: 'Opioids + Alcohol',
+        summary: 'Opioids and alcohol are among the most common fatal drug combinations. Both suppress the brainstem respiratory centers through different mechanisms, and their effects are synergistic — not merely additive. A blood alcohol level that would not cause harm alone can be enough to cause fatal apnea when combined with an opioid. This combination is present in a substantial proportion of all opioid overdose deaths.',
+        mechanism: 'Opioids activate mu-opioid receptors in the brainstem\'s pre-Bötzinger complex, reducing the rate and depth of breathing. Alcohol potentiates GABA-A receptors and inhibits NMDA receptors, independently suppressing respiratory drive. Together, these two mechanisms of respiratory depression compound, pushing breathing toward fatal suppression at doses that might seem moderate individually.',
+        advice: 'Do not combine opioids and alcohol. If someone is unresponsive or breathing very slowly after using both, this is a medical emergency — call 911 immediately, administer naloxone (Narcan) if available. Naloxone reverses opioid effects but not alcohol — additional supportive care is needed.',
+        emergency: true
+      },
+      [key('opioids','benzo')]: {
+        severity: 'danger',
+        label: 'DANGER, FDA black box warning — respiratory failure',
+        title: 'Opioids + Benzodiazepines',
+        summary: 'The FDA requires a black box warning on all opioid and benzodiazepine prescriptions about this combination. Benzodiazepines are involved in approximately 30% of opioid overdose deaths. Both depress the CNS and respiratory system; the combination is synergistic and can cause respiratory failure at doses of each that might seem individually safe.',
+        mechanism: 'Opioids reduce respiratory drive via mu-receptor activation in the brainstem. Benzodiazepines potentiate GABA-A receptors, adding independent CNS and respiratory depression. Together they stack at multiple receptor systems, producing far deeper CNS suppression than either alone. Sleep, already a state of reduced respiratory drive, further amplifies this risk.',
+        advice: 'If prescribed both, take exactly as directed. Never increase doses of either. Avoid combining with any additional CNS depressants (alcohol, GHB, sleep aids). Have naloxone accessible — it reverses the opioid component. If someone is unresponsive and breathing slowly or not at all, call 911 and administer naloxone immediately.',
+        emergency: true
+      },
+      [key('opioids','ketamine')]: {
+        severity: 'danger',
+        label: 'DANGER, Synergistic CNS and respiratory depression',
+        title: 'Opioids + Ketamine',
+        summary: 'Ketamine is generally considered a stimulant of the cardiovascular system, but it does have meaningful CNS depressant properties including respiratory depression at higher doses. Combined with opioids, the synergistic respiratory depression risk is clinically significant. In clinical anaesthesia, opioid premedication substantially increases the risk of ketamine-induced apnea.',
+        mechanism: 'Ketamine\'s NMDA antagonism causes CNS dissociation and at higher doses suppresses respiratory drive. It also has weak opioid receptor activity. Combined with mu-opioid agonism, CNS depression and respiratory suppression are synergistic. The k-hole, already a state where you cannot call for help, is dramatically more dangerous with opioids present.',
+        advice: 'Do not combine ketamine with opioids recreationally. If a medical procedure involves both, this is handled under controlled anaesthetic monitoring. Recreationally, this combination removes the protective effect of consciousness — have naloxone available and never use both alone.',
+        emergency: true
+      },
+      [key('opioids','cocaine')]: {
+        severity: 'caution',
+        label: 'HIGH RISK, Speedball — masked respiratory depression',
+        title: 'Opioids + Cocaine',
+        summary: 'The "speedball" — heroin (or other opioids) combined with cocaine — has killed multiple public figures and is documented as one of the most dangerous drug combinations. Cocaine\'s stimulant effects mask the subjective signs of opioid overdose: you feel alert, so you cannot perceive that your breathing is becoming dangerously shallow. When cocaine wears off first, opioid respiratory depression can hit suddenly and fatally.',
+        mechanism: 'Cocaine blocks dopamine, norepinephrine, and serotonin reuptake, producing stimulation and alertness. This masks opioid overdose warning signs (nodding, slowed breathing). Cocaine also has cardiac arrhythmia risk independent of opioids. When cocaine\'s effects end before opioid effects, the unmasked respiratory depression becomes immediately life-threatening.',
+        advice: 'Avoid this combination. The masking effect is not a protective interaction — it hides danger rather than reducing it. Never use opioids alone after the stimulant wears off. Have naloxone immediately available. Never use both alone.',
+        emergency: false
+      },
+      [key('opioids','mdma')]: {
+        severity: 'moderate',
+        label: 'MODERATE, CNS depression + cardiovascular mismatch',
+        title: 'Opioids + MDMA',
+        summary: 'Opioids depress the CNS while MDMA strongly activates the cardiovascular system. This creates opposing physiological demands: respiratory depression alongside elevated heart rate, blood pressure, and hyperthermia. Some opioids (particularly buprenorphine) have serotonergic activity that adds to MDMA\'s serotonergic load.',
+        mechanism: 'Opioid-induced respiratory depression combined with MDMA-driven hyperthermia and cardiovascular stimulation creates mixed physiological stress. MDMA\'s ability to elevate body temperature is not blocked by opioid co-administration, while the opioid simultaneously suppresses the respiratory compensation that would normally occur under heat stress.',
+        advice: 'Avoid this combination. The cardiovascular stimulation from MDMA and CNS depression from opioids are difficult to manage together. If both are used, have a sober observer, naloxone available, and monitor breathing closely. Watch for signs of overheating.',
+        emergency: false
+      },
+      [key('opioids','nitrous')]: {
+        severity: 'moderate',
+        label: 'MODERATE, Additive CNS depression',
+        title: 'Opioids + Nitrous Oxide',
+        summary: 'Nitrous oxide is not commonly recognized as a respiratory depressant, but it has meaningful CNS depressant properties including mild opioid receptor activity. Combined with opioids, it adds to CNS and respiratory depression. The brief duration of nitrous is a partial mitigant, but repeated use in the same session stacks exposure.',
+        mechanism: 'Nitrous acts at NMDA receptors and has weak mu-opioid activity. Its rapid onset and offset (recovery in 2–3 minutes) limit acute respiratory depression risk in isolation. Combined with already-present opioid-induced respiratory depression, even brief additional suppression can push breathing toward dangerous thresholds.',
+        advice: 'Avoid combining opioids with nitrous. If used, do so with extreme caution — sitting or lying safely, with someone present. Do not use consecutively in rapid succession on top of an opioid.',
+        emergency: false
+      },
+      [key('opioids','cannabis')]: {
+        severity: 'low',
+        label: 'LOW–MODERATE, Mild potentiation',
+        title: 'Opioids + Cannabis',
+        summary: 'Cannabis modestly potentiates opioid analgesia and subjective effects through endocannabinoid/opioid system cross-talk. Some clinical research has explored this combination for pain management. Respiratory depression risk at typical recreational cannabis doses is low, but cannabis-induced CNS depression does mildly add to the opioid burden.',
+        mechanism: 'Endocannabinoid receptors (CB1) and opioid receptors (mu, delta) are co-localized in pain processing pathways and interact synergistically. Cannabis does not significantly suppress the brainstem respiratory drive at recreational doses, but adds general CNS sedation.',
+        advice: 'At typical doses, the interaction is mild. The main harm reduction consideration is impaired judgment: cannabis can make it harder to accurately assess your opioid intoxication level. Avoid high-THC concentrates combined with opioids. Nausea from either substance is more likely when combined.',
+        emergency: false
+      },
+      [key('opioids','tramadol')]: {
+        severity: 'caution',
+        label: 'HIGH RISK, Opioid stacking + serotonin syndrome risk',
+        title: 'Opioids + Tramadol',
+        summary: 'Tramadol is technically an opioid with an additional SNRI-like mechanism (serotonin/norepinephrine reuptake inhibition). Combined with other classical opioids, you face additive opioid-induced respiratory depression from the mu-receptor activity — plus tramadol\'s serotonergic properties raise serotonin syndrome risk when combined with any serotonergic substance including other opioids that have serotonergic activity (meperidine, methadone).',
+        mechanism: 'Tramadol inhibits SERT and NET while acting as a weak mu-opioid agonist. Classical opioids add direct mu-receptor activation, compounding respiratory depression. Tramadol\'s SERT inhibition combined with any serotonergic opioid (meperidine, methadone, oxycodone to a lesser extent) raises serotonin syndrome risk.',
+        advice: 'Do not combine tramadol with other opioids without medical supervision. If prescribed both, discuss the interaction risk with your doctor. Naloxone partially reverses tramadol\'s opioid effects but does not address its serotonergic component.',
+        emergency: false
+      },
+      [key('opioids','amphetamine')]: {
+        severity: 'moderate',
+        label: 'MODERATE, Stimulant masks opioid overdose signs',
+        title: 'Opioids + Amphetamines',
+        summary: 'Similar to the opioid-cocaine combination, amphetamines\' stimulant effects can mask the subjective signs of opioid respiratory depression. People may feel alert and functional while their breathing rate and tidal volume are dangerously low. When the amphetamine wears off, unmasked respiratory depression can develop rapidly.',
+        mechanism: 'Amphetamines drive catecholamine release, producing alertness and sympathomimetic activation. This opposes the sedation that normally serves as a warning sign for opioid overdose. Opioid-induced respiratory depression is not pharmacologically counteracted by amphetamine — only the subjective perception of danger is masked.',
+        advice: 'Have naloxone available. Do not use opioids when you plan to let stimulant effects wear off before sleeping — the opioid effect will outlast the stimulant and respiratory depression will be unmasked. Have someone check on you.',
+        emergency: false
+      },
+
+      // — Mescaline —
+      [key('mescaline','maoi')]: {
+        severity: 'danger',
+        label: 'DANGER, Severe potentiation + serotonin syndrome risk',
+        title: 'Mescaline + MAOIs',
+        summary: 'MAOIs dramatically potentiate mescaline by inhibiting its primary metabolic pathway (MAO-A). Mescaline\'s already long duration (10–12 hours) is further extended, and intensity increases unpredictably. The combination substantially raises serotonin syndrome risk and can produce a multi-day altered state with no safe exit.',
+        mechanism: 'Mescaline is partially metabolized by MAO-A via deamination. MAO inhibition slows mescaline clearance, raising plasma levels and prolonging duration. Combined with mescaline\'s 5-HT2A agonism and phenethylamine-mediated monoamine release, MAOIs create dangerous serotonergic and adrenergic overload.',
+        advice: 'Do not combine mescaline with MAOIs. The already-demanding 10–12 hour mescaline experience becomes uncontrollable in duration and intensity. If on prescribed MAOIs, mescaline is contraindicated. Seek emergency care if serotonin syndrome symptoms develop: hyperthermia, muscle rigidity, clonus, agitation.',
+        emergency: true
+      },
+      [key('mescaline','lithium')]: {
+        severity: 'caution',
+        label: 'HIGH RISK, Seizure risk',
+        title: 'Mescaline + Lithium',
+        summary: 'Lithium combined with serotonergic psychedelics is documented to cause seizures and cardiac arrhythmia in multiple case reports. The mechanism that makes LSD and psilocybin dangerous with lithium applies to mescaline: lithium potentiates serotonergic activity and lowers seizure threshold.',
+        mechanism: 'Lithium augments serotonin neurotransmission and modulates glutamate/NMDA signaling. Combined with mescaline\'s 5-HT2A agonism and extended duration (10–12 hours), there is a prolonged window of elevated seizure risk. Mescaline\'s sympathomimetic effects may also interact with lithium\'s cardiovascular effects.',
+        advice: 'Do not combine mescaline with lithium. If you are on lithium for bipolar disorder, all serotonergic psychedelics are contraindicated. The extended duration of mescaline means any adverse effect is sustained for many hours.',
+        emergency: false
+      },
+      [key('mescaline','mdma')]: {
+        severity: 'caution',
+        label: 'HIGH RISK, Phenethylamine combination + cardiovascular strain',
+        title: 'Mescaline + MDMA',
+        summary: 'Both mescaline and MDMA are phenethylamines. Mescaline has significant stimulant-like properties — tachycardia and elevated blood pressure are characteristic even alone. Combined with MDMA\'s cardiovascular burden (heart rate, blood pressure, hyperthermia), the total physiological load is high. Serotonergic overlap raises serotonin syndrome risk.',
+        mechanism: 'Mescaline is a trimethoxyphenethylamine with 5-HT2A agonism and sympathomimetic properties. MDMA is a substituted amphetamine/phenethylamine causing massive SERT reversal and monoamine release. Combined phenethylamine activity adds cardiovascular strain and serotonergic load simultaneously. MDMA\'s hyperthermia risk worsens with any co-stimulant.',
+        advice: 'Avoid this combination. If used, stay cool, maintain hydration, have a sober observer, and watch for serotonin syndrome signs (muscle twitching, rapid heartbeat, high temperature, agitation). Do not dance heavily — physical exertion amplifies hyperthermia risk dramatically.',
+        emergency: false
+      },
+      [key('mescaline','ssri')]: {
+        severity: 'moderate',
+        label: 'MODERATE, Blunted effects + serotonin concern',
+        title: 'Mescaline + SSRIs / SNRIs',
+        summary: 'Chronic SSRI use downregulates 5-HT2A receptors, blunting mescaline\'s psychedelic effects. Because mescaline\'s duration is already 10–12 hours, a prolonged but blunted experience may tempt redosing — which sharply raises cardiovascular and serotonergic risk.',
+        mechanism: 'SSRI-driven 5-HT2A downregulation reduces mescaline\'s primary psychedelic mechanism. However, SSRIs elevate synaptic serotonin, and mescaline\'s monoaminergic activity adds to this. SNRIs add norepinephrine reuptake inhibition, compounding mescaline\'s already significant sympathomimetic cardiovascular effects.',
+        advice: 'Avoid redosing if effects feel blunted. A 10–12 hour blunted experience is still a 10–12 hour experience. SSRIs combined with mescaline\'s sympathomimetic effects create additional cardiovascular strain that is not blocked by the reduced psychedelic effect.',
+        emergency: false
+      },
+      [key('mescaline','amphetamine')]: {
+        severity: 'moderate',
+        label: 'MODERATE, Additive sympathomimetic load',
+        title: 'Mescaline + Amphetamines',
+        summary: 'Mescaline and amphetamines are both phenethylamines with overlapping cardiovascular stimulant properties. Mescaline alone causes tachycardia and blood pressure elevation; amphetamines add significant catecholamine-driven cardiovascular demand on top.',
+        mechanism: 'Both compounds stimulate adrenergic receptors through different but overlapping pathways. Mescaline\'s phenethylamine backbone has structural similarity to amphetamines. Combined norepinephrine and dopamine stimulation elevates heart rate, blood pressure, and raises the risk of hyperthermia and arrhythmia.',
+        advice: 'Avoid combining, particularly in hot environments or with physical exertion. Monitor heart rate. Rest and stay cool. The cardiovascular burden can persist for the full 10–12 hour mescaline duration.',
+        emergency: false
+      },
+      [key('mescaline','cannabis')]: {
+        severity: 'moderate',
+        label: 'MODERATE, Intensification and anxiety risk',
+        title: 'Mescaline + Cannabis',
+        summary: 'Cannabis commonly intensifies mescaline and can shift an already demanding experience toward anxiety and paranoia. The combination can also extend the subjective duration. The nausea that often accompanies mescaline (particularly from peyote) may worsen.',
+        mechanism: 'Endocannabinoid modulation of serotonergic signaling can potentiate 5-HT2A agonism. THC independently causes anxiety and paranoia at higher doses, effects that compound with mescaline\'s perceptual disruption. Cannabis also impairs coordination and self-regulation — important functions during an extended psychedelic state.',
+        advice: 'If combining, use cannabis conservatively and wait for mescaline to reach peak before adding any cannabis. Avoid high-THC concentrates. Have a sober sitter who can help if the experience becomes overwhelming.',
+        emergency: false
+      },
+      [key('mescaline','cocaine')]: {
+        severity: 'moderate',
+        label: 'MODERATE, Compounded cardiovascular strain',
+        title: 'Mescaline + Cocaine',
+        summary: 'Both mescaline and cocaine have significant cardiovascular stimulant effects. Mescaline alone elevates heart rate and blood pressure; cocaine adds catecholamine-driven vasoconstriction and cardiac demand. The combination carries meaningful arrhythmia and hypertensive crisis risk.',
+        mechanism: 'Cocaine blocks norepinephrine and dopamine reuptake, causing powerful vasoconstriction and cardiac stimulation. Mescaline\'s sympathomimetic activity from its phenethylamine structure adds further adrenergic load. Tachycardia and blood pressure elevation from both compounds are pharmacologically additive.',
+        advice: 'Avoid this combination. Cocaine\'s short duration relative to mescaline\'s 10–12 hours creates a compounding scenario: cocaine redosing during the mescaline experience repeatedly stacks cardiovascular stress. Be attentive to chest discomfort, palpitations, or severe headache.',
+        emergency: false
+      },
+      [key('mescaline','alcohol')]: {
+        severity: 'low',
+        label: 'LOW–MODERATE, Nausea and disorientation',
+        title: 'Mescaline + Alcohol',
+        summary: 'Alcohol is generally considered a poor combination with mescaline: it blunts the psychedelic experience and worsens the substantial nausea that mescaline — particularly peyote — commonly causes. Alcohol also impairs the coordination and self-awareness needed to stay safe during a long altered state.',
+        mechanism: 'Alcohol\'s GABAergic CNS depression partially counteracts 5-HT2A agonism. The combination of mescaline-induced nausea and alcohol-related gastric irritation commonly causes vomiting. Alcohol dehydration compounds the physiological demands of a 10–12 hour experience involving cardiovascular stimulation and sweating.',
+        advice: 'Avoid alcohol before or during mescaline. If nausea or vomiting develops, ensure the person is in a safe position (not at risk of aspiration). Hydrate with water, not alcohol. The long duration of mescaline means any added impairment persists for many hours.',
+        emergency: false
+      },
+      [key('mescaline','psilocybin')]: {
+        severity: 'moderate',
+        label: 'MODERATE, Intense combined psychedelic experience',
+        title: 'Mescaline + Psilocybin',
+        summary: 'Both act primarily at 5-HT2A receptors, and combining them produces a dramatically intensified and often chaotic psychedelic experience. Mescaline\'s sympathomimetic properties add cardiovascular stimulation that psilocybin alone does not typically cause. The combined duration can span 8–12 hours.',
+        mechanism: 'Psilocin (active metabolite of psilocybin) and mescaline are both 5-HT2A agonists. Additive receptor activation produces more intense visuals and stronger dissociation from baseline reality. Mescaline\'s phenethylamine-mediated cardiovascular stimulation persists through the experience independently of the psychedelic receptor activity.',
+        advice: 'Use significantly reduced doses of each. Have a sober sitter. Set aside the full day and evening — combined duration is much longer than psilocybin alone. Ensure a safe, comfortable environment with no obligations.',
+        emergency: false
+      },
+
+      // — Viagra / PDE5 inhibitors —
+      [key('viagra','poppers')]: {
+        severity: 'danger',
+        label: 'DANGER, Potentially fatal hypotension',
+        title: 'Viagra / PDE5 inhibitors + Poppers',
+        summary: 'This is one of the most dangerous drug combinations documented in harm reduction. Both substances cause vasodilation through complementary mechanisms. Combined, the drop in blood pressure can be severe enough to cause loss of consciousness, cardiac arrest, and death. Multiple fatalities are documented. The combination is specifically warned against by all major clinical guidelines and medical product labeling.',
+        mechanism: 'Poppers (alkyl nitrites) release nitric oxide (NO), activating guanylyl cyclase and elevating cyclic GMP (cGMP) — causing smooth muscle relaxation and vasodilation. PDE5 inhibitors (sildenafil, tadalafil, vardenafil) block the breakdown of cGMP. Together, they cause massive cGMP accumulation and catastrophic vasodilation. Blood pressure can drop to levels that prevent cardiac and cerebral perfusion.',
+        advice: 'Never combine under any circumstances. This applies to all PDE5 inhibitors (Viagra/sildenafil, Cialis/tadalafil, Levitra/vardenafil, Stendra/avanafil) and all alkyl nitrite poppers (amyl nitrite, isobutyl nitrite, butyl nitrite). If this combination has been used and the person loses consciousness or has a seizure, call emergency services immediately — this is a life-threatening emergency.',
+        emergency: true
+      },
+      [key('viagra','cocaine')]: {
+        severity: 'caution',
+        label: 'HIGH RISK, Hemodynamic instability + cardiac strain',
+        title: 'Viagra / PDE5 inhibitors + Cocaine',
+        summary: 'Cocaine causes powerful vasoconstriction; PDE5 inhibitors cause vasodilation. These opposing vascular effects create hemodynamic instability — and when cocaine\'s effects wear off, the vasodilation from Viagra becomes unmasked and blood pressure can drop suddenly. Cocaine also independently causes coronary artery spasm and cardiac arrhythmia, risks that are worsened with the additional cardiovascular effects of PDE5 inhibition.',
+        mechanism: 'Cocaine blocks norepinephrine reuptake causing alpha-adrenergic vasoconstriction and coronary spasm. PDE5 inhibitors prevent cGMP breakdown, causing arterial vasodilation. The simultaneous vasoconstriction + vasodilation creates unpredictable blood pressure swings. Cocaine-associated myocardial ischemia risk is elevated when coronary vasodilatory capacity is pharmacologically altered.',
+        advice: 'Avoid this combination. If both are used, be attentive to chest pain, jaw pain, palpitations, or sudden dizziness — these warrant emergency evaluation. Cocaine and Viagra together have an established risk of priapism (prolonged painful erection requiring emergency treatment).',
+        emergency: false
+      },
+      [key('viagra','alcohol')]: {
+        severity: 'moderate',
+        label: 'MODERATE, Additive hypotension',
+        title: 'Viagra / PDE5 inhibitors + Alcohol',
+        summary: 'Alcohol causes peripheral vasodilation and has mild hypotensive effects. Combined with PDE5 inhibitors\' vasodilation, the drop in blood pressure is meaningfully greater than either alone. Orthostatic hypotension — dizziness or fainting when standing up — is the primary risk, particularly after drinking heavily.',
+        mechanism: 'Alcohol inhibits vasopressin release and directly vasodilates peripheral vessels. PDE5 inhibitors prevent cGMP degradation in vascular smooth muscle, extending and amplifying NO-mediated vasodilation. Additive effects reduce blood pressure and can impair cerebral perfusion on standing.',
+        advice: 'Limit alcohol consumption if taking Viagra or similar medications. Avoid rapid position changes (sitting to standing) after combining both. High-risk situations include hot environments, where vasodilation is already maximal, and physical exertion. If dizziness or near-fainting occurs, sit or lie down immediately.',
+        emergency: false
+      },
+      [key('viagra','mdma')]: {
+        severity: 'moderate',
+        label: 'MODERATE, Mixed cardiovascular effects',
+        title: 'Viagra / PDE5 inhibitors + MDMA',
+        summary: 'MDMA-induced erectile dysfunction (from elevated norepinephrine and prolactin) leads many people to combine Viagra with MDMA. However, MDMA significantly raises blood pressure and heart rate while PDE5 inhibitors vasodilate — these competing effects create unpredictable hemodynamic states. MDMA also causes hyperthermia, which amplifies all vasodilatory effects.',
+        mechanism: 'MDMA drives norepinephrine-mediated vasoconstriction and cardiac stimulation (elevated BP, HR). PDE5 inhibitors oppose this with vasodilation via cGMP accumulation. In a hot environment with dance-related exertion, hyperthermia causes maximum peripheral vasodilation — adding a PDE5 inhibitor on top can cause significant blood pressure drops. Sildenafil\'s half-life (~4 hours) means it may outlast MDMA\'s effects, leaving unmasked vasodilation.',
+        advice: 'Be aware that this combination creates unpredictable blood pressure states. Stay cool, avoid excessive exertion, and be attentive to dizziness or visual changes (Viagra\'s temporary blue-tinge visual disturbance is common, but sudden vision or hearing changes warrant medical evaluation). Dose both conservatively.',
+        emergency: false
+      },
+      [key('viagra','ghb')]: {
+        severity: 'moderate',
+        label: 'MODERATE, Additive hypotension',
+        title: 'Viagra / PDE5 inhibitors + GHB / GBL',
+        summary: 'GHB causes blood pressure reduction through CNS depression and GABA-B-mediated vasodilation. Combined with PDE5 inhibitors, the hypotensive effect is meaningfully greater. GHB also impairs consciousness at higher doses — a person who is GHB-intoxicated and hypotensive from Viagra cannot protect themselves or call for help.',
+        mechanism: 'GHB\'s GABA-B agonism reduces sympathetic tone and blood pressure. PDE5 inhibitors independently vasodilate via cGMP. Both reduce blood pressure through different mechanisms, and their combination is additive. GHB\'s narrow therapeutic window means even a standard dose combined with Viagra-related hypotension can push blood pressure to concerning levels.',
+        advice: 'Use extreme caution. GHB\'s already dangerous dosing window becomes more precarious when blood pressure is pharmacologically lowered. If combining, use the minimum dose of each, have a sober observer, and ensure the person cannot fall or injure themselves if they become hypotensive or lose consciousness.',
+        emergency: false
+      },
+      [key('viagra','amphetamine')]: {
+        severity: 'moderate',
+        label: 'MODERATE, Opposing vascular effects',
+        title: 'Viagra / PDE5 inhibitors + Amphetamines',
+        summary: 'Amphetamines cause vasoconstriction and cardiovascular stimulation; PDE5 inhibitors cause vasodilation. As with cocaine, the opposing effects create hemodynamic instability, and when the amphetamine wears off, vasodilation becomes unmasked. Amphetamine-induced erectile dysfunction is a common reason people reach for Viagra, creating a frequently encountered combination.',
+        mechanism: 'Amphetamines release norepinephrine, causing alpha-adrenergic vasoconstriction and cardiac stimulation. PDE5 inhibitors prevent cGMP degradation, producing vasodilation. Heart rate and blood pressure swings are unpredictable. Sildenafil\'s ~4-hour half-life may outlast shorter-acting amphetamines, leaving vasodilation without the counteracting vasoconstriction.',
+        advice: 'If you take prescription amphetamines and Viagra, inform your prescribing doctor. At recreational doses, avoid high-exertion activities and monitor for dizziness, chest discomfort, or palpitations. Do not combine with additional cardiovascular substances.',
+        emergency: false
+      },
+      [key('viagra','cannabis')]: {
+        severity: 'low',
+        label: 'LOW–MODERATE, Potential blood pressure dip',
+        title: 'Viagra / PDE5 inhibitors + Cannabis',
+        summary: 'Cannabis can cause mild to moderate blood pressure reduction and orthostatic hypotension, particularly in infrequent users and at higher THC doses. Combined with PDE5 inhibitors\' vasodilation, dizziness and fainting on standing are more likely than with either alone.',
+        mechanism: 'THC activates CB1 receptors causing modest peripheral vasodilation and reduced sympathetic tone. In some users this produces orthostatic hypotension. PDE5 inhibitors add vasodilatory load via cGMP. The combination is not generally dangerous but the hypotensive effect is meaningfully additive in sensitive individuals.',
+        advice: 'Avoid rapid position changes after combining cannabis and Viagra. Sit or lie down if you feel dizzy. High-THC concentrates or large doses increase the risk. Remain well hydrated.',
+        emergency: false
+      },
+      [key('viagra','nitrous')]: {
+        severity: 'low',
+        label: 'LOW RISK, Minor hemodynamic concern',
+        title: 'Viagra / PDE5 inhibitors + Nitrous Oxide',
+        summary: 'Nitrous oxide has mild vasodilatory properties (it releases endogenous NO via tissue mechanisms) and some CNS depression. Combined with PDE5 inhibitors, a small additive blood pressure reduction occurs. The brief duration of nitrous limits the clinical significance at typical recreational doses.',
+        mechanism: 'Nitrous can stimulate endogenous nitric oxide release, mildly elevating cGMP. PDE5 inhibitors prevent cGMP breakdown — slightly extending any nitrous-induced vasodilation. The effect is mild at typical recreational doses but becomes more relevant with repeated nitrous use in the same session.',
+        advice: 'The main practical risk is dizziness and disorientation combined with nitrous\'s perceptual distortion — ensure you are seated when using. Avoid consecutive balloons in rapid succession when on Viagra. Positional dizziness risk on standing is slightly higher than with either substance alone.',
+        emergency: false
       }
     };
 
@@ -932,61 +1330,80 @@ const schemaJson  = `{
     const tiles = document.querySelectorAll('.substance-tile');
     const statusEl = document.getElementById('checkerStatus');
     const resultEl = document.getElementById('interaction-result');
-    const cardEl = document.getElementById('interactionCard');
-    const badgeEl = document.getElementById('sevBadge');
-    const titleEl = document.getElementById('cardTitle');
-    const summaryEl = document.getElementById('cardSummary');
-    const mechEl = document.getElementById('cardMechanism');
-    const adviceEl = document.getElementById('cardAdvice');
-    const emergencyEl = document.getElementById('emergencyBox');
+
+    function buildCardHTML(a, b) {
+      var k = key(a, b);
+      var data = INTERACTIONS[k];
+      var sevClass, badgeText, title, summary, mechanism, advice, emergency;
+
+      if (!data) {
+        sevClass = 'sev-unknown';
+        badgeText = 'No specific data';
+        title = SUBSTANCES[a] + ' + ' + SUBSTANCES[b];
+        summary = "No specific interaction data exists for this combination. This does not mean it is safe — it means it has not been well-studied or documented. Research each substance using TripSit's combo chart and Erowid before combining.";
+        mechanism = 'Unknown — insufficient data.';
+        advice = 'Treat as potentially risky until you have researched both substances thoroughly. When in doubt, do not combine.';
+        emergency = false;
+      } else {
+        sevClass = 'sev-' + data.severity;
+        badgeText = data.label;
+        title = data.title;
+        summary = data.summary;
+        mechanism = data.mechanism;
+        advice = data.advice;
+        emergency = data.emergency;
+      }
+
+      var emergencyHTML = emergency
+        ? '<div class="emergency-box">🚨 If someone is experiencing symptoms, seizures, loss of consciousness, difficulty breathing, extreme agitation, or rapid/irregular heart rate, call emergency services immediately.</div>'
+        : '';
+
+      return '<div class="interaction-card ' + sevClass + '">'
+        + '<span class="sev-badge">' + badgeText + '</span>'
+        + '<h2>' + title + '</h2>'
+        + '<div class="ic-section"><div class="ic-label">Summary</div><p>' + summary + '</p></div>'
+        + '<div class="ic-section"><div class="ic-label">Mechanism</div><p>' + mechanism + '</p></div>'
+        + '<div class="ic-section"><div class="ic-label">Harm Reduction</div><p>' + advice + '</p></div>'
+        + emergencyHTML
+        + '</div>';
+    }
+
+    function showAllInteractions() {
+      if (selected.length < 2) {
+        resultEl.classList.remove('visible');
+        resultEl.innerHTML = '';
+        return;
+      }
+      var html = '';
+      for (var i = 0; i < selected.length; i++) {
+        for (var j = i + 1; j < selected.length; j++) {
+          html += buildCardHTML(selected[i], selected[j]);
+        }
+      }
+      resultEl.innerHTML = html;
+      resultEl.classList.add('visible');
+      resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
 
     function updateStatus() {
       if (selected.length === 0) {
-        statusEl.innerHTML = '<span>Select two substances above</span>';
-      } else if (selected.length === 1) {
-        statusEl.innerHTML = '<span class="sel-pill">' + SUBSTANCES[selected[0]] + '</span> <span>+ select one more</span> <button class="clear-btn" id="clearBtn">Clear</button>';
-      } else {
-        statusEl.innerHTML = '<span class="sel-pill">' + SUBSTANCES[selected[0]] + '</span> <span class="sel-plus">+</span> <span class="sel-pill">' + SUBSTANCES[selected[1]] + '</span> <button class="clear-btn" id="clearBtn">Clear</button>';
+        statusEl.innerHTML = '<span>Select two or more substances above</span>';
+        return;
       }
-      document.getElementById('clearBtn') && document.getElementById('clearBtn').addEventListener('click', clearAll);
+      var pills = selected.map(function(id) {
+        return '<span class="sel-pill">' + SUBSTANCES[id] + '</span>';
+      }).join(' <span class="sel-plus">+</span> ');
+      var suffix = selected.length === 1 ? ' <span>+ select one more</span>' : '';
+      statusEl.innerHTML = pills + suffix + ' <button class="clear-btn" id="clearBtn">Clear</button>';
+      document.getElementById('clearBtn').addEventListener('click', clearAll);
     }
 
     function clearAll() {
       selected.length = 0;
       tiles.forEach(function(t) { t.classList.remove('selected'); });
       resultEl.classList.remove('visible');
+      resultEl.innerHTML = '';
       updateStatus();
-    }
-
-    function showInteraction(a, b) {
-      var k = key(a, b);
-      var data = INTERACTIONS[k];
-
-      cardEl.className = 'interaction-card';
-      resultEl.classList.add('visible');
-
-      if (!data) {
-        cardEl.classList.add('sev-unknown');
-        badgeEl.className = 'sev-badge';
-        badgeEl.textContent = 'No specific data';
-        titleEl.textContent = SUBSTANCES[a] + ' + ' + SUBSTANCES[b];
-        summaryEl.textContent = 'No specific interaction data exists in our database for this combination. This does not mean it is safe, it means it has not been well-studied or documented in harm reduction literature. Research each substance independently using resources like TripSit\'s combo chart and Erowid before combining.';
-        mechEl.textContent = 'Unknown, insufficient data.';
-        adviceEl.textContent = 'Treat as potentially risky until you have researched both substances thoroughly. When in doubt, do not combine.';
-        emergencyEl.style.display = 'none';
-        return;
-      }
-
-      cardEl.classList.add('sev-' + data.severity);
-      badgeEl.className = 'sev-badge';
-      badgeEl.textContent = data.label;
-      titleEl.textContent = data.title;
-      summaryEl.innerHTML = data.summary;
-      mechEl.innerHTML = data.mechanism;
-      adviceEl.innerHTML = data.advice;
-      emergencyEl.style.display = data.emergency ? 'block' : 'none';
-
-      resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
     tiles.forEach(function(tile) {
@@ -997,20 +1414,13 @@ const schemaJson  = `{
         if (idx !== -1) {
           selected.splice(idx, 1);
           tile.classList.remove('selected');
-          if (selected.length < 2) resultEl.classList.remove('visible');
-          updateStatus();
-          return;
+        } else {
+          selected.push(id);
+          tile.classList.add('selected');
         }
 
-        if (selected.length >= 2) return;
-
-        selected.push(id);
-        tile.classList.add('selected');
         updateStatus();
-
-        if (selected.length === 2) {
-          showInteraction(selected[0], selected[1]);
-        }
+        showAllInteractions();
       });
     });
 

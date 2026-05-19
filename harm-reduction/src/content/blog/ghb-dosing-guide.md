@@ -45,7 +45,7 @@ People often "find their dose" with one batch and then apply that same volume to
 **What to do with unknown-concentration GHB:**
 
 1. Assume nothing about concentration based on previous batches, even from the same person
-2. Start with **0.5mL** of an unknown batch, wait 90 minutes, and assess effects before deciding whether to take more
+2. Harm reduction practice is to start with no more than **0.5mL** of an unknown batch, wait 90 minutes, and assess before considering more
 3. If you are confident in the source and have experience with their product, the 1mL rule is a reasonable starting point -- but 0.5mL is safer
 
 ---
@@ -76,7 +76,7 @@ GHB's effects are felt for roughly 2-4 hours. When the euphoria fades, the insti
 
 **Minimum time between GHB doses: 3-4 hours** from the time you took the first dose, not from when you stopped feeling it. That distinction matters because GHB's subjective duration runs ahead of its actual clearance.
 
-**Reduce the redose amount.** If you took 1mL the first time and plan to redose, take less -- 0.5-0.75mL -- not the same amount. The second dose arrives in a system that is not fully cleared.
+**Reduce the redose amount.** Harm reduction guidelines suggest that if 1mL was taken first, any redose should be less — 0.5-0.75mL — not the same amount. The second dose arrives in a system that is not fully cleared.
 
 ---
 
