@@ -24,7 +24,7 @@ Sometimes MDMA, sometimes nothing close to it. A 25-year analysis of EcstasyData
 Anywhere from zero to over 300 mg. Pills in the US have historically ranged from 80–120 mg when MDMA-containing; European "superpills" now routinely exceed 200 mg, with some flagged above 300 mg.
 
 **Can you test a pressed pill for fentanyl?**
-Yes. Dissolve a small amount of the pill in water and use a fentanyl test strip. See the [full fentanyl test strip guide](/blog/how-to-use-fentanyl-test-strips) for the MDMA-specific dilution protocol.
+Yes. Dissolve a small amount of the pill in water and use a fentanyl test strip. See the [full fentanyl test strip guide](/blog/how-to-use-fentanyl-test-strips.html) for the MDMA-specific dilution protocol.
 
 ---
 

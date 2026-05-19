@@ -98,7 +98,7 @@ The safest choice is to not combine ketamine and alcohol at all. If someone is g
 
 If you're using ketamine, separating it from alcohol by time is the most effective risk reduction step available.
 
-For a full overview of ketamine's effects, dose ranges, and risks, see our [ketamine harm reduction guide](/ketamine.html). For comparison on how depressant combinations work more broadly, see our [GHB guide](/ghb.html). To check other combinations, use our [interaction checker](/interactions.html). For more on ketamine's addictive potential, see our post on [whether ketamine is addictive](/blog/is-ketamine-addictive).
+For a full overview of ketamine's effects, dose ranges, and risks, see our [ketamine harm reduction guide](/ketamine.html). For comparison on how depressant combinations work more broadly, see our [GHB guide](/ghb.html). To check other combinations, use our [interaction checker](/interactions.html). For more on ketamine's addictive potential, see our post on [whether ketamine is addictive](/blog/is-ketamine-addictive.html).
 
 ---
 

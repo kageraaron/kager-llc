@@ -37,7 +37,7 @@ Subtle shifts begin: mild warmth, a light tingle, slight restlessness or heighte
 Effects become unambiguous. The characteristic empathogenic quality of MDMA begins to emerge: emotional openness, increased warmth toward others, heightened sensory appreciation. Tactile sensitivity increases. Jaw tension (bruxism) may start in this window. Pupil dilation, elevated heart rate, and mild temperature increase are common physical signs. MDMA acts by causing rapid release of serotonin, dopamine, and norepinephrine — serotonin stores begin depleting now, which is why the peak eventually fades and redosing has diminishing returns.
 
 ### T+1:30 to T+2:30, Peak
-The most intense phase. Euphoria, empathy, and energy are at their highest. Sensory experiences — music, touch, conversation — feel richly amplified. Jaw clenching typically peaks here (see our guide on [magnesium for jaw clenching](/blog/mdma-magnesium-jaw-clenching)). Time perception may be altered, though less dramatically than with classical psychedelics.
+The most intense phase. Euphoria, empathy, and energy are at their highest. Sensory experiences — music, touch, conversation — feel richly amplified. Jaw clenching typically peaks here (see our guide on [magnesium for jaw clenching](/blog/mdma-magnesium-jaw-clenching.html)). Time perception may be altered, though less dramatically than with classical psychedelics.
 
 Clinical pharmacokinetic studies place peak plasma concentrations at approximately 1.5–2.5 hours post-ingestion for standard doses (de la Torre R, Farré M, et al., *Br J Clin Pharmacol*, 2000; [PMID 10671903](https://pubmed.ncbi.nlm.nih.gov/10671903/)). **Peak subjective effects closely track peak plasma levels** — unlike LSD, where receptor binding sustains effects after blood levels fall.
 
@@ -52,9 +52,9 @@ The primary effects are over. What follows varies widely:
 
 - **Afterglow (T+5 to T+8):** Some people feel pleasantly tired, reflective, and calm. Mild positive carry-over from serotonin normalization.
 - **Comedown (T+8 to T+24):** Fatigue, low mood, emotional flatness, or irritability — the result of temporary serotonin depletion. Not everyone experiences a significant comedown; dose, frequency of use, and individual neurochemistry all play a role.
-- **Sleep:** Most people cannot sleep for 4–8 hours after effects have ended due to norepinephrine release and residual stimulation. At T+8–10, sleep is typically possible but may be restless. See our full guide on [how to sleep after a rave](/blog/how-to-sleep-after-a-rave).
+- **Sleep:** Most people cannot sleep for 4–8 hours after effects have ended due to norepinephrine release and residual stimulation. At T+8–10, sleep is typically possible but may be restless. See our full guide on [how to sleep after a rave](/blog/how-to-sleep-after-a-rave.html).
 
-The day after is often described as a "gray day." See our [comedown guide](/blog/mdma-comedown) for specific recovery strategies.
+The day after is often described as a "gray day." See our [comedown guide](/blog/mdma-comedown.html) for specific recovery strategies.
 
 ---
 
@@ -74,7 +74,7 @@ If you choose to redose: once only, at half the initial dose or less, before the
 
 ## What affects duration
 
-**Dose** is the largest variable. A 75 mg dose may last 3 hours; 150 mg can push effects to 5+ hours. Higher doses do not simply increase intensity — they extend duration and accelerate depletion. See our [MDMA dosing guide](/blog/mdma-dosing-guide) for dose ranges by body weight.
+**Dose** is the largest variable. A 75 mg dose may last 3 hours; 150 mg can push effects to 5+ hours. Higher doses do not simply increase intensity — they extend duration and accelerate depletion. See our [MDMA dosing guide](/blog/mdma-dosing-guide.html) for dose ranges by body weight.
 
 **Stomach contents** primarily affect onset timing. An empty stomach shortens onset to 20–30 minutes; a full meal pushes it to 75–90 minutes. Total duration is less affected.
 
@@ -95,7 +95,7 @@ The practical implications of the 3–5 hour main-effect window plus extended af
 - **Block out the full day.** If you dose at 9 PM, expect to be awake until 3–5 AM minimum.
 - **Do not drive for at least 8 hours after ingestion** — impaired reaction time, judgment, and significant pupil dilation persist well past the subjective peak. 12 hours is safer.
 - **Don't schedule obligations the next day** if you can avoid it. The comedown day is real even when mild.
-- **Test your MDMA before use.** All the timing above assumes you know what you've taken. See our guide on [how to test MDMA](/blog/how-to-test-mdma).
+- **Test your MDMA before use.** All the timing above assumes you know what you've taken. See our guide on [how to test MDMA](/blog/how-to-test-mdma.html).
 
 For a full overview of effects, risks, and safer use practices, see our [MDMA harm reduction guide](/mdma.html). If you're combining MDMA with any other substance — including alcohol — check our [drug interaction guide](/interactions.html) first.
 

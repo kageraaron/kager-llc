@@ -87,10 +87,10 @@ Antioxidant supplements (R-ALA, Vitamin C, EGCG) may reduce acute oxidative stre
 
 **5-HTP** is the one supplement with direct relevance to serotonin recovery. It's a precursor to serotonin and is often taken in the days after a session to support replenishment. The critical timing rule: do not take 5-HTP until at least 24 hours after your last dose, not before or during. Taking it while MDMA is still pharmacologically active raises serotonin syndrome risk.
 
-For a full breakdown of the supplement protocol and timing, see the [MDMA supplements protocol guide](/blog/mdma-supplements-protocol).
+For a full breakdown of the supplement protocol and timing, see the [MDMA supplements protocol guide](/blog/mdma-supplements-protocol.html).
 
 ---
 
 Frequency is the most important behavioral variable in MDMA harm reduction, more important than dose per session for most people who are using at reasonable individual doses. The 3-month rule exists because the pharmacology is real, and the subjective evidence from people who've used MDMA across years consistently points in the same direction: longer gaps preserve the experience and protect your baseline.
 
-For a full overview of MDMA effects and harm reduction, see the [MDMA harm reduction guide](/mdma.html). For the neurotoxicity evidence in more depth, see the [MDMA neurotoxicity guide](/blog/mdma-neurotoxicity). For managing the days after a session, see the [MDMA comedown guide](/blog/mdma-comedown). Before combining MDMA with any other substance, check the [drug interaction checker](/interactions.html).
+For a full overview of MDMA effects and harm reduction, see the [MDMA harm reduction guide](/mdma.html). For the neurotoxicity evidence in more depth, see the [MDMA neurotoxicity guide](/blog/mdma-neurotoxicity.html). For managing the days after a session, see the [MDMA comedown guide](/blog/mdma-comedown.html). Before combining MDMA with any other substance, check the [drug interaction checker](/interactions.html).

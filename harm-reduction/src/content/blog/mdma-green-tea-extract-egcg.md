@@ -16,7 +16,7 @@ Green tea extract (EGCG) appears in some MDMA supplement protocol guides alongsi
 
 **Why does EGCG appear in MDMA supplement protocols?** Because MDMA causes oxidative stress and EGCG is an antioxidant. The theoretical basis exists, but no human study and no direct MDMA + EGCG study in animals has verified the neuroprotective benefit at realistic doses.
 
-**Should I take green tea extract before or after MDMA?** Neither. The evidence for benefit is insufficient and the interaction with MDMA metabolism is not well-characterized at supplement doses. See the [MDMA supplement protocol](/blog/mdma-supplements-protocol) for evidence-ranked alternatives.
+**Should I take green tea extract before or after MDMA?** Neither. The evidence for benefit is insufficient and the interaction with MDMA metabolism is not well-characterized at supplement doses. See the [MDMA supplement protocol](/blog/mdma-supplements-protocol.html) for evidence-ranked alternatives.
 
 ---
 
@@ -66,7 +66,7 @@ The point is not that EGCG + MDMA is safe — it is not recommended — but that
 
 ## What this means for the supplement protocol
 
-The [MDMA supplement protocol](/blog/mdma-supplements-protocol) is based on evidence for specific mechanisms: alpha-lipoic acid for antioxidant/metal chelation, Vitamin C for hydroxyl radical scavenging, magnesium for bruxism and potentially neurotoxicity reduction. Each of those has a cleaner mechanism and no meaningful interaction with MDMA's metabolic pathway.
+The [MDMA supplement protocol](/blog/mdma-supplements-protocol.html) is based on evidence for specific mechanisms: alpha-lipoic acid for antioxidant/metal chelation, Vitamin C for hydroxyl radical scavenging, magnesium for bruxism and potentially neurotoxicity reduction. Each of those has a cleaner mechanism and no meaningful interaction with MDMA's metabolic pathway.
 
 EGCG has:
 - No direct MDMA + EGCG neuroprotection study
@@ -84,7 +84,7 @@ If you have already been taking green tea extract regularly and are concerned ab
 
 EGCG is not in the evidence-supported MDMA supplement protocol for good reason. The neuroprotection argument depends on indirect inference from a methamphetamine study at toxic doses. The MAO-B inhibitory effect creates real but poorly characterized potentiation. The serotonin syndrome concern, while real, is less pharmacologically grounded than often stated — MAO-A, not MAO-B, is the isoform responsible for serotonin syndrome risk.
 
-For a full breakdown of which supplements have actual evidence, see the [MDMA supplement protocol guide](/blog/mdma-supplements-protocol). For information on MDMA drug interactions more broadly, see the [interaction checker](/interactions.html) and our [MDMA harm reduction guide](/mdma.html).
+For a full breakdown of which supplements have actual evidence, see the [MDMA supplement protocol guide](/blog/mdma-supplements-protocol.html). For information on MDMA drug interactions more broadly, see the [interaction checker](/interactions.html) and our [MDMA harm reduction guide](/mdma.html).
 
 ---
 

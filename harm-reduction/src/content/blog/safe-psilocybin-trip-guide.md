@@ -98,7 +98,7 @@ A challenging or frightening experience on psilocybin is not a medical emergency
 
 If someone becomes extremely distressed, cannot be talked down, or shows signs of a physical emergency (severe chest pain, difficulty breathing, extremely high heart rate that won't settle), seek medical care. Tell emergency services what was taken, this is not incriminating, and the clinical team needs this information to help.
 
-For more on handling difficult psychedelic experiences, see our guide on [how to stop a bad trip](/blog/how-to-stop-a-bad-trip).
+For more on handling difficult psychedelic experiences, see our guide on [how to stop a bad trip](/blog/how-to-stop-a-bad-trip.html).
 
 ---
 

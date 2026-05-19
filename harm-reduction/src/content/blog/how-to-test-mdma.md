@@ -116,7 +116,7 @@ If you're at a festival with a drug checking service (DanceSafe operates at many
 
 Testing takes 5 minutes and can prevent a medical emergency. The two-reagent protocol (Marquis + Simon's) plus a fentanyl test strip covers the most important risks. The [DanceSafe complete 9-kit set](https://dancesafe.org/product/complete-set-of-all-9-testing-kits/r/ravewellness/) covers MDMA and all other common substances you might want to test.
 
-For a full breakdown of MDMA's risks, dosing, and safer use practices, see our [MDMA harm reduction guide](/mdma.html). For guidance on identifying and using fentanyl test strips, see our [fentanyl test strip guide](/blog/how-to-use-fentanyl-test-strips).
+For a full breakdown of MDMA's risks, dosing, and safer use practices, see our [MDMA harm reduction guide](/mdma.html). For guidance on identifying and using fentanyl test strips, see our [fentanyl test strip guide](/blog/how-to-use-fentanyl-test-strips.html).
 
 ---
 

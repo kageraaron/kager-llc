@@ -84,7 +84,7 @@ GHB's effects are felt for roughly 2-4 hours. When the euphoria fades, the insti
 
 At raves and festivals, the 2-4 hour felt duration of GHB leaves a gap that people frequently fill with alcohol. This is one of the most dangerous patterns in recreational GHB use. Alcohol consumed during the gap is still active when the next GHB dose hits, creating a combined CNS depressant load that neither substance alone would produce at those quantities.
 
-The full mechanism and clinical data are covered in detail in the [GHB and alcohol post](/blog/ghb-and-alcohol). The short version: **do not drink in the gap between doses, and do not use GHB if you have been drinking**.
+The full mechanism and clinical data are covered in detail in the [GHB and alcohol post](/blog/ghb-and-alcohol.html). The short version: **do not drink in the gap between doses, and do not use GHB if you have been drinking**.
 
 ---
 
@@ -114,7 +114,7 @@ Tolerance also creates a serious secondary risk: **GHB dependence and withdrawal
 
 ## If someone overdoses
 
-GHB overdose presents as sudden loss of consciousness, inability to be roused, vomiting while unconscious, and slow or labored breathing. The transition from conscious to unresponsive can happen in minutes. For a full clinical description, see the [GHB and alcohol guide](/blog/ghb-and-alcohol), which covers overdose response in detail.
+GHB overdose presents as sudden loss of consciousness, inability to be roused, vomiting while unconscious, and slow or labored breathing. The transition from conscious to unresponsive can happen in minutes. For a full clinical description, see the [GHB and alcohol guide](/blog/ghb-and-alcohol.html), which covers overdose response in detail.
 
 The immediate steps:
 

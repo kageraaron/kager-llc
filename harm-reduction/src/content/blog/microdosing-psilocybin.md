@@ -115,7 +115,7 @@ Full-dose psilocybin therapy in supervised clinical settings has strong, growing
 
 None of this means microdosing is ineffective for every person who tries it. It means that if you're considering it as a treatment for a mental health condition, you should know that the clinical evidence supporting that use is weak, and it is not a replacement for professional care.
 
-For a broader overview of psilocybin's effects and risks, see our [psilocybin harm reduction guide](/psilocybin.html). For guidance on full psychedelic experiences, see our [safe psilocybin trip guide](/blog/safe-psilocybin-trip-guide). For comparison with LSD, which has a different but related research landscape for therapeutic use, see our [LSD guide](/lsd.html).
+For a broader overview of psilocybin's effects and risks, see our [psilocybin harm reduction guide](/psilocybin.html). For guidance on full psychedelic experiences, see our [safe psilocybin trip guide](/blog/safe-psilocybin-trip-guide.html). For comparison with LSD, which has a different but related research landscape for therapeutic use, see our [LSD guide](/lsd.html).
 
 ---
 

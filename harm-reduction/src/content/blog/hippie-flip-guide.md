@@ -6,7 +6,7 @@ tags: ["mdma", "psilocybin", "mushrooms", "harm reduction", "drug combinations"]
 author: "Jordan Mercer"
 ---
 
-A hippie flip combines MDMA (molly/ecstasy) with psilocybin mushrooms, and sits alongside the [candy flip](/blog/candy-flip-guide) as one of the classic combined psychedelic experiences associated with rave and festival culture. The pharmacology behind it is genuinely interesting, the risks are real but manageable with planning, and the timing math is meaningfully different from a candy flip because psilocybin's shorter duration changes everything. **This guide is written for someone who has decided to try it and wants accurate information, not a lecture.**
+A hippie flip combines MDMA (molly/ecstasy) with psilocybin mushrooms, and sits alongside the [candy flip](/blog/candy-flip-guide.html) as one of the classic combined psychedelic experiences associated with rave and festival culture. The pharmacology behind it is genuinely interesting, the risks are real but manageable with planning, and the timing math is meaningfully different from a candy flip because psilocybin's shorter duration changes everything. **This guide is written for someone who has decided to try it and wants accurate information, not a lecture.**
 
 ## Quick answers
 
@@ -134,7 +134,7 @@ A hippie flip is shorter and in some ways more emotionally manageable than a can
 - **No MDMA redosing** during the mushroom experience
 - **Know the signs of serotonin syndrome** and distinguish them from normal MDMA effects
 
-For individual drug pharmacology, see our [MDMA guide](/mdma.html) and [psilocybin guide](/psilocybin.html). For the candy flip comparison, see the [candy flip guide](/blog/candy-flip-guide). For handling a difficult trip, see [how to stop a bad trip](/blog/safe-psilocybin-trip-guide). Before adding any other substances, check the [interaction guide](/interactions.html).
+For individual drug pharmacology, see our [MDMA guide](/mdma.html) and [psilocybin guide](/psilocybin.html). For the candy flip comparison, see the [candy flip guide](/blog/candy-flip-guide.html). For handling a difficult trip, see [how to stop a bad trip](/blog/safe-psilocybin-trip-guide.html). Before adding any other substances, check the [interaction guide](/interactions.html).
 
 ---
 
