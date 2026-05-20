@@ -1,6 +1,6 @@
 ---
-title: "Cocaine and Alcohol: Cocaethylene, the Hidden Third Drug"
-description: "Mixing cocaine (coke) and alcohol creates cocaethylene, a third compound more cardiotoxic than cocaine alone that stays in your body far longer."
+title: "Cocaethylene: The Hidden Third Drug Formed When You Mix Cocaine and Alcohol"
+description: "Cocaethylene forms in your liver when cocaine and alcohol are combined — more cardiotoxic than cocaine alone, with a longer half-life. What it is and why it matters."
 date: 2026-05-14
 lastmod: 2026-05-15
 tags: ["cocaine", "alcohol", "harm reduction", "drug interactions", "cocaethylene"]

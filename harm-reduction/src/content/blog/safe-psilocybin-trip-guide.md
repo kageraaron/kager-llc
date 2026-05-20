@@ -1,6 +1,6 @@
 ---
 title: "How to Avoid a Bad Trip on Shrooms: Set, Setting, and Dosing"
-description: "How to avoid a bad trip on psilocybin: the set, setting, and dosing checklist for first-timers, plus what to do if a difficult experience starts anyway."
+description: "How to avoid bad trips on psilocybin or LSD: the set, setting, and dosing checklist, plus what to do when a difficult experience starts anyway."
 date: 2026-05-13
 lastmod: 2026-05-15
 tags: ["psilocybin", "mushrooms", "psychedelics", "harm reduction"]
