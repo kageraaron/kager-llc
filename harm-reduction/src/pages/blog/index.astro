@@ -9,9 +9,30 @@ const posts = (await getCollection('blog')).sort(
 const title = "Harm Reduction Blog — Evidence-Based Guides | Rave Wellness";
 const description = "Evidence-based harm reduction articles for the rave and festival community. Drug safety guides, practical protocols, and peer-reviewed research.";
 const canonical = "https://www.ravewellness.org/blog.html";
+const keywords = "harm reduction blog, rave safety articles, drug safety guides, MDMA harm reduction, psychedelic safety, festival harm reduction, evidence-based drug guides, drug interactions, fentanyl testing";
+const schemaJson = `{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Blog",
+      "@id": "https://www.ravewellness.org/blog.html",
+      "name": "Rave Wellness Harm Reduction Blog",
+      "url": "https://www.ravewellness.org/blog.html",
+      "description": "Evidence-based harm reduction articles for the rave and festival community. Drug safety guides, practical protocols, and peer-reviewed research.",
+      "publisher": { "@type": "Organization", "name": "Rave Wellness", "url": "https://www.ravewellness.org" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.ravewellness.org/" },
+        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://www.ravewellness.org/blog.html" }
+      ]
+    }
+  ]
+}`;
 ---
 
-<BaseLayout {title} {description} {canonical} ogType="website">
+<BaseLayout {title} {description} {canonical} {keywords} {schemaJson} ogType="website">
   <Fragment slot="footer-nav">
     <h4>Blog</h4>
     <a href="/">Home</a>

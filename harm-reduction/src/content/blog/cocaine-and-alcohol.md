@@ -1,5 +1,5 @@
 ---
-title: "Cocaine and Alcohol: Cocaethylene and Why This Combination Is More Dangerous Than Either Drug Alone"
+title: "Cocaine and Alcohol: Cocaethylene, the Hidden Third Drug"
 description: "Mixing cocaine (coke) and alcohol creates cocaethylene, a third compound more cardiotoxic than cocaine alone that stays in your body far longer."
 date: 2026-05-14
 lastmod: 2026-05-15

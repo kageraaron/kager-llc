@@ -2,11 +2,32 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const title       = "Contact | Rave Wellness";
-const description = "Get in touch with Rave Wellness. Questions about harm reduction, content corrections, or partnership inquiries.";
+const description = "Get in touch with the Rave Wellness team. Questions about harm reduction content, factual corrections, media inquiries, or partnership opportunities.";
 const canonical   = "https://www.ravewellness.org/contact.html";
+const keywords    = "rave wellness contact, harm reduction questions, drug safety content, corrections, partnership";
+const schemaJson  = `{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ContactPage",
+      "@id": "https://www.ravewellness.org/contact.html",
+      "name": "Contact Rave Wellness",
+      "url": "https://www.ravewellness.org/contact.html",
+      "description": "Get in touch with the Rave Wellness team for content questions, corrections, or partnerships.",
+      "publisher": { "@type": "Organization", "name": "Rave Wellness", "url": "https://www.ravewellness.org" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.ravewellness.org/" },
+        { "@type": "ListItem", "position": 2, "name": "Contact", "item": "https://www.ravewellness.org/contact.html" }
+      ]
+    }
+  ]
+}`;
 ---
 
-<BaseLayout {title} {description} {canonical} ogType="website">
+<BaseLayout {title} {description} {canonical} {keywords} {schemaJson} ogType="website">
   <Fragment slot="footer-nav">
     <h4>Site</h4>
     <a href="/about.html">About</a>
