@@ -1,7 +1,7 @@
 ---
-title: "MDMA Jaw Clenching and Magnesium: What the Evidence Actually Shows"
-description: "Does magnesium reduce MDMA (molly/ecstasy) jaw clenching? Evidence review of the mechanism, study quality, dosing, and what's missing from the research."
-date: 2026-05-13
+title: "MDMA Jaw Clenching and Magnesium: Evidence Review"
+description: "Evidence review: does magnesium reduce MDMA jaw clenching? Covers the mechanism, study quality, best form (glycinate vs oxide), dosing, and what research is missing."
+date: 2026-05-29
 tags: ["mdma", "harm reduction", "magnesium", "bruxism", "jaw clenching", "supplements"]
 author: "Jordan Mercer"
 ---
@@ -156,4 +156,4 @@ Magnesium addresses the pharmacological driver. These approaches address other a
 
 Magnesium glycinate is the most mechanistically justified supplement in the MDMA harm reduction toolkit, specifically because NMDA receptor antagonism and reduced calcium-mediated neuromuscular excitability directly address how MDMA drives jaw clenching. No human RCT has tested this combination, but the pharmacology is established and real-world evidence across the harm reduction community is consistent. People using this protocol typically pre-load with 400–800mg of magnesium glycinate starting the night before (not the hour before), with an optional top-up during the session.
 
-For the full MDMA supplement protocol including R-ALA, Vitamin C, and 5-HTP timing, see our [MDMA supplements protocol guide](/blog/mdma-supplements-protocol.html). For a complete overview of MDMA risks, dosing, and harm reduction, see our [MDMA harm reduction guide](/mdma.html).
+For a cross-compound evidence review grading magnesium alongside theanine and other supplements, see our [MDMA jaw clenching systematic evidence review](/blog/mdma-jaw-clenching-evidence-review.html). For the full supplement protocol including R-ALA, Vitamin C, and 5-HTP timing, see our [MDMA supplements protocol guide](/blog/mdma-supplements-protocol.html). For post-session serotonin recovery specifically, see our [5-HTP and molly guide](/blog/5-htp-and-molly.html). For a complete overview of MDMA risks, dosing, and harm reduction, see our [MDMA harm reduction guide](/mdma.html).
