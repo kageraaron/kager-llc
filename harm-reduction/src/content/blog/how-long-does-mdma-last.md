@@ -1,5 +1,5 @@
 ---
-title: "How Long Does a Molly High Last? Full MDMA Timeline from Onset to Comedown"
+title: "How Long Does a Molly High Last? Full MDMA Timeline"
 description: "How long does molly last? Main effects run 3–5 hours, peak at 60–90 min. Full onset-to-comedown timeline and what affects duration."
 date: 2026-05-15
 lastmod: 2026-05-15

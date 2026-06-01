@@ -1,5 +1,5 @@
 ---
-title: "Is Ketamine Addictive? K-Cramps, Bladder Damage, and Signs of Dependence"
+title: "Is Ketamine Addictive? K-Cramps, Bladder Damage, and Dependence"
 description: "Is ketamine (K, special K) addictive? Yes. Psychological dependence is common in heavy users, bladder damage is real, and it's irreversible at advanced stages."
 date: 2026-05-12
 lastmod: 2026-05-15

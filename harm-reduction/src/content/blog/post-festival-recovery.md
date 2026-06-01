@@ -1,6 +1,6 @@
 ---
-title: "Post-Festival Recovery: What's Actually Happening in Your Body (And How to Fix It)"
-description: "The week after a multi-day festival is a real physiological recovery period, not just being tired. Here's the science of sleep debt, comedown, and returning to baseline — and what actually helps."
+title: "Post-Festival Recovery: What's Happening in Your Body"
+description: "The week after a multi-day festival is a real recovery period, not just being tired. The science of sleep debt, comedown, and what actually helps."
 date: 2026-05-27
 tags: ["harm reduction", "recovery", "sleep", "festivals", "mdma", "aftercare"]
 author: "Jordan Mercer"

@@ -1,5 +1,5 @@
 ---
-title: "Festival Heat and Hydration: How to Stay Cool and Avoid Overheating at Raves"
+title: "Festival Heat and Hydration: How to Avoid Overheating"
 description: "Overheating is the leading cause of acute MDMA deaths. Here's the hydration guide, cooling strategies, and gear that actually helps at festivals."
 date: 2026-05-19
 tags: ["harm reduction", "mdma", "festival safety", "hydration", "overheating"]

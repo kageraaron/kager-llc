@@ -1,6 +1,6 @@
 ---
-title: "Do Earplugs Ruin the Music at Raves? The High-Fidelity Earplug Myth"
-description: "No, good earplugs don't ruin the music. Cheap foam muffles sound, but high-fidelity earplugs lower the volume evenly so the music stays clear. Here's the difference."
+title: "Do Earplugs Ruin the Music at Raves? The High-Fidelity Myth"
+description: "No, good earplugs don't ruin the music. Cheap foam muffles sound, but high-fidelity earplugs lower the volume evenly so the music stays clear."
 date: 2026-06-01
 tags: ["hearing", "earplugs", "tinnitus", "harm reduction", "festivals"]
 author: "Jordan Mercer"

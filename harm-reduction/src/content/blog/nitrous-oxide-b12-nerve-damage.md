@@ -1,6 +1,6 @@
 ---
 title: "Nitrous Oxide and Nerve Damage: The B12 Risk Nobody Talks About"
-description: "Whippets (nitrous oxide) can permanently damage your spinal cord and nerves by depleting vitamin B12. Here's the mechanism, who's most at risk, and what symptoms look like before the damage becomes irreversible."
+description: "Whippets (nitrous oxide) can permanently damage your spinal cord and nerves by depleting vitamin B12. The mechanism, who's at risk, and early symptoms."
 date: 2026-05-27
 tags: ["nitrous oxide", "harm reduction", "B12", "nerve damage", "whippets"]
 author: "Jordan Mercer"

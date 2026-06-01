@@ -1,5 +1,5 @@
 ---
-title: "Do Your Ears 'Toughen Up' to Loud Music? Why Getting Used to the Volume Is a Warning Sign"
+title: "Do Your Ears Toughen Up to Loud Music? Why It's a Warning Sign"
 description: "No, your ears don't toughen up to loud music. When a rave starts sounding quieter or more comfortable, that's temporary hearing damage, not adaptation."
 date: 2026-06-01
 tags: ["hearing", "tinnitus", "earplugs", "harm reduction", "festivals"]

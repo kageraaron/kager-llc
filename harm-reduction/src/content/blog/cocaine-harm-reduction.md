@@ -1,6 +1,6 @@
 ---
-title: "Cocaine Harm Reduction: Cardiovascular Risks, Levamisole, and Protecting Your Nose"
-description: "Cocaine's cardiac risks can strike on the first use. Most US cocaine contains levamisole, which destroys white blood cells. Here's what the evidence shows and how to reduce your risk."
+title: "Cocaine Harm Reduction: Heart Risks, Levamisole, and Nasal Care"
+description: "Cocaine's cardiac risks can strike on the first use, and most US supply contains levamisole. What the evidence shows and how to reduce harm."
 date: 2026-05-28
 tags: ["cocaine", "harm reduction", "cardiovascular", "levamisole", "adulterants"]
 author: "Jordan Mercer"

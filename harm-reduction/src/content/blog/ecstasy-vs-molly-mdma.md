@@ -1,6 +1,6 @@
 ---
-title: "Ecstasy vs Molly: What's Actually in Pressed Pills (And Why It Matters)"
-description: "Ecstasy = pressed tablets, molly = powder. Neither form guarantees purity. Here's what drug checking programs actually find in both—and how to test before you use."
+title: "Ecstasy vs Molly: What's Actually in Pressed Pills"
+description: "Ecstasy is pressed tablets, molly is powder, and neither guarantees purity. What drug checking finds in both, and how to test before you use."
 date: 2026-05-15
 lastmod: 2026-05-15
 tags: ["mdma", "ecstasy", "harm reduction", "drug testing", "adulterants"]

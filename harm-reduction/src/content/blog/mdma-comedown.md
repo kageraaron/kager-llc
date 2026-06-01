@@ -1,6 +1,6 @@
 ---
 title: "The MDMA Comedown: Why It Happens and How to Reduce It"
-description: "Molly (MDMA/ecstasy) comedown depression ('Blue Tuesday') is caused by serotonin depletion. The mechanism, timeline, and what evidence actually supports for recovery."
+description: "Molly (MDMA) comedown depression ('Blue Tuesday') comes from serotonin depletion. The mechanism, timeline, and what actually helps recovery."
 date: 2026-05-12
 lastmod: 2026-05-15
 tags: ["mdma", "harm reduction", "supplements", "serotonin", "comedown"]

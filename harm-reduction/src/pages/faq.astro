@@ -304,6 +304,70 @@ const schemaJson  = `{
               "@type": "Answer",
               "text": "Cocaethylene is a unique compound formed only when cocaine and alcohol are both present in the liver. It is pharmacologically similar to cocaine but accumulates with repeated combined use and is more cardiotoxic. A 2023 prospective cohort study found cocaine + alcohol users had 12.6x higher odds of cardiac arrest in the ED vs cocaine alone (Shastry et al., PMID 36000306). Alcohol also masks cocaine intoxication, causing people to drink more than intended, a trap that amplifies risk."
             }
+          },
+          {
+            "@type": "Question",
+            "name": "Can you take LSD or psychedelics while on lithium?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Combining lithium with LSD, psilocybin, or other classic psychedelics is associated with seizures and is treated as an absolute contraindication. An analysis of online experience reports found roughly 47% of lithium-plus-psychedelic combinations involved a seizure, while none of the reports involving the mood stabilizer lamotrigine did (Nayak et al. 2021, PMID 34348413). Do not stop lithium on your own to use psychedelics; lithium discontinuation must be managed by a prescriber."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between GHB and GBL?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "GBL is a prodrug that your body rapidly converts into GHB, so the active drug and the effects are the same. The practical difference is that GBL is more concentrated by volume, absorbs faster, and reaches the brain sooner, which makes it easier to overdose on and harder to dose accurately. GBL doses are smaller than GHB doses, so using a GHB measurement for GBL is a common and dangerous mistake."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can you die from GHB?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. GHB has an unusually narrow window between a recreational dose and a coma-inducing one, roughly 2 to 3 times, so accidental overdose is common. The greatest danger is combining GHB or GBL with alcohol or other depressants, which sharply raises the risk of unconsciousness, stopped breathing, and death. Signs of overdose include sudden unresponsiveness, slow or absent breathing, and vomiting while unconscious; place the person on their side and call 911 immediately."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do ketamine vapes actually contain ketamine?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Usually not. Ketamine hydrochloride, the powder form sold on the street, has a boiling point around 364C, while vape pens run at 200 to 250C, so it does not vaporize efficiently and partially degrades. Products sold informally as ketamine vapes more often contain novel dissociative research chemicals such as 2-fluorodeschloroketamine (2-FDCK), deschloroketamine (DCK), or methoxetamine (MXE), which are easier to vaporize but have thinner safety data and documented fatalities. There is no dose control or purity data, and reagent kits cannot reliably distinguish ketamine from its analogs in a vape; only lab-based drug checking (FTIR or GC/MS) can identify the contents."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is levamisole in cocaine?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Levamisole is a veterinary deworming drug found in roughly 70 to 80% of US cocaine, used as a cutting agent. In a subset of people it triggers an immune reaction that destroys infection-fighting white blood cells (agranulocytosis), which can be fatal, and it can also cause a skin vasculitis. You cannot detect it by sight or taste. Warning signs after cocaine use include persistent fever, mouth or skin ulcers, and infections that will not clear; seek medical care and tell the clinician you used cocaine (Larocque and Hoffman 2012, PMID 22677078)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do earplugs ruin the music at a rave?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Cheap foam earplugs sound muffled because they cut high frequencies far more than low ones, but high-fidelity (filtered) earplugs lower the volume evenly across the spectrum, so the music stays clear, just quieter. A randomized trial of festival-goers found earplug users had far less temporary hearing loss and tinnitus afterward (Ramakers et al. 2016, PMID 27054284). You still feel the bass, which travels through your body as well as your ears."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can one loud night cause permanent hearing loss?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. At the 100 to 110 dB levels typical of raves, the safe exposure window is only minutes, and a single intense exposure can cause permanent acoustic trauma. Even a night that leaves only temporary ringing can permanently destroy inner-ear nerve connections: research found exposures causing only temporary threshold shifts still killed up to 40% of cochlear nerve synapses (Kujawa and Liberman 2009, PMID 19906956). Earplugs are the only reliable protection."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do your ears toughen up to loud music?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. When a loud venue starts sounding quieter or more comfortable, that is a temporary threshold shift, your inner ear fatiguing and partly shutting down under overload, not adaptation or resilience. The recovery over the next day or two hides permanent loss of auditory nerve connections. People who tolerate very loud venues usually have hearing loss that has erased the protective discomfort. The only protection is limiting the dose with earplugs, distance, and breaks."
+            }
           }
         ]
       }
@@ -524,6 +588,21 @@ const schemaJson  = `{
             </div>
           </div>
 
+          <div class="faq-item">
+            <button class="faq-question">
+              Can you take LSD or psychedelics while on lithium?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>No, this combination is associated with seizures and is treated as an absolute contraindication.</strong> Lithium (a mood stabilizer for bipolar disorder) lowers the seizure threshold, and adding a serotonergic psychedelic like LSD or psilocybin appears to push some people into generalized seizures.</p>
+                <p>An analysis of online experience reports found <strong>roughly 47% of lithium-plus-psychedelic combinations involved a seizure</strong>, while none of the reports involving the mood stabilizer lamotrigine did (Nayak et al. 2021, PMID 34348413). The risk applies to psilocybin, mescaline, and the 2C-x compounds too, not just LSD.</p>
+                <p><strong>Do not stop lithium on your own</strong> to make room for a trip, abrupt discontinuation can trigger relapse and rebound mania. Any change must be managed by a prescriber.</p>
+                <p>Full guide: <a href="/blog/lsd-and-lithium.html">LSD and lithium: why this combination causes seizures →</a> | <a href="lsd.html">LSD harm reduction guide →</a></p>
+              </div>
+            </div>
+          </div>
+
           <!-- Festival Section -->
           <h2 class="faq-category-title"><span>🎡</span> Festivals & Mixing</h2>
 
@@ -576,6 +655,21 @@ const schemaJson  = `{
                 <p>Cocaethylene is pharmacologically similar to cocaine but more cardiotoxic and longer-lasting. It accumulates with repeated combined dosing, putting sustained strain on the heart. A 2023 prospective cohort study (Shastry et al., PMID 36000306) found cocaine + alcohol users had <strong>12.6× higher odds of cardiac arrest in the ED</strong> compared to cocaine alone.</p>
                 <p>The other trap: alcohol blunts cocaine's stimulant effects, causing people to use more cocaine than intended. And cocaine masks alcohol's sedation, causing people to drink more. The result is often a higher combined dose than either person planned.</p>
                 <p>For the full breakdown: <a href="/blog/cocaine-and-alcohol.html">Cocaine and alcohol: cocaethylene explained →</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              What is levamisole, and is most cocaine cut with it?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>Levamisole is a veterinary deworming drug, and it is the most common cocaine adulterant, present in roughly 70–80% of US cocaine</strong> (Larocque and Hoffman 2012, PMID 22677078). It is cheap, white, and survives the conversion to crack, and it mildly potentiates cocaine, so it stretches product without being obvious.</p>
+                <p>The danger is immune-mediated: in a susceptible minority, levamisole triggers antibodies that destroy infection-fighting white blood cells (<strong>agranulocytosis</strong>), which can be fatal, and it can also cause a skin vasculitis with purple, necrotic patches. Because the reaction depends on individual immune response, not dose, there is no "safe amount," and you cannot detect it by sight or taste.</p>
+                <p>Warning signs after cocaine use: persistent high fever, sore throat, mouth or skin ulcers, swollen glands, infections that won't clear, or purple patches on the ears, nose, and limbs. <strong>Treat these as an emergency and tell the clinician you used cocaine</strong>, diagnosis is a simple blood count.</p>
+                <p>Full guide: <a href="/blog/levamisole-in-cocaine.html">What is levamisole in cocaine, and should you be worried? →</a> | <a href="cocaine.html">Cocaine harm reduction guide →</a></p>
               </div>
             </div>
           </div>
@@ -794,6 +888,36 @@ const schemaJson  = `{
 
           <div class="faq-item">
             <button class="faq-question">
+              What is the difference between GHB and GBL?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>GBL is a prodrug that your body rapidly converts into GHB, so the active drug and the effects are the same.</strong> The difference is in how it gets there: GBL is more concentrated by volume, more fat-soluble, and absorbs faster, often with onset in 5–15 minutes.</p>
+                <p>That makes GBL <strong>easier to overdose on and harder to dose accurately</strong>. GBL doses are smaller than the equivalent GHB dose, so measuring GBL with the same dropper or cap you'd use for GHB can deliver far more active drug than you intended. Conversion also varies between people, so you can't calibrate off someone else's dose.</p>
+                <p>The safe-use rules are identical for both: measure with an oral syringe, start low with any new batch, wait 2–3 hours between doses, and never combine with alcohol or other depressants.</p>
+                <p>Full guide: <a href="/blog/ghb-vs-gbl.html">GHB vs GBL: what is the difference? →</a> | <a href="ghb.html">GHB harm reduction guide →</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              Can you die from GHB?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>Yes.</strong> GHB has an unusually narrow window between a recreational dose and a coma-inducing one, roughly 2–3 times, compared with about 10 times for alcohol. That steep dose-response curve means accidental overdose is common, and GHB's effects can hit suddenly.</p>
+                <p>The single biggest risk factor is <strong>combining GHB or GBL with alcohol or other depressants</strong> (benzos, opioids), which synergistically suppresses breathing and consciousness and has caused many deaths, even when the substances are taken a few hours apart.</p>
+                <p>Signs of overdose: sudden unresponsiveness, slow or absent breathing, vomiting while unconscious, blue lips. <strong>Place the person on their side (recovery position) and call 911 immediately</strong>, do not wait to see if they sleep it off, and do not give stimulants.</p>
+                <p>Full guide: <a href="/blog/ghb-and-alcohol.html">GHB and alcohol: why this combination kills →</a> | <a href="/blog/ghb-dosing-guide.html">How to dose GHB safely →</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
               Can you use poppers with Viagra or Cialis?
               <div class="faq-icon"></div>
             </button>
@@ -847,6 +971,21 @@ const schemaJson  = `{
               <div class="faq-answer-content">
                 <p>Ketamine carries a real psychological dependency risk, though it is not physically addictive in the way opioids are (there’s no severe physical withdrawal syndrome). The dopaminergic reward pathway involvement and tolerance development happen quickly, what produced a pleasant dissociative effect at 50mg may no longer work at 200mg within weeks of regular use.</p>
                 <p>Many users describe a compulsive quality to ketamine use, especially nasal use. Clinical trials using NAC (N-acetylcysteine) to treat ketamine use disorder show it reduces cravings by modulating glutamate signaling, this is the mechanism behind including NAC in harm reduction protocols for ketamine users.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              Do ketamine vapes actually contain ketamine?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>Usually not.</strong> Ketamine hydrochloride, the powder form sold on the street, has a boiling point around 364°C, while vape pens run at 200–250°C. At those temperatures it doesn't vaporize efficiently, it partially degrades. So if a "ketamine vape" produces dissociative effects, those effects are probably <strong>not coming from ketamine</strong>.</p>
+                <p>What's more likely inside are <strong>novel dissociative research chemicals</strong> like 2-fluorodeschloroketamine (2-FDCK), deschloroketamine (DCK), or methoxetamine (MXE), analogs that are easier to vaporize but have thinner safety data and documented fatalities. The product is unlabeled, unmeasured, and uncontrolled: no dose control, no purity data, plus lung-irritation risk from the vape carrier itself.</p>
+                <p><strong>Reagent kits (Marquis, Simon's) can't reliably tell ketamine from its analogs in a vape formulation.</strong> Only lab-based drug checking (FTIR or GC/MS), available through some festival services, can identify what's actually in it.</p>
+                <p>Full guide: <a href="/blog/ketamine-vapes.html">Ketamine vapes: what's actually in them and the risks →</a> | <a href="ketamine.html">Ketamine harm reduction guide →</a></p>
               </div>
             </div>
           </div>
@@ -999,6 +1138,51 @@ const schemaJson  = `{
                 </ul>
                 <p>The evidence is nuanced: real serotonergic (not dopaminergic) neurotoxicity risk exists for frequent, high-dose users and is the strongest argument for spacing use widely. It is not evidence that occasional moderate use causes visible brain damage.</p>
                 <p><a href="mdma.html#spacing">See our MDMA guide for use-spacing evidence →</a></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hearing -->
+          <h2 class="faq-category-title"><span>👂</span> Hearing &amp; Earplugs</h2>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              Do earplugs ruin the music at a rave?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>No.</strong> The muffled-sound complaint comes from cheap foam earplugs, which cut high frequencies far more than low ones, gutting the treble while the bass still booms. <strong>High-fidelity (filtered) earplugs lower the whole frequency range by a similar amount</strong> (flat attenuation), so the music sounds the same, just turned down.</p>
+                <p>A randomized trial of festival attendees found earplug users had temporary hearing loss in about 8% of ears versus 42% unprotected, and tinnitus in 12% versus 40% (Ramakers et al. 2016, PMID 27054284), and they still enjoyed the show. You also keep the bass: low frequencies travel through your body, not just your eardrums.</p>
+                <p>Full guide: <a href="/blog/do-earplugs-ruin-music-at-raves.html">Do earplugs ruin the music at raves? →</a> | <a href="hearing.html">Hearing protection guide →</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              Can one loud night cause permanent hearing loss?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>Yes, you do not need years of exposure.</strong> Raves run at 100–110 dB, where the safe exposure window is only minutes: at 100 dB, damage risk starts around 15 minutes; at 110 dB, in 1–2 minutes. A single intense moment (standing at the speaker stack, a feedback squeal) can also cause permanent acoustic trauma on the spot.</p>
+                <p>Even a night that only leaves temporary ringing isn't fully harmless: exposures that cause just a temporary threshold shift, where hearing seems to recover, still permanently destroyed up to 40% of inner-ear nerve synapses in research (Kujawa and Liberman 2009, PMID 19906956). This "hidden hearing loss" shows up later as trouble hearing in noisy rooms.</p>
+                <p>Full guide: <a href="/blog/can-one-loud-night-damage-hearing.html">Is one loud night enough to cause permanent hearing loss? →</a> | <a href="hearing.html">Hearing protection guide →</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              Do your ears toughen up to loud music?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>No, the opposite is happening.</strong> When a venue starts sounding quieter or more comfortable partway through the night, that is a <strong>temporary threshold shift</strong>: your inner ear is fatigued and partly shutting down under overload. You are hearing it worse, not tolerating it better.</p>
+                <p>The shift usually recovers in 16–48 hours, which is why the myth persists, but the recovery hides permanent loss of auditory nerve connections that don't grow back. People who comfortably handle very loud venues usually have hearing loss that has erased the warning discomfort, not "tough ears." The only protection is dose control: earplugs, distance from speakers, and quiet breaks.</p>
+                <p>Full guide: <a href="/blog/do-ears-toughen-up-to-loud-music.html">Do your ears toughen up to loud music? →</a> | <a href="hearing.html">Hearing protection guide →</a></p>
               </div>
             </div>
           </div>

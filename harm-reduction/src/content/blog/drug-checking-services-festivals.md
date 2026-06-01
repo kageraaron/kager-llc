@@ -1,6 +1,6 @@
 ---
-title: "Drug Checking Services at Festivals: How They Work and Why They Matter"
-description: "Drug checking services like The Loop and DanceSafe test your substances on-site at festivals and provide real results — not moral lectures. Here's the evidence on whether they actually change behavior, what they can detect, and how to find them."
+title: "Drug Checking at Festivals: How It Works and Why It Matters"
+description: "Drug checking services like The Loop and DanceSafe test substances on-site at festivals. What they detect, whether they change behavior, and how to find them."
 date: 2026-05-27
 tags: ["drug checking", "fentanyl", "harm reduction", "festivals", "DanceSafe"]
 author: "Jordan Mercer"

@@ -1,5 +1,5 @@
 ---
-title: "MDMA and Green Tea Extract (EGCG): Does It Help or Is It Dangerous?"
+title: "MDMA and Green Tea Extract (EGCG): Help or Harm?"
 description: "EGCG appears in MDMA supplement stacks, but the evidence for benefit is weak and preclinical. Here's the actual pharmacology of EGCG, MAO inhibition, and MDMA."
 date: 2026-05-19
 tags: ["mdma", "supplements", "harm reduction", "green tea extract", "egcg"]
