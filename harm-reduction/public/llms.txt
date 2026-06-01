@@ -23,15 +23,24 @@ Rave Wellness publishes harm reduction information grounded in clinical pharmaco
 
 - https://www.ravewellness.org/interactions.html — Drug interaction checker
 - https://www.ravewellness.org/test-kits.html — Drug testing guide (reagent kits, fentanyl strips)
+- https://www.ravewellness.org/faq.html — Harm reduction FAQ: 40+ evidence-based answers with citations (MDMA, psychedelics, GHB, ketamine, cocaine adulterants, hearing, overdose response)
 
 ## Blog
 
 - https://www.ravewellness.org/blog.html — All articles
 - https://www.ravewellness.org/rss.xml — RSS feed
 
+Notable in-depth posts:
+- https://www.ravewellness.org/blog/lsd-and-lithium.html — LSD/psychedelics and lithium: seizure risk and why it is an absolute contraindication
+- https://www.ravewellness.org/blog/levamisole-in-cocaine.html — Levamisole in cocaine: agranulocytosis risk, prevalence, and warning signs
+- https://www.ravewellness.org/blog/ghb-vs-gbl.html — GHB vs GBL: the prodrug relationship and why GBL is easier to overdose on
+- https://www.ravewellness.org/blog/do-earplugs-ruin-music-at-raves.html — High-fidelity vs foam earplugs and the muffled-sound myth
+- https://www.ravewellness.org/blog/can-one-loud-night-damage-hearing.html — How a single loud night causes permanent hearing loss
+- https://www.ravewellness.org/blog/do-ears-toughen-up-to-loud-music.html — Why "getting used to" loud volume is temporary hearing damage
+
 ## Key Topics Covered
 
-MDMA neurotoxicity, serotonin syndrome, MDMA supplements protocol (5-HTP, ALA, magnesium), candy flipping, hippie flipping, fentanyl test strips, naloxone use, GHB overdose, ketamine bladder damage, psychedelic harm reduction, festival safety, drug checking, DanceSafe, MAPS clinical trials.
+MDMA neurotoxicity, serotonin syndrome, MDMA supplements protocol (5-HTP, ALA, magnesium), candy flipping, hippie flipping, fentanyl test strips, naloxone use, GHB overdose, GHB vs GBL, GHB withdrawal, ketamine bladder damage, ketamine vapes and novel dissociatives, LSD and lithium seizure risk, levamisole-adulterated cocaine and agranulocytosis, cocaethylene, noise-induced hearing loss and earplugs, psychedelic harm reduction, festival safety, drug checking, DanceSafe, MAPS clinical trials.
 
 ## Editorial Standards
 

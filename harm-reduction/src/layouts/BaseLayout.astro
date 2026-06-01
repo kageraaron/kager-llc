@@ -12,6 +12,7 @@ interface Props {
   twitterTitle?: string;
   twitterDescription?: string;
   schemaJson?: string;
+  noindex?: boolean;
 }
 
 const {
@@ -25,6 +26,7 @@ const {
   twitterTitle,
   twitterDescription,
   schemaJson = '',
+  noindex = false,
 } = Astro.props;
 ---
 <!DOCTYPE html>
@@ -40,7 +42,7 @@ const {
   <title>{title}</title>
   <meta name="description" content={description} />
   {keywords && <meta name="keywords" content={keywords} />}
-  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta name="robots" content={noindex ? "noindex, follow" : "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"} />
   {canonical && <link rel="canonical" href={canonical} />}
   <link rel="sitemap" href="/sitemap-index.xml" />
   <link rel="alternate" type="application/rss+xml" title="Rave Wellness Blog" href="https://www.ravewellness.org/rss.xml" />

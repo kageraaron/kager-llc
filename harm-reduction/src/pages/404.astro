@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title       = `Page Not Found (404) | Rave Wellness`;
+const description = `The page you're looking for doesn't exist. Browse our harm reduction drug guides, interaction checker, and blog.`;
+---
+
+<BaseLayout title={title} description={description} noindex={true}>
+  <main>
+    <section style="padding: 96px 0; min-height: 50vh;">
+      <div class="container" style="max-width: 720px; text-align: center;">
+        <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--purple-light); margin-bottom: 12px;">404</p>
+        <h1 style="margin-bottom: 16px;">This page doesn't exist</h1>
+        <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.6; margin-bottom: 32px;">
+          The link may be broken or the page may have moved. Here's where to find what you need.
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; text-align: left;">
+          <a href="/" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; text-decoration: none; color: var(--text);">Home</a>
+          <a href="/mdma.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; text-decoration: none; color: var(--text);">Drug guides</a>
+          <a href="/interactions.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; text-decoration: none; color: var(--text);">Interaction checker</a>
+          <a href="/test-kits.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; text-decoration: none; color: var(--text);">Test kits</a>
+          <a href="/blog.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; text-decoration: none; color: var(--text);">Blog</a>
+          <a href="/faq.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; text-decoration: none; color: var(--text);">FAQ</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
