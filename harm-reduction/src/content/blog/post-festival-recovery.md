@@ -2,6 +2,7 @@
 title: "Post-Festival Recovery: What's Happening in Your Body"
 description: "The week after a multi-day festival is a real recovery period, not just being tired. The science of sleep debt, comedown, and what actually helps."
 date: 2026-05-27
+lastmod: 2026-06-01
 tags: ["harm reduction", "recovery", "sleep", "festivals", "mdma", "aftercare"]
 author: "Jordan Mercer"
 ---

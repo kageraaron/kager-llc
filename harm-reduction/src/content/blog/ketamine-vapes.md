@@ -2,6 +2,7 @@
 title: "Ketamine Vapes: What's Actually in Them and the Risks"
 description: "Ketamine vapes rarely contain real ketamine. Here's what's more likely inside, the risks of novel dissociatives, and how to protect yourself."
 date: 2026-05-19
+lastmod: 2026-06-01
 tags: ["ketamine", "harm reduction", "drug checking", "novel psychoactive substances", "vaping"]
 author: "Jordan Mercer"
 ---

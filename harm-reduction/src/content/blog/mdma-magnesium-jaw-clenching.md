@@ -2,6 +2,7 @@
 title: "MDMA Jaw Clenching and Magnesium: Evidence Review"
 description: "Does magnesium reduce MDMA jaw clenching? An evidence review of the mechanism, study quality, best form (glycinate vs oxide), and dosing."
 date: 2026-05-29
+lastmod: 2026-06-01
 tags: ["mdma", "harm reduction", "magnesium", "bruxism", "jaw clenching", "supplements"]
 author: "Jordan Mercer"
 ---

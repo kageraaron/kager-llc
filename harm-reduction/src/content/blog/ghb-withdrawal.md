@@ -2,6 +2,7 @@
 title: "GHB Withdrawal: Symptoms, Timeline, and Why You Need Medical Help"
 description: "GHB and GBL withdrawal can cause seizures within hours of the last dose. The clinical timeline, the dangers, and why it needs hospital care."
 date: 2026-05-28
+lastmod: 2026-06-01
 tags: ["GHB", "GBL", "withdrawal", "harm reduction", "dependence"]
 author: "Jordan Mercer"
 ---

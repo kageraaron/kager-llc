@@ -2,6 +2,7 @@
 title: "How to Dose GHB Safely: The 1mL Rule and Why Redosing Kills"
 description: "GHB dosing is dangerous because concentration varies between batches. What the 1mL rule means, how to measure, and why redosing kills."
 date: 2026-05-18
+lastmod: 2026-06-01
 tags: ["ghb", "harm reduction", "dosing", "overdose"]
 author: "Jordan Mercer"
 ---

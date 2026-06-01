@@ -2,7 +2,7 @@
 title: "Cocaethylene: The Third Drug from Mixing Cocaine and Alcohol"
 description: "Cocaethylene forms when you mix cocaine and alcohol: it's more cardiotoxic than cocaine alone and lasts longer. What it is and why it matters."
 date: 2026-05-14
-lastmod: 2026-05-15
+lastmod: 2026-06-01
 tags: ["cocaine", "alcohol", "harm reduction", "drug interactions", "cocaethylene"]
 author: "Jordan Mercer"
 ---

@@ -2,6 +2,7 @@
 title: "Cocaine Harm Reduction: Heart Risks, Levamisole, and Nasal Care"
 description: "Cocaine's cardiac risks can strike on the first use, and most US supply contains levamisole. What the evidence shows and how to reduce harm."
 date: 2026-05-28
+lastmod: 2026-06-01
 tags: ["cocaine", "harm reduction", "cardiovascular", "levamisole", "adulterants"]
 author: "Jordan Mercer"
 ---

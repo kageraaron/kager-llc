@@ -2,6 +2,7 @@
 title: "Microdosing Psilocybin for Depression: What Research Shows"
 description: "Microdosing psilocybin is popular, but the evidence is weaker than most people realize. Here's an honest look at what the research actually shows."
 date: 2026-05-18
+lastmod: 2026-06-01
 tags: ["psilocybin", "mushrooms", "microdosing", "depression", "harm reduction"]
 author: "Jordan Mercer"
 ---

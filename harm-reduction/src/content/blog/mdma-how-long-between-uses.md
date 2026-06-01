@@ -2,6 +2,7 @@
 title: "How Long to Wait Between MDMA Uses? The 3-Month Rule"
 description: "Harm reduction guidance on how long to wait between MDMA (molly/ecstasy) uses. The 3-month rule, what it's based on, and signs you're using too often."
 date: 2026-05-15
+lastmod: 2026-06-01
 tags: ["mdma", "molly", "harm reduction", "tolerance", "neurotoxicity"]
 author: "Jordan Mercer"
 ---

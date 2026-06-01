@@ -2,6 +2,7 @@
 title: "5-HTP and Molly: Timing, Serotonin Recovery, and Syndrome Risk"
 description: "5-HTP taken after molly (MDMA) can help replenish serotonin, but wait 24 hours first. Taking it too soon raises serotonin syndrome risk. Evidence and protocol."
 date: 2026-05-29
+lastmod: 2026-06-01
 tags: ["mdma", "5-htp", "harm reduction", "serotonin", "supplements"]
 author: "Rave Wellness"
 ---

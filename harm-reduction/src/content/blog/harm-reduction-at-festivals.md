@@ -2,6 +2,7 @@
 title: "Harm Reduction at Festivals: A Practical Pre-Event Checklist"
 description: "What to bring, what to test, and what to know before a rave or festival. Covers drug checking, heat management, hearing protection, and emergency prep."
 date: 2026-05-12
+lastmod: 2026-06-01
 tags: ["harm reduction", "festivals", "drug checking", "safety"]
 author: "Jordan Mercer"
 ---

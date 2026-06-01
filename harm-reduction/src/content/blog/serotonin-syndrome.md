@@ -2,6 +2,7 @@
 title: "Serotonin Syndrome: How to Recognize It and What to Do"
 description: "Serotonin syndrome causes muscle twitching, fever, and agitation, and can be fatal. How to spot it, which drug combinations cause it, and treatment."
 date: 2026-05-28
+lastmod: 2026-06-01
 tags: ["serotonin syndrome", "MDMA", "drug interactions", "harm reduction", "SSRIs"]
 author: "Jordan Mercer"
 ---

@@ -2,6 +2,7 @@
 title: "Hippie Flip (MDMA + Psilocybin): Risks, Timing, and Safety"
 description: "A hippie flip combines MDMA and psilocybin mushrooms. Here's the timing rationale, the real serotonin syndrome risk, dosing ceilings, and how to reduce harm."
 date: 2026-05-18
+lastmod: 2026-06-01
 tags: ["mdma", "psilocybin", "mushrooms", "harm reduction", "drug combinations"]
 author: "Jordan Mercer"
 ---
