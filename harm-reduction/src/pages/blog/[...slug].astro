@@ -27,6 +27,8 @@ const schemaJson = JSON.stringify({
       "dateModified": (post.data.lastmod ?? post.data.date).toISOString(),
       "url": canonical,
       "image": "https://www.ravewellness.org/android-chrome-512x512.png",
+      "about": (post.data.tags ?? []).map(t => ({ "@type": "Thing", "name": t })),
+      "keywords": (post.data.tags ?? []).join(", "),
       "author": post.data.author === 'Jordan Mercer'
         ? { "@type": "Person", "@id": "https://www.ravewellness.org/author/jordan-mercer.html#person", "name": "Jordan Mercer", "url": "https://www.ravewellness.org/author/jordan-mercer.html" }
         : { "@type": "Organization", "name": "Rave Wellness", "url": "https://www.ravewellness.org" },

@@ -28,6 +28,19 @@ Yes. Dissolve a small amount of the pill in water and use a fentanyl test strip.
 
 ---
 
+## Ecstasy vs molly at a glance
+
+| | Ecstasy | Molly |
+|---|---|---|
+| Form | Pressed pills or tablets | Powder or crystal |
+| Supposed to be | MDMA | MDMA |
+| Purity | Not guaranteed | Not guaranteed (often cut more, not less) |
+| Dose certainty | Fixed per tablet, but ranges from 0 to 300+ mg between presses | Requires accurate weighing |
+| Common adulterants | Cathinones, meth, caffeine, PMA/PMMA, DXM | Cathinones and other NPS at similar rates |
+| How to verify | Reagent test (Marquis, Simon's, Mecke) plus a fentanyl strip | Same |
+
+---
+
 ## What "ecstasy" and "molly" actually mean
 
 The vocabulary split between ecstasy and molly became common in the US around 2008. The working assumption was that "molly" (short for molecular) signaled pure MDMA, while pills were more likely to be cut. That assumption has never been supported by testing data.

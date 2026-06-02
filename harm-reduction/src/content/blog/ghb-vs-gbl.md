@@ -22,6 +22,20 @@ GHB and GBL produce nearly identical effects because **GBL is a prodrug: once yo
 
 ---
 
+## GHB vs GBL at a glance
+
+| | GHB | GBL |
+|---|---|---|
+| What it is | The active drug (a GABA-B agonist) | A prodrug your body converts into GHB |
+| Conversion | None needed | Lactonase enzymes convert it to GHB in the blood, within minutes |
+| Onset | ~15–30 minutes | Faster, often 5–15 minutes |
+| Potency by volume | Baseline | Higher: a smaller volume delivers the same active dose |
+| Dose accuracy | Hard (concentration varies by batch) | Even harder: smaller doses, and conversion varies between people |
+| Overdose risk | Narrow window (~2–3x) between effect and coma | Same window, but faster onset and higher potency make accidental overdose easier |
+| Safe-use rules | Oral syringe, wait 2–3 hours between doses, never mix with depressants | Identical, with extra caution because doses are smaller |
+
+---
+
 ## What GBL actually is
 
 GBL is an industrial solvent (it shows up in paint strippers and cleaning products) that the body treats as a **prodrug for GHB.** When you ingest it, enzymes called lactonases, mainly paraoxonase-1 in the blood, rapidly hydrolyze GBL's ring structure and convert it into GHB ([PMID 33417072](https://pubmed.ncbi.nlm.nih.gov/33417072/)). This conversion happens in the bloodstream and does not require the liver, which is part of why it is so fast.

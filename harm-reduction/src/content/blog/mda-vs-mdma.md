@@ -24,6 +24,20 @@ MDA (3,4-methylenedioxyamphetamine, street name "Sally") and MDMA (3,4-methylene
 
 ---
 
+## MDA vs MDMA at a glance
+
+| | MDA (Sally) | MDMA (Molly) |
+|---|---|---|
+| Chemistry | Primary amine (no N-methyl group) | Secondary amine (has N-methyl group) |
+| Character | More psychedelic, visual, and stimulating | More empathogenic and "loved-up" |
+| Typical dose | 80–120 mg | 75–125 mg |
+| Duration | ~8–12 hours | ~4–6 hours |
+| Marquis reagent | Purple-black | Purple-black (looks identical) |
+| Simon's reagent | No color change | Turns blue (the key differentiator) |
+| Neurotoxicity (animal data) | Greater serotonin-terminal damage at equal doses | Lower than MDA, but present at high doses |
+
+---
+
 ## What MDA is and how it differs chemically
 
 MDA and MDMA are both substituted amphetamines in the methylenedioxy family. The structural difference is a single N-methyl group: MDMA has it, MDA does not. That group makes MDMA a **secondary amine** and MDA a **primary amine** — a distinction that turns out to matter for both pharmacology and drug testing.

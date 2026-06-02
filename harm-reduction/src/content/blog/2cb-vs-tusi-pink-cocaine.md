@@ -22,6 +22,19 @@ author: "Jordan Mercer"
 
 ---
 
+## 2C-B vs tusi at a glance
+
+| | 2C-B | Tusi ("pink cocaine") |
+|---|---|---|
+| What it is | A single psychedelic phenethylamine | A variable mixture, usually ketamine + MDMA |
+| Contains 2C-B? | Yes | Rarely: lab testing finds it absent in the vast majority of samples |
+| Typical contents | 2C-B only | Ketamine (~90–95%), MDMA (~60–80%), plus variable adulterants |
+| Mechanism | 5-HT2A/2C partial agonist; no stimulant or dissociative action | Dissociative (ketamine) plus monoamine release (MDMA) |
+| Duration | 4–6 hours | Unpredictable; depends on the mix |
+| Main risks | Psychedelic effects, mild cardiovascular stimulation | Hyperthermia, severe dissociation, cardiovascular load, unknown adulterants |
+
+---
+
 ## Where the name "tusi" comes from
 
 2C-B (4-bromo-2,5-dimethoxyphenethylamine) is a synthetic psychedelic phenethylamine developed by Alexander Shulgin in the 1970s. In Latin America, particularly Colombia, it became known on the street as "tusi," a phonetic shorthand for how "2CB" sounds when said in Spanish. In its early Colombian incarnation, tusi was genuinely expensive and sometimes actually contained 2C-B, often mixed with pink food coloring as a branding marker.
