@@ -15,7 +15,7 @@ LSD (acid) lasts **8 to 12 hours** for most recreational doses, with the peak oc
 
 **When does LSD peak?** Peak effects occur approximately 2–3 hours after ingestion, according to clinical studies of 100–200 µg doses ([PMID 28197931](https://pubmed.ncbi.nlm.nih.gov/28197931/)).
 
-**When does LSD kick in?** Most people notice first effects 30–60 minutes after ingestion. Effects begin as early as 20 minutes in some cases.
+**How long does it take for LSD to take effect?** Most people notice first effects 30–60 minutes after ingestion (the point it "kicks in"), as soon as 20 minutes when held under the tongue on an empty stomach. It then builds into the peak over the next 1–2 hours.
 
 **How long does it take to fully come down?** The main experience winds down by hours 8–10, but many people feel residual stimulation, altered mood, or insomnia for several hours beyond that.
 

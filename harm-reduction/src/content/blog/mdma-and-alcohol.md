@@ -11,6 +11,8 @@ Mixing MDMA (molly/ecstasy) and alcohol is one of the most common combinations a
 
 ## Quick answers
 
+**What happens when you mix MDMA and alcohol?** Alcohol amplifies MDMA's two deadliest risks: it worsens dehydration and overheating (hyperthermia) and destabilizes the body's fluid balance, raising the risk of hyponatremia (dangerously low blood sodium). It also masks the early warning signs, so you feel fine while physiological stress climbs. Both hyperthermia and hyponatremia are leading causes of MDMA-related death.
+
 **Is it safe to drink alcohol while on MDMA?** Not in the usual sense of "safe." The combination significantly increases the risk of dangerous overheating (hyperthermia), dehydration, and hyponatremia, the three most common causes of MDMA-related deaths.
 
 **Does alcohol make MDMA stronger?** Alcohol can mask the sedative and warning signs that something is wrong, making the experience feel more manageable while physiological stress increases silently.

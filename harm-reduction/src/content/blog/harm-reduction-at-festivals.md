@@ -7,7 +7,19 @@ tags: ["harm reduction", "festivals", "drug checking", "safety"]
 author: "Jordan Mercer"
 ---
 
-Music festivals and raves are high-risk environments for several reasons that are well-documented: elevated ambient temperature, physical exertion, altered sleep cycles, and frequent polydrug use. Most festival-related medical emergencies are preventable. This checklist covers the evidence-based interventions that make the biggest difference.
+Music festivals and raves are high-risk environments for several reasons that are well-documented: elevated ambient temperature, physical exertion, altered sleep cycles, and frequent polydrug use. Most festival-related medical emergencies are preventable. This rave prep checklist covers the evidence-based interventions that make the biggest difference.
+
+## The rave prep checklist (quick version)
+
+Your pre-event rave prep checklist in one scan (details in the sections below):
+
+- **Test everything**: fentanyl test strips plus a reagent kit, done at home before you go
+- **Plan hydration**: about 500 ml per hour with electrolytes if dancing, 250 ml per hour resting
+- **Prepare for heat**: light clothing, locate the chill-out area, schedule cooling breaks
+- **Pack earplugs**: high-fidelity, and bring two pairs
+- **Set a buddy plan**: tell someone what you took, when, and where to meet if separated
+- **Know the emergencies**: medical tent location, Good Samaritan laws, naloxone for fentanyl
+- **Save support numbers**: Fireside Project (62-FIRESIDE)
 
 ## Test Your Substances Before You Go
 

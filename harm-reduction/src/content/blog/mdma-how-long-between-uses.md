@@ -17,6 +17,8 @@ author: "Jordan Mercer"
 
 **Does MDMA tolerance go away?** Acute tolerance (the same session, why redosing has sharply diminishing returns) resolves quickly. Cross-session tolerance, the gradual fading of MDMA's empathogenic effects with frequent use, builds more slowly and takes longer to reverse. Extended abstinence can restore a lot of the experience, but this is not guaranteed.
 
+**Does MDMA tolerance build after one use?** To a degree, yes. A single session causes acute, same-night tolerance (which is why redosing barely works) plus a short dip while serotonin recovers over the following days. Lasting cross-session tolerance comes from repeated, frequent use, not from one roll. Spacing sessions about 3 months apart keeps tolerance from accumulating.
+
 **How often is it safe to roll?** "Safe" depends on individual factors, but the frequency that most harm reduction evidence points toward is no more than 3 to 4 times per year. At higher frequency, cumulative serotonin depletion and receptor adaptation compound.
 
 **Is once a month too often?** For most people, yes, once a month is too frequent for sustained use. The experience typically degrades noticeably at monthly frequency, and the pharmacological basis for longer spacing is well-established.

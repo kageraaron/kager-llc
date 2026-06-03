@@ -13,7 +13,7 @@ MDMA (molly, ecstasy) produces its primary effects for **3 to 5 hours** at recre
 
 **How long does MDMA last?** The main empathogenic and euphoric effects last 3–5 hours. Residual stimulation, emotional sensitivity, and sleep disruption commonly persist for 8–24 hours.
 
-**How long does molly last?** Molly is MDMA in powder or crystal form. Duration is identical: 3–5 hours of peak effects.
+**How long does molly keep you high?** Molly is MDMA in powder or crystal form. The high, meaning peak euphoria and energy, lasts 3–5 hours, with residual stimulation often keeping you awake for 8 or more hours beyond that.
 
 **How long does ecstasy last?** Ecstasy (pressed pills) contains MDMA at varying doses and often adulterants. A standard pill in the 80–120 mg range produces effects for 3–5 hours, but unknown content is the primary risk with pills.
 

@@ -15,6 +15,8 @@ Magnesium reduces MDMA (molly/ecstasy)-induced jaw clenching, this is the most m
 
 **What form of magnesium works best?** Magnesium glycinate is the standard recommendation: high bioavailability, gentle on the stomach, and the glycine component has mild inhibitory (calming) neurological effects that may add a small additional benefit.
 
+**What's the best magnesium to take after MDMA?** Magnesium glycinate, 200–400 mg, for the few days after a session. It's the most absorbable, gentlest form, and it supports the sleep that's usually disrupted post-roll, which matters more for recovery than any single supplement.
+
 **When should I take magnesium before MDMA?** The night before and 1–2 hours before dosing. Pre-loading matters because magnesium's intracellular levels take time to rise. Dosing it 30 minutes before won't be fully effective.
 
 **Can I take more magnesium mid-roll if jaw clenching is still bad?** Yes, an additional 100–200mg during the experience is reasonable and safe. Magnesium's ceiling for acute toxicity is very high; the limiting factor at high doses is GI upset (loose stools), not serious harm.
