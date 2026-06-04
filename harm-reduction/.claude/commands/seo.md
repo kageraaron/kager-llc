@@ -37,8 +37,11 @@ Audit and improve SEO for ravewellness.org — an Astro static site deployed on 
 - [ ] **Sitemap listed in `robots.txt`** — `Sitemap: https://www.ravewellness.org/sitemap-index.xml`. **Already implemented.**
 - [ ] **One H1 per page** — never zero, never two. Validate by grepping built HTML or reading page source.
 - [ ] **Unique title + description on every page** — no two pages share a title or description. Run `grep -r "title:" src/content/blog/ | sort` to spot duplicates.
-- [ ] **Title length: 50–65 characters** — longer gets truncated in SERPs.
-- [ ] **Meta description length: 120–160 characters** — shorter gets padded; longer gets cut.
+- [ ] **Title length: rendered `<title>` ≤ 70 characters** — Bing flags titles over 70; Google truncates the visible title around 60. Target 50–60. There are **two title-construction paths**, and the limit applies to the *rendered* `<title>`, not just the source string:
+  - **Blog posts:** the template (`[...slug].astro`) appends ` | Rave Wellness` (16 chars) **only when the total stays ≤ 70**, otherwise it uses the bare headline. So titles never exceed 70 automatically, but to **keep the brand suffix** the frontmatter `title` must be **≤ 54 characters** (longer titles render brandless).
+  - **Drug / tool / section pages (`src/pages/*.astro`):** the `const title` already includes ` | Rave Wellness`, so that whole string must be **≤ 70 characters**.
+  - **Never put `&` in a title — write "and".** A literal `&amp;` in a source title double-encodes to a broken `&amp;` in the rendered HTML (this also applies to `ogTitle`). Use the rendered-title scan in "How to implement fixes" to catch both length and double-encoding.
+- [ ] **Meta description length: 120–160 characters** — shorter gets padded; longer gets cut. Avoid `&` here too (use "and") to dodge the same double-encode bug.
 
 ### Structured data / schema
 
@@ -118,6 +121,19 @@ Only relevant if site search (e.g., Pagefind) is implemented. Add to homepage sc
 ```bash
 grep -h "^title:" src/content/blog/*.md | sort | uniq -d
 grep -h "^description:" src/content/blog/*.md | sort | uniq -d
+```
+
+### Check rendered title lengths (and catch the `&` double-encode)
+Measures the actual `<title>` each page ships, decoding `&amp;` so the count matches what Bing/Google see. Flags anything over 70. Remember: blog frontmatter titles get ` | Rave Wellness` appended (16 chars), so a 60-char frontmatter title renders at 76 and fails.
+```bash
+npm run build >/dev/null 2>&1
+for f in dist/*.html dist/blog/*.html; do
+  t=$(grep -oE '<title>[^<]*</title>' "$f" | sed 's/<[^>]*>//g; s/&amp;/\&/g; s/&#39;/'"'"'/g; s/&#x27;/'"'"'/g; s/&quot;/"/g')
+  [ ${#t} -gt 70 ] && printf 'OVER %3s  %-60s  %s\n' "${#t}" "$t" "$f"
+done
+# double-encoded ampersand in any rendered <title> (a real bug — source has &amp; instead of & or "and"):
+# (a single &amp; is the CORRECT encoding of a literal & and is fine; only &amp;amp; is the bug)
+grep -l '<title>[^<]*&amp;amp;' dist/*.html dist/blog/*.html 2>/dev/null && echo "^ double-encoded & in title(s)"
 ```
 
 ### Check for missing alt text in built output

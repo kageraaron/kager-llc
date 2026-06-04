@@ -44,7 +44,7 @@ Generate a URL-friendly slug from the title. The file goes in:
 ### Step 3 — Frontmatter
 ```yaml
 ---
-title: "<Full title — include the primary search query naturally>"
+title: "<Primary search query first; keep to 54 characters or fewer (see Title length rule)>"
 description: "<155-char meta description — answers the question directly, includes primary keyword>"
 date: <YYYY-MM-DD — use the exact date from the currentDate system context, never guess or use a past date>
 tags: ["<tag1>", "<tag2>", "<tag3>"]
@@ -53,6 +53,10 @@ author: "Rave Wellness"
 ```
 
 **Date rule:** Always read the `currentDate` value injected into the conversation context and use that exact date. Do not infer the date from git history, file timestamps, or training data. The date must be `YYYY-MM-DD` format (e.g. `2026-05-14`) — Astro parses this as UTC midnight, and the blog template renders it with `timeZone: 'UTC'` to avoid off-by-one display bugs in US timezones.
+
+**Title length rule:** The blog template builds the page `<title>` as `<your frontmatter title> | Rave Wellness`, but it appends ` | Rave Wellness` (16 chars) **only when the result stays within 70 characters**; if your frontmatter title is longer than 54, the template drops the brand suffix automatically so the title never breaks Bing's 70-char limit. To **keep the brand in your title**, write a frontmatter `title` of **54 characters or fewer** (aim for 45–50), primary keyword first. Bing flags any `<title>` over 70; Google truncates the visible title around 60. Do **not** put an ampersand (`&`) in the title — write "and" instead (a stray `&amp;` in source double-encodes to a broken `&amp;` in the rendered title; "and" avoids the trap). After building, verify: `grep -o '<title>[^<]*</title>' dist/blog/<slug>.html` and count the characters.
+
+**`lastmod` rule:** On a brand-new post, set only `date`. When you later make a substantive edit to an existing post (title/description/content), add or update `lastmod: <currentDate>` in the frontmatter so the BlogPosting `dateModified` reflects the change.
 
 ### Step 4 — Content structure
 
@@ -99,6 +103,7 @@ Link anchor text should be descriptive: `our [GHB harm reduction guide](/ghb.htm
 
 ### Step 5 — SEO checklist before outputting
 - [ ] Primary keyword in title, first sentence, and at least one H2
+- [ ] Frontmatter title is ≤54 characters (so the rendered `<title>` stays under 70 with the ` | Rave Wellness` suffix); primary keyword first; uses "and" not "&"
 - [ ] Meta description is under 155 characters and answers the question
 - [ ] At least 2 internal links to drug guide pages
 - [ ] At least 2 citations with real PMIDs (verify they exist)

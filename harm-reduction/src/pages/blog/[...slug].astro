@@ -51,10 +51,15 @@ const schemaJson = JSON.stringify({
     }
   ]
 });
+
+// Append the brand suffix only when it keeps the rendered <title> within Bing's 70-char limit.
+// Posts written to the blog skill's spec (frontmatter title <=54) keep the brand; longer ones drop it.
+const withBrand = `${post.data.title} | Rave Wellness`;
+const pageTitle = withBrand.length <= 70 ? withBrand : post.data.title;
 ---
 
 <BaseLayout
-  title={`${post.data.title} | Rave Wellness`}
+  title={pageTitle}
   description={post.data.description}
   {canonical}
   {schemaJson}
