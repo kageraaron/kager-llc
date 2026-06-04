@@ -127,4 +127,17 @@ Link anchor text should be descriptive: `our [GHB harm reduction guide](/ghb.htm
 
 ### Step 6 — Output
 Write the file directly to `src/content/blog/<slug>.md` using the Write tool.
-Then confirm the filename and remind the user to run `npm run build` to preview.
+
+### Step 7 — Reciprocal backlinks & FAQ (do not skip)
+A post is not "done" when the file is written. Every new post must be wired into the site both directions, for crawlers and for AI scraping:
+
+1. **Post → core pages (outbound):** already handled by the internal links in Step 4 (at least 2 drug-guide links + related posts).
+2. **Core drug page → post (the backlink):** add a card to the "From the Blog" grid on each relevant drug page (`src/pages/<drug>.astro`). Copy an existing `<a class="...card">` block in that page's `From the Blog` section, point it at `/blog/<slug>.html`, and write a category label + title + one-line blurb. Add the card to every drug page the post centrally concerns (e.g. a cocaine+MDMA post gets a card on both `cocaine.astro` and `mdma.astro`). If a drug page has no "From the Blog" section yet, create one (match the markup used on `ghb.astro`).
+3. **FAQ entry (`src/pages/faq.astro`):** add a Q&A in BOTH places, kept in sync:
+   - the JSON-LD `FAQPage.mainEntity` array (append a `{ "@type": "Question", "name": ..., "acceptedAnswer": { "@type": "Answer", "text": ... } }`), and
+   - the visible HTML, as a `faq-item` in the matching category section, ending with a `Full guide: <a href="/blog/<slug>.html">…→</a>` link.
+   - In the JSON-LD `text`, use plain-text PMIDs and no double quotes (the FAQ page convention differs from blog posts, which hyperlink PMIDs). **First check for an existing FAQ on the topic** — if one exists, just add the `Full guide` link to it rather than duplicating.
+4. **Cross off in `blog-ideas.md`:** flip the idea's `[ ]` to `[x]` (or add it as `[x]` if it wasn't listed).
+
+### Step 8 — Verify
+Run `npm run build` (expect 0 errors), then confirm: the new post built, its rendered `<title>` is ≤70, there are no em-dashes, every PMID is a live hyperlink, the FAQ JSON-LD still parses, and the drug-page backlink cards resolve. Then report the filename to the user.
