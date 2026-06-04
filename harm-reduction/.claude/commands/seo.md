@@ -49,7 +49,7 @@ Audit and improve SEO for ravewellness.org — an Astro static site deployed on 
 - [ ] **BreadcrumbList on all blog posts** — links Home → Blog → Post. **Already implemented.**
 - [ ] **FAQPage schema on `faq.astro`** — each Q&A pair as a `Question`/`acceptedAnswer`. **Already implemented.**
 - [ ] **WebSite schema on homepage** — with `name`, `url`, `description`. Consider adding `SearchAction` if site search is added.
-- [ ] **`dateModified` distinct from `datePublished`** — add a `lastmod` field to blog frontmatter Zod schema when posts are updated. Currently `dateModified` mirrors `datePublished`.
+- [ ] **`dateModified` distinct from `datePublished`** — the `lastmod` field exists in the content-collection Zod schema, and `[...slug].astro` sets `dateModified` to `lastmod ?? date`. **Implemented.** Set `lastmod` on a post whenever you make a substantive edit. The sitemap also reads these dates (see Astro-specific section).
 - [ ] **Validate schema with Google Rich Results Test** — run `https://search.google.com/test/rich-results` on key pages after deploy.
 
 ### Open Graph / social
@@ -84,6 +84,22 @@ Audit and improve SEO for ravewellness.org — an Astro static site deployed on 
 
 - [ ] **301 redirects for changed URLs** — add to `vercel.json` under `"redirects"` array. Format: `{ "source": "/old-path", "destination": "/new-path", "permanent": true }`
 - [ ] **404 page has `noindex`** — add a `404.astro` page if not present; include `<meta name="robots" content="noindex">` in its head.
+
+---
+
+## Astro-specific best practices
+
+This site is Astro v6 (static output). These are the framework-level practices to keep in mind, with current status:
+
+- [ ] **Sitemap `<lastmod>` from real content dates** — `@astrojs/sitemap` does NOT emit `<lastmod>` by default (and if forced, defaults to build time, which falsely tells crawlers every page changed on every build). **Implemented** in `astro.config.mjs`: a `serialize` hook reads each blog post's frontmatter (`lastmod ?? date`) at config time and attaches an accurate per-URL `<lastmod>`. Note: the integration cannot call `getCollection()` at config time, so we read the markdown frontmatter directly with `fs`. Non-blog `.astro` pages intentionally have no `<lastmod>` (no reliable date source beats omitting it). Known integration limitation: `<lastmod>` is not written into the `<sitemap>` entries of `sitemap-index.xml`, only into the child sitemap URLs.
+- [ ] **Built-in `prefetch`** — the old `@astrojs/prefetch` package was deprecated in Astro 3.5. **Implemented** via the `prefetch: { prefetchAll: true, defaultStrategy: 'hover' }` config option (prefetches linked pages on hover for faster navigation). Do not re-add the deprecated integration.
+- [ ] **`astro:assets` `<Image />` / `<Picture />` for content images** — for any hero or in-content raster image, import from `astro:assets` and keep the source in `src/assets/`. It auto-converts to WebP, sets explicit `width`/`height` to prevent CLS (a Core Web Vital), and compresses at build. **Currently N/A** (the site is text + an SVG logo that already has `width`/`height`/`alt`); adopt this the moment a content image is added. Alt text should describe the image factually without "image of"/"picture of".
+- [ ] **`site` is set** (`astro.config.mjs`) — required for absolute canonical URLs and the sitemap. **Implemented.**
+- [ ] **`build.format: 'file'` + URL consistency** — emits `/mdma.html` (not `/mdma/index.html`). Canonicals, internal links, and sitemap URLs must all use the `.html` form to match. The sitemap `serialize` hook appends `.html` for this reason. Consider `trailingSlash: 'never'` if duplicate-URL variants ever appear.
+- [ ] **`compressHTML`** — defaults to `true` in Astro, so HTML is minified at build. No action needed unless explicitly disabled.
+- [ ] **Fonts** — preconnect to BOTH `https://fonts.googleapis.com` AND `https://fonts.gstatic.com` (the latter `crossorigin`, since the font files load from there), and keep `&display=swap`. **Implemented.**
+- [ ] **View Transitions (`ClientRouter` from `astro:transitions`)** — OPTIONAL. Gives SPA-like navigation, but turns page loads into client-side swaps, so Google Analytics must re-fire `page_view` on the `astro:page-load` event or pageviews undercount. **Not enabled** (the analytics tradeoff isn't worth it for a content site). Only add with the GA fix in place.
+- [ ] **Per-post OG images** — longer-term, generate them at build with `satori` + `sharp`. Not implemented; the site-wide fallback OG image is fine for now.
 
 ---
 
