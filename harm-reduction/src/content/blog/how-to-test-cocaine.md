@@ -18,9 +18,13 @@ Testing cocaine before you use it catches two very different risks: whether the 
 
 **Can you test cocaine for levamisole?** Not reliably with a field kit. Most US cocaine contains levamisole and no street test rules it out. See our guide on [levamisole in cocaine](/blog/levamisole-in-cocaine.html).
 
-**Where do you get cocaine test kits?** [DanceSafe sells reagent kits and fentanyl test strips](https://dancesafe.org/product/complete-set-of-all-9-testing-kits/r/ravewellness/) that cover cocaine screening.
+**Where do you get cocaine test kits?** [DanceSafe sells reagent kits and fentanyl test strips](/kits) that cover cocaine screening.
 
 ---
+
+<div class="kit-cta">
+<strong>Check it first.</strong> Fentanyl strips plus a reagent kit are the baseline for cocaine, and the strip catches the deadliest risk. <a href="/kits">Get test kits from DanceSafe →</a>
+</div>
 
 ## Start with the fentanyl test strip
 
@@ -68,7 +72,7 @@ Most people skip drug checking entirely. One survey of the dance-music scene fou
 
 ## The bottom line
 
-Test cocaine fentanyl-strip first, reagent second. The strip catches the contaminant most likely to kill you quickly; the reagent confirms the powder is actually cocaine and flags obvious substitutes. Neither test detects levamisole, and neither measures dose, so treat cocaine as adulterated by default, start low, and keep naloxone nearby. Get [reagent kits and fentanyl strips from DanceSafe](https://dancesafe.org/product/complete-set-of-all-9-testing-kits/r/ravewellness/).
+Test cocaine fentanyl-strip first, reagent second. The strip catches the contaminant most likely to kill you quickly; the reagent confirms the powder is actually cocaine and flags obvious substitutes. Neither test detects levamisole, and neither measures dose, so treat cocaine as adulterated by default, start low, and keep naloxone nearby. Get [reagent kits and fentanyl strips from DanceSafe](/kits).
 
 For the full picture on cardiovascular risk, adulterants, and safer-use practices, see our [cocaine harm reduction guide](/cocaine.html), and our breakdown of why [cocaine and alcohol](/blog/cocaine-and-alcohol.html) is such a hard combination on the heart.
 

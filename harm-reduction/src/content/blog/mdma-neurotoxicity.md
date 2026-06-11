@@ -112,7 +112,7 @@ Based on the combined human and animal literature, these are the factors most co
 
 Because adulterants are a major confound in both risk and neurotoxicity research, and because the harms from meth-contaminated "MDMA" include the very dopaminergic damage incorrectly attributed to MDMA in the retracted Ricaurte study, **knowing what you're actually taking matters clinically**, not just for safety in the moment.
 
-A [complete reagent testing kit set](https://dancesafe.org/product/complete-set-of-all-9-testing-kits/r/ravewellness/) from DanceSafe, which includes Marquis, Mecke, Simon's, and other reagents that together identify MDMA, MDA, methamphetamine, cathinones, and other common adulterants, gives you real information about what you're consuming. This is relevant not just for avoiding a bad night but for the actual neurotoxicity risk profile: methamphetamine is significantly more neurotoxic than MDMA, and fentanyl and other adulterants carry their own risks entirely.
+A [complete reagent testing kit set](/kits) from DanceSafe, which includes Marquis, Mecke, Simon's, and other reagents that together identify MDMA, MDA, methamphetamine, cathinones, and other common adulterants, gives you real information about what you're consuming. This is relevant not just for avoiding a bad night but for the actual neurotoxicity risk profile: methamphetamine is significantly more neurotoxic than MDMA, and fentanyl and other adulterants carry their own risks entirely.
 
 ---
 

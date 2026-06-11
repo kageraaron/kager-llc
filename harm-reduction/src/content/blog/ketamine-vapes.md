@@ -19,7 +19,7 @@ Ketamine vapes — vape pens sold or distributed as containing ketamine — have
 
 **Are ketamine vapes dangerous?** Yes, for multiple reasons: unknown substance identity, no dose control, no purity data, lung toxicity from vaping chemical carriers, and the risk profile of novel dissociatives at unknown concentrations.
 
-**How can I tell what's in a vape?** Standard colorimetric reagent tests (Marquis, Simon's) are unreliable for distinguishing ketamine from analogs in a vape formulation. FTIR or GC/MS drug checking is the only reliable method. [DanceSafe](https://dancesafe.org/r/ravewellness/) and other drug checking services provide access to spectrometry at some festivals.
+**How can I tell what's in a vape?** Standard colorimetric reagent tests (Marquis, Simon's) are unreliable for distinguishing ketamine from analogs in a vape formulation. FTIR or GC/MS drug checking is the only reliable method. [DanceSafe](/store) and other drug checking services provide access to spectrometry at some festivals.
 
 **Is vaping ketamine the same as snorting it?** No. The pharmacokinetics, absorption rate, and effective dose are different across routes. Inhaled dosing is harder to control than intranasal, where you can measure visible volume increments.
 
@@ -65,7 +65,7 @@ Standard colorimetric reagent tests are unreliable for distinguishing ketamine f
 
 **The only reliable testing for this class of substances is FTIR or GC/MS spectrometry.** Some harm reduction organizations and festival drug checking services have access to these instruments. Drug checking at music festivals ([PMID 31605958](https://pubmed.ncbi.nlm.nih.gov/31605958/)) has demonstrated meaningful discrepancies between what people believe they have and what spectrometry confirms.
 
-The [DanceSafe complete testing kit](https://dancesafe.org/product/complete-set-of-all-9-testing-kits/r/ravewellness/) includes Marquis, Mecke, Simon's, and other reagents — useful for many substances, but the ketamine/analog limitation applies. If you are at a festival with on-site drug checking, use it. If you are not, reagent testing tells you less here than it does for MDMA or psilocybin.
+The [DanceSafe complete testing kit](/kits) includes Marquis, Mecke, Simon's, and other reagents — useful for many substances, but the ketamine/analog limitation applies. If you are at a festival with on-site drug checking, use it. If you are not, reagent testing tells you less here than it does for MDMA or psilocybin.
 
 ---
 

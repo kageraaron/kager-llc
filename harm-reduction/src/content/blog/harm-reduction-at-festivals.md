@@ -31,7 +31,7 @@ On-site drug checking exists at some festivals, but coverage is inconsistent and
 - Marquis reagent, for MDMA (purple/black), cocaine (orange), 2C-B (no reaction or very faint)
 - A milligram-accurate scale for powders
 
-[DanceSafe sells reagent kits](https://dancesafe.org/product/complete-set-of-all-9-testing-kits/r/ravewellness/) with instructions for each substance. A positive fentanyl test result is a reason not to use, not a reason to use less.
+[DanceSafe sells reagent kits](/kits) with instructions for each substance. A positive fentanyl test result is a reason not to use, not a reason to use less.
 
 ## Hydration: More Complex Than "Drink Water"
 

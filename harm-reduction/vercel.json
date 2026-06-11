@@ -8,6 +8,56 @@
       "source": "/sitemap.xml",
       "destination": "/sitemap-index.xml",
       "permanent": true
+    },
+    {
+      "source": "/kits",
+      "destination": "https://dancesafe.org/product/complete-set-of-all-9-testing-kits/r/ravewellness/",
+      "permanent": false
+    },
+    {
+      "source": "/lsd-kit",
+      "destination": "https://dancesafe.org/product/lsd-testing-kit/r/ravewellness/",
+      "permanent": false
+    },
+    {
+      "source": "/store",
+      "destination": "https://dancesafe.org/r/ravewellness/",
+      "permanent": false
+    },
+    {
+      "source": "/fentanyl-strips",
+      "destination": "https://dancesafe.org/product/fentanyl-test-strips/r/ravewellness/",
+      "permanent": false
+    },
+    {
+      "source": "/ketamine-kit",
+      "destination": "https://dancesafe.org/product/ketamine-testing-kit/r/ravewellness/",
+      "permanent": false
+    },
+    {
+      "source": "/marquis-kit",
+      "destination": "https://dancesafe.org/product/marquis-reagent-testing-kit/r/ravewellness/",
+      "permanent": false
+    },
+    {
+      "source": "/mdma-kit",
+      "destination": "https://dancesafe.org/product/mdma-testing-kit/r/ravewellness/",
+      "permanent": false
+    },
+    {
+      "source": "/simons-kit",
+      "destination": "https://dancesafe.org/product/simons-reagent-testing-kit/r/ravewellness/",
+      "permanent": false
+    },
+    {
+      "source": "/liebermann-kit",
+      "destination": "https://dancesafe.org/product/liebermann-reagent-testing-kit/r/ravewellness/",
+      "permanent": false
+    },
+    {
+      "source": "/standard-kit",
+      "destination": "https://dancesafe.org/product/standard-set-of-6-testing-kits/r/ravewellness/",
+      "permanent": false
     }
   ],
   "headers": [

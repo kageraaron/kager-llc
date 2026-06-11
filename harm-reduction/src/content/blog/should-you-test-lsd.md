@@ -18,9 +18,13 @@ Yes, you should test LSD, even though LSD itself is one of the most physiologica
 
 **Can a reagent prove it is LSD?** No. Ehrlich confirms an indole is present, not that it is specifically LSD. It is a "rule out the worst case" test, not a positive ID.
 
-**Where do you get an LSD test kit?** [DanceSafe sells an Ehrlich-based LSD testing kit](https://dancesafe.org/product/lsd-testing-kit/r/ravewellness/), and their [complete 9-reagent set](https://dancesafe.org/product/complete-set-of-all-9-testing-kits/r/ravewellness/) covers LSD plus every other common substance.
+**Where do you get an LSD test kit?** [DanceSafe sells an Ehrlich-based LSD testing kit](/lsd-kit), and their [complete 9-reagent set](/kits) covers LSD plus every other common substance.
 
 ---
+
+<div class="kit-cta">
+<strong>Rule out NBOMe before you dose.</strong> An Ehrlich reagent kit takes two minutes and catches the one substitute that kills. <a href="/lsd-kit">Get an LSD test kit from DanceSafe →</a>
+</div>
 
 ## Why LSD is safe but "acid" might not be
 
@@ -67,7 +71,7 @@ If you are at an event with a [drug checking service](/blog/drug-checking-servic
 
 Test LSD not because LSD is dangerous to your body, but because what is sold as LSD sometimes is. An Ehrlich reagent test takes two minutes and rules out NBOMe, the cheap, potent, occasionally lethal substitute that has killed people who thought they were taking acid. No reaction means do not dose. A bitter or numbing tab means do not dose. Those two checks catch the overwhelming majority of the real risk.
 
-Get an [Ehrlich LSD testing kit from DanceSafe](https://dancesafe.org/product/lsd-testing-kit/r/ravewellness/), or the [complete reagent set](https://dancesafe.org/product/complete-set-of-all-9-testing-kits/r/ravewellness/) if you test more than one substance. For dosing, timeline, set and setting, and interactions, see our full [LSD harm reduction guide](/lsd.html) and our breakdown of [how long an LSD trip lasts](/blog/how-long-does-lsd-last.html).
+Get an [Ehrlich LSD testing kit from DanceSafe](/lsd-kit), or the [complete reagent set](/kits) if you test more than one substance. For dosing, timeline, set and setting, and interactions, see our full [LSD harm reduction guide](/lsd.html) and our breakdown of [how long an LSD trip lasts](/blog/how-long-does-lsd-last.html).
 
 ---
 

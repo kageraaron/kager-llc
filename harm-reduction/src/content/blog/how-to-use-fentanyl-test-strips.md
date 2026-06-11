@@ -65,7 +65,7 @@ Fentanyl analogs that the BTNX strip detects include acetylfentanyl, carfentanil
 ## Step-by-step fentanyl test strip instructions
 
 ### What you need
-- BTNX fentanyl test strip (from [DanceSafe](https://dancesafe.org/product/fentanyl-test-strips/r/ravewellness/) or NEXT Distro)
+- BTNX fentanyl test strip (from [DanceSafe](/fentanyl-strips) or NEXT Distro)
 - Clean water (tap water is fine)
 - A small clean container (a shot glass or the cap of a water bottle works)
 - A residue of your substance, you don't need to sacrifice a full dose
@@ -148,7 +148,7 @@ A positive result, **one line**: means fentanyl or a fentanyl analog was detecte
 
 ## Where to get fentanyl test strips
 
-**[DanceSafe fentanyl test strips](https://dancesafe.org/product/fentanyl-test-strips/r/ravewellness/)**: individual strips and packs, shipped nationwide. DanceSafe is the most widely recognized harm reduction organization serving the US rave community and includes instructions with every order.
+**[DanceSafe fentanyl test strips](/fentanyl-strips)**: individual strips and packs, shipped nationwide. DanceSafe is the most widely recognized harm reduction organization serving the US rave community and includes instructions with every order.
 
 **NEXT Distro (nextdistro.org)**: free strips by mail in most US states, no questions asked. Eligibility varies by state.
 

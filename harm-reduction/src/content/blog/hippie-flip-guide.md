@@ -90,7 +90,7 @@ The combination amplifies both. MDMA's empathogenic warmth makes psilocybin's in
 
 **Do not redose MDMA during the mushroom experience.** The urge to redose when the MDMA starts tapering at hour 3–4 is common, but the psilocybin is still active. Redosing extends cardiovascular strain, adds serotonergic load, and means you're adding fresh pharmacological burden to a session that still has 2+ hours to run. It also makes the combined comedown harder.
 
-**Test both substances.** Fentanyl and methamphetamine have been documented in both the MDMA and the unregulated mushroom supplement supply. A [DanceSafe complete testing kit](https://dancesafe.org/product/complete-set-of-all-9-testing-kits/r/ravewellness/) covers Marquis and Mecke for MDMA and fentanyl test strips for both. For MDMA specifically, Simon's reagent distinguishes MDMA from MDA. Ehrlich reagent turns purple in the presence of indoles, confirming psilocybin-containing mushrooms.
+**Test both substances.** Fentanyl and methamphetamine have been documented in both the MDMA and the unregulated mushroom supplement supply. A [DanceSafe complete testing kit](/kits) covers Marquis and Mecke for MDMA and fentanyl test strips for both. For MDMA specifically, Simon's reagent distinguishes MDMA from MDA. Ehrlich reagent turns purple in the presence of indoles, confirming psilocybin-containing mushrooms.
 
 ---
 

@@ -83,7 +83,7 @@ Cocaethylene's cardiac toxicity is one danger; fentanyl contamination is another
 
 Fentanyl is odorless, tasteless, and invisible in cocaine, you cannot detect it without a test strip. **Fentanyl test strips work on cocaine**: dissolve a small amount of cocaine in water and dip the strip. A single line means fentanyl detected; two lines means not detected. If fentanyl is present, use much less, have naloxone on hand, and do not use alone.
 
-The [DanceSafe complete testing kit](https://dancesafe.org/product/complete-set-of-all-9-testing-kits/r/ravewellness/) includes fentanyl test strips alongside reagent tests for adulterants. For anyone using cocaine, especially cocaine and alcohol together, which already stresses the cardiovascular system, testing is the single highest-impact harm reduction step you can take. See our [test kit guide](/test-kits.html) for how to use them.
+The [DanceSafe complete testing kit](/kits) includes fentanyl test strips alongside reagent tests for adulterants. For anyone using cocaine, especially cocaine and alcohol together, which already stresses the cardiovascular system, testing is the single highest-impact harm reduction step you can take. See our [test kit guide](/test-kits.html) for how to use them.
 
 ---
 

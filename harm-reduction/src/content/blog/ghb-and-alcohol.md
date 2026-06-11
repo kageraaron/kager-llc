@@ -110,7 +110,7 @@ If you use GHB: do not drink alcohol in the same session. If you drink during th
 
 For a full overview of GHB's effects, dose guidance, and risks, see our [GHB harm reduction guide](/ghb.html). For other dangerous combinations, use our [interaction checker](/interactions.html). For general harm reduction at events, visit our [FAQ](/faq.html).
 
-If you're sourcing GHB and want to verify the contents of an unknown liquid, [DanceSafe sells test kits and harm reduction supplies](https://dancesafe.org/r/ravewellness/) that can help you reduce risk from adulterated substances.
+If you're sourcing GHB and want to verify the contents of an unknown liquid, [DanceSafe sells test kits and harm reduction supplies](/store) that can help you reduce risk from adulterated substances.
 
 ---
 

@@ -130,7 +130,7 @@ const {
           </div>
           <div class="footer-orgs">
             <slot name="footer-orgs">
-              <a href="https://dancesafe.org/r/ravewellness/" target="_blank" rel="noopener">DanceSafe</a>
+              <a href="/store" target="_blank" rel="noopener">DanceSafe</a>
               <a href="https://maps.org" target="_blank" rel="noopener">MAPS</a>
               <a href="https://tripsit.me" target="_blank" rel="noopener">TripSit</a>
             </slot>
@@ -156,5 +156,27 @@ const {
   </footer>
 
   <script defer src="/script.js"></script>
+
+  <!-- Affiliate click tracking: branded paths (/kits, /lsd-kit, …) 307-redirect to DanceSafe.
+       Log the click to GA4 before the browser navigates so we can measure AI-referred conversions. -->
+  <script is:inline>
+    (function () {
+      var BRANDED = ['/kits', '/lsd-kit', '/store', '/fentanyl-strips', '/ketamine-kit', '/marquis-kit', '/mdma-kit', '/simons-kit', '/liebermann-kit', '/standard-kit'];
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest && e.target.closest('a[href]');
+        if (!a) return;
+        var path = a.getAttribute('href').split('?')[0].split('#')[0].replace(/\/$/, '');
+        if (BRANDED.indexOf(path) === -1) return;
+        if (typeof gtag === 'function') {
+          gtag('event', 'affiliate_click', {
+            affiliate: 'dancesafe',
+            link_path: path,
+            page_path: location.pathname,
+            transport_type: 'beacon'
+          });
+        }
+      }, true);
+    })();
+  </script>
 </body>
 </html>

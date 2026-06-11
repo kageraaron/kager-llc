@@ -90,7 +90,7 @@ There are no controlled human studies specifically assessing MDA neurotoxicity i
 
 **Simon's reagent:** This is the differentiator. Simon's reagent reacts specifically with **secondary amines** — compounds with an N-methyl or similar substituent. MDMA is a secondary amine and turns **blue**. MDA is a primary amine and produces **no blue color change**. If you have a sample that goes purple-black with Marquis but does not turn blue with Simon's, you likely have MDA rather than MDMA.
 
-**Practical implication:** Testing with Marquis alone tells you it's in the methylenedioxy family. Testing with both Marquis and Simon's tells you which compound you have. A [DanceSafe complete testing kit](https://dancesafe.org/product/complete-set-of-all-9-testing-kits/r/ravewellness/) includes Simon's reagent alongside Marquis, Mecke, and fentanyl test strips — the combination gives you the most information about an unknown sample. See our [drug testing guide](/test-kits.html) for step-by-step technique.
+**Practical implication:** Testing with Marquis alone tells you it's in the methylenedioxy family. Testing with both Marquis and Simon's tells you which compound you have. A [DanceSafe complete testing kit](/kits) includes Simon's reagent alongside Marquis, Mecke, and fentanyl test strips — the combination gives you the most information about an unknown sample. See our [drug testing guide](/test-kits.html) for step-by-step technique.
 
 ---
 

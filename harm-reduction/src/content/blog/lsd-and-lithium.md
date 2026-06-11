@@ -70,7 +70,7 @@ If you witness a seizure after someone has combined these:
 
 For more on how psychedelics interact with other substances, use our [interaction checker](/interactions.html). For a full breakdown of LSD's effects, dosing, and risks, see our [LSD harm reduction guide](/lsd.html), and if you do use psychedelics, our [guide to psilocybin safety](/psilocybin.html) and our walkthrough on [how to stop a bad trip](/blog/how-to-stop-a-bad-trip.html) cover what to do when an experience goes sideways.
 
-If you want to confirm that what you have is actually LSD and not a substituted research chemical, [DanceSafe sells LSD reagent test kits](https://dancesafe.org/product/lsd-testing-kit/r/ravewellness/).
+If you want to confirm that what you have is actually LSD and not a substituted research chemical, [DanceSafe sells LSD reagent test kits](/lsd-kit).
 
 ---
 

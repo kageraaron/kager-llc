@@ -96,7 +96,7 @@ Use our [interaction checker](/interactions.html) to review specific combination
 - **Simon's reagent** is positive (blue) for secondary amines like MDMA; 2C-B is a primary amine and will not react.
 - **Fentanyl test strips** should be used on every tusi sample. Fentanyl has been detected in tusi and pink cocaine sold in the US.
 
-**The DanceSafe Complete Testing Kit** includes all major reagents and instructions for exactly this kind of multi-substance testing: [dancesafe.org, Complete Set of All 9 Testing Kits](https://dancesafe.org/product/complete-set-of-all-9-testing-kits/r/ravewellness/). You can also watch real-time testing demos in our [test kit video guides](/test-kits.html).
+**The DanceSafe Complete Testing Kit** includes all major reagents and instructions for exactly this kind of multi-substance testing: [dancesafe.org, Complete Set of All 9 Testing Kits](/kits). You can also watch real-time testing demos in our [test kit video guides](/test-kits.html).
 
 A clean reagent test is not a guarantee of safety, it can only detect the substances those reagents react with. But a test that confirms MDMA and fails to find any 2C-B reaction is a strong signal that what you have is not what it was sold as.
 

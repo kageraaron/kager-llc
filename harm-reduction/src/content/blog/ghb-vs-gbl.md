@@ -91,7 +91,7 @@ Because the active drug is the same, **a GHB overdose and a GBL overdose look an
 
 For full dosing protocols, effects, and risks, see our [GHB harm reduction guide](/ghb.html). For why mixing depressants is so lethal, read [GHB and alcohol: why this combination kills](/blog/ghb-and-alcohol.html), and use our [interaction checker](/interactions.html) before combining anything.
 
-If you are working with an unknown liquid and want to reduce the risk of misidentification, [DanceSafe sells harm reduction supplies and test kits](https://dancesafe.org/r/ravewellness/).
+If you are working with an unknown liquid and want to reduce the risk of misidentification, [DanceSafe sells harm reduction supplies and test kits](/store).
 
 ---
 
