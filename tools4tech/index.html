@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tools4Tech — Developer Toolbox</title>
@@ -8,16 +6,17 @@
     <meta property="og:title" content="Tools4Tech — Developer Toolbox">
     <meta property="og:description" content="Five essential developer tools, all running in your browser.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="analytics.js" data-ga4="G-PLPL4KHVTG"></script>
-</head>
+
+    <meta property="og:type" content="website"></head>
 <body>
 
 <!-- Mobile menu button -->
 <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
 </button>
 
 <div class="app-layout">
@@ -30,59 +29,59 @@
         </div>
         <nav class="sidebar-nav" id="sidebarNav">
             <a class="nav-item active" href="#markdown" data-tool="markdown">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                 Markdown Editor
             </a>
             <a class="nav-item" href="#regex" data-tool="regex">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
                 Regex Tester
             </a>
             <a class="nav-item" href="#timestamp" data-tool="timestamp">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                 Unix Timestamp
             </a>
             <a class="nav-item" href="#urlparser" data-tool="urlparser">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
                 URL Parser
             </a>
             <a class="nav-item" href="#cron" data-tool="cron">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                 Cron Schedule
             </a>
             <a class="nav-item" href="#json" data-tool="json">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
                 JSON Formatter
             </a>
             <a class="nav-item" href="#base64" data-tool="base64">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4a2 2 0 0 1 2-2h3"/><path d="M20 7V4a2 2 0 0 0-2-2h-3"/><path d="M4 17v3a2 2 0 0 0 2 2h3"/><path d="M20 17v3a2 2 0 0 1-2 2h-3"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="12" y1="9" x2="12" y2="15"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4a2 2 0 0 1 2-2h3"></path><path d="M20 7V4a2 2 0 0 0-2-2h-3"></path><path d="M4 17v3a2 2 0 0 0 2 2h3"></path><path d="M20 17v3a2 2 0 0 1-2 2h-3"></path><line x1="9" y1="12" x2="15" y2="12"></line><line x1="12" y1="9" x2="12" y2="15"></line></svg>
                 Base64 Converter
             </a>
             <a class="nav-item" href="#password" data-tool="password">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                 Password Gen
             </a>
             <a class="nav-item" href="#jwt" data-tool="jwt">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg>
                 JWT Decoder
             </a>
             <a class="nav-item" href="#color" data-tool="color">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path></svg>
                 Color Converter
             </a>
             <a class="nav-item" href="#hash" data-tool="hash">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="8" y2="21"></line><line x1="16" y1="3" x2="14" y2="21"></line></svg>
                 Hash Generator
             </a>
             <a class="nav-item" href="#diff" data-tool="diff">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"></path></svg>
                 Diff Viewer
             </a>
             <a class="nav-item" href="#baseconvert" data-tool="baseconvert">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h1v6"/><path d="M14 15h2"/><path d="M14 12h2"/><path d="M14 9h2"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"></rect><path d="M9 9h1v6"></path><path d="M14 15h2"></path><path d="M14 12h2"></path><path d="M14 9h2"></path></svg>
                 Base Converter
             </a>
             <a class="nav-item" href="#caseconvert" data-tool="caseconvert">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"></polyline><line x1="9" y1="20" x2="15" y2="20"></line><line x1="12" y1="4" x2="12" y2="20"></line></svg>
                 Case Converter
             </a>
         </nav>
@@ -113,7 +112,9 @@
                             <button class="btn-icon" data-md="heading" title="Heading">H</button>
                         </div>
                     </div>
-                    <textarea id="markdownInput" spellcheck="false" placeholder="# Hello World&#10;&#10;Write your markdown here..."></textarea>
+                    <textarea id="markdownInput" spellcheck="false" placeholder="# Hello World
+
+Write your markdown here..."></textarea>
                 </div>
                 <div class="md-pane">
                     <div class="md-pane-header">
@@ -191,19 +192,19 @@
                 <div class="conversion-grid">
                     <div class="result-row">
                         <label>Local Time</label>
-                        <div class="result-value"><input type="text" id="tsLocalResult" readonly><button class="btn-icon" data-copy="tsLocalResult" title="Copy">📋</button></div>
+                        <div class="result-value"><input type="text" id="tsLocalResult" readonly=""><button class="btn-icon" data-copy="tsLocalResult" title="Copy">📋</button></div>
                     </div>
                     <div class="result-row">
                         <label>UTC Time</label>
-                        <div class="result-value"><input type="text" id="tsUtcResult" readonly><button class="btn-icon" data-copy="tsUtcResult" title="Copy">📋</button></div>
+                        <div class="result-value"><input type="text" id="tsUtcResult" readonly=""><button class="btn-icon" data-copy="tsUtcResult" title="Copy">📋</button></div>
                     </div>
                     <div class="result-row">
                         <label>ISO 8601</label>
-                        <div class="result-value"><input type="text" id="tsIsoResult" readonly><button class="btn-icon" data-copy="tsIsoResult" title="Copy">📋</button></div>
+                        <div class="result-value"><input type="text" id="tsIsoResult" readonly=""><button class="btn-icon" data-copy="tsIsoResult" title="Copy">📋</button></div>
                     </div>
                     <div class="result-row">
                         <label>Relative</label>
-                        <div class="result-value"><input type="text" id="tsRelativeResult" readonly></div>
+                        <div class="result-value"><input type="text" id="tsRelativeResult" readonly=""></div>
                     </div>
                 </div>
             </div>
@@ -217,11 +218,11 @@
                 <div class="conversion-grid">
                     <div class="result-row">
                         <label>Unix Timestamp (Seconds)</label>
-                        <div class="result-value"><input type="text" id="tsEpochResult" readonly><button class="btn-icon" data-copy="tsEpochResult" title="Copy">📋</button></div>
+                        <div class="result-value"><input type="text" id="tsEpochResult" readonly=""><button class="btn-icon" data-copy="tsEpochResult" title="Copy">📋</button></div>
                     </div>
                     <div class="result-row">
                         <label>Milliseconds</label>
-                        <div class="result-value"><input type="text" id="tsMsResult" readonly><button class="btn-icon" data-copy="tsMsResult" title="Copy">📋</button></div>
+                        <div class="result-value"><input type="text" id="tsMsResult" readonly=""><button class="btn-icon" data-copy="tsMsResult" title="Copy">📋</button></div>
                     </div>
                 </div>
             </div>
@@ -239,19 +240,19 @@
                     <label for="urlInput">Full URL</label>
                     <button class="btn-link" id="urlSample">Load Sample</button>
                 </div>
-                <textarea id="urlInput" placeholder="https://example.com:8080/path/to/page?query=1&foo=bar#section"></textarea>
+                <textarea id="urlInput" placeholder="https://example.com:8080/path/to/page?query=1&amp;foo=bar#section"></textarea>
                 <div id="urlError" class="error-msg hidden">Invalid URL format</div>
             </div>
             <div id="urlParsedResults" class="hidden">
                 <div class="glass-card">
                     <label>Components</label>
                     <div class="url-components-grid">
-                        <div class="url-component-card"><label>Protocol</label><input type="text" id="urlCompProtocol" readonly></div>
-                        <div class="url-component-card"><label>Hostname</label><input type="text" id="urlCompHostname" readonly></div>
-                        <div class="url-component-card"><label>Port</label><input type="text" id="urlCompPort" readonly></div>
-                        <div class="url-component-card"><label>Pathname</label><input type="text" id="urlCompPathname" readonly></div>
-                        <div class="url-component-card"><label>Hash</label><input type="text" id="urlCompHash" readonly></div>
-                        <div class="url-component-card"><label>Origin</label><input type="text" id="urlCompOrigin" readonly></div>
+                        <div class="url-component-card"><label>Protocol</label><input type="text" id="urlCompProtocol" readonly=""></div>
+                        <div class="url-component-card"><label>Hostname</label><input type="text" id="urlCompHostname" readonly=""></div>
+                        <div class="url-component-card"><label>Port</label><input type="text" id="urlCompPort" readonly=""></div>
+                        <div class="url-component-card"><label>Pathname</label><input type="text" id="urlCompPathname" readonly=""></div>
+                        <div class="url-component-card"><label>Hash</label><input type="text" id="urlCompHash" readonly=""></div>
+                        <div class="url-component-card"><label>Origin</label><input type="text" id="urlCompOrigin" readonly=""></div>
                     </div>
                 </div>
                 <div class="glass-card">
@@ -326,7 +327,7 @@
                     <label>JSON Input</label>
                     <button class="btn-link" id="jsonSample">Load Sample</button>
                 </div>
-                <textarea id="jsonInput" placeholder='{"name":"Tools4Tech","features":["speed","privacy"]}' spellcheck="false" style="height:200px;font-family:var(--font-mono)"></textarea>
+                <textarea id="jsonInput" placeholder="{&quot;name&quot;:&quot;Tools4Tech&quot;,&quot;features&quot;:[&quot;speed&quot;,&quot;privacy&quot;]}" spellcheck="false" style="height:200px;font-family:var(--font-mono)"></textarea>
                 <div id="jsonError" class="error-msg hidden">Invalid JSON</div>
             </div>
             <div class="flex-row" style="margin-bottom:15px; gap:10px;">
@@ -337,7 +338,7 @@
             <div class="glass-card">
                 <label>Output</label>
                 <div class="result-value">
-                    <textarea id="jsonOutput" readonly style="height:200px;font-family:var(--font-mono)"></textarea>
+                    <textarea id="jsonOutput" readonly="" style="height:200px;font-family:var(--font-mono)"></textarea>
                     <button class="btn-icon" data-copy="jsonOutput" title="Copy">📋</button>
                 </div>
             </div>
@@ -378,7 +379,7 @@
             <div class="glass-card">
                 <label>Your New Password</label>
                 <div class="result-value" style="margin-top:10px">
-                    <input type="text" id="pwOutput" readonly style="font-size:1.5rem; letter-spacing:1px; text-align:center; height:60px">
+                    <input type="text" id="pwOutput" readonly="" style="font-size:1.5rem; letter-spacing:1px; text-align:center; height:60px">
                     <button class="btn-icon" data-copy="pwOutput" title="Copy">📋</button>
                 </div>
             </div>
@@ -390,10 +391,10 @@
                         <input type="range" id="pwLength" min="8" max="64" value="16" style="width:200px">
                     </div>
                     <div class="flex-row" style="flex-wrap:wrap; gap:20px; margin-top:20px">
-                        <label class="flex-row" style="gap:8px; cursor:pointer"><input type="checkbox" id="pwUpper" checked> Uppercase</label>
-                        <label class="flex-row" style="gap:8px; cursor:pointer"><input type="checkbox" id="pwLower" checked> Lowercase</label>
-                        <label class="flex-row" style="gap:8px; cursor:pointer"><input type="checkbox" id="pwNumbers" checked> Numbers</label>
-                        <label class="flex-row" style="gap:8px; cursor:pointer"><input type="checkbox" id="pwSymbols" checked> Symbols</label>
+                        <label class="flex-row" style="gap:8px; cursor:pointer"><input type="checkbox" id="pwUpper" checked=""> Uppercase</label>
+                        <label class="flex-row" style="gap:8px; cursor:pointer"><input type="checkbox" id="pwLower" checked=""> Lowercase</label>
+                        <label class="flex-row" style="gap:8px; cursor:pointer"><input type="checkbox" id="pwNumbers" checked=""> Numbers</label>
+                        <label class="flex-row" style="gap:8px; cursor:pointer"><input type="checkbox" id="pwSymbols" checked=""> Symbols</label>
                     </div>
                 </div>
             </div>
@@ -435,7 +436,7 @@
                 <div class="glass-card">
                     <label>Signature</label>
                     <div class="result-value" style="margin-top:8px">
-                        <input type="text" id="jwtSignature" readonly style="font-family:var(--font-mono);font-size:0.78rem">
+                        <input type="text" id="jwtSignature" readonly="" style="font-family:var(--font-mono);font-size:0.78rem">
                         <button class="btn-icon" data-copy="jwtSignature" title="Copy">📋</button>
                     </div>
                 </div>
@@ -467,19 +468,19 @@
                 <div class="color-formats-grid">
                     <div class="glass-card">
                         <label>HEX</label>
-                        <div class="result-value"><input type="text" id="colorHex" readonly><button class="btn-icon" data-copy="colorHex" title="Copy">📋</button></div>
+                        <div class="result-value"><input type="text" id="colorHex" readonly=""><button class="btn-icon" data-copy="colorHex" title="Copy">📋</button></div>
                     </div>
                     <div class="glass-card">
                         <label>RGB</label>
-                        <div class="result-value"><input type="text" id="colorRgb" readonly><button class="btn-icon" data-copy="colorRgb" title="Copy">📋</button></div>
+                        <div class="result-value"><input type="text" id="colorRgb" readonly=""><button class="btn-icon" data-copy="colorRgb" title="Copy">📋</button></div>
                     </div>
                     <div class="glass-card">
                         <label>HSL</label>
-                        <div class="result-value"><input type="text" id="colorHsl" readonly><button class="btn-icon" data-copy="colorHsl" title="Copy">📋</button></div>
+                        <div class="result-value"><input type="text" id="colorHsl" readonly=""><button class="btn-icon" data-copy="colorHsl" title="Copy">📋</button></div>
                     </div>
                     <div class="glass-card">
                         <label>CSS Variable</label>
-                        <div class="result-value"><input type="text" id="colorCssVar" readonly><button class="btn-icon" data-copy="colorCssVar" title="Copy">📋</button></div>
+                        <div class="result-value"><input type="text" id="colorCssVar" readonly=""><button class="btn-icon" data-copy="colorCssVar" title="Copy">📋</button></div>
                     </div>
                 </div>
             </div>
@@ -506,7 +507,7 @@
                         <span class="hash-algo-note">160-bit · legacy</span>
                     </label>
                     <label class="hash-algo-option">
-                        <input type="radio" name="hashAlgo" value="SHA-256" checked> SHA-256
+                        <input type="radio" name="hashAlgo" value="SHA-256" checked=""> SHA-256
                         <span class="hash-algo-note">256-bit · recommended</span>
                     </label>
                     <label class="hash-algo-option">
@@ -525,7 +526,7 @@
                     <span class="badge badge-accent" id="hashBitLength"></span>
                 </div>
                 <div class="result-value">
-                    <input type="text" id="hashOutput" readonly style="font-family:var(--font-mono);font-size:0.82rem">
+                    <input type="text" id="hashOutput" readonly="" style="font-family:var(--font-mono);font-size:0.82rem">
                     <button class="btn-icon" data-copy="hashOutput" title="Copy">📋</button>
                 </div>
             </div>
@@ -628,43 +629,43 @@
                 <div class="case-grid">
                     <div class="glass-card case-card">
                         <label>camelCase</label>
-                        <div class="result-value"><input type="text" id="caseCamel" readonly style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="caseCamel" title="Copy">📋</button></div>
+                        <div class="result-value"><input type="text" id="caseCamel" readonly="" style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="caseCamel" title="Copy">📋</button></div>
                     </div>
                     <div class="glass-card case-card">
                         <label>PascalCase</label>
-                        <div class="result-value"><input type="text" id="casePascal" readonly style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="casePascal" title="Copy">📋</button></div>
+                        <div class="result-value"><input type="text" id="casePascal" readonly="" style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="casePascal" title="Copy">📋</button></div>
                     </div>
                     <div class="glass-card case-card">
                         <label>snake_case</label>
-                        <div class="result-value"><input type="text" id="caseSnake" readonly style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="caseSnake" title="Copy">📋</button></div>
+                        <div class="result-value"><input type="text" id="caseSnake" readonly="" style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="caseSnake" title="Copy">📋</button></div>
                     </div>
                     <div class="glass-card case-card">
                         <label>SCREAMING_SNAKE</label>
-                        <div class="result-value"><input type="text" id="caseScreaming" readonly style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="caseScreaming" title="Copy">📋</button></div>
+                        <div class="result-value"><input type="text" id="caseScreaming" readonly="" style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="caseScreaming" title="Copy">📋</button></div>
                     </div>
                     <div class="glass-card case-card">
                         <label>kebab-case</label>
-                        <div class="result-value"><input type="text" id="caseKebab" readonly style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="caseKebab" title="Copy">📋</button></div>
+                        <div class="result-value"><input type="text" id="caseKebab" readonly="" style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="caseKebab" title="Copy">📋</button></div>
                     </div>
                     <div class="glass-card case-card">
                         <label>Title Case</label>
-                        <div class="result-value"><input type="text" id="caseTitleCase" readonly style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="caseTitleCase" title="Copy">📋</button></div>
+                        <div class="result-value"><input type="text" id="caseTitleCase" readonly="" style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="caseTitleCase" title="Copy">📋</button></div>
                     </div>
                     <div class="glass-card case-card">
                         <label>lower case</label>
-                        <div class="result-value"><input type="text" id="caseLower" readonly style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="caseLower" title="Copy">📋</button></div>
+                        <div class="result-value"><input type="text" id="caseLower" readonly="" style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="caseLower" title="Copy">📋</button></div>
                     </div>
                     <div class="glass-card case-card">
                         <label>UPPER CASE</label>
-                        <div class="result-value"><input type="text" id="caseUpper" readonly style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="caseUpper" title="Copy">📋</button></div>
+                        <div class="result-value"><input type="text" id="caseUpper" readonly="" style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="caseUpper" title="Copy">📋</button></div>
                     </div>
                     <div class="glass-card case-card">
                         <label>dot.case</label>
-                        <div class="result-value"><input type="text" id="caseDot" readonly style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="caseDot" title="Copy">📋</button></div>
+                        <div class="result-value"><input type="text" id="caseDot" readonly="" style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="caseDot" title="Copy">📋</button></div>
                     </div>
                     <div class="glass-card case-card">
                         <label>path/case</label>
-                        <div class="result-value"><input type="text" id="casePath" readonly style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="casePath" title="Copy">📋</button></div>
+                        <div class="result-value"><input type="text" id="casePath" readonly="" style="font-family:var(--font-mono)"><button class="btn-icon" data-copy="casePath" title="Copy">📋</button></div>
                     </div>
                 </div>
             </div>
@@ -678,5 +679,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script type="module" src="script.js"></script>
-</body>
-</html>
+
+
+</body></html>
