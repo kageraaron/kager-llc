@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HEX Code Color Picker</title>
     <link rel="stylesheet" href="style.css">
-</head>
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="HEX Code Color Picker"></head>
 <body>
     <div class="container">
         <header>
@@ -22,12 +22,12 @@
         </header>
 
         <div class="upload-section">
-            <input type="file" id="imageUpload" accept="image/*" hidden>
+            <input type="file" id="imageUpload" accept="image/*" hidden="">
             <label for="imageUpload" class="upload-button" data-i18n="upload_label">Upload Image</label>
             <p data-i18n="drag_drop_text">Or drag and drop an image file here</p>
         </div>
 
-        <div id="imagePreviewContainer" class="image-preview-section" hidden>
+        <div id="imagePreviewContainer" class="image-preview-section" hidden="">
             <h2 data-i18n="preview_title">Image Preview:</h2>
             <div class="image-viewer">
                 <canvas id="imageCanvas"></canvas>
@@ -35,7 +35,7 @@
             </div>
         </div>
 
-        <div id="colorInfoSection" class="color-info-section" hidden>
+        <div id="colorInfoSection" class="color-info-section" hidden="">
             <h2 data-i18n="picked_title">Picked Color:</h2>
             <div class="color-display" id="pickedColorDisplay"></div>
             <div class="color-values">
@@ -66,5 +66,6 @@
     <script src="i18n.js"></script>
 
     <script src="script.js"></script>
-</body>
-</html>
+
+
+</body></html>
