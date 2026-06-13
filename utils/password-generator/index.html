@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secure Password Generator</title>
     <link rel="stylesheet" href="style.css">
-</head>
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Secure Password Generator"></head>
 <body>
     <div class="container">
         <header>
@@ -22,7 +22,7 @@
         </header>
 
         <div class="result-section">
-            <input type="text" id="passwordResult" readonly placeholder="Click Generate" data-i18n="placeholder">
+            <input type="text" id="passwordResult" readonly="" placeholder="Click Generate" data-i18n="placeholder">
             <button id="copyBtn" class="copy-button" data-i18n="copy_btn">Copy</button>
         </div>
 
@@ -34,19 +34,19 @@
 
             <div class="checkbox-group">
                 <label>
-                    <input type="checkbox" id="includeUpper" checked>
+                    <input type="checkbox" id="includeUpper" checked="">
                     <span data-i18n="uppercase_label">Include Uppercase Letters</span>
                 </label>
                 <label>
-                    <input type="checkbox" id="includeLower" checked>
+                    <input type="checkbox" id="includeLower" checked="">
                     <span data-i18n="lowercase_label">Include Lowercase Letters</span>
                 </label>
                 <label>
-                    <input type="checkbox" id="includeNumbers" checked>
+                    <input type="checkbox" id="includeNumbers" checked="">
                     <span data-i18n="numbers_label">Include Numbers</span>
                 </label>
                 <label>
-                    <input type="checkbox" id="includeSymbols" checked>
+                    <input type="checkbox" id="includeSymbols" checked="">
                     <span data-i18n="symbols_label">Include Symbols</span>
                 </label>
             </div>
@@ -62,5 +62,6 @@
     </div>
     <script src="i18n.js"></script>
     <script src="script.js"></script>
-</body>
-</html>
+
+
+</body></html>
