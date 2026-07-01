@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title       = `Drug Interaction Chart: Free and Embeddable | Rave Wellness`;
+const description = `A free drug combination safety chart covering MDMA, LSD, ketamine, GHB, cocaine, opioids and more. Download, share, or embed it. Links to our interactive checker.`;
+const keywords    = `drug interaction chart, drug combination chart, drug safety chart, drug combo chart, what drugs are safe to mix, mdma interaction chart, festival drug chart, harm reduction infographic`;
+const canonical   = `https://www.ravewellness.org/interaction-chart.html`;
+
+const IMG = 'https://www.ravewellness.org/drug-interaction-chart.png';
+const CHECKER = 'https://www.ravewellness.org/interactions.html';
+
+const embedCode = `<a href="${CHECKER}" title="Drug Interaction Checker by Rave Wellness">
+  <img src="${IMG}" alt="Drug Combination Safety Chart by Rave Wellness: pairwise interaction risks for MDMA, LSD, ketamine, GHB, cocaine, opioids and more" width="700" style="max-width:100%;height:auto;border:0;border-radius:12px" loading="lazy">
+</a>
+<p style="font-size:13px;font-family:sans-serif">Chart by <a href="${CHECKER}">Rave Wellness</a> &mdash; interactive version with sources at ravewellness.org/interactions</p>`;
+
+const schemaJson = `{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ImageObject",
+      "@id": "${canonical}#chart",
+      "name": "Drug Combination Safety Chart",
+      "description": "Pairwise interaction risk chart for 23 common recreational substances and medications, color-coded by severity (dangerous, high risk, caution, low risk).",
+      "contentUrl": "${IMG}",
+      "thumbnailUrl": "${IMG}",
+      "creditText": "Rave Wellness",
+      "creator": { "@type": "Organization", "name": "Rave Wellness", "url": "https://www.ravewellness.org" },
+      "license": "https://www.ravewellness.org/interaction-chart.html",
+      "acquireLicensePage": "${canonical}"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.ravewellness.org/" },
+        { "@type": "ListItem", "position": 2, "name": "Drug Interaction Checker", "item": "${CHECKER}" },
+        { "@type": "ListItem", "position": 3, "name": "Drug Interaction Chart", "item": "${canonical}" }
+      ]
+    }
+  ]
+}`;
+---
+
+<BaseLayout {title} {description} {keywords} {canonical} ogType="website" {schemaJson}>
+  <Fragment slot="footer-nav">
+    <h4>Tools</h4>
+    <a href="/interactions.html">Interaction Checker</a>
+    <a href="/test-kits.html">Test kits</a>
+    <a href="/blog.html">Blog</a>
+  </Fragment>
+
+  <main>
+    <section id="hero" style="padding-top: 72px;">
+      <div class="container" style="max-width: 900px;">
+        <div class="section-header">
+          <h1 style="font-size: clamp(1.7rem, 4vw, 2.5rem); line-height: 1.2;">Drug Combination Safety Chart</h1>
+          <p class="section-sub" style="margin-top: 12px;">A free, evidence-based chart of how 23 common substances interact, color-coded from dangerous to low risk. Built from our <a href="/interactions.html">interactive interaction checker</a>, where every pairing links to its mechanism and citations. Free to download, print for events, or embed on your own site.</p>
+        </div>
+
+        <div style="margin: 28px 0; text-align: center;">
+          <a href="/drug-interaction-chart.png" target="_blank" rel="noopener">
+            <img src="/drug-interaction-chart.png" alt="Drug Combination Safety Chart by Rave Wellness: a triangular grid showing pairwise interaction risk for MDMA, LSD, psilocybin, ketamine, cocaine, GHB, opioids, alcohol, benzodiazepines and more, color-coded by severity" width="900" style="max-width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--border);" />
+          </a>
+        </div>
+
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-bottom: 8px;">
+          <a class="btn btn-primary" href="/drug-interaction-chart.png" download>Download PNG</a>
+          <a class="btn btn-ghost" href="/drug-interaction-chart.svg" download>Download SVG (print quality)</a>
+          <a class="btn btn-ghost" href="/interactions.html">Open the interactive checker</a>
+        </div>
+
+        <div class="prose" style="margin-top: 40px;">
+          <h2>Embed this chart on your site</h2>
+          <p>Copy the snippet below. It displays the chart and links back to our interactive checker, so your readers can dig into the mechanism and sources behind any pairing. Free to use with attribution.</p>
+
+          <textarea id="embed" readonly rows="7" style="width: 100%; background: var(--bg-card); color: var(--text); border: 1px solid var(--border); border-radius: 10px; padding: 14px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.8rem; line-height: 1.5; resize: vertical;">{embedCode}</textarea>
+          <button id="copyBtn" class="btn btn-primary" style="margin-top: 12px;">Copy embed code</button>
+
+          <h2>How to read the chart</h2>
+          <ul>
+            <li><strong style="color: var(--red);">Dangerous</strong>: do not combine. Risk of death or serious harm (for example GHB + alcohol, opioids + benzos, MAOIs + MDMA).</li>
+            <li><strong style="color: var(--amber);">High risk</strong>: strongly discouraged. Significant danger such as serotonin syndrome or the redose trap.</li>
+            <li><strong style="color: #06b6d4;">Caution</strong>: extra care needed. Lower doses, monitoring, and timing matter.</li>
+            <li><strong style="color: var(--green);">Low risk</strong>: generally lower risk, but never zero risk.</li>
+            <li><strong>No data</strong>: we do not have enough evidence to rate it. <strong>An empty square does not mean a combination is safe.</strong></li>
+          </ul>
+          <p>Find a square by tracing across its row and up its column to the labeled diagonal. Risk ratings summarize published evidence and harm-reduction consensus. This chart is not medical advice. For the reasoning and citations behind any pairing, use the <a href="/interactions.html">interactive checker</a>.</p>
+
+          <h2>License and attribution</h2>
+          <p>You are welcome to share, print, and embed this chart for free, including in harm-reduction materials, slideshows, and event signage. The only ask: keep a visible link back to <a href="/interactions.html">ravewellness.org/interactions</a> so people can reach the sourced, interactive version. The chart updates as our interaction data does.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script is:inline>
+    document.getElementById('copyBtn')?.addEventListener('click', function () {
+      var ta = document.getElementById('embed');
+      ta.select();
+      navigator.clipboard.writeText(ta.value).then(function () {
+        var b = document.getElementById('copyBtn');
+        var t = b.textContent; b.textContent = 'Copied!';
+        setTimeout(function () { b.textContent = t; }, 1800);
+      });
+    });
+  </script>
+</BaseLayout>

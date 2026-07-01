@@ -5,7 +5,8 @@
   "description": "Evidence-based MDMA harm reduction information and products",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build:chart": "node scripts/build-interaction-chart.mjs",
+    "build": "node scripts/build-interaction-chart.mjs && astro build",
     "preview": "astro preview",
     "indexnow": "node scripts/submit-indexnow.mjs"
   },
@@ -13,5 +14,9 @@
     "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.2",
     "astro": "^6.3.1"
+  },
+  "devDependencies": {
+    "qrcode": "^1.5.4",
+    "sharp": "^0.34.5"
   }
 }
