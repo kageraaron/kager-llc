@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF Signature Tool</title>
     <link rel="stylesheet" href="style.css">
-</head>
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="PDF Signature Tool"></head>
 <body>
     <div class="container">
         <header>
@@ -22,12 +22,12 @@
         </header>
 
         <div class="upload-section">
-            <input type="file" id="pdfUpload" accept=".pdf" hidden>
+            <input type="file" id="pdfUpload" accept=".pdf" hidden="">
             <label for="pdfUpload" class="upload-button" data-i18n="upload_label">Upload PDF File</label>
             <p data-i18n="drag_drop_text">Or drag and drop your PDF file here</p>
         </div>
 
-        <div id="pdfPreviewContainer" class="pdf-preview-section" hidden>
+        <div id="pdfPreviewContainer" class="pdf-preview-section" hidden="">
             <h2 data-i18n="preview_title">PDF Preview:</h2>
             <div class="pdf-viewer">
                 <canvas id="pdfCanvas"></canvas>
@@ -40,7 +40,7 @@
                             <button id="clearSignatureBtn" data-i18n="clear_btn">Clear</button>
                         </div>
                     </div>
-                    <div id="textSignatureSection" hidden>
+                    <div id="textSignatureSection" hidden="">
                         <p data-i18n="type_sig_hint">Or type your signature:</p>
                         <input type="text" id="textSignatureInput" placeholder="Your Name" data-i18n="name_placeholder">
                         <select id="signatureFont">
@@ -54,8 +54,8 @@
                 </div>
             </div>
             <div class="controls">
-                <button id="signPdfBtn" disabled data-i18n="apply_btn">Apply Signature</button>
-                <button id="downloadSignedPdfBtn" hidden data-i18n="download_btn">Download Signed PDF</button>
+                <button id="signPdfBtn" disabled="" data-i18n="apply_btn">Apply Signature</button>
+                <button id="downloadSignedPdfBtn" hidden="" data-i18n="download_btn">Download Signed PDF</button>
             </div>
         </div>
 
@@ -70,5 +70,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
     <script src="script.js"></script>
-</body>
-</html>
+
+
+</body></html>

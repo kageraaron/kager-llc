@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF Assembler</title>
     <link rel="stylesheet" href="style.css">
-</head>
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="PDF Assembler"></head>
 <body>
     <div class="container">
         <header>
@@ -22,7 +22,7 @@
         </header>
 
         <div class="upload-section">
-            <input type="file" id="pdfUpload" multiple accept=".pdf" hidden>
+            <input type="file" id="pdfUpload" multiple="" accept=".pdf" hidden="">
             <label for="pdfUpload" class="upload-button" data-i18n="upload_label">Select PDF Files</label>
             <p data-i18n="drag_drop_text">Or drag and drop PDF files here</p>
         </div>
@@ -35,8 +35,8 @@
         </div>
 
         <div class="controls">
-            <button id="mergePdfBtn" disabled data-i18n="merge_btn">Merge PDFs</button>
-            <button id="downloadPdfBtn" hidden data-i18n="download_btn">Download Merged PDF</button>
+            <button id="mergePdfBtn" disabled="" data-i18n="merge_btn">Merge PDFs</button>
+            <button id="downloadPdfBtn" hidden="" data-i18n="download_btn">Download Merged PDF</button>
         </div>
 
         <div class="ad-banner">
@@ -49,5 +49,6 @@
     <!-- Script for PDF merging -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
     <script src="script.js"></script>
-</body>
-</html>
+
+
+</body></html>

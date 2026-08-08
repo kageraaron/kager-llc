@@ -1,12 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parquet to CSV Converter | Private & Local</title>
+    <title>Parquet to CSV Converter | Private &amp; Local</title>
     <meta name="description" content="Convert Parquet to CSV and CSV to Parquet locally in your browser. Fast, secure, and privacy-focused.">
     <link rel="stylesheet" href="style.css">
-</head>
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Parquet to CSV Converter | Private &amp; Local"></head>
 <body>
     <div class="container">
         <header>
@@ -23,10 +23,10 @@
             <div id="dropZone" class="drop-zone">
                 <div class="drop-zone-content">
                     <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"></path>
                     </svg>
-                    <p id="dropZoneText">Drag & drop your <span id="fileTypeLabel">.parquet</span> file or click to browse</p>
-                    <input type="file" id="fileInput" hidden>
+                    <p id="dropZoneText">Drag &amp; drop your <span id="fileTypeLabel">.parquet</span> file or click to browse</p>
+                    <input type="file" id="fileInput" hidden="">
                 </div>
             </div>
 
@@ -41,7 +41,7 @@
             <div id="statusMsg" class="status-msg hidden"></div>
 
             <div class="controls">
-                <button id="convertBtn" class="primary-btn" disabled>Convert Now</button>
+                <button id="convertBtn" class="primary-btn" disabled="">Convert Now</button>
             </div>
 
             <div id="previewSection" class="preview-section hidden">
@@ -66,11 +66,12 @@
         </div>
 
         <footer class="footer">
-            <p>&copy; 2026 Kager LLC. All processing is 100% client-side.</p>
+            <p>© 2026 Kager LLC. All processing is 100% client-side.</p>
         </footer>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
     <!-- We will load duckdb-wasm or parquet-wasm in script.js -->
     <script type="module" src="script.js"></script>
-</body>
-</html>
+
+
+</body></html>
