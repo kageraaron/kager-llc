@@ -35,6 +35,46 @@ const schemaJson  = `{
         "mainEntity": [
           {
             "@type": "Question",
+            "name": "Can cocaine cause a heart attack in a young, healthy person?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Cocaine constricts the coronary arteries through alpha-adrenergic stimulation while simultaneously raising heart rate, blood pressure, and contraction force, so oxygen demand climbs at the same moment supply falls. This starves the heart muscle even when the arteries are structurally normal, and it has happened on a first use. Risk of myocardial infarction rises roughly 24-fold in the first 60 minutes after use (PMID 10351966), and national survey data attribute about one in four non-fatal heart attacks in Americans aged 18 to 45 to frequent cocaine use (PMID 11157713). If you get chest pain after cocaine, go to an emergency room and tell staff exactly what you took and when, since disclosure changes both the workup and the medications they give you."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is Galaxy Gas safe?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Galaxy Gas is ordinary food-grade nitrous oxide, but the tanks hold 580 grams or more compared to 8 grams in a standard whippet charger, and nerve damage risk is driven almost entirely by how much you inhale and how often. In a German cohort of 20 patients hospitalized with nitrous nerve injury (PMID 40319266), serum B12 was normal in 95 percent while methylmalonic acid and homocysteine were elevated in nearly all of them, so a normal B12 blood test is not reassurance. The pressurized tank format adds frostbite and lung barotrauma risks that chargers do not carry, so always use a balloon and never inhale from the valve. The FDA advised consumers not to inhale these products on March 14, 2025, naming Galaxy Gas and several other brands."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why didn't I feel anything when I took MDMA?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The most common causes are an SSRI or SNRI blocking the serotonin transporter that MDMA needs to work, using MDMA again within a few weeks, a sample that contains little or no MDMA, or a dose too low for your body weight. A full stomach can also push onset out to 90 minutes, so wait at least 2 hours before concluding it is a dud. Redosing repeatedly to chase the come-up is the main pathway to MDMA overdose and hyperthermia, because plasma levels rise non-linearly as the metabolic pathway saturates (PMID 10671903) while subjective effects come in lower than blood levels predict (PMID 23142957). If you redose at all, do it once, before the 2 hour mark, at half the original amount or less."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can you make MDMA or cocaine wear off faster?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Elimination is set by liver enzyme activity, not by anything you can do at 4am. MDMA has an elimination half-life of roughly 7 to 8 hours and its active metabolite MDA runs 10.5 to 12.5 hours (PMID 18520604), while cocaine's plasma half-life is about 38 to 39 minutes regardless of dose or route (PMID 1294836). Cooling down, eating carbohydrates and protein, sipping electrolytes to thirst, stopping redosing, and sleeping make the remaining hours safer and more tolerable. Sweating it out, drinking large volumes of plain water, coffee, vitamin C, and acidifying your urine do nothing to speed clearance, and several of them are actively dangerous."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does being on your period change how MDMA affects you?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Your cycle does not meaningfully change MDMA pharmacology, but women already face substantially higher risk of hyponatremia, dangerously low blood sodium. Field data from a rave found mild hyponatremia in 26.7 percent of female MDMA users versus about 3 percent of males (PMID 23476039), and menstruating women have a far higher risk of permanent brain injury once it develops (PMID 1443949). The luteal phase and combined hormonal birth control also raise resting core temperature by roughly 0.3 to 0.5 degrees C. Cap plain water near 500 mL per hour, use a drink with real sodium in it, and prioritize cooling over drinking."
+            }
+          },
+          {
+            "@type": "Question",
             "name": "How often is it safe to roll on MDMA?",
             "acceptedAnswer": {
               "@type": "Answer",
@@ -799,6 +839,22 @@ const schemaJson  = `{
 
           <div class="faq-item">
             <button class="faq-question">
+              Can cocaine cause a heart attack in a young, healthy person?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>Yes, and it does not require blocked arteries, a family history, or years of use.</strong> Risk of myocardial infarction rises roughly <strong>24-fold in the first 60 minutes after use</strong>, per a case-crossover analysis of 3,946 heart attack patients (Mittleman 1999, PMID 10351966). National survey data attribute about one in four non-fatal heart attacks in Americans aged 18 to 45 to frequent cocaine use (PMID 11157713).</p>
+                <p><strong>Why clean arteries are not protection:</strong> cocaine raises the heart's oxygen demand (heart rate, blood pressure, and contraction force all climb) at the same moment it cuts supply. Catheterization studies show intranasal cocaine narrows the left coronary artery by 8% to 12%, an effect reversed by the alpha-blocker phentolamine (PMID 2573838). Cocaine also activates platelets within 80 minutes (PMID 10814631), so a spasming artery plus sticky platelets can clot a vessel that was healthy an hour earlier.</p>
+                <p><strong>Other cardiac emergencies to know:</strong> cocaine blocks cardiac sodium and hERG potassium channels, widening the QRS and prolonging the QT interval, and that arrhythmia risk outlasts the euphoria. An abrupt catecholamine surge can also tear the aorta, so tearing pain radiating to the back needs an ambulance.</p>
+                <p><strong>If you get chest pain after cocaine:</strong> go to an emergency room and say exactly what you took and when. Disclosure changes both the workup and the drugs they give you. Do not drive yourself, and do not use more cocaine or alcohol to ride it out. Only about 5.7% of cocaine-associated chest pain turns out to be a heart attack, but no bedside sign reliably identifies which cases those are (PMID 7614278), which is why all of it gets worked up.</p>
+                <p>Full guide: <a href="/blog/cocaine-heart-attack.html">Cocaine heart attack risk in young, healthy people →</a> | <a href="cocaine.html">Cocaine harm reduction guide →</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
               What is cocaethylene? Why is mixing cocaine and alcohol so dangerous?
               <div class="faq-icon"></div>
             </button>
@@ -1223,13 +1279,95 @@ const schemaJson  = `{
                 </ul>
                 <p><strong>Higher risk groups:</strong> Vegans and vegetarians with lower baseline B12 levels are at significantly greater risk from the same amount of use.</p>
                 <p>The "dentists use it safely" logic doesn't transfer, clinical dental use is a few minutes, well-oxygenated, and not repeated daily. Recreational use of dozens of cartridges per session, week after week, is a completely different exposure profile.</p>
-                <p><strong>Harm reduction:</strong> Supplement B12 (methylcobalamin form) if you use regularly. Stop immediately if you notice tingling, weakness, or balance changes, these are early SCD warning signs. For a full guide: <a href="nitrous.html">Nitrous oxide harm reduction →</a></p>
+                <p><strong>Harm reduction:</strong> Supplement B12 (methylcobalamin form) if you use regularly. Stop immediately if you notice tingling, weakness, or balance changes, these are early SCD warning signs. For a full guide: <a href="nitrous.html">Nitrous oxide harm reduction →</a> | <a href="/blog/nitrous-oxide-b12-nerve-damage.html">The B12 risk explained →</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              Is Galaxy Gas safe?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>No.</strong> Galaxy Gas is chemically ordinary food-grade nitrous oxide. What changed is the container: these flavored tanks hold <strong>580 grams or more, versus 8 grams in a standard whippet charger</strong>, roughly 72 chargers in a single purchase. Nerve damage risk is driven almost entirely by cumulative dose, so a format that makes 300-gram sessions effortless moves people from occasional use to clinical injury in months rather than years.</p>
+                <ul>
+                  <li><strong>A normal B12 test is not reassurance.</strong> In a German cohort of 20 hospitalized patients, serum B12 was normal in 95% while homocysteine was elevated in 100% and methylmalonic acid in 95% (PMID 40319266). Serum B12 counts the molecules nitrous has already inactivated. Ask specifically for MMA and homocysteine.</li>
+                  <li><strong>The tank adds injuries chargers don't cause.</strong> Frostbite from resting a pressurized tank on bare skin has required skin grafting (PMID 40137010), and inhaling from the valve has caused pneumothorax. Always use a balloon, never the valve.</li>
+                  <li><strong>Early warning signs:</strong> tingling or numbness in fingers and toes, unsteadiness walking in the dark, an electric-shock sensation down the spine when you bend your neck forward (Lhermitte sign).</li>
+                  <li><strong>Recovery favors stopping early.</strong> At three months in a 70-patient series, 31% recovered fully, 50% had mild residual symptoms, and 19% still had disabling deficits (PMID 37754673).</li>
+                </ul>
+                <p><strong>Regulatory status:</strong> the FDA advised consumers not to inhale these products on March 14, 2025, naming Galaxy Gas, Whip-It!, Baking Bad, Cosmic Gas, HOTWHIP, InfusionMax, MassGass, and Miami Magic, and added ExoticWhip, FastGas, and NITROX on June 4, 2025. They remain federally legal as a food propellant, which is why they are still on shelves.</p>
+                <p>Full guide: <a href="/blog/galaxy-gas-nitrous-tanks-nerve-damage.html">Galaxy Gas dangers: nitrous tanks and nerve damage →</a> | <a href="nitrous.html">Nitrous oxide harm reduction →</a></p>
               </div>
             </div>
           </div>
 
           <!-- More MDMA -->
           <h2 class="faq-category-title"><span>⚡</span> MDMA, More Questions</h2>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              Why didn't I feel anything when I took MDMA?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p>A failed roll usually has a boring explanation. The five common ones:</p>
+                <ul>
+                  <li><strong>An SSRI or SNRI:</strong> these occupy the serotonin transporter MDMA needs to work. Controlled trials show consistent attenuation across citalopram, fluoxetine, and paroxetine (PMID 35253070). This is the single most common cause, and the blunting persists for weeks after stopping.</li>
+                  <li><strong>You used MDMA too recently:</strong> serotonin stores take weeks to refill, which is the basis of the 4 to 6 week spacing rule.</li>
+                  <li><strong>It probably isn't MDMA:</strong> of 4,719 samples submitted to a US drug-checking service between 1999 and 2023, only about 48% contained MDMA alone, with 199 unique adulterants identified (PMID 39437494).</li>
+                  <li><strong>The dose was too low for your body weight:</strong> common doses run 1 to 1.5 mg/kg, and pressed pills range from under 50 mg to over 250 mg with no external clue.</li>
+                  <li><strong>It is still absorbing:</strong> a large meal pushes onset from 20 to 30 minutes out to 75 to 90 minutes. Wait a full 2 hours before concluding anything.</li>
+                </ul>
+                <p><strong>Do not redose to chase it.</strong> MDMA has non-linear pharmacokinetics, so small dose increases produce disproportionately large rises in plasma concentration as the metabolic pathway saturates (PMID 10671903). Meanwhile acute tolerance means subjective effects come in <em>below</em> what blood levels predict (PMID 23142957). The curves separate: your feelings plateau while exposure keeps climbing. Someone chasing a come-up across three or four doses can reach toxic levels while still reporting they barely feel it, and the endpoint is hyperthermia.</p>
+                <p>Full guide: <a href="/blog/why-didnt-my-molly-work.html">Why didn't my molly work? →</a> | <a href="/blog/mdma-ssri-interaction.html">MDMA and antidepressants →</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              Can you make MDMA or cocaine wear off faster?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>No.</strong> Both drugs are cleared by liver enzymes at a rate you cannot influence. MDMA's elimination half-life is roughly 7 to 8 hours and its active metabolite MDA runs 10.5 to 12.5 hours (Kolbrich 2008, PMID 18520604). Cocaine's plasma half-life is about 38 to 39 minutes regardless of dose or route (PMID 1294836), which is why people redose compulsively.</p>
+                <p><strong>What genuinely helps the remaining hours:</strong> get cool and out of the crowd, eat carbohydrates plus protein, sip electrolytes to thirst, stop redosing, and sleep. None of this shortens the drug's stay, but it lowers the odds of the night turning into something worse.</p>
+                <p><strong>What does nothing:</strong></p>
+                <ul>
+                  <li><strong>Sweating it out:</strong> sweat is a negligible elimination route, and adding heat load to a body already thermoregulating badly is dangerous, not neutral.</li>
+                  <li><strong>Drinking water to flush it:</strong> this is the hyponatremia mechanism. MDMA potentiates water's ability to drop serum sodium (PMID 27403159), and documented cases progress to seizures and coma (PMID 30158258).</li>
+                  <li><strong>Coffee, energy drinks, cold showers, vitamin C, activated charcoal after absorption, acidifying your urine.</strong> The last one promotes myoglobin precipitation in the kidneys if there is any muscle breakdown.</li>
+                </ul>
+                <p><strong>Call 911 if</strong> temperature goes above 39°C / 102°F, there is muscle rigidity or clonus, chest pain, a seizure, paranoia that will not settle, or very dark urine. A high that refuses to end can be hyperthermia, serotonin toxicity, or a cardiac event instead.</p>
+                <p>Full guide: <a href="/blog/how-to-come-down-from-molly-faster.html">How to come down from molly or coke faster →</a> | <a href="/blog/mdma-comedown.html">The MDMA comedown explained →</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              Does being on your period change how MDMA affects you?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p>Your cycle does not meaningfully change MDMA's pharmacology. Brain imaging in healthy women found no significant difference in serotonin transporter availability between the follicular and luteal phases. What matters far more is <strong>hyponatremia</strong>, dangerously low blood sodium, which women develop much more often than men after MDMA.</p>
+                <ul>
+                  <li><strong>The size of the gap:</strong> field data from a rave found mild hyponatremia in 26.7% of female MDMA users versus about 3% of males (van Dijken 2013, PMID 23476039), and female sex carried roughly 4x the odds in a review of 545 poison control cases (PMID 17084942).</li>
+                  <li><strong>Why it is more dangerous in menstruating women:</strong> estrogen inhibits the brain's sodium pump and vasopressin causes stronger cerebral vasoconstriction, so the same sodium level does more harm (Ayus 1992, PMID 1443949).</li>
+                  <li><strong>Temperature:</strong> the luteal phase and combined hormonal contraceptives raise resting core temperature by roughly 0.3 to 0.5 degrees C, with a slower heat-loss response (PMID 28477076).</li>
+                  <li><strong>Cramps:</strong> NSAIDs like ibuprofen do not interact with MDMA directly, but NSAIDs plus dehydration are the main cofactors for kidney injury if muscle breakdown occurs. Acetaminophen or a heat patch is the safer on-the-night option.</li>
+                </ul>
+                <p><strong>What actually prevents it:</strong> a 2024 pooled analysis of four placebo-controlled trials found hyponatremia in 37% of participants who drank freely and <strong>0% of those on fluid restriction</strong> (PMID 39546312). Cap plain water near 500 mL per hour while dancing, salt what you drink, and cool down instead of hydrating.</p>
+                <p>Full guide: <a href="/blog/mdma-and-your-period.html">MDMA and your period: what changes on your cycle →</a> | <a href="mdma.html">MDMA harm reduction guide →</a></p>
+              </div>
+            </div>
+          </div>
 
           <div class="faq-item">
             <button class="faq-question">
