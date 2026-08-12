@@ -73,7 +73,7 @@ Call 911 and say what was taken. Responders need the drug name to treat correctl
 - **Chest pain**: cocaine-associated chest pain is a coronary event until proven otherwise and can start hours after use. Go to an emergency department and tell them it was cocaine, because the treatment differs ([PMID 18347214](https://pubmed.ncbi.nlm.nih.gov/18347214/)).
 - **Very dark or cola-colored urine**: a sign of rhabdomyolysis. Needs IV fluids, not more water by mouth.
 
-If the high is lasting dramatically longer than it should, consider that you may not have taken what you were told. Cathinones and methamphetamine sold as MDMA produce much longer, more agitated experiences. A [reagent test kit](/kits) answers that before the night instead of during it.
+If the high is lasting dramatically longer than it should, consider that you may not have taken what you were told. Cathinones and methamphetamine sold as MDMA produce much longer, more agitated experiences. A [DanceSafe MDMA testing kit](/mdma-kit) answers that before the night instead of during it.
 
 ## The honest summary
 

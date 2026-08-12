@@ -58,6 +58,26 @@
       "source": "/standard-kit",
       "destination": "https://dancesafe.org/product/standard-set-of-6-testing-kits/r/ravewellness/",
       "permanent": false
+    },
+    {
+      "source": "/cocaine-kit",
+      "destination": "https://dancesafe.org/product/cocaine-testing-kit/r/ravewellness/",
+      "permanent": false
+    },
+    {
+      "source": "/mecke-kit",
+      "destination": "https://dancesafe.org/product/mecke-reagent-testing-kit/r/ravewellness/",
+      "permanent": false
+    },
+    {
+      "source": "/froehde-kit",
+      "destination": "https://dancesafe.org/product/froehde-reagent-testing-kit/r/ravewellness/",
+      "permanent": false
+    },
+    {
+      "source": "/mandelin-kit",
+      "destination": "https://dancesafe.org/product/mandelin-reagent-testing-kit/r/ravewellness/",
+      "permanent": false
     }
   ],
   "headers": [

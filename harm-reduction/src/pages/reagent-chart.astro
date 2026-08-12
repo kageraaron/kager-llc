@@ -1,0 +1,182 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title       = `Reagent Color Chart: How to Read Every Reagent | Rave Wellness`;
+const description = `How to read reagent test results: Marquis, Mecke, Mandelin, Simon's, Froehde, Liebermann and Ehrlich. Reaction timing, what reagents cannot tell you, and per-reagent color charts.`;
+const keywords    = `reagent color chart, drug reagent test chart, marquis color chart, mecke reagent colors, simons reagent chart, ehrlich reagent chart, mandelin reagent chart, froehde reagent chart, liebermann reagent chart, how to read reagent test, reagent testing guide, drug checking colors`;
+const canonical   = `https://www.ravewellness.org/reagent-chart.html`;
+const ogTitle     = `Reagent Color Chart: How to Read Every Reagent Test | Rave Wellness`;
+const ogDesc      = `Reaction timing, expected vs unexpected results, and what reagents genuinely cannot tell you. Plus a dedicated color chart for each reagent.`;
+
+const schemaJson = `{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "${canonical}#article",
+      "headline": "Reagent Color Chart: How to Read Every Reagent Test",
+      "description": "A hub guide to reagent drug checking: how long each reagent takes to react, what expected and unexpected reactions mean, the limits of reagent testing, and per-reagent color charts for Marquis, Mecke, Mandelin, Simon's, Froehde, Liebermann and Ehrlich.",
+      "url": "${canonical}",
+      "author": { "@type": "Organization", "name": "Rave Wellness", "url": "https://www.ravewellness.org" },
+      "publisher": { "@type": "Organization", "name": "Rave Wellness", "url": "https://www.ravewellness.org" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.ravewellness.org/" },
+        { "@type": "ListItem", "position": 2, "name": "Test Kits", "item": "https://www.ravewellness.org/test-kits.html" },
+        { "@type": "ListItem", "position": 3, "name": "Reagent Color Chart", "item": "${canonical}" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Can a reagent test detect fentanyl?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Reagents can never test for fentanyl. Only a fentanyl test strip or laboratory equipment can detect it. This is the single most important limitation of reagent testing, because fentanyl is active at doses far too small to change a reagent color. Use reagents to learn what substance class you likely have, and use a separate fentanyl test strip on every sample regardless of what the reagent shows."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long should I wait to read a reagent reaction?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most reagent reactions are accurate for about 45 to 60 seconds, so read them quickly. Morris reactions stay accurate for around 5 minutes. Ehrlich's is the slow one: it can take up to 20 minutes to react, and the result stays readable for around an hour. Reading a fast reagent too late is a common source of misinterpretation."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can a reagent tell me how strong or how pure my drugs are?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Reagents cannot tell you how potent your drugs are, cannot tell you if they are pure, cannot confirm exactly what is in them, and cannot tell you if there are multiple substances in one sample. What they can do is indicate that the contents may not be what you were told, and give you information about the possible general contents. Only a laboratory can confirm what is actually in a sample."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does an unexpected reagent reaction mean?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Multiple colors can be expected reactions for a single substance. If your result matches any of the published expected colors, it is considered expected. A result that matches none of them is unexpected, which means the sample likely contains something other than what you were told, or contains it alongside something else. Treat an unexpected reaction as a reason not to use, not a reason to use less."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why do I need more than one reagent?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most drugs need to be tested with more than one reagent. A single color is rarely conclusive because many substances share reactions on any one reagent. The identifying information comes from the combination of results across reagents. For example Marquis plus Simon's is what separates MDMA from MDA, since both react similarly on Marquis but differently on Simon's."
+          }
+        }
+      ]
+    }
+  ]
+}`;
+---
+
+<BaseLayout {title} {description} {keywords} {canonical} ogTitle={ogTitle} ogDescription={ogDesc} ogType="website" {schemaJson}>
+  <Fragment slot="footer-nav">
+    <h4>Tools</h4>
+    <a href="/test-kits.html">Test kits</a>
+    <a href="/interactions.html">Interaction Checker</a>
+    <a href="/interaction-chart.html">Interaction Chart</a>
+    <a href="/blog.html">Blog</a>
+  </Fragment>
+
+  <main>
+    <section id="hero" style="padding-top: 72px;">
+      <div class="container" style="max-width: 900px;">
+        <div class="section-header">
+          <h1 style="font-size: clamp(1.7rem, 4vw, 2.5rem); line-height: 1.2;">Reagent Color Chart</h1>
+          <p class="section-sub" style="margin-top: 12px;">Reagents are chemicals that change color on contact with certain drugs. Each one gives you a piece of information, and the identification comes from combining them. This page covers how to read a reaction correctly and what reagent testing genuinely cannot do. Each reagent below has its own color chart.</p>
+        </div>
+
+        <div class="hero-disclaimer" style="margin-top: 24px;">
+          <span class="disclaimer-icon">⚠</span>
+          <p><strong>Reagents can never test for fentanyl.</strong> Only a fentanyl test strip or lab equipment can. Fentanyl is active at doses far too small to shift a reagent color, so a normal, expected reagent result tells you nothing about fentanyl contamination. Use a <a href="/fentanyl-strips">fentanyl test strip</a> on every sample, every time.</p>
+        </div>
+
+        <div class="prose" style="margin-top: 40px;">
+
+          <h2>Color charts by reagent</h2>
+          <p>Each guide covers what that reagent reacts with, the published expected colors, the substances it commonly confuses, and what it misses.</p>
+          <ul>
+            <li><a href="/blog/how-to-read-a-marquis-reagent-result.html"><strong>Marquis</strong></a>: the first-line reagent for MDMA, amphetamines, and opiates. Start here.</li>
+            <li><a href="/blog/mecke-reagent-color-chart.html"><strong>Mecke</strong></a>: confirmation alongside Marquis, and useful on opiates.</li>
+            <li><a href="/blog/simons-reagent-color-chart.html"><strong>Simon's</strong></a>: the test that separates MDMA from MDA. Two-part reagent.</li>
+            <li><a href="/blog/mandelin-reagent-color-chart.html"><strong>Mandelin</strong></a>: the standard ketamine reagent, also used as confirmation.</li>
+            <li><a href="/blog/froehde-reagent-color-chart.html"><strong>Froehde</strong></a>: confirmation reagent, helps separate look-alike results.</li>
+            <li><a href="/blog/liebermann-reagent-color-chart.html"><strong>Liebermann</strong></a>: confirmation reagent, useful across several classes.</li>
+            <li><a href="/blog/ehrlich-reagent-color-chart.html"><strong>Ehrlich</strong></a>: the indole test. Reacts to LSD, DMT, and psilocybin material, and importantly does <strong>not</strong> react to NBOMe.</li>
+          </ul>
+
+          <h2>How long to wait before reading</h2>
+          <p>Timing is one of the most common reasons people misread a result. Reagents are not all on the same clock.</p>
+          <ul>
+            <li><strong>Most reagents</strong>: reactions are accurate for up to about <strong>45 to 60 seconds</strong>. Read them promptly.</li>
+            <li><strong>Morris</strong>: accurate for around <strong>5 minutes</strong>.</li>
+            <li><strong>Ehrlich's</strong>: can take up to <strong>20 minutes</strong> to react, and the reaction stays accurate for around <strong>an hour</strong>. Do not call an Ehrlich test negative early.</li>
+          </ul>
+          <p><strong>Two-part reagents</strong> (Simon's, Morris, and Folin) use both bottles on the same sample: sample, then bottle A, then bottle B.</p>
+
+          <h2>What reagents can and cannot tell you</h2>
+          <p>This is the part most people get wrong, so it is worth being blunt about it.</p>
+          <p><strong>Reagents cannot:</strong></p>
+          <ul>
+            <li>Tell you how potent your drugs are</li>
+            <li>Tell you if your drugs are pure</li>
+            <li>Confirm exactly what is in your drugs</li>
+            <li>Tell you if there are multiple substances in your sample</li>
+            <li>Detect fentanyl, under any circumstances</li>
+          </ul>
+          <p><strong>Reagents can:</strong></p>
+          <ul>
+            <li>Tell you that the contents may not be what you were told</li>
+            <li>Give you information about the possible general contents</li>
+            <li>Inform your decisions around how, or whether, you consume</li>
+          </ul>
+          <p>A reagent test that comes back exactly as expected still leaves dose, purity, and fentanyl unanswered. Those three are what actually kill people, which is why reagent testing pairs with fentanyl strips and with starting low.</p>
+
+          <h2>Expected vs unexpected reactions</h2>
+          <p><strong>Multiple colors can be "expected" for a single substance.</strong> If your result matches any of the published expected colors for what you are testing, it counts as expected. A result matching none of them is unexpected, and means the sample likely is not what you were told, or is not only what you were told.</p>
+          <p>An unexpected result is a reason not to use. It is not a reason to use a smaller amount, because reagents cannot tell you what the unexpected substance is or how potent it is.</p>
+          <p>Two reaction updates worth knowing, both from DanceSafe's 2023 revisions: a <strong>dark gray or green reaction on Simon's is now an expected reaction for MDA</strong>, and <strong>cocaine produces a light pink or peach reaction on Marquis</strong>.</p>
+
+          <h2>Technique that changes your result</h2>
+          <ul>
+            <li><strong>Use a clean, dry, white, non-porous surface</strong>: ceramic, porcelain, or hard plastic. Residue from a previous test will corrupt the next one.</li>
+            <li><strong>Never touch the bottle tip to the sample.</strong> That contaminates the whole bottle.</li>
+            <li><strong>Hold the cap upside down in your other hand.</strong> Putting a cap down on a surface, or on the wrong bottle, contaminates the reagent.</li>
+            <li><strong>Use a "blank"</strong>: put a drop of reagent by itself next to your test sample so you can compare the reacted color against the unreacted one.</li>
+            <li><strong>If a result is unclear</strong>, retest with a larger sample. If the liquid is very dark, the reaction may not be readable or accurate.</li>
+            <li><strong>Wear gloves and eye protection.</strong> Reagents are corrosive. Neutralize with baking soda during cleanup, then wash the surface.</li>
+          </ul>
+
+          <h2>Storage and shelf life</h2>
+          <ul>
+            <li>Most reagents last <strong>1 to 2 years in the fridge</strong>, longer in the freezer.</li>
+            <li><strong>Mandelin</strong> starts light orange and turns cloudy yellow after 3 to 4 weeks. That is normal. Shake the bottle before each use.</li>
+            <li>Other reagents gradually darken over time. They are only expired when the liquid becomes too dark for reactions to be read.</li>
+            <li>Dispose of reagents at a hazardous waste facility.</li>
+          </ul>
+
+          <h2>Where to get reagents</h2>
+          <p>DanceSafe is the original and only nonprofit reagent kit manufacturer in the US, and proceeds fund free drug checking at events. You can buy single reagents or sets:</p>
+          <ul>
+            <li><a href="/marquis-kit">Marquis</a>, <a href="/mecke-kit">Mecke</a>, <a href="/simons-kit">Simon's</a>, <a href="/mandelin-kit">Mandelin</a>, <a href="/froehde-kit">Froehde</a>, and <a href="/liebermann-kit">Liebermann</a> individually</li>
+            <li><a href="/mdma-kit">MDMA testing kit</a> (Marquis, Mecke, Simon's), <a href="/lsd-kit">LSD testing kit</a> (Ehrlich), <a href="/ketamine-kit">ketamine testing kit</a>, <a href="/cocaine-kit">cocaine testing kit</a></li>
+            <li><a href="/kits">Complete set of all 9 testing kits</a> if you test a range of substances</li>
+            <li><a href="/fentanyl-strips">Fentanyl test strips</a>, which you need regardless of which reagents you own</li>
+          </ul>
+          <p>Technique walkthroughs and video demos are on our <a href="/test-kits.html">test kits page</a>. Source for the reaction timing, limitations, and handling guidance above: DanceSafe's published reagent instruction pamphlet.</p>
+
+          <h2>This is not identification</h2>
+          <p>Reagent testing narrows possibilities. It does not confirm identity, and it never measures dose. Pair it with a fentanyl strip, start with a low dose, and use the <a href="/interactions.html">interaction checker</a> before combining anything.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

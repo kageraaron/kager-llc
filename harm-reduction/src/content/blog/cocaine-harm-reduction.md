@@ -2,7 +2,7 @@
 title: "Cocaine Harm Reduction: Heart Risks, Levamisole, and Nasal Care"
 description: "Cocaine's cardiac risks can strike on the first use, and most US supply contains levamisole. What the evidence shows and how to reduce harm."
 date: 2026-05-28
-lastmod: 2026-06-01
+lastmod: 2026-08-11
 tags: ["cocaine", "harm reduction", "cardiovascular", "levamisole", "adulterants"]
 author: "Jordan Mercer"
 ---
@@ -31,7 +31,9 @@ Cocaine affects the heart through three separate, overlapping mechanisms. Each o
 
 **Sodium channel blockade.** Independently of its stimulant effect, cocaine acts as a sodium channel blocker in cardiac tissue, which slows electrical conduction and prolongs the QRS and QT intervals on an ECG (the electrical measurements of how long each heartbeat cycle takes). This creates arrhythmia risk that persists even as the stimulant effect fades, and it's why the "coming down" window is not necessarily safe from a cardiac standpoint.
 
-**Coronary vasospasm.** Cocaine causes intense, acute narrowing of coronary arteries (the arteries feeding the heart muscle). This can cut off blood flow to the heart completely, causing myocardial infarction (heart attack) without any atherosclerotic plaque being present. A 2007 cohort study by Hsue et al. ([PMID 17349878](https://pubmed.ncbi.nlm.nih.gov/17349878/)) found that cocaine users had significantly accelerated coronary atherosclerosis even after controlling for smoking and lipid levels, meaning long-term use also accelerates the underlying disease it can acutely trigger. A 2001 study by Qureshi et al. ([PMID 11696469](https://pubmed.ncbi.nlm.nih.gov/11696469/)) found cocaine users aged 18–49 had a sevenfold increased stroke risk compared to non-users.
+**Coronary vasospasm.** Cocaine causes intense, acute narrowing of coronary arteries (the arteries feeding the heart muscle). This can cut off blood flow to the heart completely, causing myocardial infarction (heart attack) without any atherosclerotic plaque being present. Catheterization studies found intranasal cocaine narrowed the left coronary artery and reduced coronary blood flow in patients who felt nothing at the time, an effect reversed by the alpha-blocker phentolamine ([PMID 2573838](https://pubmed.ncbi.nlm.nih.gov/2573838/)). Chronic use also remodels the heart: regular users showed higher systolic blood pressure, stiffer aortas, and greater left ventricular mass than matched non-users ([PMID 24717541](https://pubmed.ncbi.nlm.nih.gov/24717541/)).
+
+Using NHANES III data on 10,085 adults aged 18 to 45, Qureshi et al. found that frequent lifetime cocaine use was associated with a **6.9 odds ratio for nonfatal myocardial infarction**, and estimated that roughly **one in four nonfatal MIs in that age group** was attributable to cocaine ([PMID 11157713](https://pubmed.ncbi.nlm.nih.gov/11157713/)). That same study found **no significant association with stroke**, so the widely repeated "cocaine multiplies your stroke risk" claim is not supported by this dataset. For the full cardiac picture, see our [cocaine heart attack guide](/blog/cocaine-heart-attack.html).
 
 There is no established safe dose for cardiovascular risk. The vasospasm mechanism is not reliably dose-dependent.
 
@@ -43,9 +45,9 @@ Levamisole is not a trace contaminant. DEA Microgram Bulletin data from 2009 and
 
 In a subset of users, levamisole triggers **agranulocytosis**, a collapse in neutrophil count (neutrophils are the white blood cells primarily responsible for fighting bacterial infections). The reaction is immune-mediated and idiosyncratic, meaning it is not reliably dose-dependent. Some people can use levamisole-contaminated cocaine for years without incident; others develop agranulocytosis after relatively limited exposure. Estimated incidence runs between 3–10% of chronically exposed users, though this is likely an undercount given how often the cause goes unrecognized.
 
-The clinical presentation: fever, painful mouth sores (ulcers), recurring infections that don't resolve normally, and in severe cases, sepsis (life-threatening systemic infection). A 2009 case series by Zhu et al. ([PMID 19949140](https://pubmed.ncbi.nlm.nih.gov/19949140/)) was one of the first large US descriptions of this syndrome, and noted that many patients had been treated for other presumed causes before the cocaine connection was established.
+The clinical presentation: fever, painful mouth sores (ulcers), recurring infections that don't resolve normally, and in severe cases, sepsis (life-threatening systemic infection). A 2012 review by Buchanan et al. in *Current Opinion in Hematology* ([PMID 22143075](https://pubmed.ncbi.nlm.nih.gov/22143075/)) describes the syndrome and notes that many patients are treated for other presumed causes before the cocaine connection is established.
 
-A visible sign reported by Buchanan et al. in 2010 ([PMID 20471122](https://pubmed.ncbi.nlm.nih.gov/20471122/)) is **retiform purpura**: a distinctive skin necrosis pattern (net-like, bruise-like lesions) appearing on the ears, nose, and cheeks. If you or someone you know uses cocaine and develops this pattern, get to an emergency room and tell them about the cocaine use.
+A visible sign, documented by Buchanan et al. in *Journal of Medical Toxicology* ([PMID 20549422](https://pubmed.ncbi.nlm.nih.gov/20549422/)), is **occlusive necrotizing vasculitis** producing retiform purpura: a distinctive skin necrosis pattern (net-like, bruise-like lesions) appearing on the ears, nose, and cheeks. If you or someone you know uses cocaine and develops this pattern, get to an emergency room and tell them about the cocaine use.
 
 Levamisole is not detectable with fentanyl test strips, Marquis reagent, or any other consumer-accessible kit. Specialized laboratory testing exists but is not available at the point of use.
 
@@ -89,4 +91,4 @@ For a full breakdown of cocaine's effects and risk profile, see our [cocaine har
 
 ---
 
-*Sources: [PMID 17349878](https://pubmed.ncbi.nlm.nih.gov/17349878/) | [PMID 11696469](https://pubmed.ncbi.nlm.nih.gov/11696469/) | [PMID 19949140](https://pubmed.ncbi.nlm.nih.gov/19949140/) | [PMID 20471122](https://pubmed.ncbi.nlm.nih.gov/20471122/) | [PMID 24529259](https://pubmed.ncbi.nlm.nih.gov/24529259/)*
+*Sources: [PMID 2573838](https://pubmed.ncbi.nlm.nih.gov/2573838/) | [PMID 24717541](https://pubmed.ncbi.nlm.nih.gov/24717541/) | [PMID 11157713](https://pubmed.ncbi.nlm.nih.gov/11157713/) | [PMID 22143075](https://pubmed.ncbi.nlm.nih.gov/22143075/) | [PMID 20549422](https://pubmed.ncbi.nlm.nih.gov/20549422/) | [PMID 24529259](https://pubmed.ncbi.nlm.nih.gov/24529259/)*

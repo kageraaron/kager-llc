@@ -65,7 +65,7 @@ Standard colorimetric reagent tests are unreliable for distinguishing ketamine f
 
 **The only reliable testing for this class of substances is FTIR or GC/MS spectrometry.** Some harm reduction organizations and festival drug checking services have access to these instruments. Drug checking at music festivals ([PMID 31605958](https://pubmed.ncbi.nlm.nih.gov/31605958/)) has demonstrated meaningful discrepancies between what people believe they have and what spectrometry confirms.
 
-The [DanceSafe complete testing kit](/kits) includes Marquis, Mecke, Simon's, and other reagents — useful for many substances, but the ketamine/analog limitation applies. If you are at a festival with on-site drug checking, use it. If you are not, reagent testing tells you less here than it does for MDMA or psilocybin.
+The [DanceSafe ketamine testing kit](/ketamine-kit) is the relevant one here, though the ketamine/analog limitation applies. If you are at a festival with on-site drug checking, use it. If you are not, reagent testing tells you less here than it does for MDMA or psilocybin.
 
 ---
 

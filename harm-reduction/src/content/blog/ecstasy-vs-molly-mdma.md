@@ -141,7 +141,7 @@ Dissolve a small pill fragment in water — use **at least 5–10 mL** (1–2 te
 - **Two lines = fentanyl not detected**
 - **One line = fentanyl detected — do not use**
 
-All of these are available in [DanceSafe's complete 9-kit set](/kits). For step-by-step testing instructions see our [test kit guide](/test-kits.html).
+All of these are available in [DanceSafe's MDMA testing kit](/mdma-kit). For step-by-step testing instructions see our [test kit guide](/test-kits.html).
 
 ---
 

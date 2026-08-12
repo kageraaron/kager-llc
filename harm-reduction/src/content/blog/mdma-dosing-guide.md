@@ -77,7 +77,7 @@ The second problem is adulterants. Common substitutes and additions found in dru
 - **Synthetic cathinones** (methylone, MDPV, mephedrone), unpredictable duration, lower therapeutic index
 - **Fentanyl**: confirmed in MDMA samples at multiple festival drug checking operations; lethal at microgram doses
 
-**Testing your supply before dosing is not optional if you care about safe dosing.** A reagent test (Marquis + Simon's reagents) tells you whether MDMA is the primary active substance. A fentanyl test strip tells you whether fentanyl is present. The [DanceSafe complete 9-kit testing set](/kits) covers all the reagents you need. Use both before every session, not just once.
+**Testing your supply before dosing is not optional if you care about safe dosing.** A reagent test (Marquis + Simon's reagents) tells you whether MDMA is the primary active substance. A fentanyl test strip tells you whether fentanyl is present. The [DanceSafe MDMA testing kit](/mdma-kit) covers all the reagents you need. Use both before every session, not just once.
 
 See [our drug testing guide](/test-kits.html) for the full step-by-step testing protocol.
 

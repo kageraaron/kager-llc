@@ -79,7 +79,7 @@ A combined Marquis result plus Simon's plus a fentanyl strip is the practical at
 
 ## The bottom line
 
-Read Marquis by the color in the first minute under white light: **purple to black means a phenethylamine like MDMA or MDA, orange to brown means an amphetamine, and no change means Marquis is not the right test for that substance.** Then confirm with Simon's to separate MDMA from MDA, and always finish with a fentanyl strip, because Marquis cannot see fentanyl. Get a [Marquis kit or the full reagent set from DanceSafe](/kits).
+Read Marquis by the color in the first minute under white light: **purple to black means a phenethylamine like MDMA or MDA, orange to brown means an amphetamine, and no change means Marquis is not the right test for that substance.** Then confirm with Simon's to separate MDMA from MDA, and always finish with a fentanyl strip, because Marquis cannot see fentanyl. Get a [Marquis reagent kit from DanceSafe](/marquis-kit).
 
 For the complete step-by-step on testing ecstasy, see [how to test your MDMA](/blog/how-to-test-mdma.html), and for dosing and safer-use practices, our [MDMA harm reduction guide](/mdma.html).
 

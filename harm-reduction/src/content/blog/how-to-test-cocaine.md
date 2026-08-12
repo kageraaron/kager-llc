@@ -18,7 +18,7 @@ Testing cocaine before you use it catches two very different risks: whether the 
 
 **Can you test cocaine for levamisole?** Not reliably with a field kit. Most US cocaine contains levamisole and no street test rules it out. See our guide on [levamisole in cocaine](/blog/levamisole-in-cocaine.html).
 
-**Where do you get cocaine test kits?** [DanceSafe sells reagent kits and fentanyl test strips](/kits) that cover cocaine screening.
+**Where do you get cocaine test kits?** [DanceSafe sells a cocaine testing kit](/cocaine-kit) and [fentanyl test strips](/fentanyl-strips) that cover cocaine screening.
 
 ---
 
@@ -72,7 +72,7 @@ Most people skip drug checking entirely. One survey of the dance-music scene fou
 
 ## The bottom line
 
-Test cocaine fentanyl-strip first, reagent second. The strip catches the contaminant most likely to kill you quickly; the reagent confirms the powder is actually cocaine and flags obvious substitutes. Neither test detects levamisole, and neither measures dose, so treat cocaine as adulterated by default, start low, and keep naloxone nearby. Get [reagent kits and fentanyl strips from DanceSafe](/kits).
+Test cocaine fentanyl-strip first, reagent second. The strip catches the contaminant most likely to kill you quickly; the reagent confirms the powder is actually cocaine and flags obvious substitutes. Neither test detects levamisole, and neither measures dose, so treat cocaine as adulterated by default, start low, and keep naloxone nearby. Get a [cocaine testing kit](/cocaine-kit) and [fentanyl strips](/fentanyl-strips) from DanceSafe.
 
 For the full picture on cardiovascular risk, adulterants, and safer-use practices, see our [cocaine harm reduction guide](/cocaine.html), and our breakdown of why [cocaine and alcohol](/blog/cocaine-and-alcohol.html) is such a hard combination on the heart.
 

@@ -66,7 +66,7 @@ There is no way to make levamisole-contaminated cocaine safe, but you can lower 
 - **Track your own baseline.** If you develop recurrent infections, mouth sores, or unexplained fevers, raise levamisole with your doctor directly.
 - **Don't share equipment.** A suppressed immune system plus shared straws or pipes is a fast route to transmissible infection.
 
-[DanceSafe sells reagent test kits and fentanyl test strips](/kits) that cover cocaine screening.
+[DanceSafe sells a cocaine testing kit](/cocaine-kit) and [fentanyl test strips](/fentanyl-strips) that cover cocaine screening.
 
 ---
 
