@@ -6,6 +6,36 @@ const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
 
+// Curated topic filters. Post tags are freeform (121 distinct values, inconsistent
+// casing, and "harm reduction" appears on every post), so raw tags make a poor
+// filter UI. Each topic maps to a set of lowercase tag values instead.
+const TOPICS = [
+  { slug: 'mdma',         label: 'MDMA',                   tags: ['mdma','molly','ecstasy','mda','redosing','tolerance'] },
+  { slug: 'testing',      label: 'Test kits and testing',  tags: ['test kits','drug checking','drug testing','fentanyl test strips','marquis reagent','mecke reagent','simons reagent','mandelin reagent','froehde reagent','liebermann reagent','ehrlich reagent','adulterants','dancesafe','levamisole','nbome'] },
+  { slug: 'psychedelics', label: 'Psychedelics',           tags: ['lsd','psilocybin','psychedelics','mushrooms','microdosing','2c-b','bad trip','set and setting','tusi','pink cocaine','candy flip','cannabis'] },
+  { slug: 'interactions', label: 'Drug interactions',      tags: ['drug interactions','drug combinations','combinations','interactions','ssris','alcohol','benzodiazepines','benzos','lithium','pde5 inhibitors','serotonin syndrome','serotonin'] },
+  { slug: 'emergency',    label: 'Overdose and emergency', tags: ['overdose','emergency','seizures','opioids','fentanyl','naloxone'] },
+  { slug: 'cocaine',      label: 'Cocaine',                tags: ['cocaine','cocaethylene','chest pain','stimulants'] },
+  { slug: 'ketamine',     label: 'Ketamine',               tags: ['ketamine','bladder damage','k-cramps'] },
+  { slug: 'supplements',  label: 'Supplements and recovery', tags: ['supplements','5-htp','magnesium','green tea extract','egcg','alpha lipoic acid','neuroprotection','bruxism','jaw clenching','comedown','recovery','aftercare','sleep'] },
+  { slug: 'festivals',    label: 'Festivals and raves',    tags: ['festivals','festival safety','raves','dance','music','trance','overheating','hydration'] },
+  { slug: 'ghb',          label: 'GHB and GBL',            tags: ['ghb','gbl','withdrawal'] },
+  { slug: 'hearing',      label: 'Hearing',                tags: ['hearing','tinnitus','earplugs'] },
+  { slug: 'nitrous',      label: 'Nitrous oxide',          tags: ['nitrous oxide','whippets','b12','nerve damage','galaxy gas'] },
+  { slug: 'poppers',      label: 'Poppers',                tags: ['poppers','alkyl nitrites','isopropyl nitrite','maculopathy','eye damage'] },
+];
+
+const topicsFor = (tags = []) => {
+  const lower = tags.map(t => t.toLowerCase());
+  return TOPICS.filter(t => lower.some(tag => t.tags.includes(tag))).map(t => t.slug);
+};
+
+const postTopics = new Map(posts.map(p => [p.id, topicsFor(p.data.tags)]));
+const counts = Object.fromEntries(
+  TOPICS.map(t => [t.slug, posts.filter(p => postTopics.get(p.id).includes(t.slug)).length])
+);
+const activeTopics = TOPICS.filter(t => counts[t.slug] > 0);
+
 const title = "Harm Reduction Blog — Evidence-Based Guides | Rave Wellness";
 const description = "Evidence-based harm reduction articles for the rave and festival community. Drug safety guides, practical protocols, and peer-reviewed research.";
 const canonical = "https://www.ravewellness.org/blog.html";
@@ -43,15 +73,36 @@ const schemaJson = `{
   <main>
     <section id="hero" style="padding-top: 72px;">
       <div class="container">
-        <div class="section-header" style="margin-bottom: 40px;">
+        <div class="section-header" style="margin-bottom: 32px;">
           <div class="step-pill">Harm reduction knowledge base</div>
           <h1>Blog</h1>
           <p class="section-sub">Evidence-based articles on harm reduction, drug safety, and rave wellness. Cited, practical, and written for people who have already decided to participate.</p>
         </div>
 
-        <div class="research-grid">
+        <!-- Filter bar is revealed by JS. Without JS every post stays visible. -->
+        <div class="topic-filter" id="topicFilter" hidden>
+          <span class="topic-filter-label" id="filterLabel">Filter by topic</span>
+          <div class="topic-filter-chips" role="group" aria-labelledby="filterLabel">
+            <button type="button" class="topic-chip is-active" data-topic="all" aria-pressed="true">
+              All <span class="topic-count">{posts.length}</span>
+            </button>
+            {activeTopics.map(t => (
+              <button type="button" class="topic-chip" data-topic={t.slug} aria-pressed="false">
+                {t.label} <span class="topic-count">{counts[t.slug]}</span>
+              </button>
+            ))}
+          </div>
+          <p class="topic-status" id="topicStatus" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="research-grid" id="postGrid">
           {posts.map(post => (
-            <a href={`/blog/${post.id}.html`} class="research-card" style="text-decoration: none; display: block;">
+            <a
+              href={`/blog/${post.id}.html`}
+              class="research-card"
+              style="text-decoration: none; display: block;"
+              data-topics={postTopics.get(post.id).join(' ')}
+            >
               <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px;">
                 {post.data.tags?.map(tag => (
                   <span class="research-tag tag-clinical">{tag}</span>
@@ -67,10 +118,108 @@ const schemaJson = `{
           ))}
         </div>
 
+        <p class="topic-empty" id="topicEmpty" hidden>No articles match that topic yet.</p>
+
         {posts.length === 0 && (
-          <p class="section-sub" style="text-align: center; padding: 40px 0;">No articles yet — check back soon.</p>
+          <p class="section-sub" style="text-align: center; padding: 40px 0;">No articles yet, check back soon.</p>
         )}
       </div>
     </section>
   </main>
 </BaseLayout>
+
+<style>
+  .topic-filter { max-width: 900px; margin: 0 auto 32px; text-align: center; }
+  .topic-filter-label {
+    display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 12px;
+  }
+  .topic-filter-chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+  .topic-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: inherit; font-size: 0.8rem; font-weight: 600;
+    padding: 6px 14px; border-radius: 999px; cursor: pointer;
+    background: var(--bg-card); color: var(--text-muted);
+    border: 1px solid var(--border);
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+  .topic-chip:hover { color: var(--text); border-color: var(--purple); }
+  .topic-chip.is-active {
+    background: var(--purple-dim); color: var(--purple-light);
+    border-color: rgba(139, 92, 246, 0.5);
+  }
+  .topic-count { font-size: 0.7rem; opacity: 0.75; font-variant-numeric: tabular-nums; }
+  .topic-status { margin-top: 12px; font-size: 0.8rem; color: var(--text-muted); min-height: 1.2em; }
+  .topic-empty { text-align: center; padding: 40px 0; color: var(--text-muted); }
+  .research-card[hidden] { display: none !important; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .topic-chip { transition: none; }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var bar = document.getElementById('topicFilter');
+    var grid = document.getElementById('postGrid');
+    if (!bar || !grid) return;
+
+    var chips = Array.prototype.slice.call(bar.querySelectorAll('.topic-chip'));
+    var cards = Array.prototype.slice.call(grid.querySelectorAll('.research-card'));
+    var status = document.getElementById('topicStatus');
+    var empty = document.getElementById('topicEmpty');
+    var total = cards.length;
+
+    bar.hidden = false;
+
+    function labelFor(topic) {
+      var chip = chips.filter(function (c) { return c.dataset.topic === topic; })[0];
+      if (!chip) return topic;
+      return chip.textContent.replace(/\s*\d+\s*$/, '').trim();
+    }
+
+    function apply(topic, updateHash) {
+      var shown = 0;
+      cards.forEach(function (card) {
+        var list = (card.dataset.topics || '').split(' ');
+        var match = topic === 'all' || list.indexOf(topic) !== -1;
+        card.hidden = !match;
+        if (match) shown++;
+      });
+
+      chips.forEach(function (c) {
+        var on = c.dataset.topic === topic;
+        c.classList.toggle('is-active', on);
+        c.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+
+      if (empty) empty.hidden = shown !== 0;
+      if (status) {
+        status.textContent = topic === 'all'
+          ? 'Showing all ' + total + ' articles'
+          : 'Showing ' + shown + ' of ' + total + ' articles in ' + labelFor(topic);
+      }
+
+      if (updateHash) {
+        var url = topic === 'all'
+          ? window.location.pathname + window.location.search
+          : window.location.pathname + window.location.search + '#topic=' + topic;
+        history.replaceState(null, '', url);
+      }
+    }
+
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () { apply(chip.dataset.topic, true); });
+    });
+
+    function fromHash() {
+      var m = /^#topic=([a-z-]+)$/.exec(window.location.hash || '');
+      var wanted = m ? m[1] : 'all';
+      var known = chips.some(function (c) { return c.dataset.topic === wanted; });
+      apply(known ? wanted : 'all', false);
+    }
+
+    window.addEventListener('hashchange', fromHash);
+    fromHash();
+  })();
+</script>
