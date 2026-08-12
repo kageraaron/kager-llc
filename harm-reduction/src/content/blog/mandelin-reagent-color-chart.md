@@ -87,7 +87,7 @@ The practical takeaway: if you are checking ketamine, the [DanceSafe ketamine te
 - **Marquis first, always.** It is the broadest reagent and the natural starting point. See [how to read a Marquis result](/blog/how-to-read-a-marquis-reagent-result.html).
 - **Simon's** to separate MDMA from MDA, and to separate methamphetamine from amphetamine. Simon's turns blue for both MDMA and meth.
 - **Mandelin** as the confirmation layer. Dark brown-black backing up a purple-black Marquis is a consistent MDMA picture. Olive-green backing up an orange Marquis and a blue Simon's is a consistent methamphetamine picture.
-- **A fentanyl test strip** on every sample. Dissolve in at least 5 mL of water first to avoid a false positive. Full method in our [fentanyl test strip guide](/blog/how-to-use-fentanyl-test-strips.html), and strips are available [here](/fentanyl-strips).
+- **A fentanyl test strip** on every sample. Dissolve in 1 teaspoon (5 mL) of water per 10 mg first, or 2 teaspoons (10 mL) for MDMA and methamphetamine, to avoid a false positive. Full method in our [fentanyl test strip guide](/blog/how-to-use-fentanyl-test-strips.html), and strips are available [here](/fentanyl-strips).
 
 ## What Mandelin cannot tell you
 

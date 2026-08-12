@@ -2,7 +2,7 @@
 title: "How to Stop a Bad Trip: What Actually Works"
 description: "To stop a bad trip: change environment and music first, then diazepam 10–20 mg if needed. What works, what doesn't, and when to call 911."
 date: 2026-05-12
-lastmod: 2026-05-15
+lastmod: 2026-08-12
 tags: ["LSD", "psilocybin", "bad trip", "harm reduction", "psychedelics", "benzodiazepines"]
 author: "Jordan Mercer"
 ---
@@ -102,7 +102,7 @@ Similarly: **don't fight the experience.** Trying to forcibly suppress or resist
 
 **If the person took LSD or psilocybin and is on lithium carbonate (prescribed for bipolar disorder), treat this as a medical emergency.**
 
-The LSD–lithium and psilocybin–lithium combinations are associated with a significantly elevated risk of **seizures**: not just intensification of the trip. Multiple case reports document seizures in this combination, including in people with no prior seizure history. ([PMID 3350919](https://pubmed.ncbi.nlm.nih.gov/3350919/)) The mechanism is not fully established but likely relates to lithium's narrow therapeutic window and its effects on ion channels that interact with serotonergic activity.
+The LSD–lithium and psilocybin–lithium combinations are associated with a significantly elevated risk of **seizures**: not just intensification of the trip. Multiple case reports document seizures in this combination, including in people with no prior seizure history. ([PMID 34348413](https://pubmed.ncbi.nlm.nih.gov/34348413/), [PMID 38986146](https://pubmed.ncbi.nlm.nih.gov/38986146/)) The mechanism is not fully established but likely relates to lithium's narrow therapeutic window and its effects on ion channels that interact with serotonergic activity.
 
 **Do not wait to see if benzos work. Do not try to manage this with environmental interventions.** Call emergency services immediately and tell them what substances are involved. This is the one situation on this page where the first-line response skips directly to 911.
 

@@ -1,8 +1,8 @@
 ---
-title: "MDMA Supplements Protocol: Pre-Loading and Post-Loading Guide"
-description: "Molly/MDMA (ecstasy) supplements protocol: what R-ALA, magnesium, Vitamin C, and 5-HTP actually do, when to take them, and what the research supports."
+title: "MDMA Supplements Protocol: What the Evidence Shows"
+description: "An evidence review of the MDMA supplements protocol: what R-ALA, magnesium, 5-HTP and EGCG are actually supported by, and which claims outrun the data."
 date: 2026-05-12
-lastmod: 2026-05-15
+lastmod: 2026-08-12
 tags: ["mdma", "harm reduction", "supplements", "neuroprotection", "5-htp", "alpha lipoic acid"]
 author: "Jordan Mercer"
 ---
@@ -156,4 +156,4 @@ No supplement protocol substitutes for the two most effective harm reduction pra
 
 The supplement protocol is a reasonable set of low-risk adjuncts with mechanistic support. Treat it as harm reduction at the margins, not a safety guarantee.
 
-For a dedicated deep-dive on 5-HTP timing and serotonin syndrome risk, see our [5-HTP and molly guide](/blog/5-htp-and-molly.html). For a systematic evidence review grading each supplement by evidence tier, see our [MDMA jaw clenching evidence review](/blog/mdma-jaw-clenching-evidence-review.html). For a full overview of MDMA effects, risks, and harm reduction, see our [MDMA harm reduction guide](/mdma.html). Before combining MDMA with any medication or other substance, check our [interaction checker](/interactions.html).
+For a dedicated deep-dive on 5-HTP timing and serotonin syndrome risk, see our [5-HTP and molly guide](/blog/5-htp-and-molly.html). For a systematic evidence review grading each supplement by evidence tier, see our [MDMA jaw clenching evidence review](/blog/mdma-magnesium-jaw-clenching.html). For a full overview of MDMA effects, risks, and harm reduction, see our [MDMA harm reduction guide](/mdma.html). Before combining MDMA with any medication or other substance, check our [interaction checker](/interactions.html).

@@ -35,6 +35,14 @@ const schemaJson  = `{
         "mainEntity": [
           {
             "@type": "Question",
+            "name": "Which poppers cause eye damage?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Isopropyl nitrite is the poppers formulation linked to foveal maculopathy, damage to the central part of the retina. In a case series of 12 patients at Sussex Eye Hospital, six of the brands implicated in visual symptoms contained isopropyl nitrite when analysed by nuclear magnetic resonance spectroscopy, while a product used without side effects contained amyl nitrite and 2-methyl butyl nitrite instead (PMID 28396339). Symptoms are a blurred or dim patch in the centre of vision appearing within hours to days of use, with peripheral vision unaffected. Vision usually improves after stopping, so treat any central vision change as a reason to stop using and get an eye exam rather than something to tolerate. Tell the clinician you used poppers, because the OCT finding is subtle and the history is what points them to it."
+            }
+          },
+          {
+            "@type": "Question",
             "name": "Can cocaine cause a heart attack in a young, healthy person?",
             "acceptedAnswer": {
               "@type": "Answer",
@@ -390,7 +398,7 @@ const schemaJson  = `{
             "name": "How do I test cocaine for fentanyl?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "The most important cocaine test is a fentanyl test strip, because fentanyl contamination of the stimulant supply is a leading cause of overdose death and you cannot see, smell, or taste it. Dissolve about 10 mg of cocaine in at least 5 mL of water, dip the strip for 15 seconds, and read at 2 to 5 minutes: two lines is negative, one line is positive, no lines is invalid. The generous water volume prevents false positives. A reagent test (Scott or Marquis) confirms the powder is actually cocaine and flags substitutes. Neither test detects levamisole and neither measures potency, so treat cocaine as adulterated by default and start with a smaller amount."
+              "text": "The most important cocaine test is a fentanyl test strip, because fentanyl contamination of the stimulant supply is a leading cause of overdose death and you cannot see, smell, or taste it. Dissolve about 10 mg of cocaine in one teaspoon (5 mL) of water, dip the strip for 15 seconds, and read at 2 to 5 minutes: two lines is negative, one line is positive, no lines is invalid. MDMA and methamphetamine need two teaspoons (10 mL) per 10 mg instead, because both can cross-react and produce a false positive at higher concentration. A reagent test (Scott or Marquis) confirms the powder is actually cocaine and flags substitutes. Neither test detects levamisole and neither measures potency, so treat cocaine as adulterated by default and start with a smaller amount."
             }
           },
           {
@@ -839,6 +847,26 @@ const schemaJson  = `{
 
           <div class="faq-item">
             <button class="faq-question">
+              Which poppers cause eye damage?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>Isopropyl nitrite</strong> is the formulation linked to <strong>poppers maculopathy</strong>, damage to the fovea, the small central part of the retina you use for reading and recognising faces. Amyl nitrite and isobutyl nitrite have not been implicated the same way.</p>
+                <p>A case series of 12 patients at Sussex Eye Hospital analysed eight poppers products by nuclear magnetic resonance spectroscopy. Six of the brands implicated in visual symptoms contained isopropyl nitrite, while a product used without any side effects contained amyl nitrite, 2-methyl butyl nitrite and isobutyl alcohol (Rewbury 2017, PMID 28396339).</p>
+                <ul>
+                  <li><strong>Symptoms:</strong> a blurred, dim or blank patch in the centre of vision, appearing within hours to days of use. Peripheral vision stays normal.</li>
+                  <li><strong>Diagnosis:</strong> optical coherence tomography, which shows disruption at the photoreceptor inner/outer segment junction. Say you used poppers, or it is easy to miss.</li>
+                  <li><strong>Prognosis:</strong> usually improves after stopping. In that series, symptoms generally resolved with partial to full recovery of foveal structure following abstention. Continuing to use after symptoms start is what makes it lasting.</li>
+                  <li><strong>You often cannot tell what is in the bottle.</strong> Poppers are sold as room odourisers or leather cleaner to sidestep regulation, so contents are frequently unlabelled or inaccurate.</li>
+                </ul>
+                <p>Full guide: <a href="/blog/isopropyl-poppers-eye-damage.html">Isopropyl poppers and eye damage →</a> | <a href="poppers.html">Poppers harm reduction guide →</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
               Can cocaine cause a heart attack in a young, healthy person?
               <div class="faq-icon"></div>
             </button>
@@ -892,7 +920,7 @@ const schemaJson  = `{
               <div class="faq-answer-content">
                 <p>The most important cocaine test is a <strong>fentanyl test strip</strong>, because fentanyl contamination of the stimulant supply is a leading cause of overdose death and you cannot see, smell, or taste it.</p>
                 <ul>
-                  <li><strong>Fentanyl strip:</strong> Dissolve about 10 mg of cocaine in at least 5 mL of water (one teaspoon), dip the strip 15 seconds, and read at 2–5 minutes. Two lines = negative, one line = positive, no lines = invalid. The generous water volume prevents false positives.</li>
+                  <li><strong>Fentanyl strip:</strong> Dissolve about 10 mg of cocaine in one teaspoon (5 mL) of water, dip the strip 15 seconds, and read at 2–5 minutes. MDMA and methamphetamine are the exception and need two teaspoons (10 mL) per 10 mg to avoid a false positive. Two lines = negative, one line = positive, no lines = invalid. The generous water volume prevents false positives.</li>
                   <li><strong>Reagent (Scott or Marquis):</strong> Confirms the powder is actually cocaine and flags substitutes. Cocaine gives no reaction with Marquis, so an orange or purple result means something else is present.</li>
                 </ul>
                 <p>Neither test detects levamisole, and neither measures potency, so treat cocaine as adulterated by default and start with a smaller amount.</p>

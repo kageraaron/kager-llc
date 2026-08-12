@@ -42,7 +42,7 @@ const schemaJson  = `{
             "name": "How do I test MDMA for fentanyl?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Dissolve a small amount (~10mg) of MDMA in water (about ¼ tsp). Dip a fentanyl test strip for 15 seconds, lay flat, and read after 2–5 minutes. One line means fentanyl detected, do not use. Two lines means negative at that sensitivity threshold. Always combine with reagent testing (Marquis, Mecke, Simon's) for full confirmation."
+              "text": "Dissolve a small amount (~10mg) of MDMA in water. MDMA needs two teaspoons (10 mL) per 10 mg, double the standard amount, because MDMA can cross-react with the strip at high concentration and produce a false positive. Dip a fentanyl test strip for 15 seconds, lay flat, and read after 2–5 minutes. One line means fentanyl detected, do not use. Two lines means negative at that sensitivity threshold. Always combine with reagent testing (Marquis, Mecke, Simon's) for full confirmation."
             }
           },
           {
@@ -98,7 +98,7 @@ const schemaJson  = `{
             "name": "Why take green tea extract (EGCG) with 5-HTP after MDMA?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "EGCG (epigallocatechin gallate, the active compound in green tea extract) is taken alongside 5-HTP to prevent peripheral conversion of 5-HTP to serotonin before it reaches the brain. Without EGCG, the enzyme aromatic L-amino acid decarboxylase (AADC) converts much of the 5-HTP to serotonin in the gut and blood vessels, where it cannot cross the blood-brain barrier and may cause nausea, GI distress, or cardiovascular effects. EGCG inhibits peripheral AADC activity, directing more 5-HTP toward brain serotonin synthesis where replenishment is needed. Always take EGCG (400mg) together with each dose of 5-HTP. Never take 5-HTP or EGCG during or within 24 hours of MDMA use, serotonin syndrome risk."
+              "text": "EGCG (epigallocatechin gallate, from green tea extract) is paired with 5-HTP to limit peripheral conversion of 5-HTP to serotonin before it reaches the brain. The problem it addresses is real: aromatic L-amino acid decarboxylase (AADC, also called DOPA decarboxylase) converts much of an oral 5-HTP dose to serotonin in the gut and blood vessels, where it cannot cross the blood-brain barrier and tends to cause nausea and GI distress. The mechanism also has a genuine primary source: Bertoldi and colleagues showed in 2001 that EGCG and EGC are irreversible, active-site-directed inhibitors of DOPA decarboxylase (PMID 11374875). What that study does not establish is whether the effect is meaningful at supplement doses in a living human. It was done on purified enzyme, and no human or animal study has tested EGCG plus 5-HTP. Oral EGCG is poorly absorbed, with only 0.2 to 2 percent reaching plasma, though gut-wall AADC is exposed to far higher concentrations than plasma levels suggest, which is the strongest argument that it could work. The proven peripheral AADC inhibitors are carbidopa and benserazide, which are prescription drugs. Reasonable summary: plausible mechanism, real in vitro evidence, unproven in humans, and low risk when taken the day after rather than near MDMA. Never take 5-HTP or EGCG during or within 24 hours of MDMA use, serotonin syndrome risk."
             }
           }
         ]
@@ -235,7 +235,7 @@ const schemaJson  = `{
             <div class="instruction-box">
               <h4>How to Test MDMA for Fentanyl:</h4>
               <ol>
-                <li>Dissolve a small amount (~10mg) in water (about ¼ tsp)</li>
+                <li>Dissolve a small amount (~10mg) in <strong>2 teaspoons (10 mL)</strong> of water. MDMA needs double the standard volume to avoid a false positive</li>
                 <li>Dip the strip for 15 seconds</li>
                 <li>Lay flat and read results after 2–5 minutes</li>
                 <li class="result-critical"><strong>1 line = fentanyl detected. Do not use.</strong></li>
@@ -455,8 +455,10 @@ const schemaJson  = `{
                   <span class="supp-name">5-HTP + EGCG (Green Tea Extract)</span>
                   <span class="supp-dose">100mg + 400mg, 3× daily</span>
                 </div>
-                <p>5-HTP is a direct precursor to serotonin, replenishing what MDMA depleted. <strong>Always pair with EGCG, epigallocatechin gallate from green tea extract.</strong></p>
-                <p><strong>Why EGCG is essential:</strong> Without it, the enzyme aromatic L-amino acid decarboxylase (AADC) converts much of the 5-HTP to serotonin in the gut and peripheral blood vessels before it reaches the brain. Peripheral serotonin can't cross the blood-brain barrier and may cause nausea, GI distress, and cardiovascular effects instead. EGCG inhibits peripheral AADC, directing more 5-HTP toward brain serotonin synthesis where it's actually needed. Green tea extract sold as "EGCG" is the same compound, look for 400mg standardized EGCG per dose.</p>
+                <p>5-HTP is a direct precursor to serotonin, replenishing what MDMA depleted. It is commonly paired with EGCG (green tea extract), and that pairing is <strong>not as well supported as the protocol implies</strong>.</p>
+                <p><strong>What is established:</strong> aromatic L-amino acid decarboxylase (AADC) converts much of an oral 5-HTP dose to serotonin in the gut and peripheral blood vessels before it reaches the brain. Peripheral serotonin cannot cross the blood-brain barrier and tends to cause nausea and GI distress instead. This is why clinical protocols pair 5-HTP with a decarboxylase inhibitor.</p>
+                <p><strong>What the EGCG mechanism rests on:</strong> Bertoldi et al. (2001) showed EGCG and EGC are irreversible, active-site inhibitors of DOPA decarboxylase, the same enzyme as AADC (<a href="https://pubmed.ncbi.nlm.nih.gov/11374875/" target="_blank" rel="noopener">PMID 11374875</a>). That is a real primary source, and it was done on purified enzyme. <strong>No human or animal study has tested EGCG with 5-HTP</strong>, so the effect size in a person is unknown. Carbidopa is the proven peripheral AADC inhibitor, and it is prescription-only.</p>
+                <p><strong>Timing is what actually matters here.</strong> EGCG also inhibits MAO-B, which is a reason not to take it near MDMA. Taken the day after, with MDMA largely cleared, that concern is minimal. Our <a href="/blog/mdma-green-tea-extract-egcg.html">EGCG evidence review</a> covers the full picture.</p>
                 <p>Continue for 2–3 days starting the <em>day after</em>, not the night of. Never take 5-HTP during or within 24 hours of MDMA.</p>
                 <a href="https://www.amazon.com/dp/B00FGA5RX4?tag=ravewellness01-20" target="_blank" rel="noopener" class="supp-link">Buy 5-HTP →</a>
                 <a href="https://www.amazon.com/dp/B001DNV5CA?tag=ravewellness01-20" target="_blank" rel="noopener" class="supp-link">Buy EGCG (Green Tea Extract) →</a>
@@ -758,7 +760,7 @@ const schemaJson  = `{
             <a href="https://pubmed.ncbi.nlm.nih.gov/29926505/" target="_blank" rel="noopener" class="research-link">
               Lobbezoo et al. (2018). International consensus on the assessment of bruxism: Report of a work in progress. J Oral Rehabil. PMID 29926505 →
             </a>
-            <a href="/blog/mdma-jaw-clenching-evidence-review.html" class="research-link" style="margin-top:6px; display:block;">
+            <a href="/blog/mdma-magnesium-jaw-clenching.html" class="research-link" style="margin-top:6px; display:block;">
               Our full evidence review: does magnesium actually help MDMA jaw clenching? →
             </a>
           </div>
@@ -767,8 +769,15 @@ const schemaJson  = `{
             <span class="research-tag tag-antioxidant">5-HTP / EGCG</span>
             <h4>EGCG Inhibits Peripheral 5-HTP Conversion</h4>
             <p>When 5-HTP is taken without a peripheral decarboxylase inhibitor, a significant fraction is converted to serotonin in the gut and peripheral tissues by aromatic L-amino acid decarboxylase (AADC) before reaching the brain. That peripheral serotonin cannot cross the blood-brain barrier and produces GI and cardiovascular effects without replenishing central serotonin. This part is well established, and is the basis for pairing 5-HTP with a decarboxylase inhibitor in clinical settings.</p>
-            <p><strong>The EGCG half of the popular protocol is not established.</strong> The claim that EGCG (the principal catechin in green tea extract) meaningfully inhibits peripheral AADC in humans traces to community sources rather than a verifiable primary study, and we could not locate a paper supporting it. Treat the 5-HTP plus green tea extract combination as unproven.</p>
-            <a href="https://pubmed.ncbi.nlm.nih.gov/16023217/" target="_blank" rel="noopener" class="research-link">
+            <p><strong>The EGCG half has a real mechanism but no human confirmation.</strong> Bertoldi et al. (2001) showed that EGCG and EGC irreversibly inactivate DOPA decarboxylase, which is the same enzyme as AADC, by binding at its active site. That is genuine primary evidence for the mechanism, done on purified enzyme.</p>
+            <p><strong>What is missing is the human step.</strong> No study has tested EGCG together with 5-HTP in people or animals. Oral EGCG is poorly absorbed, with human plasma peaking around 1 to 4 micromolar after 225 to 525 mg and only 0.2 to 2 percent of the dose reaching circulation. Gut-wall AADC sees much higher concentrations than plasma does, since most ingested EGCG stays in the gut, and that is the strongest argument that the pairing could work as claimed. It remains an argument rather than a result. Carbidopa and benserazide are the proven peripheral AADC inhibitors, and both are prescription-only.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/11374875/" target="_blank" rel="noopener" class="research-link">
+              Bertoldi et al. (2001). Green tea polyphenols: novel irreversible inhibitors of dopa decarboxylase. Biochem Biophys Res Commun. PMID 11374875 →
+            </a>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/9438978/" target="_blank" rel="noopener" class="research-link" style="margin-top:6px; display:block;">
+              Nakagawa et al. (1997). Dose-dependent incorporation of tea catechins EGCG and EGC into human plasma. Biosci Biotechnol Biochem. PMID 9438978 →
+            </a>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/16023217/" target="_blank" rel="noopener" class="research-link" style="margin-top:6px; display:block;">
               Turner et al. (2006). Serotonin a la carte: supplementation with the serotonin precursor 5-hydroxytryptophan. Pharmacol Ther. PMID 16023217 →
             </a>
             <a href="/blog/mdma-green-tea-extract-egcg.html" class="research-link" style="margin-top:6px; display:block;">
@@ -819,6 +828,16 @@ const schemaJson  = `{
           <p class="section-sub">Deeper dives into MDMA pharmacology, safety, and harm reduction.</p>
         </div>
         <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-top: 32px;">
+          <a href="/blog/mandelin-reagent-color-chart.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
+            <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Drug Checking</p>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">Mandelin Reagent Color Chart: How to Read Results</h3>
+            <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Dark brown-black for MDMA, olive-green for meth, and the reactions that overlap with each other.</p>
+          </a>
+          <a href="/blog/froehde-reagent-color-chart.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
+            <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Drug Checking</p>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">Froehde Reagent Color Chart: How to Read Results</h3>
+            <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Blue-black means MDMA or MDA, light green means PMMA, and nothing at all still tells you something.</p>
+          </a>
           <a href="/blog/why-didnt-my-molly-work.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Troubleshooting</p>
             <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">Why Didn't My Molly Work?</h3>
@@ -929,7 +948,7 @@ const schemaJson  = `{
             <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">MDMA Jaw Clenching and Magnesium: Evidence Review</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Does magnesium reduce MDMA jaw clenching? The mechanism, study quality, best form, and dosing.</p>
           </a>
-          <a href="/blog/mdma-jaw-clenching-evidence-review.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
+          <a href="/blog/mdma-magnesium-jaw-clenching.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Supplements</p>
             <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">MDMA Jaw Clenching Supplements: A Systematic Evidence Review</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Magnesium and other supplements for bruxism, each claim graded by evidence tier, with citations.</p>
@@ -984,7 +1003,7 @@ const schemaJson  = `{
             <div class="product-card product-essential">
               <div class="product-badge">Essential</div>
               <h4>DanceSafe MDMA Test Kit</h4>
-              <p>The gold standard for field testing. Includes Marquis, Mecke, and Simon's reagents in one kit with color charts and instructions.</p>
+              <p>The DanceSafe MDMA testing kit ($49.99) contains Marquis, the two-part Simon's, and Froehde, with color charts and instructions. Marquis screens, Simon's separates MDMA from MDA. Fentanyl test strips are sold separately and no reagent replaces them.</p>
               <div class="product-footer">
                 <span class="price">~$40</span>
                 <a href="/mdma-kit" target="_blank" rel="noopener" class="btn btn-sm btn-primary">Buy MDMA Test Kit at DanceSafe →</a>
@@ -1098,7 +1117,7 @@ const schemaJson  = `{
             <div class="product-card product-recovery">
               <div class="product-timing-badge timing-recovery">Recovery, pair with 5-HTP</div>
               <h4>NOW EGCG Green Tea Extract 400mg</h4>
-              <p>Required pairing with 5-HTP, blocks peripheral AADC enzyme so 5-HTP reaches the brain instead of converting in the gut. Take one capsule with every 5-HTP dose.</p>
+              <p>Paired with 5-HTP to limit peripheral conversion. EGCG is a confirmed irreversible inhibitor of DOPA decarboxylase on purified enzyme (PMID 11374875), but the effect at supplement doses in humans is untested. Take it the day after, never near MDMA, since EGCG also inhibits MAO-B.</p>
               <div class="product-footer">
                 <span class="price">~$18</span>
                 <a href="https://www.amazon.com/dp/B001DNV5CA?tag=ravewellness01-20" target="_blank" rel="noopener" class="btn btn-sm btn-secondary">Buy on Amazon →</a>

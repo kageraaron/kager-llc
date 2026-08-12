@@ -73,7 +73,7 @@ Marquis is the first reagent, not the only one. For a confident read on an ecsta
 
 - **Simon's reagent** separates MDMA from MDA. Simon's turns **blue for MDMA** and stays clear for MDA. This is the test that resolves the one thing Marquis cannot. For why the distinction matters, see [MDA vs MDMA](/blog/mda-vs-mdma.html).
 - **Mecke reagent** adds a second confirmation (MDMA turns blue-green to black) and helps flag some cathinones.
-- **A fentanyl test strip** every time. Reagents do not detect fentanyl, and fentanyl contamination of stimulants is a leading cause of overdose death. Dissolve the sample in at least 5 mL of water to avoid false positives, then dip. Full method in our [fentanyl test strip guide](/blog/how-to-use-fentanyl-test-strips.html).
+- **A fentanyl test strip** every time. Reagents do not detect fentanyl, and fentanyl contamination of stimulants is a leading cause of overdose death. Dissolve the sample in 1 teaspoon (5 mL) of water per 10 mg, or 2 teaspoons (10 mL) for MDMA and methamphetamine, to avoid false positives, then dip. Full method in our [fentanyl test strip guide](/blog/how-to-use-fentanyl-test-strips.html).
 
 A combined Marquis result plus Simon's plus a fentanyl strip is the practical at-home standard, and it is exactly what the multi-reagent kits are built for.
 

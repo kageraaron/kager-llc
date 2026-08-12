@@ -2,7 +2,7 @@
 title: "Ecstasy vs Molly: What's Actually in Pressed Pills"
 description: "Ecstasy is pressed tablets, molly is powder, and neither guarantees purity. What drug checking finds in both, and how to test before you use."
 date: 2026-05-15
-lastmod: 2026-06-01
+lastmod: 2026-08-12
 tags: ["mdma", "ecstasy", "harm reduction", "drug testing", "adulterants"]
 author: "Jordan Mercer"
 ---
@@ -136,7 +136,7 @@ MDA has a longer duration than MDMA and different pharmacology. Knowing which on
 
 ### Fentanyl test strips
 
-Dissolve a small pill fragment in water — use **at least 5–10 mL** (1–2 teaspoons) to avoid a false positive with MDMA. Dip the strip for 15 seconds, wait 2–5 minutes.
+Dissolve a small pill fragment in water, using **2 teaspoons (10 mL) per 10 mg** to avoid a false positive with MDMA. Dip the strip for 15 seconds, wait 2–5 minutes.
 
 - **Two lines = fentanyl not detected**
 - **One line = fentanyl detected — do not use**

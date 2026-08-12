@@ -2,7 +2,7 @@
 title: "Serotonin Syndrome: How to Recognize It and What to Do"
 description: "Serotonin syndrome causes muscle twitching, fever, and agitation, and can be fatal. How to spot it, which drug combinations cause it, and treatment."
 date: 2026-05-28
-lastmod: 2026-06-01
+lastmod: 2026-08-12
 tags: ["serotonin syndrome", "MDMA", "drug interactions", "harm reduction", "SSRIs"]
 author: "Jordan Mercer"
 ---
@@ -25,7 +25,7 @@ Serotonin syndrome is a drug reaction caused by too much serotonin activity in t
 
 ## The symptoms: what serotonin syndrome actually looks like
 
-Clinicians use the Hunter Serotonin Toxicity Criteria to diagnose serotonin syndrome. Validated against toxicology case records, these criteria outperform the older Sternbach criteria. ([PMID 15858183](https://pubmed.ncbi.nlm.nih.gov/15858183/)) A person meets criteria if they have taken a serotonergic agent and have at least one of the following:
+Clinicians use the Hunter Serotonin Toxicity Criteria to diagnose serotonin syndrome. Validated against toxicology case records, these criteria outperform the older Sternbach criteria. ([PMID 12925718](https://pubmed.ncbi.nlm.nih.gov/12925718/)) A person meets criteria if they have taken a serotonergic agent and have at least one of the following:
 
 - Spontaneous clonus
 - Inducible clonus (triggered by flexing the ankle) plus agitation or diaphoresis (heavy sweating)
@@ -96,7 +96,7 @@ One of the most common and dangerous misconceptions is that you can stop taking 
 
 Fluoxetine's active metabolite, norfluoxetine, has a half-life of 4 to 16 days. Stopping fluoxetine on Thursday before a Saturday event leaves the drug essentially fully active in your system. The serotonin transporter is still blocked. The pharmacokinetic interaction persists.
 
-Human evidence: a controlled study by Farre et al. (2007) in healthy volunteers given SSRI pretreatment before MDMA confirmed that SSRIs substantially blunt MDMA's subjective effects while the pharmacokinetic interaction, including elevated MDMA plasma concentrations due to CYP2D6 inhibition, remains intact. ([PMID 17392394](https://pubmed.ncbi.nlm.nih.gov/17392394/)) The experience is worse and the pharmacological exposure is not eliminated.
+Human evidence: a controlled study by Farre et al. (2007) in healthy volunteers given SSRI pretreatment before MDMA confirmed that SSRIs substantially blunt MDMA's subjective effects while the pharmacokinetic interaction, including elevated MDMA plasma concentrations due to CYP2D6 inhibition, remains intact. ([PMID 17890444](https://pubmed.ncbi.nlm.nih.gov/17890444/)) The experience is worse and the pharmacological exposure is not eliminated.
 
 This matters for serotonin syndrome risk in a specific way. If a person believes their SSRI is "out of their system" and takes MDMA, they may escalate the dose when effects feel blunted, not realizing the SSRI is still pharmacologically active. The result is a higher MDMA dose with persistent serotonin transporter blockade and elevated MDMA plasma levels. That is a higher-risk scenario than simply using MDMA, not a safer one.
 
@@ -138,6 +138,8 @@ If you're trying to assess a specific drug combination before using, see our [dr
 
 **Sources:**
 
-Boyer EW, Shannon M. "The serotonin syndrome." *N Engl J Med.* 2005;352(11):1112-20. [PMID 15858183](https://pubmed.ncbi.nlm.nih.gov/15858183/)
+Dunkley EJC, et al. "The Hunter Serotonin Toxicity Criteria: simple and accurate diagnostic decision rules for serotonin toxicity." *QJM.* 2003;96(9):635-42. [PMID 12925718](https://pubmed.ncbi.nlm.nih.gov/12925718/)
 
-Farre M, et al. "Pharmacological interaction between 3,4-methylenedioxymethamphetamine (ecstasy, MDMA) and paroxetine: pharmacological effects and pharmacokinetics." *J Pharmacol Exp Ther.* 2007;323(3):954-62. [PMID 17392394](https://pubmed.ncbi.nlm.nih.gov/17392394/)
+Boyer EW, Shannon M. "The serotonin syndrome." *N Engl J Med.* 2005;352(11):1112-20. [PMID 15784664](https://pubmed.ncbi.nlm.nih.gov/15784664/)
+
+Farre M, et al. "Pharmacological interaction between 3,4-methylenedioxymethamphetamine (ecstasy, MDMA) and paroxetine: pharmacological effects and pharmacokinetics." *J Pharmacol Exp Ther.* 2007;323(3):954-62. [PMID 17890444](https://pubmed.ncbi.nlm.nih.gov/17890444/)

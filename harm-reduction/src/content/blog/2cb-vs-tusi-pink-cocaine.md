@@ -2,6 +2,7 @@
 title: "2C-B vs. Tusi (Pink Cocaine): They Are Not the Same Drug"
 description: "Tusi and 2C-B are not the same drug. Lab testing shows pink cocaine usually contains MDMA and ketamine, with very different risks than actual 2C-B."
 date: 2026-05-12
+lastmod: 2026-08-12
 tags: ["2C-B", "tusi", "pink cocaine", "drug checking", "ketamine", "MDMA"]
 author: "Jordan Mercer"
 ---
@@ -45,7 +46,7 @@ As demand spread and real 2C-B became harder to source in quantity, traffickers 
 
 ## What lab testing actually finds in tusi
 
-The published forensic record is unambiguous. A 2023 analysis by Palamar et al. in the *American Journal of Drug and Alcohol Abuse* ([PMID 37162319](https://pubmed.ncbi.nlm.nih.gov/37162319/)) reviewed DrugsData.org submissions of samples sold as tusi, pink cocaine, or 2C-B: of 68 samples tested between 2016 and 2024, **94% contained ketamine** and **81% contained MDMA**. Actual 2C-B compounds were rarely detected.
+The published forensic record is unambiguous. A 2023 analysis by Palamar et al. in the *American Journal of Drug and Alcohol Abuse* ([PMID 37162319](https://pubmed.ncbi.nlm.nih.gov/37162319/)) reviewed 19 pink-powder submissions to DrugsData.org sold as tusi or 2C-B between 2019 and 2022. **The majority contained ketamine, often combined with MDMA.** Actual 2C-B was rarely detected.
 
 A 2025 case series from the Miami-Dade County Medical Examiner by Moore et al. in the *Journal of Forensic Sciences* ([PMID 40082214](https://pubmed.ncbi.nlm.nih.gov/40082214/)) analyzed eight fatal cases involving colored powders sold as tusi between 2020 and 2024. **None of the powders contained 2C-B.** All decedents had multiple drugs in postmortem blood, with ketamine and MDMA present across cases alongside cocaine and other substances.
 

@@ -85,7 +85,7 @@ For an ecstasy or molly sample, DanceSafe's published order is Marquis first, Si
 - **Marquis** turns black, sometimes with a purple or brown tint at the edges, for both MDMA and MDA.
 - **Simon's** is the one that separates them. Simon's turns blue for MDMA. With MDA it either does not react or turns a muddy gray-green. Details in [MDA vs MDMA](/blog/mda-vs-mdma.html).
 - **Froehde** adds the third confirmation, blue-tinted black for both.
-- **A fentanyl test strip** every time, no exceptions. Dissolve the sample in at least 5 mL of water before dipping to avoid a false positive. Method in our [fentanyl test strip guide](/blog/how-to-use-fentanyl-test-strips.html).
+- **A fentanyl test strip** every time, no exceptions. Dissolve the sample in 1 teaspoon (5 mL) of water per 10 mg, or 2 teaspoons (10 mL) for MDMA and methamphetamine, before dipping to avoid a false positive. Method in our [fentanyl test strip guide](/blog/how-to-use-fentanyl-test-strips.html).
 
 For an amphetamine or meth sample the order is Marquis, then Simon's, then Froehde as an optional extra data point. Marquis turns orange for both, Simon's turns blue for meth and does not react with amphetamine, and Froehde gives you nothing, which is itself the expected result.
 

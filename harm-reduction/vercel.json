@@ -10,6 +10,16 @@
       "permanent": true
     },
     {
+      "source": "/blog/mdma-jaw-clenching-evidence-review.html",
+      "destination": "/blog/mdma-magnesium-jaw-clenching.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/mdma-jaw-clenching-evidence-review",
+      "destination": "/blog/mdma-magnesium-jaw-clenching.html",
+      "permanent": true
+    },
+    {
       "source": "/kits",
       "destination": "https://dancesafe.org/product/complete-set-of-all-9-testing-kits/r/ravewellness/",
       "permanent": false

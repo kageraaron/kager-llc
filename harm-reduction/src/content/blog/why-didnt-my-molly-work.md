@@ -40,7 +40,7 @@ Acute tolerance shows up within a single night. When volunteers took a second MD
 
 An analysis of 4,719 samples submitted to a US drug-checking service between 1999 and 2023 found **only about 48% contained MDMA alone**, more than half were misrepresented in some way, and 199 unique adulterants turned up ([PMID 39437494](https://pubmed.ncbi.nlm.nih.gov/39437494/)). Purity has improved since 2017, but "sold as MDMA" is still not "is MDMA." A sample can also be real MDMA at a useless dose: pressed pills range from under 50 mg to over 250 mg with no external clue.
 
-Reagent testing takes two minutes. Marquis turns purple to black for MDMA and stays yellow or orange for common substitutes; Simon's distinguishes MDMA from MDA. A [DanceSafe MDMA testing kit](/mdma-kit) covers Marquis, Mecke, Simon's, and fentanyl strips. Our walkthrough: [how to test MDMA](/blog/how-to-test-mdma.html).
+Reagent testing takes two minutes. Marquis turns purple to black for MDMA and stays yellow or orange for common substitutes; Simon's distinguishes MDMA from MDA. The [DanceSafe MDMA testing kit](/mdma-kit) ($49.99) contains Marquis, the two-part Simon's, and Froehde. Fentanyl strips are sold separately. Our walkthrough: [how to test MDMA](/blog/how-to-test-mdma.html).
 
 ## Dose, body weight, and a full stomach
 

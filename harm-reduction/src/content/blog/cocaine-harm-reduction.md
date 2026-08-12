@@ -2,7 +2,7 @@
 title: "Cocaine Harm Reduction: Heart Risks, Levamisole, and Nasal Care"
 description: "Cocaine's cardiac risks can strike on the first use, and most US supply contains levamisole. What the evidence shows and how to reduce harm."
 date: 2026-05-28
-lastmod: 2026-08-11
+lastmod: 2026-08-12
 tags: ["cocaine", "harm reduction", "cardiovascular", "levamisole", "adulterants"]
 author: "Jordan Mercer"
 ---
@@ -59,7 +59,7 @@ Cocaine damages the nasal passages through three concurrent mechanisms: vasocons
 
 The damage progresses in a recognizable pattern. Regular users first develop rhinorrhea (runny nose) and nosebleeds. With continued use, the nasal septum (the cartilage and bone dividing the nostrils) begins to thin. Septal perforation, a hole through the septum, occurs in an estimated 4–8% of regular intranasal users in case series, and higher rates appear in imaging studies. A perforated septum causes a whistling sound when breathing, crusting, and nosebleeds, and does not heal on its own.
 
-At the severe end of the spectrum is **CIMDL (cocaine-induced midline destructive lesion)**, in which the destructive process extends beyond the septum into the palate, turbinate bones (small bones inside the nasal cavity), and in severe cases, the orbital floor (the bone beneath the eye). A 2014 case series by Trimarchi et al. ([PMID 24529259](https://pubmed.ncbi.nlm.nih.gov/24529259/)) documented 70 CIMDL patients and found that misdiagnosis as granulomatosis with polyangiitis (formerly Wegener's granulomatosis, an autoimmune disease with similar-looking tissue destruction) was nearly universal before cocaine use was disclosed. This matters because the treatments differ: immunosuppressants appropriate for Wegener's do not help CIMDL and delay the correct intervention.
+At the severe end of the spectrum is **CIMDL (cocaine-induced midline destructive lesion)**, in which the destructive process extends beyond the septum into the palate, turbinate bones (small bones inside the nasal cavity), and in severe cases, the orbital floor (the bone beneath the eye). A 2014 case series by Trimarchi et al. ([PMID 35138441](https://pubmed.ncbi.nlm.nih.gov/35138441/)) documented 70 CIMDL patients and found that misdiagnosis as granulomatosis with polyangiitis (formerly Wegener's granulomatosis, an autoimmune disease with similar-looking tissue destruction) was nearly universal before cocaine use was disclosed. This matters because the treatments differ: immunosuppressants appropriate for Wegener's do not help CIMDL and delay the correct intervention.
 
 If you have persistent nasal symptoms, septal perforation, pain around the sinuses or eyes, or any visual changes, see an ENT (ear, nose, and throat specialist) and be honest about cocaine use. Early intervention can limit further damage even if it cannot reverse what has already occurred.
 
@@ -91,4 +91,4 @@ For a full breakdown of cocaine's effects and risk profile, see our [cocaine har
 
 ---
 
-*Sources: [PMID 2573838](https://pubmed.ncbi.nlm.nih.gov/2573838/) | [PMID 24717541](https://pubmed.ncbi.nlm.nih.gov/24717541/) | [PMID 11157713](https://pubmed.ncbi.nlm.nih.gov/11157713/) | [PMID 22143075](https://pubmed.ncbi.nlm.nih.gov/22143075/) | [PMID 20549422](https://pubmed.ncbi.nlm.nih.gov/20549422/) | [PMID 24529259](https://pubmed.ncbi.nlm.nih.gov/24529259/)*
+*Sources: [PMID 2573838](https://pubmed.ncbi.nlm.nih.gov/2573838/) | [PMID 24717541](https://pubmed.ncbi.nlm.nih.gov/24717541/) | [PMID 11157713](https://pubmed.ncbi.nlm.nih.gov/11157713/) | [PMID 22143075](https://pubmed.ncbi.nlm.nih.gov/22143075/) | [PMID 20549422](https://pubmed.ncbi.nlm.nih.gov/20549422/) | [PMID 35138441](https://pubmed.ncbi.nlm.nih.gov/35138441/)*

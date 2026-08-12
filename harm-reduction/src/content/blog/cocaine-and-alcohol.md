@@ -2,7 +2,7 @@
 title: "Cocaethylene: The Third Drug from Mixing Cocaine and Alcohol"
 description: "Cocaethylene forms when you mix cocaine and alcohol: it's more cardiotoxic than cocaine alone and lasts longer. What it is and why it matters."
 date: 2026-05-14
-lastmod: 2026-06-01
+lastmod: 2026-08-12
 tags: ["cocaine", "alcohol", "harm reduction", "drug interactions", "cocaethylene"]
 author: "Jordan Mercer"
 ---
@@ -79,7 +79,7 @@ Animal data suggest cocaethylene has greater seizure-promoting effects than coca
 
 ## Testing your cocaine for fentanyl
 
-Cocaethylene's cardiac toxicity is one danger; fentanyl contamination is another that has become equally pressing. Community-based drug checking services found **fentanyl in approximately 14.8% of powder cocaine samples** across the US in 2023, with rates as high as 27.6% in New York City ([PMID 37826988](https://pubmed.ncbi.nlm.nih.gov/37826988/)). Nearly half of US overdose deaths in 2023 involved both opioids and stimulants.
+Cocaethylene's cardiac toxicity is one danger; fentanyl contamination is another that has become equally pressing. Community-based drug checking services found **fentanyl in approximately 14.8% of powder cocaine samples** across 25 US states ([PMID 37826988](https://pubmed.ncbi.nlm.nih.gov/37826988/)). Nearly half of US overdose deaths in 2023 involved both opioids and stimulants.
 
 Fentanyl is odorless, tasteless, and invisible in cocaine, you cannot detect it without a test strip. **Fentanyl test strips work on cocaine**: dissolve a small amount of cocaine in water and dip the strip. A single line means fentanyl detected; two lines means not detected. If fentanyl is present, use much less, have naloxone on hand, and do not use alone.
 

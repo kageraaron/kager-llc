@@ -1,17 +1,19 @@
 ---
 title: "MDMA Jaw Clenching and Magnesium: Evidence Review"
-description: "Does magnesium reduce MDMA jaw clenching? An evidence review of the mechanism, study quality, best form (glycinate vs oxide), and dosing."
+description: "Does magnesium stop molly jaw? No trial has tested it. An honest evidence review of the mechanism, what is graded, best form, and dosing."
 date: 2026-05-29
-lastmod: 2026-06-01
+lastmod: 2026-08-12
 tags: ["mdma", "harm reduction", "magnesium", "bruxism", "jaw clenching", "supplements"]
 author: "Jordan Mercer"
 ---
 
-Magnesium reduces MDMA (molly/ecstasy)-induced jaw clenching, this is the most mechanistically supported claim in the entire MDMA supplement protocol, and the one with the most consistent real-world backing. The mechanism is solid: MDMA drives repetitive jaw muscle activation through dopaminergic and serotonergic pathways, and magnesium blunts that activation by blocking NMDA receptors and reducing neuromuscular excitability. No human RCT has tested this combination directly, but the pharmacology is straightforward and the evidence tier is substantially stronger than most other MDMA supplement claims.
+**No controlled trial has ever tested whether magnesium reduces MDMA (molly/ecstasy) jaw clenching.** That is the honest starting point, and most sources covering this question skip it. What magnesium has is a coherent mechanism rather than direct evidence: MDMA drives repetitive jaw muscle activation through dopaminergic and serotonergic pathways, and magnesium blunts the downstream excitatory signaling by blocking NMDA receptors and reducing calcium-mediated neuromuscular transmission. The pharmacology is textbook and the safety profile at these doses is well characterized, which makes magnesium reasonable to try. It also means nobody can tell you how much it will help, or whether it will help you at all. This review grades what is actually known, including where the popular protocol outruns its evidence.
 
 ## Quick answers
 
-**Does magnesium actually stop jaw clenching on MDMA?** It reduces it significantly for most people, not to zero, but noticeably. The mechanism directly addresses MDMA's pharmacology. It's the most practical and evidence-grounded supplement in the MDMA harm reduction stack.
+**Does magnesium actually stop jaw clenching on MDMA?** Honestly, nobody knows. **No controlled trial has ever tested magnesium against MDMA-induced jaw clenching.** What exists is a coherent mechanism (magnesium blocks NMDA receptors and reduces calcium-driven neuromuscular excitability, which is the pathway MDMA drives), a well-established safety profile, and widespread community reports of partial benefit. That combination makes it reasonable to try. It does not make it proven, and anyone telling you it definitely works is going beyond the evidence.
+
+**What is "molly jaw" and why does it happen?** Molly jaw is the involuntary clenching and grinding (bruxism) that MDMA causes, along with jaw thrusting and trismus. It is driven mainly by dopaminergic activation of motor circuitry, with a serotonergic contribution through 5-HT2A. It is one of the most reliably reported physical effects of MDMA: in a survey of 100 recreational users, tachycardia, dry mouth, and bruxism or trismus were reported by the majority ([PMID 2908020](https://pubmed.ncbi.nlm.nih.gov/2908020/)).
 
 **What form of magnesium works best?** Magnesium glycinate is the standard recommendation: high bioavailability, gentle on the stomach, and the glycine component has mild inhibitory (calming) neurological effects that may add a small additional benefit.
 
@@ -27,7 +29,7 @@ Magnesium reduces MDMA (molly/ecstasy)-induced jaw clenching, this is the most m
 
 ## How common is MDMA-induced jaw clenching?
 
-Bruxism (teeth grinding and jaw clenching) is one of the most consistently reported physical effects of MDMA. In one of the earliest systematic surveys of recreational MDMA users, Peroutka et al. found jaw clenching among the most frequently reported physical side effects, more common than nausea, more common than headache ([PMID 2908019](https://pubmed.ncbi.nlm.nih.gov/2908019/)).
+Bruxism (teeth grinding and jaw clenching) is one of the most consistently reported physical effects of MDMA. In one of the earliest systematic surveys of recreational MDMA users, Peroutka et al. surveyed 100 users and found that tachycardia, dry mouth, and bruxism or trismus were reported by the majority ([PMID 2908020](https://pubmed.ncbi.nlm.nih.gov/2908020/)).
 
 In the MAPS Phase 2 clinical trials of MDMA-assisted psychotherapy, bruxism was logged as one of the most common adverse events in the active-dose group, a notable data point because these were controlled clinical settings with pharmaceutical-grade MDMA at single doses of 75–125mg, not multi-redose recreational patterns.
 
@@ -85,7 +87,7 @@ Magnesium's role as an NMDA receptor antagonist and calcium channel blocker is a
 
 ### Tier 2 (moderate): General bruxism literature
 
-Magnesium deficiency has been associated with increased bruxism severity in observational studies. A pilot study published in *Sleep Medicine* (Hornyak et al., 1998) found that magnesium supplementation improved sleep-related movement disorders, which share mechanistic overlap with bruxism. The evidence here is not MDMA-specific and comes from observational and small pilot data, it's directionally supportive but not conclusive.
+Magnesium deficiency has been associated with increased bruxism severity in observational studies. A pilot study published in *Sleep* (Hornyak et al., 1998) found that magnesium supplementation improved sleep-related movement disorders, which share mechanistic overlap with bruxism. The evidence here is not MDMA-specific and comes from observational and small pilot data, it's directionally supportive but not conclusive.
 
 ### Tier 3 (weakest but widespread): Community consensus
 
@@ -155,8 +157,32 @@ Magnesium addresses the pharmacological driver. These approaches address other a
 
 ---
 
+## Other supplements people take for molly jaw, graded
+
+Magnesium is the one with the most mechanistic justification, but it is not the only thing sold for this. Here is where the rest actually stand.
+
+**L-theanine: reasonable adjunct, no MDMA-specific evidence.** L-theanine is an amino acid from green tea that crosses the blood-brain barrier and increases activity at GABA and glycine receptors. A crossover randomized trial found 200 mg reduced physiological and psychological stress responses versus placebo (Kimura et al., *Biological Psychology*, 2007), but that study tested general stress, not MDMA bruxism. It may reduce the anxiety and general muscle tension component. It does not block the dopaminergic motor pathway driving the clenching itself. Typical use is 100 to 200 mg, 30 to 60 minutes before dosing.
+
+**Important caveat on theanine products:** theanine is often sold combined with EGCG in green tea extract. Use pure L-theanine isolate instead. Our [MDMA and green tea extract guide](/blog/mdma-green-tea-extract-egcg.html) covers why the EGCG pairing is not the good idea it is marketed as.
+
+**GABA supplements: skip them.** The target is rational, since GABA is the main inhibitory neurotransmitter, but oral GABA does not efficiently cross the blood-brain barrier. Products marketed as "GABA for relaxation" borrow a pharmacological concept without the delivery mechanism to execute it. Magnesium and theanine both demonstrably reach the CNS after oral dosing; oral GABA largely does not.
+
+**5-HTP: wrong tool for this job.** 5-HTP's place in the MDMA protocol is post-session serotonin replenishment, not bruxism control during the night. Mechanistically it would increase serotonin precursor availability and further activate the 5-HT2A pathway that contributes to clenching, not reduce it. Timing is also safety-critical: do not take 5-HTP until at least 24 hours after your last MDMA dose. See our [5-HTP and molly guide](/blog/5-htp-and-molly.html).
+
+| Supplement | Evidence for MDMA jaw clenching | Verdict |
+|---|---|---|
+| Magnesium glycinate | Mechanism established, no RCT in this application | First-line, but unproven |
+| L-theanine (pure isolate) | Human RCT for stress, nothing MDMA-specific | Optional adjunct |
+| GABA supplements | Poor blood-brain barrier penetration | No |
+| 5-HTP | Wrong mechanism for bruxism | No, post-session only |
+| EGCG / green tea extract | Unpredictable interaction risk | Avoid around MDMA |
+
+---
+
 ## Key takeaway
 
-Magnesium glycinate is the most mechanistically justified supplement in the MDMA harm reduction toolkit, specifically because NMDA receptor antagonism and reduced calcium-mediated neuromuscular excitability directly address how MDMA drives jaw clenching. No human RCT has tested this combination, but the pharmacology is established and real-world evidence across the harm reduction community is consistent. People using this protocol typically pre-load with 400–800mg of magnesium glycinate starting the night before (not the hour before), with an optional top-up during the session.
+**No controlled trial has tested whether magnesium reduces MDMA-induced jaw clenching.** That is the honest bottom line, and it is worth stating plainly because the internet generally does not. What magnesium has going for it is a coherent mechanism: NMDA receptor antagonism and reduced calcium-mediated neuromuscular excitability act on the pathway MDMA uses to drive clenching, magnesium demonstrably reaches the CNS, and the safety profile at these doses is well characterized. What it lacks is direct evidence that the effect size is meaningful in this specific application.
 
-For a cross-compound evidence review grading magnesium alongside theanine and other supplements, see our [MDMA jaw clenching systematic evidence review](/blog/mdma-jaw-clenching-evidence-review.html). For the full supplement protocol including R-ALA, Vitamin C, and 5-HTP timing, see our [MDMA supplements protocol guide](/blog/mdma-supplements-protocol.html). For post-session serotonin recovery specifically, see our [5-HTP and molly guide](/blog/5-htp-and-molly.html). For a complete overview of MDMA risks, dosing, and harm reduction, see our [MDMA harm reduction guide](/mdma.html).
+That makes it a reasonable thing to try and a poor thing to promise. People using this protocol typically pre-load 400 to 800 mg of magnesium glycinate starting the night before rather than the hour before, with an optional top-up during the session. If it works for you, the mechanism is plausible. If it does nothing, that is also consistent with the evidence.
+
+For the full supplement protocol including R-ALA, Vitamin C, and 5-HTP timing, see our [MDMA supplements protocol guide](/blog/mdma-supplements-protocol.html). For post-session serotonin recovery specifically, see our [5-HTP and molly guide](/blog/5-htp-and-molly.html). For a complete overview of MDMA risks, dosing, and harm reduction, see our [MDMA harm reduction guide](/mdma.html).

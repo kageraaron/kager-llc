@@ -1,0 +1,194 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title       = `Which Drug Test Kit Do I Need? | Rave Wellness`;
+const description = `Which reagent test kit to buy for MDMA, cocaine, LSD, ketamine or mushrooms, what each kit actually contains, what it costs, and what it cannot tell you.`;
+const keywords    = `which drug test kit, what test kit do i need, mdma test kit, cocaine test kit, lsd test kit, ketamine test kit, dancesafe kit comparison, reagent kit comparison, best drug testing kit, fentanyl test strips`;
+const canonical   = `https://www.ravewellness.org/which-test-kit.html`;
+const ogTitle     = `Which Drug Test Kit Do I Need? A Straight Comparison | Rave Wellness`;
+const ogDesc      = `Pick by what you are testing. Exact reagent contents, prices, and the limits of each kit, plus why fentanyl strips are a separate purchase.`;
+
+const schemaJson = `{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "${canonical}#article",
+      "headline": "Which Drug Test Kit Do I Need?",
+      "description": "A comparison of DanceSafe reagent testing kits by substance, listing the exact reagents in each kit, prices, and the limits of reagent testing.",
+      "url": "${canonical}",
+      "author": { "@type": "Organization", "name": "Rave Wellness", "url": "https://www.ravewellness.org" },
+      "publisher": { "@type": "Organization", "name": "Rave Wellness", "url": "https://www.ravewellness.org" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.ravewellness.org/" },
+        { "@type": "ListItem", "position": 2, "name": "Test Kits", "item": "https://www.ravewellness.org/test-kits.html" },
+        { "@type": "ListItem", "position": 3, "name": "Which Test Kit Do I Need", "item": "${canonical}" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Which test kit do I need for MDMA or molly?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The DanceSafe MDMA testing kit, $49.99, which contains Marquis, the two-part Simon's (Simon's A and Simon's B), and Froehde reagents and performs 50 to 75 tests. Marquis screens for the substance class, and Simon's is the reagent that distinguishes MDMA from MDA. Froehde acts as confirmation. You also need fentanyl test strips, which are a separate purchase, because no reagent can detect fentanyl at the doses that kill people."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which test kit do I need for cocaine?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The DanceSafe cocaine testing kit, $49.99, which contains Morris, Marquis and Liebermann reagents, and unlike the MDMA kit it ships with a fentanyl test strip and a 10 mg micro scoop included. It performs 50 to 75 tests. No reagent detects levamisole, the veterinary dewormer present in most US cocaine, so a clean reagent result does not rule that out."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which test kit do I need for LSD?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The DanceSafe LSD testing kit, $20, which is a bottle of Ehrlich's reagent and includes a fentanyl test strip and a measuring tool. Ehrlich's turns purple in the presence of indoles, so it confirms LSD, DMT or psilocybin as a class but cannot tell them apart. Critically, NBOMe compounds are not indoles and produce no reaction at all, so no colour change on blotter means it is not LSD. Ehrlich's is slow: allow up to 20 minutes before reading it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which test kit do I need for ketamine?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The DanceSafe ketamine testing kit, $20, which contains the two-part Morris reagent (Morris A and Morris B, used together on one sample) plus fentanyl test strips and a 10 mg micro scoop. Morris is the current ketamine reagent. Mandelin was used for ketamine historically, but DanceSafe now describes that reaction as inconsistent and prone to overlapping with other drugs."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is the complete set of all 9 reagents worth it?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Only if you test across several different substances. The complete set is $119 and contains the MDMA, cocaine, ketamine and LSD kits plus Mandelin, Folin and Mecke. If you only test one substance, a single kit at $20 to $49.99 covers you for 50 to 75 tests and the bundle is not worth the difference. Buy by what you actually use."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do drug test kits detect fentanyl?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Reagents can never detect fentanyl, because it is active at doses far too small to change a reagent colour. Only a fentanyl test strip or laboratory equipment can. The DanceSafe cocaine, LSD and ketamine kits include fentanyl test strips; the MDMA kit does not, so buy strips separately alongside it. Use a strip on every sample regardless of what the reagent shows."
+          }
+        }
+      ]
+    }
+  ]
+}`;
+---
+
+<BaseLayout {title} {description} {keywords} {canonical} ogTitle={ogTitle} ogDescription={ogDesc} ogType="website" {schemaJson}>
+  <Fragment slot="footer-nav">
+    <h4>Tools</h4>
+    <a href="/test-kits.html">Test kits</a>
+    <a href="/reagent-chart.html">Reagent color chart</a>
+    <a href="/interactions.html">Interaction Checker</a>
+    <a href="/blog.html">Blog</a>
+  </Fragment>
+
+  <main>
+    <section id="hero" style="padding-top: 72px;">
+      <div class="container" style="max-width: 940px;">
+        <div class="section-header">
+          <h1 style="font-size: clamp(1.7rem, 4vw, 2.5rem); line-height: 1.2;">Which drug test kit do I need?</h1>
+          <p class="section-sub" style="margin-top: 12px;">Pick by the substance you are actually testing, not by kit size. A single reagent kit runs 50 to 75 tests, so for most people one kit is enough and the full bundle is not worth the difference. Below is what each kit contains, what it costs, and what it cannot tell you.</p>
+        </div>
+
+        <div class="hero-disclaimer" style="margin-top: 24px;">
+          <span class="disclaimer-icon">⚠</span>
+          <p><strong>No reagent detects fentanyl.</strong> It is active at doses far too small to change a colour. You need <a href="/fentanyl-strips">fentanyl test strips</a> as a separate item. The cocaine, LSD and ketamine kits include strips; <strong>the MDMA kit does not</strong>, so add them if MDMA is what you test.</p>
+        </div>
+
+        <div class="prose" style="margin-top: 40px;">
+
+          <h2>Pick by what you are testing</h2>
+          <div style="overflow-x: auto;">
+          <table>
+            <thead>
+              <tr><th>Testing this</th><th>Buy this</th><th>Price</th><th>Reagents inside</th><th>Strips included?</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>MDMA / molly / ecstasy</strong></td>
+                <td><a href="/mdma-kit">MDMA testing kit</a></td>
+                <td>$49.99</td>
+                <td>Marquis, Simon's A, Simon's B, Froehde</td>
+                <td><strong>No</strong>, buy separately</td>
+              </tr>
+              <tr>
+                <td><strong>Cocaine</strong></td>
+                <td><a href="/cocaine-kit">Cocaine testing kit</a></td>
+                <td>$49.99</td>
+                <td>Morris, Marquis, Liebermann</td>
+                <td>Yes</td>
+              </tr>
+              <tr>
+                <td><strong>LSD / acid blotter</strong></td>
+                <td><a href="/lsd-kit">LSD testing kit</a></td>
+                <td>$20</td>
+                <td>Ehrlich's</td>
+                <td>Yes</td>
+              </tr>
+              <tr>
+                <td><strong>Ketamine</strong></td>
+                <td><a href="/ketamine-kit">Ketamine testing kit</a></td>
+                <td>$20</td>
+                <td>Morris A and Morris B</td>
+                <td>Yes</td>
+              </tr>
+              <tr>
+                <td><strong>Mushrooms / DMT</strong></td>
+                <td><a href="/lsd-kit">LSD testing kit</a> (Ehrlich's)</td>
+                <td>$20</td>
+                <td>Ehrlich's</td>
+                <td>Yes</td>
+              </tr>
+              <tr>
+                <td><strong>Several substances</strong></td>
+                <td><a href="/kits">Complete set of all 9</a></td>
+                <td>$119</td>
+                <td>MDMA + cocaine + ketamine + LSD kits, plus Mandelin, Folin, Mecke</td>
+                <td>Yes</td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+          <p>Every kit performs <strong>50 to 75 tests</strong>, so the price difference is about breadth of coverage, not quantity. The LSD kit has bulk pricing if you are supplying a group or a harm reduction org: $15 each at 5 or more, $12.50 at 10 or more, $10 at 30 or more.</p>
+
+          <h2>Why the MDMA kit is built the way it is</h2>
+          <p>The three reagents in the MDMA kit are not redundant, they answer different questions:</p>
+          <ul>
+            <li><strong>Marquis</strong> screens. Purple to black indicates the MDMA class, and common substitutes stay yellow or orange. It cannot separate MDMA from MDA.</li>
+            <li><strong>Simon's</strong> is the discriminator, and the reason this kit exists. It is a two-part reagent (A then B on the same sample). MDMA reacts blue; MDA does not react the same way. This is the single most useful piece of information the kit gives you, because MDA is stronger, longer and harder on the body. See our <a href="/blog/mda-vs-mdma.html">MDA vs MDMA comparison</a>.</li>
+            <li><strong>Froehde</strong> confirms. It backs up the Marquis result and helps separate look-alike reactions.</li>
+          </ul>
+          <p>Full reading instructions are in our <a href="/blog/how-to-read-a-marquis-reagent-result.html">Marquis colour chart</a>, <a href="/blog/simons-reagent-color-chart.html">Simon's colour chart</a>, and <a href="/blog/froehde-reagent-color-chart.html">Froehde colour chart</a>.</p>
+
+          <h2>What none of these kits can tell you</h2>
+          <p>This matters more than which kit you pick, and it is where most people misread what they bought:</p>
+          <ul>
+            <li><strong>Not dose or potency.</strong> A perfect Marquis result on a pill tells you nothing about whether it contains 60 mg or 250 mg.</li>
+            <li><strong>Not purity.</strong> Reagents react to what is present; they do not quantify it.</li>
+            <li><strong>Not everything in a mixture.</strong> A strong reaction from one substance can mask another.</li>
+            <li><strong>Not fentanyl.</strong> Ever. Use a <a href="/fentanyl-strips">strip</a>.</li>
+            <li><strong>Not levamisole</strong>, the dewormer in most US cocaine. See our <a href="/blog/levamisole-in-cocaine.html">levamisole guide</a>.</li>
+          </ul>
+          <p>Reagent testing narrows possibilities and catches substitutions. It does not make a substance safe, and it does not replace starting with a low dose.</p>
+
+          <h2>A note on where to buy</h2>
+          <p>DanceSafe is the original and only nonprofit reagent manufacturer in the US, and proceeds fund free drug checking at events. We link to them because of that, and those links are affiliate links, meaning we may earn a commission at no extra cost to you. Prices above were checked against their product pages and can change.</p>
+
+          <p>Next: the <a href="/reagent-chart.html">reagent colour chart hub</a> for how to read any result, and the <a href="/test-kits.html">test kits page</a> for technique walkthroughs and video demos.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

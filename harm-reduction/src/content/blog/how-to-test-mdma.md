@@ -2,7 +2,7 @@
 title: "How to Test Your MDMA: A Complete Drug Checking Guide"
 description: "Testing molly (MDMA/ecstasy) with reagent kits and fentanyl strips can prevent overdose and adulterant exposure. Here's exactly how to do it, step by step."
 date: 2026-05-13
-lastmod: 2026-05-15
+lastmod: 2026-08-12
 tags: ["mdma", "test kits", "drug checking", "harm reduction", "fentanyl"]
 author: "Jordan Mercer"
 ---
@@ -17,7 +17,7 @@ Testing your MDMA (molly/ecstasy) before use is one of the highest-impact harm r
 
 **Can one test tell you everything?** No. A Marquis test confirms the presence of MDMA but cannot rule out other substances present in the same sample. Use at least two reagent tests plus a fentanyl test strip for the most complete picture.
 
-**Where do I get test kits?** [DanceSafe's MDMA testing kit](/mdma-kit) covers all major reagents needed for MDMA and other common substances.
+**Where do I get test kits?** The [DanceSafe MDMA testing kit](/mdma-kit) ($49.99, 50 to 75 tests) contains Marquis, the two-part Simon's, and Froehde. Buy [fentanyl test strips](/fentanyl-strips) alongside it, since no reagent can detect fentanyl.
 
 ---
 
@@ -89,10 +89,10 @@ Mecke distinguishes additional substances and catches some cathinones. MDMA turn
 
 Fentanyl test strips (FTS) are immunoassay strips originally designed for urine testing that can also detect fentanyl in drug samples. Research supports their effectiveness for harm reduction ([PMC7255931](https://pmc.ncbi.nlm.nih.gov/articles/PMC7255931/)).
 
-**Critical note for MDMA**: FTS can produce **false positives** with MDMA at high concentrations. To avoid this, use **at least 5 mL of water** (about 1 teaspoon) when diluting your MDMA sample. Research suggests that 10 mL provides an extra margin against false positives ([PMC7941948](https://pmc.ncbi.nlm.nih.gov/articles/PMC7941948/)); if in doubt, use more water, not less.
+**Critical note for MDMA**: FTS can produce **false positives** with MDMA at high concentrations. To avoid this, use **2 teaspoons (10 mL) of water per 10 mg** when diluting your MDMA sample, which is double the standard volume and is what DanceSafe specifies for MDMA and methamphetamine. Research suggests that 10 mL provides an extra margin against false positives ([PMC7941948](https://pmc.ncbi.nlm.nih.gov/articles/PMC7941948/)); if in doubt, use more water, not less.
 
 **How to use FTS with MDMA:**
-1. Dissolve a small sample of MDMA (about 10 mg) in **5–10 mL of water** (1–2 teaspoons)
+1. Dissolve a small sample of MDMA (about 10 mg) in **10 mL of water** (2 teaspoons)
 2. Dip the FTS for 15 seconds
 3. Wait 2–5 minutes and read the result
 4. **Two lines = negative** (no fentanyl detected), **one line = positive** (fentanyl detected)
@@ -114,7 +114,7 @@ If you're at a festival with a drug checking service (DanceSafe operates at many
 
 ## Bottom line
 
-Testing takes 5 minutes and can prevent a medical emergency. The two-reagent protocol (Marquis + Simon's) plus a fentanyl test strip covers the most important risks. The [DanceSafe MDMA testing kit](/mdma-kit) covers MDMA and all other common substances you might want to test.
+Testing takes 5 minutes and can prevent a medical emergency. The two-reagent protocol (Marquis + Simon's) plus a fentanyl test strip covers the most important risks. The [DanceSafe MDMA testing kit](/mdma-kit) ($49.99) contains exactly that pairing, Marquis plus the two-part Simon's, along with Froehde as a confirmation reagent.
 
 For a full breakdown of MDMA's risks, dosing, and safer use practices, see our [MDMA harm reduction guide](/mdma.html). For guidance on identifying and using fentanyl test strips, see our [fentanyl test strip guide](/blog/how-to-use-fentanyl-test-strips.html).
 

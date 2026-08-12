@@ -2,7 +2,7 @@
 title: "Is Ketamine Addictive? K-Cramps, Bladder Damage, and Dependence"
 description: "Is ketamine (K, special K) addictive? Yes. Psychological dependence is common in heavy users, bladder damage is real, and it's irreversible at advanced stages."
 date: 2026-05-12
-lastmod: 2026-06-01
+lastmod: 2026-08-12
 tags: ["ketamine", "harm reduction", "bladder damage", "dependence", "k-cramps"]
 author: "Jordan Mercer"
 ---
@@ -27,7 +27,7 @@ author: "Jordan Mercer"
 
 Ketamine is a dissociative anesthetic classified as a Schedule III controlled substance in the US. It acts primarily as an NMDA receptor antagonist, blocking glutamate transmission, and produces dose-dependent effects from mild dissociation at low doses to the "k-hole" (near-complete dissociative anesthesia) at high doses.
 
-**Psychological dependence is well-documented.** Multiple clinical case series and surveys describe users who escalate dose and frequency, experience strong cravings, spend significant time obtaining and using ketamine, and continue use despite clear physical harm. A 2010 study by Morgan and Curran in *Addiction* ([PMID 20331557](https://pubmed.ncbi.nlm.nih.gov/20331557/)) found that frequent ketamine users (using more than 4 days per week) showed significant memory impairment, dissociative symptoms, and reported strong urges to use, classic markers of a substance use disorder.
+**Psychological dependence is well-documented.** Multiple clinical case series and surveys describe users who escalate dose and frequency, experience strong cravings, spend significant time obtaining and using ketamine, and continue use despite clear physical harm. A 2010 study by Morgan and Curran in *Addiction* ([PMID 19133891](https://pubmed.ncbi.nlm.nih.gov/19133891/)) found that frequent ketamine users (using more than 4 days per week) showed significant memory impairment, dissociative symptoms, and reported strong urges to use, classic markers of a substance use disorder.
 
 **Physical withdrawal exists but is milder than opioids.** There is no seizure risk or life-threatening withdrawal syndrome comparable to alcohol or benzodiazepines. However, heavy daily users stopping abruptly have reported anxiety, dysphoria, insomnia, tremor, and sweating in the 24–72 hours following cessation. These are real symptoms that drive relapse, dismissing them as "purely psychological" misrepresents the experience.
 
@@ -88,7 +88,7 @@ The published case series consistently describe a specific pattern of use associ
 - **Duration:** Months to years of sustained heavy use
 - **Dose:** Gram-per-day ranges are commonly reported in cases presenting with significant damage
 
-A study by Wood et al. (2011) in *Emergency Medicine Journal* ([PMID 21459856](https://pubmed.ncbi.nlm.nih.gov/21459856/)) reported on a UK emergency department case series of ketamine uropathy, finding that all patients had been using ketamine heavily and frequently, none were occasional recreational users. The shortest duration of use before symptoms developed in their series was around a year of regular heavy use, though this should not be read as a safe window; individual variation exists.
+A review by Wood et al. (2011) in *BJU International* ([PMID 21314885](https://pubmed.ncbi.nlm.nih.gov/21314885/)) reported on a UK emergency department case series of ketamine uropathy, finding that all patients had been using ketamine heavily and frequently, none were occasional recreational users. The shortest duration of use before symptoms developed in their series was around a year of regular heavy use, though this should not be read as a safe window; individual variation exists.
 
 **Important caveat:** These are case series (evidence tier 8 in the research hierarchy), not prospective cohort studies. They systematically capture people who developed the condition, not everyone who uses ketamine heavily. This means we do not have good population-level incidence data. What we know with confidence is that heavy daily use is the consistent risk factor, and that the condition is real and serious.
 
@@ -98,7 +98,7 @@ A study by Wood et al. (2011) in *Emergency Medicine Journal* ([PMID 21459856](h
 
 Separate from the uropathy risk, chronic heavy ketamine use is associated with cognitive impairment, particularly in memory and dissociative symptom burden.
 
-Morgan et al.'s prospective cohort work (tracked over a year in *Neuropsychopharmacology*, [PMID 20010551](https://pubmed.ncbi.nlm.nih.gov/20010551/)) found that frequent ketamine users showed progressively worsening episodic memory and increased dissociative symptoms over the study period, while occasional users and non-users did not. The impairments were dose- and frequency-dependent, a pattern consistent with NMDA receptor-related effects on hippocampal function.
+Morgan et al.'s prospective cohort work (tracked over a year in *Addiction*, [PMID 19919593](https://pubmed.ncbi.nlm.nih.gov/19919593/)) found that frequent ketamine users showed progressively worsening episodic memory and increased dissociative symptoms over the study period, while occasional users and non-users did not. The impairments were dose- and frequency-dependent, a pattern consistent with NMDA receptor-related effects on hippocampal function.
 
 Again: these findings are in frequent users. The evidence does not establish significant cognitive harm from infrequent recreational use at low doses.
 

@@ -93,7 +93,7 @@ What it will not do is confirm anything on its own. Reagents flag red flags, not
 
 - **[Marquis](/blog/how-to-read-a-marquis-reagent-result.html)** first. Purple to black means a phenethylamine, orange to brown means an amphetamine-type stimulant.
 - **[Simon's](/blog/simons-reagent-color-chart.html)** to separate MDMA from MDA, which Mecke and Marquis both fail to do. Why that distinction matters is covered in [MDA vs MDMA](/blog/mda-vs-mdma.html).
-- **A fentanyl test strip** every time. Dissolve the sample in at least 5 mL of water to avoid a false positive, then dip. Full method in our [fentanyl test strip guide](/blog/how-to-use-fentanyl-test-strips.html), and strips are available [here](/fentanyl-strips).
+- **A fentanyl test strip** every time. Dissolve the sample in 1 teaspoon (5 mL) of water per 10 mg, or 2 teaspoons (10 mL) for MDMA and methamphetamine, to avoid a false positive, then dip. Full method in our [fentanyl test strip guide](/blog/how-to-use-fentanyl-test-strips.html), and strips are available [here](/fentanyl-strips).
 
 ## The bottom line
 

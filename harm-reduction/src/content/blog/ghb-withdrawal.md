@@ -2,12 +2,12 @@
 title: "GHB Withdrawal: Symptoms, Timeline, and Why You Need Medical Help"
 description: "GHB and GBL withdrawal can cause seizures within hours of the last dose. The clinical timeline, the dangers, and why it needs hospital care."
 date: 2026-05-28
-lastmod: 2026-06-01
+lastmod: 2026-08-12
 tags: ["GHB", "GBL", "withdrawal", "harm reduction", "dependence"]
 author: "Jordan Mercer"
 ---
 
-GHB withdrawal is a medical emergency. Unlike alcohol, where symptoms typically begin 6 to 24 hours after the last drink, GHB withdrawal can start within 1 to 6 hours of the last dose. Seizures are well-documented. Delirium occurs in 30 to 50% of hospitalized cases. People have died. If you or someone you know uses GHB or GBL regularly and needs to stop, or loses access unexpectedly, this is not something to manage at home.
+GHB withdrawal is a medical emergency. Unlike alcohol, where symptoms typically begin 6 to 24 hours after the last drink, GHB withdrawal can start within 1 to 6 hours of the last dose. Seizures are well-documented. Delirium occurred in 53% of published cases in one review. People have died. If you or someone you know uses GHB or GBL regularly and needs to stop, or loses access unexpectedly, this is not something to manage at home.
 
 ## Quick answers
 
@@ -43,7 +43,7 @@ Second, **the receptor mechanism is different from most clinical treatments**. S
 
 **24 to 72 hours: peak severity.** This window is the most dangerous. Autonomic instability is at its worst. Confusion appears. Many people cannot tell where they are or what is happening.
 
-**24 to 96 hours: delirium risk.** Delirium, characterized by disorientation, psychosis, and severe agitation, occurs in an estimated 30 to 50% of hospitalized GHB withdrawal cases. This is not just being "out of it." Delirium from stimulant withdrawal can cause people to become combative, injure themselves, or deteriorate quickly without intervention. In a 2004 case series of seven severe GHB withdrawal cases, all seven required ICU-level care ([PMID 14976275](https://pubmed.ncbi.nlm.nih.gov/14976275/)).
+**24 to 96 hours: delirium risk.** Delirium, characterized by disorientation, psychosis, and severe agitation, occurred in 53% of cases in a review of the published literature ([PMID 15225884](https://pubmed.ncbi.nlm.nih.gov/15225884/)). This is not just being "out of it." Delirium from sedative-hypnotic withdrawal can cause people to become combative, injure themselves, or deteriorate quickly without intervention. A case series of seven consecutive GHB withdrawal patients documented a course lasting 5 to 15 days, with the more severe presentations requiring intensive management ([PMID 11174231](https://pubmed.ncbi.nlm.nih.gov/11174231/)).
 
 **Seizures** are most likely in the first 24 to 48 hours, though they can occur throughout the acute phase.
 
@@ -55,7 +55,7 @@ Second, **the receptor mechanism is different from most clinical treatments**. S
 
 ## Who is at risk
 
-**Daily, around-the-clock users.** GHB's short duration, typically 2 to 4 hours per dose, means that recreational use at festivals or parties does not reliably cause dependence. The pattern that does cause dependence is dosing every 2 to 4 hours through the day and night to maintain effects or avoid early withdrawal symptoms. Some people develop this pattern within weeks. A 2001 study of 42 dependent GHB users found a mean daily dose of 34 grams per day ([PMID 11727882](https://pubmed.ncbi.nlm.nih.gov/11727882/)), but dependence can develop at much lower doses with sufficient frequency.
+**Daily, around-the-clock users.** GHB's short duration, typically 2 to 4 hours per dose, means that recreational use at festivals or parties does not reliably cause dependence. The pattern that does cause dependence is dosing every 2 to 4 hours through the day and night to maintain effects or avoid early withdrawal symptoms. Some people develop this pattern within weeks. The Dutch GHB Monitor study of 229 GHB-dependent patients entering detoxification documented exactly this around-the-clock dosing pattern ([PMID 27923198](https://pubmed.ncbi.nlm.nih.gov/27923198/)), but dependence can develop at much lower doses with sufficient frequency.
 
 **GBL users.** Because GBL converts to GHB rapidly, it creates the same dependence. GBL users are at particular risk if they don't understand that GBL doses cannot be treated as equivalent to GHB. A "normal" GBL dose by weight is lower than a GHB dose. Someone accustomed to dosing GBL who switches to GHB and uses GHB amounts may overdose; someone who attempts GHB amounts of GBL may also overdose for the same reason in reverse.
 
@@ -69,13 +69,13 @@ Second, **the receptor mechanism is different from most clinical treatments**. S
 
 All current treatment evidence for GHB withdrawal is based on case series and case reports. There are no randomized controlled trials. This is Tier 8 evidence, the lowest tier, because conducting controlled trials on severe withdrawal syndromes is ethically and logistically difficult. What we have is this:
 
-**Benzodiazepines** are first-line treatment by analogy with alcohol withdrawal. They provide general CNS sedation and reduce seizure risk through GABA-A activity. The problem is that they don't directly substitute for GABA-B activity. Case series document patients requiring equivalent doses of 200 mg or more of diazepam per day, many times the typical anxiolytic dose, to achieve adequate sedation. Response is partial and inconsistent ([PMID 11574793](https://pubmed.ncbi.nlm.nih.gov/11574793/)).
+**Benzodiazepines** are first-line treatment by analogy with alcohol withdrawal. They provide general CNS sedation and reduce seizure risk through GABA-A activity. The problem is that they don't directly substitute for GABA-B activity. Published cases document patients requiring very high benzodiazepine doses, many times the typical anxiolytic dose, to achieve adequate sedation. Response is partial and inconsistent: a review of the literature found that benzodiazepine-refractory withdrawal responded to other sedative agents, mainly pentobarbital or chloral hydrate ([PMID 15225884](https://pubmed.ncbi.nlm.nih.gov/15225884/)).
 
-**Baclofen** is a GABA-B agonist, the same receptor system GHB acts on. Mechanistically, it makes more sense as a treatment than benzos. Case reports describe successful rescue in patients who did not respond to benzodiazepines. There are no RCTs, but baclofen is increasingly recognized as a critical tool in severe cases ([PMID 18841188](https://pubmed.ncbi.nlm.nih.gov/18841188/)).
+**Baclofen** is a GABA-B agonist, the same receptor system GHB acts on. Mechanistically, it makes more sense as a treatment than benzos. Case reports describe successful management with baclofen, including as a standalone therapy ([PMID 30907765](https://pubmed.ncbi.nlm.nih.gov/30907765/)) and in severe prolonged withdrawal alongside a slow benzodiazepine taper ([PMID 39021043](https://pubmed.ncbi.nlm.nih.gov/39021043/)). A case series also found baclofen at 30 to 60 mg per day useful for relapse prevention after detoxification ([PMID 25900349](https://pubmed.ncbi.nlm.nih.gov/25900349/)). There are no RCTs.
 
 **Pharmaceutical GHB tapering** is used in some European countries where GHB (sodium oxybate) is available by prescription. A slow, structured taper allows the brain to gradually recalibrate rather than experiencing abrupt withdrawal. This approach is not available in the United States for this purpose.
 
-**ICU-level care** is required for severe cases. The 2004 McDonough case series found that all seven severe GHB withdrawal cases required intensive care admission ([PMID 14976275](https://pubmed.ncbi.nlm.nih.gov/14976275/)). This is not a failure of medicine; it reflects the physiological intensity of severe GHB withdrawal.
+**ICU-level care** is required for severe cases. A case series of seven consecutive patients with GHB withdrawal syndrome documented symptom onset 1 to 6 hours after the last dose and a course lasting 5 to 15 days, with severe cases requiring intensive management ([PMID 11174231](https://pubmed.ncbi.nlm.nih.gov/11174231/)). This is not a failure of medicine; it reflects the physiological intensity of severe GHB withdrawal.
 
 **Home management is not a viable option for anyone with significant dependence.** The speed of onset, the severity of potential complications, and the unpredictability of response to any available treatment mean that self-managing GHB withdrawal at home carries real risk of death.
 
@@ -97,4 +97,4 @@ For background on GHB's pharmacology, standard dosing, and overdose signs, see o
 
 ---
 
-*Sources: [PMID 11574793](https://pubmed.ncbi.nlm.nih.gov/11574793/) | [PMID 11727882](https://pubmed.ncbi.nlm.nih.gov/11727882/) | [PMID 14976275](https://pubmed.ncbi.nlm.nih.gov/14976275/) | [PMID 18841188](https://pubmed.ncbi.nlm.nih.gov/18841188/)*
+*Sources: [PMID 11174231](https://pubmed.ncbi.nlm.nih.gov/11174231/) | [PMID 15225884](https://pubmed.ncbi.nlm.nih.gov/15225884/) | [PMID 27923198](https://pubmed.ncbi.nlm.nih.gov/27923198/) | [PMID 30907765](https://pubmed.ncbi.nlm.nih.gov/30907765/) | [PMID 39021043](https://pubmed.ncbi.nlm.nih.gov/39021043/)*

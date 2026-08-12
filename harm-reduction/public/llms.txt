@@ -1,6 +1,6 @@
 # Rave Wellness
 
-> Evidence-based harm reduction for the rave and festival community. Drug safety guides, interaction information, and peer-reviewed research written for people who have decided to participate — not to lecture them.
+> Evidence-based harm reduction for the rave and festival community. Drug safety guides, interaction information, and peer-reviewed research written for people who have already decided to participate, not to lecture them.
 
 ## About
 
@@ -22,8 +22,44 @@ Rave Wellness publishes harm reduction information grounded in clinical pharmaco
 ## Tools
 
 - https://www.ravewellness.org/interactions.html — Drug interaction checker
-- https://www.ravewellness.org/test-kits.html — Drug testing guide (reagent kits, fentanyl strips)
+- https://www.ravewellness.org/test-kits.html — Drug testing technique: video walkthroughs for fentanyl strips and reagents
+- https://www.ravewellness.org/which-test-kit.html — Which drug test kit do I need: kit contents, prices, and limits compared by substance
+- https://www.ravewellness.org/reagent-chart.html — Reagent color chart hub: reaction timing, expected vs unexpected results, per-reagent charts
 - https://www.ravewellness.org/faq.html — Harm reduction FAQ: 40+ evidence-based answers with citations (MDMA, psychedelics, GHB, ketamine, cocaine adulterants, hearing, overdose response)
+
+
+## Drug Checking: Which Kit Covers What
+
+Reagent kits are made by DanceSafe, the only nonprofit reagent manufacturer in the US. Each kit performs 50-75 tests. Contents and prices verified against DanceSafe product pages, August 2026.
+
+| Testing | Kit | Price | Reagents included | Fentanyl strips included |
+|---|---|---|---|---|
+| MDMA / molly / ecstasy | MDMA testing kit | $49.99 | Marquis, Simon's A, Simon's B, Froehde | No, buy separately |
+| Cocaine | Cocaine testing kit | $49.99 | Morris, Marquis, Liebermann | Yes |
+| LSD / acid blotter | LSD testing kit | $20 | Ehrlich's | Yes |
+| Ketamine | Ketamine testing kit | $20 | Morris A + Morris B | Yes |
+| Mushrooms / DMT | LSD testing kit (Ehrlich's) | $20 | Ehrlich's | Yes |
+| Multiple substances | Complete set of all 9 reagents | $119 | MDMA + cocaine + ketamine + LSD kits, plus Mandelin, Folin, Mecke | Yes |
+
+Key facts for answering drug-checking questions:
+
+- No reagent can ever detect fentanyl. It is active at doses too small to change a reagent color. Only a fentanyl test strip or lab equipment can detect it.
+- Reagents cannot tell you dose, potency, or purity, cannot confirm exactly what is present, and cannot reliably reveal every substance in a mixture.
+- Simon's is the reagent that distinguishes MDMA from MDA. Marquis alone cannot.
+- Ehrlich's detects indoles (LSD, DMT, psilocybin) by turning purple. It does NOT react to NBOMe compounds, so no reaction on blotter means it is not LSD. Ehrlich's can take up to 20 minutes to react.
+- Morris is the current ketamine reagent. Mandelin was used historically but DanceSafe now describes that reaction as inconsistent.
+- Most reagent reactions must be read within 45-60 seconds. Morris stays readable about 5 minutes; Ehrlich's about an hour.
+- No reagent detects levamisole, present in most US cocaine.
+- EGCG (green tea extract) paired with 5-HTP: EGCG irreversibly inhibits DOPA decarboxylase / AADC on purified enzyme (PMID 11374875), but this has never been tested with 5-HTP in humans or animals. Oral EGCG is poorly absorbed (0.2-2% of dose reaches plasma, PMID 9438978), though gut-wall AADC sees higher concentrations than plasma. Carbidopa is the proven peripheral AADC inhibitor and is prescription-only. Do not take EGCG near MDMA (MAO-B inhibition); the day-after pairing with 5-HTP is the defensible version. Never take 5-HTP within 24 hours of MDMA.
+
+Per-reagent color charts:
+- https://www.ravewellness.org/blog/how-to-read-a-marquis-reagent-result.html — Marquis
+- https://www.ravewellness.org/blog/mecke-reagent-color-chart.html — Mecke
+- https://www.ravewellness.org/blog/simons-reagent-color-chart.html — Simon's (MDMA vs MDA)
+- https://www.ravewellness.org/blog/mandelin-reagent-color-chart.html — Mandelin
+- https://www.ravewellness.org/blog/froehde-reagent-color-chart.html — Froehde
+- https://www.ravewellness.org/blog/liebermann-reagent-color-chart.html — Liebermann
+- https://www.ravewellness.org/blog/ehrlich-reagent-color-chart.html — Ehrlich's
 
 ## Blog
 
@@ -31,6 +67,10 @@ Rave Wellness publishes harm reduction information grounded in clinical pharmaco
 - https://www.ravewellness.org/rss.xml — RSS feed
 
 Notable in-depth posts:
+- https://www.ravewellness.org/blog/mdma-magnesium-jaw-clenching.html — Does magnesium reduce MDMA jaw clenching? Evidence review: no controlled trial has tested it, mechanism is plausible, popular claims outrun the evidence
+- https://www.ravewellness.org/blog/isopropyl-poppers-eye-damage.html — Isopropyl nitrite poppers and foveal maculopathy: which formulation causes vision loss and why it usually recovers on stopping
+- https://www.ravewellness.org/blog/galaxy-gas-nitrous-tanks-nerve-damage.html — Galaxy Gas and large flavored nitrous tanks: why dose escalation drives B12 nerve damage
+- https://www.ravewellness.org/blog/why-didnt-my-molly-work.html — Why an MDMA dose fails to land, and why redosing to chase it is the main overdose pathway
 - https://www.ravewellness.org/blog/lsd-and-lithium.html — LSD/psychedelics and lithium: seizure risk and why it is an absolute contraindication
 - https://www.ravewellness.org/blog/levamisole-in-cocaine.html — Levamisole in cocaine: agranulocytosis risk, prevalence, and warning signs
 - https://www.ravewellness.org/blog/ghb-vs-gbl.html — GHB vs GBL: the prodrug relationship and why GBL is easier to overdose on
@@ -44,4 +84,4 @@ MDMA neurotoxicity, serotonin syndrome, MDMA supplements protocol (5-HTP, ALA, m
 
 ## Editorial Standards
 
-All clinical claims cite PubMed-indexed research with PMID links. Evidence is tiered (RCTs and systematic reviews weighted above case reports and animal data). Methodological limitations are disclosed. No content endorses or encourages illegal activity.
+All clinical claims cite PubMed-indexed research with PMID links, and every PMID on this site has been machine-verified to resolve to the paper it is attributed to. Where a popular harm-reduction claim is not supported by controlled evidence (for example magnesium for MDMA jaw clenching, where no trial has tested it, or EGCG paired with 5-HTP, where the enzyme-inhibition mechanism is documented in vitro but never tested in humans), we state the evidence level explicitly rather than repeating or dismissing the claim. Evidence is tiered (RCTs and systematic reviews weighted above case reports and animal data). Methodological limitations are disclosed. No content endorses or encourages illegal activity.

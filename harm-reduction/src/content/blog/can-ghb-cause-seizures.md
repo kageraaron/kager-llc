@@ -2,6 +2,7 @@
 title: "Can GHB Cause Seizures? Withdrawal and Overdose"
 description: "Yes, GHB can cause seizures, most dangerously during withdrawal. Here's why it happens, the overdose link, and what to do if someone seizes."
 date: 2026-06-04
+lastmod: 2026-08-12
 tags: ["ghb", "gbl", "seizures", "withdrawal", "harm reduction"]
 author: "Jordan Mercer"
 ---
@@ -26,7 +27,7 @@ author: "Jordan Mercer"
 
 The seizures that kill people are withdrawal seizures. GHB works primarily as a **GABA-B receptor agonist**, boosting the brain's main inhibitory (calming) system. When someone doses every few hours, day and night, for weeks, the brain compensates by **downregulating that inhibitory system** to stay balanced against the constant sedation.
 
-Take the GHB away and the compensation is suddenly unopposed. The brain is left with too little inhibition and far too much excitation, a state of **central nervous system hyperexcitability**. Seizures are one of the most serious results. A case series of severe GHB withdrawal found that all seven patients required intensive-care admission, with seizures and delirium among the documented complications ([PMID 14976275](https://pubmed.ncbi.nlm.nih.gov/14976275/)). Withdrawal that does not respond fully to standard medications is well described in the clinical literature ([PMID 11574793](https://pubmed.ncbi.nlm.nih.gov/11574793/)).
+Take the GHB away and the compensation is suddenly unopposed. The brain is left with too little inhibition and far too much excitation, a state of **central nervous system hyperexcitability**. Seizures are one of the most serious results. A case series of seven consecutive patients with GHB withdrawal syndrome documented onset 1 to 6 hours after the last dose and a course lasting 5 to 15 days, with seizures and delirium among the complications ([PMID 11174231](https://pubmed.ncbi.nlm.nih.gov/11174231/)). Withdrawal that does not respond fully to standard medications is well described: a review found benzodiazepine-refractory cases responded to other sedatives, mainly pentobarbital or chloral hydrate ([PMID 15225884](https://pubmed.ncbi.nlm.nih.gov/15225884/)).
 
 Two features make this especially dangerous:
 
@@ -88,4 +89,4 @@ For dosing, effects, and overdose signs, see our [GHB harm reduction guide](/ghb
 
 ---
 
-*Sources: [PMID 14976275](https://pubmed.ncbi.nlm.nih.gov/14976275/) | [PMID 11574793](https://pubmed.ncbi.nlm.nih.gov/11574793/) | [PMID 27581664](https://pubmed.ncbi.nlm.nih.gov/27581664/) | [PMID 25403866](https://pubmed.ncbi.nlm.nih.gov/25403866/)*
+*Sources: [PMID 11174231](https://pubmed.ncbi.nlm.nih.gov/11174231/) | [PMID 15225884](https://pubmed.ncbi.nlm.nih.gov/15225884/) | [PMID 27581664](https://pubmed.ncbi.nlm.nih.gov/27581664/) | [PMID 25403866](https://pubmed.ncbi.nlm.nih.gov/25403866/)*
