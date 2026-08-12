@@ -2,6 +2,7 @@
 title: "How Long Does MDMA Stay in Your System?"
 description: "MDMA is usually detectable in urine for 1–3 days, blood 1–2 days, saliva 1–2 days, and hair up to 90 days. Detection windows by test type, explained."
 date: 2026-06-04
+lastmod: 2026-08-12
 tags: ["mdma", "molly", "drug testing", "detection", "harm reduction"]
 author: "Jordan Mercer"
 ---
@@ -56,6 +57,17 @@ Several factors shift your personal window:
 The common SAMHSA 5-panel test screens for marijuana, cocaine, opiates, PCP, and amphetamines. MDMA is chemically an amphetamine derivative, so it can sometimes trigger the amphetamine portion, but the cross-reactivity is inconsistent and **false negatives are common**. Many employers and programs that specifically want to detect MDMA add a dedicated MDMA/ecstasy immunoassay or use confirmatory **GC-MS or LC-MS** lab testing, which is highly specific.
 
 The practical implication: you cannot assume a generic test will or will not flag MDMA. It depends entirely on which panel is used.
+
+### Testing yourself at home first
+
+If you are facing a test and want to know where you stand, [home urine test kits](https://www.amazon.com/s?k=home+drug+test+kit+urine+MDMA+multi+panel&tag=ravewellness01-20) are cheap and use the same immunoassay technology as the screening step at a lab or clinic. A few things determine whether the result means anything:
+
+- **Buy a panel that names MDMA explicitly.** This is the main thing people get wrong. A basic 5-panel kit screens for amphetamines generally, and MDMA's cross-reactivity with that strip is inconsistent, so it can read negative while a dedicated MDMA panel reads positive. Multi-panel kits with a separate MDMA strip exist and are what you want.
+- **They answer one question: above or below the cutoff.** Home strips are threshold tests, commonly set around 500 ng/mL for amphetamine-class compounds. They do not tell you a concentration, and a faint line still counts as negative if the line is there at all.
+- **A negative at home is not a guarantee.** Lab confirmation testing (GC-MS or LC-MS) is far more sensitive than any strip and targets metabolites directly, which is why the lab urine window stretches to 5 or 6 days while a home strip may stop reading positive well before that.
+- **False positives happen.** Some decongestants and prescription stimulants can trigger the amphetamine panel. A confirmatory lab test is what distinguishes them, which is worth knowing if you have a legitimate prescription.
+
+Testing yourself tells you what a screening test would likely show today. It does not shorten the window, and nothing does.
 
 ---
 

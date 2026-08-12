@@ -2,7 +2,7 @@
 title: "Microdosing Psilocybin for Depression: What Research Shows"
 description: "Microdosing psilocybin is popular, but the evidence is weaker than most people realize. Here's an honest look at what the research actually shows."
 date: 2026-05-18
-lastmod: 2026-06-01
+lastmod: 2026-08-12
 tags: ["psilocybin", "mushrooms", "microdosing", "depression", "harm reduction"]
 author: "Jordan Mercer"
 ---
@@ -13,9 +13,9 @@ The problem is that the research has not kept pace with the enthusiasm. **The ev
 
 ## Quick answers
 
-**Does microdosing psilocybin work for depression?** The best placebo-controlled study found no significant difference between real microdoses and placebo — and expectation was the strongest predictor of who reported improvement.
+**Does microdosing psilocybin work for depression?** The best placebo-controlled study found no significant difference between real microdoses and placebo, and expectation was the strongest predictor of who reported improvement.
 
-**What is a psilocybin microdose?** Typically 0.1–0.3 g of dried *P. cubensis*, taken on a schedule with regular off-days to prevent tolerance. Sub-perceptual means no visual effects or altered thinking — if you notice those, you've exceeded a microdose.
+**What is a psilocybin microdose?** Typically 0.1–0.3 g of dried *P. cubensis*, taken on a schedule with regular off-days to prevent tolerance. Sub-perceptual means no visual effects or altered thinking. If you notice those, you've exceeded a microdose.
 
 **Is microdosing the same as psilocybin therapy?** No. Clinical trials use 20–30 mg psilocybin in supervised settings. Microdosing is 1–3 mg taken at home. The research supporting one does not carry over to the other.
 
@@ -84,6 +84,10 @@ If you're going to microdose despite the uncertain evidence, here's what the har
 **What counts as a microdose for *P. cubensis*:** 0.1–0.3 g dried mushroom. Start at 0.1 g. You can always go up; you can't un-take a dose.
 
 **Potency varies significantly.** *P. cubensis* is the most common species and contains roughly 0.5–1% psilocybin by dry weight. *P. azurescens* and *P. semilanceata* (liberty caps) can be 2–3x more potent per gram. If you're using either of these species, reduce your dose accordingly. Potency also varies between batches of the same species.
+
+**Weigh it, do not eyeball it.** The whole premise of microdosing is staying under the perceptual threshold, and the difference between 0.1 g and 0.3 g is invisible by eye once material is ground. A [milligram scale](https://www.amazon.com/s?k=milligram+scale+0.001g+calibration+weights&tag=ravewellness01-20) with calibration weights is the basic tool here. Grind a batch to an even powder first, since a single cap or stem is not representative of the batch's potency.
+
+**Capsules make a weighed dose repeatable.** Once you have ground and weighed, [gelatin capsules](https://www.amazon.com/s?k=empty+gelatin+capsules+size+0&tag=ravewellness01-20) or [vegetarian capsules](https://www.amazon.com/s?k=empty+vegetarian+capsules+size+0&tag=ravewellness01-20) let you prepare a run in one sitting, and a [capsule filling tray](https://www.amazon.com/s?k=capsule+filling+machine+size+0&tag=ravewellness01-20) speeds that up if you are making a month of doses. Capsules do not improve accuracy on their own, they just stop you re-measuring every time and hide the taste. Weigh each dose, do not fill by volume.
 
 **Start with one day before committing to a protocol.** See how 0.1 g affects you before deciding to dose every three days for a month.
 

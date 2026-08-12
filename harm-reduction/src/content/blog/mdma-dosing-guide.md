@@ -2,7 +2,7 @@
 title: "MDMA Dosage Guide: What Is a Safe Dose of Molly or Ecstasy?"
 description: "How much molly is a safe dose? Evidence-based MDMA dosage guide: clinical trial doses, body weight rules, redosing rules, and the pressed pill problem."
 date: 2026-05-14
-lastmod: 2026-05-15
+lastmod: 2026-08-12
 tags: ["mdma", "harm reduction", "dosing", "ecstasy", "drug safety"]
 author: "Jordan Mercer"
 ---
@@ -48,6 +48,20 @@ The community harm reduction standard for MDMA dosing is **1–1.5 mg/kg body we
 This guideline is not RCT-validated, it comes from clinical pharmacology reasoning and community experience, not a randomized controlled trial. What it does reflect is the general principle that pharmacological effects scale with body mass, and that there's a ceiling above which the risk-benefit ratio deteriorates.
 
 **First-time ecstasy dose**: harm reduction guidelines suggest 75 mg or the low end of the weight-based range, whichever is lower. You can always take more; you cannot undo having taken too much. First experiences often feel more intense because there is no prior tolerance, and anxiety itself can amplify cardiovascular effects.
+
+---
+
+## Measuring the dose: scales and capsules
+
+A weight-based target is useless if you are eyeballing powder. Most people are far worse at estimating a 100 mg pile than they think, and the error runs in both directions.
+
+**A milligram scale is the tool for this.** Look for **0.001 g (1 mg) readability and included calibration weights**, and actually calibrate it, since these scales drift and arrive uncalibrated more often than not. A [milligram scale](https://www.amazon.com/s?k=milligram+scale+0.001g+calibration+weights&tag=ravewellness01-20) is the difference between taking your intended dose and taking twice it.
+
+**Know the honest limits of a cheap scale.** Readability is not accuracy. A budget 0.001 g scale is genuinely unreliable below roughly 10 to 20 mg, so it is well suited to MDMA doses in the 75 to 125 mg range and poorly suited to anything measured in single milligrams. **For substances active in micrograms, such as LSD, a milligram scale cannot help you at all.** Those require volumetric dosing, which is dissolving a known quantity in a known volume of liquid and measuring the liquid instead.
+
+**Capsules are a delivery format, not a measuring tool.** Capping powder makes a weighed dose easier to swallow and avoids the taste, and it stops you from casually adding "a bit more" mid-session. It does not make the dose accurate. **Weigh first, then fill.** [Gelatin capsules](https://www.amazon.com/s?k=empty+gelatin+capsules+size+0&tag=ravewellness01-20) are the standard and cheapest option; [vegetarian capsules](https://www.amazon.com/s?k=empty+vegetarian+capsules+size+0&tag=ravewellness01-20) made from cellulose are the equivalent for anyone avoiding animal products, and both behave the same once swallowed. A [capsule filling tray](https://www.amazon.com/s?k=capsule+filling+machine+size+0&tag=ravewellness01-20) is worth it only if you are making several at once.
+
+Two practical notes. Size 0 capsules hold roughly 400 to 500 mg of powder, which is more than any sensible MDMA dose, so you are not limited by capsule size. And a capsule delays onset slightly compared to bare powder, usually by 10 to 20 minutes, which matters because that delay is exactly when people wrongly conclude nothing is happening and redose. See [why an MDMA dose can fail to land](/blog/why-didnt-my-molly-work.html).
 
 ---
 
@@ -113,6 +127,7 @@ Two people can take the same dose and have substantially different experiences a
 - [ ] **Test the substance** with at least Marquis + Simon's reagents and a fentanyl test strip before taking anything
 - [ ] **Dose conservatively**: 75 mg or less for a first experience; use the weight-based formula and take the lower estimate
 - [ ] **Know what you weigh** and calculate your 1 mg/kg dose as a reference ceiling
+- [ ] **Weigh the dose** on a calibrated [milligram scale](https://www.amazon.com/s?k=milligram+scale+0.001g+calibration+weights&tag=ravewellness01-20) rather than estimating it by eye
 - [ ] **Don't redose the first time**: evaluate how a single dose feels before deciding whether redosing is even something you want to do
 - [ ] **Manage temperature**: take breaks from dancing, spend time in cooler areas, don't wear excessive layers
 - [ ] **Drink appropriately**: water with electrolytes, not excessive plain water
