@@ -2,6 +2,7 @@
 title: "How Long Do Shrooms Last? Full Psilocybin Timeline"
 description: "Shrooms last 4 to 6 hours. Onset 20 to 60 minutes, peak at 1 to 3 hours, then afterglow. Full psilocybin timeline with pharmacokinetic data."
 date: 2026-08-12
+lastmod: 2026-08-14
 tags: ["psilocybin", "mushrooms", "psychedelics", "harm reduction", "duration", "timeline"]
 author: "Jordan Mercer"
 ---
@@ -64,7 +65,7 @@ How much psilocin ends up in your blood is what determines intensity. A PET stud
 
 **Preparation.** Tea and [lemon tek](/blog/lemon-tek-psilocybin.html) both speed things up compared with chewing dried caps, because you are not waiting on your stomach to break down fungal cell wall material. Lemon tek is reported to compress onset to 15 to 30 minutes with a sharper peak and shorter total duration, though that specific claim rests on user reports rather than controlled trials.
 
-**Species and potency.** *P. cubensis* runs about 0.5 to 1% psilocybin by dry weight. *P. azurescens* and *P. semilanceata* can be several times stronger per gram, so the same weight is a different dose. Weighing dried material on a [milligram scale](https://www.amazon.com/s?k=milligram+scale+0.001g+calibration+weights&tag=ravewellness01-20) removes one variable, though it cannot tell you potency. Ranges by dose are in our [psilocybin harm reduction guide](/psilocybin.html), and dose accuracy matters even more in the [microdosing](/blog/microdosing-psilocybin.html) range.
+**Species and potency.** *P. cubensis* runs about 0.5 to 1% psilocybin by dry weight. *P. azurescens* and *P. semilanceata* can be several times stronger per gram, so the same weight is a different dose. Weighing dried material on a [milligram scale](/mg-scale) removes one variable, though it cannot tell you potency. Ranges by dose are in our [psilocybin harm reduction guide](/psilocybin.html), and dose accuracy matters even more in the [microdosing](/blog/microdosing-psilocybin.html) range.
 
 **Identification.** None of this timing applies if it is not actually a *Psilocybe*. Amatoxin-containing lookalikes have a delayed and far more dangerous timeline, covered in our guide to [psilocybin lookalikes and Galerina](/blog/psilocybin-lookalikes-galerina.html).
 

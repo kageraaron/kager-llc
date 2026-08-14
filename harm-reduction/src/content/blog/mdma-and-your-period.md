@@ -75,7 +75,7 @@ If your periods are heavy and you routinely feel flattened for days afterward, a
 
 ## Test what you have
 
-None of this matters if the pill is not MDMA. Substances sold as molly regularly contain cathinones, methamphetamine, PMA/PMMA, or fentanyl, and PMA causes lethal hyperthermia at doses users consider normal. The [DanceSafe MDMA testing kit](/mdma-kit) ($49.99) contains Marquis, the two-part Simon's, and Froehde. Buy [fentanyl test strips](/fentanyl-strips) with it, since no reagent detects fentanyl.
+None of this matters if the pill is not MDMA. Substances sold as molly regularly contain cathinones, methamphetamine, PMA/PMMA, or fentanyl, and PMA causes lethal hyperthermia at doses users consider normal. The [DanceSafe MDMA testing kit](/mdma-kit) contains Marquis, the two-part Simon's, and Froehde. Buy [fentanyl test strips](/fentanyl-strips) with it, since no reagent detects fentanyl.
 
 ## The bottom line
 

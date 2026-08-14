@@ -2,6 +2,7 @@
 title: "GHB vs GBL: What Is the Difference?"
 description: "GBL is a prodrug that turns into GHB in your body, but it's stronger by volume and hits faster. Here's how they differ and why GBL is easier to overdose on."
 date: 2026-05-31
+lastmod: 2026-08-14
 tags: ["ghb", "gbl", "harm reduction", "dosing", "overdose"]
 author: "Jordan Mercer"
 ---

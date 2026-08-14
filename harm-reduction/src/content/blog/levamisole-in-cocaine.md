@@ -2,6 +2,7 @@
 title: "What Is Levamisole in Cocaine, and Should You Be Worried?"
 description: "Most US cocaine contains levamisole, a veterinary dewormer that can destroy your white blood cells. Here's the real risk, the warning signs, and what to do."
 date: 2026-05-31
+lastmod: 2026-08-14
 tags: ["cocaine", "levamisole", "adulterants", "harm reduction", "drug checking"]
 author: "Jordan Mercer"
 ---
@@ -64,7 +65,7 @@ There is no way to make levamisole-contaminated cocaine safe, but you can lower 
 - **Test your supply.** Reagent kits can identify whether a sample is actually cocaine and can sometimes flag adulterants. They will not quantify levamisole, but they are still the baseline harm reduction step, and the same testing routine lets you screen for fentanyl, which is a separate and more immediate lethal risk.
 - **Use fentanyl test strips every time.** They do not detect levamisole, but fentanyl contamination of cocaine is a leading cause of stimulant overdose deaths, and strips are cheap insurance. See our walkthrough on [how to use fentanyl test strips](/blog/how-to-use-fentanyl-test-strips.html).
 - **Track your own baseline.** If you develop recurrent infections, mouth sores, or unexplained fevers, raise levamisole with your doctor directly.
-- **Don't share equipment.** A suppressed immune system plus shared straws or pipes is a fast route to transmissible infection.
+- **Don't share equipment.** Carry [your own tube](/crisp-tube). A suppressed immune system plus shared straws or pipes is a fast route to transmissible infection.
 
 [DanceSafe sells a cocaine testing kit](/cocaine-kit) and [fentanyl test strips](/fentanyl-strips) that cover cocaine screening.
 

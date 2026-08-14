@@ -2,6 +2,7 @@
 title: "Do Your Ears Toughen Up to Loud Music? Why It's a Warning Sign"
 description: "No, your ears don't toughen up to loud music. When a rave starts sounding quieter or more comfortable, that's temporary hearing damage, not adaptation."
 date: 2026-06-01
+lastmod: 2026-08-14
 tags: ["hearing", "tinnitus", "earplugs", "harm reduction", "festivals"]
 author: "Jordan Mercer"
 ---
@@ -73,7 +74,7 @@ Since adaptation is a myth and damage is cumulative, the only levers are reducin
 
 For how loud raves actually get, the cellular mechanism of noise damage, and earplug recommendations, see our [hearing protection guide](/hearing.html). To understand how fast a single night does damage, read [whether one loud night can permanently harm your hearing](/blog/can-one-loud-night-damage-hearing.html).
 
-If you want protection that doesn't kill the sound, [high-fidelity earplugs](https://www.amazon.com/s?k=Loop+Experience+earplugs&tag=ravewellness01-20) are the cheapest insurance you'll ever buy for your ears.
+If you want protection that doesn't kill the sound, [high-fidelity earplugs](/earplugs) are the cheapest insurance you'll ever buy for your ears. DanceSafe's filtered EarPeace plugs are one option, and [Amazon](https://www.amazon.com/s?k=Loop+Experience+earplugs&tag=ravewellness01-20) has others.
 
 ---
 

@@ -88,6 +88,51 @@
       "source": "/mandelin-kit",
       "destination": "https://dancesafe.org/product/mandelin-reagent-testing-kit/r/ravewellness/",
       "permanent": false
+    },
+    {
+      "source": "/hydration-pack",
+      "destination": "https://dancesafe.org/product/wlc-hydration-packs/r/ravewellness/",
+      "permanent": false
+    },
+    {
+      "source": "/spot-plate",
+      "destination": "https://dancesafe.org/product/spot-plate/r/ravewellness/",
+      "permanent": false
+    },
+    {
+      "source": "/earplugs",
+      "destination": "https://dancesafe.org/product/dancesafe-earpeace-earplugs/r/ravewellness/",
+      "permanent": false
+    },
+    {
+      "source": "/crisp-tube",
+      "destination": "https://dancesafe.org/product/dancesafe-branded-v4-crisp-tubes-free-shipping/r/ravewellness/",
+      "permanent": false
+    },
+    {
+      "source": "/nasal-spray-kit",
+      "destination": "https://dancesafe.org/product/spraypack-diy-nasal-spray-kit/r/ravewellness/",
+      "permanent": false
+    },
+    {
+      "source": "/mg-scale",
+      "destination": "https://dancesafe.org/product/zeo-50-milligram-scale/r/ravewellness/",
+      "permanent": false
+    },
+    {
+      "source": "/micro-scoop",
+      "destination": "https://dancesafe.org/product/micro-scoop/r/ravewellness/",
+      "permanent": false
+    },
+    {
+      "source": "/xylazine-strips",
+      "destination": "https://dancesafe.org/product/dancesafe-xylazine-test-strips-pack-of-10/r/ravewellness/",
+      "permanent": false
+    },
+    {
+      "source": "/pipette",
+      "destination": "https://dancesafe.org/product/pipette/r/ravewellness/",
+      "permanent": false
     }
   ],
   "headers": [

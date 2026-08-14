@@ -2,7 +2,7 @@
 title: "The MDMA Comedown: Why It Happens and How to Reduce It"
 description: "Molly (MDMA) comedown depression ('Blue Tuesday') comes from serotonin depletion. The mechanism, timeline, and what actually helps recovery."
 date: 2026-05-12
-lastmod: 2026-06-01
+lastmod: 2026-08-14
 tags: ["mdma", "harm reduction", "supplements", "serotonin", "comedown"]
 author: "Jordan Mercer"
 ---
@@ -63,7 +63,7 @@ The timeline varies significantly with dose, frequency of use, individual metabo
 
 **The critical timing rule: do not take 5-HTP until at least 24 hours after your last MDMA dose.**
 
-Here's why this matters. MDMA has a half-life of roughly 8–9 hours, but its active metabolite MDA has a longer half-life, and serotonin-releasing activity can persist well beyond when you feel the drug's effects. If you take 5-HTP while MDMA is still pharmacologically active, you're adding more serotonin precursor to a brain that's already been flooded with serotonin release, increasing the risk of **serotonin syndrome**, a potentially serious condition involving agitation, muscle rigidity, rapid heart rate, and hyperthermia.
+Here's why this matters. MDMA has a half-life of roughly 7 to 8 hours ([PMID 18520604](https://pubmed.ncbi.nlm.nih.gov/18520604/)), but its active metabolite MDA has a longer half-life, and serotonin-releasing activity can persist well beyond when you feel the drug's effects. If you take 5-HTP while MDMA is still pharmacologically active, you're adding more serotonin precursor to a brain that's already been flooded with serotonin release, increasing the risk of **serotonin syndrome**, a potentially serious condition involving agitation, muscle rigidity, rapid heart rate, and hyperthermia.
 
 **What about carbidopa?** Some harm reduction resources recommend taking 5-HTP with carbidopa, a peripheral decarboxylase inhibitor used in Parkinson's treatment. The reasoning is that carbidopa blocks conversion of 5-HTP to serotonin in the gut and bloodstream, directing more into the brain. This is medically accurate, carbidopa dramatically increases 5-HTP's CNS bioavailability. However, this combination substantially raises the risk of serotonin syndrome and is not appropriate without medical supervision. **Do not combine 5-HTP with carbidopa without a prescribing physician involved.**
 

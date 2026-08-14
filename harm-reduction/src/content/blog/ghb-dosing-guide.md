@@ -2,7 +2,7 @@
 title: "How to Dose GHB Safely: The 1mL Rule and Why Redosing Kills"
 description: "GHB dosing is dangerous because concentration varies between batches. What the 1mL rule means, how to measure, and why redosing kills."
 date: 2026-05-18
-lastmod: 2026-06-01
+lastmod: 2026-08-14
 tags: ["ghb", "harm reduction", "dosing", "overdose"]
 author: "Jordan Mercer"
 ---
@@ -13,11 +13,13 @@ This guide covers the pharmacology behind why that matters, what the "1mL rule" 
 
 ## Quick answers
 
-**What is a safe GHB dose?** There is no universal safe dose because recreational GHB has no standard concentration. A common harm reduction starting point for unknown-concentration GHB is **0.5mL**, taken with nothing else, then waiting **3 to 4 hours** before deciding whether to take more.
+**What is a safe GHB dose?** There is no established safe dose, and unlike MDMA there is **no clinical trial range to anchor to**, because recreational GHB has no standard concentration. Everything below is harm reduction consensus reasoning from pharmacology, not a tested protocol.
 
-**What is the 1mL rule?** A community-derived harm reduction heuristic: start with 1mL of unknown GHB. The logic is that even at the highest common concentrations (~1.5g/mL), 1mL delivers roughly 1.5g, which is near the top of the euphoric range for a non-tolerant person. It is a first-dose ceiling, not a redosing reference.
+The starting point we recommend for an unknown batch is **0.5mL**, taken with nothing else, then waiting **3 to 4 hours** before deciding whether to take more. That wait is derived from GHB's pharmacology rather than from how long the effects feel: elimination is **capacity-limited**, meaning the enzymes that clear it saturate, so clearance does not scale with dose ([PMID 8299669](https://pubmed.ncbi.nlm.nih.gov/8299669/)).
 
-**Why is redosing GHB dangerous?** GHB has a short felt duration but capacity-limited metabolism. Residual drug is still in your system when you feel like it has "worn off." A second dose stacks on top of that residual drug and can tip someone from functional into unconscious within 15-20 minutes.
+**What is the 1mL rule, and why do you recommend less?** The 1mL rule is a **community-derived heuristic with no trial behind it**: start with 1mL of unknown GHB, on the logic that even at the highest common concentrations (~1.5g/mL) that delivers roughly 1.5g, near the top of the euphoric range for a non-tolerant person. **We recommend 0.5mL instead.** The 1mL figure is a first-dose *ceiling* rather than a target, it assumes a concentration you cannot actually verify, and halving it costs you very little while leaving real headroom if the batch is stronger than assumed.
+
+**Why is redosing GHB dangerous?** GHB has a short felt duration but **capacity-limited (saturable) metabolism**, which is measured pharmacology rather than folk wisdom ([PMID 8299669](https://pubmed.ncbi.nlm.nih.gov/8299669/)). Residual drug is still in your system when you feel like it has "worn off." A second dose stacks on top of that residual drug and can tip someone from functional into unconscious within 15-20 minutes.
 
 **How should you measure GHB?** With an oral syringe, measured in 0.1mL increments. Not a shot glass, not a bottle cap, not a guess.
 
@@ -53,7 +55,7 @@ People often "find their dose" with one batch and then apply that same volume to
 
 ## The 1mL rule: what it means and what it does not
 
-The 1mL rule is a harm reduction heuristic, not a verified safe dose. The reasoning: at even the highest commonly encountered concentrations (~1.5g/mL), 1mL delivers approximately 1.5g of GHB -- which sits at the top of the euphoric range but is unlikely to cause unconsciousness in a non-tolerant person with no other substances on board.
+The 1mL rule is a community heuristic, not a verified safe dose, and no controlled study has tested it. The reasoning: at even the highest commonly encountered concentrations (~1.5g/mL), 1mL delivers approximately 1.5g of GHB -- which sits at the top of the euphoric range but is unlikely to cause unconsciousness in a non-tolerant person with no other substances on board.
 
 **What the 1mL rule is:** a first-dose starting ceiling for an unknown batch taken alone, by a non-tolerant person, with no other substances.
 
@@ -77,7 +79,7 @@ GHB's effects are felt for roughly 2-4 hours. When the euphoria fades, the insti
 
 **Minimum time between GHB doses: 3-4 hours** from the time you took the first dose, not from when you stopped feeling it. That distinction matters because GHB's subjective duration runs ahead of its actual clearance.
 
-**Reduce the redose amount.** Harm reduction guidelines suggest that if 1mL was taken first, any redose should be less — 0.5-0.75mL — not the same amount. The second dose arrives in a system that is not fully cleared.
+**Reduce the redose amount.** Harm reduction guidance is that if 1mL was taken first, any redose should be smaller, roughly 0.5 to 0.75mL, not the same amount. The second dose arrives in a system that is not fully cleared.
 
 ---
 

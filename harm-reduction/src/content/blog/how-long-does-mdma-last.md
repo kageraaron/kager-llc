@@ -2,7 +2,7 @@
 title: "How Long Does a Molly High Last? Full MDMA Timeline"
 description: "How long does molly last? Main effects run 3–5 hours, peak at 60–90 min. Full onset-to-comedown timeline and what affects duration."
 date: 2026-05-15
-lastmod: 2026-06-01
+lastmod: 2026-08-14
 tags: ["mdma", "molly", "ecstasy", "harm reduction", "duration", "timeline"]
 author: "Jordan Mercer"
 ---
@@ -21,7 +21,7 @@ MDMA (molly, ecstasy) produces its primary effects for **3 to 5 hours** at recre
 
 **When does MDMA kick in?** First effects are typically felt 30–60 minutes after ingestion — faster (as little as 20 minutes) on an empty stomach, slower (up to 90 minutes) with a full meal.
 
-**How long is MDMA in your system?** MDMA has a half-life of approximately 8–9 hours. Full elimination takes roughly 40 hours (five half-lives), meaning MDMA is in your bloodstream long after subjective effects have resolved.
+**How long is MDMA in your system?** MDMA has a half-life of approximately 7 to 8 hours ([PMID 18520604](https://pubmed.ncbi.nlm.nih.gov/18520604/)). Full elimination takes roughly 40 hours (five half-lives), meaning MDMA is in your bloodstream long after subjective effects have resolved.
 
 ---
 

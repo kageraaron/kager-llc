@@ -1318,6 +1318,72 @@ h1 span {
   border-color: rgba(16, 185, 129, 0.2);
 }
 
+/* ===== FEATURED PRODUCT CARD =====
+   Spans the full product grid and lays out image beside content.
+   The image slot degrades gracefully: if the file is missing, the
+   onerror handler on the <img> hides its wrapper and the card falls
+   back to a normal single-column featured card. */
+.product-featured {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(180px, 260px) 1fr;
+  gap: 26px;
+  align-items: start;
+  padding: 28px;
+  border-color: rgba(139, 92, 246, 0.45);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--purple) 7%, var(--bg-card)) 0%,
+    var(--bg-card) 60%
+  );
+}
+
+.product-featured-media {
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-featured-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  padding: 10px;
+}
+
+.product-featured-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.product-featured h4 {
+  font-size: 1.25rem;
+}
+
+.product-featured .product-footer {
+  padding-top: 14px;
+}
+
+@media (max-width: 640px) {
+  .product-featured {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 20px;
+  }
+  .product-featured-media {
+    max-width: 240px;
+    margin: 0 auto;
+  }
+}
+
 .product-badge {
   display: inline-block;
   background: var(--purple-dim);
@@ -1365,7 +1431,7 @@ h1 span {
 
 .product-footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   flex-wrap: wrap;
   gap: 8px;
@@ -1390,6 +1456,75 @@ h1 span {
   font-size: 0.8rem;
   font-style: italic;
   color: var(--text-dim);
+}
+
+/* ===== TABLES ===== */
+
+/* Applies to markdown tables in blog posts and hand-written tables on .astro pages.
+   Wrap wide tables in <div style="overflow-x:auto"> so they scroll rather than
+   forcing the page to scroll horizontally. */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.75rem 0;
+  font-size: 0.925rem;
+  line-height: 1.6;
+}
+
+th,
+td {
+  padding: 12px 18px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Give adjacent columns breathing room without relying on padding alone. */
+th:not(:last-child),
+td:not(:last-child) {
+  padding-right: 26px;
+}
+
+thead th {
+  background: var(--bg-surface);
+  color: var(--text);
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+}
+
+tbody td {
+  color: var(--text-muted);
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr:nth-child(even) {
+  background: color-mix(in srgb, var(--bg-surface) 45%, transparent);
+}
+
+tbody strong {
+  color: var(--text);
+}
+
+/* First column is usually the row label, so keep it legible and unwrapped
+   where it is short. */
+tbody td:first-child {
+  color: var(--text);
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  table { font-size: 0.85rem; }
+  th, td { padding: 10px 12px; }
+  th:not(:last-child),
+  td:not(:last-child) { padding-right: 16px; }
+  thead th { white-space: normal; }
 }
 
 /* ===== FOOTER ===== */

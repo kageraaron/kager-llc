@@ -2,7 +2,7 @@
 title: "Harm Reduction at Festivals: A Practical Pre-Event Checklist"
 description: "What to bring, what to test, and what to know before a rave or festival. Covers drug checking, heat management, hearing protection, and emergency prep."
 date: 2026-05-12
-lastmod: 2026-08-12
+lastmod: 2026-08-14
 tags: ["harm reduction", "festivals", "drug checking", "safety"]
 author: "Jordan Mercer"
 ---
@@ -14,9 +14,9 @@ Music festivals and raves are high-risk environments for several reasons that ar
 Your pre-event rave prep checklist in one scan (details in the sections below):
 
 - **Test everything**: fentanyl test strips plus a reagent kit, done at home before you go
-- **Plan hydration**: about 500 ml per hour with electrolytes if dancing, 250 ml per hour resting
+- **Plan [hydration](/hydration-pack)**: about 500 ml per hour with electrolytes if dancing, 250 ml per hour resting
 - **Prepare for heat**: light clothing, locate the chill-out area, schedule cooling breaks
-- **Pack earplugs**: high-fidelity, and bring two pairs
+- **Pack [earplugs](/earplugs)**: high-fidelity, and bring two pairs
 - **Set a buddy plan**: tell someone what you took, when, and where to meet if separated
 - **Know the emergencies**: medical tent location, Good Samaritan laws, naloxone for fentanyl
 - **Save support numbers**: Fireside Project (62-FIRESIDE)
@@ -29,7 +29,7 @@ On-site drug checking exists at some festivals, but coverage is inconsistent and
 - Fentanyl test strips, relevant for any powder or pill regardless of claimed substance. Fentanyl has been detected in MDMA, cocaine, ketamine, and pressed pills sold as various substances.
 - Ehrlich reagent, for LSD and psilocybin (detects indole alkaloids)
 - Marquis reagent, for MDMA (purple/black), cocaine (orange), 2C-B (no reaction or very faint)
-- A [milligram-accurate scale](https://www.amazon.com/s?k=milligram+scale+0.001g+calibration+weights&tag=ravewellness01-20) for powders, with calibration weights. Weigh doses at home, not in a dark venue
+- A [milligram-accurate scale](/mg-scale) for powders, with calibration weights. Weigh doses at home, not in a dark venue
 
 [DanceSafe sells reagent kits](/kits) with instructions for each substance. A positive fentanyl test result is a reason not to use, not a reason to use less.
 

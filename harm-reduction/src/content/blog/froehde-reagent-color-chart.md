@@ -2,6 +2,7 @@
 title: "Froehde Reagent Color Chart: How to Read Results"
 description: "What each Froehde reagent color means: MDMA and MDA turn blue-black, amphetamines give nothing, PMMA turns light green. Full chart and how to read it."
 date: 2026-08-11
+lastmod: 2026-08-14
 tags: ["test kits", "drug checking", "mdma", "froehde reagent", "harm reduction"]
 author: "Jordan Mercer"
 ---
@@ -63,7 +64,7 @@ Reading Froehde in isolation goes wrong quickly. "No reaction" on Froehde is con
 
 ## How to run the test correctly
 
-1. **Use a small sample on a clean white surface.** Roughly 10 mg, a grain about the size of a match head, crushed finely, on ceramic, porcelain, or hard white plastic. Use a fresh sample for each reagent rather than dropping a second reagent onto a used spot.
+1. **Use a small sample on a clean white surface**, ideally a [ceramic spot plate](/spot-plate). Roughly 10 mg, a grain about the size of a match head, crushed finely, on ceramic, porcelain, or hard white plastic. Use a fresh sample for each reagent rather than dropping a second reagent onto a used spot.
 2. **Add one drop.** Do not touch the dropper to the sample, which contaminates the whole bottle, and do not rest the cap on a surface or on the wrong bottle.
 3. **Watch the first minute.** Note the color at 5, 15, 30, and 45 seconds. Speed and peak color are both information.
 4. **Read under white light** against the printed chart that came with the kit. Colored or dim lighting is the most common reason people call a color wrong.

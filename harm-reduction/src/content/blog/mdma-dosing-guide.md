@@ -2,7 +2,7 @@
 title: "MDMA Dosage Guide: What Is a Safe Dose of Molly or Ecstasy?"
 description: "How much molly is a safe dose? Evidence-based MDMA dosage guide: clinical trial doses, body weight rules, redosing rules, and the pressed pill problem."
 date: 2026-05-14
-lastmod: 2026-08-12
+lastmod: 2026-08-14
 tags: ["mdma", "harm reduction", "dosing", "ecstasy", "drug safety"]
 author: "Jordan Mercer"
 ---
@@ -11,11 +11,16 @@ author: "Jordan Mercer"
 
 ## Quick answers
 
-**What is a safe dose of MDMA?** For most adults, 75–125 mg taken orally is the range cited across harm reduction organizations. A body-weight-based rule of thumb is 1–1.5 mg/kg, capped at 120 mg. The Phase 3 clinical trials used 80 mg as the starting dose and 120 mg as the higher therapeutic dose. First-time users should start at the low end: **75 mg or less**.
+**What is a safe dose of MDMA?** Two different kinds of number get quoted here, and they are worth keeping apart.
 
-**How much MDMA is too much?** There is no universal threshold, but doses above 150 mg substantially increase cardiovascular strain, hyperthermia risk, and potential for serotonergic toxicity. Because of non-linear pharmacokinetics, going from 100 mg to 150 mg is not a 50% increase in effect, it produces a much steeper rise in plasma concentration. Many pressed pills contain 150–250 mg per pill, which exceeds the recreational dose before you've even redosed.
+- **From clinical trials:** the MAPS Phase 3 PTSD trials used **80 mg** as the starting dose and **120 mg** as the higher therapeutic dose, under medical supervision ([PMID 33972795](https://pubmed.ncbi.nlm.nih.gov/33972795/)). This is the only tightly controlled human dosing data that exists.
+- **From harm reduction consensus:** **75 to 125 mg** orally is the range DanceSafe, TripSit and similar organisations converge on, and **1 to 1.5 mg/kg capped at 120 mg** is the common weight-based heuristic. **No trial has tested the weight-based rule**, it is a practical adaptation of the clinical range.
 
-**Do people redose?** Harm reduction guidelines suggest at most once, at half the original dose (40–60 mg), no earlier than 90 minutes after the first dose. More than one redose significantly extends duration, increases total drug exposure, worsens the next-day comedown, and amplifies adverse effects. The active metabolite MDA has a longer half-life and peaks later, meaning you may not feel a second redose fully until it's already compounded.
+First-time users should start at the low end: **75 mg or less**.
+
+**How much MDMA is too much?** There is no established threshold, and the commonly cited **150 mg** ceiling is harm reduction consensus rather than a trial-derived number. What is well established is the pharmacology behind it: MDMA has **non-linear (saturable) pharmacokinetics**, so going from 100 mg to 150 mg is not a 50% increase in exposure, it produces a disproportionately steeper rise in plasma concentration ([PMID 10671903](https://pubmed.ncbi.nlm.nih.gov/10671903/)). That is the mechanism that makes higher doses raise cardiovascular strain and hyperthermia risk faster than the dose number suggests. Many pressed pills contain 150–250 mg per pill, which exceeds the recreational dose before you've even redosed.
+
+**Do people redose?** Harm reduction guidance is at most once, at half the original dose (40 to 60 mg), no earlier than 90 minutes. **This is consensus practice, not a tested protocol**, though it is consistent with the trial design: the MAPS sessions used a supplemental dose of half the initial one, given 1.5 to 2.5 hours later ([PMID 33972795](https://pubmed.ncbi.nlm.nih.gov/33972795/)). More than one redose significantly extends duration, increases total drug exposure, worsens the next-day comedown, and amplifies adverse effects. The active metabolite MDA has a longer half-life and peaks later, meaning you may not feel a second redose fully until it's already compounded.
 
 **How do I know what's in my pill?** You don't, without testing. Reagent testing and fentanyl test strips are essential, see [our drug testing guide](/test-kits.html).
 
@@ -55,7 +60,7 @@ This guideline is not RCT-validated, it comes from clinical pharmacology reasoni
 
 A weight-based target is useless if you are eyeballing powder. Most people are far worse at estimating a 100 mg pile than they think, and the error runs in both directions.
 
-**A milligram scale is the tool for this.** Look for **0.001 g (1 mg) readability and included calibration weights**, and actually calibrate it, since these scales drift and arrive uncalibrated more often than not. A [milligram scale](https://www.amazon.com/s?k=milligram+scale+0.001g+calibration+weights&tag=ravewellness01-20) is the difference between taking your intended dose and taking twice it.
+**A milligram scale is the tool for this.** Look for **0.001 g (1 mg) readability and included calibration weights**, and actually calibrate it, since these scales drift and arrive uncalibrated more often than not. A [milligram scale from DanceSafe](/mg-scale) is the difference between taking your intended dose and taking twice it, and buying through them funds free drug checking at events. There are also [milligram scales on Amazon](https://www.amazon.com/s?k=milligram+scale+0.001g+calibration+weights&tag=ravewellness01-20) if you need one faster.
 
 **Know the honest limits of a cheap scale.** Readability is not accuracy. A budget 0.001 g scale is genuinely unreliable below roughly 10 to 20 mg, so it is well suited to MDMA doses in the 75 to 125 mg range and poorly suited to anything measured in single milligrams. **For substances active in micrograms, such as LSD, a milligram scale cannot help you at all.** Those require volumetric dosing, which is dissolving a known quantity in a known volume of liquid and measuring the liquid instead.
 
@@ -127,7 +132,7 @@ Two people can take the same dose and have substantially different experiences a
 - [ ] **Test the substance** with at least Marquis + Simon's reagents and a fentanyl test strip before taking anything
 - [ ] **Dose conservatively**: 75 mg or less for a first experience; use the weight-based formula and take the lower estimate
 - [ ] **Know what you weigh** and calculate your 1 mg/kg dose as a reference ceiling
-- [ ] **Weigh the dose** on a calibrated [milligram scale](https://www.amazon.com/s?k=milligram+scale+0.001g+calibration+weights&tag=ravewellness01-20) rather than estimating it by eye
+- [ ] **Weigh the dose** on a calibrated [milligram scale](/mg-scale) rather than estimating it by eye
 - [ ] **Don't redose the first time**: evaluate how a single dose feels before deciding whether redosing is even something you want to do
 - [ ] **Manage temperature**: take breaks from dancing, spend time in cooler areas, don't wear excessive layers
 - [ ] **Drink appropriately**: water with electrolytes, not excessive plain water

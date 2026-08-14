@@ -101,7 +101,7 @@ This is where people get into trouble. Stopping an SSRI or SNRI abruptly is not 
 
 SSRIs and SNRIs interact with MDMA, but what's sold as MDMA is frequently not pure MDMA. Fentanyl, methamphetamine, cathinones, and PMA/PMMA have all been detected in pills sold as ecstasy. PMA, in particular, is far more dangerous than MDMA and has caused deaths at doses recreational users would consider normal.
 
-Whatever your medication status, test your substances. The [DanceSafe MDMA testing kit](/mdma-kit) ($49.99) contains Marquis (MDMA turns purple to black), the two-part Simon's, and Froehde, which is the combination that separates MDMA from MDA and from common substitutes. Add [fentanyl test strips](/fentanyl-strips) separately, because no reagent detects fentanyl.
+Whatever your medication status, test your substances. The [DanceSafe MDMA testing kit](/mdma-kit) contains Marquis (MDMA turns purple to black), the two-part Simon's, and Froehde, which is the combination that separates MDMA from MDA and from common substitutes. Add [fentanyl test strips](/fentanyl-strips) separately, because no reagent detects fentanyl.
 
 ---
 

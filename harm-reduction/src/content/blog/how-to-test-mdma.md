@@ -17,7 +17,7 @@ Testing your MDMA (molly/ecstasy) before use is one of the highest-impact harm r
 
 **Can one test tell you everything?** No. A Marquis test confirms the presence of MDMA but cannot rule out other substances present in the same sample. Use at least two reagent tests plus a fentanyl test strip for the most complete picture.
 
-**Where do I get test kits?** The [DanceSafe MDMA testing kit](/mdma-kit) ($49.99, 50 to 75 tests) contains Marquis, the two-part Simon's, and Froehde. Buy [fentanyl test strips](/fentanyl-strips) alongside it, since no reagent can detect fentanyl.
+**Where do I get test kits?** The [DanceSafe MDMA testing kit](/mdma-kit) contains Marquis, the two-part Simon's, and Froehde. Buy [fentanyl test strips](/fentanyl-strips) alongside it, since no reagent can detect fentanyl.
 
 ---
 
@@ -114,7 +114,7 @@ If you're at a festival with a drug checking service (DanceSafe operates at many
 
 ## Bottom line
 
-Testing takes 5 minutes and can prevent a medical emergency. The two-reagent protocol (Marquis + Simon's) plus a fentanyl test strip covers the most important risks. The [DanceSafe MDMA testing kit](/mdma-kit) ($49.99) contains exactly that pairing, Marquis plus the two-part Simon's, along with Froehde as a confirmation reagent.
+Testing takes 5 minutes and can prevent a medical emergency. The two-reagent protocol (Marquis + Simon's) plus a fentanyl test strip covers the most important risks. The [DanceSafe MDMA testing kit](/mdma-kit) contains exactly that pairing, Marquis plus the two-part Simon's, along with Froehde as a confirmation reagent.
 
 For a full breakdown of MDMA's risks, dosing, and safer use practices, see our [MDMA harm reduction guide](/mdma.html). For guidance on identifying and using fentanyl test strips, see our [fentanyl test strip guide](/blog/how-to-use-fentanyl-test-strips.html).
 

@@ -2,6 +2,7 @@
 title: "Psilocybin Lookalikes: Deadly Galerina and Amatoxins"
 description: "Deadly Galerina looks like Psilocybe cyanescens and contains heat-stable amatoxins. Spot the difference, and know the timeline that fools people."
 date: 2026-08-12
+lastmod: 2026-08-14
 tags: ["psilocybin", "mushrooms", "foraging", "harm reduction"]
 author: "Jordan Mercer"
 ---
@@ -59,7 +60,7 @@ Blue bruising is the result of psilocin oxidizing after tissue damage. It is rea
 
 Blue bruising belongs in your evidence stack alongside spore print, ring, gill attachment, gill colour, and substrate. On its own it decides nothing. A regional [mushroom field guide](https://www.amazon.com/s?k=mushroom+field+guide+regional+identification&tag=ravewellness01-20) matched to where you actually live, plus verification from a local mycological society, is the standard. Photo ID apps are not.
 
-If you are not foraging at all and are working from a known, weighed source, potency variation is the issue instead, and a [milligram scale](https://www.amazon.com/s?k=milligram+scale+0.001g+calibration+weights&tag=ravewellness01-20) plus the dry-weight ranges in our [safe psilocybin trip guide](/blog/safe-psilocybin-trip-guide.html) covers it.
+If you are not foraging at all and are working from a known, weighed source, potency variation is the issue instead, and a [milligram scale](/mg-scale) plus the dry-weight ranges in our [safe psilocybin trip guide](/blog/safe-psilocybin-trip-guide.html) covers it.
 
 ## The amatoxin timeline, and why it kills people
 

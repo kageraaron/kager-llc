@@ -2,7 +2,7 @@
 title: "Cocaine Harm Reduction: Heart Risks, Levamisole, and Nasal Care"
 description: "Cocaine's cardiac risks can strike on the first use, and most US supply contains levamisole. What the evidence shows and how to reduce harm."
 date: 2026-05-28
-lastmod: 2026-08-12
+lastmod: 2026-08-14
 tags: ["cocaine", "harm reduction", "cardiovascular", "levamisole", "adulterants"]
 author: "Jordan Mercer"
 ---
@@ -19,7 +19,7 @@ Cocaine carries three major risks that most users underestimate: cardiac events 
 
 **Can a perforated nasal septum heal on its own?** Small perforations sometimes stabilize, but they do not close. Continued use enlarges them. The relevant question is whether you're heading toward septal perforation or a more destructive process called CIMDL (cocaine-induced midline destructive lesion), which involves bone.
 
-**Does using your own straw actually matter?** Yes. Hepatitis C transmission via shared straws has been documented in case series. The nasal mucosa (lining) bleeds easily with regular cocaine use, and that blood ends up on equipment.
+**Does using your own straw actually matter?** Yes, and carrying [your own reusable tube](/crisp-tube) is the fix. Hepatitis C transmission via shared straws has been documented in case series. The nasal mucosa (lining) bleeds easily with regular cocaine use, and that blood ends up on equipment.
 
 ---
 
@@ -77,7 +77,7 @@ People often combine cocaine and alcohol because alcohol blunts some of cocaine'
 
 No practice listed here eliminates the risks above. These are steps that reduce specific, documented harms.
 
-- **Use your own equipment, every time.** Hep C transmission via shared straws is real. Carry your own and do not share.
+- **Use your own equipment, every time.** Hep C transmission via shared straws is real. Carry [your own washable tube](/crisp-tube) and do not share.
 - **Saline nasal rinse before and after use.** A simple saline rinse (like a neti pot or saline spray) clears debris, moisturizes the mucosa, and reduces mechanical irritation. It does not prevent vasoconstriction damage but reduces the compounding effects.
 - **Allow recovery time between sessions.** The nasal mucosa needs time to restore blood supply. Back-to-back sessions over multiple days give cumulative damage no opportunity to stabilize.
 - **Test with fentanyl test strips.** Levamisole will not show up, but fentanyl can. Fentanyl in cocaine supply is a documented cause of overdose death in users who did not expect an opioid. See our [guide to using fentanyl test strips](/blog/how-to-use-fentanyl-test-strips.html) for technique.

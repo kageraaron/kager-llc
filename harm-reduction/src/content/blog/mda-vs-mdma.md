@@ -2,6 +2,7 @@
 title: "MDA vs MDMA: What's the Difference Between Sally and Molly?"
 description: "MDA (Sally) vs MDMA (Molly): longer-lasting, more psychedelic, and more neurotoxic in animal studies. How Simon's reagent tells them apart."
 date: 2026-05-20
+lastmod: 2026-08-14
 tags: ["mdma", "mda", "harm reduction", "drug checking", "pharmacology"]
 author: "Jordan Mercer"
 ---
@@ -90,7 +91,7 @@ There are no controlled human studies specifically assessing MDA neurotoxicity i
 
 **Simon's reagent:** This is the differentiator. Simon's reagent reacts specifically with **secondary amines** — compounds with an N-methyl or similar substituent. MDMA is a secondary amine and turns **blue**. MDA is a primary amine and produces **no blue color change**. If you have a sample that goes purple-black with Marquis but does not turn blue with Simon's, you likely have MDA rather than MDMA.
 
-**Practical implication:** Testing with Marquis alone tells you it's in the methylenedioxy family. Testing with both Marquis and Simon's tells you which compound you have. The [DanceSafe MDMA testing kit](/mdma-kit) ($49.99) is built around exactly that pairing: Marquis, the two-part Simon's, and Froehde as a confirmation reagent. Add [fentanyl test strips](/fentanyl-strips) separately, since no reagent detects fentanyl. See our [drug testing guide](/test-kits.html) for step-by-step technique.
+**Practical implication:** Testing with Marquis alone tells you it's in the methylenedioxy family. Testing with both Marquis and Simon's tells you which compound you have. The [DanceSafe MDMA testing kit](/mdma-kit) is built around exactly that pairing: Marquis, the two-part Simon's, and Froehde as a confirmation reagent. Add [fentanyl test strips](/fentanyl-strips) separately, since no reagent detects fentanyl. See our [drug testing guide](/test-kits.html) for step-by-step technique.
 
 ---
 

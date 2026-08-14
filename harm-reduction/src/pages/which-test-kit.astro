@@ -36,7 +36,7 @@ const schemaJson = `{
           "name": "Which test kit do I need for MDMA or molly?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The DanceSafe MDMA testing kit, $49.99, which contains Marquis, the two-part Simon's (Simon's A and Simon's B), and Froehde reagents and performs 50 to 75 tests. Marquis screens for the substance class, and Simon's is the reagent that distinguishes MDMA from MDA. Froehde acts as confirmation. You also need fentanyl test strips, which are a separate purchase, because no reagent can detect fentanyl at the doses that kill people."
+            "text": "The DanceSafe MDMA testing kit, which contains Marquis, the two-part Simon's (Simon's A and Simon's B), and Froehde reagents and performs 50 to 75 tests. Marquis screens for the substance class, and Simon's is the reagent that distinguishes MDMA from MDA. Froehde acts as confirmation. You also need fentanyl test strips, which are a separate purchase, because no reagent can detect fentanyl at the doses that kill people."
           }
         },
         {
@@ -44,7 +44,7 @@ const schemaJson = `{
           "name": "Which test kit do I need for cocaine?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The DanceSafe cocaine testing kit, $49.99, which contains Morris, Marquis and Liebermann reagents, and unlike the MDMA kit it ships with a fentanyl test strip and a 10 mg micro scoop included. It performs 50 to 75 tests. No reagent detects levamisole, the veterinary dewormer present in most US cocaine, so a clean reagent result does not rule that out."
+            "text": "The DanceSafe cocaine testing kit, which contains Morris, Marquis and Liebermann reagents, and unlike the MDMA kit it ships with a fentanyl test strip and a 10 mg micro scoop included. It performs 50 to 75 tests. No reagent detects levamisole, the veterinary dewormer present in most US cocaine, so a clean reagent result does not rule that out."
           }
         },
         {
@@ -52,7 +52,7 @@ const schemaJson = `{
           "name": "Which test kit do I need for LSD?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The DanceSafe LSD testing kit, $20, which is a bottle of Ehrlich's reagent and includes a fentanyl test strip and a measuring tool. Ehrlich's turns purple in the presence of indoles, so it confirms LSD, DMT or psilocybin as a class but cannot tell them apart. Critically, NBOMe compounds are not indoles and produce no reaction at all, so no colour change on blotter means it is not LSD. Ehrlich's is slow: allow up to 20 minutes before reading it."
+            "text": "The DanceSafe LSD testing kit, which is a bottle of Ehrlich's reagent and includes a fentanyl test strip and a measuring tool. Ehrlich's turns purple in the presence of indoles, so it confirms LSD, DMT or psilocybin as a class but cannot tell them apart. Critically, NBOMe compounds are not indoles and produce no reaction at all, so no colour change on blotter means it is not LSD. Ehrlich's is slow: allow up to 20 minutes before reading it."
           }
         },
         {
@@ -60,7 +60,7 @@ const schemaJson = `{
           "name": "Which test kit do I need for ketamine?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The DanceSafe ketamine testing kit, $20, which contains the two-part Morris reagent (Morris A and Morris B, used together on one sample) plus fentanyl test strips and a 10 mg micro scoop. Morris is the current ketamine reagent. Mandelin was used for ketamine historically, but DanceSafe now describes that reaction as inconsistent and prone to overlapping with other drugs."
+            "text": "The DanceSafe ketamine testing kit, which contains the two-part Morris reagent (Morris A and Morris B, used together on one sample) plus fentanyl test strips and a 10 mg micro scoop. Morris is the current ketamine reagent. Mandelin was used for ketamine historically, but DanceSafe now describes that reaction as inconsistent and prone to overlapping with other drugs."
           }
         },
         {
@@ -68,7 +68,7 @@ const schemaJson = `{
           "name": "Is the complete set of all 9 reagents worth it?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Only if you test across several different substances. The complete set is $119 and contains the MDMA, cocaine, ketamine and LSD kits plus Mandelin, Folin and Mecke. If you only test one substance, a single kit at $20 to $49.99 covers you for 50 to 75 tests and the bundle is not worth the difference. Buy by what you actually use."
+            "text": "Only if you test across several different substances. The complete set contains the MDMA, cocaine, ketamine and LSD kits plus Mandelin, Folin and Mecke. If you only test one substance, a single kit covers you for 50 to 75 tests and the bundle is not worth the extra cost. Buy by what you actually use."
           }
         },
         {
@@ -115,55 +115,49 @@ const schemaJson = `{
           <div style="overflow-x: auto;">
           <table>
             <thead>
-              <tr><th>Testing this</th><th>Buy this</th><th>Price</th><th>Reagents inside</th><th>Strips included?</th></tr>
+              <tr><th>Testing this</th><th>Buy this</th><th>Reagents inside</th><th>Strips included?</th></tr>
             </thead>
             <tbody>
               <tr>
                 <td><strong>MDMA / molly / ecstasy</strong></td>
                 <td><a href="/mdma-kit">MDMA testing kit</a></td>
-                <td>$49.99</td>
                 <td>Marquis, Simon's A, Simon's B, Froehde</td>
                 <td><strong>No</strong>, buy separately</td>
               </tr>
               <tr>
                 <td><strong>Cocaine</strong></td>
                 <td><a href="/cocaine-kit">Cocaine testing kit</a></td>
-                <td>$49.99</td>
                 <td>Morris, Marquis, Liebermann</td>
                 <td>Yes</td>
               </tr>
               <tr>
                 <td><strong>LSD / acid blotter</strong></td>
                 <td><a href="/lsd-kit">LSD testing kit</a></td>
-                <td>$20</td>
                 <td>Ehrlich's</td>
                 <td>Yes</td>
               </tr>
               <tr>
                 <td><strong>Ketamine</strong></td>
                 <td><a href="/ketamine-kit">Ketamine testing kit</a></td>
-                <td>$20</td>
                 <td>Morris A and Morris B</td>
                 <td>Yes</td>
               </tr>
               <tr>
                 <td><strong>Mushrooms / DMT</strong></td>
                 <td><a href="/lsd-kit">LSD testing kit</a> (Ehrlich's)</td>
-                <td>$20</td>
                 <td>Ehrlich's</td>
                 <td>Yes</td>
               </tr>
               <tr>
                 <td><strong>Several substances</strong></td>
                 <td><a href="/kits">Complete set of all 9</a></td>
-                <td>$119</td>
                 <td>MDMA + cocaine + ketamine + LSD kits, plus Mandelin, Folin, Mecke</td>
                 <td>Yes</td>
               </tr>
             </tbody>
           </table>
           </div>
-          <p>Every kit performs <strong>50 to 75 tests</strong>, so the price difference is about breadth of coverage, not quantity. The LSD kit has bulk pricing if you are supplying a group or a harm reduction org: $15 each at 5 or more, $12.50 at 10 or more, $10 at 30 or more.</p>
+          <p>Every kit performs <strong>50 to 75 tests</strong>, so what separates them is breadth of coverage, not quantity. Single-substance kits cost noticeably less than the full set, and DanceSafe offers bulk discounts on the LSD kit if you are supplying a group or a harm reduction org. Check current prices on their site, since they change.</p>
 
           <h2>Why the MDMA kit is built the way it is</h2>
           <p>The three reagents in the MDMA kit are not redundant, they answer different questions:</p>
@@ -186,7 +180,7 @@ const schemaJson = `{
           <p>Reagent testing narrows possibilities and catches substitutions. It does not make a substance safe, and it does not replace starting with a low dose.</p>
 
           <h2>A note on where to buy</h2>
-          <p>DanceSafe is the original and only nonprofit reagent manufacturer in the US, and proceeds fund free drug checking at events. We link to them because of that, and those links are affiliate links, meaning we may earn a commission at no extra cost to you. Prices above were checked against their product pages and can change.</p>
+          <p>DanceSafe is the original and only nonprofit reagent manufacturer in the US, and proceeds fund free drug checking at events. We link to them because of that, and those links are affiliate links, meaning we may earn a commission at no extra cost to you. We do not list prices here because they change; check their product pages for current pricing.</p>
 
           <p>Next: the <a href="/reagent-chart.html">reagent colour chart hub</a> for how to read any result, and the <a href="/test-kits.html">test kits page</a> for technique walkthroughs and video demos.</p>
         </div>

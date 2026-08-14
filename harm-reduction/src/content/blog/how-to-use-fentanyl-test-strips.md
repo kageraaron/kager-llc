@@ -101,6 +101,8 @@ DanceSafe's published rule is **one teaspoon (5 mL) of water per 10 mg of powder
 
 ### Step 2: Add a small residue of your substance
 
+The protocol is written per 10 mg of powder, so the water ratio only means anything if the sample is roughly that size. A [10 mg micro scoop](/micro-scoop) takes the guesswork out of it, and the DanceSafe cocaine, LSD and ketamine kits already include one.
+
 You don't need a full dose, a residue left in a bag corner, a small scraping, or a partial crumb works. The strip only needs to detect the presence of fentanyl, not measure its quantity. If testing a pill, crush it fully first so fentanyl (if present) is distributed throughout the powder, then take a small amount from multiple parts of the pill.
 
 ### Step 3: Dissolve and dip

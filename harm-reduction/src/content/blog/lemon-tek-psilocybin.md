@@ -2,6 +2,7 @@
 title: "Lemon Tek Psilocybin: Does It Actually Work?"
 description: "Lemon tek is said to speed psilocybin onset to 15 to 30 minutes with a sharper, shorter trip. The mechanism, the method, and what evidence exists."
 date: 2026-08-12
+lastmod: 2026-08-14
 tags: ["psilocybin", "mushrooms", "lemon tek", "harm reduction", "dosing", "psychedelics"]
 author: "Jordan Mercer"
 ---
@@ -61,7 +62,7 @@ The mushrooms contain a fixed amount of psilocybin. If the same amount reaches y
 
 A sensible starting adjustment is 25 to 30 percent below your usual dried weight, and further down than that if you have never done it before. You can always be underwhelmed for four hours. You cannot undo the first hour of a dose that was too much.
 
-This is also where weighing stops being optional. Cutting a dose by a quarter is meaningless if you were eyeballing it, so use a [milligram scale](https://www.amazon.com/s?k=milligram+scale+0.001g+calibration+weights&tag=ravewellness01-20) with calibration weights. A scale tells you weight, not potency, and potency varies by species and flush. Dose ranges are in our [psilocybin harm reduction guide](/psilocybin.html), and accuracy matters even more in the [microdosing](/blog/microdosing-psilocybin.html) range.
+This is also where weighing stops being optional. Cutting a dose by a quarter is meaningless if you were eyeballing it, so use a [milligram scale](/mg-scale) with calibration weights. A scale tells you weight, not potency, and potency varies by species and flush. Dose ranges are in our [psilocybin harm reduction guide](/psilocybin.html), and accuracy matters even more in the [microdosing](/blog/microdosing-psilocybin.html) range.
 
 ## The nausea claim
 

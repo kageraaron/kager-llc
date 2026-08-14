@@ -2,7 +2,7 @@
 title: "5-HTP and Molly: Timing, Serotonin Recovery, and Syndrome Risk"
 description: "5-HTP taken after molly (MDMA) can help replenish serotonin, but wait 24 hours first. Taking it too soon raises serotonin syndrome risk. Evidence and protocol."
 date: 2026-05-29
-lastmod: 2026-06-01
+lastmod: 2026-08-14
 tags: ["mdma", "5-htp", "harm reduction", "serotonin", "supplements"]
 author: "Rave Wellness"
 ---
@@ -51,7 +51,7 @@ This bypass is the key pharmacological rationale for using it after MDMA:
 
 The 24-hour waiting period comes directly from MDMA's pharmacokinetics:
 
-- **MDMA half-life:** approximately 8-9 hours (varies with CYP2D6 metabolizer status)
+- **MDMA half-life:** approximately 7 to 8 hours ([PMID 18520604](https://pubmed.ncbi.nlm.nih.gov/18520604/)) (varies with CYP2D6 metabolizer status)
 - **MDA (active metabolite):** MDMA is partially metabolized to MDA, which has its own half-life and independent serotonin-releasing activity that extends several hours beyond MDMA itself
 - **Combined active window:** the combined pharmacological serotonin activity from MDMA and MDA extends considerably past when you stop feeling the drug's effects
 

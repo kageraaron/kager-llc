@@ -2,7 +2,7 @@
 title: "How Long Does MDMA Stay in Your System?"
 description: "MDMA is usually detectable in urine for 1–3 days, blood 1–2 days, saliva 1–2 days, and hair up to 90 days. Detection windows by test type, explained."
 date: 2026-06-04
-lastmod: 2026-08-12
+lastmod: 2026-08-14
 tags: ["mdma", "molly", "drug testing", "detection", "harm reduction"]
 author: "Jordan Mercer"
 ---
@@ -13,7 +13,7 @@ MDMA (molly, ecstasy) is typically detectable in **urine for about 1 to 3 days**
 
 **How long does MDMA stay in your urine?** Usually 1 to 3 days for a single moderate dose. Sensitive lab testing that targets the metabolite HMMA can extend that to 5 to 6 days, and very high or repeated doses push it longer.
 
-**How long does molly stay in your blood?** MDMA's blood half-life is about 8 to 9 hours, so it is mostly cleared from blood within roughly 1 to 2 days. Blood tests have the shortest window.
+**How long does molly stay in your blood?** MDMA's blood half-life is about 7 to 8 hours, so it is mostly cleared from blood within roughly 1 to 2 days. Blood tests have the shortest window.
 
 **How long is MDMA detectable in saliva?** Roughly 1 to 2 days. Saliva tracks recent use and roughly parallels blood levels.
 
@@ -38,7 +38,7 @@ These are general ranges for a single moderate dose. Heavy, repeated, or high-do
 
 ## Why the window varies so much
 
-MDMA has a **plasma half-life of roughly 8 to 9 hours**, meaning the amount in your blood halves about every 8 to 9 hours. It takes around five half-lives (close to 40 hours) to clear most of the parent drug from blood ([PMID 10671903](https://pubmed.ncbi.nlm.nih.gov/10671903/)). Urine detection runs longer because the kidneys concentrate MDMA and its breakdown products.
+MDMA has a **plasma half-life of roughly 7 to 8 hours**, meaning the amount in your blood halves about every 7 to 8 hours. It takes around five half-lives (roughly 35 to 40 hours) to clear most of the parent drug from blood ([PMID 10671903](https://pubmed.ncbi.nlm.nih.gov/10671903/)). Urine detection runs longer because the kidneys concentrate MDMA and its breakdown products.
 
 In a controlled study where healthy volunteers received measured oral doses, MDMA and its metabolites were detectable in urine well beyond the parent drug. The metabolite **HMMA stayed detectable more than 33 hours longer than MDMA itself**, and at a sensitive detection threshold MDMA-related compounds were found in urine up to 168 hours (7 days) after dosing ([PMID 19874650](https://pubmed.ncbi.nlm.nih.gov/19874650/)). That is why lab-based confirmatory testing can detect use for several days while a quick urine strip may miss it after 2 to 3.
 

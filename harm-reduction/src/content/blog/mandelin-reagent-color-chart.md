@@ -2,6 +2,7 @@
 title: "Mandelin Reagent Color Chart: How to Read Results"
 description: "What each Mandelin reagent color means, why the old Mandelin ketamine test is no longer reliable, and the full color chart for MDMA, meth, and more."
 date: 2026-08-11
+lastmod: 2026-08-14
 tags: ["test kits", "drug checking", "ketamine", "mandelin reagent", "harm reduction"]
 author: "Jordan Mercer"
 ---
@@ -68,7 +69,7 @@ The practical takeaway: if you are checking ketamine, the [DanceSafe ketamine te
 ## How to run the test correctly
 
 1. **Shake the bottle.** Mandelin settles and its color shifts with age more than other reagents do.
-2. **Use a small, finely crushed sample.** Around 10 mg on a clean, dry, white, non-porous surface. Use a fresh sample for each reagent instead of adding a second reagent to a used spot.
+2. **Use a small, finely crushed sample.** Around 10 mg on a clean, dry, white, non-porous surface, ideally a [ceramic spot plate](/spot-plate) whose wells keep separate tests from bleeding into each other. Use a fresh sample for each reagent instead of adding a second reagent to a used spot.
 3. **Add one drop without touching the dropper to the sample.** Hold the cap upside down in your other hand so it does not pick up contamination.
 4. **Use a blank.** Put one drop of Mandelin on its own next to the test spot. Since the reagent's own color changes over weeks, a blank is the only reliable way to see what actually changed.
 5. **Read within 45 to 60 seconds under white light**, against the printed chart from the kit.

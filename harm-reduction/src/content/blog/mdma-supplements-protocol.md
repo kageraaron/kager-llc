@@ -2,7 +2,7 @@
 title: "MDMA Supplements Protocol: What the Evidence Shows"
 description: "An evidence review of the MDMA supplements protocol: what R-ALA, magnesium, 5-HTP and EGCG are actually supported by, and which claims outrun the data."
 date: 2026-05-12
-lastmod: 2026-08-12
+lastmod: 2026-08-14
 tags: ["mdma", "harm reduction", "supplements", "neuroprotection", "5-htp", "alpha lipoic acid"]
 author: "Jordan Mercer"
 ---
@@ -99,7 +99,7 @@ Magnesium also supports sleep quality via NMDA modulation, making it useful in t
 
 **Do not take 5-HTP until at least 24 hours after your last MDMA dose.**
 
-MDMA has a half-life of roughly 8–9 hours, but its active metabolite MDA has a longer half-life and serotonin-releasing activity persists well beyond when you feel the drug's effects. Taking 5-HTP while MDMA is still pharmacologically active significantly raises the risk of **serotonin syndrome**: a potentially serious condition involving agitation, hyperthermia, muscle rigidity, and rapid heart rate.
+MDMA has a half-life of roughly 7 to 8 hours ([PMID 18520604](https://pubmed.ncbi.nlm.nih.gov/18520604/)), but its active metabolite MDA has a longer half-life and serotonin-releasing activity persists well beyond when you feel the drug's effects. Taking 5-HTP while MDMA is still pharmacologically active significantly raises the risk of **serotonin syndrome**: a potentially serious condition involving agitation, hyperthermia, muscle rigidity, and rapid heart rate.
 
 The 24-hour window ensures that MDMA and MDA have cleared sufficiently before you add serotonin precursor to the system.
 

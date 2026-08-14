@@ -2,7 +2,7 @@
 title: "How to Sleep After a Rave: Is Taking Xanax Safe?"
 description: "Can't sleep after rolling or a rave? Here's what's actually happening in your brain, what helps, and whether taking Xanax or a benzo to sleep is safe."
 date: 2026-05-14
-lastmod: 2026-06-01
+lastmod: 2026-08-14
 tags: ["mdma", "harm reduction", "sleep", "benzos", "stimulants", "aftercare"]
 author: "Jordan Mercer"
 ---
