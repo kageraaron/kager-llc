@@ -59,10 +59,34 @@ const schemaJson  = `{
           },
           {
             "@type": "Question",
+            "name": "Can you overdose just from touching fentanyl?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. The American College of Medical Toxicology and the American Academy of Clinical Toxicology state that incidental skin contact is unlikely to cause opioid toxicity (PMID 28842825, PMID 28872357). Even covering both palms entirely with fentanyl patches, which are an absorption-optimised delivery system far better than loose powder, would take roughly 14 minutes to deliver 100 micrograms. Fentanyl's vapour pressure is also too low for ordinary air exposure to be a risk. The widely reported cases of responders collapsing describe a racing heart, dizziness and panic, which is the opposite of the opioid picture of sedation, pinpoint pupils and slowed breathing. This matters because the fear makes bystanders hesitate to give naloxone or start rescue breathing, and that hesitation is the part that costs lives. Sensible handling is still worth it: wash hands with soap and water rather than alcohol gel, keep it away from eyes and mouth, never taste-test, and use nitrile gloves for repeated handling."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "One ear is still muffled days after a concert. Is that an emergency?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Possibly, and it should be treated as one. Both ears feeling dull and ringing, then recovering over a day or two, is ordinary temporary threshold shift. One ear that stays clearly worse past 24 to 48 hours can be sudden sensorineural hearing loss, which is an otologic emergency with a treatment window measured in days. The 2019 American Academy of Otolaryngology clinical practice guideline advises audiometry as soon as possible and within 14 days of onset, says corticosteroids may be offered as initial therapy within 2 weeks, lists hyperbaric oxygen as an option within 2 weeks or within 1 month as salvage therapy, and covers intratympanic steroids for incomplete recovery at 2 to 6 weeks (PMID 31369349, PMID 31369359). Say the words sudden hearing loss in one ear when you book the appointment, because that phrasing gets triaged differently. Waiting to see if it clears up is the costly default."
+            }
+          },
+          {
+            "@type": "Question",
             "name": "Can you get hepatitis C from sharing a snorting straw?",
             "acceptedAnswer": {
               "@type": "Answer",
               "text": "Possibly, but it has never been proven, and both the confident yes and the dismissive no are overstatements. The mechanism is documented: stimulants make the nasal lining bleed easily, HCV RNA has been recovered from the nasal secretions and snorting implements of infected users (PMID 18764772), 24 percent of straws confiscated by law enforcement tested positive for human blood (PMID 27400008), and dried HCV remains infectious somewhere between 16 hours and 5 days depending on the model (PMID 17464909, PMID 22013220). The epidemiology is suggestive but confounded: an NHANES analysis restricted to people who never injected found cocaine use carried 4.48 times the adjusted odds of HCV (PMID 35254242), though it measured cocaine use rather than straw-sharing specifically. No study has isolated straw-sharing as the transmission route. The practical advice is unaffected either way, because not sharing costs nothing: use your own tube, never pass it, and avoid rolled banknotes and sharp cut edges that abrade the nasal lining. Hepatitis C is now curable with direct-acting antivirals, so if you have shared equipment the useful step is a test, not panic."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is street ketamine R-ketamine or S-ketamine, and can I test for it?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Effectively always both. Ketamine sold recreationally is racemic, a 50/50 mixture of R-ketamine (arketamine) and S-ketamine (esketamine), because illicit synthesis produces the racemate and separating the enantiomers is a deliberate extra laboratory step with no market incentive. No consumer test can distinguish them. Morris and Mandelin reagents detect ketamine as a substance class, and enantiomers share identical functional groups, so they produce identical colour reactions. Telling R from S requires chiral chromatography in a laboratory (PMID 32540082). Anyone selling pure R-ketamine to a recreational buyer cannot substantiate the claim. The enantiomers do differ pharmacologically: esketamine has roughly three times the analgesic potency and 1.5 times the anaesthetic potency of arketamine (PMID 39457596), while preclinical rodent work suggests arketamine may produce longer-lasting antidepressant effects with fewer dissociative and abuse-related effects (PMID 35977629). Human arketamine data is early, and a randomised placebo-controlled crossover pilot in 10 patients found no significant treatment effect versus saline (PMID 36871913). Texture does not help either: crystal size reflects how the batch was recrystallised, handled and stored, not chirality. Finer powder does pack more drug into the same visual line, which is the usual explanation for a batch that felt unexpectedly strong."
             }
           },
           {
@@ -954,6 +978,47 @@ const schemaJson  = `{
 
           <div class="faq-item">
             <button class="faq-question">
+              Can you overdose just from touching fentanyl?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>No.</strong> The American College of Medical Toxicology and the American Academy of Clinical Toxicology state that incidental skin contact is <strong>unlikely to cause opioid toxicity</strong> (PMID 28842825, PMID 28872357).</p>
+                <ul>
+                  <li>Covering <strong>both palms entirely with fentanyl patches</strong>, an absorption-optimised system far better than loose powder, would take roughly <strong>14 minutes</strong> to deliver 100 micrograms.</li>
+                  <li>Fentanyl's vapour pressure is too low for ordinary air exposure to be a risk.</li>
+                  <li>The viral cases describe <strong>racing heart, dizziness and panic</strong>. That is the opposite of the opioid picture: sedation, pinpoint pupils, slowed breathing.</li>
+                </ul>
+                <p><strong>Why this matters:</strong> the fear makes bystanders hesitate to give naloxone or start rescue breathing, and that hesitation is the part that costs lives.</p>
+                <p><strong>Sensible handling still applies:</strong> wash hands with soap and water rather than alcohol gel, keep it away from eyes and mouth, never taste-test, and use nitrile gloves for repeated handling.</p>
+                <p>Full guide: <a href="/blog/can-you-overdose-touching-fentanyl.html">Can you overdose from touching fentanyl? →</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              One ear is still muffled days after a concert. Is that an emergency?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>Possibly, and it should be treated as one.</strong> Both ears dull and ringing, recovering over a day or two, is ordinary temporary threshold shift. <strong>One ear that stays clearly worse past 24 to 48 hours</strong> can be sudden sensorineural hearing loss, an otologic emergency with a treatment window measured in days.</p>
+                <p>The 2019 American Academy of Otolaryngology clinical practice guideline (PMID 31369349, PMID 31369359) advises:</p>
+                <ul>
+                  <li><strong>Audiometry as soon as possible</strong>, and within 14 days of onset</li>
+                  <li><strong>Corticosteroids</strong> may be offered as initial therapy within 2 weeks</li>
+                  <li><strong>Hyperbaric oxygen</strong> within 2 weeks, or within 1 month as salvage therapy</li>
+                  <li><strong>Intratympanic steroids</strong> for incomplete recovery at 2 to 6 weeks</li>
+                </ul>
+                <p><strong>Say the words "sudden hearing loss in one ear" when you book</strong>, because that phrasing gets triaged differently. Waiting to see if it clears up is the costly default.</p>
+                <p>Full guide: <a href="/blog/muffled-ear-after-concert.html">Muffled ear after a concert: when it is an emergency →</a> | <a href="hearing.html">Hearing protection guide →</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
               Can you get hepatitis C from sharing a snorting straw?
               <div class="faq-icon"></div>
             </button>
@@ -970,6 +1035,22 @@ const schemaJson  = `{
                 <p><strong>What is not established:</strong> no study has isolated straw-sharing as the transmission route, because the populations studied overlap heavily with injection drug use.</p>
                 <p><strong>The advice is the same either way</strong>, because not sharing costs nothing: use your own tube, never pass it, and avoid rolled banknotes and sharp cut edges that abrade the lining. Hepatitis C is now curable with direct-acting antivirals, so if you have shared equipment the useful step is a test, not panic.</p>
                 <p>Full guide: <a href="/blog/sharing-straws-hepatitis-c.html">Can you get hepatitis C from sharing a straw? →</a> | <a href="cocaine.html">Cocaine harm reduction guide →</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              Is street ketamine R-ketamine or S-ketamine, and can I test for it?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>Effectively always both, and no, you cannot test for it.</strong> Ketamine sold recreationally is <strong>racemic</strong>: a 50/50 mixture of R-ketamine (arketamine) and S-ketamine (esketamine). Illicit synthesis produces the racemate, and separating the enantiomers is a deliberate extra lab step with no market incentive.</p>
+                <p><strong>Reagent tests are blind to this.</strong> Morris and Mandelin detect ketamine as a substance class, and enantiomers share identical functional groups, so they give identical colour reactions. Telling R from S requires <strong>chiral chromatography in a laboratory</strong> (PMID 32540082). Anyone selling pure R-ketamine to a recreational buyer cannot substantiate the claim.</p>
+                <p><strong>They do genuinely differ, though.</strong> Esketamine has roughly three times the analgesic potency and 1.5 times the anaesthetic potency of arketamine (PMID 39457596). Preclinical rodent work suggests arketamine may produce longer-lasting antidepressant effects with fewer dissociative and abuse-related effects (PMID 35977629). But human data is early: a randomised placebo-controlled crossover pilot in 10 patients found <strong>no significant treatment effect versus saline</strong> (PMID 36871913).</p>
+                <p><strong>Texture tells you nothing either.</strong> Crystal size reflects how a batch was recrystallised, handled and stored, not chirality and not purity. What texture <em>does</em> change is density: finer powder packs more drug into the same visual line, which is the usual explanation for a batch that felt unexpectedly strong.</p>
+                <p>Full guide: <a href="/blog/r-vs-s-ketamine.html">R vs S ketamine explained →</a> | <a href="/blog/ketamine-nasal-spray.html">Ketamine nasal spray: Spravato vs at-home vs DIY →</a></p>
               </div>
             </div>
           </div>
