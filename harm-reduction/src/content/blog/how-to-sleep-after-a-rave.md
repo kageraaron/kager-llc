@@ -13,7 +13,7 @@ Sleeping after a rave is hard because your brain is still flooded with stimulant
 
 **Is it safe to take Xanax after rolling?** It depends on timing and what else is in your system. After MDMA is substantially cleared (~18–24 hours post-dose), a single low dose has low direct interaction risk, *if no opioids, GHB, or alcohol are present*. The bigger real-world risks are accidental redosing and not knowing whether GHB was in anything you consumed. These are not trivial risks.
 
-**How long should I wait before taking a benzo after MDMA?** MDMA's half-life is 4–12 hours; its active metabolite MDA runs 16–38 hours. A conservative, pharmacokinetics-based estimate is 18–24 hours post-last-dose before taking a benzo. **This timeline is PK-inferred, not RCT-validated**: there is no clinical trial testing this exact window.
+**How long should I wait before taking a benzo after MDMA?** MDMA's half-life is roughly 7 to 8 hours and its active metabolite MDA runs 10.5 to 12.5 hours ([PMID 18520604](https://pubmed.ncbi.nlm.nih.gov/18520604/)). A conservative, pharmacokinetics-based estimate is 18–24 hours post-last-dose before taking a benzo. **This timeline is PK-inferred, not RCT-validated**: there is no clinical trial testing this exact window.
 
 **What's the safest way to sleep after a rave?** Melatonin (0.5–3 mg, 60–90 minutes before bed), magnesium glycinate (200–400 mg), a cold dark room (60–67°F / 15–19°C), and just accepting it might take a while. Your body is working through real neurochemical disruption, most of these interventions support rather than force sleep.
 
@@ -77,7 +77,7 @@ Diphenhydramine works via histamine H1 receptor blockade, genuine sedation, not 
 
 Benzodiazepines, alprazolam (Xanax), diazepam (Valium), clonazepam (Klonopin) and others, are the *medical treatment* for acute MDMA toxicity. In emergency settings, they're the drug of choice for MDMA-related seizures, severe agitation, and hyperthermia. This means the pharmacological interaction when the drugs are concurrently active is manageable in clinical hands, but that context is very different from taking a benzo at home after a night out.
 
-**After MDMA is cleared, a single low dose carries low direct interaction risk.** Based on MDMA's pharmacokinetics (half-life 4–12 hr, active MDA metabolite 16–38 hr), substantial clearance occurs around 18–24 hours post-last-dose. At that point, 0.5–1 mg alprazolam or 5–10 mg diazepam as a one-time sleep aid has low direct drug-drug interaction risk, *if no opioids, GHB, or alcohol are present*. **This is PK-inferred, not RCT-validated.** Treat the timeline as a reasonable estimate, not a certified safety threshold.
+**After MDMA is cleared, a single low dose carries low direct interaction risk.** Based on MDMA's pharmacokinetics (half-life 7 to 8 hr, active MDA metabolite 10.5 to 12.5 hr, [PMID 18520604](https://pubmed.ncbi.nlm.nih.gov/18520604/)), substantial clearance occurs around 18–24 hours post-last-dose. At that point, 0.5–1 mg alprazolam or 5–10 mg diazepam as a one-time sleep aid has low direct drug-drug interaction risk, *if no opioids, GHB, or alcohol are present*. **This is PK-inferred, not RCT-validated.** Treat the timeline as a reasonable estimate, not a certified safety threshold.
 
 **The real-world risks are not pharmacological, they're cognitive and behavioral:**
 

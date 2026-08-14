@@ -2,7 +2,7 @@
 title: "How to Use Fentanyl Test Strips: A Step-by-Step Guide"
 description: "Step-by-step fentanyl test strip instructions, water ratios by substance, how to read results, false positives, and what to do if you test positive."
 date: 2026-05-12
-lastmod: 2026-08-12
+lastmod: 2026-08-14
 tags: ["fentanyl", "drug checking", "test kits", "harm reduction", "fentanyl test strips"]
 author: "Jordan Mercer"
 ---
@@ -45,7 +45,12 @@ See our guides on [MDMA](/mdma.html), [cocaine](/cocaine.html), and [ketamine](/
 
 ## The BTNX immunoassay strip: how it works
 
-The strips used by DanceSafe and distributed through most harm reduction programs are **BTNX BTNX fentanyl immunoassay test strips**: the same lateral-flow technology used in urine drug screens, repurposed for drug checking.
+Fentanyl test strips are lateral-flow immunoassays, the same technology used in urine drug screens, repurposed for drug checking. **They are not all the same product, and they do not perform identically.** A 2026 CDC laboratory assessment compared strips from three vendors and found meaningful differences ([PMID 42168692](https://pubmed.ncbi.nlm.nih.gov/42168692/)):
+
+- **DanceSafe strips** had the **highest sensitivity for fentanyl** and the **fewest false positives**, with moderate cross-reactivity to analogs.
+- **BTNX strips** had the **highest cross-reactivity with fentanyl analogs** but only moderate sensitivity for fentanyl itself.
+
+That is a real tradeoff rather than a ranking. DanceSafe strips are better at answering "is there fentanyl here," while BTNX strips are more likely to flag an unusual analog. Whichever you use, the finding that matters most is the next one.
 
 Here's the mechanism: the test strip contains antibodies that bind to fentanyl analogs. When fentanyl is present in your sample, it saturates those antibodies, which prevents them from binding to a dye line, so that line **does not appear**. When fentanyl is absent, the antibodies bind to the dye line freely and it **does appear**.
 
@@ -59,7 +64,11 @@ This gives you the counterintuitive result:
 
 **The control line (C) always appears on a valid test.** If you see zero lines, the test is invalid. If you only see the T line (test line) with no control line, the test is also invalid, retest.
 
-Fentanyl analogs that the BTNX strip detects include acetylfentanyl, carfentanil, furanylfentanyl, and many others in the fentanyl family. It does **not** reliably detect nitazenes, which are a separate class of synthetic opioids emerging in the US drug supply.
+**No strip detects every fentanyl analog.** The CDC assessment tested strips against analogs chosen for their recent prevalence in the drug supply and found that **none of the strips detected all of them**, and that none was as sensitive as its manufacturer claimed ([PMID 42168692](https://pubmed.ncbi.nlm.nih.gov/42168692/)). Coverage of common analogs such as acetylfentanyl and carfentanil is partial and varies by brand.
+
+Strips also do **not** reliably detect nitazenes, a separate class of synthetic opioids now appearing in the US supply.
+
+The practical consequence: **a negative strip lowers the odds of fentanyl, it does not rule out a potent synthetic opioid.** Treat a negative as "nothing detected at this strip's threshold," not as "this is safe."
 
 ---
 
@@ -116,9 +125,11 @@ Take a photo of the result while you're reading it, it's easy to second-guess yo
 
 The BTNX strip is highly sensitive to fentanyl but is an immunoassay, not a spectrometer. It can cross-react with:
 
-- **Methamphetamine and MDMA**: at low dilution ratios. Use 2 tsp (10 mL) per 10 mg to reduce this substantially.
-- **Some benzodiazepines**: particularly at high concentrations
-- **Diphenhydramine (Benadryl)**: occasionally reported in community drug checking data
+- **Stimulants**, including methamphetamine and MDMA, at low dilution ratios. Use 2 tsp (10 mL) per 10 mg to reduce this substantially.
+- **Hallucinogens.** The CDC assessment identified hallucinogens as one of the main false-positive categories ([PMID 42168692](https://pubmed.ncbi.nlm.nih.gov/42168692/)), which matters if you are testing LSD, 2C-B, or psilocybin-adjacent material.
+- **Other synthetic opioids**, which can cross-react without being fentanyl.
+- **Some benzodiazepines**, particularly at high concentrations.
+- **Diphenhydramine (Benadryl)**, a common cutting agent and a confirmed false-positive source in the CDC testing.
 
 A positive result on a substance you know contains none of these is almost certainly a true positive for fentanyl. A positive on meth or a benzo at low dilution is worth retesting at higher dilution before concluding it's a false positive. **When in doubt, treat a positive as a real positive.**
 

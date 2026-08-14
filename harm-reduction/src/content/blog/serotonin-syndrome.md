@@ -15,7 +15,7 @@ Serotonin syndrome is a drug reaction caused by too much serotonin activity in t
 
 **Can MDMA cause serotonin syndrome?** Yes, especially in combination with other drugs. MDMA floods the synapse with serotonin by reversing the serotonin transporter. On its own, this rarely produces full serotonin syndrome in otherwise healthy people. In combination with an SSRI, SNRI, MAOI, lithium, tramadol, or St. John's Wort, the risk rises substantially.
 
-**What about MDMA and SSRIs together?** SSRIs partially block MDMA's primary mechanism, so they don't simply add serotonin on top of MDMA's serotonin. The absolute risk from this combination alone is lower than commonly assumed. The danger increases if the person takes more MDMA to compensate for blunted effects, or if additional serotonergic substances are present. See our [MDMA and SSRI interaction guide](/blog/mdma-ssri-interaction) for the full pharmacology.
+**What about MDMA and SSRIs together?** SSRIs partially block MDMA's primary mechanism, so they don't simply add serotonin on top of MDMA's serotonin. The absolute risk from this combination alone is lower than commonly assumed. The danger increases if the person takes more MDMA to compensate for blunted effects, or if additional serotonergic substances are present. See our [MDMA and SSRI interaction guide](/blog/mdma-ssri-interaction.html) for the full pharmacology.
 
 **What does clonus feel like?** People describe it as an ankle "beating" or pulsing rhythmically when you flex it, eyes that seem to jitter sideways on their own, or legs that won't stop moving. It is not the same as jaw clenching or general restlessness. Spontaneous clonus, occurring without any external trigger, is a red flag for severe toxicity.
 
@@ -100,7 +100,7 @@ Human evidence: a controlled study by Farre et al. (2007) in healthy volunteers 
 
 This matters for serotonin syndrome risk in a specific way. If a person believes their SSRI is "out of their system" and takes MDMA, they may escalate the dose when effects feel blunted, not realizing the SSRI is still pharmacologically active. The result is a higher MDMA dose with persistent serotonin transporter blockade and elevated MDMA plasma levels. That is a higher-risk scenario than simply using MDMA, not a safer one.
 
-For a detailed breakdown of the fluoxetine half-life issue and all SSRI-MDMA interactions, see our [MDMA and SSRI interaction guide](/blog/mdma-ssri-interaction).
+For a detailed breakdown of the fluoxetine half-life issue and all SSRI-MDMA interactions, see our [MDMA and SSRI interaction guide](/blog/mdma-ssri-interaction.html).
 
 ---
 

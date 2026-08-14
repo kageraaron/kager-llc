@@ -100,7 +100,7 @@ A negative fentanyl test on your MDMA reduces risk; it does not eliminate it. Th
 
 If you don't have access to an on-site drug checking service:
 
-**Fentanyl test strips**: The most accessible option. Dissolve a small amount of your substance in water (the water ratio depends on the drug — see our [fentanyl test strip guide](/blog/how-to-use-fentanyl-test-strips)), dip for 15 seconds, lay flat, read at 2–5 minutes. **One line = fentanyl detected. Two lines = not detected.** This result is counterintuitive and the source of many misreads.
+**Fentanyl test strips**: The most accessible option. Dissolve a small amount of your substance in water (the water ratio depends on the drug — see our [fentanyl test strip guide](/blog/how-to-use-fentanyl-test-strips.html)), dip for 15 seconds, lay flat, read at 2–5 minutes. **One line = fentanyl detected. Two lines = not detected.** This result is counterintuitive and the source of many misreads.
 
 **Reagent test kits**: Marquis, Mecke, and Simon's reagents give color reactions that can help identify whether a substance is MDMA, amphetamine, ketamine, 2C-B, etc. They're useful for identifying gross misrepresentation (no MDMA in your MDMA), but will not detect fentanyl at trace contamination levels. Use both: reagents for substance ID, FTS for fentanyl.
 

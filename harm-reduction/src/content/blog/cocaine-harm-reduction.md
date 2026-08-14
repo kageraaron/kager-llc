@@ -15,7 +15,7 @@ Cocaine carries three major risks that most users underestimate: cardiac events 
 
 **What is levamisole and why is it in cocaine?** Levamisole is a veterinary deworming drug that gets added during cocaine processing. It was originally thought to potentiate cocaine's stimulant effect, though this is disputed. It is present in 70–80% of street cocaine in North America and Europe and cannot be detected with standard fentanyl test strips or reagent kits.
 
-**Is it safe to drink alcohol with cocaine?** No combination makes cocaine safer, but alcohol makes it specifically worse. Your liver converts the combination into a third compound, cocaethylene, which has the same cardiovascular profile as cocaine but lasts roughly five times as long.
+**Is it safe to drink alcohol with cocaine?** No combination makes cocaine safer, but alcohol makes it specifically worse. Your liver converts the combination into a third compound, cocaethylene, which has the same cardiovascular profile as cocaine but a longer half-life, roughly 1.7 hours versus 1.1 hours for cocaine ([PMID 7701044](https://pubmed.ncbi.nlm.nih.gov/7701044/)). The bigger problem is that it accumulates with repeated combined dosing.
 
 **Can a perforated nasal septum heal on its own?** Small perforations sometimes stabilize, but they do not close. Continued use enlarges them. The relevant question is whether you're heading toward septal perforation or a more destructive process called CIMDL (cocaine-induced midline destructive lesion), which involves bone.
 
@@ -67,7 +67,7 @@ If you have persistent nasal symptoms, septal perforation, pain around the sinus
 
 ## Cocaine and alcohol: why the combination is worse than either alone
 
-When cocaine and alcohol are present in the body simultaneously, the liver produces a third compound: **cocaethylene**. This is not a minor metabolic byproduct. Cocaethylene has the same cardiovascular and psychoactive profile as cocaine itself, including sympathomimetic stimulation, sodium channel blockade, and vasospasm potential. Its half-life is roughly five hours compared to about one hour for cocaine. The cardiovascular burden from the combination is synergistic, not simply additive: the two compounds together produce more harm than their individual effects would predict.
+When cocaine and alcohol are present in the body simultaneously, the liver produces a third compound: **cocaethylene**. This is not a minor metabolic byproduct. Cocaethylene has the same cardiovascular and psychoactive profile as cocaine itself, including sympathomimetic stimulation, sodium channel blockade, and vasospasm potential. Its half-life is roughly 1.7 hours compared to about 1.1 hours for cocaine ([PMID 7701044](https://pubmed.ncbi.nlm.nih.gov/7701044/)), and it accumulates with repeated combined dosing. The cardiovascular burden from the combination is synergistic, not simply additive: the two compounds together produce more harm than their individual effects would predict.
 
 People often combine cocaine and alcohol because alcohol blunts some of cocaine's edge and cocaine offsets alcohol sedation. The pharmacological reality is that this combination extends the cardiac stress window well beyond when cocaine feels active, and does so via a compound the user typically does not know is present.
 
@@ -80,8 +80,8 @@ No practice listed here eliminates the risks above. These are steps that reduce 
 - **Use your own equipment, every time.** Hep C transmission via shared straws is real. Carry your own and do not share.
 - **Saline nasal rinse before and after use.** A simple saline rinse (like a neti pot or saline spray) clears debris, moisturizes the mucosa, and reduces mechanical irritation. It does not prevent vasoconstriction damage but reduces the compounding effects.
 - **Allow recovery time between sessions.** The nasal mucosa needs time to restore blood supply. Back-to-back sessions over multiple days give cumulative damage no opportunity to stabilize.
-- **Test with fentanyl test strips.** Levamisole will not show up, but fentanyl can. Fentanyl in cocaine supply is a documented cause of overdose death in users who did not expect an opioid. See our [guide to using fentanyl test strips](/blog/how-to-use-fentanyl-test-strips) for technique.
-- **Avoid alcohol.** If cocaethylene is not a compound you want in your body for five hours after the cocaine is gone, don't combine them.
+- **Test with fentanyl test strips.** Levamisole will not show up, but fentanyl can. Fentanyl in cocaine supply is a documented cause of overdose death in users who did not expect an opioid. See our [guide to using fentanyl test strips](/blog/how-to-use-fentanyl-test-strips.html) for technique.
+- **Avoid alcohol.** If cocaethylene is not a compound you want in your body lingering after the cocaine is gone, don't combine them.
 - **Use less, less often.** Frequency drives most of the risk curves here: nasal damage, levamisole exposure, and cumulative cardiovascular load all scale with use frequency.
 - **Know the levamisole warning signs.** Fever with mouth sores or unusual infections after cocaine use warrants medical attention and disclosure of use.
 

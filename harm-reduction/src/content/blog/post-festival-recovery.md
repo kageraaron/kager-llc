@@ -49,7 +49,7 @@ MDMA causes a large acute release of serotonin, dopamine, and norepinephrine. Se
 
 Sleep deprivation compounds this. Sleep is when serotonin precursor uptake and neurochemical restoration happen most efficiently. Running on 4 hours of sleep per night during MDMA use means the serotonin system is depleting faster than it can restore — and then trying to restore in a sleep-deprived environment afterward.
 
-The practical implication: if you used MDMA at the festival, extend your recovery timeline to 5–7 days, not 2–3. The low mood in days 3–5 is real, expected, and temporary — but requires rest, not re-dosing, to resolve. For a full breakdown of the MDMA comedown and what helps, see our [MDMA comedown guide](/blog/mdma-comedown).
+The practical implication: if you used MDMA at the festival, extend your recovery timeline to 5–7 days, not 2–3. The low mood in days 3–5 is real, expected, and temporary — but requires rest, not re-dosing, to resolve. For a full breakdown of the MDMA comedown and what helps, see our [MDMA comedown guide](/blog/mdma-comedown.html).
 
 ---
 
@@ -65,7 +65,7 @@ The pattern is also seen in the cognitive impairment data: the famous Dawson & R
 
 ### Sleep: quantity over quality optimization
 
-Your first priority is sleep duration. Don't try to micro-optimize sleep quality before you've put enough hours in. Melatonin (0.5–3 mg, 60–90 minutes before bed) is appropriate here and directly compensates for the disrupted circadian rhythm from staying up late and sleeping irregular hours. See our [post-rave sleep guide](/blog/how-to-sleep-after-a-rave) for specifics on what helps and what doesn't.
+Your first priority is sleep duration. Don't try to micro-optimize sleep quality before you've put enough hours in. Melatonin (0.5–3 mg, 60–90 minutes before bed) is appropriate here and directly compensates for the disrupted circadian rhythm from staying up late and sleeping irregular hours. See our [post-rave sleep guide](/blog/how-to-sleep-after-a-rave.html) for specifics on what helps and what doesn't.
 
 Allow yourself to sleep in on recovery days. Naps are fine. The sleep drive will be high — that's your biology working correctly, not a character flaw.
 

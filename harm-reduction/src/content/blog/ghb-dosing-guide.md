@@ -13,7 +13,7 @@ This guide covers the pharmacology behind why that matters, what the "1mL rule" 
 
 ## Quick answers
 
-**What is a safe GHB dose?** There is no universal safe dose because recreational GHB has no standard concentration. A common harm reduction starting point for unknown-concentration GHB is **0.5-1mL**, taken with nothing else, then waiting a full 90 minutes before deciding whether to take more.
+**What is a safe GHB dose?** There is no universal safe dose because recreational GHB has no standard concentration. A common harm reduction starting point for unknown-concentration GHB is **0.5mL**, taken with nothing else, then waiting **3 to 4 hours** before deciding whether to take more.
 
 **What is the 1mL rule?** A community-derived harm reduction heuristic: start with 1mL of unknown GHB. The logic is that even at the highest common concentrations (~1.5g/mL), 1mL delivers roughly 1.5g, which is near the top of the euphoric range for a non-tolerant person. It is a first-dose ceiling, not a redosing reference.
 
@@ -46,7 +46,7 @@ People often "find their dose" with one batch and then apply that same volume to
 **What to do with unknown-concentration GHB:**
 
 1. Assume nothing about concentration based on previous batches, even from the same person
-2. Harm reduction practice is to start with no more than **0.5mL** of an unknown batch, wait 90 minutes, and assess before considering more
+2. Harm reduction practice is to start with no more than **0.5mL** of an unknown batch, wait **3 to 4 hours**, and assess before considering more
 3. If you are confident in the source and have experience with their product, the 1mL rule is a reasonable starting point -- but 0.5mL is safer
 
 ---

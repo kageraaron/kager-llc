@@ -66,7 +66,7 @@ This is why volume-based rules of thumb fail. "One capful" or "one mL" means not
 
 - **Measure with an oral syringe,** not a cap or a swig, so doses are precise and repeatable.
 - **Start low with any new bottle or batch** and wait the full onset period before considering more.
-- **Wait at least 2 to 3 hours between doses,** and never redose because "it didn't hit yet." Delayed onset plus a second dose is the classic overdose path.
+- **Wait 3 to 4 hours between doses,** timed from the first dose rather than from when you stopped feeling it, and never redose because "it didn't hit yet." Delayed onset plus a second dose is the classic overdose path.
 - **Never combine with alcohol or any other depressant.** This is the most lethal mistake with both GHB and GBL.
 
 Our [GHB dosing guide](/blog/ghb-dosing-guide.html) walks through the measurement protocol in detail, and it applies to GBL with the added caution that GBL doses are smaller.
