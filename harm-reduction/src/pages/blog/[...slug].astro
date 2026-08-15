@@ -11,7 +11,12 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
+
+// Server-rendered contents list. h2 only: h3s make the list noisy and the
+// posts are short enough that h2 is the useful granularity. Astro generates
+// the heading slugs already, so these anchors work without extra plugins.
+const toc = headings.filter(h => h.depth === 2 && h.slug !== 'quick-answers');
 
 const canonical = `https://www.ravewellness.org/blog/${post.id}.html`;
 
@@ -102,6 +107,16 @@ const pageTitle = withBrand.length <= 70 ? withBrand : post.data.title;
             <div class="blog-disclaimer">
               <strong>Not medical advice.</strong> This article is for harm reduction and educational purposes only. Nothing here is a recommendation to use any substance. If you are experiencing a medical emergency, call your local emergency services immediately. Some links may be affiliate links, and we earn a small commission at no cost to you.
             </div>
+            {toc.length >= 3 && (
+              <details class="post-toc">
+                <summary>Contents</summary>
+                <ul>
+                  {toc.map(h => (
+                    <li><a href={`#${h.slug}`}>{h.text}</a></li>
+                  ))}
+                </ul>
+              </details>
+            )}
             <Content />
           </div>
         </div>

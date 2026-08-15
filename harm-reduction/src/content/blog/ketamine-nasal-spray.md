@@ -2,6 +2,7 @@
 title: "Ketamine Nasal Spray: Spravato vs At-Home vs DIY"
 description: "Ketamine nasal spray means three different things: FDA-approved Spravato, compounded telehealth ketamine, and DIY sprays. The risks are not the same."
 date: 2026-08-14
+lastmod: 2026-08-15
 tags: ["ketamine", "harm reduction", "esketamine", "spravato"]
 author: "Jordan Mercer"
 ---
@@ -50,20 +51,15 @@ Translation: the numbers look similar to clinic ketamine, but they are generated
 
 The harm reduction concern is not whether at-home ketamine works. It is **frequency**. Supervised protocols are time-limited and counted. A refill you keep in a drawer is not, and frequent repeated dosing is exactly the exposure pattern linked to bladder and cognitive harm.
 
-## 3. DIY nasal spray: what dose control does and does not buy you
+## 3. DIY nasal spray: dose precision, nothing more
 
-The third meaning is a person dissolving weighed ketamine powder into a measured volume of sterile saline and loading it into a spray bottle. No prescriber, no pharmacy, so everything depends on the two numbers you control: milligrams in, millilitres of solvent.
+The third meaning is weighed ketamine powder dissolved into a measured volume of sterile saline and loaded into a spray bottle. No prescriber, no pharmacy, so everything rests on two numbers you set yourself: milligrams in, millilitres of solvent.
 
-**The genuine advantage is dose precision.** A line is a guess. 500 mg dissolved in 5 mL gives 100 mg/mL, and a 0.1 mL actuator delivers 10 mg per spray, every time. That matters with ketamine, because the gap between a light intranasal dose and a k-hole is often only 50 to 100 mg. A [milligram scale](/mg-scale) does the real work here, since the spray is only as accurate as the weighing that precedes it. A [DIY nasal spray kit](/nasal-spray-kit) also gives you a sterile solution instead of shared straws. Both are DanceSafe, a nonprofit.
+**The genuine advantage is dose precision.** A line is a guess. 500 mg dissolved in 5 mL gives 100 mg/mL, and a 0.1 mL actuator delivers 10 mg per spray. That matters with ketamine, where the gap between a light intranasal dose and a k-hole is often only 50 to 100 mg.
 
-**What it does not buy you:**
+**It does not reduce harm from the drug itself.** Bladder damage, cognitive deficits and dependence all track cumulative exposure and frequency, not the device. See [ketamine bladder damage](/blog/ketamine-bladder-damage.html) and [is ketamine addictive](/blog/is-ketamine-addictive.html). It also tells you nothing about what the powder was, so reagent test first.
 
-- **It does not reduce bladder risk.** Ketamine-induced uropathy comes from norketamine sitting in urine, and scales with cumulative dose and frequency. See [ketamine bladder damage](/blog/ketamine-bladder-damage.html).
-- **It does not reduce cognitive risk.** Memory and executive function deficits track heavy, frequent use. See [does ketamine cause brain damage](/blog/does-ketamine-cause-brain-damage.html).
-- **It does not reduce dependence risk.** A pocketable, pre-dosed device arguably makes redosing easier. See [is ketamine addictive](/blog/is-ketamine-addictive.html).
-- **It does not tell you what is in the powder.** Products sold as ketamine are frequently something else, the same failure mode we documented in [ketamine vapes](/blog/ketamine-vapes.html). Reagent test and fentanyl strip before anything goes into solution; a [ketamine testing kit](/ketamine-kit) is the baseline.
-
-A measured solution is a real improvement over insufflating an unmeasured line. It is a dosing improvement, not a safety upgrade to the drug.
+The detail lives in its own post: actuator volume, why evaporation makes a bottle **stronger** rather than weaker, the missing shelf-life data, and contamination. **Read [DIY ketamine nasal spray: dose math and safety](/blog/diy-ketamine-nasal-spray.html).**
 
 ## Why the route matters, and where it stops mattering
 

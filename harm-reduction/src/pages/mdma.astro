@@ -166,26 +166,26 @@ const schemaJson  = `{
     <!-- ===== RISK OVERVIEW ===== -->
     <section id="risks">
       <div class="container">
-        <h2 class="section-title centered">The Four Critical Risks</h2>
+        <h2 class="section-title centered" id="the-four-critical-risks">The Four Critical Risks</h2>
         <div class="risk-grid">
           <div class="risk-card risk-critical">
             <div class="risk-icon">☠</div>
-            <h3>Contaminated Supply</h3>
+            <h3 id="contaminated-supply">Contaminated Supply</h3>
             <p>Studies show the majority of pills sold as MDMA contain adulterants. Fentanyl is increasingly detected in stimulants. Test every time.</p>
           </div>
           <div class="risk-card risk-high">
             <div class="risk-icon">🧠</div>
-            <h3>Serotonin Neurotoxicity</h3>
+            <h3 id="serotonin-neurotoxicity">Serotonin Neurotoxicity</h3>
             <p>High doses and frequent use are associated with long-term reductions in serotonin transporter density. Antioxidants and spacing use may reduce this.</p>
           </div>
           <div class="risk-card risk-critical">
             <div class="risk-icon">🌡</div>
-            <h3>Hyperthermia</h3>
+            <h3 id="hyperthermia">Hyperthermia</h3>
             <p>Overheating dramatically amplifies neurotoxicity and is a primary cause of MDMA-related deaths. Temperature management is non-negotiable.</p>
           </div>
           <div class="risk-card risk-critical">
             <div class="risk-icon">💊</div>
-            <h3>Dangerous Drug Interactions</h3>
+            <h3 id="dangerous-drug-interactions">Dangerous Drug Interactions</h3>
             <p>Combining MDMA with SSRIs, MAOIs, or lithium can cause fatal serotonin syndrome. Check every medication you take.</p>
           </div>
         </div>
@@ -197,14 +197,14 @@ const schemaJson  = `{
       <div class="container">
         <div class="section-header">
           <div class="step-pill">Step 1</div>
-          <h2>Always Test Your Substance</h2>
+          <h2 id="always-test-your-substance">Always Test Your Substance</h2>
           <p class="section-sub">The single most important harm reduction action. Test before every use, even if you've used the same batch before. Fentanyl contamination is real and increasing.</p>
         </div>
 
         <div class="test-grid">
           <div class="card">
             <div class="card-icon-wrap icon-purple">🧪</div>
-            <h3>Reagent Testing</h3>
+            <h3 id="reagent-testing">Reagent Testing</h3>
             <p>Chemical reagents react with specific substances to produce color changes. Use all three for MDMA confirmation:</p>
             <div class="reagent-table">
               <div class="reagent-row header">
@@ -230,7 +230,7 @@ const schemaJson  = `{
 
           <div class="card card-danger">
             <div class="card-icon-wrap icon-red">🚨</div>
-            <h3>Fentanyl Test Strips</h3>
+            <h3 id="fentanyl-test-strips">Fentanyl Test Strips</h3>
             <p class="danger-text"><strong>A dose as small as 2mg of fentanyl can be fatal.</strong> Test every batch, every time. No exceptions.</p>
             <div class="instruction-box">
               <h4>How to Test MDMA for Fentanyl:</h4>
@@ -251,7 +251,7 @@ const schemaJson  = `{
 
           <div class="card">
             <div class="card-icon-wrap icon-teal">🔬</div>
-            <h3>Drug Checking Services</h3>
+            <h3 id="drug-checking-services">Drug Checking Services</h3>
             <p>Advanced testing (FTIR, GCMS) can quantify purity and identify unknown substances. More accurate than reagents alone.</p>
             <ul class="resource-list">
               <li>
@@ -277,7 +277,7 @@ const schemaJson  = `{
       <div class="container">
         <div class="section-header">
           <div class="step-pill">Step 2</div>
-          <h2>The Supplement Protocol</h2>
+          <h2 id="the-supplement-protocol">The Supplement Protocol</h2>
           <p class="section-sub">MDMA's neurotoxic potential is primarily mediated by oxidative stress. These supplements may reduce that damage, evidence is primarily from animal studies. Core protocol supplements: <strong>NAC</strong> (glutathione precursor), <strong>Magnesium</strong> (jaw clenching / bruxism), <strong>5-HTP + EGCG</strong> (serotonin recovery). This protocol reflects recommendations from <a href="/store" target="_blank" rel="noopener">DanceSafe</a> and the broader harm reduction community. No protocol eliminates risk, and no supplement replaces testing or appropriate dosing.</p>
         </div>
 
@@ -286,7 +286,7 @@ const schemaJson  = `{
           <!-- T-48h -->
           <div class="timeline-card">
             <div class="timeline-label">T − 48 hours</div>
-            <h3>Pre-Loading</h3>
+            <h3 id="pre-loading">Pre-Loading</h3>
             <p class="timeline-desc">Build antioxidant reserves in the days before.</p>
             <div class="supp-list">
               <div class="supp-item">
@@ -327,7 +327,7 @@ const schemaJson  = `{
           <!-- T-60min -->
           <div class="timeline-card timeline-primary">
             <div class="timeline-label">T − 60 minutes</div>
-            <h3>Pre-Dosing</h3>
+            <h3 id="pre-dosing">Pre-Dosing</h3>
             <p class="timeline-desc">Load up right before, the most critical window.</p>
             <div class="supp-list">
               <div class="supp-item">
@@ -377,7 +377,7 @@ const schemaJson  = `{
           <!-- During -->
           <div class="timeline-card timeline-during">
             <div class="timeline-label">During</div>
-            <h3>Active Use</h3>
+            <h3 id="active-use">Active Use</h3>
             <p class="timeline-desc">Minimal supplements, focus on safety basics.</p>
             <div class="supp-list">
               <div class="supp-item">
@@ -406,7 +406,7 @@ const schemaJson  = `{
         <div class="recovery-split">
           <div class="timeline-card timeline-recovery">
             <div class="timeline-label">Same night, home</div>
-            <h3>Right when you get back</h3>
+            <h3 id="right-when-you-get-back">Right when you get back</h3>
             <p class="timeline-desc">Rehydrate and set up sleep, <strong>do not start 5-HTP the same night</strong> as rolling. Serotonin precursors combined with MDMA still in your system can contribute to serotonin syndrome.</p>
             <div class="supp-list">
               <div class="supp-item">
@@ -446,7 +446,7 @@ const schemaJson  = `{
 
           <div class="timeline-card timeline-recovery timeline-recovery-later">
             <div class="timeline-label">Next day &amp; beyond</div>
-            <h3>After MDMA has cleared</h3>
+            <h3 id="after-mdma-has-cleared">After MDMA has cleared</h3>
             <p class="recovery-warn"><strong>Wait at least 24 hours</strong> after your last dose before <strong>5-HTP</strong>, never the same night as MDMA.</p>
             <p class="timeline-desc">Begin serotonin support and antioxidants once you’re in the clear.</p>
             <div class="supp-list">
@@ -495,7 +495,7 @@ const schemaJson  = `{
       <div class="container">
         <div class="section-header">
           <div class="step-pill">Step 3</div>
-          <h2>During Use: The Critical Factors</h2>
+          <h2 id="during-use-the-critical-factors">During Use: The Critical Factors</h2>
           <p class="section-sub">Supplements matter, but these behavioral factors have the strongest evidence for reducing risk.</p>
         </div>
 
@@ -504,7 +504,7 @@ const schemaJson  = `{
           <div class="guideline-card critical">
             <div class="guideline-header">
               <span class="guideline-icon">🌡</span>
-              <h3>Temperature Management</h3>
+              <h3 id="temperature-management">Temperature Management</h3>
               <span class="badge badge-critical">Critical</span>
             </div>
             <p>Research has demonstrated that preventing hyperthermia can almost entirely eliminate serotonergic neurotoxicity in animal models, even at high doses. Temperature is the most modifiable risk factor.</p>
@@ -520,7 +520,7 @@ const schemaJson  = `{
           <div class="guideline-card critical">
             <div class="guideline-header">
               <span class="guideline-icon">💧</span>
-              <h3>Hydration</h3>
+              <h3 id="hydration">Hydration</h3>
               <span class="badge badge-critical">Critical</span>
             </div>
             <p>Both dehydration <em>and</em> over-hydration have caused MDMA-related deaths. MDMA promotes antidiuretic hormone (ADH) secretion, making it easy to over-drink plain water.</p>
@@ -542,7 +542,7 @@ const schemaJson  = `{
           <div class="guideline-card">
             <div class="guideline-header">
               <span class="guideline-icon">⚖</span>
-              <h3>Dosing</h3>
+              <h3 id="dosing">Dosing</h3>
               <span class="badge badge-caution">Important</span>
             </div>
             <p>MDMA neurotoxicity scales with dose. Higher doses produce more serotonin release and more oxidative byproducts.</p>
@@ -567,7 +567,7 @@ const schemaJson  = `{
           <div class="guideline-card critical">
             <div class="guideline-header">
               <span class="guideline-icon">🚫</span>
-              <h3>Dangerous Combinations</h3>
+              <h3 id="dangerous-combinations">Dangerous Combinations</h3>
               <span class="badge badge-critical">Critical</span>
             </div>
             <p>These combinations have documented fatalities. Check every medication, prescription, OTC, and recreational.</p>
@@ -603,7 +603,7 @@ const schemaJson  = `{
         </div>
 
         <div class="serotonin-syndrome-alert">
-          <h3>Know Serotonin Syndrome Symptoms</h3>
+          <h3 id="know-serotonin-syndrome-symptoms">Know Serotonin Syndrome Symptoms</h3>
           <p>Call emergency services if you or someone around you shows these signs:</p>
           <div class="ss-symptoms">
             <span>Agitation / restlessness</span>
@@ -625,13 +625,13 @@ const schemaJson  = `{
       <div class="container">
         <div class="section-header">
           <div class="step-pill">Step 4</div>
-          <h2>Recovery & The 3-Month Rule</h2>
+          <h2 id="recovery-the-3-month-rule">Recovery & The 3-Month Rule</h2>
           <p class="section-sub">Cumulative lifetime exposure and dose per session are the primary risk factors. Frequency matters, but there is no single "safe interval" established by research.</p>
         </div>
 
         <div class="recovery-grid">
           <div class="recovery-card recovery-main">
-            <h3>Use Spacing: What the Evidence Actually Says</h3>
+            <h3 id="use-spacing-what-the-evidence-actually-says">Use Spacing: What the Evidence Actually Says</h3>
             <p>The "3-month rule" originates from <strong>Ann Shulgin's personal clinical observation</strong>, not a controlled study. But that doesn't mean spacing is arbitrary, it means the <em>number</em> wasn't derived from research. The biology behind spacing matters, and it involves three distinct processes:</p>
             <div class="recovery-reasons">
               <div class="recovery-reason">
@@ -657,7 +657,7 @@ const schemaJson  = `{
           </div>
 
           <div class="recovery-card">
-            <h3>The "Comedown" Window</h3>
+            <h3 id="the-comedown-window">The "Comedown" Window</h3>
             <p>The days following MDMA use are characterized by reduced serotonin availability. Common experiences:</p>
             <div class="timeline-events">
               <div class="event">
@@ -688,7 +688,7 @@ const schemaJson  = `{
     <section id="research">
       <div class="container">
         <div class="section-header">
-          <h2>Research & Evidence Base</h2>
+          <h2 id="research-evidence-base">Research & Evidence Base</h2>
           <p class="section-sub">The peer-reviewed science behind harm reduction recommendations. Links open PubMed or source publications.</p>
         </div>
 
@@ -798,7 +798,7 @@ const schemaJson  = `{
         </div>
 
         <div class="trusted-resources">
-          <h3>Trusted Harm Reduction Resources</h3>
+          <h3 id="trusted-harm-reduction-resources">Trusted Harm Reduction Resources</h3>
           <div class="resource-cards">
             <a href="/mdma-kit" target="_blank" rel="noopener" class="resource-card">
               <h4>DanceSafe</h4>
@@ -825,168 +825,168 @@ const schemaJson  = `{
     <section style="padding: 60px 0;">
       <div class="container">
         <div class="section-header">
-          <h2>From the Blog</h2>
+          <h2 id="from-the-blog">From the Blog</h2>
           <p class="section-sub">Deeper dives into MDMA pharmacology, safety, and harm reduction.</p>
         </div>
         <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-top: 32px;">
           <a href="/blog/where-to-get-drugs-tested.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Drug Checking</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">DrugsData Is Still Paused. Here Is What Works.</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="drugsdata-is-still-paused-here-is-what-works">DrugsData Is Still Paused. Here Is What Works.</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">The results database is online but submissions closed in 2024. The services actually operating right now.</p>
           </a>
           <a href="/blog/mandelin-reagent-color-chart.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Drug Checking</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">Mandelin Reagent Color Chart: How to Read Results</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="mandelin-reagent-color-chart-how-to-read-results">Mandelin Reagent Color Chart: How to Read Results</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Dark brown-black for MDMA, olive-green for meth, and the reactions that overlap with each other.</p>
           </a>
           <a href="/blog/froehde-reagent-color-chart.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Drug Checking</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">Froehde Reagent Color Chart: How to Read Results</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="froehde-reagent-color-chart-how-to-read-results">Froehde Reagent Color Chart: How to Read Results</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Blue-black means MDMA or MDA, light green means PMMA, and nothing at all still tells you something.</p>
           </a>
           <a href="/blog/why-didnt-my-molly-work.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Troubleshooting</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">Why Didn't My Molly Work?</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="why-didnt-my-molly-work">Why Didn't My Molly Work?</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">SSRIs, recent use, fake pills, and slow absorption all stop a roll landing. Redosing to chase it is the main overdose pathway.</p>
           </a>
           <a href="/blog/how-to-come-down-from-molly-faster.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Comedown</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">How to Come Down From Molly or Coke Faster</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="how-to-come-down-from-molly-or-coke-faster">How to Come Down From Molly or Coke Faster</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Nothing speeds up elimination. What actually helps in the next few hours, what is a myth, and when it is an emergency.</p>
           </a>
           <a href="/blog/mdma-and-your-period.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Hormones &amp; Cycle</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">MDMA and Your Period: What Changes on Your Cycle</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="mdma-and-your-period-what-changes-on-your-cycle">MDMA and Your Period: What Changes on Your Cycle</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Women face far higher odds of MDMA hyponatremia. What your cycle actually changes, what it doesn't, and how to drink.</p>
           </a>
           <a href="/blog/trance-states-music-drugs.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Neuroscience</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">Trance States From Music and Drugs: The Science</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="trance-states-from-music-and-drugs-the-science">Trance States From Music and Drugs: The Science</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Why crowds fall silent and move as one. Rhythmic entrainment, dopamine, and how MDMA amplifies the state music creates on its own.</p>
           </a>
           <a href="/blog/ecstasy-vs-molly-mdma.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Adulterants &amp; Testing</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">Ecstasy vs Molly: What's Actually in Pressed Pills</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="ecstasy-vs-molly-whats-actually-in-pressed-pills">Ecstasy vs Molly: What's Actually in Pressed Pills</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Neither form guarantees purity. What drug checking programs actually find — and how to test before you use.</p>
           </a>
           <a href="/blog/how-long-does-mdma-last.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Timeline</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">How Long Does MDMA Last? Full Timeline from Onset to Comedown</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="how-long-does-mdma-last-full-timeline-from-onset-to-comedown">How Long Does MDMA Last? Full Timeline from Onset to Comedown</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Onset, peak, plateau, descent, and afterglow — with pharmacokinetics data and redosing risks.</p>
           </a>
           <a href="/blog/mdma-how-long-between-uses.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Frequency &amp; Tolerance</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">How Long Should You Wait Between MDMA Uses? The 3-Month Rule Explained</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="how-long-should-you-wait-between-mdma-uses-the-3-month-rule">How Long Should You Wait Between MDMA Uses? The 3-Month Rule Explained</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">The pharmacological basis for spacing, what the 3-month rule actually is, and signs you're using too often.</p>
           </a>
           <a href="/blog/mdma-neurotoxicity.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Long-term Risk</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">Does Molly Cause Brain Damage? The Neurotoxicity Evidence</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="does-molly-cause-brain-damage-the-neurotoxicity-evidence">Does Molly Cause Brain Damage? The Neurotoxicity Evidence</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">What the neuroimaging studies actually show — and what they don't — about MDMA and long-term brain health.</p>
           </a>
           <a href="/blog/mdma-supplements-protocol.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Harm Reduction</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">MDMA Supplements: The Pre- and Post-Loading Protocol</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="mdma-supplements-the-pre--and-post-loading-protocol">MDMA Supplements: The Pre- and Post-Loading Protocol</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">ALA, magnesium, 5-HTP, Vitamin C — what the evidence supports, what to avoid, and exact timing.</p>
           </a>
           <a href="/blog/mdma-and-alcohol.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Drug Interactions</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">MDMA and Alcohol: Why the Combination Is Riskier Than It Feels</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="mdma-and-alcohol-why-the-combination-is-riskier-than-it-feel">MDMA and Alcohol: Why the Combination Is Riskier Than It Feels</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Opposing effects on ADH create unpredictable fluid balance — and alcohol masks the warning signs of overheating.</p>
           </a>
           <a href="/blog/hippie-flip-guide.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Combinations</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">Hippie Flip (MDMA + Psilocybin): Risks, Timing, and How to Do It Safer</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="hippie-flip-mdma-psilocybin-risks-timing-and-how-to-do-it-sa">Hippie Flip (MDMA + Psilocybin): Risks, Timing, and How to Do It Safer</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Sequencing rationale, the real serotonin syndrome risk, dose reductions, and what to do if it goes wrong.</p>
           </a>
           <a href="/blog/festival-heat-hydration.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Festival Safety</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">Festival Heat and Hydration: How to Stay Cool and Avoid Overheating</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="festival-heat-and-hydration-how-to-stay-cool-and-avoid-overh">Festival Heat and Hydration: How to Stay Cool and Avoid Overheating</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Why overheating is the primary MDMA risk, how to hydrate without overdoing it, and what gear helps.</p>
           </a>
           <a href="/blog/mdma-dosing-guide.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Dosing</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">MDMA Dosage Guide: What Is a Safe Dose of Molly or Ecstasy?</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="mdma-dosage-guide-what-is-a-safe-dose-of-molly-or-ecstasy">MDMA Dosage Guide: What Is a Safe Dose of Molly or Ecstasy?</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Clinical trial doses, body weight rules, redosing rules, and the pressed pill problem.</p>
           </a>
           <a href="/blog/mdma-comedown.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Recovery</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">The MDMA Comedown: Why It Happens and How to Reduce It</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="the-mdma-comedown-why-it-happens-and-how-to-reduce-it">The MDMA Comedown: Why It Happens and How to Reduce It</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">'Blue Tuesday' is caused by serotonin depletion. The mechanism, timeline, and what evidence supports for recovery.</p>
           </a>
           <a href="/blog/mdma-ssri-interaction.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Drug Interactions</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">MDMA and Antidepressants (SSRIs/SNRIs): What Actually Happens?</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="mdma-and-antidepressants-ssrissnris-what-actually-happens">MDMA and Antidepressants (SSRIs/SNRIs): What Actually Happens?</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">SSRIs blunt the roll, SNRIs raise cardiac risk, and MAOIs are life-threatening. Here's the evidence.</p>
           </a>
           <a href="/blog/serotonin-syndrome.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Emergencies</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">Serotonin Syndrome: How to Recognize It and What to Do</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="serotonin-syndrome-how-to-recognize-it-and-what-to-do">Serotonin Syndrome: How to Recognize It and What to Do</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Muscle twitching, fever, and agitation that can be fatal. How to spot it and which combinations cause it.</p>
           </a>
           <a href="/blog/how-to-test-mdma.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Drug Checking</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">How to Test Your MDMA: A Complete Drug Checking Guide</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="how-to-test-your-mdma-a-complete-drug-checking-guide">How to Test Your MDMA: A Complete Drug Checking Guide</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Testing molly with reagent kits and fentanyl strips can prevent overdose. Exactly how to do it, step by step.</p>
           </a>
           <a href="/blog/how-to-read-a-marquis-reagent-result.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Drug Checking</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">How to Read a Marquis Reagent Test Result</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="how-to-read-a-marquis-reagent-test-result">How to Read a Marquis Reagent Test Result</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">MDMA turns purple to black, amphetamines turn orange. The full color chart and the misreads to avoid.</p>
           </a>
           <a href="/blog/how-to-use-fentanyl-test-strips.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Drug Checking</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">How to Use Fentanyl Test Strips: A Step-by-Step Guide</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="how-to-use-fentanyl-test-strips-a-step-by-step-guide">How to Use Fentanyl Test Strips: A Step-by-Step Guide</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Water ratios by substance, how to read results, false positives, and what to do if you test positive.</p>
           </a>
           <a href="/blog/mda-vs-mdma.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Identification</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">MDA vs MDMA: What's the Difference Between Sally and Molly?</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="mda-vs-mdma-whats-the-difference-between-sally-and-molly">MDA vs MDMA: What's the Difference Between Sally and Molly?</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Longer-lasting, more psychedelic, and more neurotoxic in animal studies. How Simon's reagent tells them apart.</p>
           </a>
           <a href="/blog/5-htp-and-molly.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Supplements</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">5-HTP and Molly: Timing, Serotonin Recovery, and Syndrome Risk</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="5-htp-and-molly-timing-serotonin-recovery-and-syndrome-risk">5-HTP and Molly: Timing, Serotonin Recovery, and Syndrome Risk</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">5-HTP can help replenish serotonin after MDMA, but wait 24 hours. Taking it too soon raises serotonin syndrome risk.</p>
           </a>
           <a href="/blog/mdma-magnesium-jaw-clenching.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Supplements</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">MDMA Jaw Clenching and Magnesium: Evidence Review</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="mdma-jaw-clenching-and-magnesium-evidence-review">MDMA Jaw Clenching and Magnesium: Evidence Review</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Does magnesium reduce MDMA jaw clenching? The mechanism, study quality, best form, and dosing.</p>
           </a>
           <a href="/blog/mdma-magnesium-jaw-clenching.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Supplements</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">MDMA Jaw Clenching Supplements: A Systematic Evidence Review</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="mdma-jaw-clenching-supplements-a-systematic-evidence-review">MDMA Jaw Clenching Supplements: A Systematic Evidence Review</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Magnesium and other supplements for bruxism, each claim graded by evidence tier, with citations.</p>
           </a>
           <a href="/blog/mdma-green-tea-extract-egcg.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Supplements</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">MDMA and Green Tea Extract (EGCG): Does It Help or Is It Dangerous?</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="mdma-and-green-tea-extract-egcg-does-it-help-or-is-it-danger">MDMA and Green Tea Extract (EGCG): Does It Help or Is It Dangerous?</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">The evidence for benefit is weak and preclinical. The actual pharmacology of EGCG, MAO inhibition, and MDMA.</p>
           </a>
           <a href="/blog/candy-flip-guide.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Combinations</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">Candy Flip (MDMA + LSD): Risks, Timing, and How to Do It Safer</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="candy-flip-mdma-lsd-risks-timing-and-how-to-do-it-safer">Candy Flip (MDMA + LSD): Risks, Timing, and How to Do It Safer</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">The timing rationale, the real risks, and practical harm reduction for both substances.</p>
           </a>
           <a href="/blog/how-to-sleep-after-a-rave.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Recovery</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">How to Sleep After a Rave (And Is It Safe to Take Xanax or Benzos?)</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="how-to-sleep-after-a-rave-and-is-it-safe-to-take-xanax-or-be">How to Sleep After a Rave (And Is It Safe to Take Xanax or Benzos?)</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">What's happening in your brain when you can't sleep after rolling, what helps, and whether benzos are safe.</p>
           </a>
           <a href="/blog/2cb-vs-tusi-pink-cocaine.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Identification</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">2C-B vs. Tusi (Pink Cocaine): They Are Not the Same Drug</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="2c-b-vs-tusi-pink-cocaine-they-are-not-the-same-drug">2C-B vs. Tusi (Pink Cocaine): They Are Not the Same Drug</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Lab testing shows pink cocaine usually contains MDMA and ketamine, with very different risks than actual 2C-B.</p>
           </a>
           <a href="/blog/how-long-does-mdma-stay-in-your-system.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Drug Testing</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">How Long Does MDMA Stay in Your System?</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="how-long-does-mdma-stay-in-your-system">How Long Does MDMA Stay in Your System?</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Detection windows by test type: urine 1–3 days, blood and saliva 1–2 days, hair up to 90 days. Why standard tests often miss it.</p>
           </a>
           <a href="/blog/cocaine-and-mdma.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Combinations</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">Mixing Cocaine and MDMA: The Cardiovascular Risk</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="mixing-cocaine-and-mdma-the-cardiovascular-risk">Mixing Cocaine and MDMA: The Cardiovascular Risk</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Two stimulants multiply heart strain and overheating risk. The mechanism and how to reduce the danger.</p>
           </a>
         </div>
@@ -998,13 +998,13 @@ const schemaJson  = `{
     <section id="shop">
       <div class="container">
         <div class="section-header">
-          <h2>MDMA Harm Reduction Essentials</h2>
+          <h2 id="mdma-harm-reduction-essentials">MDMA Harm Reduction Essentials</h2>
           <p class="section-sub">Products recommended based on their harm reduction value. <span class="affiliate-note">Affiliate disclosure: links below may earn a commission at no extra cost to you.</span></p>
         </div>
 
         <!-- Testing -->
         <div class="shop-category">
-          <h3>🧪 Drug Testing, <em>Start Here</em></h3>
+          <h3 id="drug-testing-start-here">🧪 Drug Testing, <em>Start Here</em></h3>
           <div class="product-grid">
             <div class="product-card product-essential">
               <div class="product-badge">Essential</div>
@@ -1042,7 +1042,7 @@ const schemaJson  = `{
 
         <!-- Supplements -->
         <div class="shop-category">
-          <h3>💊 The Supplement Stack</h3>
+          <h3 id="the-supplement-stack">💊 The Supplement Stack</h3>
           <div class="product-grid">
             <div class="product-card">
               <div class="product-timing-badge">Pre-load + Day-of</div>
@@ -1129,7 +1129,7 @@ const schemaJson  = `{
 
         <!-- Hydration -->
         <div class="shop-category">
-          <h3>💧 Hydration</h3>
+          <h3 id="hydration-2">💧 Hydration</h3>
           <div class="product-grid">
             <div class="product-card product-essential">
               <div class="product-badge">Highly Recommended</div>

@@ -121,26 +121,26 @@ const schemaJson  = `{
     <!-- ===== RISK OVERVIEW ===== -->
     <section id="risks">
       <div class="container">
-        <h2 class="section-title centered">The Four Critical Risks</h2>
+        <h2 class="section-title centered" id="the-four-critical-risks">The Four Critical Risks</h2>
         <div class="risk-grid">
           <div class="risk-card risk-critical">
             <div class="risk-icon">☠</div>
-            <h3>Fentanyl Contamination</h3>
+            <h3 id="fentanyl-contamination">Fentanyl Contamination</h3>
             <p>DEA surveillance shows fentanyl detected in the illicit ketamine supply. A dose as small as 2mg can be fatal. Test every batch with fentanyl strips, every time.</p>
           </div>
           <div class="risk-card risk-critical">
             <div class="risk-icon">🫁</div>
-            <h3>Bladder & Urinary Damage</h3>
+            <h3 id="bladder-urinary-damage">Bladder & Urinary Damage</h3>
             <p>Ketamine-induced uropathy is a well-documented, potentially irreversible condition from chronic or frequent use. Early symptoms, urinary urgency, pain, frequency, are a hard stop signal.</p>
           </div>
           <div class="risk-card risk-critical">
             <div class="risk-icon">🌀</div>
-            <h3>K-Hole Injury Risk</h3>
+            <h3 id="k-hole-injury-risk">K-Hole Injury Risk</h3>
             <p>Deep dissociation causes near-complete immobility and loss of environmental awareness. Falls before full sedation, aspiration, and respiratory depression with CNS depressants are primary causes of serious harm.</p>
           </div>
           <div class="risk-card risk-high">
             <div class="risk-icon">🧠</div>
-            <h3>Rapid Tolerance & Dependency</h3>
+            <h3 id="rapid-tolerance-dependency">Rapid Tolerance & Dependency</h3>
             <p>Psychological dependency and tolerance develop faster with ketamine than with many other substances. Frequent use quickly narrows the gap between a recreational dose and a k-hole dose.</p>
           </div>
         </div>
@@ -152,14 +152,14 @@ const schemaJson  = `{
       <div class="container">
         <div class="section-header">
           <div class="step-pill">Step 1</div>
-          <h2>Always Test Your Substance</h2>
+          <h2 id="always-test-your-substance">Always Test Your Substance</h2>
           <p class="section-sub">Illicit ketamine is increasingly contaminated with fentanyl and other substances. The Mandelin reagent confirms ketamine; fentanyl test strips are a separate and equally critical step.</p>
         </div>
 
         <div class="test-grid">
           <div class="card">
             <div class="card-icon-wrap icon-purple">🧪</div>
-            <h3>Reagent Testing</h3>
+            <h3 id="reagent-testing">Reagent Testing</h3>
             <p>The Mandelin reagent is the primary color test for ketamine. Use it alongside a fentanyl strip, reagents don't detect fentanyl contamination.</p>
             <div class="reagent-table">
               <div class="reagent-row header">
@@ -185,7 +185,7 @@ const schemaJson  = `{
 
           <div class="card card-danger">
             <div class="card-icon-wrap icon-red">🚨</div>
-            <h3>Fentanyl Test Strips</h3>
+            <h3 id="fentanyl-test-strips">Fentanyl Test Strips</h3>
             <p class="danger-text"><strong>A dose as small as 2mg of fentanyl can be fatal.</strong> Test every batch, every time, even known sources. Contamination is not always uniform.</p>
             <div class="instruction-box">
               <h4>How to Test Ketamine for Fentanyl:</h4>
@@ -209,7 +209,7 @@ const schemaJson  = `{
 
           <div class="card">
             <div class="card-icon-wrap icon-teal">⚖</div>
-            <h3>Weigh Every Dose</h3>
+            <h3 id="weigh-every-dose">Weigh Every Dose</h3>
             <p>Ketamine doses are measured in milligrams. The difference between a mild dissociative dose and a k-hole is often only 50–100mg. You cannot eyeball this accurately.</p>
             <ul class="resource-list">
               <li>
@@ -236,14 +236,14 @@ const schemaJson  = `{
       <div class="container">
         <div class="section-header">
           <div class="step-pill">Step 2</div>
-          <h2>Supplements: What May Help</h2>
+          <h2 id="supplements-what-may-help">Supplements: What May Help</h2>
           <p class="section-sub">Unlike MDMA, where antioxidant supplementation is well-studied in the context of serotonergic neurotoxicity, ketamine supplement evidence is more limited. NAC has the strongest human data, primarily from ketamine use disorder treatment studies. Evidence for other supplements is based on plausible mechanisms. None of these replace frequency limits or testing.</p>
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
           <div class="timeline-card timeline-primary">
             <div class="timeline-label">Strongest Evidence</div>
-            <h3>NAC (N-Acetyl Cysteine)</h3>
+            <h3 id="nac-n-acetyl-cysteine">NAC (N-Acetyl Cysteine)</h3>
             <p class="timeline-desc">The only supplement with direct human data in the context of ketamine use.</p>
             <div class="supp-list">
               <div class="supp-item supp-featured">
@@ -258,7 +258,7 @@ const schemaJson  = `{
           </div>
           <div class="timeline-card">
             <div class="timeline-label">Supportive Protocol</div>
-            <h3>Magnesium, Vitamin C &amp; EGCG</h3>
+            <h3 id="magnesium-vitamin-c-amp-egcg">Magnesium, Vitamin C &amp; EGCG</h3>
             <p class="timeline-desc">General oxidative-stress and NMDA support, not substitutes for frequency limits or bladder monitoring.</p>
             <div class="supp-list">
               <div class="supp-item">
@@ -301,7 +301,7 @@ const schemaJson  = `{
       <div class="container">
         <div class="section-header">
           <div class="step-pill">Step 3</div>
-          <h2>Dose Ranges by Route</h2>
+          <h2 id="dose-ranges-by-route">Dose Ranges by Route</h2>
           <p class="section-sub">Bioavailability varies dramatically by route of administration. The same physical quantity produces very different effects depending on how it's taken. Always start at the low end of any range with a new batch.</p>
         </div>
 
@@ -310,7 +310,7 @@ const schemaJson  = `{
           <div class="guideline-card">
             <div class="guideline-header">
               <span class="guideline-icon">👃</span>
-              <h3>Intranasal (Insufflation)</h3>
+              <h3 id="intranasal-insufflation">Intranasal (Insufflation)</h3>
               <span class="badge badge-caution">~45–90 min duration</span>
             </div>
             <p>The most common recreational route. Bioavailability ~45–50%. Effects onset within 5–15 minutes.</p>
@@ -339,7 +339,7 @@ const schemaJson  = `{
           <div class="guideline-card">
             <div class="guideline-header">
               <span class="guideline-icon">💊</span>
-              <h3>Oral</h3>
+              <h3 id="oral">Oral</h3>
               <span class="badge badge-caution">~2–4 hour duration</span>
             </div>
             <p>Lower bioavailability (~20%) and slower onset (20–45 min). Effects are generally smoother but longer-lasting. Avoid redosing due to delayed onset.</p>
@@ -367,7 +367,7 @@ const schemaJson  = `{
           <div class="guideline-card critical">
             <div class="guideline-header">
               <span class="guideline-icon">🌀</span>
-              <h3>K-Hole Safety</h3>
+              <h3 id="k-hole-safety">K-Hole Safety</h3>
               <span class="badge badge-critical">High-Dose Only</span>
             </div>
             <p>A k-hole is a deep dissociative state characterized by near-complete ego dissolution, physical immobility, and disconnection from the environment. It is not inherently dangerous, but the conditions matter enormously.</p>
@@ -383,7 +383,7 @@ const schemaJson  = `{
           <div class="guideline-card critical">
             <div class="guideline-header">
               <span class="guideline-icon">🚫</span>
-              <h3>Dangerous Combinations</h3>
+              <h3 id="dangerous-combinations">Dangerous Combinations</h3>
               <span class="badge badge-critical">Critical</span>
             </div>
             <p>Ketamine's most dangerous interactions involve CNS depressants. These combinations can suppress breathing, particularly dangerous during a k-hole when you may be unable to respond.</p>
@@ -421,13 +421,13 @@ const schemaJson  = `{
       <div class="container">
         <div class="section-header">
           <div class="step-pill">Critical Risk</div>
-          <h2>Bladder & Urinary Tract Health</h2>
+          <h2 id="bladder-urinary-tract-health">Bladder & Urinary Tract Health</h2>
           <p class="section-sub">Ketamine-induced uropathy is one of the most well-documented harms associated with recreational ketamine use. It is dose- and frequency-dependent, progressive, and in severe cases, irreversible.</p>
         </div>
 
         <div class="recovery-grid">
           <div class="recovery-card recovery-main">
-            <h3>How Bladder Damage Happens</h3>
+            <h3 id="how-bladder-damage-happens">How Bladder Damage Happens</h3>
             <p>Ketamine and its metabolites, particularly norketamine, are excreted through the urinary tract. Chronic exposure causes:</p>
             <div class="recovery-reasons">
               <div class="recovery-reason">
@@ -454,7 +454,7 @@ const schemaJson  = `{
           </div>
 
           <div class="recovery-card">
-            <h3>Warning Signs, Stop Use Immediately</h3>
+            <h3 id="warning-signs-stop-use-immediately">Warning Signs, Stop Use Immediately</h3>
             <p>These symptoms indicate urinary tract involvement. Do not wait to see if they resolve, stop use and consult a healthcare provider:</p>
             <div class="timeline-events">
               <div class="event">
@@ -485,7 +485,7 @@ const schemaJson  = `{
     <section id="research">
       <div class="container">
         <div class="section-header">
-          <h2>Research & Evidence Base</h2>
+          <h2 id="research-evidence-base">Research & Evidence Base</h2>
           <p class="section-sub">The peer-reviewed science behind ketamine harm reduction recommendations.</p>
         </div>
 
@@ -551,7 +551,7 @@ const schemaJson  = `{
         </div>
 
         <div class="trusted-resources">
-          <h3>Trusted Resources</h3>
+          <h3 id="trusted-resources">Trusted Resources</h3>
           <div class="resource-cards">
             <a href="/ketamine-kit" target="_blank" rel="noopener" class="resource-card">
               <h4>DanceSafe</h4>
@@ -578,68 +578,73 @@ const schemaJson  = `{
     <section style="padding: 60px 0;">
       <div class="container">
         <div class="section-header">
-          <h2>From the Blog</h2>
+          <h2 id="from-the-blog">From the Blog</h2>
           <p class="section-sub">Deeper dives into ketamine safety, risks, and harm reduction.</p>
         </div>
         <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-top: 32px;">
+          <a href="/blog/diy-ketamine-nasal-spray.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
+            <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Dosing</p>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">DIY Ketamine Nasal Spray: The Dose Math</h3>
+            <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">A homemade spray buys dose precision, not lower risk, and two quiet errors make the milligram number wrong.</p>
+          </a>
           <a href="/blog/r-vs-s-ketamine.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Pharmacology</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">R vs S Ketamine: Can You Tell What You Have?</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="r-vs-s-ketamine-can-you-tell-what-you-have">R vs S Ketamine: Can You Tell What You Have?</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Arketamine and esketamine really do differ, but street ketamine is racemic and no reagent test can see chirality.</p>
           </a>
           <a href="/blog/ketamine-nasal-spray.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Clinical vs Street</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">Ketamine Nasal Spray: Spravato, Telehealth, and DIY</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="ketamine-nasal-spray-spravato-telehealth-and-diy">Ketamine Nasal Spray: Spravato, Telehealth, and DIY</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Three products share one name. Only one has RCT evidence, and none of them lower your bladder risk.</p>
           </a>
           <a href="/blog/mandelin-reagent-color-chart.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Drug Checking</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">Mandelin Reagent Color Chart: How to Read Results</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="mandelin-reagent-color-chart-how-to-read-results">Mandelin Reagent Color Chart: How to Read Results</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Why Mandelin is no longer the ketamine test, what replaced it, and the full color chart.</p>
           </a>
           <a href="/blog/why-didnt-my-molly-work.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Combinations</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">Why Didn't My Molly Work?</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="why-didnt-my-molly-work">Why Didn't My Molly Work?</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Bumping ketamine through an MDMA come-up flattens the emotional channel the roll lives in, and people redose blind because of it.</p>
           </a>
           <a href="/blog/what-not-to-mix-with-alcohol.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Drug Interactions</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">What Drugs Are Dangerous to Mix With Alcohol?</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="what-drugs-are-dangerous-to-mix-with-alcohol">What Drugs Are Dangerous to Mix With Alcohol?</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Ketamine is one of the depressants that stacks dangerously with alcohol. The depressant-stacking rule and the combinations that kill.</p>
           </a>
           <a href="/blog/ketamine-and-alcohol.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Drug Interactions</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">Ketamine and Alcohol: Why Mixing Ket and Alcohol Is Dangerous</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="ketamine-and-alcohol-why-mixing-ket-and-alcohol-is-dangerous">Ketamine and Alcohol: Why Mixing Ket and Alcohol Is Dangerous</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Both block NMDA receptors. Combined CNS depression is synergistic — and alcohol lowers the k-hole threshold in ways that are hard to predict.</p>
           </a>
           <a href="/blog/is-ketamine-addictive.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Addiction</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">Is Ketamine Addictive? K-Cramps, Bladder Damage, and Dependency</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="is-ketamine-addictive-k-cramps-bladder-damage-and-dependency">Is Ketamine Addictive? K-Cramps, Bladder Damage, and Dependency</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Ketamine has real addiction potential, especially with daily use. Signs to watch for and what the evidence shows.</p>
           </a>
           <a href="/blog/ketamine-bladder-damage.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Long-term Risk</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">Ketamine Bladder Damage: Symptoms, Causes, and Whether It Reverses</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="ketamine-bladder-damage-symptoms-causes-and-whether-it-rever">Ketamine Bladder Damage: Symptoms, Causes, and Whether It Reverses</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Ketamine-induced uropathy is dose- and frequency-dependent. What the clinical data says about recovery after stopping.</p>
           </a>
           <a href="/blog/ketamine-vapes.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Drug Checking</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">Ketamine Vapes: What They Are, What's Actually in Them, and the Risks</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="ketamine-vapes-what-they-are-whats-actually-in-them-and-the">Ketamine Vapes: What They Are, What's Actually in Them, and the Risks</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Most ketamine vapes don't contain real ketamine. What novel dissociatives like 2-FDCK and DCK actually are, and why vaping them is high-risk.</p>
           </a>
           <a href="/blog/how-to-use-fentanyl-test-strips.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Drug Checking</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">How to Use Fentanyl Test Strips: A Step-by-Step Guide</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="how-to-use-fentanyl-test-strips-a-step-by-step-guide">How to Use Fentanyl Test Strips: A Step-by-Step Guide</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Water ratios by substance, how to read results, false positives, and what to do if you test positive.</p>
           </a>
           <a href="/blog/2cb-vs-tusi-pink-cocaine.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Identification</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">2C-B vs. Tusi (Pink Cocaine): They Are Not the Same Drug</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="2c-b-vs-tusi-pink-cocaine-they-are-not-the-same-drug">2C-B vs. Tusi (Pink Cocaine): They Are Not the Same Drug</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Lab testing shows pink cocaine usually contains MDMA and ketamine, with very different risks than actual 2C-B.</p>
           </a>
           <a href="/blog/does-ketamine-cause-brain-damage.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Long-term Risk</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">Does Ketamine Cause Brain Damage or Memory Loss?</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="does-ketamine-cause-brain-damage-or-memory-loss">Does Ketamine Cause Brain Damage or Memory Loss?</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Occasional use shows little lasting harm; frequent heavy use is linked to real, dose-related memory and cognitive impairment.</p>
           </a>
         </div>
@@ -651,7 +656,7 @@ const schemaJson  = `{
     <section id="shop">
       <div class="container">
         <div class="section-header">
-          <h2>Ketamine Harm Reduction Essentials</h2>
+          <h2 id="ketamine-harm-reduction-essentials">Ketamine Harm Reduction Essentials</h2>
           <p class="section-sub">Products selected for harm reduction value. <span class="affiliate-note">Affiliate disclosure: links below may earn a commission at no extra cost to you.</span></p>
         </div>
 

@@ -1458,6 +1458,63 @@ h1 span {
   color: var(--text-dim);
 }
 
+/* ===== POST TABLE OF CONTENTS ===== */
+
+/* Collapsed by default so it does not push the opening paragraph down the page,
+   and so we are not adding a dozen links above the fold on every post. */
+.post-toc {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  padding: 12px 18px;
+  margin: 0 0 2rem;
+  font-size: 0.9rem;
+}
+
+.post-toc > summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--text);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.post-toc > summary::-webkit-details-marker { display: none; }
+
+.post-toc > summary::before {
+  content: "▸";
+  color: var(--purple-light);
+  transition: transform 0.15s ease;
+  display: inline-block;
+}
+
+.post-toc[open] > summary::before { transform: rotate(90deg); }
+
+/* Unnumbered on purpose: some posts have headings that are themselves
+   numbered ("1. Spravato..."), and an <ol> would render "1. 1. Spravato". */
+.post-toc ul {
+  margin: 12px 0 4px;
+  padding-left: 0;
+  list-style: none;
+  color: var(--text-muted);
+}
+
+.post-toc li { margin-bottom: 6px; line-height: 1.5; padding-left: 14px; position: relative; }
+.post-toc li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 5px; height: 5px; border-radius: 50%; background: var(--purple-light); opacity: 0.55; }
+
+.post-toc a { color: var(--text-muted); text-decoration: none; }
+.post-toc a:hover { color: var(--purple-light); text-decoration: underline; }
+
+/* Anchored headings should not sit flush under the sticky nav. */
+.prose h2, .prose h3 { scroll-margin-top: calc(var(--nav-height, 64px) + 16px); }
+h2[id], h3[id] { scroll-margin-top: calc(var(--nav-height, 64px) + 16px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .post-toc > summary::before { transition: none; }
+}
+
 /* ===== TABLES ===== */
 
 /* Applies to markdown tables in blog posts and hand-written tables on .astro pages.

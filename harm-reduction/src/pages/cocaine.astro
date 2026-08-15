@@ -112,26 +112,26 @@ const schemaJson  = `{
     <!-- ===== RISK OVERVIEW ===== -->
     <section id="risks">
       <div class="container">
-        <h2 class="section-title centered">The Critical Risks</h2>
+        <h2 class="section-title centered" id="the-critical-risks">The Critical Risks</h2>
         <div class="risk-grid">
           <div class="risk-card risk-critical">
             <div class="risk-icon">☠</div>
-            <h3>Fentanyl Contamination</h3>
+            <h3 id="fentanyl-contamination">Fentanyl Contamination</h3>
             <p>Fentanyl contamination in the cocaine supply is extremely high and well-documented. It is a leading driver of cocaine-associated overdose deaths. Test every batch with fentanyl strips, every single time.</p>
           </div>
           <div class="risk-card risk-critical">
             <div class="risk-icon">🫀</div>
-            <h3>Cardiovascular Events</h3>
+            <h3 id="cardiovascular-events">Cardiovascular Events</h3>
             <p>Cocaine is the illicit drug most commonly associated with emergency cardiac events. Heart attack, arrhythmia, and stroke can occur even in young, healthy people with no prior history, often during or shortly after use.</p>
           </div>
           <div class="risk-card risk-critical">
             <div class="risk-icon">🧪</div>
-            <h3>Levamisole Contamination</h3>
+            <h3 id="levamisole-contamination">Levamisole Contamination</h3>
             <p>Over 70% of US cocaine samples contain levamisole, a veterinary dewormer that can cause agranulocytosis (destruction of white blood cells) in a subset of users. Most people are exposed without developing symptoms, but those who do require emergency medical treatment.</p>
           </div>
           <div class="risk-card risk-high">
             <div class="risk-icon">🧠</div>
-            <h3>Addiction & Dependency</h3>
+            <h3 id="addiction-dependency">Addiction & Dependency</h3>
             <p>Cocaine and amphetamines have high dependency potential through dopamine pathway dysregulation. Tolerance develops, and the gap between a recreational dose and a harmful one narrows with regular use.</p>
           </div>
         </div>
@@ -143,14 +143,14 @@ const schemaJson  = `{
       <div class="container">
         <div class="section-header">
           <div class="step-pill">Step 1, Critical</div>
-          <h2>Test Every Batch. Every Time.</h2>
+          <h2 id="test-every-batch-every-time">Test Every Batch. Every Time.</h2>
           <p class="section-sub">Fentanyl contamination in the cocaine supply has reached levels that make testing a baseline safety requirement, not an optional extra. Reagent kits can detect the presence of cocaine and flag common adulterants like levamisole; fentanyl test strips are a separate and equally critical step. Note: reagents indicate what may be present, they cannot determine purity or dose.</p>
         </div>
 
         <div class="test-grid">
           <div class="card card-danger">
             <div class="card-icon-wrap icon-red">🚨</div>
-            <h3>Fentanyl Test Strips</h3>
+            <h3 id="fentanyl-test-strips">Fentanyl Test Strips</h3>
             <p class="danger-text"><strong>Fentanyl is detected in cocaine at alarming rates. A dose as small as 2mg is fatal. Test every batch, every time, even from known sources, because contamination is not always uniform.</strong></p>
             <div class="instruction-box">
               <h4>How to Test Cocaine for Fentanyl:</h4>
@@ -168,7 +168,7 @@ const schemaJson  = `{
 
           <div class="card card-danger">
             <div class="card-icon-wrap icon-red">⚠</div>
-            <h3>Xylazine ("Tranq") Testing</h3>
+            <h3 id="xylazine-tranq-testing">Xylazine ("Tranq") Testing</h3>
             <p class="danger-text"><strong>Xylazine is a veterinary sedative increasingly mixed with fentanyl, and it is now detected in cocaine as well. Naloxone (Narcan) does NOT reverse xylazine. If someone is unresponsive, still administer naloxone (opioids are almost always also present), but expect a slower or incomplete response.</strong></p>
             <div class="instruction-box">
               <h4>How to Test for Xylazine:</h4>
@@ -193,7 +193,7 @@ const schemaJson  = `{
 
           <div class="card">
             <div class="card-icon-wrap icon-purple">🧪</div>
-            <h3>Reagent Testing, Cocaine Detection</h3>
+            <h3 id="reagent-testing-cocaine-detection">Reagent Testing, Cocaine Detection</h3>
             <p>Colorimetric reagents can detect the presence of cocaine in a sample and flag common adulterants. They cannot determine purity or dose, a reaction "as expected" does not mean a sample is safe or uncontaminated with other substances.</p>
             <div class="reagent-table">
               <div class="reagent-row header">
@@ -214,12 +214,14 @@ const schemaJson  = `{
               </div>
             </div>
             <p class="note-text">No reaction where one is expected may indicate the substance is not cocaine. Unexpected reactions suggest unknown adulterants, do not use.</p>
-            <a href="/marquis-kit" target="_blank" rel="noopener" class="btn btn-sm btn-primary">Get Marquis Reagent at DanceSafe →</a>
+            <p class="note-text">DanceSafe's cocaine testing kit bundles the three reagents used above (Morris, Marquis and Liebermann) and ships with a fentanyl test strip and a 10 mg micro scoop. Buying the kit is cheaper than the reagents separately, and proceeds fund free drug checking at events.</p>
+            <a href="/cocaine-kit" target="_blank" rel="noopener" class="btn btn-sm btn-primary">Get the Cocaine Testing Kit at DanceSafe →</a>
+            <a href="/marquis-kit" target="_blank" rel="noopener" class="btn btn-sm btn-secondary">Marquis reagent alone →</a>
           </div>
 
           <div class="card">
             <div class="card-icon-wrap icon-teal">⚠</div>
-            <h3>Amphetamine Testing</h3>
+            <h3 id="amphetamine-testing">Amphetamine Testing</h3>
             <p>For amphetamine, methamphetamine, and speed, different reagents apply. Fentanyl test strips remain essential for all stimulants.</p>
             <div class="reagent-table">
               <div class="reagent-row header">
@@ -251,13 +253,13 @@ const schemaJson  = `{
       <div class="container">
         <div class="section-header">
           <div class="step-pill">Hidden Danger</div>
-          <h2>Levamisole: The Invisible Adulterant</h2>
+          <h2 id="levamisole-the-invisible-adulterant">Levamisole: The Invisible Adulterant</h2>
           <p class="section-sub">Levamisole cannot be detected by any field reagent test. It is present in the majority of cocaine samples worldwide and can cause a potentially life-threatening immune condition in susceptible individuals.</p>
         </div>
 
         <div class="recovery-grid">
           <div class="recovery-card recovery-main">
-            <h3>What Is Levamisole Doing to You?</h3>
+            <h3 id="what-is-levamisole-doing-to-you">What Is Levamisole Doing to You?</h3>
             <div class="recovery-reasons">
               <div class="recovery-reason">
                 <h4>The Drug</h4>
@@ -281,7 +283,7 @@ const schemaJson  = `{
           </div>
 
           <div class="recovery-card">
-            <h3>Warning Signs of Levamisole Toxicity</h3>
+            <h3 id="warning-signs-of-levamisole-toxicity">Warning Signs of Levamisole Toxicity</h3>
             <p>These symptoms after cocaine use may indicate levamisole-induced agranulocytosis. Seek emergency medical care:</p>
             <div class="timeline-events">
               <div class="event">
@@ -312,7 +314,7 @@ const schemaJson  = `{
       <div class="container">
         <div class="section-header">
           <div class="step-pill">Critical Risk</div>
-          <h2>Cardiovascular Risk</h2>
+          <h2 id="cardiovascular-risk">Cardiovascular Risk</h2>
           <p class="section-sub">Cocaine is the illicit drug most commonly associated with cardiovascular emergencies. These risks are real even in young, healthy users, and there are concrete harm reduction steps that reduce them.</p>
         </div>
 
@@ -321,7 +323,7 @@ const schemaJson  = `{
           <div class="guideline-card critical">
             <div class="guideline-header">
               <span class="guideline-icon">🫀</span>
-              <h3>Why Cocaine Strains the Heart</h3>
+              <h3 id="why-cocaine-strains-the-heart">Why Cocaine Strains the Heart</h3>
               <span class="badge badge-critical">All Users</span>
             </div>
             <p>Cocaine blocks reuptake of norepinephrine and dopamine, causing a powerful sympathetic surge, dramatically increasing heart rate, blood pressure, and cardiac oxygen demand simultaneously.</p>
@@ -336,7 +338,7 @@ const schemaJson  = `{
           <div class="guideline-card critical">
             <div class="guideline-header">
               <span class="guideline-icon">🚨</span>
-              <h3>Signs of a Cardiac Emergency</h3>
+              <h3 id="signs-of-a-cardiac-emergency">Signs of a Cardiac Emergency</h3>
               <span class="badge badge-critical">Call 911 Immediately</span>
             </div>
             <p>Cocaine chest pain is a medical emergency. Do not wait to see if it passes, cocaine-induced coronary spasm and heart attack require immediate treatment.</p>
@@ -354,7 +356,7 @@ const schemaJson  = `{
           <div class="guideline-card">
             <div class="guideline-header">
               <span class="guideline-icon">🚫</span>
-              <h3>Dangerous Combinations</h3>
+              <h3 id="dangerous-combinations">Dangerous Combinations</h3>
               <span class="badge badge-critical">Critical</span>
             </div>
             <div class="combo-list">
@@ -385,7 +387,7 @@ const schemaJson  = `{
           <div class="guideline-card">
             <div class="guideline-header">
               <span class="guideline-icon">🛡</span>
-              <h3>Reducing Cardiovascular Risk</h3>
+              <h3 id="reducing-cardiovascular-risk">Reducing Cardiovascular Risk</h3>
               <span class="badge badge-caution">Harm Reduction Steps</span>
             </div>
             <ul>
@@ -406,7 +408,7 @@ const schemaJson  = `{
     <section id="nasal">
       <div class="container">
         <div class="section-header">
-          <h2>Nasal Care Protocol</h2>
+          <h2 id="nasal-care-protocol">Nasal Care Protocol</h2>
           <p class="section-sub">Insufflation (snorting) damages the nasal passages, septum, and sinuses over time. Consistent nasal care significantly reduces this damage.</p>
         </div>
 
@@ -414,7 +416,7 @@ const schemaJson  = `{
           <div class="guideline-card">
             <div class="guideline-header">
               <span class="guideline-icon">🌊</span>
-              <h3>Saline Nasal Rinse</h3>
+              <h3 id="saline-nasal-rinse">Saline Nasal Rinse</h3>
               <span class="badge badge-caution">Before & After</span>
             </div>
             <p>Saline rinse removes residual drug particles, adulterants, and irritants from the nasal passages before they can cause further damage. Use after each session.</p>
@@ -430,7 +432,7 @@ const schemaJson  = `{
           <div class="guideline-card">
             <div class="guideline-header">
               <span class="guideline-icon">🛡</span>
-              <h3>Reducing Nasal Damage</h3>
+              <h3 id="reducing-nasal-damage">Reducing Nasal Damage</h3>
               <span class="badge badge-caution">Best Practices</span>
             </div>
             <ul>
@@ -449,7 +451,7 @@ const schemaJson  = `{
     <section id="amphetamines">
       <div class="container">
         <div class="section-header">
-          <h2>Amphetamine-Specific Harm Reduction</h2>
+          <h2 id="amphetamine-specific-harm-reduction">Amphetamine-Specific Harm Reduction</h2>
           <p class="section-sub">Amphetamines (speed, Adderall, methamphetamine) share core risks with cocaine but have distinct profiles, particularly longer duration, stronger neurotoxic potential at high doses, and different cardiovascular effects.</p>
         </div>
 
@@ -458,7 +460,7 @@ const schemaJson  = `{
           <div class="guideline-card">
             <div class="guideline-header">
               <span class="guideline-icon">⏱</span>
-              <h3>Duration Differences</h3>
+              <h3 id="duration-differences">Duration Differences</h3>
               <span class="badge badge-caution">Plan Accordingly</span>
             </div>
             <div class="dose-table">
@@ -481,7 +483,7 @@ const schemaJson  = `{
           <div class="guideline-card critical">
             <div class="guideline-header">
               <span class="guideline-icon">🧠</span>
-              <h3>Methamphetamine Neurotoxicity</h3>
+              <h3 id="methamphetamine-neurotoxicity">Methamphetamine Neurotoxicity</h3>
               <span class="badge badge-critical">High Doses / Frequent Use</span>
             </div>
             <p>Methamphetamine at high doses produces direct dopaminergic neurotoxicity, documented destruction of dopamine nerve terminals in the striatum. Chronic heavy use is associated with lasting cognitive deficits and emotional dysregulation.</p>
@@ -501,7 +503,7 @@ const schemaJson  = `{
     <section id="research">
       <div class="container">
         <div class="section-header">
-          <h2>Research & Evidence Base</h2>
+          <h2 id="research-evidence-base">Research & Evidence Base</h2>
           <p class="section-sub">The peer-reviewed science behind cocaine and stimulant harm reduction.</p>
         </div>
 
@@ -564,7 +566,7 @@ const schemaJson  = `{
         </div>
 
         <div class="trusted-resources">
-          <h3>Trusted Resources</h3>
+          <h3 id="trusted-resources">Trusted Resources</h3>
           <div class="resource-cards">
             <a href="/marquis-kit" target="_blank" rel="noopener" class="resource-card">
               <h4>DanceSafe</h4>
@@ -591,7 +593,7 @@ const schemaJson  = `{
     <section id="shop">
       <div class="container">
         <div class="section-header">
-          <h2>Stimulant Harm Reduction Essentials</h2>
+          <h2 id="stimulant-harm-reduction-essentials">Stimulant Harm Reduction Essentials</h2>
           <p class="section-sub"><span class="affiliate-note">Affiliate disclosure: links below may earn a commission at no extra cost to you.</span></p>
         </div>
 
@@ -637,73 +639,73 @@ const schemaJson  = `{
     <section style="padding: 60px 0;">
       <div class="container">
         <div class="section-header">
-          <h2>From the Blog</h2>
+          <h2 id="from-the-blog">From the Blog</h2>
           <p class="section-sub">Deeper dives into cocaine pharmacology, adulterants, and harm reduction.</p>
         </div>
         <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-top: 32px;">
           <a href="/blog/where-to-get-drugs-tested.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Drug Checking</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">DrugsData Is Still Paused. Here Is What Works.</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="drugsdata-is-still-paused-here-is-what-works">DrugsData Is Still Paused. Here Is What Works.</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Mail-in lab checking mostly ended in 2024. Where you can still get a sample analysed, verified this month.</p>
           </a>
           <a href="/blog/can-you-overdose-touching-fentanyl.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Fentanyl</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">Can You Overdose From Touching Fentanyl?</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="can-you-overdose-from-touching-fentanyl">Can You Overdose From Touching Fentanyl?</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Two toxicology societies say no, and the fear is what actually costs lives when someone hesitates to give naloxone.</p>
           </a>
           <a href="/blog/sharing-straws-hepatitis-c.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Infectious Disease</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">Can You Get Hepatitis C From Sharing a Straw?</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="can-you-get-hepatitis-c-from-sharing-a-straw">Can You Get Hepatitis C From Sharing a Straw?</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Not a myth, not a proven fact. What the evidence actually supports, and why the advice is the same either way.</p>
           </a>
           <a href="/blog/liebermann-reagent-color-chart.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Drug Checking</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">Liebermann Reagent Color Chart and How to Read It</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="liebermann-reagent-color-chart-and-how-to-read-it">Liebermann Reagent Color Chart and How to Read It</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Cocaine runs yellow to orange, MDMA goes brown-black, and purple-brown is the PMA warning you do not want to miss.</p>
           </a>
           <a href="/blog/cocaine-heart-attack.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Cardiovascular</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">Cocaine and Your Heart: Why It Triggers Heart Attacks</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="cocaine-and-your-heart-why-it-triggers-heart-attacks">Cocaine and Your Heart: Why It Triggers Heart Attacks</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Heart attack risk rises about 24-fold in the first hour after use, even in young people with clean arteries. The mechanisms explained.</p>
           </a>
           <a href="/blog/how-to-come-down-from-molly-faster.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Comedown</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">How to Come Down From Molly or Coke Faster</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="how-to-come-down-from-molly-or-coke-faster">How to Come Down From Molly or Coke Faster</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Nothing speeds up elimination. What actually helps in the next few hours, what is a myth, and when it is an emergency.</p>
           </a>
           <a href="/blog/what-not-to-mix-with-alcohol.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Drug Interactions</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">What Drugs Are Dangerous to Mix With Alcohol?</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="what-drugs-are-dangerous-to-mix-with-alcohol">What Drugs Are Dangerous to Mix With Alcohol?</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Cocaine plus alcohol forms cocaethylene, a longer-lasting cardiotoxic metabolite. The stimulant exception to the depressant rule.</p>
           </a>
           <a href="/blog/levamisole-in-cocaine.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Adulterants</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">What Is Levamisole in Cocaine, and Should You Be Worried?</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="what-is-levamisole-in-cocaine-and-should-you-be-worried">What Is Levamisole in Cocaine, and Should You Be Worried?</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Most US cocaine contains a veterinary dewormer that can destroy infection-fighting white blood cells. The real risk and the warning signs.</p>
           </a>
           <a href="/blog/cocaine-and-alcohol.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Combinations</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">Cocaine and Alcohol: Cocaethylene and Why It's So Dangerous</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="cocaine-and-alcohol-cocaethylene-and-why-its-so-dangerous">Cocaine and Alcohol: Cocaethylene and Why It's So Dangerous</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Mixing the two creates a longer-lasting, more cardiotoxic compound. What cocaethylene does to your heart.</p>
           </a>
           <a href="/blog/cocaine-harm-reduction.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Harm Reduction</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">Cocaine Harm Reduction: Cardiovascular Risks, Levamisole, and Protecting Your Nose</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="cocaine-harm-reduction-cardiovascular-risks-levamisole-and-p">Cocaine Harm Reduction: Cardiovascular Risks, Levamisole, and Protecting Your Nose</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Cocaine's cardiac risks can strike on the first use. What the evidence shows and how to reduce your risk.</p>
           </a>
           <a href="/blog/how-to-use-fentanyl-test-strips.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Drug Checking</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">How to Use Fentanyl Test Strips: A Step-by-Step Guide</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="how-to-use-fentanyl-test-strips-a-step-by-step-guide">How to Use Fentanyl Test Strips: A Step-by-Step Guide</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Fentanyl in the cocaine supply is a leading cause of stimulant overdose. Water ratios, reading results, and false positives.</p>
           </a>
           <a href="/blog/cocaine-and-mdma.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Combinations</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">Mixing Cocaine and MDMA: The Cardiovascular Risk</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="mixing-cocaine-and-mdma-the-cardiovascular-risk">Mixing Cocaine and MDMA: The Cardiovascular Risk</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Stacking two stimulants multiplies heart strain and overheating, plus cocaine's spasm and arrhythmia risk. How to reduce it.</p>
           </a>
           <a href="/blog/how-to-test-cocaine.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Drug Checking</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;">How to Test Cocaine for Fentanyl and Cuts</h3>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="how-to-test-cocaine-for-fentanyl-and-cuts">How to Test Cocaine for Fentanyl and Cuts</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Fentanyl strip first, reagent second. The method, the right water ratios, and why no field test catches levamisole.</p>
           </a>
         </div>

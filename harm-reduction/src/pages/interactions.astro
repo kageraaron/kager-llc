@@ -255,7 +255,7 @@ const schemaJson  = `{
     <section id="common-questions" style="padding-top: 56px; padding-bottom: 80px;">
       <div class="container">
         <div class="common-qs">
-          <h2 class="section-title">Common interaction questions</h2>
+          <h2 class="section-title" id="common-interaction-questions">Common interaction questions</h2>
 
           <div class="faq-item">
             <div class="faq-question">
@@ -1361,7 +1361,7 @@ const schemaJson  = `{
 
       return '<div class="interaction-card ' + sevClass + '">'
         + '<span class="sev-badge">' + badgeText + '</span>'
-        + '<h2>' + title + '</h2>'
+        + '<h2 id="title">' + title + '</h2>'
         + '<div class="ic-section"><div class="ic-label">Summary</div><p>' + summary + '</p></div>'
         + '<div class="ic-section"><div class="ic-label">Mechanism</div><p>' + mechanism + '</p></div>'
         + '<div class="ic-section"><div class="ic-label">Harm Reduction</div><p>' + advice + '</p></div>'
