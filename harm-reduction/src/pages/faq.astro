@@ -822,7 +822,79 @@ const schemaJson  = `{
             "name": "How many tests do you get from one reagent kit?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "A DanceSafe reagent bottle performs 50 to 75 tests. One test uses a single drop on a tiny scraping of material, roughly a match-head or about 10 mg, not a whole dose, which is why a single small bottle goes so much further than people expect. The belief that a kit is single-use is the main misconception that stops people buying one. What actually limits your count is waste rather than chemistry: drops that run down the side of the bottle, a contaminated spot plate, and degradation over time. Multi-reagent testing draws from several bottles at once, so a full Marquis plus Simon's plus Froehde workup on one sample consumes one test's worth from three separate bottles, meaning a kit covers fewer complete workups than the per-bottle figure suggests. Fentanyl test strips are the exception and are genuinely single-use, one strip per sample every time, so <a href='/fentanyl-strips'>strips</a> are the item to over-buy rather than ration. The <a href='/mdma-kit'>MDMA kit</a> contains Marquis, Simon's A, Simon's B and Froehde, and does not include strips."
+              "text": "A DanceSafe reagent bottle performs 50 to 75 tests. One test uses a single drop on a tiny scraping of material, roughly a match-head or about 10 mg, not a whole dose, which is why a single small bottle goes so much further than people expect. The belief that a kit is single-use is the main misconception that stops people buying one. What actually limits your count is waste rather than chemistry: drops that run down the side of the bottle, a contaminated spot plate, and degradation over time. Multi-reagent testing draws from several bottles at once, so a full Marquis plus Simon's plus Froehde workup on one sample consumes one test's worth from three separate bottles, meaning a kit covers fewer complete workups than the per-bottle figure suggests. Fentanyl test strips are the exception and are genuinely single-use, one strip per sample every time, so <a href='/fentanyl-strips'>strips</a> are the item to over-buy rather than ration. The <a href='/mdma-kit'>MDMA kit</a> contains Marquis, Simon's A, Simon's B and Froehde, and ships with a single starter strip."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is a DMT vape actually DMT?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Often you cannot know, and that is the central problem. A filled cartridge is difficult to sample and test, unlike a crystal you can scrape a little from. Cartridges sold as DMT may contain 5-MeO-DMT instead, may be adulterated, or may hold considerably more or less than claimed. N,N-DMT and 5-MeO-DMT are different drugs and this matters enormously: 5-MeO-DMT is far more potent by weight and has a worse safety margin, and mistaking one for the other because both get called DMT is the specific error that hurts people. A fatal intoxication has been documented where 5-MeO-DMT was ingested in an ayahuasca preparation containing MAOIs (PMID 16356341). A reagent kit does not solve this problem. Ehrlich reagent turns purple in the presence of indoles, and both N,N-DMT and 5-MeO-DMT are indoles, so Ehrlich cannot tell them apart, and it cannot distinguish either from LSD or psilocybin. Vaping also changes the dose curve: traditional smoked DMT delivers one large dose quickly, whereas a pen makes small repeated puffs easy, which produces partial experiences and makes unintentional accumulation more likely. Because onset is measured in seconds, sit or lie down before dosing and have a sober sitter present. See <a href='/blog/dmt-vapes-and-microdosing.html'>our full guide</a>."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can you drink ayahuasca on antidepressants?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "This is the most dangerous interaction in the DMT space and it deserves more caution than most people give it. Oral DMT is inactive on its own, because monoamine oxidase in the gut breaks it down before it reaches the brain. Ayahuasca works precisely because it pairs DMT with a monoamine oxidase inhibitor, which was confirmed experimentally with oral DMT plus harmine (PMID 10438001). The MAOI is where the danger sits, not the DMT. MAOIs interact seriously with SSRIs and SNRIs, with other serotonergic drugs including MDMA, and with tyramine-containing foods, which can produce hypertensive crisis (PMID 22951238). Do not generalise here from psilocybin research: scoping reviews suggest antidepressants taken alongside classic psychedelics are frequently tolerable, but that finding does not transfer to ayahuasca, because the hazard comes from the MAOI rather than from the psychedelic itself. If you take any serotonergic medication, this combination is not one to work out by trial. See <a href='/dmt.html'>our DMT guide</a>."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "I took Vyvanse this morning. How long before I can take MDMA?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Longer than a single day usually allows. Vyvanse is a prodrug: lisdexamfetamine itself clears fast with a terminal half-life of 0.47 hours, but the active d-amphetamine it releases peaks at about 3 hours and has a terminal half-life of 10.39 hours (PMID 18991468). Do the arithmetic for your own timing: a dose at 10:45am with MDMA at midnight is 13.25 hours, about 1.3 half-lives, which leaves very roughly 40% of peak d-amphetamine still circulating. Measured from the peak rather than from dosing it is closer to one half-life, so nearer 50%. Either way that is not a clean window. Why it matters: both drugs raise heart rate and blood pressure, and both impair heat dissipation. Hyperthermia is the leading cause of acute MDMA deaths and MDMA neurotoxicity is temperature-dependent, so stacking them in a hot room while dancing compounds exactly the risk that matters most. Because elimination is first-order the half-life does not change with dose, so the same arithmetic holds at 30mg or 70mg. This is pharmacology-derived from a single-dose study in 6 healthy volunteers, not a study of this combination. Do not stop taking prescribed medication casually: that is a real tradeoff and it is your call, but a much longer gap is the only thing that meaningfully reduces the overlap. See <a href='/blog/vyvanse-and-mdma.html'>our full guide</a>."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can you take ADHD medication and recreational drugs?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The interaction depends on which medication. Amphetamine-based medications such as Vyvanse, Adderall and Dexedrine both block reuptake and trigger monoamine release, so they stack with other stimulants more strongly than methylphenidate-based ones such as Ritalin and Concerta, which mainly block reuptake. The hard contraindication is MAOIs, which interact dangerously with both sympathomimetic and serotonergic drugs including MDMA (PMID 36425231). Bupropion lowers the seizure threshold, which matters when combined with stimulants. Non-stimulants behave differently again: atomoxetine is a noradrenaline reuptake inhibitor, while guanfacine and clonidine are alpha-2 agonists with blood pressure effects. The closest human evidence for a prescribed stimulant combined with MDMA is a controlled trial of methylphenidate with MDMA, which found the combination produced significantly greater cardiovascular and adverse effects with no increase in the psychoactive effects people are seeking (PMID 24103254). More strain, no more experience. MDMA combined with prescribed amphetamine specifically has not been tested in controlled human trials. See <a href='/blog/adhd-meds-and-recreational-drugs.html'>our full guide</a>."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does electronic music actually help ADHD focus?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "There is real evidence that noise helps ADHD cognition, and none of it was collected at a rave. A 2024 meta-analysis found white and pink noise produced a small benefit in youth with ADHD and a small harm in non-ADHD controls (PMID 38428577), a crossover pattern first reported in 2007 (PMID 17683456). The usual explanation, the moderate brain arousal model, holds that lower tonic dopamine means more external noise is needed to reach optimal arousal through stochastic resonance. That mechanism is under active challenge: recent work found a pure tone worked as well as pink noise, which stochastic resonance does not predict (PMID 39034029). So the effect looks real while the explanation looks shaky. The catch that matters at a show is volume. Those studies used roughly 65 to 80 dB, and a club runs 100 to 110 dB. The attentional benefit does not scale with volume, but hearing damage does, which makes <a href='/earplugs'>high-fidelity earplugs</a> the practical takeaway rather than louder music. If you find this music helps you focus, that experience is real regardless of whether a trial has confirmed the mechanism. See <a href='/blog/rave-music-and-adhd-brains.html'>our full guide</a>."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Are the drug test kits on Amazon legit?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Some marketplace sellers are legitimate resellers, and the problem is that you cannot tell which ones from the listing alone. A reagent's usefulness depends entirely on its condition when it reaches you, and marketplace listings rarely answer the questions that determine that. The questions worth asking of any seller, Amazon included: who manufactured it, is a manufacture or fill date given, and how was it stored and shipped. Third-party fulfilment can mean long storage at uncontrolled warehouse temperatures, and relabelled reagent decanted by an intermediary is a real category you cannot identify from a listing photo. Buying direct from a manufacturer solves the provenance question structurally rather than by trust: DanceSafe is a 501(c)(3) that manufactures its reagents in-house in northern California. We do not quote a counterfeit rate because no reliable figure exists, and anyone citing one is guessing. Reagents also degrade with heat, light and age, which is why provenance matters more here than it would for a shelf-stable product."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is it legal to buy a drug test kit?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Reagent test kits are chemical testing equipment and are broadly legal to buy and own in the US. The federal drug paraphernalia statute, 21 U.S.C. section 863, targets equipment for producing or consuming controlled substances, and identifying or analysing a substance does not appear in its definition or its illustrative item list. Its factor test also weighs marketing context, which is why testing equipment sits differently from consumption equipment. Fentanyl test strips are the part that genuinely varies by state. Many states historically classified them as paraphernalia under state law, and a large wave of states repealed or carved out that classification between roughly 2021 and 2024. As of December 2023 the Legislative Analysis and Public Policy Association recorded 45 states plus the District of Columbia not subjecting strip possession or use to paraphernalia penalties. We cannot verify that all fifty are clear, and some state carve-outs cover fentanyl strips specifically rather than drug checking equipment generally, so check your own state. There is no registry of test kit buyers. The records that exist are the ordinary ones: your bank, the seller, and the carrier. This is general information rather than legal advice, and state law changes."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How can I tell if my molly is real or fake?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Not by looking at it, tasting it or smelling it. Crystal size and colour reflect how a batch was recrystallised, handled and stored, not identity or purity, and pill logos and press quality tell you nothing because presses and stamp dies are commodity items. The protocol that does work runs three reagents in order: Marquis to screen, where purple to black indicates the MDMA class and common substitutes stay yellow, orange or unreactive; then Simon's A followed by Simon's B, which is the reagent that actually separates MDMA from MDA and reacts blue for MDMA while staying clear or pale for MDA; then Froehde to confirm. The DanceSafe <a href='/mdma-kit'>MDMA kit</a> contains all of these. Then run a <a href='/fentanyl-strips'>fentanyl test strip</a> on a separate dissolved sample, using about 10 mg in 5 mL of water, dipping for 15 seconds and reading at 2 to 5 minutes, remembering that one line is positive and two lines is negative, which is the part people most often get backwards. A reagent result is a strong signal about identity and completely silent about dose, purity, and whether a second substance is present, since a strong reaction can mask one. Start low regardless of what the colours showed."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "DanceSafe or Bunk Police: which test kit should I buy?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Disclosure first: Rave Wellness earns an affiliate commission on DanceSafe links and earns nothing from Bunk Police, so weigh this with that in mind. No published independent comparison of the two companies' reagents exists, and neither company publishes third-party validation of its own product. Anyone claiming one brand's reagents perform better than the other's is guessing. Both sell standard reagent formulations. Where each genuinely wins: DanceSafe is a 501(c)(3) nonprofit that manufactures in-house and runs free drug checking at events, and it carries Folin, which Bunk Police does not. Bunk Police carries Hofmann, which DanceSafe does not, and provides more reference material including a public reaction video library and per-reagent colour booklets, plus Skylab separation kits, QTest purity kits, and mail-in laboratory testing, none of which DanceSafe has an equivalent for. Nonprofit status is a tax classification rather than a quality certification, so choose on which reagents and services you actually need."
             }
           }
         ]
@@ -1122,9 +1194,9 @@ const schemaJson  = `{
                   <li><strong>Ehrlich Reagent:</strong> Should turn purple. This confirms the presence of an indole (like LSD or 1P-LSD).</li>
                   <li><strong>Hofmann Reagent:</strong> Turns blue for LSD. This is used to further distinguish LSD from other indoles like DMT or melatonin.</li>
                 </ul>
-                <p>Remember the saying: <em>"If it's bitter, it's a spitter."</em> Real LSD has no taste. NBOMe compounds are often very bitter and can cause numbing of the mouth.</p>
-                <p>The <a href="/lsd-kit">DanceSafe LSD testing kit</a> is the Ehrlich reagent kit.</p>
-                <p>Full guide: <a href="/blog/should-you-test-lsd.html">Should you test LSD? The NBOMe risk explained →</a> | <a href="lsd.html">LSD harm reduction guide →</a></p>
+                <p>You may hear the saying <em>"if it's bitter, it's a spitter."</em> Real LSD has essentially no taste, and NBOMe compounds are often bitter and numbing, so the pattern is real. <strong>Do not rely on it.</strong> Taste is subjective, doses vary, and putting a suspected NBOMe blotter in your mouth is itself the exposure you are trying to avoid. Use the reagent instead.</p>
+                <p>The <a href="/lsd-kit">DanceSafe LSD testing kit</a> is the Ehrlich reagent kit. Ehrlich's is slow, so allow up to 20 minutes before reading it.</p>
+                <p>Full guide: <a href="/blog/is-my-acid-real-or-nbome.html">Is my acid real, or is it NBOMe? →</a> | <a href="/blog/should-you-test-lsd.html">Should you test LSD? The NBOMe risk explained →</a> | <a href="/lsd.html">LSD harm reduction guide →</a></p>
               </div>
             </div>
           </div>
@@ -1264,7 +1336,7 @@ const schemaJson  = `{
                 <p><strong>Physiologically, classic psychedelics have extremely high safety margins.</strong> No verified human deaths from direct psilocybin or LSD toxicity at recreational doses have been documented. A comparative risk assessment by Gable (2004, <em>Addiction</em>, PMID 15139867) ranked both among the lowest of all commonly used substances on physiological lethal risk, with estimated safety ratios of around 1,000:1.</p>
                 <p>However, the real overdose risk lies elsewhere:</p>
                 <ul>
-                  <li><strong>NBOMe compounds:</strong> These are sold on blotter paper as "acid" but are structurally distinct from LSD and <em>are</em> lethal at recreational doses. At least 19 US deaths were attributed to 25I-NBOMe alone by 2015. This is why testing with Ehrlich Reagent before every dose is non-negotiable, NBOMes cause a bitter taste and mouth numbness when placed under the tongue; genuine LSD is completely tasteless.</li>
+                  <li><strong>NBOMe compounds:</strong> These are sold on blotter paper as "acid" but are structurally distinct from LSD and <em>are</em> lethal at recreational doses. At least 19 US deaths were attributed to 25I-NBOMe alone by 2015. This is why testing with Ehrlich Reagent before every dose is non-negotiable. NBOMes are not indoles, so they produce no colour change on Ehrlich at all, and no reaction on blotter means it is not LSD. You may hear that NBOMe tastes bitter and numbs the mouth while genuine LSD is tasteless. That pattern is real but you should not rely on it, because tasting a suspected NBOMe blotter is itself the exposure you are trying to avoid.</li>
                   <li><strong>Behavioral accidents:</strong> Profound perceptual distortion and impaired judgment while tripping create real risk of falls, drowning, traffic incidents, and dangerous decisions.</li>
                   <li><strong>Psychological crisis:</strong> "Ego dissolution" at high doses can be severely distressing and, in those with predisposition, can precipitate lasting psychiatric episodes, rare but real.</li>
                 </ul>
@@ -1857,6 +1929,89 @@ const schemaJson  = `{
             </div>
           </div>
 
+          <!-- DMT -->
+          <h2 class="faq-category-title" id="dmt"><span>🔺</span> DMT</h2>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              Is a DMT vape actually DMT?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>You often cannot know.</strong> A filled cartridge is hard to sample and test, unlike a crystal you can scrape. Cartridges sold as DMT may contain 5-MeO-DMT, may be adulterated, or may hold far more or less than claimed.</p>
+                <p><strong>N,N-DMT and 5-MeO-DMT are different drugs.</strong> 5-MeO-DMT is far more potent by weight with a worse safety margin, and mistaking one for the other because both are called DMT is the specific error that hurts people. A fatal case has been documented where 5-MeO-DMT was taken in an ayahuasca preparation containing MAOIs (PMID 16356341).</p>
+                <p><strong>A reagent kit does not solve this.</strong> Ehrlich turns purple for indoles, and <em>both</em> N,N-DMT and 5-MeO-DMT are indoles, so it cannot separate them, and it cannot separate either from LSD or psilocybin.</p>
+                <p><strong>Vaping also changes the dose curve.</strong> Small repeated puffs make partial experiences and unintentional accumulation easy, unlike the traditional single large dose.</p>
+                <p>Full guide: <a href="/blog/dmt-vapes-and-microdosing.html">DMT vapes and microdosing →</a> | <a href="/dmt.html">DMT harm reduction guide →</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              Can you drink ayahuasca on antidepressants?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>This is the most dangerous interaction in the DMT space.</strong> Oral DMT is inactive on its own because monoamine oxidase breaks it down in the gut. Ayahuasca works because it pairs DMT with an <strong>MAOI</strong> (PMID 10438001), and that MAOI is the problem.</p>
+                <p>MAOIs interact seriously with SSRIs and SNRIs, with other serotonergic drugs including MDMA, and with tyramine-containing foods, which can cause hypertensive crisis (PMID 22951238).</p>
+                <p><strong>Do not generalise from psilocybin research.</strong> Reviews suggest antidepressants alongside classic psychedelics are often tolerable, but that does not transfer to ayahuasca, because the risk comes from the MAOI rather than the psychedelic.</p>
+                <p>Full guide: <a href="/dmt.html">DMT harm reduction guide →</a> | <a href="/interactions.html">Interaction checker →</a></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ADHD and prescription meds -->
+          <h2 class="faq-category-title" id="adhd-and-prescription-meds"><span>🧠</span> ADHD and prescription meds</h2>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              I took Vyvanse this morning. How long before I can take MDMA?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>Longer than a single day usually allows.</strong> Vyvanse is a prodrug: lisdexamfetamine itself clears fast (half-life 0.47 hours), but the active d-amphetamine it releases peaks at about 3 hours and has a terminal half-life of <strong>10.39 hours</strong> (PMID 18991468).</p>
+                <p><strong>Do the arithmetic for your own timing.</strong> A dose at 10:45am and MDMA at midnight is 13.25 hours, about 1.3 half-lives, leaving very roughly 40% of peak d-amphetamine still circulating. Measured from peak rather than from dosing it is closer to one half-life, so about 50%. Either way, that is not a clean window.</p>
+                <p><strong>Why it matters:</strong> both raise heart rate and blood pressure, and both impair heat dissipation. Hyperthermia is the leading cause of acute MDMA deaths, and MDMA neurotoxicity is temperature-dependent, so stacking them in a hot room while dancing compounds the risk that matters most.</p>
+                <p>Because elimination is first-order, the half-life does not change with dose, so this maths holds whether you take 30mg or 70mg. This is pharmacology-derived from a single-dose study in 6 healthy volunteers, not a study of this combination.</p>
+                <p>Full guide: <a href="/blog/vyvanse-and-mdma.html">Vyvanse and MDMA: how long should you wait? →</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              Can you take ADHD medication and recreational drugs?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>The interaction depends on which medication.</strong> Amphetamine-based meds (Vyvanse, Adderall, Dexedrine) both block reuptake and trigger monoamine release, so they stack with other stimulants more strongly than methylphenidate-based ones (Ritalin, Concerta), which mainly block reuptake.</p>
+                <p><strong>The hard contraindication is MAOIs</strong>, which interact dangerously with both stimulants and MDMA (PMID 36425231). Bupropion lowers the seizure threshold, which matters when stacked with stimulants.</p>
+                <p><strong>The closest human evidence for stimulant plus MDMA</strong> is a trial of methylphenidate with MDMA: the combination produced significantly greater cardiovascular and adverse effects with no increase in the psychoactive effects people are after (PMID 24103254). More strain, no more experience.</p>
+                <p>Full guide: <a href="/blog/adhd-meds-and-recreational-drugs.html">ADHD meds and recreational drugs →</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              Does electronic music actually help ADHD focus?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>There is real evidence for noise helping ADHD cognition, and it was not collected at raves.</strong> A meta-analysis found white and pink noise produced a small benefit in youth with ADHD and a small <em>harm</em> in non-ADHD controls (PMID 38428577), a crossover pattern first reported in 2007 (PMID 17683456).</p>
+                <p><strong>The mechanism is under active challenge.</strong> The moderate brain arousal model explains this via stochastic resonance and low tonic dopamine, but recent work found a pure tone worked as well as pink noise, which the model does not predict (PMID 39034029).</p>
+                <p><strong>The catch that matters at a show:</strong> those studies used 65 to 80 dB. A club runs 100 to 110 dB. The attentional effect does not scale with volume, but hearing damage does.</p>
+                <p>Full guide: <a href="/blog/rave-music-and-adhd-brains.html">Rave music and ADHD: does it actually help? →</a></p>
+              </div>
+            </div>
+          </div>
+
           <!-- Test kit practicalities and buying -->
           <h2 class="faq-category-title" id="test-kits-and-buying"><span>🧪</span> Test kits and buying</h2>
 
@@ -1886,6 +2041,68 @@ const schemaJson  = `{
                 <p><strong>Multi-reagent testing draws from several bottles at once.</strong> A full Marquis plus Simon's plus Froehde run on one sample consumes one test's worth from three different bottles, so a kit lasts fewer full workups than the per-bottle number suggests.</p>
                 <p><strong>Fentanyl test strips are the exception: they are single-use.</strong> One strip per sample, every time. That is the one item to over-buy rather than ration.</p>
                 <p>Full guide: <a href="/blog/how-many-tests-per-reagent-kit.html">How many tests do you get from one reagent kit? →</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              Are the drug test kits on Amazon legit?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>Some marketplace sellers are legitimate resellers, and the problem is that you cannot tell which from the listing.</strong> Reagent usefulness depends entirely on its condition when it reaches you, and marketplace listings rarely answer the questions that determine that.</p>
+                <p><strong>What to check for any seller, Amazon included:</strong> Who manufactured it? Is a manufacture or fill date given? How was it stored and shipped? Third-party fulfilment can mean long storage at uncontrolled warehouse temperatures, and relabelled reagent decanted by an intermediary is a real category you cannot spot from a photo.</p>
+                <p>Buying direct from a manufacturer solves provenance structurally rather than by trust. We have no counterfeit rate to quote, because no reliable figure exists.</p>
+                <p>Full guide: <a href="/blog/are-amazon-drug-test-kits-legit.html">Are Amazon drug test kits legit? What to check →</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              Is it legal to buy a drug test kit?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>Reagent test kits are chemical testing equipment and are broadly legal to buy and own in the US.</strong> The federal paraphernalia statute, 21 U.S.C. § 863, targets equipment for producing or consuming controlled substances. Identifying or analysing a substance does not appear in its definition.</p>
+                <p><strong>Fentanyl test strips are the part that varies.</strong> Many states historically classified them as paraphernalia, and a large wave of states repealed or carved out that classification between roughly 2021 and 2024. As of December 2023, LAPPA recorded 45 states plus DC not subjecting strip possession to paraphernalia penalties. We cannot verify all fifty are clear, so check your own state.</p>
+                <p>There is no registry of test kit buyers. Records that exist are the ordinary ones: your bank, the seller, and the carrier. This is general information, not legal advice, and state law changes.</p>
+                <p>Full guide: <a href="/blog/is-it-legal-to-buy-a-drug-test-kit.html">Is it legal to buy a drug test kit in the US? →</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              How can I tell if my molly is real or fake?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>Not by looking, tasting or smelling it.</strong> Crystal size reflects how a batch was recrystallised and handled, not identity or purity. Pill logos and press quality tell you nothing, since presses and stamp dies are commodity items.</p>
+                <p><strong>The protocol that works:</strong> Marquis to screen (purple to black indicates the MDMA class), then <strong>Simon's A and B</strong>, which is the reagent that actually separates MDMA from MDA, then Froehde to confirm. The <a href="/mdma-kit">DanceSafe MDMA kit</a> contains all of these.</p>
+                <p>Then run a <a href="/fentanyl-strips">fentanyl strip</a> on a separate dissolved sample: about 10 mg in 5 mL water, dip 15 seconds, read at 2 to 5 minutes. <strong>One line is positive, two lines is negative</strong>, which is the part people get backwards.</p>
+                <p>A reagent result is a strong signal about identity and completely silent about dose, purity, and what else is in the mixture. Start low regardless.</p>
+                <p>Full guide: <a href="/blog/is-my-molly-real-or-fake.html">Is my molly real or fake? How to actually tell →</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              DanceSafe or Bunk Police: which should I buy?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>Disclosure first: we earn an affiliate commission on DanceSafe links and nothing from Bunk Police.</strong> Weigh what follows with that in mind.</p>
+                <p><strong>There is no published independent comparison of the two companies' reagents</strong>, and neither publishes third-party validation. Anyone claiming one brand's reagents work better is guessing. Both sell standard reagent formulations.</p>
+                <p><strong>Where each genuinely wins.</strong> DanceSafe is a 501(c)(3) nonprofit that manufactures in-house and runs free drug checking at events, and it carries Folin. Bunk Police carries Hofmann, which DanceSafe does not, and offers more reference material including a public reaction video library, plus Skylab separation kits, QTest purity kits, and mail-in lab testing, none of which DanceSafe has an equivalent for.</p>
+                <p>Nonprofit status is a tax classification, not a quality certification. Pick on which reagents and services you actually need.</p>
+                <p>Full guide: <a href="/blog/dancesafe-vs-bunk-police.html">DanceSafe vs Bunk Police: an honest comparison →</a></p>
               </div>
             </div>
           </div>
@@ -2171,7 +2388,7 @@ const schemaJson  = `{
             </button>
             <div class="faq-answer">
               <div class="faq-answer-content">
-                <p><strong>GBL is a prodrug that your body rapidly converts into GHB, so the active drug and the effects are the same.</strong> The difference is in how it gets there: GBL is more concentrated by volume, more fat-soluble, and absorbs faster, often with onset in 5–15 minutes.</p>
+                <p><strong>GBL is a prodrug that your body rapidly converts into GHB, so the active drug and the effects are the same.</strong> The difference is in how it gets there: GBL is more concentrated by volume, more fat-soluble, and absorbs faster, commonly with onset in 5 to 20 minutes though it varies with stomach contents.</p>
                 <p>That makes GBL <strong>easier to overdose on and harder to dose accurately</strong>. GBL doses are smaller than the equivalent GHB dose, so measuring GBL with the same dropper or cap you'd use for GHB can deliver far more active drug than you intended. Conversion also varies between people, so you can't calibrate off someone else's dose.</p>
                 <p>The safe-use rules are identical for both: measure with an oral syringe, start low with any new batch, wait 2–3 hours between doses, and never combine with alcohol or other depressants.</p>
                 <p>Full guide: <a href="/blog/ghb-vs-gbl.html">GHB vs GBL: what is the difference? →</a> | <a href="ghb.html">GHB harm reduction guide →</a></p>

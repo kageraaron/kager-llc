@@ -51,7 +51,7 @@ The 2015 pathophysiology review ([PMID 26087832](https://pubmed.ncbi.nlm.nih.gov
 - **IgE-mediated inflammation**: an immune response similar to an allergic reaction, leading to mast cell degranulation in the bladder tissue
 - **Chronic fibrosis**: ongoing inflammation leads to scar tissue, permanently shrinking bladder capacity
 
-The end result in severe cases is a small, rigid, fibrotic bladder that can hold very little urine, sometimes less than 50 mL, and causes near-constant pain.
+The end result in severe cases is a small, rigid, fibrotic bladder that holds very little urine and causes near-constant pain. In a series of 14 people whose ketamine cystitis was severe enough to require bladder reconstruction surgery, mean cystometric bladder capacity before surgery was **50.9 mL** against a normal capacity of roughly 400 to 600 mL ([PMID 23996856](https://pubmed.ncbi.nlm.nih.gov/23996856/)). That figure comes from the most severe end of the spectrum, people referred for surgery after at least a year of failed conservative treatment, not from typical users.
 
 ---
 
@@ -71,7 +71,7 @@ Understanding where you are on this spectrum matters for knowing whether you can
 - Recovery is possible but slower; may need medical support
 
 **Stage 3, Contracted bladder / upper tract involvement (often irreversible)**
-- Severely reduced bladder capacity (sometimes <100 mL)
+- Severely reduced bladder capacity (mean 50.9 mL in a surgical series of refractory cases, [PMID 23996856](https://pubmed.ncbi.nlm.nih.gov/23996856/), against a normal 400 to 600 mL)
 - Ureteral stenosis (narrowing of the tubes connecting kidneys to bladder)
 - Hydronephrosis (kidney swelling due to blocked drainage)
 - Renal failure in the most severe cases

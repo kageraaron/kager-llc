@@ -15,7 +15,7 @@ GHB and GBL produce nearly identical effects because **GBL is a prodrug: once yo
 
 **Is GBL stronger than GHB?** By volume, yes. Because of how it converts and absorbs, a given volume of GBL produces more active GHB than the same volume of GHB solution. Doses are smaller, so dosing errors are bigger.
 
-**Does GBL hit faster than GHB?** Usually. GBL is more fat-soluble and absorbs quickly, with onset often in 5 to 15 minutes, sometimes faster than GHB. That short runway makes it easy to redose too soon.
+**Does GBL hit faster than GHB?** Usually. GBL is more fat-soluble and absorbs quickly, with onset commonly in 5 to 20 minutes, sometimes faster than GHB, though it varies with stomach contents and between people. That short runway makes it easy to redose too soon.
 
 **Is GBL more dangerous than GHB?** The overdose mechanism is the same, but GBL's higher potency by volume, faster onset, and variable conversion make accidental overdose more likely. Neither has a wide safety margin.
 

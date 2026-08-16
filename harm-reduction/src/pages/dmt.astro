@@ -1,0 +1,788 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title       = `DMT Harm Reduction: 5-MeO vs N,N, MAOI Risk | Rave Wellness`;
+const description = `DMT harm reduction: why N,N-DMT and 5-MeO-DMT are not the same drug, the MAOI and SSRI danger behind ayahuasca, and what an Ehrlich purple really proves.`;
+const keywords    = `DMT harm reduction, DMT safety, N,N-DMT, 5-MeO-DMT, 5-MeO-DMT vs DMT, DMT vs 5-MeO-DMT difference, ayahuasca safety, ayahuasca SSRI interaction, ayahuasca MAOI, pharmahuasca, DMT dose, smoked DMT duration, DMT breakthrough, DMT Ehrlich reagent, DMT testing, DMT reagent test, DMT serotonin syndrome, DMT sitter, changa, DMT legal status, DMT tolerance`;
+const canonical   = `https://www.ravewellness.org/dmt.html`;
+const ogTitle     = `DMT Harm Reduction: N,N vs 5-MeO, MAOI Risk & Testing | Rave Wellness`;
+const ogDesc      = `Two different drugs share the name DMT. Here is how they differ, why the ayahuasca MAOI interaction is the real danger, and what a purple Ehrlich result actually proves.`;
+const twTitle     = ``;
+const twDesc      = ``;
+const schemaJson  = `{
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "@id": "https://www.ravewellness.org/dmt.html#article",
+        "headline": "DMT Harm Reduction: N,N-DMT vs 5-MeO-DMT, MAOI Interactions, and Testing",
+        "description": "Evidence-based harm reduction for DMT, covering the difference between N,N-DMT and 5-MeO-DMT, the MAOI and SSRI interaction behind ayahuasca, physical safety during fast-onset smoked doses, reagent testing limits, and contraindications.",
+        "url": "https://www.ravewellness.org/dmt.html",
+        "author": { "@type": "Organization", "name": "Rave Wellness", "url": "https://www.ravewellness.org" },
+        "publisher": { "@type": "Organization", "name": "Rave Wellness", "url": "https://www.ravewellness.org" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.ravewellness.org/" },
+          { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://www.ravewellness.org/#guides" },
+          { "@type": "ListItem", "position": 3, "name": "DMT", "item": "https://www.ravewellness.org/dmt.html" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Is 5-MeO-DMT the same thing as DMT?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. N,N-DMT and 5-MeO-DMT are two different compounds that share part of a name. 5-MeO-DMT is active at far smaller doses by weight, so a quantity that would be a modest N,N-DMT dose can be a very heavy 5-MeO-DMT dose. The effect profile is also different: N,N-DMT is strongly visual, while 5-MeO-DMT is usually described as overwhelming and non-visual. A forensic case report documents a death after 5-MeO-DMT was consumed in an ayahuasca-style preparation containing MAOI beta-carbolines. If you cannot confirm which one you have, do not dose. Ehrlich reagent turns purple for both and cannot separate them."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is DMT inactive when swallowed?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Monoamine oxidase in the gut and liver breaks down DMT before enough reaches the brain, so plain oral DMT produces little or no effect. Ayahuasca and pharmahuasca get around this by adding a monoamine oxidase inhibitor, usually harmala alkaloids from Banisteriopsis caapi or Syrian rue. Adding the MAOI is what makes the oral route work and is also what creates the serious interaction risk with SSRIs, SNRIs, MDMA, other serotonergic drugs, and tyramine-rich foods."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can Ehrlich reagent confirm that a sample is DMT?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Only partially. Ehrlich reagent reacts with the indole ring and turns purple, so a purple result says the sample contains an indole. It does not say which indole. LSD, psilocybin, DMT, and 5-MeO-DMT all contain an indole ring and can all produce a purple Ehrlich result, so the test cannot separate N,N-DMT from 5-MeO-DMT. Treat Ehrlich as a screen that rules things out rather than a confirmation, and use a lab drug-checking service when the identity actually matters."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How long does smoked DMT last?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Vaporised or smoked N,N-DMT comes on within seconds, peaks at roughly one minute, and is largely over within about five to twenty minutes. Because the onset is faster than you can react to, sit or lie down before you take the first inhalation, hand the pipe to a sober sitter, and never dose standing up or near heat, water, or stairs."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I need to stop my antidepressant before ayahuasca?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "This is a medical decision, not a decision to make from a website. The interaction is real: the MAOI in ayahuasca combined with an SSRI or SNRI can produce serotonin syndrome, and stopping a psychiatric medication abruptly carries its own risks including discontinuation effects and relapse. Talk to a prescriber. If you cannot or will not stop the medication safely under supervision, do not take ayahuasca."
+            }
+          }
+        ]
+      }
+    ]
+  }`;
+---
+
+<BaseLayout
+  {title}
+  {description}
+  {keywords}
+  {canonical}
+  ogTitle={ogTitle}
+  ogDescription={ogDesc}
+  twitterTitle={twTitle}
+  twitterDescription={twDesc}
+  {schemaJson}
+>
+  <Fragment slot="footer-orgs">
+    <a href="/store" target="_blank" rel="noopener">DanceSafe</a>
+            <a href="https://maps.org" target="_blank" rel="noopener">MAPS</a>
+            <a href="https://tripsit.me" target="_blank" rel="noopener">TripSit</a>
+  </Fragment>
+  <Fragment slot="footer-nav">
+    <h4>On this guide</h4>
+              <a href="#two-drugs">N,N vs 5-MeO</a>
+              <a href="#maoi">MAOI & SSRI risk</a>
+              <a href="#test">Testing</a>
+              <a href="#dose">Dose & timeline</a>
+              <a href="#setting">Physical safety</a>
+              <a href="#research">Research</a>
+              <a href="#shop">Shop</a>
+  </Fragment>
+  <Fragment slot="footer-emergency">
+    <h4>Emergency resources</h4>
+              <p><strong>If someone is in distress:</strong></p>
+              <ul>
+                <li>Call emergency services (911 in US)</li>
+                <li>Fireside Project: 62-FIRESIDE (psychedelic support)</li>
+                <li>SAMHSA Helpline: 1-800-662-4357</li>
+                <li>Poison Control: 1-800-222-1222</li>
+              </ul>
+  </Fragment>
+
+<main>
+
+    <section id="hero">
+      <div class="container">
+        <div class="hero-inner">
+          <div class="hero-badge">DMT · tryptamine psychedelic · two different molecules</div>
+          <h1>DMT Harm Reduction:<br /><span>Know Which One You Have.</span></h1>
+          <p class="hero-sub">Two substances get called "DMT". <strong>N,N-DMT</strong> is the classic smoked tryptamine and the active psychedelic in ayahuasca. <strong>5-MeO-DMT</strong> is a separate compound that is active at much smaller amounts, feels nothing like it, and has a narrower margin for error. They are sometimes sold interchangeably. Beyond that, the biggest real-world danger with DMT is not the DMT: it is the MAOI that has to be added to make it work orally, and what that MAOI does to antidepressants and other serotonergic drugs.</p>
+          <div class="hero-actions">
+            <a href="#two-drugs" class="btn btn-primary">N,N vs 5-MeO</a>
+            <a href="#maoi" class="btn btn-ghost">MAOI & SSRI risk</a>
+          </div>
+        </div>
+        <div class="hero-disclaimer">
+          <span class="disclaimer-icon">⚠</span>
+          <p><strong>This is not medical advice.</strong> DMT and 5-MeO-DMT are Schedule I in the US and controlled in most jurisdictions. If someone is unresponsive, rigid, overheating, or having trouble breathing, call emergency services. Some links on this page are affiliate links, we may earn a commission at no extra cost to you.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== QUICK FACTS ===== -->
+    <section id="facts">
+      <div class="container">
+        <h2 class="section-title centered" id="what-is-dmt">What is DMT?</h2>
+        <div class="risk-grid">
+          <div class="risk-card">
+            <div class="risk-icon">🔬</div>
+            <h3 id="chemistry">Chemistry</h3>
+            <p>N,N-dimethyltryptamine is a simple indole tryptamine found in many plants and produced in trace amounts in mammals. It is the active psychedelic in ayahuasca and the substance usually meant by "smoking DMT". Schedule I in the US.</p>
+          </div>
+          <div class="risk-card">
+            <div class="risk-icon">🧠</div>
+            <h3 id="mechanism">Mechanism</h3>
+            <p>Agonist at 5-HT2A and other serotonin receptors, the same family as psilocybin and LSD. Because it is a substrate for monoamine oxidase, the body clears it very fast, which is why the smoked experience is measured in minutes rather than hours.</p>
+          </div>
+          <div class="risk-card">
+            <div class="risk-icon">💨</div>
+            <h3 id="routes">Routes</h3>
+            <p>Vaporised or smoked (seconds to onset, over in minutes), injected in research settings, or taken orally with an MAOI as ayahuasca or pharmahuasca. Swallowed on its own it does close to nothing.</p>
+          </div>
+          <div class="risk-card risk-high">
+            <div class="risk-icon">⚠</div>
+            <h3 id="supply-risk">Supply risk</h3>
+            <p>Sold as loose crystal, in "changa" herbal blends, or in sealed vape carts. Carts are the hardest to verify: you cannot see, weigh, or reagent-test a filled cartridge without emptying it, and the label is the only claim you have.</p>
+          </div>
+          <div class="risk-card risk-critical">
+            <div class="risk-icon">❗</div>
+            <h3 id="5-meo-dmt-is-not-n-n-dmt">5-MeO-DMT is not N,N-DMT</h3>
+            <p>Two different molecules, two different drugs. 5-MeO-DMT is active in the single-digit milligram range vaporised, where N,N-DMT is dosed in tens of milligrams. The subjective effects barely resemble each other. They are sometimes substituted for one another in the illicit market, and no home reagent can separate them because both are indoles. Full breakdown below.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CRITICAL RISKS ===== -->
+    <section id="risks">
+      <div class="container">
+        <h2 class="section-title centered" id="critical-risks">Critical risks</h2>
+        <div class="risk-grid">
+          <div class="risk-card risk-critical">
+            <div class="risk-icon">☠</div>
+            <h3 id="maoi-plus-serotonergic-drugs">MAOI plus serotonergic drugs</h3>
+            <p>Ayahuasca means taking an MAOI. MAOIs combined with SSRIs, SNRIs, MDMA, tramadol, or other serotonergic drugs can cause serotonin syndrome, and combined with tyramine-rich foods can cause hypertensive crisis. This is the single largest source of preventable harm around DMT.</p>
+          </div>
+          <div class="risk-card risk-critical">
+            <div class="risk-icon">🔀</div>
+            <h3 id="the-wrong-tryptamine">The wrong tryptamine</h3>
+            <p>Taking an N,N-DMT-sized dose of 5-MeO-DMT is a serious overdose. If you cannot establish which compound you have, you do not have a dose, you have a guess.</p>
+          </div>
+          <div class="risk-card risk-high">
+            <div class="risk-icon">🤕</div>
+            <h3 id="falling-and-burns">Falling and burns</h3>
+            <p>Smoked DMT takes effect faster than you can put anything down. People drop lit pipes, slump into hot glass, and fall. Sit or lie down first, and have someone sober take the pipe out of your hand.</p>
+          </div>
+          <div class="risk-card risk-high">
+            <div class="risk-icon">💓</div>
+            <h3 id="blood-pressure-spike">Blood pressure spike</h3>
+            <p>Controlled intravenous dosing raised blood pressure, heart rate, pupil diameter, and body temperature dose-dependently. If you have uncontrolled hypertension or a known cardiac condition, that acute surge is a real reason not to.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== STEP 1: TWO DRUGS ===== -->
+    <section id="two-drugs">
+      <div class="container">
+        <div class="section-header">
+          <div class="step-pill">Step 1</div>
+          <h2 id="n-n-dmt-vs-5-meo-dmt">N,N-DMT vs 5-MeO-DMT</h2>
+          <p class="section-sub">Both get called DMT in conversation and on packaging. Treating them as the same substance is the most consequential mistake people make with this class of drug, and it is the reason this section comes before dosing.</p>
+        </div>
+        <div class="during-grid">
+          <div class="guideline-card">
+            <div class="guideline-header"><span class="guideline-icon">🌿</span><h3 id="n-n-dmt-the-classic">N,N-DMT, the classic</h3></div>
+            <ul>
+              <li><strong>Potency:</strong> vaporised doses are commonly reported in the tens of milligrams</li>
+              <li><strong>Character:</strong> intensely visual, geometric, often described as entering a distinct scene or environment</li>
+              <li><strong>Duration smoked:</strong> seconds to onset, roughly 5 to 20 minutes total</li>
+              <li><strong>Oral:</strong> inactive alone, active only with an MAOI (ayahuasca, pharmahuasca)</li>
+              <li><strong>Where it comes from:</strong> plant sources such as Mimosa and Acacia species, or synthesised</li>
+            </ul>
+          </div>
+          <div class="guideline-card critical">
+            <div class="guideline-header">
+              <span class="guideline-icon">☠</span>
+              <h3 id="5-meo-dmt-the-other-one">5-MeO-DMT, the other one</h3>
+              <span class="badge badge-critical">Different drug</span>
+            </div>
+            <ul>
+              <li><strong>Potency:</strong> active in the single-digit milligram range vaporised, so a scoop sized for N,N-DMT is a large overdose</li>
+              <li><strong>Character:</strong> usually described as non-visual and totally overwhelming, with loss of any sense of self or surroundings. People go rigid, thrash, vocalise, or vomit</li>
+              <li><strong>Receptor profile:</strong> a nonselective serotonin agonist with its highest affinity at 5-HT1A, not the 5-HT2A-dominant profile people expect from a psychedelic</li>
+              <li><strong>Metabolism:</strong> broken down mainly by MAO-A and converted by CYP2D6 into bufotenine, which is itself active. CYP2D6 varies a lot between people, so the same dose does not do the same thing to everyone</li>
+              <li><strong>With an MAOI:</strong> clearance is blocked and exposure rises sharply. A forensic case report describes a death after 5-MeO-DMT was drunk in an ayahuasca-style brew containing harmine, harmaline, and tetrahydroharmine</li>
+              <li><strong>Source:</strong> synthesised, or from Bufo alvarius toad secretion, where concentration is not standardised in any way</li>
+            </ul>
+          </div>
+          <div class="guideline-card">
+            <div class="guideline-header"><span class="guideline-icon">🔎</span><h3 id="how-to-tell-them-apart">How to tell them apart</h3></div>
+            <p>Honestly: at home, you mostly cannot. Both are indoles, so both turn Ehrlich purple. Neither has a widely available home reagent that separates it from the other. What you can do:</p>
+            <ul>
+              <li>Send a sample to a lab drug-checking service that runs GC-MS or FTIR. This is the only reliable answer</li>
+              <li>Treat any unlabelled white or off-white tryptamine crystal as unidentified, not as N,N-DMT by default</li>
+              <li>Be suspicious of vape carts specifically. A sealed cart cannot be weighed or reagent-tested without emptying it, and 5-MeO-DMT has turned up in products sold as DMT</li>
+              <li>If you cannot confirm the identity, the safe move is not a smaller dose of an unknown, it is not dosing</li>
+            </ul>
+            <a href="/blog/dmt-vapes-and-microdosing.html" class="btn btn-sm btn-secondary" style="margin-top: 12px;">More on DMT vapes and carts →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== STEP 2: MAOI ===== -->
+    <section id="maoi">
+      <div class="container">
+        <div class="section-header">
+          <div class="step-pill">Step 2</div>
+          <h2 id="the-maoi-problem-ayahuasca-and-your-medication">The MAOI problem: ayahuasca and your medication</h2>
+          <p class="section-sub">If you are drinking ayahuasca or taking pharmahuasca capsules, you are taking a monoamine oxidase inhibitor. That single fact drives almost every serious interaction on this page.</p>
+        </div>
+
+        <div class="during-grid">
+          <div class="guideline-card">
+            <div class="guideline-header"><span class="guideline-icon">🧪</span><h3 id="why-oral-dmt-needs-an-maoi">Why oral DMT needs an MAOI</h3></div>
+            <p>Monoamine oxidase in the gut wall and liver destroys DMT before meaningful amounts reach the brain, so swallowing DMT on its own produces little or nothing. Ayahuasca solves this by pairing a DMT-containing plant with <em>Banisteriopsis caapi</em>, whose harmala alkaloids (harmine, harmaline, tetrahydroharmine) inhibit MAO-A. Pharmahuasca does the same thing with isolated DMT plus harmine in a capsule. Self-experiments with pharmahuasca confirmed this mechanism directly, and it is the reason the oral route works at all.</p>
+            <p class="note-text">Practical consequence: the MAOI stays active in your body for hours after the DMT is gone. The interaction window is not the length of the trip.</p>
+          </div>
+
+          <div class="guideline-card critical">
+            <div class="guideline-header">
+              <span class="guideline-icon">💊</span>
+              <h3 id="ssris-snris-and-antidepressants">SSRIs, SNRIs, and antidepressants</h3>
+              <span class="badge badge-critical">Critical</span>
+            </div>
+            <p>An MAOI on top of an SSRI or SNRI is a textbook serotonin syndrome combination and is contraindicated in ordinary psychiatric practice, entirely separately from any psychedelic context. Ayahuasca does not get an exemption from that pharmacology.</p>
+            <p><strong>An important distinction people get wrong:</strong> recent reviews of taking antidepressants alongside <em>classic</em> psychedelics such as psilocybin found the combination generally tolerable without increased serotonin syndrome risk. That finding is about psilocybin and similar 5-HT2A agonists on their own. It does not transfer to ayahuasca, because ayahuasca adds an MAOI to the picture and the MAOI is what makes the interaction dangerous.</p>
+            <p><strong>The other half of this is real too:</strong> stopping an antidepressant abruptly to attend a ceremony carries its own risk, including discontinuation effects and relapse of the condition you were treating. This is a conversation with a prescriber, not a decision to make off a website or from a facilitator's advice. If you cannot taper safely under supervision, the answer is to skip the ceremony.</p>
+            <a href="/blog/serotonin-syndrome.html" class="btn btn-sm btn-primary" style="margin-top: 12px;">How to recognise serotonin syndrome →</a>
+          </div>
+
+          <div class="guideline-card critical">
+            <div class="guideline-header">
+              <span class="guideline-icon">🚫</span>
+              <h3 id="do-not-combine-with-an-maoi">Do not combine with an MAOI</h3>
+              <span class="badge badge-critical">Critical</span>
+            </div>
+            <div class="combo-list">
+              <div class="combo-item combo-fatal">
+                <span class="combo-drug">SSRIs / SNRIs</span>
+                <span class="combo-risk">Serotonin syndrome. Includes fluoxetine, sertraline, escitalopram, venlafaxine, duloxetine. Fluoxetine has a very long half-life and needs a much longer gap than the others</span>
+              </div>
+              <div class="combo-item combo-fatal">
+                <span class="combo-drug">MDMA</span>
+                <span class="combo-risk">Serotonin syndrome, documented fatalities with MAOIs. No safe amount, no safe spacing on the same night</span>
+              </div>
+              <div class="combo-item combo-fatal">
+                <span class="combo-drug">Tramadol</span>
+                <span class="combo-risk">Serotonin reuptake inhibition plus lowered seizure threshold. Severe and fast-developing with an MAOI</span>
+              </div>
+              <div class="combo-item combo-fatal">
+                <span class="combo-drug">Other MAOIs</span>
+                <span class="combo-risk">Prescription phenelzine, tranylcypromine, or Syrian rue stacked with a caapi brew. Do not layer inhibitors</span>
+              </div>
+              <div class="combo-item combo-fatal">
+                <span class="combo-drug">Stimulants</span>
+                <span class="combo-risk">Amphetamine, methamphetamine, cocaine, MDA. Hypertensive crisis risk from the sympathomimetic plus MAOI combination</span>
+              </div>
+              <div class="combo-item combo-danger">
+                <span class="combo-drug">Dextromethorphan (DXM)</span>
+                <span class="combo-risk">In many cough medicines. Serotonergic, and a recognised MAOI contraindication</span>
+              </div>
+              <div class="combo-item combo-danger">
+                <span class="combo-drug">Tyramine-rich food</span>
+                <span class="combo-risk">Aged cheese, cured and fermented meats, soy sauce, miso, sauerkraut, tap and unpasteurised beer, over-ripe or spoiled protein. Hypertensive crisis. Ceremony diets exist for a pharmacological reason</span>
+              </div>
+              <div class="combo-item combo-danger">
+                <span class="combo-drug">Decongestants</span>
+                <span class="combo-risk">Pseudoephedrine and phenylephrine are sympathomimetics with the same hypertensive risk as tyramine</span>
+              </div>
+              <div class="combo-item combo-caution">
+                <span class="combo-drug">Triptans, St John's wort, 5-HTP, lithium</span>
+                <span class="combo-risk">All add serotonergic load. Check every prescription and supplement, not just the obvious ones</span>
+              </div>
+            </div>
+            <a href="/interactions.html" class="combo-checker-link">Full interaction chart →</a>
+          </div>
+
+          <div class="guideline-card">
+            <div class="guideline-header"><span class="guideline-icon">🩺</span><h3 id="serotonin-syndrome-warning-signs">Serotonin syndrome warning signs</h3></div>
+            <p>Onset is usually within hours of the triggering dose. The combination of these signs matters more than any one of them:</p>
+            <ul>
+              <li>Agitation, restlessness, confusion, rapid speech</li>
+              <li>Muscle twitching, tremor, rigidity, and clonus (rhythmic involuntary jerking, most obvious at the ankles)</li>
+              <li>Heavy sweating, shivering, dilated pupils, diarrhoea</li>
+              <li>Fast heart rate, high blood pressure, rising temperature</li>
+            </ul>
+            <div class="during-warning" style="margin-top: 16px;">
+              <strong>High fever with muscle rigidity is a medical emergency.</strong> Call emergency services and tell them exactly what was taken, including the plant brew and any prescription medication. Cool the person while you wait. Do not give more serotonergic drugs of any kind.
+            </div>
+          </div>
+
+          <div class="guideline-card">
+            <div class="guideline-header"><span class="guideline-icon">🤢</span><h3 id="what-ayahuasca-normally-does">What ayahuasca normally does</h3></div>
+            <p>In the Global Ayahuasca Survey of more than 10,000 participants, about 70 percent reported an acute physical adverse effect, overwhelmingly vomiting, and 2.3 percent needed medical attention afterwards. Around 56 percent reported some adverse mental health effect in the following weeks, although most of those people framed it as part of a difficult but useful process, and about 12 percent sought professional support for it.</p>
+            <ul>
+              <li>Vomiting and diarrhoea are expected, not a sign something went wrong. Plan for fluids afterwards</li>
+              <li>Physical adverse effects were more likely in people with an existing physical health condition and in people drinking outside a supervised setting</li>
+              <li>Adverse mental health effects were more likely in people with an anxiety disorder</li>
+              <li>Brew strength is not standardised. The same volume from a different batch is not the same dose</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== STEP 3: TEST ===== -->
+    <section id="test">
+      <div class="container">
+        <div class="section-header">
+          <div class="step-pill">Step 3</div>
+          <h2 id="testing-what-ehrlich-can-and-cannot-tell-you">Testing: what Ehrlich can and cannot tell you</h2>
+          <p class="section-sub">Reagent testing for DMT is a rule-out tool, not an identification. Understanding exactly what the purple means keeps you from over-trusting it.</p>
+        </div>
+        <div class="test-grid">
+          <div class="card">
+            <div class="card-icon-wrap icon-purple">🧪</div>
+            <h3 id="ehrlich-reagent">Ehrlich reagent</h3>
+            <p>Ehrlich's is p-dimethylaminobenzaldehyde in acid. It condenses with the electron-rich indole ring and produces a purple product. That is the entire mechanism, and it explains both the value and the limit.</p>
+            <div class="reagent-table">
+              <div class="reagent-row header"><span>Sample</span><span>Ehrlich result</span></div>
+              <div class="reagent-row">
+                <span class="reagent-name">N,N-DMT</span>
+                <span class="result result-blue">Purple</span>
+              </div>
+              <div class="reagent-row">
+                <span class="reagent-name">5-MeO-DMT</span>
+                <span class="result result-blue">Purple (also an indole)</span>
+              </div>
+              <div class="reagent-row">
+                <span class="reagent-name">LSD</span>
+                <span class="result result-blue">Purple</span>
+              </div>
+              <div class="reagent-row">
+                <span class="reagent-name">Psilocybin material</span>
+                <span class="result">Purple, often muddy</span>
+              </div>
+              <div class="reagent-row">
+                <span class="reagent-name">NBOMe, DOx, most phenethylamines</span>
+                <span class="result">No reaction</span>
+              </div>
+            </div>
+            <div class="during-warning" style="margin-top: 16px;">
+              <strong>Purple does not mean N,N-DMT.</strong> It means an indole is present. 5-MeO-DMT gives the same purple, so Ehrlich cannot do the one separation that matters most for this drug. A non-reaction is the informative result: whatever you have, it is not a tryptamine.
+            </div>
+            <p style="margin-top: 12px;">Some links here are affiliate links and we may earn a commission at no extra cost to you. DanceSafe sells Ehrlich as its LSD kit, which is the same reagent you would use on a tryptamine.</p>
+            <a href="/lsd-kit" target="_blank" rel="noopener" class="btn btn-sm btn-primary" style="margin-top: 8px;">Ehrlich (LSD) kit at DanceSafe →</a>
+            <a href="/blog/ehrlich-reagent-color-chart.html" class="btn btn-sm btn-secondary" style="margin-top: 8px;">Full Ehrlich color chart →</a>
+          </div>
+          <div class="card card-danger">
+            <div class="card-icon-wrap icon-red">🚨</div>
+            <h3 id="lab-drug-checking">Lab drug checking</h3>
+            <p class="danger-text">Because no home reagent separates N,N-DMT from 5-MeO-DMT, a lab service running GC-MS or FTIR is the only way to actually identify what you have. If the identity matters to you, and with these two compounds it should, this is the step that answers the question.</p>
+            <div class="btn-row">
+              <a href="https://energycontrol.org/" class="btn btn-sm btn-secondary" target="_blank" rel="noopener">Energy Control →</a>
+              <a href="/which-test-kit.html" class="btn btn-sm btn-secondary">Which kit do I need? →</a>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-icon-wrap icon-teal">⚖</div>
+            <h3 id="scales-and-fentanyl-strips">Scales and fentanyl strips</h3>
+            <p>Weigh crystal rather than eyeballing it. The gap between a light smoked dose and a full breakthrough is small enough in milligrams that a visual estimate is not a dose.</p>
+            <p>Fentanyl contamination is not a documented feature of the DMT supply the way it is for opioids and some stimulant powders, so strips are not the priority here. If your source also handles powders where contamination does happen, or you have any doubt about what a shared bag has touched, strips are inexpensive insurance.</p>
+            <div class="btn-row">
+              <a href="/fentanyl-strips" class="btn btn-sm btn-danger" target="_blank" rel="noopener">Fentanyl strips →</a>
+              <a href="/reagent-chart.html" class="btn btn-sm btn-secondary">Reagent color chart →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== STEP 4: DOSE ===== -->
+    <section id="dose">
+      <div class="container">
+        <div class="section-header">
+          <div class="step-pill">Step 4</div>
+          <h2 id="dose-and-timeline">Dose and timeline</h2>
+          <p class="section-sub">Route changes this drug more than dose does. The same compound gives you a twelve-minute experience or a five-hour one depending entirely on how it enters your body.</p>
+        </div>
+        <div class="during-grid">
+          <div class="guideline-card">
+            <div class="guideline-header"><span class="guideline-icon">💨</span><h3 id="smoked-vaporised-n-n-dmt">Smoked or vaporised N,N-DMT</h3></div>
+            <p>Onset is within seconds of the first full inhalation. In controlled intravenous dosing, blood levels and subjective effects peaked within about two minutes and were negligible by thirty minutes. Smoked material follows a similar shape.</p>
+            <div class="timeline-events">
+              <div class="event">
+                <span class="event-time">0–30 sec</span>
+                <span class="event-desc">Onset. Already happening before you can put the pipe down</span>
+              </div>
+              <div class="event">
+                <span class="event-time">~1–3 min</span>
+                <span class="event-desc">Peak. Most intense point of the experience</span>
+              </div>
+              <div class="event">
+                <span class="event-time">5–20 min</span>
+                <span class="event-desc">Descent and return to baseline for most people</span>
+              </div>
+              <div class="event">
+                <span class="event-time">20–60 min</span>
+                <span class="event-desc">Afterglow, mild disorientation, not a good window for driving</span>
+              </div>
+            </div>
+            <p class="note-text">Because the window is so short, the temptation to immediately redose is strong. Repeated closely spaced dosing is not a neutral act: it stacks cardiovascular effects while, unusually, the subjective effects do not blunt. See the tolerance section below.</p>
+          </div>
+          <div class="guideline-card">
+            <div class="guideline-header"><span class="guideline-icon">🍵</span><h3 id="oral-ayahuasca-pharmahuasca">Oral (ayahuasca, pharmahuasca)</h3></div>
+            <p>Plain oral DMT is inactive. With an MAOI, onset is typically 30 to 60 minutes, the peak sits around one to two hours, and the whole thing runs roughly four to six hours, with the MAOI itself active for longer.</p>
+            <ul>
+              <li>Brew concentration varies between batches, preparers, and traditions. There is no reliable way to know the DMT content of a cup by looking at it</li>
+              <li>Do not treat a second cup as a proportional step up. Onset is slow enough that people misjudge it and drink again too early</li>
+              <li>The dietary and medication restrictions before a ceremony exist because of the MAOI, not for ritual reasons alone</li>
+              <li>Vomiting is common and expected</li>
+            </ul>
+          </div>
+          <div class="guideline-card">
+            <div class="guideline-header"><span class="guideline-icon">🌿</span><h3 id="changa-and-vape-carts">Changa and vape carts</h3></div>
+            <p>Changa is DMT infused into a herbal blend, often with a caapi or Syrian rue component, which means it can carry a small MAOI dose alongside the DMT. If you take an SSRI or SNRI, or you are dosing anything else serotonergic, changa is not a lower-commitment option, it is a smaller version of the same interaction.</p>
+            <p>Vape carts split what would be one hit into many small ones. That changes the shape of the experience, makes accidental stacking easy, and removes your ability to inspect or weigh the material. Treat a cart of unknown provenance as an unidentified tryptamine at an unknown concentration.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== STEP 5: PHYSICAL SAFETY ===== -->
+    <section id="setting">
+      <div class="container">
+        <div class="section-header">
+          <div class="step-pill">Step 5</div>
+          <h2 id="physical-safety-and-the-sitter">Physical safety and the sitter</h2>
+          <p class="section-sub">Most of what goes physically wrong with smoked DMT is mundane: burns and falls. The onset is faster than your reaction time, so every precaution has to be in place before the first inhalation.</p>
+        </div>
+        <div class="during-grid">
+          <div class="guideline-card">
+            <div class="guideline-header"><span class="guideline-icon">🛋</span><h3 id="before-you-light-anything">Before you light anything</h3></div>
+            <ul>
+              <li><strong>Sit or lie down first.</strong> Not "I will sit down after". You will not have time. Standing is how people fall into furniture and hard floors</li>
+              <li><strong>Have a sober sitter.</strong> Their first job is taking the pipe or vape out of your hand the moment you stop inhaling</li>
+              <li><strong>Clear the area.</strong> No candles, no open flame, no glass tables, no stairs, no water, no balcony, no fireplace edges</li>
+              <li><strong>Use a stable surface.</strong> A floor with cushions beats a couch you can roll off. Beds are fine if there is nothing hard beside them</li>
+              <li><strong>Set the pipe down on something heatproof.</strong> Hot glass on a carpet or a duvet is a fire, and hot glass against skin is a burn you will not feel happening</li>
+              <li><strong>Agree the plan out loud beforehand.</strong> The sitter should know what was taken, roughly how much, and that they are not to intervene physically unless there is a safety issue</li>
+            </ul>
+          </div>
+          <div class="guideline-card">
+            <div class="guideline-header"><span class="guideline-icon">🧍</span><h3 id="what-a-sitter-actually-does">What a sitter actually does</h3></div>
+            <ul>
+              <li>Takes the pipe, puts it somewhere safe, stays within reach</li>
+              <li>Does not talk, touch, or intervene unless the person is at physical risk</li>
+              <li>Keeps them from standing or wandering for the first several minutes</li>
+              <li>Watches for choking if the person vomits, and turns them onto their side if they are unresponsive and lying flat</li>
+              <li>Stays sober. A sitter who has also dosed is a second person needing supervision</li>
+              <li>Knows when to call for help and is willing to do it. In an emergency say what was taken, honestly</li>
+            </ul>
+            <p class="note-text">With 5-MeO-DMT the sitter role is more physical, not less. Rigidity, thrashing, and unresponsiveness are commonly described, and someone needs to be there to keep the person from injuring themselves.</p>
+          </div>
+          <div class="guideline-card">
+            <div class="guideline-header"><span class="guideline-icon">🧠</span><h3 id="difficult-experiences">Difficult experiences</h3></div>
+            <p>A frightening DMT experience is short by construction. That is genuinely useful information to hold onto, and worth saying to someone out loud if you are sitting for them.</p>
+            <ul>
+              <li>Slow breathing helps more than anything else. Long exhales</li>
+              <li>Do not fight it. Resistance during the peak tends to make it harder, and the peak passes on its own in minutes regardless</li>
+              <li>Fireside Project (62-FIRESIDE) takes calls and texts during and after psychedelic experiences</li>
+              <li>Oral doses do not have this escape hatch. An ayahuasca session you want out of still has hours left to run, which is why setting and support matter far more there</li>
+              <li>If distress persists for days afterwards, that is worth taking to a clinician rather than waiting out</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CONTRAINDICATIONS ===== -->
+    <section id="contraindications">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="who-should-not-take-dmt">Who should not take DMT</h2>
+          <p class="section-sub">These are the risk factors with the clearest basis. None of them are absolute predictions, and all of them are reasons to take the decision seriously rather than casually.</p>
+        </div>
+        <div class="risk-grid">
+          <div class="risk-card risk-critical">
+            <div class="risk-icon">🧬</div>
+            <h3 id="psychosis-history">Psychosis history</h3>
+            <p>A personal or first-degree family history of schizophrenia, schizoaffective disorder, or bipolar disorder with psychotic features is a standard exclusion in every psychedelic clinical trial protocol, for good reason. Serotonergic psychedelics can precipitate or worsen psychotic episodes in vulnerable people. Family history counts even if you have never had symptoms yourself.</p>
+          </div>
+          <div class="risk-card risk-critical">
+            <div class="risk-icon">💓</div>
+            <h3 id="cardiovascular-conditions">Cardiovascular conditions</h3>
+            <p>Controlled dosing produced dose-dependent rises in blood pressure and heart rate. Uncontrolled hypertension, arrhythmia, structural heart disease, or a history of cardiac events all make that acute surge a meaningful risk. With an MAOI on board, the hypertensive crisis risk from any sympathomimetic or tyramine exposure is added on top.</p>
+          </div>
+          <div class="risk-card risk-high">
+            <div class="risk-icon">🤰</div>
+            <h3 id="pregnancy">Pregnancy</h3>
+            <p>There is no safety data on DMT or ayahuasca in pregnancy, and the alkaloids cross biological barriers. Harmala alkaloids in particular have uterine effects described in the older literature. Absence of data here is not reassurance, it means the risk is unquantified. The same applies while breastfeeding.</p>
+          </div>
+          <div class="risk-card risk-high">
+            <div class="risk-icon">💊</div>
+            <h3 id="serotonergic-medication">Serotonergic medication</h3>
+            <p>Any SSRI, SNRI, MAOI, tricyclic, tramadol, triptan, lithium, or St John's wort. For smoked N,N-DMT the concern is additive serotonergic load. For anything involving an MAOI it moves from concern to contraindication.</p>
+          </div>
+          <div class="risk-card">
+            <div class="risk-icon">🧾</div>
+            <h3 id="liver-conditions">Liver conditions</h3>
+            <p>Ayahuasca alkaloids are hepatically metabolised and interact with CYP enzymes. Existing liver disease or a medication regimen that already loads the liver is a reason to get clinical advice rather than proceed on a facilitator's assurance.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TOLERANCE AND DEPENDENCE ===== -->
+    <section id="tolerance">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="tolerance-and-dependence">Tolerance and dependence</h2>
+          <p class="section-sub">DMT behaves differently here from the rest of the psychedelic class, and that difference has a practical consequence.</p>
+        </div>
+        <div class="during-grid">
+          <div class="guideline-card">
+            <h3 id="tolerance-does-not-build-the-usual-way">Tolerance does not build the usual way</h3>
+            <p>LSD and psilocybin build strong, fast tolerance: dose again the next day and the effect is markedly reduced. DMT does not follow that pattern. In a controlled study where volunteers received four hallucinogenic intravenous doses spaced thirty minutes apart, tolerance to the psychedelic subjective effects did not develop, by either clinical interview or rating scale. Hormonal responses and heart rate response did decline with repetition, while blood pressure response did not.</p>
+            <p class="note-text">The harm reduction reading of that result: repeat dosing keeps working psychologically, so nothing in the experience tells you to stop, while cardiovascular effects are still landing each time. Decide your number of doses before you start rather than in the moment.</p>
+          </div>
+          <div class="guideline-card">
+            <h3 id="what-dmt-does-not-do">What DMT does not do</h3>
+            <ul>
+              <li><strong>No documented physical withdrawal syndrome.</strong> Unlike alcohol, benzodiazepines, or opioids, stopping does not produce a recognised withdrawal state</li>
+              <li><strong>Compulsive use is uncommon.</strong> In a survey of 515 people who had used 5-MeO-DMT, most had used fewer than four times in their life and under ten percent reported any craving or desire for the drug. Reported legal, medical, and psychiatric problems related to use were each around one percent</li>
+              <li><strong>That is not the same as harmless.</strong> Low dependence liability says nothing about acute risk, the MAOI interactions, psychological difficulty, or what happens when the identity of the substance is wrong</li>
+              <li>Survey data is self-reported and drawn from people willing to answer a psychedelics questionnaire, which is not a representative sample. Read it as a signal about dependence patterns, not as a safety guarantee</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== LEGAL ===== -->
+    <section id="legal">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="legal-status">Legal status</h2>
+          <p class="section-sub">Brief and factual. This is not legal advice, and the specifics vary by country and by state or province.</p>
+        </div>
+        <div class="during-grid">
+          <div class="guideline-card">
+            <h3 id="united-states">United States</h3>
+            <p>DMT is a Schedule I controlled substance under the federal Controlled Substances Act. 5-MeO-DMT was added to Schedule I in 2011. Plants containing DMT occupy an odd position: the plant material itself is generally not scheduled, while extracting the DMT from it is a controlled substance offence.</p>
+            <p>There is a narrow religious-use exemption, established through litigation rather than legislation. In <em>Gonzales v. O Centro Espírita Beneficente União do Vegetal</em> (2006) the Supreme Court ruled unanimously under the Religious Freedom Restoration Act that the UDV could use its ayahuasca sacrament. A later federal district court ruling extended comparable protection to a Santo Daime congregation in Oregon. These exemptions apply to those specific religious bodies. They are not a general legal shelter for ceremonies, retreats, or facilitators, and buying a seat at a ceremony does not put you inside one.</p>
+          </div>
+          <div class="guideline-card">
+            <h3 id="elsewhere">Elsewhere</h3>
+            <p>DMT is controlled under the 1971 UN Convention on Psychotropic Substances, so it is prohibited in most countries. National handling of ayahuasca as a preparation differs considerably: Brazil and Peru permit religious and traditional use, while several European countries have prosecuted ayahuasca cases with inconsistent outcomes.</p>
+            <p class="note-text">Carrying DMT or ayahuasca across a border is a separate and more serious offence than possession in most jurisdictions, including where domestic ceremonial use is tolerated. Check the law where you actually are, and treat retreat marketing as advertising rather than as legal information.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== RESEARCH ===== -->
+    <section id="research">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="research-and-further-reading">Research and further reading</h2>
+          <p class="section-sub">Human research on DMT is unusually good for a Schedule I tryptamine, largely because of one controlled programme in the 1990s. Research on 5-MeO-DMT is much thinner, and most of what is known about it comes from survey and metabolic work rather than clinical trials.</p>
+        </div>
+        <div class="research-grid">
+          <div class="research-card">
+            <span class="research-tag tag-clinical">Human clinical</span>
+            <h4>Strassman &amp; Qualls (1994), dose-response in humans</h4>
+            <p>Double-blind, placebo-controlled intravenous dosing in 11 experienced hallucinogen users. Peak blood levels and subjective effects within two minutes, negligible at thirty. Blood pressure, heart rate, pupil diameter, and body temperature all rose dose-dependently. This anchors both the timeline and the cardiovascular warning on this page.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/8297216/" target="_blank" rel="noopener" class="research-link">Strassman RJ, Qualls CR (1994). Dose-response study of N,N-dimethyltryptamine in humans. I. Neuroendocrine, autonomic, and cardiovascular effects. Arch Gen Psychiatry. PMID 8297216 →</a>
+          </div>
+          <div class="research-card">
+            <span class="research-tag tag-neuro">Tolerance</span>
+            <h4>Strassman et al. (1996), differential tolerance</h4>
+            <p>Thirteen volunteers received four hallucinogenic intravenous doses at thirty-minute intervals. Tolerance to the subjective psychedelic effects did not occur, while ACTH, prolactin, cortisol, and heart rate responses declined and blood pressure response did not. This is the source for the tolerance section above.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/8731519/" target="_blank" rel="noopener" class="research-link">Strassman RJ, Qualls CR, Berg LM (1996). Differential tolerance to biological and subjective effects of four closely spaced doses of N,N-dimethyltryptamine in humans. Biol Psychiatry. PMID 8731519 →</a>
+          </div>
+          <div class="research-card">
+            <span class="research-tag tag-clinical">Oral route</span>
+            <h4>Ott (1999), pharmahuasca</h4>
+            <p>Summary of roughly seventy self-experiments with capsules of crystalline DMT plus harmine. Confirms the Holmstedt-Lindgren hypothesis that oral DMT becomes active because the beta-carboline inhibits monoamine oxidase. This is the direct evidence behind the claim that oral DMT is inactive without an MAOI.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/10438001/" target="_blank" rel="noopener" class="research-link">Ott J (1999). Pharmahuasca: human pharmacology of oral DMT plus harmine. J Psychoactive Drugs. PMID 10438001 →</a>
+          </div>
+          <div class="research-card">
+            <span class="research-tag tag-supply">Fatality</span>
+            <h4>Sklerov et al. (2005), fatal 5-MeO-DMT intoxication</h4>
+            <p>A 25-year-old man died after drinking herbal extracts containing beta-carbolines and tryptamines. Heart blood contained 5-MeO-DMT at 1.88 mg/L alongside harmine, harmaline, and tetrahydroharmine, with only trace N,N-DMT. No anatomic cause of death was found at autopsy and the medical examiner ruled hallucinogenic amine intoxication. This is the documented case behind the 5-MeO-DMT plus MAOI warning.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/16356341/" target="_blank" rel="noopener" class="research-link">Sklerov J et al. (2005). A fatal intoxication following the ingestion of 5-methoxy-N,N-dimethyltryptamine in an ayahuasca preparation. J Anal Toxicol. PMID 16356341 →</a>
+          </div>
+          <div class="research-card">
+            <span class="research-tag tag-neuro">Metabolism</span>
+            <h4>Shen et al. (2010), 5-MeO-DMT metabolism and interactions</h4>
+            <p>Review of how 5-MeO-DMT is handled by the body. It is inactivated mainly by MAO-A and converted by CYP2D6 into the active metabolite bufotenine. Adding harmaline blocks the deamination route, prolonging and increasing exposure to both, which the authors describe as a route to hyperserotonergic effects and serotonin toxicity. CYP2D6 genetic variation adds further unpredictability.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/20942780/" target="_blank" rel="noopener" class="research-link">Shen HW, Jiang XL, Winter JC, Yu AM (2010). Psychedelic 5-methoxy-N,N-dimethyltryptamine: metabolism, pharmacokinetics, drug interactions, and pharmacological actions. Curr Drug Metab. PMID 20942780 →</a>
+          </div>
+          <div class="research-card">
+            <span class="research-tag tag-neuro">5-MeO overview</span>
+            <h4>Ermakova et al. (2022), narrative synthesis</h4>
+            <p>Literature review covering the pharmacology, chemistry, and metabolism of 5-MeO-DMT. Identifies it as a serotonergic agonist with highest affinity for 5-HT1A, notes its short duration and relative lack of visual effects compared with other psychedelics, and states plainly that clinical studies in humans are lacking.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/34666554/" target="_blank" rel="noopener" class="research-link">Ermakova AO, Dunbar F, Rucker J, Johnson MW (2022). A narrative synthesis of research with 5-MeO-DMT. J Psychopharmacol. PMID 34666554 →</a>
+          </div>
+          <div class="research-card">
+            <span class="research-tag tag-supply">Adverse effects</span>
+            <h4>Bouso et al. (2022), Global Ayahuasca Survey</h4>
+            <p>Survey of 10,836 ayahuasca drinkers across more than 50 countries. Around 70 percent reported acute physical adverse effects, mainly vomiting, with 2.3 percent requiring medical attention. Adverse mental health effects in following weeks were reported by around 56 percent, most of whom framed them as part of a growth process, with about 12 percent seeking professional support.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/36962494/" target="_blank" rel="noopener" class="research-link">Bouso JC et al. (2022). Adverse effects of ayahuasca: Results from the Global Ayahuasca Survey. PLOS Glob Public Health. PMID 36962494 →</a>
+          </div>
+          <div class="research-card">
+            <span class="research-tag tag-clinical">Antidepressants</span>
+            <h4>Tap et al. (2025), antidepressants with classic psychedelics</h4>
+            <p>Scoping review of 18 studies on taking conventional antidepressants alongside classic psychedelics. Found the combination generally safe and tolerable without increased serotonin syndrome risk, particularly for psilocybin, and argued that forced discontinuation carries its own harms. Read this as being about psilocybin-type psychedelics, not about ayahuasca, where the MAOI changes the picture entirely.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/40937732/" target="_blank" rel="noopener" class="research-link">Tap SC et al. (2025). Concomitant use of antidepressants and classic psychedelics: A scoping review. J Psychopharmacol. PMID 40937732 →</a>
+          </div>
+          <div class="research-card">
+            <span class="research-tag tag-clinical">MAOI safety</span>
+            <h4>Flockhart (2012), MAOI dietary and drug interactions</h4>
+            <p>Clinical pharmacology review of what MAOIs interact with. Covers hypertensive crisis from tyramine-containing foods and serotonin syndrome from serotonergic and sympathomimetic agents. Written for prescribers, but it is the same enzyme inhibition that ayahuasca produces, and it is the basis for the food and medication list above.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/22951238/" target="_blank" rel="noopener" class="research-link">Flockhart DA (2012). Dietary restrictions and drug interactions with monoamine oxidase inhibitors: an update. J Clin Psychiatry. PMID 22951238 →</a>
+          </div>
+          <div class="research-card">
+            <span class="research-tag tag-supply">Patterns of use</span>
+            <h4>Davis et al. (2018), 5-MeO-DMT epidemiology</h4>
+            <p>Web survey of 515 people who had used 5-MeO-DMT. Most had used it fewer than four times in their lifetime and less than once a year. Under 10 percent reported craving or desire for the drug, and around 1 percent each reported legal, medical, or psychiatric problems related to use. The authors conclude a low potential for addiction. Self-selected sample, so treat it as a signal rather than a population estimate.</p>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/29708042/" target="_blank" rel="noopener" class="research-link">Davis AK et al. (2018). The epidemiology of 5-methoxy-N,N-dimethyltryptamine (5-MeO-DMT) use. J Psychopharmacol. PMID 29708042 →</a>
+          </div>
+          <div class="research-card">
+            <span class="research-tag tag-neuro">Drug info</span>
+            <h4>TripSit DMT page</h4>
+            <p>Community-maintained dose ranges, duration, and a combination checker. Useful for checking a specific pairing before you commit to it.</p>
+            <a href="https://tripsit.me/drug/dmt" target="_blank" rel="noopener" class="research-link">TripSit: DMT →</a>
+          </div>
+          <div class="research-card">
+            <span class="research-tag tag-supply">Analytics</span>
+            <h4>Drug checking services</h4>
+            <p>Because Ehrlich cannot separate N,N-DMT from 5-MeO-DMT, laboratory analysis is the only way to identify a sample. Energy Control operates an international mail-in service and publishes aggregate results.</p>
+            <a href="https://energycontrol.org/" target="_blank" rel="noopener" class="research-link">Energy Control (international analytics) →</a>
+          </div>
+        </div>
+
+        <div class="trusted-resources">
+          <h3 id="related-guides">Related guides</h3>
+          <div class="resource-cards">
+            <a href="/psilocybin.html" class="resource-card">
+              <h4>Psilocybin guide</h4>
+              <p>Dosing, species potency variation, contraindications, and how the tryptamine cousin differs</p>
+            </a>
+            <a href="/lsd.html" class="resource-card">
+              <h4>LSD guide</h4>
+              <p>Set and setting, Ehrlich testing, the lithium interaction, and difficult experiences</p>
+            </a>
+            <a href="/interactions.html" class="resource-card">
+              <h4>Interaction chart</h4>
+              <p>Every combination on the site, including DMT with MAOIs, MDMA, and antidepressants</p>
+            </a>
+            <a href="/faq.html" class="resource-card">
+              <h4>Harm reduction FAQ</h4>
+              <p>Common questions on testing, dosing, and emergencies across every substance</p>
+            </a>
+            <a href="/reagent-chart.html" class="resource-card">
+              <h4>Reagent color chart</h4>
+              <p>What every reagent turns for every substance, in one table</p>
+            </a>
+            <a href="/which-test-kit.html" class="resource-card">
+              <h4>Which test kit do I need?</h4>
+              <p>Matching reagents to what you actually have, and where reagents stop being useful</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SHOP ===== -->
+    <section id="shop">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="dmt-testing-kit">DMT testing kit</h2>
+          <p class="section-sub">Affiliate disclosure: links may earn a commission at no extra cost to you. Products selected for harm reduction value only.</p>
+        </div>
+        <div class="shop-category">
+          <div class="product-grid">
+            <div class="product-card product-essential">
+              <div class="product-badge">Essential</div>
+              <h4>Ehrlich reagent (sold as the LSD kit)</h4>
+              <p>The one reagent that reacts with tryptamines. It confirms an indole is present and rules out non-indole substitutes. It will not tell you whether you have N,N-DMT or 5-MeO-DMT, so read the testing section above before relying on it.</p>
+              <div class="product-footer">
+                <a href="/lsd-kit" target="_blank" rel="noopener" class="btn btn-sm btn-primary">Ehrlich (LSD) kit at DanceSafe →</a>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="product-badge">Optional</div>
+              <h4>Complete reagent set</h4>
+              <p>All nine DanceSafe reagents together. Worth it if you test more than one class of substance, since Ehrlich alone covers only indoles.</p>
+              <div class="product-footer">
+                <a href="/kits" target="_blank" rel="noopener" class="btn btn-sm btn-secondary">Complete set at DanceSafe →</a>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="product-badge product-badge-danger">Situational</div>
+              <h4>Fentanyl test strips</h4>
+              <p>Not a routine step for DMT crystal specifically, but useful if the same source or environment also handles powders where contamination is a documented problem.</p>
+              <div class="product-footer">
+                <a href="/fentanyl-strips" target="_blank" rel="noopener" class="btn btn-sm btn-danger">Fentanyl strips →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FROM THE BLOG ===== -->
+    <section style="padding: 60px 0;">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="from-the-blog">From the Blog</h2>
+          <p class="section-sub">Longer pieces on tryptamine identification, reagent limits, and serotonin risk.</p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-top: 32px;">
+          <a href="/blog/dmt-vapes-and-microdosing.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
+            <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Identification</p>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="dmt-vapes-and-microdosing-what-to-know">DMT Vapes and Microdosing: What to Know</h3>
+            <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">A sealed cart cannot be weighed or reagent-tested, and 5-MeO-DMT has been sold inside them. What you can and cannot verify.</p>
+          </a>
+          <a href="/blog/ehrlich-reagent-color-chart.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
+            <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Drug Checking</p>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="ehrlich-reagent-color-chart-and-how-to-read-it">Ehrlich Reagent Color Chart and How to Read It</h3>
+            <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Purple means an indole. Why that covers LSD, DMT, and psilocybin equally, and what a non-reaction actually tells you.</p>
+          </a>
+          <a href="/blog/serotonin-syndrome.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
+            <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Emergencies</p>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="serotonin-syndrome-how-to-recognize-it">Serotonin Syndrome: How to Recognize It and What to Do</h3>
+            <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Clonus, hyperthermia, and rigidity. The signs that separate a rough experience from an emergency, and what to tell paramedics.</p>
+          </a>
+          <a href="/blog/shrooms-and-antidepressants.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
+            <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Interactions</p>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="psychedelics-and-antidepressants">Psychedelics and Antidepressants</h3>
+            <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Why the SSRI question has a different answer for psilocybin than it does for anything involving an MAOI.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+</BaseLayout>

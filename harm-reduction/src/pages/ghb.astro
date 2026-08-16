@@ -37,7 +37,7 @@ const schemaJson  = `{
             "name": "What is the difference between GHB and GBL?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "GBL (gamma-butyrolactone) is a prodrug that the body rapidly converts to GHB (gamma-hydroxybutyrate) after ingestion. GBL is approximately 2–3× more potent than GHB by volume and has a faster, more abrupt onset (15–30 minutes vs. 20–60 minutes for GHB). A dose of GBL that feels safe based on GHB experience will be far too strong. Never dose GBL the same as GHB. GBL is also sold legally as an industrial solvent (wheel cleaner, paint stripper), this is one reason it circulates widely."
+              "text": "GBL (gamma-butyrolactone) is a prodrug that the body rapidly converts to GHB (gamma-hydroxybutyrate) after ingestion. GBL is approximately 2–3× more potent than GHB by volume and has a faster, more abrupt onset (commonly 5–20 minutes vs. 20–60 minutes for GHB). A dose of GBL that feels safe based on GHB experience will be far too strong. Never dose GBL the same as GHB. GBL is also sold legally as an industrial solvent (wheel cleaner, paint stripper), this is one reason it circulates widely."
             }
           },
           {
@@ -45,7 +45,7 @@ const schemaJson  = `{
             "name": "How should I dose GHB safely?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Always dose GHB by volume (milliliters), never by grams or spoons. GHB is sold as a liquid with highly variable concentrations, the same volume can contain very different amounts depending on the source. Use a precise measuring syringe or dropper. Start at 0.5–1ml for an unknown source. Do not redose for at least 2 hours. Never dose after drinking alcohol, even a small amount of alcohol dramatically increases overdose risk."
+              "text": "Always dose GHB by volume (milliliters), never by grams or spoons. GHB is sold as a liquid with highly variable concentrations, the same volume can contain very different amounts depending on the source. Use a precise measuring syringe or dropper. Start at 0.5mL for an unknown source. Do not redose for at least 3 to 4 hours, timed from the first dose, and only if effects have fully resolved. Never dose after drinking alcohol, even a small amount of alcohol dramatically increases overdose risk."
             }
           },
           {
@@ -278,7 +278,7 @@ const schemaJson  = `{
                 <span class="event-desc">Earliest safe redose window, timed from the first dose, and only if effects have fully resolved</span>
               </div>
             </div>
-            <p class="note-text">GBL onset is faster: 15–30 minutes. Do not redose GBL before 3 to 4 hours from the first dose, and only if effects are fully resolved. Premature redosing combined with delayed onset of the first dose is a frequent cause of accidental overdose.</p>
+            <p class="note-text">GBL onset is faster, commonly 5 to 20 minutes, but it varies with stomach contents and between people. Treat the variability itself as the hazard: a first dose that feels slow is the single most common reason people redose early and put two doses in at once. Do not redose GBL before 3 to 4 hours from the first dose, and only if effects are fully resolved. Premature redosing combined with delayed onset of the first dose is a frequent cause of accidental overdose.</p>
           </div>
 
           <div class="guideline-card">
@@ -508,7 +508,8 @@ const schemaJson  = `{
           <div class="research-card">
             <span class="research-tag tag-neuro">Pharmacology</span>
             <h4>GHB Mechanism and Toxicology</h4>
-            <p>GHB is an endogenous neurotransmitter and GABA-B agonist. At recreational doses it produces euphoria, sociability, and sedation through GABA-B receptor agonism in the limbic system and brainstem. Toxicity is primarily respiratory depression mediated through brainstem GABA-B receptors. The compound has a steep dose-response curve that explains its narrow therapeutic window.</p>
+            <p>GHB is an endogenous neurotransmitter and GABA-B agonist. At recreational doses it produces euphoria, sociability, and sedation through GABA-B receptor agonism in the limbic system and brainstem. Toxicity is primarily respiratory depression mediated through brainstem GABA-B receptors. The compound has a steep dose-response curve that explains its narrow therapeutic window: a 2021 pharmacology review states that <em>due to the steep concentration-effect curve for GHB, overdoses occur commonly</em>, and describes its kinetics as involving nonlinear absorption, metabolism, tissue uptake and renal elimination (<a href="https://pubmed.ncbi.nlm.nih.gov/33417072/" target="_blank" rel="noopener">PMID 33417072</a>).</p>
+            <p><strong>This is the reason the redose interval is long.</strong> Because both absorption and elimination are capacity-limited, a second dose taken while the first is still clearing does not simply add to it. Controlled dosing in healthy volunteers found that area under the curve rose disproportionately with dose while apparent oral clearance fell, and terminal half-life lengthened, meaning the enzymes saturate as the dose climbs (<a href="https://pubmed.ncbi.nlm.nih.gov/8299669/" target="_blank" rel="noopener">PMID 8299669</a>). That is why waiting 3 to 4 hours matters more than how the first dose feels.</p>
             <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4462042/" target="_blank" rel="noopener" class="research-link">
               Andresen et al. (2011). Gamma-hydroxybutyrate, a drug of abuse. Drug Alcohol Depend. PMC4462042 →
             </a>

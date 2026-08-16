@@ -11,11 +11,11 @@ Drug checking services are on-site or community-based programs that test substan
 
 ## Quick answers
 
-**Do drug checking services actually change what people do?** Yes, consistently. People who receive a positive fentanyl result have shown 5× the odds of modifying their drug use behavior compared to those who test negative; at festival drug checking services, roughly 29% of people who learn their substance contains unexpected contents dispose of it on the spot. These are prospective findings from actual service users, not surveys about hypothetical intent.
+**Do drug checking services actually change what people do?** Yes, and the effect size is large. In multivariable models, people who got a positive fentanyl strip result had **five times the odds** of reporting changes in how they used, such as using less, going slower, or switching route, compared with those who tested negative ([PMID 30292493](https://pubmed.ncbi.nlm.nih.gov/30292493/)). A separate prospective study found the same direction of effect, with 95% wanting to keep using the strips ([PMID 30344005](https://pubmed.ncbi.nlm.nih.gov/30344005/)). **Read the population carefully:** both studies enrolled people who inject drugs, not festival attendees. The finding is strong, and it was measured in a different group than this article advises.
 
 **What can drug checking services detect that a basic reagent test kit can't?** Mass spectrometry services (like The Loop in the UK) can identify novel psychoactive substances, unexpected adulterants, and wrong-drug substitutions that reagent colorimetric tests can miss. Fentanyl test strips detect fentanyl specifically but won't tell you what else is present. No single method catches everything.
 
-**Is fentanyl actually showing up in non-opioid drugs?** Yes. In a festival and nightlife study, fentanyl was detected in 25% of non-heroin samples submitted for testing — including samples sold as MDMA, cocaine, and methamphetamine. DanceSafe's drug checking data and Vancouver's BCCDC surveillance have shown similar contamination in stimulants.
+**Is fentanyl actually showing up in non-opioid drugs?** Yes, and this is the reason to test a stimulant or an entactogen rather than only an opioid. Fentanyl has been confirmed in samples sold as MDMA, cocaine, ketamine and pressed pills through community drug checking. We are deliberately not quoting a single contamination percentage here: rates vary enormously by region, by year, and by which service collected the samples, and a national-sounding figure would misrepresent that. The practical answer does not depend on the exact rate, because a strip is single-use and cheap relative to the consequence.
 
 **Is using drug checking services legal?** In most US states, yes — though the legal status of fentanyl test strips specifically varies by state. The checking services themselves are generally legal. In the UK, The Loop operates under formal agreements with festival organizers and police. In New Zealand, drug checking is explicitly legal and government-supported.
 
@@ -39,7 +39,7 @@ The conventional wisdom that fentanyl is only a problem in heroin is increasingl
 
 **DanceSafe drug checking program (2019–2023)**: Fentanyl has been confirmed in samples submitted as MDMA, cocaine, ketamine, and pressed pills across multiple US regions. Contamination rates vary substantially by geography — highest in the Pacific Northwest and parts of the Northeast.
 
-**Vancouver BCCDC drug checking (2023)**: Approximately 15–20% of samples submitted as stimulants or entactogens contained fentanyl or fentanyl analogues.
+**Vancouver BCCDC drug checking**: BCCDC publishes ongoing drug checking results showing fentanyl and fentanyl analogues appearing in samples sold as stimulants. We have not been able to verify a specific percentage for a specific year from a primary source, so we are not quoting one. Check the BCCDC drug checking dashboard for current figures rather than relying on a number quoted second-hand.
 
 **DEA Public Safety Alert (2022)**: 6 of 10 counterfeit pressed pills seized nationally contained a potentially lethal dose of fentanyl. This is particularly relevant for people who obtain pills through informal channels rather than a pharmacy — a category that includes much of the festival drug supply.
 
@@ -79,7 +79,7 @@ Operating since 2015 under what became the first explicit legal authorization of
 Drug checking is a meaningful harm reduction tool with real limitations.
 
 **What it can do:**
-- Detect the presence of fentanyl with high sensitivity (FTS: ~97% sensitive for fentanyl)
+- Detect the presence of fentanyl with high sensitivity. In a head-to-head validation against street-acquired samples, fentanyl test strips had a **3.7% false negative rate and a 9.6% false positive rate**, the best of the three devices tested, and correctly identified acetyl fentanyl and furanyl fentanyl ([PMID 31951925](https://pubmed.ncbi.nlm.nih.gov/31951925/)). The false positive rate matters as much as the sensitivity: roughly one in ten positives in that study was not fentanyl
 - Identify the primary substance in a sample (mass spectrometry)
 - Detect common adulterants and wrong-drug substitutions
 - Give you information to make an informed choice

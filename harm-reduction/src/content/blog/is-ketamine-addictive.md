@@ -69,7 +69,7 @@ Ketamine bladder syndrome presents as:
 - **Urgency**: a sudden, difficult-to-defer urge to urinate
 - **Dysuria**: pain or burning during urination
 - **Hematuria**: blood in urine (present in some cases)
-- **Reduced bladder capacity**: confirmed on urodynamic testing, sometimes as low as 10–30 mL in severe cases (normal is 300–500 mL)
+- **Reduced bladder capacity**: confirmed on urodynamic testing. In a surgical series of 14 refractory cases, mean cystometric capacity was 50.9 mL against a normal 400 to 600 mL ([PMID 23996856](https://pubmed.ncbi.nlm.nih.gov/23996856/)). That is the severe end, not the average user
 - **Upper urinary tract involvement**: flank pain, hydronephrosis, renal impairment in advanced cases
 
 ### Reversibility
