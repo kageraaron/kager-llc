@@ -96,7 +96,7 @@ Look for a low-sugar electrolyte mix with meaningful sodium content (at least 50
 ### For hydration
 
 **Hydration pack (CamelBak or similar)** — keeps your hands free and makes it easy to sip continuously without needing to queue at a water station. The bite-valve design means small, frequent sips rather than large gulps — better for maintaining electrolyte balance. A 1.5–2L reservoir is enough for a long session.
-[DanceSafe hydration packs →](/hydration-pack) (proceeds fund free drug checking at events)
+[DanceSafe hydration packs →](/hydration-pack) (a nonprofit that runs free drug checking at events)
 
 [CamelBak hydration packs on Amazon →](https://www.amazon.com/s?k=camelbak+hydration+pack+2L&tag=ravewellness01-20)
 

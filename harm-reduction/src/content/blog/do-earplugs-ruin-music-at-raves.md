@@ -71,7 +71,7 @@ So "my hearing was fine the next day" does not mean nothing happened. It means t
 
 For decibel levels at raves, the science of how loud music damages the ear, and specific earplug recommendations, see our [hearing protection guide](/hearing.html). If you want to understand the warning signs that you have already overdone it, read [why your ears ring after a rave and whether it's permanent](/blog/can-one-loud-night-damage-hearing.html), and [why getting "used to" the volume is a bad sign](/blog/do-ears-toughen-up-to-loud-music.html).
 
-Filtered options worth a look: [DanceSafe's EarPeace earplugs](/earplugs), which come with interchangeable filters so you can pick your attenuation level and whose proceeds fund free drug checking, or [Loop Experience](https://www.amazon.com/s?k=Loop+Experience+earplugs&tag=ravewellness01-20) and [Etymotic ER20XS](https://www.amazon.com/s?k=Etymotic+ER20XS+earplugs&tag=ravewellness01-20) on Amazon.
+Filtered options worth a look: [DanceSafe's EarPeace earplugs](/earplugs), which come with interchangeable filters so you can pick your attenuation level. DanceSafe is a nonprofit that also runs free drug checking at events. Loop Experience and Etymotic ER20XS are comparable high-fidelity plugs if you already own a pair or prefer a different fit.
 
 ---
 

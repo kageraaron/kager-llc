@@ -67,7 +67,7 @@ Bills are the default improvised tube and the worst option:
 
 None of this makes snorting safe. It removes one avoidable harm.
 
-- **One tube per person, never passed.** Carry [a personal reusable tube](/crisp-tube). DanceSafe sells these explicitly as a hepatitis C prevention measure, and as a nonprofit their proceeds fund free drug checking.
+- **One tube per person, never passed.** Carry [a personal reusable tube](/crisp-tube). DanceSafe sells these explicitly as a hepatitis C prevention measure, and as a nonprofit it also runs free drug checking at events.
 - **Label or colour-code in a group.** The failure mode is not deciding to share, it is tubes getting mixed up on a table. Marker or tape solves it.
 - **No sharp or cut edges.** Skip cut straws, rolled cards, and jagged pen barrels. Use smooth, rounded ends.
 - **Wash reusable tubes.** Warm water and soap, dried fully. Being cleanable is the main advantage over paper.

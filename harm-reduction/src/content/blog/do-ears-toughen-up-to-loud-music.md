@@ -74,7 +74,7 @@ Since adaptation is a myth and damage is cumulative, the only levers are reducin
 
 For how loud raves actually get, the cellular mechanism of noise damage, and earplug recommendations, see our [hearing protection guide](/hearing.html). To understand how fast a single night does damage, read [whether one loud night can permanently harm your hearing](/blog/can-one-loud-night-damage-hearing.html).
 
-If you want protection that doesn't kill the sound, [high-fidelity earplugs](/earplugs) are the cheapest insurance you'll ever buy for your ears. DanceSafe's filtered EarPeace plugs are one option, and [Amazon](https://www.amazon.com/s?k=Loop+Experience+earplugs&tag=ravewellness01-20) has others.
+If you want protection that doesn't kill the sound, [high-fidelity earplugs](/earplugs) are the cheapest insurance you'll ever buy for your ears. DanceSafe's filtered EarPeace plugs are one option, and Loop and Etymotic make comparable ones.
 
 ---
 

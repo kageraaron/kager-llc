@@ -75,7 +75,7 @@ You cannot undo a loud exposure after the fact, there is no proven treatment tha
 
 For decibel data, the cochlear mechanism, and earplug picks, see our [hearing protection guide](/hearing.html). To understand why feeling like you've "gotten used to" the volume is itself a warning sign, read [do your ears toughen up to loud music](/blog/do-ears-toughen-up-to-loud-music.html).
 
-A pair of [high-fidelity earplugs](/earplugs) costs less than a single drink and lasts for years. DanceSafe sells filtered EarPeace plugs, and [Amazon](https://www.amazon.com/s?k=high+fidelity+concert+earplugs&tag=ravewellness01-20) carries other brands.
+A pair of [high-fidelity earplugs](/earplugs) costs less than a single drink and lasts for years. DanceSafe sells filtered EarPeace plugs, and Loop and Etymotic make comparable ones.
 
 ---
 

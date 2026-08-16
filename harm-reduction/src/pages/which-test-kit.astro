@@ -6,7 +6,7 @@ const description = `Which reagent test kit to buy for MDMA, cocaine, LSD, ketam
 const keywords    = `which drug test kit, what test kit do i need, mdma test kit, cocaine test kit, lsd test kit, ketamine test kit, dancesafe kit comparison, reagent kit comparison, best drug testing kit, fentanyl test strips`;
 const canonical   = `https://www.ravewellness.org/which-test-kit.html`;
 const ogTitle     = `Which Drug Test Kit Do I Need? A Straight Comparison | Rave Wellness`;
-const ogDesc      = `Pick by what you are testing. Exact reagent contents, prices, and the limits of each kit, plus why fentanyl strips are a separate purchase.`;
+const ogDesc      = `Pick by what you are testing. Exact reagent contents, what ships with each kit, the limits of reagent testing, and why strips are single-use.`;
 
 const schemaJson = `{
   "@context": "https://schema.org",
@@ -36,7 +36,7 @@ const schemaJson = `{
           "name": "Which test kit do I need for MDMA or molly?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The DanceSafe MDMA testing kit, which contains Marquis, the two-part Simon's (Simon's A and Simon's B), and Froehde reagents and performs 50 to 75 tests. Marquis screens for the substance class, and Simon's is the reagent that distinguishes MDMA from MDA. Froehde acts as confirmation. You also need fentanyl test strips, which are a separate purchase, because no reagent can detect fentanyl at the doses that kill people."
+            "text": "The DanceSafe MDMA testing kit, which contains Marquis, the two-part Simon's (Simon's A and Simon's B), and Froehde reagents and performs 50 to 75 tests. Marquis screens for the substance class, and Simon's is the reagent that distinguishes MDMA from MDA. Froehde acts as confirmation. It also ships with a fentanyl test strip and a 10 mg micro scoop. Strips are single-use, so buy more separately if you test more than once, because no reagent can detect fentanyl at the doses that kill people."
           }
         },
         {
@@ -44,7 +44,7 @@ const schemaJson = `{
           "name": "Which test kit do I need for cocaine?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The DanceSafe cocaine testing kit, which contains Morris, Marquis and Liebermann reagents, and unlike the MDMA kit it ships with a fentanyl test strip and a 10 mg micro scoop included. It performs 50 to 75 tests. No reagent detects levamisole, the veterinary dewormer present in most US cocaine, so a clean reagent result does not rule that out."
+            "text": "The DanceSafe cocaine testing kit, which contains Morris, Marquis and Liebermann reagents and ships with a fentanyl test strip and a 10 mg micro scoop included. It performs 50 to 75 tests. No reagent detects levamisole, the veterinary dewormer present in most US cocaine, so a clean reagent result does not rule that out."
           }
         },
         {
@@ -76,7 +76,7 @@ const schemaJson = `{
           "name": "Do drug test kits detect fentanyl?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. Reagents can never detect fentanyl, because it is active at doses far too small to change a reagent colour. Only a fentanyl test strip or laboratory equipment can. The DanceSafe cocaine, LSD and ketamine kits include fentanyl test strips; the MDMA kit does not, so buy strips separately alongside it. Use a strip on every sample regardless of what the reagent shows."
+            "text": "No. Reagents can never detect fentanyl, because it is active at doses far too small to change a reagent colour. Only a fentanyl test strip or laboratory equipment can. The DanceSafe MDMA, cocaine, LSD and ketamine kits all ship with a fentanyl test strip. Strips are single-use, so one strip covers one sample and you should buy more separately if you test repeatedly. Use a strip on every sample regardless of what the reagent shows."
           }
         }
       ]
@@ -104,12 +104,12 @@ const schemaJson = `{
 
         <div class="hero-disclaimer" style="margin-top: 24px;">
           <span class="disclaimer-icon">⚠</span>
-          <p><strong>No reagent detects fentanyl.</strong> It is active at doses far too small to change a colour. You need <a href="/fentanyl-strips">fentanyl test strips</a> as a separate item. The cocaine, LSD and ketamine kits include strips; <strong>the MDMA kit does not</strong>, so add them if MDMA is what you test.</p>
+          <p><strong>No reagent detects fentanyl.</strong> It is active at doses far too small to change a colour, so you need <a href="/fentanyl-strips">fentanyl test strips</a>. Every kit below now ships with a starter strip, but <strong>strips are single-use</strong>, meaning one strip tests one sample. If you test more than once, buy strips separately.</p>
         </div>
 
         <div class="prose" style="margin-top: 40px;">
 
-          <p class="affiliate-note" style="background: color-mix(in srgb, var(--purple) 8%, transparent); border-left: 3px solid var(--purple); border-radius: 0 6px 6px 0; padding: 12px 16px; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 24px;"><em>The product links on this page are affiliate links. We may earn a small commission at no extra cost to you. We link to DanceSafe because it is the only nonprofit reagent manufacturer in the US and its proceeds fund free drug checking.</em></p>
+          <p class="affiliate-note" style="background: color-mix(in srgb, var(--purple) 8%, transparent); border-left: 3px solid var(--purple); border-radius: 0 6px 6px 0; padding: 12px 16px; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 24px;"><em>The product links on this page are affiliate links. We may earn a small commission at no extra cost to you. We link to DanceSafe because it is the only nonprofit reagent manufacturer in the US and it runs free drug checking at events.</em></p>
 
           <h2 id="pick-by-what-you-are-testing">Pick by what you are testing</h2>
           <div style="overflow-x: auto;">
@@ -122,7 +122,7 @@ const schemaJson = `{
                 <td><strong>MDMA / molly / ecstasy</strong></td>
                 <td><a href="/mdma-kit">MDMA testing kit</a></td>
                 <td>Marquis, Simon's A, Simon's B, Froehde</td>
-                <td><strong>No</strong>, buy separately</td>
+                <td>Yes, one strip plus a 10 mg micro scoop</td>
               </tr>
               <tr>
                 <td><strong>Cocaine</strong></td>
@@ -180,7 +180,7 @@ const schemaJson = `{
           <p>Reagent testing narrows possibilities and catches substitutions. It does not make a substance safe, and it does not replace starting with a low dose.</p>
 
           <h2 id="a-note-on-where-to-buy">A note on where to buy</h2>
-          <p>DanceSafe is the original and only nonprofit reagent manufacturer in the US, and proceeds fund free drug checking at events. We link to them because of that, and those links are affiliate links, meaning we may earn a commission at no extra cost to you. We do not list prices here because they change; check their product pages for current pricing.</p>
+          <p>DanceSafe is the original and only nonprofit reagent manufacturer in the US, and it runs free drug checking at events. We link to them because of that, and those links are affiliate links, meaning we may earn a commission at no extra cost to you. We do not list prices here because they change; check their product pages for current pricing.</p>
 
           <p>Next: the <a href="/reagent-chart.html">reagent colour chart hub</a> for how to read any result, and the <a href="/test-kits.html">test kits page</a> for technique walkthroughs and video demos.</p>
         </div>

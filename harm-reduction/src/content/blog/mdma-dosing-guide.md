@@ -60,7 +60,7 @@ This guideline is not RCT-validated, it comes from clinical pharmacology reasoni
 
 A weight-based target is useless if you are eyeballing powder. Most people are far worse at estimating a 100 mg pile than they think, and the error runs in both directions.
 
-**A milligram scale is the tool for this.** Look for **0.001 g (1 mg) readability and included calibration weights**, and actually calibrate it, since these scales drift and arrive uncalibrated more often than not. A [milligram scale from DanceSafe](/mg-scale) is the difference between taking your intended dose and taking twice it, and buying through them funds free drug checking at events. There are also [milligram scales on Amazon](https://www.amazon.com/s?k=milligram+scale+0.001g+calibration+weights&tag=ravewellness01-20) if you need one faster.
+**A milligram scale is the tool for this.** Look for **0.001 g (1 mg) readability and included calibration weights**, and actually calibrate it, since these scales drift and arrive uncalibrated more often than not. A [milligram scale from DanceSafe](/mg-scale) is the difference between taking your intended dose and taking twice it. DanceSafe is a nonprofit that also runs free drug checking at events.
 
 **Know the honest limits of a cheap scale.** Readability is not accuracy. A budget 0.001 g scale is genuinely unreliable below roughly 10 to 20 mg, so it is well suited to MDMA doses in the 75 to 125 mg range and poorly suited to anything measured in single milligrams. **For substances active in micrograms, such as LSD, a milligram scale cannot help you at all.** Those require volumetric dosing, which is dissolving a known quantity in a known volume of liquid and measuring the liquid instead.
 
