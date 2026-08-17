@@ -374,3 +374,133 @@ _(appended one at a time as researched)_
 - **Rank rationale**: Real transactional demand and a strong multi-reagent case, but the honest
   execution is an expansion of an existing ranking post, not a new one — which lowers effort and
   raises expected value at the same time.
+
+---
+
+### 8. How to test 2C-B (and which reagent actually works)
+- **Queries**: `2cb dancesafe` **[GSC — 
+  currently position 52]**, `2cb reagent test` [INFERRED], `how to test 2cb` [INFERRED],
+  `is my 2cb real` [INFERRED], `2cb vs tusi test` [INFERRED]
+- **Intent**: purchase-intent, and the strongest verified example in this file
+- **Honest product fit**: `/kits` or `/standard-kit`, plus `/marquis-kit` and `/liebermann-kit`
+  individually. 2C-B needs Marquis (typically no reaction or faint yellow, which is itself the
+  informative result) plus Liebermann. The honest hook is that **a non-reaction on Marquis is
+  diagnostic here**, which is counterintuitive and is exactly the thing a colour chart post can teach.
+- **Repeat-purchase potential**: normal reagent replacement only.
+- **Cannibalisation check**: `2cb.astro` exists and ranks ~39, and there is a
+  `liebermann-reagent-color-chart.md`. This is distinct because neither targets the *testing*
+  query specifically, and `2cb.astro` is a full guide rather than a test protocol. Model it on
+  `how-to-test-mdma.md` and `how-to-test-cocaine.md`, which is a pattern that already works.
+- **Evidence needed**: confirm current DanceSafe 2C-B reagent guidance and the Marquis/Liebermann
+  colour set before writing. Do not restate colours from memory.
+- **Rank rationale**: **the single best-evidenced monetisable gap on the site.** The searcher typed
+  the merchant's name into Google, which is as close to declared purchase intent as a query gets,
+  and we are 52nd. Nobody buys a reagent kit from an AI Overview, so this is exactly the
+  AI-resistant transactional traffic the strategy is built around.
+
+### 9. What is actually in "rave pills"?
+- **Queries**: `rave pills` **[GSC — 13 impressions, position 56]**, `rave safe`
+  **[GSC — 11 imp, pos 77]**, `safe rave` **[GSC — pos 79]**, `what's in ecstasy pills` [INFERRED]
+- **Intent**: informational at the top, purchase-intent at the bottom
+- **Honest product fit**: `/mdma-kit` and `/fentanyl-strips`. The fit is honest because the literal
+  answer to "what is in this pill" is "you cannot know without testing it," which is one of the rare
+  cases where the product *is* the answer rather than an add-on.
+- **Repeat-purchase potential**: the strip half, yes.
+- **Cannibalisation check**: nearest are `is-my-molly-real-or-fake.md` (new) and
+  `ecstasy-vs-molly-mdma.md`. Genuinely close. **Recommend checking whether this should instead be
+  an expansion of `is-my-molly-real-or-fake.md` targeting the pill-specific phrasings**, rather than
+  a ninth post competing in the same cluster.
+- **Evidence needed**: current adulterant data for pressed pills; do not quote a contamination
+  percentage without a traceable source (see the drug-checking-services audit finding).
+- **Rank rationale**: real measured demand across three related queries we rank 56 to 79 for, with an
+  honest product answer — but the cannibalisation risk is real and should be resolved first.
+
+---
+
+## Ranked summary
+
+Ranking is by **expected conversions**, not by traffic, and reflects the flat ~$4 bounty:
+repeat purchases and low-friction first purchases outrank prestige or high-basket ideas.
+
+| # | Idea | Intent | Product fit | Repeat? | Evidence | Effort |
+|---|---|---|---|---|---|---|
+| 1 | Do you need to test every batch? | purchase | strips | **Yes, highest** | INFERRED | Low |
+| 2 | How to test 2C-B | purchase | kits, Marquis, Liebermann | No | **GSC pos 52** | Low |
+| 3 | How many reagents do you need? (downsell) | purchase | standard-kit, singles | No | INFERRED | Low |
+| 4 | Do you need a milligram scale? | purchase | mg-scale, micro-scoop | No | INFERRED | Med |
+| 5 | How to test ketamine | purchase | ketamine-kit, strips | Partial | INFERRED | Low |
+| 6 | How to test an unknown powder | purchase | kits, standard-kit | No | INFERRED | Med |
+| 7 | Complete supply checklist | purchase | spot-plate, pipette, scoop | No | backlog | Med |
+| 8 | What is in rave pills? | mixed | mdma-kit, strips | Partial | **GSC pos 56** | Low |
+| 9 | How to test tusi | purchase | kits | No | INFERRED | **Expand existing** |
+
+### Top 5, with the reasoning that actually matters
+
+**1. Do you need to test every batch?** The only idea here that produces *recurring* bounties from a
+premise that is simply true: immunoassay strips are single-use, one strip per sample. Under a flat
+per-conversion bounty, a reader who buys strips three times a year is worth three times a reader who
+buys one complete kit and never returns. Every other idea in this file is a one-time conversion.
+
+**2. How to test 2C-B.** The only idea backed by a query where the searcher typed the merchant's
+name. Measured demand, position 52, no dedicated post, and the "no reaction is the informative
+result" angle makes for genuinely useful content rather than a thin product page.
+
+**3. How many reagents do you actually need? (the honest downsell).** Counterintuitive and, under
+this bounty, close to free money: telling someone they need one kit rather than the set of nine
+removes the price objection that stops the purchase entirely, and **costs nothing**, because a
+single kit pays the same $4 as the bundle. This is the purest expression of the site's economics,
+and on any percentage-based programme it would be a terrible idea. It also gives `/standard-kit`
+(linked twice in the whole repo) its only honest home.
+
+**4. Do you need a milligram scale?** The site already tells people to weigh doses rather than
+eyeball them, which is currently advice most readers cannot act on. This makes it actionable and is
+the only realistic destination for `/mg-scale` and `/micro-scoop`. Must include the honest limit:
+budget 0.001 g scales are unreliable below roughly 10 to 20 mg, and useless for anything active in
+micrograms.
+
+**5. How to test ketamine.** An entire substance's testing-query family is unserved while
+`/ketamine-kit` is already linked 14 times with no destination post to justify it. Morris is
+unusual enough (two-part, and it replaced Mandelin) that the post has real teaching value.
+
+---
+
+## Ideas considered and rejected
+
+- **Drink-spiking test strips / "how to tell if your drink is spiked."** High search volume, obvious
+  product hook, **rejected on standing policy**: drink-spiking strips have poor accuracy for GHB and
+  promoting them is actively harmful. No monetisation on this topic at all.
+- **"Best supplements for tinnitus."** Would convert well. The honest answer is that nothing treats
+  existing tinnitus, so the post cannot carry supplement links. Already written honestly as
+  `ringing-ears-after-concert.md`, which links only earplugs, framed as prevention.
+- **"Test your DMT vape."** Rejected because reagents cannot separate N,N-DMT from 5-MeO-DMT, both
+  being indoles. Recommending a kit here would be selling a product for a problem it does not solve.
+- **Naloxone product content.** Rejected: naloxone is free in most US states through NEXT Distro and
+  local programmes. Monetising it would be worse than useless, and the site already says so.
+- **"Isopropyl poppers eye damage."** Our single highest-impression human query (25 imp, position
+  94) and worth writing **for traffic**, but there is no honest DanceSafe product for poppers, so it
+  does not belong in this file. Flagging the distinction deliberately: high-traffic and monetisable
+  are different axes, and conflating them is how sites end up shoehorning products into posts.
+- **Amazon-monetised supplement posts** (`rave supplements`, position 60; `nitrous b12 recovery`,
+  position 57). Real demand, but Amazon pays roughly 1 to 1.86% against DanceSafe's flat $4, so a
+  supplement conversion is worth a small fraction of a strip conversion. Write these for traffic and
+  usefulness, not as revenue plays.
+
+## Honest tradeoffs flagged
+
+Two ideas here **reduce** revenue per reader if executed honestly, and both are still recommended:
+
+- **The downsell (#3)** actively talks readers out of the expensive bundle. Under a flat bounty this
+  costs nothing, but it is worth stating plainly that the recommendation is honest first and
+  convenient second.
+- **The supply checklist (#7)** must say which items are optional. The `blog-ideas.md` version
+  implies a full kit is needed; a spot plate and pipette are genuinely useful, but a reader can
+  start with one reagent and a strip. Saying so reduces first-order basket size and, under a flat
+  bounty, changes revenue by exactly zero.
+
+## What still needs doing
+
+1. **Every `[INFERRED]` query must be checked against GSC or a keyword tool before writing.** Seven
+   of the nine ideas rest on inferred phrasings because the WebSearch budget was exhausted; only
+   ideas 2 and 8 have measured demand behind them.
+2. Resolve the idea 8 / `is-my-molly-real-or-fake.md` cannibalisation question before writing either.
+3. Idea 9 should be an expansion of the existing tusi post, not a new URL.

@@ -827,6 +827,46 @@ const schemaJson  = `{
           },
           {
             "@type": "Question",
+            "name": "Do I need to test every batch, or just once from a source?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Every batch. A clean result on one bag tells you about that bag and nothing else. The same dealer's same-looking product moves through a supply chain with several points of adulteration, so contents vary between batches even when appearance does not, and pressed pills can vary in dose within a single batch. The practical consequence is mostly about strips rather than reagents. Fentanyl and xylazine test strips are single-use: one strip, one sample, every time, and there is no rinsing and reusing one. Reagents work differently, because a test consumes a single drop and one bottle performs 50 to 75 tests. That difference is why people under-buy strips, run out, and then skip testing entirely, which is the actual failure this comes down to. If you test three samples in a night, that is three strips. One more technique point: crush and mix a pressed pill before sampling it, because contents are not necessarily evenly distributed through a tablet and a corner scraping may not represent the whole. Re-testing matters most with a new source, a product that looks different from last time, a long gap since your last purchase, or anything you were given rather than bought. See <a href='/blog/do-you-need-to-test-every-batch.html'>our full guide</a>."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I need all nine reagents?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Almost certainly not. If you test one substance, buy the kit matched to that substance and stop there. A single bottle performs 50 to 75 tests, which for most people is more than a year of use, and the complete set of nine is coverage you would be paying for without using. The full set genuinely makes sense in two cases: you test across several different substance classes, or you are supplying a group or a harm reduction organisation. That is a narrower use case than the product listing implies. Running two reagents on the same sample is not redundant, though, and this is the part most people get wrong. Marquis narrows down the class, Simon's separates MDMA from MDA within that class, and Froehde confirms the result and catches look-alike reactions. Those are three different questions rather than one question asked three times, which is also why a full workup consumes one test's worth from three separate bottles at once. If you test two or three substances, check whether the individual kits overlap before buying a bundle, since Marquis appears in more than one kit and you can end up buying it twice. See <a href='/blog/what-does-each-reagent-add.html'>what each reagent actually adds</a>."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I need a milligram scale?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes if your substance is dosed in tens or hundreds of milligrams, and no if it is dosed in micrograms. A milligram scale is the right tool for MDMA, ketamine, 2C-B and ground mushrooms. It is the wrong tool for LSD and anything active below about a milligram, where the answer is volumetric dosing rather than better hardware. The most important thing to understand is that readability is not accuracy. Readability is the smallest increment the display can show, so a scale advertised as 0.001 g has 1 mg readability, but that is a statement about the screen rather than the measurement. Consumer milligram scales are genuinely unreliable below roughly 10 to 20 mg no matter how many decimal places they print, because load cells have a noise floor and near that floor a scale will show invented precision. Calibration weights are not optional either: these scales drift with use and transport and frequently arrive uncalibrated. DanceSafe does not sell calibration weights, so you will need to source a set separately. Finally, a scale answers how much and never what. A precisely weighed 90 mg of an unidentified white powder is still an unidentified white powder, so reagent testing and fentanyl strips come first. See <a href='/blog/do-you-need-a-milligram-scale.html'>our full guide</a>."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I test ketamine?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Morris is the current ketamine reagent and it comes in two parts, Morris A and Morris B, used together on one sample. That two-part workflow is unusual and is the thing people most often get wrong on a first attempt. Mandelin was used for ketamine historically, but DanceSafe now describes that reaction as inconsistent and prone to overlapping with other drugs, which is why Morris replaced it for this job. A great deal of older guidance online still recommends Mandelin and has not caught up. The limit worth understanding is what a positive result actually establishes. A reagent can confirm that what you have behaves like ketamine rather than something else entirely, but substituted dissociatives such as 2-FDCK, DCK and MXE are sold as ketamine and reagent tests are not reliable at separating them from it. Reagent testing narrows possibilities, it does not confirm identity, and it never measures dose or purity. The DanceSafe <a href='/ketamine-kit'>ketamine testing kit</a> ships with Morris A and B plus a fentanyl test strip and a 10 mg micro scoop. Strips are single-use, one strip per sample, and the reading is counterintuitive: one line is positive and two lines is negative. See <a href='/blog/how-to-test-ketamine.html'>our full guide</a>."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I test 2C-B?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Start with the counterintuitive part: a weak or absent Marquis reaction is itself informative for 2C-B. It does not produce the strong purple to black that MDMA gives, so people frequently misread nothing happened as a failed test when the non-reaction is actually data. Liebermann is the more useful reagent for 2C-B and is the one doing the real work. The larger problem is that what you have may not be 2C-B at all. Tusi, also sold as pink cocaine, is usually not 2C-B and is typically a mixture, frequently ketamine-based (PMID 37162319). Because it is a mixture rather than a single substance, one component can mask another on a single reagent, which is why a multi-reagent approach matters more here than with a single-substance sample. Dose also matters more than usual: 2C-B is active in the low tens of milligrams, so the distance between a comfortable dose and an overwhelming one can be 5 to 10 mg of powder, which is not something you can judge by eye. That makes a milligram scale genuinely useful for this substance specifically. Reagent testing narrows possibilities and never confirms identity or measures dose. See <a href='/blog/how-to-test-2cb.html'>our full guide</a>."
+            }
+          },
+          {
+            "@type": "Question",
             "name": "Is a DMT vape actually DMT?",
             "acceptedAnswer": {
               "@type": "Answer",
@@ -2103,6 +2143,84 @@ const schemaJson  = `{
                 <p><strong>Where each genuinely wins.</strong> DanceSafe is a 501(c)(3) nonprofit that manufactures in-house and runs free drug checking at events, and it carries Folin. Bunk Police carries Hofmann, which DanceSafe does not, and offers more reference material including a public reaction video library, plus Skylab separation kits, QTest purity kits, and mail-in lab testing, none of which DanceSafe has an equivalent for.</p>
                 <p>Nonprofit status is a tax classification, not a quality certification. Pick on which reagents and services you actually need.</p>
                 <p>Full guide: <a href="/blog/dancesafe-vs-bunk-police.html">DanceSafe vs Bunk Police: an honest comparison →</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              Do I need to test every batch, or just once from a source?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>Every batch.</strong> A clean result on one bag tells you about that bag. The same dealer's "same" product moves through a chain with several points of adulteration, so contents vary between batches even when appearance does not.</p>
+                <p><strong>The practical consequence is about strips, not reagents.</strong> Fentanyl and xylazine strips are <strong>single-use</strong>: one strip, one sample, every time, with no rinsing and reusing. Reagents are different, because a test consumes one drop and a bottle performs 50 to 75 tests.</p>
+                <p>The common failure is under-buying strips, running out, and then skipping the test. If you test three samples in a night, that is three strips.</p>
+                <p><strong>Crush and mix a pressed pill before sampling.</strong> Contents are not necessarily evenly distributed, so a corner scraping may not represent the tablet.</p>
+                <p>Full guide: <a href="/blog/do-you-need-to-test-every-batch.html">Do you need to test every batch? →</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              Do I need all nine reagents?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>Almost certainly not.</strong> If you test one substance, buy the kit matched to it and stop. One bottle performs 50 to 75 tests, which for most people is more than a year of use.</p>
+                <p><strong>The full set is for people testing across several different substance classes</strong>, or supplying a group. That is a narrower use case than the product page implies.</p>
+                <p><strong>Running two reagents on one sample is not redundant, though.</strong> Marquis narrows the class, Simon's separates MDMA from MDA within it, and Froehde confirms. Three different questions, which is why a full workup draws one test's worth from three bottles at once.</p>
+                <p>Full guide: <a href="/blog/what-does-each-reagent-add.html">What does each reagent actually add? →</a> | <a href="/which-test-kit.html">Which kit for which substance →</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              Do I need a milligram scale?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>Yes if your substance is dosed in tens or hundreds of milligrams, and no if it is dosed in micrograms.</strong> A scale suits MDMA, ketamine, 2C-B and ground mushrooms. For LSD it cannot help you at all, and a more expensive one does not fix that.</p>
+                <p><strong>Readability is not accuracy.</strong> A scale that displays 0.001 g is not accurate to 1 mg. Treat a consumer milligram scale as unreliable below roughly 10 to 20 mg, no matter how many decimals it prints.</p>
+                <p><strong>Calibration weights are not optional.</strong> These scales drift and often arrive uncalibrated. DanceSafe does not sell weights, so source a set separately.</p>
+                <p><strong>A scale answers "how much" and never "what."</strong> A precisely weighed 90 mg of unidentified powder is still unidentified. Reagent testing comes first.</p>
+                <p>Full guide: <a href="/blog/do-you-need-a-milligram-scale.html">Do you need a milligram scale? →</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              How do I test ketamine?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>Morris is the current ketamine reagent, and it comes in two parts.</strong> Morris A and Morris B are used together on one sample, which is an unusual workflow that trips people up on their first try.</p>
+                <p><strong>Mandelin was used for ketamine historically</strong>, but DanceSafe now describes that reaction as inconsistent and prone to overlapping with other drugs, which is why Morris replaced it. A lot of older guidance online has not caught up.</p>
+                <p><strong>The limit that matters:</strong> a reagent confirms you have ketamine rather than something else entirely, but substituted dissociatives such as 2-FDCK, DCK and MXE are sold as ketamine and reagents are not reliable at separating them. Reagent testing narrows possibilities; it does not confirm identity.</p>
+                <p>The <a href="/ketamine-kit">DanceSafe ketamine kit</a> ships with Morris A and B plus a fentanyl test strip and a 10 mg micro scoop. Strips are single-use: <strong>one line is positive, two lines is negative.</strong></p>
+                <p>Full guide: <a href="/blog/how-to-test-ketamine.html">How to test ketamine →</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              How do I test 2C-B?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>The counterintuitive part first: a weak or absent Marquis reaction is itself informative for 2C-B.</strong> It does not produce the strong purple-to-black that MDMA does, so people misread "nothing happened" as a failed test when it is actually data. <strong>Liebermann</strong> is the more useful reagent here.</p>
+                <p><strong>The bigger problem is that what you have may not be 2C-B.</strong> Tusi, or pink cocaine, is usually not 2C-B at all and is typically a mixture, frequently ketamine-based (PMID 37162319). Because it is a mixture, one component can mask another on a single reagent.</p>
+                <p><strong>Dose matters more than usual.</strong> 2C-B is active in the low tens of milligrams, so the gap between a comfortable dose and a heavy one can be 5 to 10 mg, which is invisible by eye.</p>
+                <p>Full guide: <a href="/blog/how-to-test-2cb.html">How to test 2C-B →</a> | <a href="/blog/2cb-vs-tusi-pink-cocaine.html">2C-B vs tusi →</a></p>
               </div>
             </div>
           </div>
