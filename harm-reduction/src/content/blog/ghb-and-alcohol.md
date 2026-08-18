@@ -1,117 +1,72 @@
 ---
 title: "GHB and Alcohol: Why This Combination Kills"
-description: "Mixing GHB (G, liquid G) and alcohol is one of the most dangerous rave combinations. Here's the pharmacology, the real overdose risk, and how to stay alive."
+description: "Mixing GHB and alcohol is one of the most dangerous rave combinations. The pharmacology, the real overdose risk, and what to do if someone goes under."
 date: 2026-05-14
-lastmod: 2026-05-15
+lastmod: 2026-08-17
 tags: ["ghb", "alcohol", "harm reduction", "overdose", "drug interactions"]
 author: "Jordan Mercer"
 ---
 
-GHB (also called G, liquid G, or liquid ecstasy) and alcohol is one of the most dangerous drug combinations you can take at a rave, not because either substance alone is unusually lethal at common doses, but because the two interact synergistically to produce CNS and respiratory depression that is greater than the sum of its parts. A 2023 pharmacological review ([PMID 36837798](https://pubmed.ncbi.nlm.nih.gov/36837798/)) concluded that while their pharmacokinetic interaction is modest, their combined toxicodynamic effect is substantial and clinically significant. People die from this combination at doses that would be survivable on their own.
+**GHB and alcohol kill people at doses that either drug alone would not.** Neither is unusually lethal by itself at the amounts people actually take. Together they depress breathing and consciousness more than the sum of the two, and the gap between fine and unresponsive can close in a couple of minutes.
 
-## Quick answers
+If you are reading this because someone has gone under, skip to the next section now.
 
-**Is GHB and alcohol dangerous?** Yes, it is classified as a **dangerous** interaction by TripSit. The two substances potentiate each other's CNS depressant effects and can produce unconsciousness and respiratory failure at doses that neither would cause alone.
+## If someone is going under right now
 
-**Why does GHB and alcohol cause overdose?** GHB and alcohol act on overlapping but distinct GABA receptor pathways. GHB is primarily a GABA-B agonist; alcohol primarily potentiates GABA-A receptors. Activating both simultaneously produces deeper CNS and respiratory depression than either drug achieves alone, the effect is synergistic, not merely additive.
+1. **Call emergency services.** Do not wait to see if they wake up. GHB overdose with alcohol runs deeper and longer than GHB alone, and there is nothing you can give them that reverses it.
+2. **Put them on their side**, one arm supporting the head. Vomiting while unconscious is how people die from this, and GHB suppresses the gag reflex.
+3. **Do not leave them alone.** Breathing can stop after they seem stable.
+4. **Watch their breathing.** If it stops or slows to almost nothing, start rescue breathing if you know how.
+5. **Tell the paramedics exactly what was taken, alcohol included.** It changes how they treat and how long they watch.
+6. **No stimulants.** Coffee, cocaine, and amphetamine do not wake someone up from this. They add arrhythmia risk on top of a depressed heart.
 
-**What are the signs of GHB overdose?** Sudden loss of consciousness, inability to be roused, vomiting while unconscious, labored or absent breathing, blue-tinged lips (cyanosis), seizures. The transition from conscious to unresponsive can happen in minutes.
+What it looks like: sudden loss of consciousness with no rousing them, vomiting while out, slow or shallow or absent breathing, limp muscles and a slack jaw, blue lips or fingertips, occasionally seizures.
 
-**What should I do if someone overdoses on GHB?** Call emergency services immediately. Place the person in the recovery position (on their side) to reduce aspiration risk if they vomit. Do not leave them alone. Do not give them stimulants. Monitor breathing until help arrives.
+Most jurisdictions have Good Samaritan laws protecting people who call for help at a drug emergency. Call regardless of what the laws where you are say.
 
-**Can you drink on GHB at all?** There is no documented safe threshold for combining GHB with alcohol. Even moderate alcohol intake alongside a normal recreational GHB dose can trigger the overdose response.
+## Why the two together are worse than either
 
----
+GHB has one of the narrowest safety margins of any recreational drug. Roughly 1 to 2 g gives euphoria and disinhibition. Around 2.5 to 3.5 g gives sedation. As little as 3 to 4 g in someone without tolerance can produce coma and life-threatening respiratory depression. That puts unconsciousness at about two to three times a recreational dose. For alcohol the equivalent ratio is closer to ten.
 
-## How GHB works: a narrow therapeutic window
+The two drugs do not compete for the same receptor, which is exactly the problem. GHB works mainly as a GABA-B agonist at recreational concentrations, inhibiting neural excitability broadly, including respiratory drive. Alcohol mainly potentiates GABA-A receptors and blocks NMDA glutamate receptors. Different doors into the same building. Both slow breathing, dull consciousness, wreck coordination, and suppress the gag reflex, so the effects stack rather than cancel, and at higher doses they stack more than additively.
 
-GHB (gamma-hydroxybutyrate) is a short-acting CNS depressant with a **steep dose-response curve and an extremely narrow therapeutic window**. At low doses (roughly 1–2 g), it produces euphoria and disinhibition. At moderate doses (2.5–3.5 g), sedation. At doses only modestly higher, as little as 3–4 g in a non-tolerant person, it can cause coma and life-threatening respiratory depression ([PMID 26074743](https://pubmed.ncbi.nlm.nih.gov/26074743/)).
+A 2023 pharmacological review put it plainly: the pharmacokinetic interaction between the two is modest, but the toxicodynamic interaction is substantial and clinically significant.
 
-The margin between "a good time" and unconscious is approximately 2–3x the recreational dose. Alcohol, by comparison, has a safety ratio closer to 10x. GHB's safety margin is among the narrowest of any recreational drug.
+The timing works against you too. GHB peaks 20 to 40 minutes after ingestion, and at low doses its elimination half-life is roughly 30 to 50 minutes. But metabolism is capacity-limited, so at higher doses elimination turns nonlinear and slows down, and the drug accumulates faster than people expect. Alcohol appears to stretch GHB's half-life by about 29% in human pharmacokinetic work, though that particular finding did not reach statistical significance.
 
-GHB acts primarily as a **GABA-B receptor agonist** at recreational concentrations, which inhibits neural excitability and slows CNS activity broadly, including respiratory drive. It also binds specific GHB receptors at lower concentrations, producing the euphoric component. The GABA-B activation is responsible for the sedative, amnesic, and respiratory depressant effects.
+The controlled human evidence is small but pointed. A double-blind crossover study in 16 healthy adults, at moderate doses under supervision, recorded six vomiting episodes and two hypotensive episodes on the combination, with systolic pressure dropping to 71 to 73 mmHg, plus a measurable fall in oxygen saturation beyond what either drug produced alone. Animal work with GBL, a GHB prodrug, found sleep times of 66 minutes for GBL alone, 231 minutes for ethanol alone, and 389 minutes for the two together. Animal sleep times do not transfer directly to human respiratory arrest, but the direction matches everything else.
 
-**Pharmacokinetics are also a problem.** GHB is absorbed quickly (peak plasma levels at 20–40 minutes), and at lower doses its elimination half-life is roughly 30–50 minutes. But metabolism is capacity-limited: at higher doses, elimination kinetics slow down and become nonlinear, meaning GHB can accumulate faster than expected ([PMID 26074743](https://pubmed.ncbi.nlm.nih.gov/26074743/)). Alcohol co-ingestion extended GHB's elimination half-life by approximately 29% in human pharmacokinetic studies, though this finding did not reach statistical significance ([PMID 36837798](https://pubmed.ncbi.nlm.nih.gov/36837798/)).
+## What emergency departments see
 
----
+This is where the evidence stops being theoretical.
 
-## How alcohol works and why it stacks dangerously with GHB
+A secondary analysis of the Euro-DEN Plus Registry covering 609 GHB and GBL intoxications across 22 emergency departments in 14 countries compared patients who had also been drinking against those who had not:
 
-Alcohol (ethanol) is a CNS depressant that primarily works by **potentiating GABA-A receptor activity**: enhancing inhibitory neurotransmission throughout the brain, while also blocking NMDA glutamate receptors. Like GHB, it slows respiration, reduces consciousness, impairs coordination, and suppresses the gag reflex.
+- Reduced consciousness: 58.9% vs 49.1% (p = 0.031)
+- ICU admission: 55.3% vs 22.4% (p < 0.001)
+- Hospital stay over 6 hours: 28.4% vs 16.9% (p = 0.003)
+- Needing active treatment in the ED: 60.4% vs 49.2% (p = 0.011)
 
-The key pharmacological point: **GHB and alcohol do not cancel each other out or compete for the same receptor, they hit overlapping pathways through distinct mechanisms**. GABA-B activation (GHB) and GABA-A potentiation (alcohol) produce additive and, at higher doses, synergistic depression of the same downstream outcomes: reduced respiratory rate, reduced consciousness, cardiovascular depression.
+The ICU line is the one to sit with. Alcohol roughly doubled the share of patients who ended up in intensive care.
 
-A controlled human study (16 healthy adults, double-blind crossover design) found that GHB + alcohol together caused six vomiting episodes and two hypotensive episodes (systolic BP dropping to 71–73 mmHg), as well as a measurable decrease in oxygen saturation beyond either drug alone. The conclusion: **the pharmacodynamic interaction is real and clinically significant even at moderate, controlled doses** ([PMID 16974199](https://pubmed.ncbi.nlm.nih.gov/16974199/)).
+A Swiss case series of 78 intoxications between 2002 and 2015 found coma in 77% of alcohol co-users against 62% of GHB-only cases, with median recovery taking 142 minutes with alcohol and 89 minutes without. And an ambulance study of 1,112 GHB and GBL poisonings found 59.5% of patients arriving unconscious at GCS 3 to 7, with a further 25.4% at reduced consciousness. Those overdoses peaked at 1 AM, more than 40% falling between 10 PM and 4 AM. Around 76% of GHB-related ED visits involve alcohol or another drug alongside it.
 
-Animal studies using co-administration of GBL (a GHB prodrug) and ethanol showed sleep times of 66 minutes for GBL alone, 231 minutes for ethanol alone, and 389 minutes for the combination, more than additive ([PMID 36837798](https://pubmed.ncbi.nlm.nih.gov/36837798/)). While animal data cannot be directly extrapolated to humans, the directional finding is consistent with human case data.
+## The trap is the gap between doses
 
----
+GHB lasts about 2 to 4 hours, so at an event people usually dose two or three times across a night. That structure is what makes alcohol so dangerous here, and the mechanism is not simultaneous ingestion.
 
-## What the emergency department data shows
+The pattern goes like this. First dose, good couple of hours, effects fading. Rather than sit through the flat stretch, someone has a few drinks. It feels fine: a little residual G, alcohol coming up, nothing alarming. Then the second dose lands.
 
-The clinical record is unambiguous. A secondary analysis of the Euro-DEN Plus Registry, 609 GHB/GBL intoxication cases across 22 emergency departments in 14 countries, found that patients who co-ingested alcohol were significantly more likely to experience:
+That second dose is not arriving in a cleared system. It stacks onto residual GHB that eliminated more slowly than expected, in a body where alcohol is now potentiating GABA-A. People go from talking to unresponsive inside a few minutes of that dose.
 
-- **Reduced consciousness** (58.9% vs. 49.1%, p = 0.031)
-- **ICU admission** (55.3% vs. 22.4%, p < 0.001)
-- **Hospital stay over 6 hours** (28.4% vs. 16.9%, p = 0.003)
-- **Need for active ED treatment** (60.4% vs. 49.2%, p = 0.011)
+DanceSafe says it directly: combining G with alcohol, opioids, benzos, or any other depressant is very dangerous and can be fatal, even if taken several hours apart. The phrase doing the work is *several hours apart*.
 
-The study's conclusion: **"Co-ingestion of ethanol increases the adverse effects of patients intoxicated by GHB/GBL, leading to greater depression of consciousness, need for treatment, admission to the ICU and longer hospital stay"** ([PMID 31301370](https://pubmed.ncbi.nlm.nih.gov/31301370/)).
+So the practical rule is not "don't drink while dosing." It is that a night is either a GHB night or a drinking night, and a few drinks in the middle of one does not make it the other.
 
-A Swiss emergency department case series (78 intoxications, 2002–2015) found coma rates of 77% in alcohol co-users vs. 62% in GHB-only cases, and median recovery times of 142 minutes with alcohol compared to 89 minutes without ([PMID 27581664](https://pubmed.ncbi.nlm.nih.gov/27581664/)).
+There is no established safe amount of alcohol alongside GHB, no threshold below which the interaction stops, and no way to test your way out of this one. The risk is the pharmacology, not the purity.
 
-An ambulance-attended overdose study recorded 1,112 GHB/GBL poisonings; 59.5% of patients arrived unconscious (GCS 3–7) and 25.4% had reduced consciousness. Overdoses peaked at 1:00 AM, with 40%+ occurring between 10 PM and 4 AM, the rave window ([PMID 28938889](https://pubmed.ncbi.nlm.nih.gov/28938889/)). Approximately 76% of GHB-related emergency department visits involve concurrent alcohol or other drug use.
+For dosing, effects, and the rest of the risk picture, see our [GHB harm reduction guide](/ghb.html). For other combinations, use the [interaction checker](/interactions.html), and our [FAQ](/faq.html) covers general harm reduction at events.
 
----
+## Sources
 
-## The rave-specific trap: drinking to fill the gap
-
-At raves and festivals, GHB is almost always taken in repeated doses across a night. The drug's short duration, effects last roughly 2–4 hours, means people typically redose 2–3 times. **The gap between doses is where alcohol becomes especially dangerous.**
-
-Here's the pattern: someone takes their first dose of GHB, it starts wearing off after an hour or two, and rather than wait for the next dose they have a few drinks to fill the time. They feel fine, maybe a little residual G in the system, alcohol starting to work, but manageable. Then they take their second GHB dose.
-
-The problem is that GHB's elimination is capacity-limited and slower than most people expect, and alcohol co-administration slows it further. **The next GHB dose doesn't arrive in a cleared system. It stacks on top of residual drug plus active alcohol.** The result can be unconsciousness within minutes of the second dose.
-
-DanceSafe's harm reduction guidance is explicit: "Combining G with alcohol, opioids, benzos, or any other depressant is very dangerous and can be fatal, even if taken several hours apart." The key phrase is *several hours apart*, the danger doesn't require simultaneous ingestion. Alcohol consumed during the gap between GHB doses can still be substantially active when the next dose hits.
-
----
-
-## GHB overdose: what it looks like and what to do
-
-GHB overdose presents differently from alcohol overdose or opiate overdose. The transition can be shockingly fast, a person who was talking can be unconscious and unresponsive within minutes. Common presentations:
-
-- **Sudden loss of consciousness** with inability to be roused (the characteristic "G-hole")
-- **Vomiting while unconscious**: a major aspiration and suffocation risk
-- **Slow, shallow, or absent breathing**
-- **Muscle limpness, jaw slack**
-- **Cyanosis** (blue lips/fingertips) in severe cases
-- **Seizures** (less common, but possible)
-
-In purely GHB overdoses without co-ingestion, recovery is often rapid, sometimes 1–2 hours, with patients waking suddenly and feeling relatively alert. **With alcohol co-ingestion, this recovery is significantly prolonged and the overdose is significantly deeper.** The patient may not wake for 4–5 hours and is at continued risk throughout.
-
-**What to do:**
-
-1. **Call emergency services immediately**: do not wait to "see if they wake up"
-2. **Place them in the recovery position** (on their side, one arm supporting the head) to prevent aspiration if they vomit
-3. **Do not leave them alone**: breathing can stop
-4. **Monitor breathing**: if it stops or becomes extremely slow, be prepared for rescue breathing if trained
-5. **Tell paramedics exactly what was taken**, including alcohol, this directly affects treatment
-6. **Do not give stimulants** (caffeine, cocaine, amphetamines) to "wake them up", these can cause cardiac arrhythmia in combination with CNS depressants
-
-Many jurisdictions have Good Samaritan laws that protect people who call for help at drug-related emergencies. Call anyway.
-
----
-
-## The bottom line
-
-**GHB and alcohol is a documented, mechanistically understood, clinically confirmed dangerous combination.** It is not two drugs that make you "extra drunk." It is two respiratory depressants with overlapping but distinct mechanisms, combining to produce CNS depression that can kill at doses that neither would cause alone. The narrow therapeutic window of GHB, roughly 2–3x between euphoria and unconsciousness, leaves almost no margin for error when alcohol is also present.
-
-If you use GHB: do not drink alcohol in the same session. If you drink during the gap between doses, the gap is not safe. There is no dose of alcohol that is confirmed harmless in this context.
-
-For a full overview of GHB's effects, dose guidance, and risks, see our [GHB harm reduction guide](/ghb.html). For other dangerous combinations, use our [interaction checker](/interactions.html). For general harm reduction at events, visit our [FAQ](/faq.html).
-
-If you're sourcing GHB and want to verify the contents of an unknown liquid, [DanceSafe sells test kits and harm reduction supplies](/store) that can help you reduce risk from adulterated substances.
-
----
-
-*Sources: [PMID 36837798](https://pubmed.ncbi.nlm.nih.gov/36837798/) | [PMID 31301370](https://pubmed.ncbi.nlm.nih.gov/31301370/) | [PMID 27581664](https://pubmed.ncbi.nlm.nih.gov/27581664/) | [PMID 28938889](https://pubmed.ncbi.nlm.nih.gov/28938889/) | [PMID 26074743](https://pubmed.ncbi.nlm.nih.gov/26074743/) | [PMID 16974199](https://pubmed.ncbi.nlm.nih.gov/16974199/)*
+[PMID 36837798](https://pubmed.ncbi.nlm.nih.gov/36837798/) | [PMID 26074743](https://pubmed.ncbi.nlm.nih.gov/26074743/) | [PMID 16974199](https://pubmed.ncbi.nlm.nih.gov/16974199/) | [PMID 31301370](https://pubmed.ncbi.nlm.nih.gov/31301370/) | [PMID 27581664](https://pubmed.ncbi.nlm.nih.gov/27581664/) | [PMID 28938889](https://pubmed.ncbi.nlm.nih.gov/28938889/)

@@ -7,7 +7,7 @@ tags: ["cocaine", "levamisole", "adulterants", "harm reduction", "drug checking"
 author: "Jordan Mercer"
 ---
 
-Levamisole is a veterinary deworming drug that is now the **most common adulterant in the cocaine supply, and in a small subset of users it can wipe out the white blood cells that fight infection, a condition called agranulocytosis that can be fatal.** US Drug Enforcement Administration testing has found levamisole in roughly **70% to 80% of seized cocaine** ([PMID 22677078](https://pubmed.ncbi.nlm.nih.gov/22677078/)). Most people who use contaminated cocaine never develop a serious problem, but the ones who do can become dangerously ill, and the early signs (fever, mouth sores, infections that won't clear) are easy to dismiss. You cannot taste, see, or feel levamisole, and no street-level test can rule it out.
+Levamisole is a veterinary deworming drug that is now the **most common adulterant in the cocaine supply, and in a small subset of users it can wipe out the white blood cells that fight infection, a condition called agranulocytosis that can be fatal.** US Drug Enforcement Administration testing has found levamisole in roughly **70% to 80% of seized cocaine** (PMID 22677078). Most people who use contaminated cocaine never develop a serious problem, but the ones who do can become dangerously ill, and the early signs (fever, mouth sores, infections that won't clear) are easy to dismiss. You cannot taste, see, or feel levamisole, and no street-level test can rule it out.
 
 ## Quick answers
 
@@ -25,7 +25,7 @@ Levamisole is a veterinary deworming drug that is now the **most common adultera
 
 ## How common is it, really?
 
-This is not a rare contaminant. **DEA surveillance has consistently found levamisole in the large majority of US cocaine,** with estimates ranging from about 69% in 2009 to more than 80% in later sampling ([PMID 22677078](https://pubmed.ncbi.nlm.nih.gov/22677078/)). If you use cocaine in the United States, the statistical default is that your supply contains it. The same pattern shows up in cocaine seized across Canada and Europe.
+This is not a rare contaminant. **DEA surveillance has consistently found levamisole in the large majority of US cocaine,** with estimates ranging from about 69% in 2009 to more than 80% in later sampling (PMID 22677078). If you use cocaine in the United States, the statistical default is that your supply contains it. The same pattern shows up in cocaine seized across Canada and Europe.
 
 The reason it is so widespread comes down to economics and chemistry. Levamisole is cheap, white, and crystalline, so it passes a visual inspection. It survives the conversion to crack. And unlike inert fillers such as baking soda or sugars, it is pharmacologically active in a way that seems to complement cocaine rather than dilute the experience, which makes adulterated product harder for users to detect by feel.
 
@@ -33,9 +33,9 @@ The reason it is so widespread comes down to economics and chemistry. Levamisole
 
 ## Why a dewormer hurts some people and not others
 
-Levamisole's dangerous effect is **immune-mediated, which is why it strikes unpredictably.** It is not a simple dose-poison relationship where more always means worse. Instead, in susceptible people, levamisole (or a reactive metabolite it forms in the body) prompts the immune system to produce antibodies that attack the person's own neutrophils, the white blood cells that are the front line against bacterial infection ([PMID 22393119](https://pubmed.ncbi.nlm.nih.gov/22393119/)).
+Levamisole's dangerous effect is **immune-mediated, which is why it strikes unpredictably.** It is not a simple dose-poison relationship where more always means worse. Instead, in susceptible people, levamisole (or a reactive metabolite it forms in the body) prompts the immune system to produce antibodies that attack the person's own neutrophils, the white blood cells that are the front line against bacterial infection (PMID 22393119).
 
-When neutrophils are destroyed faster than the bone marrow can replace them, the count can crash toward zero. That state is **agranulocytosis**, and it leaves the body unable to contain infections that a healthy immune system would clear without notice. A minor throat infection can become life-threatening sepsis. Published case series put the share of levamisole-exposed patients who form these anti-neutrophil antibodies somewhere between roughly 0.4% and 20%, and the risk appears higher in women ([PMID 22677078](https://pubmed.ncbi.nlm.nih.gov/22677078/)). A confirmed case in *Journal of Medical Toxicology* documented agranulocytosis directly tied to levamisole-contaminated cocaine after other causes were excluded ([PMID 20358411](https://pubmed.ncbi.nlm.nih.gov/20358411/)).
+When neutrophils are destroyed faster than the bone marrow can replace them, the count can crash toward zero. That state is **agranulocytosis**, and it leaves the body unable to contain infections that a healthy immune system would clear without notice. A minor throat infection can become life-threatening sepsis. Published case series put the share of levamisole-exposed patients who form these anti-neutrophil antibodies somewhere between roughly 0.4% and 20%, and the risk appears higher in women (PMID 22677078). A confirmed case in *Journal of Medical Toxicology* documented agranulocytosis directly tied to levamisole-contaminated cocaine after other causes were excluded (PMID 20358411).
 
 The same immune mechanism drives the second classic presentation: **levamisole-induced vasculitis,** an inflammation of small blood vessels that produces tender purple patches, often on the ears, nose, cheeks, and extremities, sometimes progressing to skin death (necrosis). These lesions are a visible red flag that the immune system is reacting to the adulterant.
 
@@ -79,4 +79,6 @@ For the full picture on testing, cardiovascular risk, and safer-use protocols, s
 
 ---
 
-*Sources: [PMID 22677078](https://pubmed.ncbi.nlm.nih.gov/22677078/) | [PMID 22393119](https://pubmed.ncbi.nlm.nih.gov/22393119/) | [PMID 20358411](https://pubmed.ncbi.nlm.nih.gov/20358411/)*
+## Sources
+
+[PMID 22677078](https://pubmed.ncbi.nlm.nih.gov/22677078/) | [PMID 22393119](https://pubmed.ncbi.nlm.nih.gov/22393119/) | [PMID 20358411](https://pubmed.ncbi.nlm.nih.gov/20358411/)

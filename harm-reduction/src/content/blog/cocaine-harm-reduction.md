@@ -1,94 +1,80 @@
 ---
-title: "Cocaine Harm Reduction: Heart Risks, Levamisole, and Nasal Care"
-description: "Cocaine's cardiac risks can strike on the first use, and most US supply contains levamisole. What the evidence shows and how to reduce harm."
+title: "Cocaine Harm Reduction: Heart, Levamisole, Nasal Care"
+description: "Cocaine's cardiac risk can strike on a first use, most of the supply carries levamisole, and no consumer kit detects it. What the evidence actually shows."
 date: 2026-05-28
-lastmod: 2026-08-14
+lastmod: 2026-08-17
 tags: ["cocaine", "harm reduction", "cardiovascular", "levamisole", "adulterants"]
 author: "Jordan Mercer"
 ---
 
-Cocaine carries three major risks that most users underestimate: cardiac events that can happen on the very first use in people with no heart history, contamination with levamisole (an adulterant found in most North American and European cocaine that destroys white blood cells), and progressive nasal damage that can eventually erode through bone. None of these risks are dose-thresholds you can stay below with careful use. Understanding the mechanisms helps you make informed choices and recognize warning signs before they escalate.
+**Three risks here do not behave like the risks people plan around, because none of them has a dose you can stay below.** Cocaine can cause a heart attack on a first use in someone with clean arteries. Most of the North American and European supply carries levamisole, which destroys white blood cells and which no consumer test kit can find. And the nasal damage is progressive, ending in some cases at bone.
 
-## Quick answers
+Understanding the mechanisms is most of what you can do here, because it's what lets you recognise the warning signs early enough for them to matter.
 
-**Can cocaine cause a heart attack if you're young and healthy?** Yes. Cocaine can cause a myocardial infarction (heart attack) through coronary vasospasm, a sudden, intense narrowing of a heart artery, in people with completely clean arteries and no prior cardiac history. It has happened on first use.
+## Three ways cocaine hurts your heart
 
-**What is levamisole and why is it in cocaine?** Levamisole is a veterinary deworming drug that gets added during cocaine processing. It was originally thought to potentiate cocaine's stimulant effect, though this is disputed. It is present in 70–80% of street cocaine in North America and Europe and cannot be detected with standard fentanyl test strips or reagent kits.
+Cocaine is the drug most often behind drug-related emergency visits for chest pain, and it gets there by three separate routes that overlap.
 
-**Is it safe to drink alcohol with cocaine?** No combination makes cocaine safer, but alcohol makes it specifically worse. Your liver converts the combination into a third compound, cocaethylene, which has the same cardiovascular profile as cocaine but a longer half-life, roughly 1.7 hours versus 1.1 hours for cocaine ([PMID 7701044](https://pubmed.ncbi.nlm.nih.gov/7701044/)). The bigger problem is that it accumulates with repeated combined dosing.
+**Sympathomimetic stimulation.** Blocking norepinephrine and dopamine reuptake floods those receptors, which is the effect people take it for: faster heart rate, higher blood pressure, more myocardial oxygen demand. This alone stresses the heart even when nothing goes wrong.
 
-**Can a perforated nasal septum heal on its own?** Small perforations sometimes stabilize, but they do not close. Continued use enlarges them. The relevant question is whether you're heading toward septal perforation or a more destructive process called CIMDL (cocaine-induced midline destructive lesion), which involves bone.
+**Sodium channel blockade.** Independently of the stimulation, cocaine blocks cardiac sodium channels, slowing electrical conduction and prolonging the QRS and QT intervals. That arrhythmia risk outlasts the stimulant effect, which is why coming down is not automatically the safe part of the night.
 
-**Does using your own straw actually matter?** Yes, and carrying [your own reusable tube](/crisp-tube) is the fix. Hepatitis C transmission via shared straws has been documented in case series. The nasal mucosa (lining) bleeds easily with regular cocaine use, and that blood ends up on equipment.
+**Coronary vasospasm.** Cocaine narrows the arteries feeding the heart muscle, sharply and acutely, and it can cut flow off entirely. That produces a heart attack with no atherosclerotic plaque involved at all. Catheterisation studies in the late 1980s showed intranasal cocaine narrowing the left coronary artery and reducing coronary blood flow in patients who felt nothing while it happened, an effect that reversed with the alpha-blocker phentolamine.
 
----
+Chronic use also remodels the organ. Regular users show higher systolic blood pressure, stiffer aortas and greater left ventricular mass than matched non-users.
 
-## The cardiac risk: why cocaine kills people with healthy hearts
+For scale: Qureshi and colleagues used NHANES III data on 10,085 adults aged 18 to 45 and found frequent lifetime cocaine use carried a **6.9 odds ratio for nonfatal myocardial infarction**, estimating that roughly **one in four nonfatal heart attacks in that age group** was attributable to cocaine. The same analysis found **no significant association with stroke**, so the widely repeated claim that cocaine multiplies stroke risk is not supported by that dataset. The full picture is in the [cocaine heart attack guide](/blog/cocaine-heart-attack.html).
 
-Cocaine affects the heart through three separate, overlapping mechanisms. Each one alone is a problem. Together, they explain why cocaine is the drug most commonly associated with drug-related emergency department visits for chest pain.
+There is no established safe dose for any of this. Vasospasm is not reliably dose-dependent.
 
-**Sympathomimetic stimulation.** Cocaine blocks the reuptake of norepinephrine and dopamine at nerve terminals, flooding those receptors and producing the familiar stimulant effects: elevated heart rate, raised blood pressure, and increased myocardial oxygen demand. This is the effect people expect. It is also why cocaine stresses the heart even when nothing else goes wrong.
+## Levamisole is in most of it, and no kit finds it
 
-**Sodium channel blockade.** Independently of its stimulant effect, cocaine acts as a sodium channel blocker in cardiac tissue, which slows electrical conduction and prolongs the QRS and QT intervals on an ECG (the electrical measurements of how long each heartbeat cycle takes). This creates arrhythmia risk that persists even as the stimulant effect fades, and it's why the "coming down" window is not necessarily safe from a cardiac standpoint.
+Levamisole is a veterinary dewormer added during processing, not cut in at street level. DEA Microgram Bulletin data from 2009 and subsequent UNODC surveillance consistently put it in 70 to 80 percent of cocaine seized in the US and Europe. Because it goes in upstream, nothing about a particular bag tells you whether it's there.
 
-**Coronary vasospasm.** Cocaine causes intense, acute narrowing of coronary arteries (the arteries feeding the heart muscle). This can cut off blood flow to the heart completely, causing myocardial infarction (heart attack) without any atherosclerotic plaque being present. Catheterization studies found intranasal cocaine narrowed the left coronary artery and reduced coronary blood flow in patients who felt nothing at the time, an effect reversed by the alpha-blocker phentolamine ([PMID 2573838](https://pubmed.ncbi.nlm.nih.gov/2573838/)). Chronic use also remodels the heart: regular users showed higher systolic blood pressure, stiffer aortas, and greater left ventricular mass than matched non-users ([PMID 24717541](https://pubmed.ncbi.nlm.nih.gov/24717541/)).
+In a subset of users it triggers **agranulocytosis**, a collapse in neutrophil count, leaving the immune system without the white cells that handle bacterial infection. The reaction is immune-mediated and idiosyncratic, which means it is not reliably dose-dependent: some people use contaminated cocaine for years without incident and others develop agranulocytosis after limited exposure. Estimated incidence runs 3 to 10 percent of chronically exposed users, and that is probably low, because the cause often goes unrecognised.
 
-Using NHANES III data on 10,085 adults aged 18 to 45, Qureshi et al. found that frequent lifetime cocaine use was associated with a **6.9 odds ratio for nonfatal myocardial infarction**, and estimated that roughly **one in four nonfatal MIs in that age group** was attributable to cocaine ([PMID 11157713](https://pubmed.ncbi.nlm.nih.gov/11157713/)). That same study found **no significant association with stroke**, so the widely repeated "cocaine multiplies your stroke risk" claim is not supported by this dataset. For the full cardiac picture, see our [cocaine heart attack guide](/blog/cocaine-heart-attack.html).
+What it looks like: fever, painful mouth ulcers, infections that keep coming back or won't clear, and in severe cases sepsis. Buchanan and colleagues, writing in *Current Opinion in Hematology* in 2012, describe the syndrome and note how many patients get worked up for other causes before anyone connects it to cocaine.
 
-There is no established safe dose for cardiovascular risk. The vasospasm mechanism is not reliably dose-dependent.
+There is also a visible sign, documented by the same group in the *Journal of Medical Toxicology*: occlusive necrotising vasculitis producing **retiform purpura**, a net-like pattern of skin necrosis on the ears, nose and cheeks. If that shows up, go to an emergency room and tell them about the cocaine. The diagnosis is not obvious without it, and the treatment depends on getting it right.
 
----
+Levamisole does not show on fentanyl strips, Marquis reagent, or anything else available to a consumer. Laboratory testing exists and is not available where you are standing.
 
-## Levamisole: the adulterant in most cocaine
+## What the nose does over time
 
-Levamisole is not a trace contaminant. DEA Microgram Bulletin data from 2009 and subsequent UNODC surveillance consistently show it present in 70–80% of cocaine seized in the US and Europe. It is added at the synthesis or processing stage, not at street level, which means there is no way to know whether a particular batch contains it by looking at it or testing with standard kits.
+Three things damage the nasal passages at once: vasoconstriction cutting blood supply to the mucosa and the tissue beneath it, direct chemical toxicity to the lining, and mechanical trauma from snorting itself.
 
-In a subset of users, levamisole triggers **agranulocytosis**, a collapse in neutrophil count (neutrophils are the white blood cells primarily responsible for fighting bacterial infections). The reaction is immune-mediated and idiosyncratic, meaning it is not reliably dose-dependent. Some people can use levamisole-contaminated cocaine for years without incident; others develop agranulocytosis after relatively limited exposure. Estimated incidence runs between 3–10% of chronically exposed users, though this is likely an undercount given how often the cause goes unrecognized.
+The progression is recognisable. Runny nose and nosebleeds first. Then the septum, the cartilage and bone dividing the nostrils, starts to thin. Septal perforation follows in an estimated 4 to 8 percent of regular intranasal users in case series, with higher rates in imaging studies. A perforated septum whistles when you breathe, crusts, and bleeds. Small perforations sometimes stabilise. They do not close, and continued use enlarges them.
 
-The clinical presentation: fever, painful mouth sores (ulcers), recurring infections that don't resolve normally, and in severe cases, sepsis (life-threatening systemic infection). A 2012 review by Buchanan et al. in *Current Opinion in Hematology* ([PMID 22143075](https://pubmed.ncbi.nlm.nih.gov/22143075/)) describes the syndrome and notes that many patients are treated for other presumed causes before the cocaine connection is established.
+At the far end is **CIMDL**, cocaine-induced midline destructive lesion, where the destruction pushes past the septum into the palate, the turbinate bones, and in severe cases the orbital floor beneath the eye. Trimarchi and colleagues documented 70 CIMDL patients and found that misdiagnosis as granulomatosis with polyangiitis, the autoimmune disease that produces similar-looking tissue destruction, was close to universal until cocaine use was disclosed. That matters practically: the immunosuppressants used for the autoimmune disease do nothing for CIMDL and delay the treatment that would help.
 
-A visible sign, documented by Buchanan et al. in *Journal of Medical Toxicology* ([PMID 20549422](https://pubmed.ncbi.nlm.nih.gov/20549422/)), is **occlusive necrotizing vasculitis** producing retiform purpura: a distinctive skin necrosis pattern (net-like, bruise-like lesions) appearing on the ears, nose, and cheeks. If you or someone you know uses cocaine and develops this pattern, get to an emergency room and tell them about the cocaine use.
+Persistent nasal symptoms, a perforation, pain around the sinuses or eyes, or any change in vision means see an ENT and tell them the truth. Early intervention limits further damage even where it cannot undo what happened.
 
-Levamisole is not detectable with fentanyl test strips, Marquis reagent, or any other consumer-accessible kit. Specialized laboratory testing exists but is not available at the point of use.
+## Cocaethylene, the drug your liver makes
 
----
+Cocaine and alcohol together produce a third compound. Cocaethylene is not a minor byproduct: it carries the same cardiovascular and psychoactive profile as cocaine, including the sympathomimetic drive, the sodium channel blockade and the vasospasm potential. Its half-life is roughly 1.7 hours against cocaine's 1.1, and it accumulates with repeated combined dosing. The cardiovascular burden is synergistic rather than additive.
 
-## Nasal damage: from nosebleeds to structural destruction
+People combine them because alcohol takes the edge off cocaine and cocaine holds off the sedation. What actually happens is that the cardiac stress window extends well past the point where the cocaine feels finished, driven by a compound most users don't know exists.
 
-Cocaine damages the nasal passages through three concurrent mechanisms: vasoconstriction (cutting off blood supply to the nasal mucosa and underlying tissue), direct chemical toxicity to the mucosal lining, and mechanical trauma from the insufflation (snorting) process itself.
+## What actually helps
 
-The damage progresses in a recognizable pattern. Regular users first develop rhinorrhea (runny nose) and nosebleeds. With continued use, the nasal septum (the cartilage and bone dividing the nostrils) begins to thin. Septal perforation, a hole through the septum, occurs in an estimated 4–8% of regular intranasal users in case series, and higher rates appear in imaging studies. A perforated septum causes a whistling sound when breathing, crusting, and nosebleeds, and does not heal on its own.
+None of this makes cocaine safe. These reduce specific documented harms.
 
-At the severe end of the spectrum is **CIMDL (cocaine-induced midline destructive lesion)**, in which the destructive process extends beyond the septum into the palate, turbinate bones (small bones inside the nasal cavity), and in severe cases, the orbital floor (the bone beneath the eye). A 2014 case series by Trimarchi et al. ([PMID 35138441](https://pubmed.ncbi.nlm.nih.gov/35138441/)) documented 70 CIMDL patients and found that misdiagnosis as granulomatosis with polyangiitis (formerly Wegener's granulomatosis, an autoimmune disease with similar-looking tissue destruction) was nearly universal before cocaine use was disclosed. This matters because the treatments differ: immunosuppressants appropriate for Wegener's do not help CIMDL and delay the correct intervention.
+**Your own tube, every time.** Hepatitis C transmission through shared straws is documented in case series, and the nasal lining bleeds easily with regular use, so blood ends up on the equipment. Carry [your own washable tube](/crisp-tube) and do not pass it.
 
-If you have persistent nasal symptoms, septal perforation, pain around the sinuses or eyes, or any visual changes, see an ENT (ear, nose, and throat specialist) and be honest about cocaine use. Early intervention can limit further damage even if it cannot reverse what has already occurred.
+**Saline rinse, before and after.** A neti pot or saline spray clears debris and keeps the mucosa moist. It does nothing about vasoconstriction, but it takes the mechanical irritation out of the equation.
 
----
+**Gaps between sessions.** The mucosa needs time to restore its blood supply. Consecutive days give cumulative damage no chance to stabilise.
 
-## Cocaine and alcohol: why the combination is worse than either alone
+**Fentanyl strips.** They will not find levamisole, but fentanyl in the cocaine supply has killed a lot of people who were not expecting an opioid. Read the strip as one line POSITIVE, two lines NEGATIVE, which is backwards from what most people assume. Technique is in the [fentanyl test strip guide](/blog/how-to-use-fentanyl-test-strips.html).
 
-When cocaine and alcohol are present in the body simultaneously, the liver produces a third compound: **cocaethylene**. This is not a minor metabolic byproduct. Cocaethylene has the same cardiovascular and psychoactive profile as cocaine itself, including sympathomimetic stimulation, sodium channel blockade, and vasospasm potential. Its half-life is roughly 1.7 hours compared to about 1.1 hours for cocaine ([PMID 7701044](https://pubmed.ncbi.nlm.nih.gov/7701044/)), and it accumulates with repeated combined dosing. The cardiovascular burden from the combination is synergistic, not simply additive: the two compounds together produce more harm than their individual effects would predict.
+**No alcohol.** If you would rather not have cocaethylene circulating after the cocaine has finished, the only way to avoid it is to not combine them.
 
-People often combine cocaine and alcohol because alcohol blunts some of cocaine's edge and cocaine offsets alcohol sedation. The pharmacological reality is that this combination extends the cardiac stress window well beyond when cocaine feels active, and does so via a compound the user typically does not know is present.
+**Less, and less often.** Frequency drives nearly every curve on this page. Nasal damage, levamisole exposure and cumulative cardiac load all scale with how often, more than with how much.
 
----
+**Know the levamisole signs.** Fever with mouth sores, or an infection that behaves oddly, is worth a doctor and worth telling them what you have been using.
 
-## Practical harm reduction
+For the wider profile see the [cocaine guide](/cocaine.html), and the [interaction checker](/interactions.html) for combinations.
 
-No practice listed here eliminates the risks above. These are steps that reduce specific, documented harms.
+## Sources
 
-- **Use your own equipment, every time.** Hep C transmission via shared straws is real. Carry [your own washable tube](/crisp-tube) and do not share.
-- **Saline nasal rinse before and after use.** A simple saline rinse (like a neti pot or saline spray) clears debris, moisturizes the mucosa, and reduces mechanical irritation. It does not prevent vasoconstriction damage but reduces the compounding effects.
-- **Allow recovery time between sessions.** The nasal mucosa needs time to restore blood supply. Back-to-back sessions over multiple days give cumulative damage no opportunity to stabilize.
-- **Test with fentanyl test strips.** Levamisole will not show up, but fentanyl can. Fentanyl in cocaine supply is a documented cause of overdose death in users who did not expect an opioid. See our [guide to using fentanyl test strips](/blog/how-to-use-fentanyl-test-strips.html) for technique.
-- **Avoid alcohol.** If cocaethylene is not a compound you want in your body lingering after the cocaine is gone, don't combine them.
-- **Use less, less often.** Frequency drives most of the risk curves here: nasal damage, levamisole exposure, and cumulative cardiovascular load all scale with use frequency.
-- **Know the levamisole warning signs.** Fever with mouth sores or unusual infections after cocaine use warrants medical attention and disclosure of use.
-
----
-
-For a full breakdown of cocaine's effects and risk profile, see our [cocaine harm reduction guide](/cocaine.html). If you're using cocaine with other substances, the [drug interaction checker](/interactions.html) covers combinations including stimulants and alcohol. Testing supplies are available through our [test kits page](/test-kits.html).
-
----
-
-*Sources: [PMID 2573838](https://pubmed.ncbi.nlm.nih.gov/2573838/) | [PMID 24717541](https://pubmed.ncbi.nlm.nih.gov/24717541/) | [PMID 11157713](https://pubmed.ncbi.nlm.nih.gov/11157713/) | [PMID 22143075](https://pubmed.ncbi.nlm.nih.gov/22143075/) | [PMID 20549422](https://pubmed.ncbi.nlm.nih.gov/20549422/) | [PMID 35138441](https://pubmed.ncbi.nlm.nih.gov/35138441/)*
+[PMID 7701044](https://pubmed.ncbi.nlm.nih.gov/7701044/) | [PMID 2573838](https://pubmed.ncbi.nlm.nih.gov/2573838/) | [PMID 24717541](https://pubmed.ncbi.nlm.nih.gov/24717541/) | [PMID 11157713](https://pubmed.ncbi.nlm.nih.gov/11157713/) | [PMID 22143075](https://pubmed.ncbi.nlm.nih.gov/22143075/) | [PMID 20549422](https://pubmed.ncbi.nlm.nih.gov/20549422/) | [PMID 35138441](https://pubmed.ncbi.nlm.nih.gov/35138441/)

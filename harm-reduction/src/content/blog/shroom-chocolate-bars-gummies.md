@@ -22,11 +22,13 @@ Smoke shops, gas stations and online storefronts now sell chocolate bars and gum
 
 **Can I test one at home?** Barely. A reagent can suggest an indole is present, but not which one and not how much, and a sugar or cocoa matrix makes colour reading unreliable.
 
+**If you want to know what is actually in a bar or gummy:** a [reagent kit](/kits) is the only consumer option, and it still cannot tell you the dose.
+
 ---
 
 ## What the lab testing actually found
 
-The clearest dataset is a research letter published in *JAMA Network Open* on 11 September 2025 ([PMID 40932719](https://pubmed.ncbi.nlm.nih.gov/40932719/)). Researchers at Oregon State University and Rose City Laboratories bought 12 products at Portland retail shops (11 gummies and 1 chocolate) and ran them through accredited HPLC, then GC-MS and three separate high resolution LC-MS instruments.
+The clearest dataset is a research letter published in *JAMA Network Open* on 11 September 2025 (PMID 40932719). Researchers at Oregon State University and Rose City Laboratories bought 12 products at Portland retail shops (11 gummies and 1 chocolate) and ran them through accredited HPLC, then GC-MS and three separate high resolution LC-MS instruments.
 
 Not one product contained psilocybin. The gummy whose label promised 100 mg of psilocybin per gummy contained no psilocybin and no other active compound. The gummy listing muscarine and muscimol contained neither, and neither compound was found in any of the 12 products.
 
@@ -40,17 +42,17 @@ What was found instead:
 
 ## Two other datasets say the same thing
 
-A team from the Oregon Poison Center and UCSF bought 8 gummy products from 7 Portland smoke and vape shops and analysed them by LC-QToF-MS, published in *Clinical Toxicology* in April 2025 ([PMID 39977248](https://pubmed.ncbi.nlm.nih.gov/39977248/)). Seven of the 8 contained psilocin and 6 contained 4-acetoxy-DMT. One product marketed as psilocybin-free tested positive for psilocybin. One marketed as a nootropic contained undisclosed delta-9-THC. The two products claiming *Amanita muscaria* extract contained neither ibotenic acid nor muscimol, but did contain tryptamines.
+A team from the Oregon Poison Center and UCSF bought 8 gummy products from 7 Portland smoke and vape shops and analysed them by LC-QToF-MS, published in *Clinical Toxicology* in April 2025 (PMID 39977248). Seven of the 8 contained psilocin and 6 contained 4-acetoxy-DMT. One product marketed as psilocybin-free tested positive for psilocybin. One marketed as a nootropic contained undisclosed delta-9-THC. The two products claiming *Amanita muscaria* extract contained neither ibotenic acid nor muscimol, but did contain tryptamines.
 
-A University of Mississippi group analysed 27 commercial products (14 gummies, 3 chocolates, 6 capsules, 1 tablet, 3 powders) in the *International Journal of Medicinal Mushrooms* in 2025 ([PMID 39717916](https://pubmed.ncbi.nlm.nih.gov/39717916/)). Eleven did contain psilocin and psilocybin as expected, so not every product is a lie. But 5 contained none of the five target compounds, one labelled "no psilocybin" contained both psilocybin and psilocin, and in the gummies claiming Amanita extracts, muscimol and muscarine were detected without ibotenic acid.
+A University of Mississippi group analysed 27 commercial products (14 gummies, 3 chocolates, 6 capsules, 1 tablet, 3 powders) in the *International Journal of Medicinal Mushrooms* in 2025 (PMID 39717916). Eleven did contain psilocin and psilocybin as expected, so not every product is a lie. But 5 contained none of the five target compounds, one labelled "no psilocybin" contained both psilocybin and psilocin, and in the gummies claiming Amanita extracts, muscimol and muscarine were detected without ibotenic acid.
 
 These three studies disagree with each other about the Amanita products, and that disagreement is itself the finding. There is no consistent manufacturing standard behind these labels, so results vary shop to shop.
 
-Separately, a public health report from Charlottesville, Virginia documented Schedule I substances identified in "nootropic" gummies sold as containing *Amanita muscaria* or other mushrooms during 2023 and 2024 ([PMID 39024197](https://pubmed.ncbi.nlm.nih.gov/39024197/)).
+Separately, a public health report from Charlottesville, Virginia documented Schedule I substances identified in "nootropic" gummies sold as containing *Amanita muscaria* or other mushrooms during 2023 and 2024 (PMID 39024197).
 
 ## Diamond Shruumz, and why an unknown dose is the real risk
 
-The CDC and FDA outbreak investigation into Diamond Shruumz microdosing chocolate bars was published in *MMWR* on 9 April 2026 ([PMID 41955162](https://pubmed.ncbi.nlm.nih.gov/41955162/)). Between January and October 2024 there were **180 poisoning cases across 34 states**, with **73 hospitalisations, 38 intensive care admissions, 29 endotracheal intubations and two deaths**.
+The CDC and FDA outbreak investigation into Diamond Shruumz microdosing chocolate bars was published in *MMWR* on 9 April 2026 (PMID 41955162). Between January and October 2024 there were **180 poisoning cases across 34 states**, with **73 hospitalisations, 38 intensive care admissions, 29 endotracheal intubations and two deaths**.
 
 Compared with other mushroom-containing chocolate products, Diamond Shruumz bars carried higher odds of hospitalisation (OR 3.29), intensive care admission (OR 6.30), seizures (OR 8.45) and intubation (OR 8.04), and eating more predicted worse outcomes. Testing found muscimol, psilocin and kavalactones in some but not all products tested, which is exactly the inconsistency that makes dosing impossible.
 
@@ -58,7 +60,7 @@ If you want the contrast: psilocybin from mushrooms has a genuinely wide physiol
 
 ## A recall does not clear the shelves
 
-Researchers tracked Diamond Shruumz listings online before and after the recall, publishing in the *Journal of Medical Internet Research* in June 2025 ([PMID 40586741](https://pubmed.ncbi.nlm.nih.gov/40586741/)). Before the recall they found 67 domains, 8 e-commerce shops and 49 social media posts actively selling. After it, 45 of the 67 domains were still marketing the product, and simulated test purchases succeeded on 15 of them. Assume recalled stock is still circulating.
+Researchers tracked Diamond Shruumz listings online before and after the recall, publishing in the *Journal of Medical Internet Research* in June 2025 (PMID 40586741). Before the recall they found 67 domains, 8 e-commerce shops and 49 social media posts actively selling. After it, 45 of the 67 domains were still marketing the product, and simulated test purchases succeeded on 15 of them. Assume recalled stock is still circulating.
 
 ## Can you check one yourself?
 
@@ -86,4 +88,6 @@ For dosing, preparation and what to do when a trip goes badly, see our [psilocyb
 
 ---
 
-*Sources: [PMID 40932719](https://pubmed.ncbi.nlm.nih.gov/40932719/) | [PMID 41955162](https://pubmed.ncbi.nlm.nih.gov/41955162/) | [PMID 39977248](https://pubmed.ncbi.nlm.nih.gov/39977248/) | [PMID 39717916](https://pubmed.ncbi.nlm.nih.gov/39717916/) | [PMID 40586741](https://pubmed.ncbi.nlm.nih.gov/40586741/) | [PMID 39024197](https://pubmed.ncbi.nlm.nih.gov/39024197/)*
+## Sources
+
+[PMID 40932719](https://pubmed.ncbi.nlm.nih.gov/40932719/) | [PMID 39977248](https://pubmed.ncbi.nlm.nih.gov/39977248/) | [PMID 39717916](https://pubmed.ncbi.nlm.nih.gov/39717916/) | [PMID 39024197](https://pubmed.ncbi.nlm.nih.gov/39024197/) | [PMID 41955162](https://pubmed.ncbi.nlm.nih.gov/41955162/) | [PMID 40586741](https://pubmed.ncbi.nlm.nih.gov/40586741/)

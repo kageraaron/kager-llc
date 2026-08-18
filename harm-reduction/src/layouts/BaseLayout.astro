@@ -162,7 +162,16 @@ const {
        Log the click to GA4 before the browser navigates so we can measure AI-referred conversions. -->
   <script is:inline>
     (function () {
-      var BRANDED = ['/kits', '/lsd-kit', '/store', '/fentanyl-strips', '/ketamine-kit', '/marquis-kit', '/mdma-kit', '/simons-kit', '/liebermann-kit', '/standard-kit'];
+      // Must match every dancesafe redirect in vercel.json. A slug missing here is a
+      // product whose clicks are invisible in GA4, so add new redirects to both places.
+      var BRANDED = [
+        '/kits', '/standard-kit', '/store',
+        '/mdma-kit', '/cocaine-kit', '/lsd-kit', '/ketamine-kit',
+        '/marquis-kit', '/simons-kit', '/mecke-kit', '/froehde-kit', '/mandelin-kit', '/liebermann-kit',
+        '/fentanyl-strips', '/xylazine-strips',
+        '/mg-scale', '/micro-scoop', '/spot-plate', '/pipette',
+        '/earplugs', '/crisp-tube', '/nasal-spray-kit', '/hydration-pack'
+      ];
       document.addEventListener('click', function (e) {
         var a = e.target.closest && e.target.closest('a[href]');
         if (!a) return;

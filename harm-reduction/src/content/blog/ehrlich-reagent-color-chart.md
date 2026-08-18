@@ -2,33 +2,20 @@
 title: "Ehrlich Reagent Color Chart and How to Read It"
 description: "Ehrlich reagent turns purple for indoles like LSD, DMT and psilocybin. The color chart, why no reaction on blotter is a red flag, and what it misses."
 date: 2026-08-11
+lastmod: 2026-08-17
 tags: ["test kits", "drug checking", "lsd", "ehrlich reagent", "nbome", "harm reduction"]
 author: "Jordan Mercer"
 ---
 
-Ehrlich's reagent answers exactly one question: is there an indole in this sample? **Indoles turn Ehrlich purple. LSD, DMT, and psilocybin are all indoles, so all three turn it purple, and Ehrlich cannot tell you which one you have.** Everything else about the test follows from that single fact, including the part that actually saves lives: NBOMe compounds, the dangerous substitutes sold as acid, are not indoles and produce no purple at all. This is the color chart, the timing, and the reason a negative result on blotter is the most important reading you can get.
-
-## Quick answers
-
-**What color is LSD on an Ehrlich test?** Purple. The purple builds gradually and tints the whole reagent droplet. Some kits describe the endpoint as purple shading toward pink.
-
-**How long does Ehrlich take?** Longer than every other reagent. DanceSafe's current reagent instructions state that Ehrlich's **may take up to 20 minutes to react**, and that the reaction stays accurate for around an hour. Color often begins building within the first few minutes, but a faint or absent result at five minutes is not a final answer. Do not call an Ehrlich test negative after 60 seconds.
-
-**What does no reaction mean on blotter?** It means no indole is present, so it is not LSD. That is a stop signal, not an inconclusive result. NBOMe compounds are the most likely thing sitting on a non-reacting tab.
-
-**Can Ehrlich prove my sample is LSD?** No. It confirms the indole class only. It cannot separate LSD from 1P-LSD, DMT, or any other indole, and it cannot tell you the dose.
-
-**Where do you get an Ehrlich kit?** [DanceSafe sells Ehrlich as the LSD testing kit](/lsd-kit), which ships with a fentanyl strip, or you can get it inside the [complete 9-reagent set](/kits).
-
----
+Ehrlich's reagent answers one question: is there an indole in this sample? **Indoles turn Ehrlich purple. LSD, DMT, and psilocybin are all indoles, so all three go purple, and Ehrlich cannot tell you which one you have.** The reading that actually protects you is the opposite one. NBOMe compounds, the substitutes sold as acid that put people in emergency rooms, are not indoles and produce no purple at all.
 
 <div class="kit-cta">
 <strong>Never dose unverified blotter.</strong> An Ehrlich test takes minutes and rules out the substitute that puts people in the emergency room. <a href="/lsd-kit">Get the LSD (Ehrlich) kit from DanceSafe →</a>
 </div>
 
-## The Ehrlich color chart
+## The color chart
 
-Ehrlich's is p-dimethylaminobenzaldehyde in acid, and the only thing it colors is the indole ring. That makes the chart short, which is a feature: there are very few false-positive paths.
+Ehrlich's is p-dimethylaminobenzaldehyde in acid, and the only thing it colors is the indole ring. That makes for a short chart, which is a feature: there are very few ways to get a false positive.
 
 | Substance | Ehrlich color |
 |-----------|---------------|
@@ -41,55 +28,51 @@ Ehrlich's is p-dimethylaminobenzaldehyde in acid, and the only thing it colors i
 | Blank blotter paper, inert filler | No reaction |
 | Pyridoxine (vitamin B6) | Pink |
 
-The headline: **purple means an indole is present, and no purple on something sold as acid means it is not acid.**
+The reagent's active ingredient condenses with the electron-rich indole ring to make a colored product. LSD, DMT, psilocin, and psilocybin all carry that ring, so they all read the same. The 25x-NBOMe series and the DOx compounds are phenethylamines with no indole ring, so there is nothing for the reagent to grab and the droplet stays the color it started.
 
-## Why the color happens
+That chemistry is also why Ehrlich is a class test and not an identity test. Every lysergamide analog on the market gives you the same purple as LSD-25, and no purple anywhere on the chart carries dose information.
 
-Ehrlich's active ingredient condenses with the electron-rich indole ring to form a colored product. LSD, DMT, psilocin, and psilocybin all carry that ring, which is why they all read the same. The 25x-NBOMe series and the DOx compounds are phenethylamines and amphetamine-type molecules with no indole ring, so there is nothing for the reagent to grab and the droplet stays its original color.
+## Give it twenty minutes before you call it
 
-This is also why Ehrlich is a class test, not an identity test. Every lysergamide analog on the market gives the same purple as LSD-25.
+This is the slowest reagent in a standard kit. DanceSafe's current instructions say Ehrlich's may take up to 20 minutes to react and that the result stays accurate for around an hour. Color often starts building within the first few minutes, but faint or absent at five minutes is not a final answer.
 
-## The negative result is the important one
+Reading it too early is the single most common Ehrlich mistake. Marquis gets read in 45 seconds and people carry that habit over. Gel tabs make it worse, since they are much denser than paper and react slower and fainter.
 
-Most reagent guides focus on the positive color. With Ehrlich the reverse is true. A purple result tells you an indole is present and gives you no red flag, but it does not confirm LSD. A **non-reaction on blotter is specific and actionable**: 25I-NBOMe and its relatives do not turn Ehrlich purple, and NBOMe compounds cause seizures, severe hyperthermia, agitation, and deaths at doses that fit easily on a paper square.
+## Running the test
 
-If your tab does not go purple, treat it as not-LSD and do not take it. That is the whole reason the reagent is worth owning. Our full writeup on this risk is in [should you test LSD](/blog/should-you-test-lsd.html).
+1. **Cut a small corner of the tab**, or put one drop of liquid on a white ceramic plate. You do not need to sacrifice the whole thing.
+2. **Hold the bottle an inch or two above the sample** and release one drop. Never touch the dropper tip to the sample, which contaminates the entire bottle.
+3. **Check at one, two, five, and twenty minutes.**
+4. **Read under white light**, against the printed chart in the kit.
+5. **Compare against a blank**, meaning a drop of reagent alone on the same plate, so you can see whether anything actually changed.
 
-## How to run the test correctly
+The other misread worth naming: blotter dye. Purple and blue tab art bleeds into the droplet and looks convincing. DanceSafe's guidance is to look for a clear purple that tints the whole droplet gradually, not color leaching out along the paper fibers.
 
-1. **Cut a small corner of the blotter or gel tab**, or place one drop of liquid on a white ceramic plate. You do not need the whole tab.
-2. **Hold the bottle an inch or two above the sample** and release one drop. Never touch the dropper tip to the sample, which contaminates the whole bottle.
-3. **Wait.** Check at one, two, five, and if needed 20 minutes. Ehrlich is slow by design and gel tabs are denser than paper, so they react slower and fainter.
-4. **Read under white light** against the printed chart in the kit.
-5. **Compare against a blank**, meaning a drop of reagent alone on the same plate, so you can see whether the color actually changed.
+## The non-reaction is why you own this reagent
 
-## The mistakes that cause misreads
+Most reagent guides train you to look for the positive color. Ehrlich works the other way around. Purple tells you an indole is present and gives you no red flag, but it does not confirm LSD.
 
-- **Calling it negative too early.** This is the single most common Ehrlich error. Fast reagents like Marquis are read in 45 seconds; Ehrlich is not one of them.
-- **Confusing blotter dye with a reaction.** Purple and blue blotter art bleeds into the droplet and looks like a positive. DanceSafe's guidance is to look for a clear purple that tints the entire droplet gradually over time, rather than color leaching out from the paper fibers.
-- **Testing mushrooms and expecting a clean read.** You can grind dried material and put a drop on it, but the reaction is frequently muddy brown or invisible because the plant matter is dense. A weak result on mushrooms is not evidence of anything. See our [psilocybin guide](/psilocybin.html) for what actually matters with mushroom safety.
-- **Reading purple as "confirmed LSD."** It confirms an indole. Nothing more.
-- **Testing gel tabs like paper.** Gels are much denser, so the reaction may take far longer or barely show.
+A non-reaction on blotter is specific and it is actionable. 25I-NBOMe and its relatives do not turn Ehrlich purple, and they cause seizures, severe hyperthermia, agitation, and deaths at doses that fit easily on a paper square. If your tab does not go purple, it is not acid. Do not take it. We wrote up that risk in more detail in [should you test LSD](/blog/should-you-test-lsd.html).
 
-## What Ehrlich cannot tell you
+## What it cannot tell you
 
-**Dose.** No reagent measures potency or quantity, and this matters more for LSD than for almost any other drug because the active dose is in micrograms. A purple reaction is identical on a 60 microgram tab and a 300 microgram tab. There is no at-home way to read blotter strength from a color, and the strength printed or claimed by a seller is not evidence. Plan dosing conservatively and read [how long an LSD trip lasts](/blog/how-long-does-lsd-last.html) before you commit to a dose.
+**Dose.** This matters more for LSD than for nearly anything else, because the active dose is measured in micrograms. A purple reaction looks identical on a 60 microgram tab and a 300 microgram tab. There is no at-home way to read blotter strength from a color, and what the seller claims is not evidence. Dose conservatively, and read [how long an LSD trip lasts](/blog/how-long-does-lsd-last.html) before you commit.
 
-**Purity, adulterants, or mixtures.** Darker colors overshadow lighter ones, and a very small quantity of a second drug may produce no visible change at all.
+**Purity and mixtures.** Darker colors overshadow lighter ones, and a small quantity of a second drug may produce no visible change at all.
 
-## What to run alongside Ehrlich
+**Mushrooms, in practice.** You can grind dried material and drop reagent on it, but the reaction is often muddy brown or invisible because the plant matter is dense. A weak result on mushrooms is evidence of nothing. For what actually matters with mushroom safety, see the [psilocybin guide](/psilocybin.html).
 
-Ehrlich alone is not enough for a confident read on blotter. Pair it with:
+## What to run alongside it
 
-- **Hofmann reagent**, which is the useful second test on lysergamides. It runs yellow and settles into a deep blue for lysergamides, while NBOMe reads yellow-orange rather than blue. Two reagents pointing the same direction is a much stronger result than one.
-- **Marquis**, if you have it, as an extra data point. Learn to read it in our [Marquis reagent color guide](/blog/how-to-read-a-marquis-reagent-result.html).
-- **A fentanyl test strip** if you are testing anything other than blotter, especially powders. Reagents cannot see fentanyl at all. [Fentanyl strips](/fentanyl-strips) are cheap and belong in every kit.
+Ehrlich on its own is not enough for a confident read on blotter.
 
-For everything else about acid, including interactions and set and setting, see the [LSD harm reduction guide](/lsd.html), and for choosing between reagent sets, our [test kit comparison](/test-kits.html).
+- **Hofmann reagent** is the useful second test on lysergamides. It runs yellow and settles into a deep blue for lysergamides, while NBOMe reads yellow-orange instead. Two reagents pointing the same direction is a far stronger result than one.
+- **Marquis**, if you have it, as an extra data point. Our [Marquis reagent color guide](/blog/how-to-read-a-marquis-reagent-result.html) covers how to read it.
+- **A fentanyl test strip** for anything that is not blotter, especially powders. Reagents cannot see fentanyl at all. On a strip, one line is positive for fentanyl and two lines is negative, which is the reverse of what most people expect. [Fentanyl strips](/fentanyl-strips) belong in every kit.
 
-## The bottom line
+For everything else about acid, including interactions and set and setting, see the [LSD harm reduction guide](/lsd.html). For choosing between reagent sets, our [test kit comparison](/test-kits.html).
 
-Ehrlich turns **purple for indoles**, which covers LSD, DMT, and psilocybin equally, and it stays unchanged for **NBOMe and other phenethylamines**. Give it up to 20 minutes before you call it negative, ignore blotter dye, and never read purple as proof of identity or dose. Use it as the rule-out test it is, back it with a second reagent, and get an [Ehrlich LSD testing kit from DanceSafe](/lsd-kit) so the check is available before you need it.
+Purple for indoles, nothing for NBOMe, twenty minutes before you decide. Use Ehrlich as the rule-out test it is, back it with a second reagent, and have an [Ehrlich LSD kit](/lsd-kit) in a drawer before the night you need it.
 
 ---
 

@@ -1,118 +1,78 @@
 ---
-title: "MDA vs MDMA: What's the Difference Between Sally and Molly?"
+title: "MDA vs MDMA: The Difference Between Sally and Molly"
 description: "MDA (Sally) vs MDMA (Molly): longer-lasting, more psychedelic, and more neurotoxic in animal studies. How Simon's reagent tells them apart."
 date: 2026-05-20
-lastmod: 2026-08-14
+lastmod: 2026-08-17
 tags: ["mdma", "mda", "harm reduction", "drug checking", "pharmacology"]
 author: "Jordan Mercer"
 ---
 
-MDA (3,4-methylenedioxyamphetamine, street name "Sally") and MDMA (3,4-methylenedioxymethamphetamine, "Molly") are closely related compounds that are frequently confused or conflated — but they are pharmacologically distinct in ways that matter for harm reduction. **MDA produces more pronounced hallucinogenic and visual effects than MDMA, lasts significantly longer, and animal research indicates it may be more neurotoxic at equivalent doses.** The two compounds cannot be told apart by appearance, and Marquis reagent cannot distinguish them — but Simon's reagent can.
-
----
-
-## Quick answers
-
-**What is MDA (Sally)?** MDA is 3,4-methylenedioxyamphetamine, the structural precursor to MDMA. The key chemical difference is that MDMA has an N-methyl group that MDA lacks. This small change produces meaningfully different pharmacology and subjective effects.
-
-**Is MDA stronger than MDMA?** Not simply stronger — different. MDA is more hallucinogenic and visually active; MDMA is more empathogenic and entactogenic. MDA's effects last longer (roughly 8–12 hours vs. 4–6 hours for MDMA) and it is somewhat more potent by weight. Typical MDA doses run 80–120 mg; MDMA doses typically run 75–125 mg.
-
-**Can a test kit distinguish MDA from MDMA?** Yes — but only Simon's reagent. Both MDA and MDMA turn Marquis reagent purple-black, making it useless for distinguishing them. Simon's reagent turns **blue in the presence of MDMA** (a secondary amine) and produces **no blue color change with MDA** (a primary amine). This is the key differentiator.
-
-**Is MDA in ecstasy pills?** Yes. A 25-year analysis of 4,719 submitted samples found only 48% contained pure MDMA — 52% were misrepresented, with 199 distinct adulterants detected ([PMID 39437494](https://pubmed.ncbi.nlm.nih.gov/39437494/)). MDA appears in a meaningful subset of those samples.
-
-**Is MDA more dangerous than MDMA?** Animal studies show MDA causes greater serotonin terminal damage than MDMA at equivalent doses ([PMID 2457659](https://pubmed.ncbi.nlm.nih.gov/2457659/)). Controlled human data on MDA specifically is very limited. The longer duration also changes the redosing math significantly.
-
----
-
-## MDA vs MDMA at a glance
+MDA ("Sally") and MDMA ("Molly") differ by a single methyl group, and that is enough to make them behave like different drugs. **MDA is more hallucinogenic and more visual, lasts roughly twice as long, and causes greater serotonin terminal damage than MDMA at equivalent doses in animal studies.** You cannot tell them apart by looking, and Marquis cannot tell them apart either. Simon's can.
 
 | | MDA (Sally) | MDMA (Molly) |
 |---|---|---|
 | Chemistry | Primary amine (no N-methyl group) | Secondary amine (has N-methyl group) |
-| Character | More psychedelic, visual, and stimulating | More empathogenic and "loved-up" |
-| Typical dose | 80–120 mg | 75–125 mg |
-| Duration | ~8–12 hours | ~4–6 hours |
-| Marquis reagent | Purple-black | Purple-black (looks identical) |
-| Simon's reagent | No color change | Turns blue (the key differentiator) |
-| Neurotoxicity (animal data) | Greater serotonin-terminal damage at equal doses | Lower than MDA, but present at high doses |
+| Character | More psychedelic, visual, stimulating | More empathogenic, "loved-up" |
+| Typical dose | 80 to 120 mg | 75 to 125 mg |
+| Duration | 8 to 12 hours | 4 to 6 hours |
+| Marquis reagent | Purple-black | Purple-black (identical) |
+| Simon's reagent | No color change | Turns blue |
+| Neurotoxicity (animal data) | Greater serotonin-terminal damage at equal doses | Lower than MDA, present at high doses |
 
----
+## One methyl group, two drugs
 
-## What MDA is and how it differs chemically
+Both are substituted amphetamines in the methylenedioxy family. MDMA has an N-methyl group; MDA does not. That makes MDMA a **secondary amine** and MDA a **primary amine**, a distinction that turns out to matter for both how they feel and how you test them.
 
-MDA and MDMA are both substituted amphetamines in the methylenedioxy family. The structural difference is a single N-methyl group: MDMA has it, MDA does not. That group makes MDMA a **secondary amine** and MDA a **primary amine** — a distinction that turns out to matter for both pharmacology and drug testing.
+MDA came first. Both were synthesized in the early 20th century and both were investigated therapeutically before being controlled, and MDA was explored as an adjunct to psychotherapy in the 1960s and 70s, partly for its psychedelic character.
 
-Both compounds were synthesized in the early 20th century and both were investigated for therapeutic uses before becoming controlled substances. MDA predates MDMA and was explored as an adjunct to psychotherapy in the 1960s and 70s, partly because of its psychedelic character.
+## What MDA does that MDMA does not
 
----
+Both drugs work mainly by reversing monoamine transporters, forcing serotonin, dopamine and norepinephrine out of nerve terminals rather than taking them back up. In that respect they are the same. The difference is what MDA does on top.
 
-## How MDA and MDMA work differently
+**MDA has greater functional activity at 5-HT2A receptors**, the same ones LSD and psilocybin act on. In animal models it produces more hallucinogen-like behavior, measured by the head-twitch response, a reliable proxy for 5-HT2A agonism. Binding studies find both compounds only weakly bind 5-HT2A in absolute terms, somewhere around 3,000 to 15,000 nM depending on stereoisomer and assay, but MDA's greater functional activity there is what explains the stronger visual and perceptual effects people report.
 
-Both drugs act primarily by reversing monoamine transporters — forcing the release of serotonin, dopamine, and norepinephrine from nerve terminals rather than reuptaking them. In this sense they are mechanistically similar. The key pharmacological difference is **what else MDA does**.
+At the serotonin transporter the two are comparable. A 1986 study comparing the enantiomers directly found similar serotonin-releasing potency, with one notable difference: N-methylation reduces MDMA's dopamine-releasing potency relative to MDA. That extra dopaminergic push is where MDA's more driven, stimulating character comes from.
 
-**MDA has greater functional activity at 5-HT2A serotonin receptors** — the same receptors that classic psychedelics like LSD and psilocybin activate. In animal models, MDA produces more hallucinogen-like behavioral responses (head-twitch response, a reliable proxy for 5-HT2A agonism) than MDMA. Binding studies show both compounds have only weak affinity at 5-HT2A in absolute terms — around 3,000–15,000 nM depending on stereoisomer and assay — but MDA's greater functional activity at this receptor explains its more pronounced visual and perceptual effects in humans ([PMID 2871581](https://pubmed.ncbi.nlm.nih.gov/2871581/), [PMID 24142203](https://pubmed.ncbi.nlm.nih.gov/24142203/)).
+Short version: MDA is more visual and more stimulating, MDMA is warmer and less hallucinogenic.
 
-At the serotonin transporter (SERT), both drugs cause comparable serotonin release. A 1986 study directly comparing the enantiomers of MDA and MDMA found similar serotonin-releasing potency at the transporter level, but with a notable difference: the N-methylation in MDMA reduces dopamine-releasing potency compared to MDA ([PMID 2880735](https://pubmed.ncbi.nlm.nih.gov/2880735/)). MDA's relatively greater dopaminergic activity contributes to its more stimulating, driven character.
+## Twice as long, which changes the redose math
 
-**The practical summary:** MDA = more visual, more stimulating, more psychedelic. MDMA = more empathogenic, more "loved-up," less hallucinogenic.
+Controlled human pharmacokinetic work measuring MDA as an MDMA metabolite, the closest available data, puts MDA's half-life at **10.6 to 12.3 hours** against roughly 7 to 8 hours for MDMA. Taken directly as the parent drug, MDA's active duration is generally reported at **8 to 12 hours**, against MDMA's 4 to 6.
 
----
+That difference is not trivia. A second dose taken at a typical MDMA redosing interval, 90 to 120 minutes, lands while the first MDA dose is nowhere near cleared. Everything unwanted also lasts longer: cardiovascular strain, hyperthermia risk, jaw clenching. An MDA night is a full day commitment, and the usual advice against redosing MDMA applies here with more force.
 
-## Duration and pharmacokinetics
+## Your body makes MDA out of MDMA
 
-MDA lasts substantially longer than MDMA. Controlled human pharmacokinetic studies measuring MDA as a metabolite of MDMA — the closest available data — found MDA has a half-life of **10.6–12.3 hours**, compared to roughly 7–8 hours for MDMA itself ([PMID 18520604](https://pubmed.ncbi.nlm.nih.gov/18520604/)). When MDA is taken directly as the parent drug, the active duration in most users is reported at approximately **8–12 hours**, compared to MDMA's typical 4–6 hours.
+Take MDMA and roughly 3 to 5 percent of the dose is converted to MDA in the liver by N-demethylation. MDA shows up in your blood and urine whether or not you took any.
 
-**This longer duration has direct harm reduction implications.** The redosing window for MDA is different: a second dose taken at what would be a typical MDMA redosing interval (90–120 minutes) arrives long before the first MDA dose has cleared. The extended duration also means adverse effects — cardiovascular strain, hyperthermia, jaw clenching — persist for longer.
+Two things follow. Every MDMA experience already includes some MDA exposure. And on a second dose, with CYP2D6 already inhibited, MDA concentrations climb disproportionately, which one controlled study documented directly with repeated dosing. That is one more reason redosing is not a linear addition of what you already took.
 
----
+## Neurotoxicity: what the animal data can and cannot say
 
-## MDMA is metabolized to MDA inside your body
+Animal studies consistently show both compounds damage serotonergic nerve terminals, and that **MDA does more damage than MDMA at the same dose**. A 1988 immunocytochemical study comparing them head to head found both selectively ablated serotonin axons throughout the forebrain, with MDA producing the larger reduction in axon density. MDA's neurotoxicity in the rodent brain was first characterized in 1985.
 
-When MDMA is taken, a small fraction is converted to MDA in the liver via N-demethylation — roughly 3–5% of the administered dose ([PMID 15228154](https://pubmed.ncbi.nlm.nih.gov/15228154/)). This means that after taking MDMA, MDA is detectable in blood and urine even if no MDA was consumed directly.
+**The dose caveat is the whole story here.** Those studies used 20 mg/kg by subcutaneous injection, twice daily, for four days. Scaled to a 70 kg person that is roughly 230 mg per dose, injected, twice a day, for four consecutive days, against a typical single oral recreational dose of 80 to 120 mg. Injection also produces much higher peak plasma concentrations than swallowing something does. What this research establishes is a mechanism and a ranking, MDA at least as neurotoxic as MDMA. It does not establish that oral MDA at recreational doses does what it did to those rodents.
 
-This metabolic conversion has two implications: (1) every MDMA experience involves some MDA exposure, and (2) after a second dose of MDMA, the already-impaired CYP2D6 enzyme produces disproportionately higher MDA concentrations — one controlled study found MDA levels climbed sharply with repeated dosing ([PMID 15071716](https://pubmed.ncbi.nlm.nih.gov/15071716/)).
+No controlled human study has assessed MDA neurotoxicity on its own. The human literature on MDMA is already tangled by heavy-user sampling bias and polydrug confounding, and for MDA there is no equivalent literature at all. The honest conclusion is conditional: **if MDMA carries neurotoxic risk at sufficient doses, MDA carries at least as much and probably more.**
 
----
+## Simon's is the only way to tell
 
-## Neurotoxicity: what the animal data shows
+**Marquis** turns purple-black for both. It confirms you have something in the methylenedioxyamphetamine family and stops there.
 
-Animal studies consistently show that both MDA and MDMA damage serotonergic nerve terminals in the brain — and that **MDA appears to cause greater damage than MDMA at equivalent doses**. A 1988 immunocytochemical study directly comparing the two compounds found that both produced selective ablation of serotonin axons throughout the forebrain, but MDA caused a larger reduction in 5-HT axon density than MDMA at the same dosage ([PMID 2457659](https://pubmed.ncbi.nlm.nih.gov/2457659/)). MDA's neurotoxicity in the rodent brain was first characterized in 1985 ([PMID 4023719](https://pubmed.ncbi.nlm.nih.gov/4023719/)).
+**Simon's** reacts specifically with secondary amines. MDMA is one, so it turns **blue**. MDA is a primary amine, so it produces **no blue color change**. Purple-black on Marquis with no blue on Simon's means you are probably holding MDA.
 
-**Critical dose caveat: these numbers are not comparable to human recreational use.** The animal studies used 20 mg/kg subcutaneous injection, twice daily for four days ([PMID 2457659](https://pubmed.ncbi.nlm.nih.gov/2457659/)). Scaled to a 70 kg human, this is roughly 230 mg per dose, injected, administered twice daily for four consecutive days — far exceeding a typical single oral recreational dose of 80–120 mg. Injected drugs also produce much higher peak plasma concentrations than oral administration. These studies establish a mechanism and a relative comparison (MDA ≥ MDMA for neurotoxic potential), but cannot be read as evidence that recreational oral MDA at typical doses causes the damage seen in rodents.
+The [DanceSafe MDMA kit](/mdma-kit) is built around that pairing: Marquis, the two-part Simon's, and Froehde to confirm. Add [fentanyl test strips](/fentanyl-strips) separately, because no reagent detects fentanyl, and read them the right way round: **one line is positive, two lines is negative**, one strip per sample. Step-by-step technique is in our [drug testing guide](/test-kits.html).
 
-There are no controlled human studies specifically assessing MDA neurotoxicity in isolation. The human neurotoxicity literature on MDMA — already complicated by heavy-user sampling bias and polydrug confounding — has no equivalent for MDA. What the animal data does establish is that **if MDMA carries neurotoxic risk at sufficient doses, MDA carries at least equivalent and likely greater risk.**
+## How often is it actually MDA?
 
----
+A 25-year analysis of samples submitted to EcstasyData found only **48 percent contained pure MDMA**, with 199 distinct adulterants identified across 4,719 samples. MDA turns up in a meaningful share of the rest.
 
-## Testing: the only way to tell them apart
+Read that number carefully, though. People submit samples to EcstasyData when they already suspect something is off, so the adulteration rate in that dataset almost certainly overstates the supply at large. What it does establish is that "sold as MDMA" is not an identification, and that Simon's settles the question in about a minute.
 
-**Marquis reagent:** Both MDA and MDMA turn **purple-black**. This test confirms the presence of a methylenedioxyamphetamine compound but cannot distinguish which one.
+If you find you have MDA, treat it more like a psychedelic than an empathogen when you plan: longer, more visual, less predictable if you were expecting a roll. Thermoregulation needs attention for the whole duration, not just the first few hours.
 
-**Simon's reagent:** This is the differentiator. Simon's reagent reacts specifically with **secondary amines** — compounds with an N-methyl or similar substituent. MDMA is a secondary amine and turns **blue**. MDA is a primary amine and produces **no blue color change**. If you have a sample that goes purple-black with Marquis but does not turn blue with Simon's, you likely have MDA rather than MDMA.
+For dosing, risks and the supplement protocol, see our [MDMA harm reduction guide](/mdma.html). For specific combinations, the [interaction checker](/interactions.html).
 
-**Practical implication:** Testing with Marquis alone tells you it's in the methylenedioxy family. Testing with both Marquis and Simon's tells you which compound you have. The [DanceSafe MDMA testing kit](/mdma-kit) is built around exactly that pairing: Marquis, the two-part Simon's, and Froehde as a confirmation reagent. Add [fentanyl test strips](/fentanyl-strips) separately, since no reagent detects fentanyl. See our [drug testing guide](/test-kits.html) for step-by-step technique.
+## Sources
 
----
-
-## MDA in the pill supply
-
-Pills or powders sold as MDMA sometimes contain MDA instead of, or in addition to, MDMA. A 25-year analysis of samples submitted to EcstasyData found that only 48% of samples contained pure MDMA, with the remainder misrepresented in some way ([PMID 39437494](https://pubmed.ncbi.nlm.nih.gov/39437494/)). The dataset identified 199 distinct adulterants across 4,719 submitted samples.
-
-**One important caveat:** EcstasyData samples are submitted by users who often already suspect something is wrong with their product. Adulteration rates in this dataset likely overestimate rates in the broader drug supply. That said, the Simon's reagent test provides a practical and inexpensive way to confirm whether a sample is MDMA or MDA before use.
-
----
-
-## Harm reduction summary
-
-- **Duration:** MDA lasts roughly twice as long as MDMA. Plan accordingly — an 8-12 hour experience is a full day commitment.
-- **Redosing:** Harm reduction guidelines already caution against redosing MDMA; those cautions are stronger for MDA given its longer half-life and potentially greater neurotoxic profile.
-- **Testing:** Marquis alone is not sufficient. Use Simon's reagent to determine whether a sample is MDA or MDMA before deciding on dose timing.
-- **Hyperthermia risk:** MDA's greater stimulant properties and extended duration mean thermoregulation demands attention for longer. The same principles apply as with MDMA — cool environments, rest breaks, controlled hydration.
-- **Set and setting:** MDA's more prominent visual and psychedelic character means the experience is less predictable than MDMA for people expecting a purely empathogenic effect. Treating it more like a psychedelic in terms of preparation is reasonable.
-
-For a full breakdown of MDMA risks, dosing, and the supplement protocol, see our [MDMA harm reduction guide](/mdma.html). For specific drug combinations, see the [interaction checker](/interactions.html).
-
----
-
-*Sources: [PMID 2871581](https://pubmed.ncbi.nlm.nih.gov/2871581/) | [PMID 24142203](https://pubmed.ncbi.nlm.nih.gov/24142203/) | [PMID 2880735](https://pubmed.ncbi.nlm.nih.gov/2880735/) | [PMID 18520604](https://pubmed.ncbi.nlm.nih.gov/18520604/) | [PMID 15228154](https://pubmed.ncbi.nlm.nih.gov/15228154/) | [PMID 15071716](https://pubmed.ncbi.nlm.nih.gov/15071716/) | [PMID 10671903](https://pubmed.ncbi.nlm.nih.gov/10671903/) | [PMID 2457659](https://pubmed.ncbi.nlm.nih.gov/2457659/) | [PMID 2443644](https://pubmed.ncbi.nlm.nih.gov/2443644/) | [PMID 4023719](https://pubmed.ncbi.nlm.nih.gov/4023719/) | [PMID 39437494](https://pubmed.ncbi.nlm.nih.gov/39437494/)*
+[PMID 39437494](https://pubmed.ncbi.nlm.nih.gov/39437494/) | [PMID 2457659](https://pubmed.ncbi.nlm.nih.gov/2457659/) | [PMID 2871581](https://pubmed.ncbi.nlm.nih.gov/2871581/) | [PMID 24142203](https://pubmed.ncbi.nlm.nih.gov/24142203/) | [PMID 2880735](https://pubmed.ncbi.nlm.nih.gov/2880735/) | [PMID 18520604](https://pubmed.ncbi.nlm.nih.gov/18520604/) | [PMID 15228154](https://pubmed.ncbi.nlm.nih.gov/15228154/) | [PMID 15071716](https://pubmed.ncbi.nlm.nih.gov/15071716/) | [PMID 4023719](https://pubmed.ncbi.nlm.nih.gov/4023719/) | [PMID 10671903](https://pubmed.ncbi.nlm.nih.gov/10671903/) | [PMID 2443644](https://pubmed.ncbi.nlm.nih.gov/2443644/)

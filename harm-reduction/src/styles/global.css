@@ -1458,6 +1458,29 @@ h1 span {
   color: var(--text-dim);
 }
 
+/* Inline product callout used in blog posts, placed near the top where the
+   product genuinely is part of the answer. Deliberately quieter than a button:
+   it should read as a useful pointer, not an ad break interrupting the article. */
+.kit-cta {
+  background: color-mix(in srgb, var(--purple) 8%, transparent);
+  border-left: 3px solid var(--purple);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 14px 18px;
+  margin: 24px 0;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.kit-cta strong { color: var(--text); }
+
+.kit-cta a {
+  color: var(--purple-light);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.kit-cta a:hover { text-decoration: underline; }
+
 /* ===== POST TABLE OF CONTENTS ===== */
 
 /* Collapsed by default so it does not push the opening paragraph down the page,

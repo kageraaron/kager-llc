@@ -26,7 +26,7 @@ Mixing cannabis with a psychedelic like LSD or psilocybin is **unpredictable: it
 
 There are no controlled clinical trials that dose people with cannabis plus LSD or psilocybin and measure the outcome. What exists is **survey and observational data**, which sits low on the evidence hierarchy and cannot establish cause and effect.
 
-The most relevant study is a 2024 mixed-methods survey of festival and concert attendees in Colorado, which looked at people who had combined cannabis with a psychedelic ([PMID 38992787](https://pubmed.ncbi.nlm.nih.gov/38992787/)). The findings cut both ways: the most common reported theme was **tension reduction**, people using cannabis to calm down or balance the psychedelic, but a meaningful share also reported **increased anxiety and intensity** as an adverse reaction. In other words, the same drug that one person uses to soften a trip pushes another person into a harder one. That unpredictability is the core finding.
+The most relevant study is a 2024 mixed-methods survey of festival and concert attendees in Colorado, which looked at people who had combined cannabis with a psychedelic (PMID 38992787). The findings cut both ways: the most common reported theme was **tension reduction**, people using cannabis to calm down or balance the psychedelic, but a meaningful share also reported **increased anxiety and intensity** as an adverse reaction. In other words, the same drug that one person uses to soften a trip pushes another person into a harder one. That unpredictability is the core finding.
 
 This matches what experienced users describe: cannabis is a wildcard with psychedelics, not a dependable dial.
 
@@ -62,7 +62,7 @@ If cannabis is going to be part of the experience, **when** you use it changes t
 - **Keep THC low and familiar.** Use a product and amount you know well. Avoid strong edibles during a trip because of their delayed, unpredictable onset.
 - **Wait for the tail** if you are going to use it at all.
 - **Have a plan for anxiety.** Change of environment, calm music, and slow breathing help. Our guide on [how to stop a bad trip](/blog/how-to-stop-a-bad-trip.html) covers what actually works.
-- **If you get HPPD-type visual disturbances, stop cannabis**, it commonly worsens them. HPPD is a recognized condition that is not caused by stored drug but can be aggravated by cannabis ([PMID 35426769](https://pubmed.ncbi.nlm.nih.gov/35426769/)).
+- **If you get HPPD-type visual disturbances, stop cannabis**, it commonly worsens them. HPPD is a recognized condition that is not caused by stored drug but can be aggravated by cannabis (PMID 35426769).
 - **Preparation beats rescue.** Good set and setting reduce the odds of needing any of the above. See our [guide to avoiding a bad trip](/blog/safe-psilocybin-trip-guide.html).
 
 ---
@@ -75,4 +75,6 @@ For full harm reduction on each substance, see our [LSD guide](/lsd.html) and [p
 
 ---
 
-*Sources: [PMID 38992787](https://pubmed.ncbi.nlm.nih.gov/38992787/) | [PMID 35426769](https://pubmed.ncbi.nlm.nih.gov/35426769/)*
+## Sources
+
+[PMID 38992787](https://pubmed.ncbi.nlm.nih.gov/38992787/) | [PMID 35426769](https://pubmed.ncbi.nlm.nih.gov/35426769/)

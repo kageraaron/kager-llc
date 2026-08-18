@@ -120,4 +120,6 @@ For a full breakdown of MDMA's risks, dosing, and safer use practices, see our [
 
 ---
 
-*Sources: [PMC6338488](https://pmc.ncbi.nlm.nih.gov/articles/PMC6338488/) | [PMC7255931](https://pmc.ncbi.nlm.nih.gov/articles/PMC7255931/) | [PMID 14594341](https://pubmed.ncbi.nlm.nih.gov/14594341/) | [PMC7941948](https://pmc.ncbi.nlm.nih.gov/articles/PMC7941948/)*
+## Sources
+
+[PMID 14594341](https://pubmed.ncbi.nlm.nih.gov/14594341/)

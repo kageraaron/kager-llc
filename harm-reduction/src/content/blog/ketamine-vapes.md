@@ -1,82 +1,70 @@
 ---
-title: "Ketamine Vapes: What's Actually in Them and the Risks"
-description: "Ketamine vapes rarely contain real ketamine. Here's what's more likely inside, the risks of novel dissociatives, and how to protect yourself."
+title: "Ketamine Vapes: What Is Actually in Them"
+description: "Ketamine vapes rarely contain real ketamine. The chemistry of why, what turns up instead, and why reagent kits cannot sort this out."
 date: 2026-05-19
-lastmod: 2026-06-01
+lastmod: 2026-08-17
 tags: ["ketamine", "harm reduction", "drug checking", "novel psychoactive substances", "vaping"]
 author: "Jordan Mercer"
 ---
 
-Ketamine vapes — vape pens sold or distributed as containing ketamine — have been appearing at festivals and online markets. The core problem is straightforward: **most of them almost certainly do not contain real ketamine**, and whatever they do contain is unlabeled, untested, and uncontrolled. This post covers the chemistry of why vaping ketamine is harder than it sounds, what novel dissociatives are typically found in these products instead, the specific dangers of inhaling unknown chemical compounds, and what the harm reduction approach looks like.
+**Most vape pens sold as ketamine almost certainly do not contain ketamine.** The reason is not conspiracy, it is temperature. Ketamine hydrochloride, the salt form that street powder comes as, does not vaporize well in a device built for nicotine e-liquid, so something else is doing the work.
 
----
+That something is usually an analog with thinner safety data, dissolved in a solvent nobody has disclosed, delivered at a dose nobody has calibrated.
 
-## Quick answers
+## The chemistry does not cooperate
 
-**Do ketamine vapes actually contain ketamine?** Unlikely in most cases. Pharmaceutical-grade ketamine can be delivered by inhalation, but the chemistry of vape pens makes vaporizing ketamine HCl (the form found on the street) inefficient. Products sold without pharmaceutical labeling more commonly contain novel dissociative research chemicals.
+Ketamine can be inhaled. A 2017 *Anesthesiology* pharmacokinetics study established inhaled esketamine as a viable route with measurable bioavailability, using a nebulizer that produces fine aqueous droplets sized for lung absorption.
 
-**What is more likely inside a ketamine vape?** Research chemicals including 2-fluorodeschloroketamine (2-FDCK), deschloroketamine (DCK), or methoxetamine (MXE) — ketamine analogs that are more volatile and easier to vaporize, but have thinner safety data and documented fatalities.
+A vape pen is a different machine. It heats a liquid until it aerosolizes. Ketamine HCl melts at roughly **252 to 254°C and boils around 364°C**, while standard vape coils run at **200 to 250°C**. At that temperature ketamine HCl does not vaporize cleanly. It partly degrades, and whatever does come off is inconsistent puff to puff.
 
-**Are ketamine vapes dangerous?** Yes, for multiple reasons: unknown substance identity, no dose control, no purity data, lung toxicity from vaping chemical carriers, and the risk profile of novel dissociatives at unknown concentrations.
+Ketamine freebase vaporizes lower and could work in a formulation, but converting HCl to freebase takes actual chemistry. An informally sold pen has almost certainly not been through it.
 
-**How can I tell what's in a vape?** Standard colorimetric reagent tests (Marquis, Simon's) are unreliable for distinguishing ketamine from analogs in a vape formulation. FTIR or GC/MS drug checking is the only reliable method. [DanceSafe](/store) and other drug checking services provide access to spectrometry at some festivals.
+So if you inhale a "ketamine vape" and feel unmistakably dissociated, that feeling probably did not come from ketamine.
 
-**Is vaping ketamine the same as snorting it?** No. The pharmacokinetics, absorption rate, and effective dose are different across routes. Inhaled dosing is harder to control than intranasal, where you can measure visible volume increments.
+## What is more likely inside
 
----
+**2-Fluorodeschloroketamine (2-FDCK)** is the analog turning up most often in seizures and toxicology. A 2020 Hong Kong forensic study documented 20 analytically confirmed exposures in a single seven-month window. Nineteen of the 20 samples also contained at least one other ketamine-type analog, and 90% contained real ketamine as well, so people were getting a mixture rather than a clean substitute. A 2024 review of Hong Kong seizures found 2-FDCK physically indistinguishable from ketamine and routinely sold as ketamine or as an "enhanced" version of it. A 2024 forensic case series in the *Journal of Analytical Toxicology* reports two deaths and one case of drug-induced self-mutilation.
 
-## Can ketamine actually be vaped?
+**Deschloroketamine (DCK)** is more potent by weight than ketamine and lasts longer. Forensic method-development work has identified it in blood and hair from toxicology casework, including a suicide involving several dissociative NPS at once. Higher potency per milligram matters enormously in a device where the dose per puff was never calibrated in the first place.
 
-The short answer is yes — with the right formulation and temperature. Clinical research on inhaled esketamine (the S-enantiomer of ketamine) has established that inhalation is a viable delivery route with measurable bioavailability ([PMID 28759464](https://pubmed.ncbi.nlm.nih.gov/28759464/)). Pharmaceutical inhalation formulations use nebulizers that produce fine aqueous droplets optimized for lung absorption.
+**Methoxetamine (MXE)** was the first widely used ketamine substitute, sold as the legal, bladder-friendly alternative. A 2016 review of case reports documented psychosis, cerebellar toxicity with uncoordinated movement lasting days, and fatal intoxications. A 2012 *European Journal of Clinical Pharmacology* series found emergency presentations with elevated heart rate and blood pressure, a sympathomimetic picture that is not typical of ketamine. MXE is controlled in many countries now, and whether 2-FDCK or DCK has taken its place depends on where you are.
 
-Vape pens work differently. They heat a substance to vaporization temperature. Ketamine hydrochloride — the salt form found in street powder — has a **melting point of approximately 252–254°C and a boiling point around 364°C**. Standard vape pen heating elements operate at 200–250°C. At those temperatures, ketamine HCl does not vaporize efficiently; it partially degrades and what does aerosolize is inconsistent.
+**Or nothing identifiable.** Even for ordinary powder, a meaningful share of samples sold as ketamine are not ketamine: an international cryptomarket testing service found average purity of 71%, and a 2021 Italian festival drug checking study confirmed only 78% of ketamine-labelled samples as ketamine by GC/MS. A vape with no pharmaceutical provenance and no third-party testing has no verified contents at all.
 
-Ketamine freebase has a lower vaporization point and could theoretically be used in a vape formulation, but converting street ketamine HCl to freebase requires chemical processing. A product labeled "ketamine vape" sold informally has almost certainly not gone through that process.
+## Your lungs are the part nobody talks about
 
-**The practical implication:** if you inhale a "ketamine vape" and feel dissociative effects, those effects are probably not coming from ketamine.
+The 2019 and 2020 EVALI outbreak settled this question. The New England Journal of Medicine's final Illinois and Wisconsin report found 87% of cases involved THC vape products from informal sources. Its companion paper identified vitamin E acetate, used as an oil diluent in illicit THC cartridges, in the lung fluid of 94% of EVALI patients and in zero of 99 controls.
 
----
+The lesson was never that THC is uniquely dangerous to vape. It is that **inhaling any liquid of unknown composition from an unverified source can injure your lungs severely**. The carriers, diluents and cutting agents are the hazard, and they are exactly what an unlabeled product will never tell you. A novel dissociative dissolved in an undisclosed solvent and heated in an unregulated coil is an inhalation exposure with no safety data behind it at all, for any of the compounds involved.
 
-## What's more likely inside
+## Reagents cannot solve this one
 
-The novel dissociative research chemical market has grown directly alongside demand for ketamine substitutes. The most commonly documented analogs in circulation are:
+This is the honest limitation, and it matters more than any product recommendation.
 
-**2-Fluorodeschloroketamine (2-FDCK)** is the most prevalent ketamine analog currently documented in drug seizures and toxicology. A 2020 forensic study from Hong Kong ([PMID 32460225](https://pubmed.ncbi.nlm.nih.gov/32460225/)) documented 20 analytically confirmed cases of 2-FDCK exposure in a single seven-month period; 19 of those 20 samples also contained at least one additional ketamine-type analog, and 90% also contained actual ketamine — meaning users typically received a mixture, not a pure substitute. In a 2024 review of Hong Kong drug seizures ([PMID 38850618](https://pubmed.ncbi.nlm.nih.gov/38850618/)), 2-FDCK was physically indistinguishable from ketamine and frequently sold as ketamine or as an "enhanced" substitute. 2-FDCK has been associated with two documented deaths and a case of drug-induced self-mutilation in a 2024 forensic case series ([PMID 38619360](https://pubmed.ncbi.nlm.nih.gov/38619360/)).
+Marquis and Mecke may give you a reaction consistent with a dissociative, but they cannot separate ketamine from 2-FDCK, DCK or MXE. The structures are too close for colorimetry to resolve, and a vape liquid formulation makes it worse. A reagent kit is genuinely useful for MDMA and for psilocybin questions. It is not the tool for this problem, and we are not going to pretend otherwise.
 
-**Deschloroketamine (DCK)** is a structural analog with higher potency than ketamine by weight and a longer duration of action. Forensic method development papers have documented DCK in blood and hair samples from toxicology cases, including a suicide involving multiple dissociative NPS ([PMID 33971504](https://pubmed.ncbi.nlm.nih.gov/33971504/)). Higher potency per milligram means that at the same volume dose as ketamine, DCK produces stronger and longer-lasting effects — which is relevant to vape pens where dose per puff is uncalibrated.
+**FTIR or GC/MS spectrometry is the only thing that answers this question.** Some harm reduction organisations and festival drug checking services run those instruments, and a 2019 study of drug checking at Canadian music festivals found meaningful gaps between what people believed they had and what spectrometry confirmed. If on-site checking exists where you are going, that is the option that actually works.
 
-**Methoxetamine (MXE)** was the first major ketamine substitute to gain widespread use, marketed explicitly as a "legal, bladder-friendly" alternative to ketamine. A 2016 review ([PMID 27128862](https://pubmed.ncbi.nlm.nih.gov/27128862/)) documented serious adverse effects including psychosis, cerebellar toxicity (uncoordinated movement persisting for days), and fatal intoxication cases. Emergency department presentations involving MXE included sympathomimetic features — elevated heart rate and blood pressure — not typical of ketamine ([PMID 22205276](https://pubmed.ncbi.nlm.nih.gov/22205276/)). MXE is now controlled in many countries; whether it has been replaced by 2-FDCK or DCK in local markets varies by region.
+## Where that leaves you
 
-**Unknown substances.** Drug checking data consistently shows that a meaningful percentage of samples submitted as ketamine are not ketamine. A study of an international cryptomarket drug testing service found ketamine purity averaged 71% among submitted samples ([PMID 27239011](https://pubmed.ncbi.nlm.nih.gov/27239011/)). A 2021 Italian festival drug checking study found that only 78% of samples submitted as ketamine confirmed as ketamine by GC/MS ([PMID 33692707](https://pubmed.ncbi.nlm.nih.gov/33692707/)). A "ketamine vape" with no pharmaceutical provenance or third-party testing has no verified contents at all.
+A vape pen from an unverified source is an unknown dissociative in an unknown solvent at an uncontrolled dose by inhalation. That combination strips out nearly every tool that makes dissociative use manageable: knowing the substance, measuring the dose, recognising the timeline.
 
----
+If you are going to use ketamine, intranasal or oral from a known source with a weighed dose is a substantially better position to be in than an unlabeled pen. Our [ketamine harm reduction guide](/ketamine.html) covers dose ranges, the k-hole, and bladder risk. For combinations, see [ketamine and alcohol](/blog/ketamine-and-alcohol.html) and the [interaction checker](/interactions.html).
 
-## The lung risk: vaping unknown chemicals
+If you cannot find out what is in it, you cannot make a decision about it. That is the whole post.
 
-The 2019–2020 EVALI outbreak (e-cigarette or vaping product use-associated lung injury) established clearly that vaping unverified liquid formulations can cause severe, life-threatening lung injury. The canonical epidemiological study ([PMID 31491072](https://pubmed.ncbi.nlm.nih.gov/31491072/)) documented 87% of cases involved THC vape products from informal sources. The mechanistic companion paper ([PMID 31860793](https://pubmed.ncbi.nlm.nih.gov/31860793/)) identified vitamin E acetate — used as an oil diluent in black-market THC cartridges — as the causal agent, detected in 94% of EVALI patients' lung fluid versus zero of 99 controls.
+## Sources
 
-The lesson is not that vaping THC is specifically dangerous. It is that **vaping any chemical of unknown composition from an unverified source carries serious lung toxicity risk**. The carrier solvents, diluents, and cutting agents used in illicit vape products are the risk — and those are never disclosed on an unlabeled product. A novel dissociative dissolved in an undisclosed solvent and heated to vapor in an unregulated device is a completely unknown inhalation exposure. No safety data exists for any of those compounds administered via this route.
-
----
-
-## Testing: what works and what doesn't
-
-Standard colorimetric reagent tests are unreliable for distinguishing ketamine from its analogs in a vape liquid format. Marquis and Mecke may produce reactions consistent with a dissociative compound but cannot distinguish ketamine from 2-FDCK, DCK, or MXE — the structural differences are too similar for reagent colorimetry to resolve.
-
-**The only reliable testing for this class of substances is FTIR or GC/MS spectrometry.** Some harm reduction organizations and festival drug checking services have access to these instruments. Drug checking at music festivals ([PMID 31605958](https://pubmed.ncbi.nlm.nih.gov/31605958/)) has demonstrated meaningful discrepancies between what people believe they have and what spectrometry confirms.
-
-The [DanceSafe ketamine testing kit](/ketamine-kit) is the relevant one here, though the ketamine/analog limitation applies. If you are at a festival with on-site drug checking, use it. If you are not, reagent testing tells you less here than it does for MDMA or psilocybin.
-
----
-
-## The harm reduction bottom line
-
-A "ketamine vape" from an unverified source should be treated as an unknown dissociative compound in an unknown carrier solvent, administered at an uncontrolled dose via inhalation. That combination removes nearly every harm reduction tool that makes dissociative use more manageable: known substance, measured dose, familiar pharmacokinetics.
-
-If you are going to use ketamine, the harm reduction case for traditional routes — intranasal or oral, from a known source, with weighed doses — is significantly stronger than vaping an unlabeled product. The [ketamine harm reduction guide](/ketamine.html) covers dose ranges, the k-hole, bladder risks, and what makes ketamine sessions safer. For interactions with alcohol or other substances, see the [ketamine and alcohol guide](/blog/ketamine-and-alcohol.html) and the [interaction checker](/interactions.html).
-
-The short version: if you cannot verify what is in a vape pen, you cannot make an informed decision about using it.
-
----
-
-*Sources: [PMID 28759464](https://pubmed.ncbi.nlm.nih.gov/28759464/) | [PMID 32460225](https://pubmed.ncbi.nlm.nih.gov/32460225/) | [PMID 34842064](https://pubmed.ncbi.nlm.nih.gov/34842064/) | [PMID 38619360](https://pubmed.ncbi.nlm.nih.gov/38619360/) | [PMID 38850618](https://pubmed.ncbi.nlm.nih.gov/38850618/) | [PMID 33971504](https://pubmed.ncbi.nlm.nih.gov/33971504/) | [PMID 27128862](https://pubmed.ncbi.nlm.nih.gov/27128862/) | [PMID 22205276](https://pubmed.ncbi.nlm.nih.gov/22205276/) | [PMID 27239011](https://pubmed.ncbi.nlm.nih.gov/27239011/) | [PMID 33692707](https://pubmed.ncbi.nlm.nih.gov/33692707/) | [PMID 31605958](https://pubmed.ncbi.nlm.nih.gov/31605958/) | [PMID 31491072](https://pubmed.ncbi.nlm.nih.gov/31491072/) | [PMID 31860793](https://pubmed.ncbi.nlm.nih.gov/31860793/)*
+- Pharmacokinetics and bioavailability of inhaled esketamine in healthy volunteers. *Anesthesiology*, 2017. [PMID 28759464](https://pubmed.ncbi.nlm.nih.gov/28759464/)
+- Emergence of 2-fluorodeschloroketamine: toxicology and urinary analysis in a cluster of cases. *Forensic Science International*, 2020. [PMID 32460225](https://pubmed.ncbi.nlm.nih.gov/32460225/)
+- Fluorodeschloroketamine found as a street drug in drug seizures and drug driving cases in Hong Kong. *Forensic Science International*, 2024. [PMID 38850618](https://pubmed.ncbi.nlm.nih.gov/38850618/)
+- 2-Fluorodeschloroketamine consumption: about two deaths and a case of self-mutilation. *Journal of Analytical Toxicology*, 2024. [PMID 38619360](https://pubmed.ncbi.nlm.nih.gov/38619360/)
+- Method development for methoxpropamine, 2-fluoro-deschloroketamine and deschloroketamine. *Forensic Science International*, 2021. [PMID 33971504](https://pubmed.ncbi.nlm.nih.gov/33971504/)
+- Methoxetamine, a novel psychoactive substance with serious adverse pharmacological effects: a review of case reports. *Behavioural Pharmacology*, 2016. [PMID 27128862](https://pubmed.ncbi.nlm.nih.gov/27128862/)
+- Acute toxicity associated with recreational use of the ketamine derivative methoxetamine. *European Journal of Clinical Pharmacology*, 2012. [PMID 22205276](https://pubmed.ncbi.nlm.nih.gov/22205276/)
+- Results of an international drug testing service for cryptomarket users. *International Journal of Drug Policy*, 2016. [PMID 27239011](https://pubmed.ncbi.nlm.nih.gov/27239011/)
+- Drug checking as a harm reduction strategy in recreational contexts: evaluation of two analysis methods. *Frontiers in Psychiatry*, 2021. [PMID 33692707](https://pubmed.ncbi.nlm.nih.gov/33692707/)
+- Pulmonary illness related to e-cigarette use in Illinois and Wisconsin, final report. *New England Journal of Medicine*, 2020. [PMID 31491072](https://pubmed.ncbi.nlm.nih.gov/31491072/)
+- Vitamin E acetate in bronchoalveolar-lavage fluid associated with EVALI. *New England Journal of Medicine*, 2020. [PMID 31860793](https://pubmed.ncbi.nlm.nih.gov/31860793/)
+- Drug checking services at music festivals and events in a Canadian setting. *Drug and Alcohol Dependence*, 2019. [PMID 31605958](https://pubmed.ncbi.nlm.nih.gov/31605958/)
+- A psychonaut's experience of intoxication with multiple classes of drugs including novel psychoactive substances. *Journal of Psychoactive Drugs*, 2022. [PMID 34842064](https://pubmed.ncbi.nlm.nih.gov/34842064/)

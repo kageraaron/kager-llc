@@ -7,13 +7,13 @@ tags: ["lsd", "psychedelics", "harm reduction", "duration"]
 author: "Jordan Mercer"
 ---
 
-LSD (acid) lasts **8 to 12 hours** for most recreational doses, with the peak occurring around 2–3 hours after ingestion. The most precise data comes from a clinical pharmacokinetics study ([PMID 28197931](https://pubmed.ncbi.nlm.nih.gov/28197931/)) that measured both blood levels and subjective effects in human subjects: at 100 µg, effects lasted an average of 8.2 hours; at 200 µg, they lasted 11.6 hours. What follows is a detailed breakdown of what happens at each stage.
+LSD (acid) lasts **8 to 12 hours** for most recreational doses, with the peak occurring around 2–3 hours after ingestion. The most precise data comes from a clinical pharmacokinetics study (PMID 28197931) that measured both blood levels and subjective effects in human subjects: at 100 µg, effects lasted an average of 8.2 hours; at 200 µg, they lasted 11.6 hours. What follows is a detailed breakdown of what happens at each stage.
 
 ## Quick answers
 
 **How long does LSD last?** Typically 8–12 hours for common recreational doses. Lower doses (50–75 µg) may end closer to 6–8 hours; higher doses (200+ µg) can extend to 12–14 hours.
 
-**When does LSD peak?** Peak effects occur approximately 2–3 hours after ingestion, according to clinical studies of 100–200 µg doses ([PMID 28197931](https://pubmed.ncbi.nlm.nih.gov/28197931/)).
+**When does LSD peak?** Peak effects occur approximately 2–3 hours after ingestion, according to clinical studies of 100–200 µg doses (PMID 28197931).
 
 **How long does it take for LSD to take effect?** Most people notice first effects 30–60 minutes after ingestion (the point it "kicks in"), as soon as 20 minutes when held under the tongue on an empty stomach. It then builds into the peak over the next 1–2 hours.
 
@@ -34,7 +34,7 @@ The first signs are subtle and easy to doubt: a slight shift in how light looks,
 ### T+0:45 to T+1:30, Onset
 Effects become unambiguous. Visual changes begin: colors become more saturated, edges sharpen or shimmer, patterns may appear on surfaces. Thoughts start to move faster or in unexpected directions. Emotional tone shifts, this is where anxiety can emerge if it's going to. Physical effects include pupil dilation, increased heart rate, jaw tension, and mild temperature dysregulation.
 
-The plasma half-life of LSD is approximately 2.6 hours ([PMID 28197931](https://pubmed.ncbi.nlm.nih.gov/28197931/)), meaning blood levels drop relatively quickly, but subjective effects outlast peak plasma levels significantly, because LSD binds very tightly to 5-HT2A serotonin receptors and creates a receptor activation cascade that continues after LSD itself has cleared.
+The plasma half-life of LSD is approximately 2.6 hours (PMID 28197931), meaning blood levels drop relatively quickly, but subjective effects outlast peak plasma levels significantly, because LSD binds very tightly to 5-HT2A serotonin receptors and creates a receptor activation cascade that continues after LSD itself has cleared.
 
 ### T+2:00 to T+4:00, Peak
 This is the most intense phase. Visual effects are strongest, closed-eye visuals (CEVs) and open-eye visuals (OEVs), geometric patterns, tracers, distortion of faces or objects. Thinking is non-linear; connections between ideas feel profound. Time perception is significantly distorted, an hour can feel like minutes or like much longer.
@@ -82,4 +82,6 @@ For a full overview of LSD's effects, risks, and safer use practices, see our [L
 
 ---
 
-*Sources: [PMID 28197931](https://pubmed.ncbi.nlm.nih.gov/28197931/) | [PMID 26108222](https://pubmed.ncbi.nlm.nih.gov/26108222/)*
+## Sources
+
+[PMID 28197931](https://pubmed.ncbi.nlm.nih.gov/28197931/) | [PMID 26108222](https://pubmed.ncbi.nlm.nih.gov/26108222/)

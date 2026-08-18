@@ -1,5 +1,22 @@
+# Content Signals Policy — https://contentsignals.org/
+#
+# search=yes    : may be indexed and linked in search results
+# ai-input=yes  : may be retrieved and quoted to answer a user's question,
+#                 which is how most of this site's readers actually find it
+# ai-train=yes  : may be used as model training data
+#
+# ai-train is the one discretionary line here. Being cited is the point of this
+# site, so it is set to yes. Change it to `ai-train=no` if that position changes;
+# nothing else needs to move.
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
+
 User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 Sitemap: https://www.ravewellness.org/sitemap-index.xml
 LLMs: https://www.ravewellness.org/llms.txt
+
+# Every blog post is also available as clean markdown at the same slug:
+#   /blog/<slug>.html  -> HTML for browsers
+#   /blog/<slug>.md    -> markdown for agents

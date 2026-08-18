@@ -44,9 +44,9 @@ The neurological harm from recreational nitrous use has been documented in hundr
 
 **Van Amerongen et al. 2020** (*British Journal of Anaesthesia*) conducted a systematic review covering 137 published cases of nitrous-oxide-induced myeloneuropathy. Mean patient age was 25. Vegans and vegetarians were significantly overrepresented relative to the general population. Nearly all patients had used more than occasionally — most described sessions involving dozens to hundreds of cartridges (8g each) over weeks or months.
 
-**Lan et al. 2019** (*Brain & Development*, [PMID 30611595](https://pubmed.ncbi.nlm.nih.gov/30611595/)) reported a case series of 9 adolescent SCD cases from recreational N₂O use. 6 of 9 (67%) had low or low-normal B12 at presentation. 8 of 9 showed spinal cord demyelination on MRI. All recovered full muscle strength with B12 treatment, though five retained persistent sensory deficits.
+**Lan et al. 2019** (*Brain & Development*, PMID 30611595) reported a case series of 9 adolescent SCD cases from recreational N₂O use. 6 of 9 (67%) had low or low-normal B12 at presentation. 8 of 9 showed spinal cord demyelination on MRI. All recovered full muscle strength with B12 treatment, though five retained persistent sensory deficits.
 
-**Thompson et al. 2015** (*Practical Neurology*, [PMID 25977272](https://pubmed.ncbi.nlm.nih.gov/25977272/)) described three cases of peripheral neuropathy linked to recreational N₂O use, noting that not all patients present with the classic spinal cord pattern and that functional B12 deficiency can occur even without frankly low serum levels.
+**Thompson et al. 2015** (*Practical Neurology*, PMID 25977272) described three cases of peripheral neuropathy linked to recreational N₂O use, noting that not all patients present with the classic spinal cord pattern and that functional B12 deficiency can occur even without frankly low serum levels.
 
 It is important to note that all neurological harm data is from case reports and case series (Tier 8 evidence in an evidence hierarchy). No RCTs exist, for obvious ethical reasons. However, the biochemical mechanism is unambiguous, the temporal relationship between use and symptoms is well-documented, and the condition reverses (to varying degrees) with B12 treatment — making causality effectively certain even without a controlled trial.
 
@@ -117,4 +117,6 @@ For a full breakdown of nitrous oxide effects, risks, and interactions, see our 
 
 ---
 
-*Sources: [PMID 30611595](https://pubmed.ncbi.nlm.nih.gov/30611595/) | [PMID 25977272](https://pubmed.ncbi.nlm.nih.gov/25977272/) | van Amerongen et al. 2020, Br J Anaesth (DOI 10.1016/j.bja.2019.11.027)*
+## Sources
+
+[PMID 30611595](https://pubmed.ncbi.nlm.nih.gov/30611595/) | [PMID 25977272](https://pubmed.ncbi.nlm.nih.gov/25977272/)

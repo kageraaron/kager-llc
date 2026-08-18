@@ -19,7 +19,7 @@ author: "Jordan Mercer"
 
 **Does standing near the speakers make it worse?** A lot worse. Sound level rises sharply as you approach a speaker stack. Moving back even 10 to 20 feet meaningfully cuts your exposure.
 
-**What's the single best protection for one night?** Earplugs. A randomized trial showed they cut the rate of temporary hearing loss roughly fivefold after a single festival ([PMID 27054284](https://pubmed.ncbi.nlm.nih.gov/27054284/)).
+**What's the single best protection for one night?** Earplugs. A randomized trial showed they cut the rate of temporary hearing loss roughly fivefold after a single festival (PMID 27054284).
 
 ---
 
@@ -41,7 +41,7 @@ A typical rock, pop, or electronic show averages **100 to 115 dB**, with peaks h
 
 **1. Acoustic trauma (immediate, sometimes permanent).** A sufficiently intense exposure, standing right at a speaker stack, a pyrotechnic blast, a sudden feedback squeal, can mechanically overwhelm the inner ear in seconds and cause a permanent threshold shift that never fully recovers. This is the dramatic version, and it can absolutely happen in one moment on one night.
 
-**2. The "temporary" damage that isn't fully temporary.** This is the more common and more deceptive route. After a loud night your ears feel muffled and ring, then recover over hours to days. That recovery is real for your hearing *thresholds*, but research shows it is not the whole story. In a landmark study, noise exposures that produced only temporary threshold shifts, with hearing returning to normal, still caused **permanent loss of up to 40% of the synapses** connecting the inner ear's hair cells to the auditory nerve ([PMID 19906956](https://pubmed.ncbi.nlm.nih.gov/19906956/)). These connections do not grow back. The condition, cochlear synaptopathy or "hidden hearing loss," is invisible on a standard hearing test but shows up later as difficulty following conversation in noisy environments.
+**2. The "temporary" damage that isn't fully temporary.** This is the more common and more deceptive route. After a loud night your ears feel muffled and ring, then recover over hours to days. That recovery is real for your hearing *thresholds*, but research shows it is not the whole story. In a landmark study, noise exposures that produced only temporary threshold shifts, with hearing returning to normal, still caused **permanent loss of up to 40% of the synapses** connecting the inner ear's hair cells to the auditory nerve (PMID 19906956). These connections do not grow back. The condition, cochlear synaptopathy or "hidden hearing loss," is invisible on a standard hearing test but shows up later as difficulty following conversation in noisy environments.
 
 So the comforting logic of "my hearing came back, no harm done" is mechanically wrong. The threshold shift was temporary. Some of the nerve damage underneath it was not.
 
@@ -49,7 +49,7 @@ So the comforting logic of "my hearing came back, no harm done" is mechanically 
 
 ## Why the ringing matters
 
-That ringing after a show (tinnitus) and the muffled, underwater feeling (temporary threshold shift) are your inner ear signaling it was overloaded. **It is a damage alarm, not a quirk.** In the randomized festival trial, 40% of unprotected attendees reported tinnitus after a single event, compared with 12% of earplug users ([PMID 27054284](https://pubmed.ncbi.nlm.nih.gov/27054284/)).
+That ringing after a show (tinnitus) and the muffled, underwater feeling (temporary threshold shift) are your inner ear signaling it was overloaded. **It is a damage alarm, not a quirk.** In the randomized festival trial, 40% of unprotected attendees reported tinnitus after a single event, compared with 12% of earplug users (PMID 27054284).
 
 Most single-episode tinnitus does fade within 16 to 48 hours. But two things should get your attention:
 
@@ -62,7 +62,7 @@ Most single-episode tinnitus does fade within 16 to 48 hours. But two things sho
 
 You cannot undo a loud exposure after the fact, there is no proven treatment that reverses noise damage, so prevention is the entire game. For a single night:
 
-- **Wear earplugs.** This is the highest-impact action by far. The randomized trial cut temporary hearing loss from ~42% to ~8% of ears ([PMID 27054284](https://pubmed.ncbi.nlm.nih.gov/27054284/)). High-fidelity filtered earplugs preserve sound quality, see [whether earplugs ruin the music](/blog/do-earplugs-ruin-music-at-raves.html).
+- **Wear earplugs.** This is the highest-impact action by far. The randomized trial cut temporary hearing loss from ~42% to ~8% of ears (PMID 27054284). High-fidelity filtered earplugs preserve sound quality, see [whether earplugs ruin the music](/blog/do-earplugs-ruin-music-at-raves.html).
 - **Distance yourself from the stacks.** Sound intensity drops quickly with distance. Avoid standing directly in front of or beside the speakers.
 - **Take quiet breaks.** Stepping outside the main room for 10 to 15 minutes periodically gives your ears recovery time and lowers your total dose.
 - **Don't add ototoxic load.** Very high doses of some drugs and heavy alcohol can compound cochlear stress; loud noise is already doing plenty.
@@ -79,4 +79,6 @@ A pair of [high-fidelity earplugs](/earplugs) costs less than a single drink and
 
 ---
 
-*Sources: [PMID 27054284](https://pubmed.ncbi.nlm.nih.gov/27054284/) | [PMID 19906956](https://pubmed.ncbi.nlm.nih.gov/19906956/) | [NIOSH noise exposure limits](https://www.cdc.gov/niosh/topics/noise/default.html)*
+## Sources
+
+[PMID 27054284](https://pubmed.ncbi.nlm.nih.gov/27054284/) | [PMID 19906956](https://pubmed.ncbi.nlm.nih.gov/19906956/)

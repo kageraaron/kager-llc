@@ -60,7 +60,7 @@ Reagent kits confirm presence, not purity or dose, and presumptive color tests c
 
 Two big limits are worth stating plainly.
 
-**Levamisole.** DEA testing has found this veterinary dewormer in roughly 70 to 80 percent of seized US cocaine ([PMID 22677078](https://pubmed.ncbi.nlm.nih.gov/22677078/)). In a vulnerable minority it can destroy infection-fighting white blood cells (agranulocytosis) or cause a skin vasculitis. **No field reagent reliably rules out levamisole, and fentanyl strips do not detect it.** The practical takeaway: assume your cocaine contains it, and treat sudden high fever, mouth ulcers, or purple skin patches after use as a medical emergency. Full detail in our [levamisole guide](/blog/levamisole-in-cocaine.html).
+**Levamisole.** DEA testing has found this veterinary dewormer in roughly 70 to 80 percent of seized US cocaine (PMID 22677078). In a vulnerable minority it can destroy infection-fighting white blood cells (agranulocytosis) or cause a skin vasculitis. **No field reagent reliably rules out levamisole, and fentanyl strips do not detect it.** The practical takeaway: assume your cocaine contains it, and treat sudden high fever, mouth ulcers, or purple skin patches after use as a medical emergency. Full detail in our [levamisole guide](/blog/levamisole-in-cocaine.html).
 
 **Dose and purity.** Reagents and strips tell you what is present, not how strong it is. A clean-testing sample can still be unexpectedly potent, which is why starting low matters even after a good test.
 
@@ -78,4 +78,6 @@ For the full picture on cardiovascular risk, adulterants, and safer-use practice
 
 ---
 
-*Sources: [PMC7255931](https://pmc.ncbi.nlm.nih.gov/articles/PMC7255931/) | [PMID 22677078](https://pubmed.ncbi.nlm.nih.gov/22677078/) | [PMC7941948](https://pmc.ncbi.nlm.nih.gov/articles/PMC7941948/) | [PMC6338488](https://pmc.ncbi.nlm.nih.gov/articles/PMC6338488/)*
+## Sources
+
+[PMID 22677078](https://pubmed.ncbi.nlm.nih.gov/22677078/)

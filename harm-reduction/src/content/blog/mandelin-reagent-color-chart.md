@@ -2,36 +2,22 @@
 title: "Mandelin Reagent Color Chart: How to Read Results"
 description: "What each Mandelin reagent color means, why the old Mandelin ketamine test is no longer reliable, and the full color chart for MDMA, meth, and more."
 date: 2026-08-11
-lastmod: 2026-08-14
+lastmod: 2026-08-17
 tags: ["test kits", "drug checking", "ketamine", "mandelin reagent", "harm reduction"]
 author: "Jordan Mercer"
 ---
 
-Mandelin is a confirmation reagent with a reputation problem. It spent years being sold as "the ketamine reagent," and that is the one job it is no longer trusted to do. **MDMA and MDA turn dark brown to black with Mandelin, methamphetamine turns olive to yellow-green while amphetamine gives nothing, and ketamine is now listed as no reaction on DanceSafe's current chart.** Mandelin earns its place as a second or third opinion on a Marquis result, not as a stand-alone test. Here is the color chart and the ketamine situation explained properly.
-
-## Quick answers
-
-**What color is MDMA on a Mandelin test?** Dark brown to black. MDA looks the same, so Mandelin confirms the class but does not separate the two.
-
-**Does Mandelin still test for ketamine?** Not reliably. DanceSafe's current chart lists ketamine as no reaction with Mandelin, and DanceSafe states that Mandelin "has been used to test ketamine in the past, but it is often inconsistent and can produce similar reactions with many other drugs." Morris is the reagent to use now.
-
-**What is the difference between meth and amphetamine on Mandelin?** Methamphetamine turns olive to yellow-green. Amphetamine does not react. That is a genuine second data point alongside Simon's.
-
-**Can Mandelin detect fentanyl?** No. No reagent can. Use a [fentanyl test strip](/blog/how-to-use-fentanyl-test-strips.html) on every sample regardless of the color you get.
-
-**Where do you get one?** The [DanceSafe Mandelin reagent kit](/mandelin-kit) is sold individually. If ketamine is what you actually want to check, get the [DanceSafe ketamine testing kit](/ketamine-kit) instead, which is built around Morris.
-
----
+Mandelin has a reputation problem. It spent years being sold as "the ketamine reagent," and that is the one job it is no longer trusted to do. **MDMA and MDA turn dark brown to black, methamphetamine turns olive to yellow-green while amphetamine gives nothing, and ketamine is listed as no reaction on DanceSafe's current chart.** Mandelin is a second opinion on a Marquis result, not a test you run alone.
 
 <div class="kit-cta">
 <strong>Mandelin is a second opinion, not a first test.</strong> Pair it with Marquis, and add fentanyl strips regardless of what any reagent shows. <a href="/kits">Shop DanceSafe test kits →</a>
 </div>
 
-## The Mandelin color chart
+## The color chart
 
-Mandelin is ammonium vanadate dissolved in concentrated sulfuric acid. It starts out light orange and turns cloudy yellow after three or four weeks, which is normal rather than a sign it has expired. Shake the bottle before each use, and read the reaction inside the first 45 to 60 seconds.
+Mandelin is ammonium vanadate in concentrated sulfuric acid. It starts light orange and goes cloudy yellow after three or four weeks, which is normal aging rather than expiry. Shake the bottle before each use and read inside the first 45 to 60 seconds.
 
-The colors below are the expected reactions published in DanceSafe's current reagent instruction pamphlet.
+These are the expected reactions published in DanceSafe's current instruction pamphlet.
 
 | Substance | Mandelin color |
 |-----------|----------------|
@@ -52,53 +38,49 @@ The colors below are the expected reactions published in DanceSafe's current rea
 | LSD | No reaction |
 | Sugar and inert fillers | Olive-gold, so a cut-heavy sample can produce color |
 
-The headline: **dark brown-black means a methylenedioxy compound like MDMA or MDA, olive-green points to methamphetamine, and no reaction covers a very wide set of substances including cocaine, amphetamine, and ketamine.**
+Three readings do most of the work. Dark brown-black means a methylenedioxy compound, MDMA or MDA. Olive-green points at methamphetamine. No reaction covers a wide field that includes cocaine, amphetamine, LSD, ketamine and a lot of inert powder, which is why a blank result rules things out and confirms nothing.
 
-## The ketamine question
+What no color on this chart carries is dose or purity, and nothing here sees fentanyl. A dark reaction also hides a lighter one, so a second substance can sit in the sample and produce no visible change at all.
 
-This is the part worth getting right, because a lot of older charts and product listings still say something different.
+## Why Mandelin is no longer the ketamine reagent
 
-Traditional forensic references list ketamine as producing an orange to reddish-brown color with Mandelin, and for years that made Mandelin the default ketamine reagent in home kits. Practice has moved on. DanceSafe's current pamphlet lists ketamine as no reaction across Marquis, Simon's, Froehde, Mandelin, Mecke, and Ehrlich's, with Morris as the single numbered test. Their guidance on the ketamine kit is direct: Mandelin has been used for ketamine in the past, but it is often inconsistent and produces similar reactions with many other drugs.
+This is the part worth getting right, because plenty of older charts and product listings still say otherwise.
 
-**Morris is the standard single-reagent ketamine test now.** It is a two-part reagent, so both bottles go on the same sample, and you stir for a full 20 seconds before reading. Ketamine typically turns Morris violet, though the shade varies and can lean blue-purple. The Morris non-reaction is a sea foam green, so with too small a sample the green tint mixes with the purple and the color looks strange. Retest with more sample rather than guessing. For a reaction to count as unexpected, the color needs to be clearly outside the purple range.
+Traditional forensic references list ketamine as orange to reddish-brown with Mandelin, and for years that made it the default ketamine reagent in home kits. Practice moved on. DanceSafe's current pamphlet lists ketamine as no reaction across Marquis, Simon's, Froehde, Mandelin, Mecke and Ehrlich's, with Morris as the single numbered test. Their wording on the ketamine kit is blunt: Mandelin has been used for ketamine in the past, but it is often inconsistent and produces similar reactions with many other drugs.
 
-Liebermann is a useful optional second reagent for ketamine, turning a very, very pale yellow that can be hard to see at all.
+**Morris is the standard single-reagent ketamine test now.** It comes in two bottles, both of which go on the same sample, and you stir for a full 20 seconds before reading. Ketamine typically turns it violet, though the shade wanders toward blue-purple. A Morris non-reaction is sea foam green, so a sample that is too small gives you a green-tinted purple that looks wrong, and the fix is more sample rather than a guess. For a result to count as unexpected, the color has to sit clearly outside the purple range.
 
-The practical takeaway: if you are checking ketamine, the [DanceSafe ketamine testing kit](/ketamine-kit) is the right purchase, not Mandelin. Buy Mandelin for what it is actually good at, which is confirming a Marquis result on an MDMA or amphetamine sample. More on the drug itself in our [ketamine harm reduction guide](/ketamine.html).
+Liebermann works as an optional second reagent on ketamine, giving a very pale yellow that can be hard to see at all.
 
-## How to run the test correctly
+So if ketamine is what you are checking, the [DanceSafe ketamine testing kit](/ketamine-kit) is the purchase, not Mandelin. Buy Mandelin for what it is good at, which is confirming a Marquis result on MDMA or an amphetamine. More on the drug itself in our [ketamine harm reduction guide](/ketamine.html).
 
-1. **Shake the bottle.** Mandelin settles and its color shifts with age more than other reagents do.
-2. **Use a small, finely crushed sample.** Around 10 mg on a clean, dry, white, non-porous surface, ideally a [ceramic spot plate](/spot-plate) whose wells keep separate tests from bleeding into each other. Use a fresh sample for each reagent instead of adding a second reagent to a used spot.
-3. **Add one drop without touching the dropper to the sample.** Hold the cap upside down in your other hand so it does not pick up contamination.
-4. **Use a blank.** Put one drop of Mandelin on its own next to the test spot. Since the reagent's own color changes over weeks, a blank is the only reliable way to see what actually changed.
-5. **Read within 45 to 60 seconds under white light**, against the printed chart from the kit.
-6. **Neutralize with baking soda, wash, and dry** before the next test. Reagents are corrosive, so wear gloves.
+## Running it
 
-## The mistakes that cause misreads
+1. **Shake the bottle.** Mandelin settles, and its own color shifts with age more than other reagents do.
+2. **Use a small, finely crushed sample.** Around 10 mg on a clean, dry, white, non-porous surface. A [ceramic spot plate](/spot-plate) keeps separate tests from bleeding into each other. Fresh sample for each reagent, never a second reagent onto a used spot.
+3. **One drop, dropper not touching the sample.** Hold the cap upside down in your other hand so it picks up nothing.
+4. **Put a drop of Mandelin on its own beside the test spot.** Because the reagent's color changes over weeks, that blank is the only reliable way to see what actually changed.
+5. **Read within 45 to 60 seconds under white light**, against the printed chart.
+6. **Neutralize with baking soda, wash, dry.** Reagents are corrosive. Wear gloves.
 
-- **Expecting an orange ketamine reaction.** Older charts still show it. If you get orange on something sold as ketamine, that is a reason to test with Morris, not a confirmation.
-- **Reading too late.** Every reagent darkens toward brown or black on its own. A color that only arrives after two or three minutes is not a result.
-- **Confusing meth's olive-green with a filler reaction.** Sugar can produce an olive-gold with Mandelin. Compare against your blank and against a Simon's result.
-- **Treating no reaction as a clean bill.** No reaction with Mandelin is consistent with cocaine, amphetamine, ketamine, LSD, 2C-I, and plenty of inert powders. It rules things out, it confirms nothing.
-- **Reading Mandelin on its own.** The whole value of this reagent is that it agrees or disagrees with a result you already have.
+## Four ways people misread it
 
-## What to run alongside Mandelin
+**Expecting orange for ketamine.** Older charts still show it. Orange on something sold as ketamine is a reason to run Morris, not a confirmation.
 
-- **Marquis first, always.** It is the broadest reagent and the natural starting point. See [how to read a Marquis result](/blog/how-to-read-a-marquis-reagent-result.html).
-- **Simon's** to separate MDMA from MDA, and to separate methamphetamine from amphetamine. Simon's turns blue for both MDMA and meth.
-- **Mandelin** as the confirmation layer. Dark brown-black backing up a purple-black Marquis is a consistent MDMA picture. Olive-green backing up an orange Marquis and a blue Simon's is a consistent methamphetamine picture.
-- **A fentanyl test strip** on every sample. Dissolve in 1 teaspoon (5 mL) of water per 10 mg first, or 2 teaspoons (10 mL) for MDMA and methamphetamine, to avoid a false positive. Full method in our [fentanyl test strip guide](/blog/how-to-use-fentanyl-test-strips.html), and strips are available [here](/fentanyl-strips).
+**Reading late.** Every reagent drifts toward brown or black on its own. A color that only arrives at two or three minutes is not a result.
 
-## What Mandelin cannot tell you
+**Mistaking filler for meth.** Sugar gives an olive-gold with Mandelin that is easy to read as methamphetamine's olive-green. Check it against your blank and against Simon's.
 
-A reagent points at a substance **class**. It does not measure purity or dose, it cannot confirm what is in your sample, and it cannot tell you whether more than one substance is present, because a dark reaction masks a lighter one and a trace of a second drug may produce no visible change. And no reagent, Mandelin included, detects fentanyl.
+**Reading Mandelin alone.** The entire value of this reagent is whether it agrees with a result you already have.
 
-## The bottom line
+## What to run alongside it
 
-Read Mandelin inside the first minute under white light: **dark brown to black points to MDMA or MDA, olive to yellow-green points to methamphetamine, and no reaction covers a wide field that includes cocaine, amphetamine, and ketamine.** Treat it as confirmation for a Marquis result rather than a test in its own right, and if ketamine is what you are checking, use Morris. Get the [DanceSafe Mandelin reagent kit](/mandelin-kit), or browse the [full range of test kits](/test-kits.html).
+- **Marquis first, always.** Broadest reagent, natural starting point. See [how to read a Marquis result](/blog/how-to-read-a-marquis-reagent-result.html).
+- **Simon's** to split MDMA from MDA and methamphetamine from amphetamine. It turns blue for both MDMA and meth.
+- **Mandelin** as the confirmation layer. Dark brown-black behind a purple-black Marquis is a consistent MDMA picture. Olive-green behind an orange Marquis and a blue Simon's is a consistent methamphetamine picture.
+- **A fentanyl test strip** on every sample, because no reagent detects fentanyl. Dissolve in 1 teaspoon (5 mL) of water per 10 mg, or 2 teaspoons (10 mL) for MDMA and methamphetamine, to avoid a false positive. Read it the right way round: one line means fentanyl is present, two lines means it is not. Full method in our [fentanyl test strip guide](/blog/how-to-use-fentanyl-test-strips.html), and [strips are here](/fentanyl-strips).
 
-For step-by-step ecstasy testing, see [how to test your MDMA](/blog/how-to-test-mdma.html), and for dosing and safer-use practice, our [MDMA harm reduction guide](/mdma.html).
+Read Mandelin inside the first minute, under white light, next to a blank, and treat it as the vote that confirms or contradicts your Marquis. If you are testing ketamine, use Morris instead. The [DanceSafe Mandelin reagent](/mandelin-kit) is sold on its own, and the [full range of kits](/test-kits.html) is worth a look if you are starting from nothing. For step by step ecstasy testing, see [how to test your MDMA](/blog/how-to-test-mdma.html).
 
 ---
 

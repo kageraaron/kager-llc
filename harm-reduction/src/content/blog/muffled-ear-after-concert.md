@@ -9,7 +9,7 @@ author: "Jordan Mercer"
 
 **If one ear is clearly worse than the other and has not come back within about 24 to 48 hours, get seen this week. Not next month. This week.** That sentence is why this page exists, because almost every other article on this topic tells you to rest your ears and wait, and waiting is the expensive choice.
 
-Most muffled ears after a loud night are temporary threshold shift and do resolve. But a real, time-limited medical emergency hides inside this exact symptom: sudden sensorineural hearing loss. The national clinical practice guideline says clinicians should get a hearing test as soon as possible, **within 14 days of onset**, and that steroids **may be offered within 2 weeks of symptom onset** ([PMID 31369359](https://pubmed.ncbi.nlm.nih.gov/31369359/)). After that window closes, the options get worse.
+Most muffled ears after a loud night are temporary threshold shift and do resolve. But a real, time-limited medical emergency hides inside this exact symptom: sudden sensorineural hearing loss. The national clinical practice guideline says clinicians should get a hearing test as soon as possible, **within 14 days of onset**, and that steroids **may be offered within 2 weeks of symptom onset** (PMID 31369359). After that window closes, the options get worse.
 
 ## Quick answers
 
@@ -54,7 +54,7 @@ This is the piece nobody explains, and it is the whole diagnostic logic.
 
 You were in the same room, and the music hit both ears. Noise exposure is broadly symmetric unless you were pressed against one speaker stack with the other ear shielded. When one ear recovers and the other does not, the asymmetry itself is evidence that something beyond the noise dose is happening in the ear that stayed down.
 
-Sudden sensorineural hearing loss is a rapid drop in hearing, developing over 72 hours or less, in the inner ear or auditory nerve rather than the middle ear ([PMID 31369359](https://pubmed.ncbi.nlm.nih.gov/31369359/)). It is overwhelmingly one-sided, and in most cases no cause is ever found, which is why it is called **idiopathic** SSNHL. A loud night can be the trigger, the thing that made you notice, or a coincidence. To the doctor, the cause matters far less than the clock.
+Sudden sensorineural hearing loss is a rapid drop in hearing, developing over 72 hours or less, in the inner ear or auditory nerve rather than the middle ear (PMID 31369359). It is overwhelmingly one-sided, and in most cases no cause is ever found, which is why it is called **idiopathic** SSNHL. A loud night can be the trigger, the thing that made you notice, or a coincidence. To the doctor, the cause matters far less than the clock.
 
 Middle ear problems can also muffle one ear and are far more benign: wax against the eardrum, or fluid behind it after a cold. An exam distinguishes those in seconds, and you cannot. Do not talk yourself into the reassuring explanation.
 
@@ -62,7 +62,7 @@ Middle ear problems can also muffle one ear and are far more benign: wax against
 
 ## The clock, and why "wait and see" costs
 
-The 2019 AAO-HNS clinical practice guideline sets out the timing explicitly ([PMID 31369349](https://pubmed.ncbi.nlm.nih.gov/31369349/)):
+The 2019 AAO-HNS clinical practice guideline sets out the timing explicitly (PMID 31369349):
 
 - **Audiometry as soon as possible, within 14 days** of symptom onset
 - **Corticosteroids may be offered as initial therapy within 2 weeks** of onset
@@ -94,8 +94,8 @@ Ask for a copy of your audiogram. If you get a follow-up test later, having the 
 This site does not oversell treatments, so a few caveats belong here:
 
 - The guideline addresses **idiopathic** SSNHL. Acoustic trauma from a loud show is not identical to it, and no good trial shows steroids fix a purely noise-induced injury. You go because you cannot tell which one you have without a hearing test.
-- The steroid recommendation is "**may offer**," not "should," reflecting genuinely mixed evidence. A 2022 Cochrane review of intratympanic corticosteroids found the evidence for that route weaker than its popularity suggests ([PMID 35867413](https://pubmed.ncbi.nlm.nih.gov/35867413/)).
-- **Many cases improve on their own**, which complicates every treatment study run on it ([PMID 21606048](https://pubmed.ncbi.nlm.nih.gov/21606048/)). You will not know in advance if you are one.
+- The steroid recommendation is "**may offer**," not "should," reflecting genuinely mixed evidence. A 2022 Cochrane review of intratympanic corticosteroids found the evidence for that route weaker than its popularity suggests (PMID 35867413).
+- **Many cases improve on their own**, which complicates every treatment study run on it (PMID 21606048). You will not know in advance if you are one.
 - Most muffled ears after a rave do recover without any of this.
 
 None of that changes the recommendation. Uncertain treatment inside a narrow window still beats certainty that you missed it.
@@ -106,7 +106,7 @@ None of that changes the recommendation. Uncertain treatment inside a narrow win
 
 Once you have booked, the prevention conversation is worth having. If one ear is telling you it was overloaded, your hearing has less margin than it did.
 
-The rest is covered elsewhere on this site: the volume math and why ringing is an alarm in our [hearing protection guide](/hearing.html), why feeling like you have "gotten used to" the volume is a warning sign rather than adaptation in [do your ears toughen up to loud music](/blog/do-ears-toughen-up-to-loud-music.html), and the sound-quality objection answered in [do earplugs ruin music at raves](/blog/do-earplugs-ruin-music-at-raves.html). A randomized festival trial found earplugs cut temporary hearing loss roughly fivefold ([PMID 27054284](https://pubmed.ncbi.nlm.nih.gov/27054284/)).
+The rest is covered elsewhere on this site: the volume math and why ringing is an alarm in our [hearing protection guide](/hearing.html), why feeling like you have "gotten used to" the volume is a warning sign rather than adaptation in [do your ears toughen up to loud music](/blog/do-ears-toughen-up-to-loud-music.html), and the sound-quality objection answered in [do earplugs ruin music at raves](/blog/do-earplugs-ruin-music-at-raves.html). A randomized festival trial found earplugs cut temporary hearing loss roughly fivefold (PMID 27054284).
 
 If you do not own a pair, [high-fidelity earplugs](/earplugs) cost less than a drink and last years. Buy them after you have called the doctor, not instead.
 
@@ -120,4 +120,6 @@ Call someone. Say "sudden hearing loss in one ear." Ask for an audiogram.
 
 ---
 
-*Sources: [PMID 31369349](https://pubmed.ncbi.nlm.nih.gov/31369349/) | [PMID 31369359](https://pubmed.ncbi.nlm.nih.gov/31369359/) | [PMID 35867413](https://pubmed.ncbi.nlm.nih.gov/35867413/) | [PMID 21606048](https://pubmed.ncbi.nlm.nih.gov/21606048/) | [PMID 27054284](https://pubmed.ncbi.nlm.nih.gov/27054284/)*
+## Sources
+
+[PMID 31369359](https://pubmed.ncbi.nlm.nih.gov/31369359/) | [PMID 31369349](https://pubmed.ncbi.nlm.nih.gov/31369349/) | [PMID 35867413](https://pubmed.ncbi.nlm.nih.gov/35867413/) | [PMID 21606048](https://pubmed.ncbi.nlm.nih.gov/21606048/) | [PMID 27054284](https://pubmed.ncbi.nlm.nih.gov/27054284/)

@@ -1,112 +1,68 @@
 ---
-title: "2C-B vs. Tusi (Pink Cocaine): They Are Not the Same Drug"
+title: "2C-B vs Tusi: Pink Cocaine Is Not 2C-B"
 description: "Tusi and 2C-B are not the same drug. Lab testing shows pink cocaine usually contains MDMA and ketamine, with very different risks than actual 2C-B."
 date: 2026-05-12
-lastmod: 2026-08-12
+lastmod: 2026-08-17
 tags: ["2C-B", "tusi", "pink cocaine", "drug checking", "ketamine", "MDMA"]
 author: "Jordan Mercer"
 ---
 
-**Tusi and 2C-B are not the same drug.** The name "tusi" (also spelled "tucibi," "tuci," or "toosie") is a Spanish phonetic rendering of "2C-B", but what's actually sold under that name in the US and Europe is almost always a different mixture entirely, most commonly MDMA and ketamine with a pink dye. Lab testing data consistently finds **little to no 2C-B in samples sold as tusi**. This confusion is genuinely dangerous because the harm profiles, interaction risks, and overdose presentations are completely different.
-
-## Quick answers
-
-**Is tusi the same as 2C-B?** No. The name comes from 2C-B but the drug sold as tusi typically contains MDMA and ketamine, not 2C-B. Lab analysis of dozens of US samples found 2C-B absent in the vast majority.
-
-**What is pink cocaine actually made of?** Drug checking data shows most tusi samples contain ketamine (~90–95% of samples) and MDMA (~60–80%), with variable amounts of caffeine, cocaine, synthetic cathinones, and occasionally methamphetamine. The pink color comes from food dye, not any active ingredient.
-
-**Is tusi dangerous?** Yes, partly because its composition is completely unpredictable. Every batch is different. The MDMA+ketamine combination carries specific risks including hyperthermia, severe dissociation, and cardiovascular stress that 2C-B alone does not.
-
-**Is there any way to know what's in a tusi sample?** Only by testing it. Standard reagent kits (Marquis, Mecke, Simon's) can distinguish MDMA, ketamine, and 2C-B. A fentanyl test strip should always be used as well, fentanyl has been detected in some tusi samples.
-
-**What should I do if someone has a bad reaction to tusi?** Call emergency services. Tusi reactions can involve dissociation, overheating, cardiovascular distress, or seizures, combinations that can escalate quickly and may not respond to typical harm reduction interventions alone.
-
----
-
-## 2C-B vs tusi at a glance
+**Tusi and 2C-B are not the same drug.** "Tusi" (also spelled tucibi, tuci, or toosie) is how "2CB" sounds said in Spanish, but almost nothing sold under that name in the US or Europe contains 2C-B. Lab after lab finds the same thing instead: ketamine, usually with MDMA, dyed pink. That matters because a ketamine-heavy powder and a psychedelic phenethylamine fail in completely different ways, and the things you would do to stay safe on one do not carry over to the other.
 
 | | 2C-B | Tusi ("pink cocaine") |
 |---|---|---|
-| What it is | A single psychedelic phenethylamine | A variable mixture, usually ketamine + MDMA |
-| Contains 2C-B? | Yes | Rarely: lab testing finds it absent in the vast majority of samples |
-| Typical contents | 2C-B only | Ketamine (~90–95%), MDMA (~60–80%), plus variable adulterants |
-| Mechanism | 5-HT2A/2C partial agonist; no stimulant or dissociative action | Dissociative (ketamine) plus monoamine release (MDMA) |
-| Duration | 4–6 hours | Unpredictable; depends on the mix |
+| What it is | A single psychedelic phenethylamine | A variable mixture, usually ketamine plus MDMA |
+| Contains 2C-B? | Yes | Rarely: absent from the vast majority of tested samples |
+| Typical contents | 2C-B only | Ketamine (~90 to 95%), MDMA (~60 to 80%), plus variable adulterants |
+| Mechanism | 5-HT2A/2C partial agonist, no stimulant or dissociative action | Dissociative (ketamine) plus monoamine release (MDMA) |
+| Duration | 4 to 6 hours | Unpredictable, depends on the mix |
 | Main risks | Psychedelic effects, mild cardiovascular stimulation | Hyperthermia, severe dissociation, cardiovascular load, unknown adulterants |
 
----
+## How a name outlived its drug
 
-## Where the name "tusi" comes from
+2C-B (4-bromo-2,5-dimethoxyphenethylamine) is a synthetic psychedelic that Alexander Shulgin first made in the 1970s. It went around Colombia as "tusi," and in that early form it sometimes really was 2C-B, pink food coloring added as a branding mark.
 
-2C-B (4-bromo-2,5-dimethoxyphenethylamine) is a synthetic psychedelic phenethylamine developed by Alexander Shulgin in the 1970s. In Latin America, particularly Colombia, it became known on the street as "tusi," a phonetic shorthand for how "2CB" sounds when said in Spanish. In its early Colombian incarnation, tusi was genuinely expensive and sometimes actually contained 2C-B, often mixed with pink food coloring as a branding marker.
+Then demand outran supply. Real 2C-B is hard to source in quantity, so traffickers swapped in what was cheap and available. By the time pink cocaine reached US and European clubs in volume, roughly 2017 to 2020, the ketamine-and-MDMA blend had almost entirely replaced the original. The name stuck. The contents did not.
 
-As demand spread and real 2C-B became harder to source in quantity, traffickers substituted cheaper, more available ingredients. By the time "pink cocaine" or tusi arrived in the US and European club scenes in significant quantities (roughly 2017–2020), the original drug had been almost entirely replaced by a ketamine-and-MDMA blend. The name stuck, but the contents did not.
+Actual 2C-B is worth knowing on its own terms, because it is the thing people think they are buying. It is a partial agonist at 5-HT2A and 5-HT2C receptors and an alpha-1 adrenergic agonist, active orally at roughly 10 to 25 mg, lasting 4 to 6 hours. Papaseit and colleagues ran the first controlled human pharmacology study in 2018, giving 10 to 20 mg to 16 experienced volunteers and documenting moderate rises in heart rate and blood pressure alongside euphoria and altered perception. A 2023 trial by Mallaroni compared it head to head with psilocybin and found it sits apart: more entactogenic, less classically psychedelic. What it has none of is stimulant activity, dopamine release, or dissociation. Our [2C-B harm reduction guide](/2cb.html) has the dosing and interaction detail.
 
----
+## What the labs keep finding
 
-## What lab testing actually finds in tusi
+The forensic record is not ambiguous. Palamar and colleagues reviewed 19 pink-powder submissions to DrugsData.org sold as tusi or 2C-B between 2019 and 2022, published in 2023: most contained ketamine, frequently with MDMA, and 2C-B was rarely detected at all.
 
-The published forensic record is unambiguous. A 2023 analysis by Palamar et al. in the *American Journal of Drug and Alcohol Abuse* ([PMID 37162319](https://pubmed.ncbi.nlm.nih.gov/37162319/)) reviewed 19 pink-powder submissions to DrugsData.org sold as tusi or 2C-B between 2019 and 2022. **The majority contained ketamine, often combined with MDMA.** Actual 2C-B was rarely detected.
+A 2025 case series from the Miami-Dade County Medical Examiner, Moore and colleagues, covered eight fatal cases involving colored powders sold as tusi between 2020 and 2024. **None of the powders contained 2C-B.** Every decedent had multiple drugs in postmortem blood, ketamine and MDMA turning up across the cases alongside cocaine and others.
 
-A 2025 case series from the Miami-Dade County Medical Examiner by Moore et al. in the *Journal of Forensic Sciences* ([PMID 40082214](https://pubmed.ncbi.nlm.nih.gov/40082214/)) analyzed eight fatal cases involving colored powders sold as tusi between 2020 and 2024. **None of the powders contained 2C-B.** All decedents had multiple drugs in postmortem blood, with ketamine and MDMA present across cases alongside cocaine and other substances.
+Spanish drug checking data says the same at larger scale. Across 470 samples, 36 distinct substances were identified, with ketamine in 93.2% and MDMA in 92.1%. 2C-B barely appeared.
 
-Spanish drug checking data reinforces the same picture: within 470 samples analyzed in Spain, 36 distinct substances were detected, with ketamine (93.2%) and MDMA (92.1%) appearing in nearly every sample, and 2C-B rarely or never found.
+So if you have something sold as tusi, pink cocaine, tucibi, or 2C-B, the base rate says you have ketamine and MDMA plus something unlisted. Not knowing which is the actual problem.
 
-**The practical implication:** if you have obtained something sold as tusi, pink cocaine, 2C-B, or tucibi, you almost certainly do not have 2C-B. You likely have MDMA and ketamine plus unknown adulterants. The only way to know what is in your sample is to test it.
+## Ketamine plus MDMA is its own specific danger
 
----
+**MDMA** floods the synapse with serotonin, dopamine and norepinephrine. It raises core temperature, breaks thermoregulation, and causes water retention, which is where hyponatremia risk comes from. Full profile in the [MDMA guide](/mdma.html).
 
-## What actual 2C-B is, and is not
+**Ketamine** is a dissociative NMDA antagonist that takes out coordination, judgment, and your ability to notice that anything is wrong. In tusi samples it can be most of the powder by mass, so the dissociation can be deep. Full profile in the [ketamine guide](/ketamine.html).
 
-2C-B is a serotonergic psychedelic with a well-characterized pharmacological profile. It acts primarily as a partial agonist at 5-HT2A and 5-HT2C receptors and as an α1-adrenergic agonist. It produces dose-dependent psychedelic and entactogenic effects lasting 4–6 hours at recreational doses (typically 10–25 mg orally).
+Put together:
 
-The first controlled human pharmacology study of 2C-B, Papaseit et al. 2018, published in *Frontiers in Pharmacology* ([PMID 29593537](https://pubmed.ncbi.nlm.nih.gov/29593537/)), documented moderate cardiovascular stimulation (elevated heart rate and blood pressure), subjective euphoria, and altered perception in 16 healthy experienced users at doses of 10–20 mg. A 2023 controlled study by Mallaroni et al. in *Clinical Pharmacology & Therapeutics* (DOI: [10.1002/cpt.2958](https://doi.org/10.1002/cpt.2958)) compared 2C-B directly to psilocybin, confirming 2C-B's distinct pharmacological profile with stronger entactogenic and milder classical-psychedelic characteristics.
+- **Overheating gets much more dangerous.** MDMA stops your body from shedding heat and ketamine stops you from noticing. You do not feel the discomfort that would normally make you sit down, find water, or leave the floor. In a hot room this is the failure mode that kills people.
+- **You are pushing the accelerator and the brake.** Ketamine's sedation against MDMA's cardiovascular load gives erratic heart rate and blood pressure rather than a predictable curve.
+- **Consent gets compromised.** Heavy dissociation plus MDMA's disinhibition means reduced capacity to make decisions or communicate them, in both directions. Watch out for each other.
+- **There is a preclinical neurotoxicity signal.** Binge ketamine pretreatment worsened MDMA-induced dopaminergic toxicity in mice (PMID [18666708](https://pubmed.ncbi.nlm.nih.gov/18666708/)). The doses were far above anything recreational, 50 mg/kg ketamine seven times over and 20 mg/kg MDMA three times, so this does not transfer to a human night out. It is a mechanistic reason for concern about heavy repeated use, nothing stronger.
+- **Then the adulterants.** Batch to batch you may also be taking synthetic cathinones, methamphetamine, cocaine, opioids or benzodiazepines, each adding its own interactions on top. The [interaction checker](/interactions.html) covers the common ones.
 
-Critically: **2C-B has no stimulant activity, no dopamine-releasing mechanism, and does not produce the dissociative effects characteristic of ketamine.** Its mechanism and risk profile are nothing like the MDMA+ketamine combination that tusi actually is. The harm reduction strategies, overdose signs, and interaction contraindications for 2C-B are not interchangeable with those for tusi.
+## Testing a mixture is harder, and still worth it
 
-For a detailed breakdown of 2C-B's effects, dosing, and harm reduction, see our [2C-B harm reduction guide](/2cb.html).
+No reagent kit resolves every component of a blend. It can still tell you a lot, and one reagent alone will mislead you here, which is the argument for owning a set rather than a single bottle.
 
----
+- **Marquis** goes purple to black with MDMA, gives no reaction or a faint yellow with 2C-B, and nothing with ketamine. Strong purple-black means MDMA is in there.
+- **Mecke** turns blue-green with MDMA and blue-black with 2C-B, which is the pair that separates them.
+- **Simon's** turns blue for secondary amines like MDMA. 2C-B is a primary amine and will not react.
+- **A fentanyl test strip**, every time. Fentanyl has been found in pink cocaine in the US. Read it carefully: one line means fentanyl is present, two lines means it is not, which is the reverse of what most people assume. [Fentanyl strips](/fentanyl-strips) are cheap insurance on any powder.
 
-## Why the MDMA + ketamine combination carries specific risks
+The [complete DanceSafe reagent set](/kits) covers all of these together, and our [test kit videos](/test-kits.html) show the reactions in real time. A test that shows MDMA and no 2C-B reaction will not tell you everything in the bag, but it does confirm you were sold something other than what was named.
 
-Tusi's actual composition, primarily MDMA and ketamine, creates a distinct risk profile that comes from combining two drugs with very different mechanisms.
+If someone goes wrong on tusi, do not wait it out. Call emergency services. Overheating, deep dissociation, chest pain and seizures can arrive together and escalate faster than you can talk someone down, and staying with them while help comes matters more than anything else you can do. Get them somewhere cool, keep them on their side if they are not fully conscious, and tell the responders it may have been ketamine and MDMA rather than 2C-B. The name on the bag has misled clinicians too.
 
-**MDMA** is a monoamine releasing agent that floods the synapse with serotonin, dopamine, and norepinephrine. It raises body temperature, impairs thermoregulation, and causes water retention (relevant to hyponatremia risk). For a full profile see our [MDMA harm reduction guide](/mdma.html).
+## Sources
 
-**Ketamine** is a dissociative NMDA receptor antagonist. It impairs coordination, judgment, and the ability to recognize overheating or distress. At the doses ketamine appears in tusi samples, potentially up to 90% of the powder by mass, dissociation can be severe. For a full profile see our [ketamine harm reduction guide](/ketamine.html).
-
-**The combination specifically:**
-
-- **Hyperthermia risk is amplified.** MDMA impairs the body's ability to regulate heat. Ketamine impairs your ability to notice you are overheating, you cannot feel discomfort clearly, you will not seek cooling, and your dance behavior will not slow appropriately. This is a dangerous combination at a festival or club.
-- **CNS depression + stimulation mix.** The combination creates unpredictable CNS effects, ketamine's dissociative sedation paired with MDMA's stimulant cardiovascular load produces erratic heart rate and blood pressure patterns.
-- **Judgment and consent.** Ketamine at significant doses produces profound dissociation and memory impairment. Combined with MDMA's disinhibiting effects, this combination is associated with reduced capacity to make or communicate decisions.
-- **Preclinical signals on neurotoxicity.** One animal study (PMID [18666708](https://pubmed.ncbi.nlm.nih.gov/18666708/)) found that binge ketamine pretreatment aggravated MDMA-induced dopaminergic toxicity in mice. **Important caveat:** the doses used were many times higher than recreational human doses (50 mg/kg ketamine × 7 doses and 20 mg/kg MDMA × 3 doses in mice). This result cannot be directly applied to human recreational use, but it does provide a mechanistic basis for concern about combined use at high or repeated doses.
-- **Unknown adulterants.** Because tusi batches vary so widely, you may also be ingesting synthetic cathinones, methamphetamine, cocaine, opioids, or benzodiazepines without knowing it. Each of these adds its own interaction risk on top of the ketamine+MDMA baseline.
-
-Use our [interaction checker](/interactions.html) to review specific combinations before using any substance.
-
----
-
-## Testing is the only way to know what you have
-
-**No test kit can confirm every substance in a complex mixture, but reagent testing can tell you a great deal:**
-
-- **Marquis reagent** will react purple/black with MDMA. It gives no reaction (or very faint yellow) with 2C-B and no reaction with ketamine. If you get a strong purple-black, MDMA is present.
-- **Mecke reagent** turns blue-green with MDMA and blue-black with 2C-B, useful for distinguishing them.
-- **Simon's reagent** is positive (blue) for secondary amines like MDMA; 2C-B is a primary amine and will not react.
-- **Fentanyl test strips** should be used on every tusi sample. Fentanyl has been detected in tusi and pink cocaine sold in the US.
-
-**The DanceSafe Complete Testing Kit** includes all major reagents and instructions for exactly this kind of multi-substance testing: [dancesafe.org, Complete Set of All 9 Testing Kits](/kits). You can also watch real-time testing demos in our [test kit video guides](/test-kits.html).
-
-A clean reagent test is not a guarantee of safety, it can only detect the substances those reagents react with. But a test that confirms MDMA and fails to find any 2C-B reaction is a strong signal that what you have is not what it was sold as.
-
----
-
-## The harm reduction bottom line
-
-The name "pink cocaine" or "tusi" tells you almost nothing reliable about what a sample contains. The drug originally behind the name, 2C-B, is absent from the overwhelming majority of samples tested in forensic and drug checking analyses. What you are almost certainly getting is a ketamine-dominant powder plus MDMA, with an unpredictable mix of additional substances that varies by batch and source.
-
-**The combination's risks are real and specific:** hyperthermia, severe dissociation, cardiovascular load, impaired judgment, and unknown adulterant exposure. These are not the same risks as 2C-B, and harm reduction strategies designed for 2C-B do not substitute for understanding what tusi actually contains.
-
-Test every sample before use. Know the signs of hyperthermia. Never use alone. See our [2C-B guide](/2cb.html), [MDMA guide](/mdma.html), and [ketamine guide](/ketamine.html) for full harm reduction detail on each of the substances likely to be in a tusi sample.
+[PMID 37162319](https://pubmed.ncbi.nlm.nih.gov/37162319/) | [PMID 40082214](https://pubmed.ncbi.nlm.nih.gov/40082214/) | [PMID 29593537](https://pubmed.ncbi.nlm.nih.gov/29593537/) | [PMID 18666708](https://pubmed.ncbi.nlm.nih.gov/18666708/) | Mallaroni et al. 2023, [DOI 10.1002/cpt.2958](https://doi.org/10.1002/cpt.2958)

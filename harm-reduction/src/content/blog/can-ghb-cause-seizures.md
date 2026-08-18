@@ -1,92 +1,76 @@
 ---
-title: "Can GHB Cause Seizures? Withdrawal and Overdose"
-description: "Yes, GHB can cause seizures, most dangerously during withdrawal. Here's why it happens, the overdose link, and what to do if someone seizes."
+title: "Can GHB Cause Seizures?"
+description: "Yes, and the dangerous ones happen in withdrawal, not while high. Why the rebound is so fast, the overdose link, and what to do if someone seizes."
 date: 2026-06-04
-lastmod: 2026-08-12
+lastmod: 2026-08-17
 tags: ["ghb", "gbl", "seizures", "withdrawal", "harm reduction"]
 author: "Jordan Mercer"
 ---
 
-**Yes, GHB can cause seizures, and the most dangerous ones happen during withdrawal, not while high.** In people who use GHB or GBL heavily and around the clock, stopping suddenly can trigger seizures within hours, because the brain has adapted to constant sedation and rebounds into dangerous over-excitation. GHB withdrawal seizures have drawn recent public attention, but they are a long-documented medical emergency. Separately, a heavy GHB overdose can produce seizure-like jerking as someone slips into unconsciousness. Both situations need emergency care. This post explains the difference, why each happens, and what to do.
+**Yes, and the ones that kill people happen during withdrawal, not while someone is high.** If you use GHB or GBL heavily and around the clock, stopping suddenly can trigger seizures within hours, because your brain has adapted to constant sedation and rebounds into over-excitation with nothing holding it back.
 
-## Quick answers
+A heavy overdose can also produce seizure-like jerking as someone loses consciousness. That is a different thing with a different mechanism, and both are emergencies.
 
-**Can GHB cause seizures?** Yes. The best-documented and most dangerous are withdrawal seizures in dependent users. Acute overdose can also cause seizure-like muscle jerking (myoclonus) as a person loses consciousness.
+## Withdrawal seizures are the main danger
 
-**What causes GHB withdrawal seizures?** GHB constantly activates GABA-B receptors (the brain's inhibitory "brake"). With heavy daily use the brain downregulates that braking system. Remove the GHB and there is nothing holding excitation back, so neurons fire uncontrollably. That rebound can produce seizures.
+GHB works mainly as a GABA-B receptor agonist, boosting the brain's primary inhibitory system. Dose every few hours, day and night, for weeks, and the brain compensates by **downregulating that inhibitory system** to stay level against the constant sedation.
 
-**How fast do GHB withdrawal seizures start?** Fast. GHB's half-life is only 30 to 60 minutes, so withdrawal can begin within 1 to 6 hours of the last dose, and seizures are most likely in the first 24 to 48 hours.
+Take the GHB away and the compensation stands alone. Too little inhibition, far too much excitation, a state of central nervous system hyperexcitability. Seizures are one of the worst outcomes of it.
 
-**Can you have a seizure from a GHB overdose?** Seizure-like jerking and twitching (myoclonus) are common as someone goes under from a high dose. These often are not true epileptic seizures, but they look alarming and signal a dangerous overdose. Treat it as an emergency.
+A case series of seven consecutive patients with GHB withdrawal syndrome, published in *Annals of Emergency Medicine* in 2001, documented onset **1 to 6 hours after the last dose** and a course running **5 to 15 days**, with seizures and delirium among the complications. A 2004 review in *Drug and Alcohol Dependence* describes withdrawal that does not respond fully to standard treatment, with benzodiazepine-refractory cases requiring other sedatives, mainly pentobarbital or chloral hydrate.
 
-**What do you do if someone has a GHB seizure?** Do not restrain them. Clear hard objects away, cushion the head, and once jerking stops, roll them onto their side. Call emergency services, and tell paramedics GHB or GBL is involved.
+Two things make this worse than most withdrawal syndromes.
 
----
+**It is fast.** GHB's half-life is roughly 30 to 60 minutes, so withdrawal can begin 1 to 6 hours after the last dose, and seizures cluster in the first 24 to 48 hours. There is no comfortable window in which to reconsider.
 
-## Withdrawal seizures: the main danger
+**It catches people who did not choose to stop.** The risk belongs to daily, around-the-clock users, not weekend users, and the pattern that builds dependence is redosing every 2 to 4 hours to hold the effect. Losing supply unexpectedly, or being admitted to hospital for something unrelated, starts withdrawal with no warning and no plan.
 
-The seizures that kill people are withdrawal seizures. GHB works primarily as a **GABA-B receptor agonist**, boosting the brain's main inhibitory (calming) system. When someone doses every few hours, day and night, for weeks, the brain compensates by **downregulating that inhibitory system** to stay balanced against the constant sedation.
+**Do not detox from heavy GHB or GBL use at home.** The timeline and why hospital treatment is required is in our [GHB withdrawal guide](/blog/ghb-withdrawal.html).
 
-Take the GHB away and the compensation is suddenly unopposed. The brain is left with too little inhibition and far too much excitation, a state of **central nervous system hyperexcitability**. Seizures are one of the most serious results. A case series of seven consecutive patients with GHB withdrawal syndrome documented onset 1 to 6 hours after the last dose and a course lasting 5 to 15 days, with seizures and delirium among the complications ([PMID 11174231](https://pubmed.ncbi.nlm.nih.gov/11174231/)). Withdrawal that does not respond fully to standard medications is well described: a review found benzodiazepine-refractory cases responded to other sedatives, mainly pentobarbital or chloral hydrate ([PMID 15225884](https://pubmed.ncbi.nlm.nih.gov/15225884/)).
+## The jerking during an overdose is something else
 
-Two features make this especially dangerous:
+At the opposite end, as a large dose pushes someone toward unconsciousness, **myoclonic jerking, twitching, and tonic-clonic-like movements** of the limbs or face are common, often arriving right as they go under. A 2016 Swiss emergency department series on acute GHB toxicity found reduced consciousness and these motor signs among the frequent presentations.
 
-- **Speed**: GHB's half-life is roughly 30 to 60 minutes, so withdrawal can start within 1 to 6 hours of the last dose. Seizures cluster in the first 24 to 48 hours.
-- **Who is at risk**: This is a danger for **daily, around-the-clock users**, not occasional weekend users. The pattern that builds dependence is redosing every 2 to 4 hours to maintain effects. Losing access unexpectedly (a supplier drying up, a hospital admission for something else) can trigger withdrawal without warning.
+The clinical nuance is that these movements often are not true epileptic seizures, and they frequently resolve on their own as the drug wears off, sometimes with the person waking abruptly. You cannot tell the difference while it is happening, and it does not change what you do. The jerking marks a dangerous overdose, and GHB overdose also suppresses breathing.
 
-**Do not detox from heavy GHB or GBL use at home.** The full picture, timeline, and why hospital treatment is required is in our [GHB withdrawal guide](/blog/ghb-withdrawal.html).
+Risk climbs sharply when GHB is combined with another depressant. Alcohol is the worst of them, because both suppress the same systems and the overdose threshold drops out from under you. See [GHB and alcohol](/blog/ghb-and-alcohol.html).
 
----
+## Why GHB touches seizure circuitry at all
 
-## Seizure-like activity during a GHB overdose
+There is a pharmacological reason these two things are connected. At high doses GHB acts on GABA-B receptors in thalamocortical circuits, the same networks involved in generalized absence seizures. GHB is reliable enough at producing absence-type EEG activity that it is used as a laboratory **model** of absence seizures.
 
-The second connection happens at the opposite end: during acute intoxication. As a large GHB dose pushes someone toward unconsciousness, **myoclonic jerking, twitching, and tonic-clonic-like movements** of the limbs or face are common, often appearing right around the onset of coma. In emergency department case series of acute GHB toxicity, reduced consciousness and these motor signs are frequent presentations ([PMID 27581664](https://pubmed.ncbi.nlm.nih.gov/27581664/)).
+A 2015 critical evaluation in *CNS Neuroscience and Therapeutics* concluded that GHB produces events that can confidently be classified as absence seizures, though that is established mainly in rats.
 
-An important clinical nuance: **these movements often are not true epileptic seizures**, and they frequently resolve on their own as the drug wears off, sometimes with the person waking abruptly. But you cannot tell the difference in the moment, and the jerking is a clear sign of a dangerous overdose, especially because GHB overdose also depresses breathing. The bystander response is the same either way: recovery position, monitor breathing, call for help.
-
-The risk rises sharply when GHB is combined with other depressants. Mixing GHB with alcohol is one of the most lethal rave combinations, because both suppress the same systems and the overdose threshold drops. See [GHB and alcohol: why this combination kills](/blog/ghb-and-alcohol.html).
-
----
-
-## Why high-dose GHB engages seizure circuitry
-
-There is a deeper pharmacological reason GHB and seizures are linked. At high doses, GHB acts on **GABA-B receptors in thalamocortical circuits**, the same brain networks involved in generalized absence seizures. GHB is so reliable at producing absence-type EEG activity that it is used as a laboratory **model of absence seizures** in animals. A critical review concluded that GHB produces events that can be confidently classified as absence seizures, though this is established mainly in the rat ([PMID 25403866](https://pubmed.ncbi.nlm.nih.gov/25403866/)).
-
-This is animal-model evidence and does not translate directly to typical human recreational doses, but it explains the mechanism: GHB is not a neutral sedative. It actively engages circuitry capable of generating seizure activity, which is part of why both extreme intoxication and withdrawal can tip into seizures.
-
----
+This is animal-model evidence and does not translate directly to human recreational doses. What it explains is the mechanism. GHB is not an inert sedative. It engages circuitry capable of generating seizure activity, which is part of why both ends of the dose range can tip over.
 
 ## What raises the risk
 
-- **Daily, high-frequency dosing**: the single biggest risk factor for withdrawal seizures. Dependence can develop within weeks of around-the-clock use.
-- **Abrupt cessation**: stopping cold turkey, or losing supply unexpectedly, is what triggers withdrawal seizures.
-- **Mixing with other depressants**: alcohol, benzodiazepines, or opioids combined with GHB deepen overdose and raise the chance of seizure-like collapse.
-- **GBL specifically**: GBL converts to GHB in the body and causes the same dependence, but it is more concentrated by volume, so overdose is easier. See [GHB vs GBL](/blog/ghb-vs-gbl.html).
-- **A personal history of epilepsy or a low seizure threshold**: raises risk in both intoxication and withdrawal.
+- **Daily, high-frequency dosing.** The single biggest factor. Dependence can develop within weeks of around-the-clock use.
+- **Stopping abruptly,** whether by choice or because supply vanished.
+- **Mixing with other depressants.** Alcohol, benzodiazepines and opioids deepen overdose and raise the chance of seizure-like collapse.
+- **GBL specifically.** It converts to GHB and causes the same dependence, but it is more concentrated by volume, so overdose is easier to reach. See [GHB vs GBL](/blog/ghb-vs-gbl.html).
+- **A personal history of epilepsy** or a low seizure threshold, in both intoxication and withdrawal.
 
----
+## If someone seizes
 
-## What to do if someone has a seizure
+Withdrawal seizure or overdose jerking, the response is identical.
 
-Whether it is a withdrawal seizure or overdose-related jerking, the response is the same:
+1. **Call emergency services.** Do not wait to see whether it passes.
+2. **Do not restrain them,** and put nothing in their mouth.
+3. **Clear hard objects away** and cushion their head.
+4. **Time it.** More than 5 minutes, repeated seizures, or failure to regain consciousness is a dire emergency.
+5. **Once the jerking stops, roll them onto their side** to protect the airway, and watch their breathing. GHB suppresses breathing as well.
+6. **Tell paramedics GHB or GBL is involved,** and name any alcohol or other drugs. This changes treatment directly, especially if withdrawal is the cause.
 
-1. **Call emergency services immediately.** Do not wait to see if it passes.
-2. **Do not restrain the person** and do not put anything in their mouth.
-3. **Clear the area** of hard or sharp objects and cushion their head.
-4. **Time the seizure.** A seizure lasting more than 5 minutes, repeated seizures, or failure to regain consciousness is a dire emergency.
-5. **Once the jerking stops, roll them onto their side** (recovery position) to protect the airway, and monitor breathing. GHB also suppresses breathing.
-6. **Tell paramedics it involves GHB or GBL**, and whether alcohol or other drugs were taken. This directly changes treatment, especially if withdrawal is the cause.
+Many jurisdictions have Good Samaritan laws protecting people who call for help at a drug-related emergency. Call regardless.
 
-Many jurisdictions have Good Samaritan laws that protect people who call for help at a drug-related emergency. Call anyway.
+Neither of these is something to ride out at home. If you use GHB or GBL daily, the one thing not to do is stop abruptly without medical support, and that is worth arranging before you are forced into it.
 
----
+For dosing, effects and overdose signs, see our [GHB harm reduction guide](/ghb.html). For the full withdrawal picture, see [GHB withdrawal](/blog/ghb-withdrawal.html). Before combining GHB with anything, check the [interaction checker](/interactions.html).
 
-## The bottom line
+## Sources
 
-**GHB can and does cause seizures.** The most dangerous are withdrawal seizures in dependent users, driven by GABA-B rebound and capable of starting within hours of the last dose. Heavy overdose can also produce seizure-like jerking. Neither is something to ride out at home, both are reasons to call emergency services. If you use GHB or GBL daily, do not stop abruptly without medical support.
-
-For dosing, effects, and overdose signs, see our [GHB harm reduction guide](/ghb.html). For the full withdrawal timeline and treatment, see [GHB withdrawal: symptoms, timeline, and why you need medical help](/blog/ghb-withdrawal.html). Before combining GHB with anything, check our [interaction checker](/interactions.html).
-
----
-
-*Sources: [PMID 11174231](https://pubmed.ncbi.nlm.nih.gov/11174231/) | [PMID 15225884](https://pubmed.ncbi.nlm.nih.gov/15225884/) | [PMID 27581664](https://pubmed.ncbi.nlm.nih.gov/27581664/) | [PMID 25403866](https://pubmed.ncbi.nlm.nih.gov/25403866/)*
+- Gamma-hydroxybutyrate withdrawal syndrome. *Annals of Emergency Medicine*, 2001. [PMID 11174231](https://pubmed.ncbi.nlm.nih.gov/11174231/)
+- Clinical features and management of gamma-hydroxybutyrate (GHB) withdrawal: a review. *Drug and Alcohol Dependence*, 2004. [PMID 15225884](https://pubmed.ncbi.nlm.nih.gov/15225884/)
+- Presentations to an urban emergency department in Switzerland due to acute gamma-hydroxybutyrate toxicity. *Scandinavian Journal of Trauma, Resuscitation and Emergency Medicine*, 2016. [PMID 27581664](https://pubmed.ncbi.nlm.nih.gov/27581664/)
+- A critical evaluation of the gamma-hydroxybutyrate (GHB) model of absence seizures. *CNS Neuroscience and Therapeutics*, 2015. [PMID 25403866](https://pubmed.ncbi.nlm.nih.gov/25403866/)

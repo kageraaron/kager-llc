@@ -12,9 +12,9 @@ author: "Jordan Mercer"
 
 **What does "set and setting" mean?** Set is your internal state: mood, intentions, expectations, mental health, and how prepared you feel. Setting is your external environment: the physical space, who you are with, the music, and how safe you feel. Both steer the direction of a psychedelic experience.
 
-**Does set and setting really matter more than the dose?** For the character of the experience, largely yes. Psychedelics amplify and reflect your existing state rather than imposing a fixed effect, so context strongly shapes the outcome ([PMID 29446697](https://pubmed.ncbi.nlm.nih.gov/29446697/)).
+**Does set and setting really matter more than the dose?** For the character of the experience, largely yes. Psychedelics amplify and reflect your existing state rather than imposing a fixed effect, so context strongly shapes the outcome (PMID 29446697).
 
-**What is the most important part of set?** Your emotional state at the moment of ingestion. Feeling ready to let go and not being preoccupied or anxious predicts more positive and fewer difficult experiences ([PMID 30450045](https://pubmed.ncbi.nlm.nih.gov/30450045/)).
+**What is the most important part of set?** Your emotional state at the moment of ingestion. Feeling ready to let go and not being preoccupied or anxious predicts more positive and fewer difficult experiences (PMID 30450045).
 
 **Can good set and setting prevent a bad trip?** It cannot guarantee it, but it strongly reduces the odds. Most difficult trips trace back to a poor mental state, an unsafe or overstimulating environment, or an unexpectedly high dose.
 
@@ -24,11 +24,11 @@ author: "Jordan Mercer"
 
 Most drugs produce a fairly predictable effect regardless of your mood. Alcohol sedates you whether you are happy or sad. Psychedelics are different. Classic psychedelics like LSD, psilocybin, and [2C-B](/2cb.html) work primarily through **5-HT2A receptor agonism**, which increases the brain's plasticity and sensitivity to incoming information, both from the environment and from your own mind.
 
-Carhart-Harris and colleagues, in a 2018 paper in the *Journal of Psychopharmacology*, argued that this pharmacology is exactly why psychedelic effects are "exceptionally sensitive to context" ([PMID 29446697](https://pubmed.ncbi.nlm.nih.gov/29446697/)). The drug does not hand you a fixed experience. It opens a highly suggestible state, and what fills that state is shaped by your mind and your surroundings. This is why every clinical psilocybin trial pays obsessive attention to the room: low lighting, a curated music playlist, comfortable furnishings, and hours of psychological preparation before the session.
+Carhart-Harris and colleagues, in a 2018 paper in the *Journal of Psychopharmacology*, argued that this pharmacology is exactly why psychedelic effects are "exceptionally sensitive to context" (PMID 29446697). The drug does not hand you a fixed experience. It opens a highly suggestible state, and what fills that state is shaped by your mind and your surroundings. This is why every clinical psilocybin trial pays obsessive attention to the room: low lighting, a curated music playlist, comfortable furnishings, and hours of psychological preparation before the session.
 
 ## The evidence that mindset predicts the outcome
 
-This is testable, and it has been tested. Haijen et al. 2018 ran a prospective study following people who planned to take a psychedelic on their own, measuring set and setting variables before the experience and outcomes after ([PMID 30450045](https://pubmed.ncbi.nlm.nih.gov/30450045/)). The strongest predictors were not the dose. States of **surrender** (readiness to let go) and **preoccupation** (being mentally caught up or resistant) at the moment of ingestion explained a substantial amount of the variance in whether people had mystical-type versus challenging, adverse experiences.
+This is testable, and it has been tested. Haijen et al. 2018 ran a prospective study following people who planned to take a psychedelic on their own, measuring set and setting variables before the experience and outcomes after (PMID 30450045). The strongest predictors were not the dose. States of **surrender** (readiness to let go) and **preoccupation** (being mentally caught up or resistant) at the moment of ingestion explained a substantial amount of the variance in whether people had mystical-type versus challenging, adverse experiences.
 
 The practical translation: how you feel in the hour before you dose is one of the best available levers on how the whole experience goes. Rushing, anxiety, unresolved conflict, or ingesting to escape a bad mood all load the dice toward a difficult trip.
 
@@ -64,5 +64,9 @@ The takeaway: set and setting are not soft add-ons to a psychedelic experience. 
 
 **Sources**
 
-- Carhart-Harris RL, et al. Psychedelics and the essential importance of context. *Journal of Psychopharmacology*, 2018. [PMID 29446697](https://pubmed.ncbi.nlm.nih.gov/29446697/)
-- Haijen ECHM, et al. Predicting responses to psychedelics: a prospective study. *Frontiers in Pharmacology*, 2018. [PMID 30450045](https://pubmed.ncbi.nlm.nih.gov/30450045/)
+- Carhart-Harris RL, et al. Psychedelics and the essential importance of context. *Journal of Psychopharmacology*, 2018. PMID 29446697
+- Haijen ECHM, et al. Predicting responses to psychedelics: a prospective study. *Frontiers in Pharmacology*, 2018. PMID 30450045
+
+## Sources
+
+[PMID 29446697](https://pubmed.ncbi.nlm.nih.gov/29446697/) | [PMID 30450045](https://pubmed.ncbi.nlm.nih.gov/30450045/)

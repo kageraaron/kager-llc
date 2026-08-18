@@ -27,13 +27,13 @@ After a multi-day festival — 72 hours of limited sleep, dancing, heat, and oft
 
 Festival attendees commonly report sleeping 4 hours or fewer per night across multi-day events — consistently below the 7–9 hours needed for full cognitive recovery. Multiply that across 3 nights and you have accumulated 9–15 hours of sleep debt — the equivalent of missing one to two full nights.
 
-Sleep debt is not erased by one night of recovery sleep. **Van Dongen et al. 2003** (*Sleep*, [PMID 12683469](https://pubmed.ncbi.nlm.nih.gov/12683469/)) showed in a controlled trial that people chronically restricted to 6 hours per night for two weeks showed cognitive performance deficits equivalent to up to two nights of total sleep deprivation — and critically, they were largely unaware of how impaired they were. They subjectively felt "a little tired." Objectively, their reaction time, decision-making, and cognitive performance had collapsed.
+Sleep debt is not erased by one night of recovery sleep. **Van Dongen et al. 2003** (*Sleep*, PMID 12683469) showed in a controlled trial that people chronically restricted to 6 hours per night for two weeks showed cognitive performance deficits equivalent to up to two nights of total sleep deprivation — and critically, they were largely unaware of how impaired they were. They subjectively felt "a little tired." Objectively, their reaction time, decision-making, and cognitive performance had collapsed.
 
 **The sleepiness-impairment gap** is one of the most practically important findings in sleep research. You feel okay. You are not okay. This is the condition you are in for day 1 and 2 after a festival. The implications for driving, making decisions, and risk assessment are real.
 
 ### 2. Stress hormone disruption
 
-Sleep is when your cortisol and growth hormone cycles reset. **Spiegel et al. 1999** (*Lancet*, [PMID 10543671](https://pubmed.ncbi.nlm.nih.gov/10543671/)) showed that 6 nights of 4-hour sleep restriction produced measurable cortisol elevation in the evening (opposite of the normal pattern), suppressed growth hormone release, and disrupted thyroid axis function. After 3–4 days of festival sleep deprivation, similar disruption is plausible.
+Sleep is when your cortisol and growth hormone cycles reset. **Spiegel et al. 1999** (*Lancet*, PMID 10543671) showed that 6 nights of 4-hour sleep restriction produced measurable cortisol elevation in the evening (opposite of the normal pattern), suppressed growth hormone release, and disrupted thyroid axis function. After 3–4 days of festival sleep deprivation, similar disruption is plausible.
 
 Elevated evening cortisol means heightened arousal and difficulty falling asleep — exactly when you want to be sleeping to recover. It also amplifies anxiety and emotional reactivity. This is not a personal failing. It's endocrinology.
 
@@ -103,4 +103,6 @@ Most people are back to baseline or very close. Some people notice lingering fat
 
 ---
 
-*Sources: [PMID 9230429](https://pubmed.ncbi.nlm.nih.gov/9230429/) (Dawson & Reid 1997) | [PMID 12683469](https://pubmed.ncbi.nlm.nih.gov/12683469/) (Van Dongen et al. 2003) | [PMID 10543671](https://pubmed.ncbi.nlm.nih.gov/10543671/) (Spiegel et al. 1999)*
+## Sources
+
+[PMID 12683469](https://pubmed.ncbi.nlm.nih.gov/12683469/) | [PMID 10543671](https://pubmed.ncbi.nlm.nih.gov/10543671/) | [PMID 9230429](https://pubmed.ncbi.nlm.nih.gov/9230429/)

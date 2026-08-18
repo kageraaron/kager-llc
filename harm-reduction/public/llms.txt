@@ -6,6 +6,17 @@
 
 Rave Wellness publishes harm reduction information grounded in clinical pharmacology and peer-reviewed research. All guides cite primary sources (PubMed PMIDs) and clearly distinguish between human evidence, animal data, and community consensus.
 
+## Machine-readable formats
+
+Every blog post is available as clean markdown at the same slug, with the article
+text only, no page furniture:
+
+- https://www.ravewellness.org/blog/<slug>.html — HTML for browsers
+- https://www.ravewellness.org/blog/<slug>.md — markdown for agents
+
+The markdown keeps the citation list and the affiliate disclosure. Internal links
+are absolute so they can be followed without resolving against a base URL.
+
 ## Drug Guides
 
 - https://www.ravewellness.org/mdma.html — MDMA harm reduction: dosing, interactions, supplements, serotonin syndrome, the 3-month rule
@@ -16,6 +27,7 @@ Rave Wellness publishes harm reduction information grounded in clinical pharmaco
 - https://www.ravewellness.org/ghb.html — GHB/GBL: narrow therapeutic window, overdose signs, alcohol interaction
 - https://www.ravewellness.org/poppers.html — Poppers: alkyl nitrites, PDE5 inhibitor interaction, cardiac risk
 - https://www.ravewellness.org/2cb.html — 2C-B: effects, dosing, difference from tusi/pink cocaine
+- https://www.ravewellness.org/dmt.html — DMT: N,N-DMT vs 5-MeO-DMT, the MAOI and ayahuasca interaction, why Ehrlich cannot separate them
 - https://www.ravewellness.org/nitrous.html — Nitrous oxide: B12 depletion, nerve damage, spinal cord risk
 - https://www.ravewellness.org/hearing.html — Hearing health: tinnitus, noise-induced hearing loss, earplug guide
 

@@ -43,7 +43,7 @@ This bypass is the key pharmacological rationale for using it after MDMA:
 - If TPH activity is suppressed after MDMA, supplementing tryptophan (the typical dietary precursor) will produce serotonin slowly and inefficiently
 - 5-HTP bypasses that bottleneck and converts directly to serotonin via AADC (aromatic amino acid decarboxylase), an enzyme present throughout the brain and body
 
-5-HTP has been studied clinically for depression and mood disorders. A comprehensive review by Turner et al. in *Pharmacology and Therapeutics* ([PMID 16023217](https://pubmed.ncbi.nlm.nih.gov/16023217/)) covers the clinical evidence for 5-HTP as a serotonin precursor. The biochemical pathway is well-established human physiology. The MDMA-specific recovery application extrapolates from that mechanism, but has not been tested in human RCTs.
+5-HTP has been studied clinically for depression and mood disorders. A comprehensive review by Turner et al. in *Pharmacology and Therapeutics* (PMID 16023217) covers the clinical evidence for 5-HTP as a serotonin precursor. The biochemical pathway is well-established human physiology. The MDMA-specific recovery application extrapolates from that mechanism, but has not been tested in human RCTs.
 
 ---
 
@@ -51,7 +51,7 @@ This bypass is the key pharmacological rationale for using it after MDMA:
 
 The 24-hour waiting period comes directly from MDMA's pharmacokinetics:
 
-- **MDMA half-life:** approximately 7 to 8 hours ([PMID 18520604](https://pubmed.ncbi.nlm.nih.gov/18520604/)) (varies with CYP2D6 metabolizer status)
+- **MDMA half-life:** approximately 7 to 8 hours (PMID 18520604) (varies with CYP2D6 metabolizer status)
 - **MDA (active metabolite):** MDMA is partially metabolized to MDA, which has its own half-life and independent serotonin-releasing activity that extends several hours beyond MDMA itself
 - **Combined active window:** the combined pharmacological serotonin activity from MDMA and MDA extends considerably past when you stop feeling the drug's effects
 
@@ -63,7 +63,7 @@ By 24 hours post-dose, MDMA and MDA have largely cleared. Serotonin stores are n
 
 ## Serotonin syndrome: what it is and why it matters here
 
-Serotonin syndrome is a spectrum of toxicity caused by excess serotonergic activity in the central and peripheral nervous system. Boyer and Shannon's widely cited *NEJM* review ([PMID 15784664](https://pubmed.ncbi.nlm.nih.gov/15784664/)) describes the classic triad:
+Serotonin syndrome is a spectrum of toxicity caused by excess serotonergic activity in the central and peripheral nervous system. Boyer and Shannon's widely cited *NEJM* review (PMID 15784664) describes the classic triad:
 
 - **Neuromuscular abnormalities:** tremor, clonus (rhythmic involuntary muscle jerking), hyperreflexia, muscle rigidity
 - **Autonomic instability:** rapid heart rate, elevated blood pressure, hyperthermia, diaphoresis
@@ -128,5 +128,9 @@ For a full breakdown of MDMA risks, dosing, and harm reduction, see our [MDMA ha
 
 **Sources**
 
-- Turner EH, Loftis JM, Blackwell AD. Serotonin a la carte: supplementation with the serotonin precursor 5-hydroxytryptophan. *Pharmacol Ther*. 2006;109(3):325-38. [PMID 16023217](https://pubmed.ncbi.nlm.nih.gov/16023217/)
-- Boyer EW, Shannon M. The serotonin syndrome. *N Engl J Med*. 2005;352(11):1112-20. [PMID 15784664](https://pubmed.ncbi.nlm.nih.gov/15784664/)
+- Turner EH, Loftis JM, Blackwell AD. Serotonin a la carte: supplementation with the serotonin precursor 5-hydroxytryptophan. *Pharmacol Ther*. 2006;109(3):325-38. PMID 16023217
+- Boyer EW, Shannon M. The serotonin syndrome. *N Engl J Med*. 2005;352(11):1112-20. PMID 15784664
+
+## Sources
+
+[PMID 16023217](https://pubmed.ncbi.nlm.nih.gov/16023217/) | [PMID 18520604](https://pubmed.ncbi.nlm.nih.gov/18520604/) | [PMID 15784664](https://pubmed.ncbi.nlm.nih.gov/15784664/)

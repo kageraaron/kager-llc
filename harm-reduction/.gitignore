@@ -2,3 +2,5 @@ node_modules/
 dist/
 .astro/
 blog-ideas.md
+pmid-index.md
+blog-quality-pass.md

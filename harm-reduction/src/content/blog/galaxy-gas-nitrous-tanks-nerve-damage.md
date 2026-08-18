@@ -34,8 +34,8 @@ Nitrous oxide irreversibly oxidizes the cobalt atom at the center of vitamin B12
 
 The clinical data tracks this:
 
-- **Largeau et al. 2022** (*European Journal of Neurology*, [PMID 35460312](https://pubmed.ncbi.nlm.nih.gov/35460312/)) studied 20 hospitalized patients, median age 19. Median use was 100 cartridges per occasion, range 5 to 960. Higher cumulative dose correlated with more extensive limb damage (p = 0.042). The authors concluded there is no safe recreational exposure level.
-- **Tshagharyan et al. 2025** (*Neurological Research and Practice*, [PMID 40319266](https://pubmed.ncbi.nlm.nih.gov/40319266/)) reported 20 patients, median age 21, with mean daily use of 2,500 grams, roughly 312 balloons per day. All had sensory deficits, 85 percent gait disturbance, 73 percent spinal cord lesions on MRI.
+- **Largeau et al. 2022** (*European Journal of Neurology*, PMID 35460312) studied 20 hospitalized patients, median age 19. Median use was 100 cartridges per occasion, range 5 to 960. Higher cumulative dose correlated with more extensive limb damage (p = 0.042). The authors concluded there is no safe recreational exposure level.
+- **Tshagharyan et al. 2025** (*Neurological Research and Practice*, PMID 40319266) reported 20 patients, median age 21, with mean daily use of 2,500 grams, roughly 312 balloons per day. All had sensory deficits, 85 percent gait disturbance, 73 percent spinal cord lesions on MRI.
 
 A 2,500 gram daily habit is implausible with 8 gram chargers and trivially easy with tanks. This is case series evidence and no randomized trial will ever be run, but the biochemistry is unambiguous and the dose relationship holds across cohorts.
 
@@ -43,7 +43,7 @@ A 2,500 gram daily habit is implausible with 8 gram chargers and trivially easy 
 
 Serum B12 measures total circulating cobalamin, including the molecules nitrous has already oxidized into uselessness. Inactivated B12 still shows up on the test. Two functional markers tell the real story: **methylmalonic acid (MMA)**, which rises when B12 dependent metabolism stalls, and **homocysteine**, which accumulates when methionine synthase is offline.
 
-In Tshagharyan's cohort, serum B12 was normal in 95 percent of patients while homocysteine was elevated in 100 percent and MMA in 95 percent. **Meißner et al. 2025** (*Neurological Research and Practice*, [PMID 39815374](https://pubmed.ncbi.nlm.nih.gov/39815374/)) found the same pattern across 23 patients at five German hospitals: B12 abnormal in only 35 percent, MMA in 95 percent, homocysteine in 89 percent. **Hassing et al. 2024** (*European Journal of Neurology*, [PMID 37754673](https://pubmed.ncbi.nlm.nih.gov/37754673/)), a 70 patient series, found 91 percent of patients with normal B12 had elevated MMA.
+In Tshagharyan's cohort, serum B12 was normal in 95 percent of patients while homocysteine was elevated in 100 percent and MMA in 95 percent. **Meißner et al. 2025** (*Neurological Research and Practice*, PMID 39815374) found the same pattern across 23 patients at five German hospitals: B12 abnormal in only 35 percent, MMA in 95 percent, homocysteine in 89 percent. **Hassing et al. 2024** (*European Journal of Neurology*, PMID 37754673), a 70 patient series, found 91 percent of patients with normal B12 had elevated MMA.
 
 If your B12 comes back at 400, that is not reassurance. Ask specifically for MMA and homocysteine.
 
@@ -61,11 +61,11 @@ Sensory symptoms come first in nearly every published series. If your hands or f
 
 ## The tank itself: frostbite, barotrauma, and hypoxia
 
-**Frostbite.** Nitrous leaves a pressurized tank extremely cold. A 2025 review in the *European Burn Journal* ([PMID 40137010](https://pubmed.ncbi.nlm.nih.gov/40137010/)) found most published nitrous frostbite cases clustered in 2022 to 2024, commonly on the inner thighs from resting the tank there. Some required excision and skin grafting. Inhaling from the valve can freeze the lips, mouth, and airway.
+**Frostbite.** Nitrous leaves a pressurized tank extremely cold. A 2025 review in the *European Burn Journal* (PMID 40137010) found most published nitrous frostbite cases clustered in 2022 to 2024, commonly on the inner thighs from resting the tank there. Some required excision and skin grafting. Inhaling from the valve can freeze the lips, mouth, and airway.
 
 **Barotrauma.** Inhaling straight from a pressurized tank has caused pneumothorax and pneumomediastinum, gas forced through torn lung tissue into the chest cavity. A balloon prevents this by dropping the gas to ambient pressure first.
 
-**Hypoxia.** Nitrous displaces oxygen and blunts the panic reflex that would make you pull away. Sustained inhalation from a mask, a bag over the head, or a sealed car is what kills people. US nitrous poisoning deaths rose from 23 in 2010 to 156 in 2023, 1,240 total among people aged 15 to 74, per **Yockey and Hoopsick 2025** in *JAMA Network Open* ([PMID 40736738](https://pubmed.ncbi.nlm.nih.gov/40736738/)). Read honestly: that rise ran from 2010 to 2018 then plateaued through 2023, so the tank era's mortality effect is not yet in published data.
+**Hypoxia.** Nitrous displaces oxygen and blunts the panic reflex that would make you pull away. Sustained inhalation from a mask, a bag over the head, or a sealed car is what kills people. US nitrous poisoning deaths rose from 23 in 2010 to 156 in 2023, 1,240 total among people aged 15 to 74, per **Yockey and Hoopsick 2025** in *JAMA Network Open* (PMID 40736738). Read honestly: that rise ran from 2010 to 2018 then plateaued through 2023, so the tank era's mortality effect is not yet in published data.
 
 ## Where regulation stands
 
@@ -86,7 +86,7 @@ Louisiana and Michigan restricted recreational sales in 2024, and Alabama, Calif
 
 ## Recovery if you catch it early
 
-Treatment is abstinence plus intramuscular hydroxocobalamin, not oral cyanocobalamin. Outcomes in the Hassing series ([PMID 37754673](https://pubmed.ncbi.nlm.nih.gov/37754673/)) at three months: 31 percent fully recovered, 50 percent had mild residual symptoms, 19 percent still had disabling deficits. In Meißner's cohort, four of seven patients with follow up showed no meaningful improvement.
+Treatment is abstinence plus intramuscular hydroxocobalamin, not oral cyanocobalamin. Outcomes in the Hassing series (PMID 37754673) at three months: 31 percent fully recovered, 50 percent had mild residual symptoms, 19 percent still had disabling deficits. In Meißner's cohort, four of seven patients with follow up showed no meaningful improvement.
 
 Roughly a third recover completely, and they are overwhelmingly the ones who stopped early. Tell your doctor exactly what you used and how much, because they will not order MMA and homocysteine if they think you have an unexplained neuropathy.
 
@@ -94,4 +94,6 @@ For dosing, effects, and the full risk picture, see our [nitrous oxide harm redu
 
 ---
 
-*Sources: [PMID 35460312](https://pubmed.ncbi.nlm.nih.gov/35460312/) | [PMID 40319266](https://pubmed.ncbi.nlm.nih.gov/40319266/) | [PMID 39815374](https://pubmed.ncbi.nlm.nih.gov/39815374/) | [PMID 37754673](https://pubmed.ncbi.nlm.nih.gov/37754673/) | [PMID 40736738](https://pubmed.ncbi.nlm.nih.gov/40736738/) | [PMID 40137010](https://pubmed.ncbi.nlm.nih.gov/40137010/) | FDA consumer advisory, March 14 2025, updated June 4 2025*
+## Sources
+
+[PMID 35460312](https://pubmed.ncbi.nlm.nih.gov/35460312/) | [PMID 40319266](https://pubmed.ncbi.nlm.nih.gov/40319266/) | [PMID 39815374](https://pubmed.ncbi.nlm.nih.gov/39815374/) | [PMID 37754673](https://pubmed.ncbi.nlm.nih.gov/37754673/) | [PMID 40137010](https://pubmed.ncbi.nlm.nih.gov/40137010/) | [PMID 40736738](https://pubmed.ncbi.nlm.nih.gov/40736738/)

@@ -1,104 +1,76 @@
 ---
-title: "How Long Does a Molly High Last? Full MDMA Timeline"
-description: "How long does molly last? Main effects run 3–5 hours, peak at 60–90 min. Full onset-to-comedown timeline and what affects duration."
+title: "How Long Does a Molly High Last?"
+description: "Main effects run 3 to 5 hours, peaking at 1.5 to 2.5. The full onset-to-comedown timeline, and what actually changes the duration."
 date: 2026-05-15
-lastmod: 2026-08-14
+lastmod: 2026-08-17
 tags: ["mdma", "molly", "ecstasy", "harm reduction", "duration", "timeline"]
 author: "Jordan Mercer"
 ---
 
-MDMA (molly, ecstasy) produces its primary effects for **3 to 5 hours** at recreational doses, with the peak roughly 1.5–2.5 hours after ingestion. The experience doesn't end there: a comedown and afterglow extending to 24 hours is pharmacological reality, not mindset. Here is the full timeline.
+**The main effects run 3 to 5 hours, peaking around 1.5 to 2.5 hours after you swallow it.** That is the part people mean by "how long does it last."
 
-## Quick answers
+The honest answer is longer. Residual stimulation, emotional sensitivity and disrupted sleep commonly run 8 to 24 hours, and MDMA's half-life of roughly 7 to 8 hours means the drug is still in your bloodstream well after you stop feeling it. Plan for a day, not an evening.
 
-**How long does MDMA last?** The main empathogenic and euphoric effects last 3–5 hours. Residual stimulation, emotional sensitivity, and sleep disruption commonly persist for 8–24 hours.
+## The timeline, hour by hour
 
-**How long does molly keep you high?** Molly is MDMA in powder or crystal form. The high, meaning peak euphoria and energy, lasts 3–5 hours, with residual stimulation often keeping you awake for 8 or more hours beyond that.
+**T+0:00, ingestion.** Nothing yet. MDMA absorbs through the gut, and how fast depends heavily on what is already in your stomach.
 
-**How long does ecstasy last?** Ecstasy (pressed pills) contains MDMA at varying doses and often adulterants. A standard pill in the 80–120 mg range produces effects for 3–5 hours, but unknown content is the primary risk with pills.
+**T+0:20 to T+0:45, first alert.** Mild warmth, a light tingle, restlessness, heightened awareness. Brief nausea is common as the drug enters circulation, and a few people feel anxious here. That is the come-up, not a warning sign. **Do not redose in this window.** You have not felt what the dose does yet.
 
-**When does MDMA peak?** Peak effects occur approximately 1.5–2.5 hours after ingestion, according to clinical pharmacokinetics data (de la Torre R, Farré M, et al., *British Journal of Clinical Pharmacology*, 2000; [PMID 10671903](https://pubmed.ncbi.nlm.nih.gov/10671903/)).
+**T+0:45 to T+1:30, onset.** Effects become unmistakable: emotional openness, warmth toward people, heightened senses, tactile sensitivity. Jaw tension often starts here, along with dilated pupils, raised heart rate and a small temperature rise. MDMA works by triggering rapid release of serotonin, dopamine and norepinephrine, and serotonin stores start depleting from this point. That depletion is why the peak eventually fades and why redosing gives diminishing returns.
 
-**When does MDMA kick in?** First effects are typically felt 30–60 minutes after ingestion — faster (as little as 20 minutes) on an empty stomach, slower (up to 90 minutes) with a full meal.
+**T+1:30 to T+2:30, peak.** The most intense phase. Euphoria, empathy and energy at their highest, music and touch and conversation richly amplified. Jaw clenching usually peaks here too, which our [magnesium and jaw clenching guide](/blog/mdma-magnesium-jaw-clenching.html) covers.
 
-**How long is MDMA in your system?** MDMA has a half-life of approximately 7 to 8 hours ([PMID 18520604](https://pubmed.ncbi.nlm.nih.gov/18520604/)). Full elimination takes roughly 40 hours (five half-lives), meaning MDMA is in your bloodstream long after subjective effects have resolved.
+De la Torre and Farré's 2000 pharmacokinetic work in the *British Journal of Clinical Pharmacology* put peak plasma concentrations at roughly 1.5 to 2.5 hours post-ingestion for standard doses. **Peak subjective effects track peak plasma levels closely**, which is unlike LSD, where tight receptor binding sustains the experience after blood levels have already dropped.
 
----
+**T+2:30 to T+4:00, plateau.** Sustained but no longer building. Many people find this the most socially rewarding stretch: connected, talkative, emotionally clear. It will feel less strong than the peak did. **That is serotonin depletion, not a reason to redose.**
 
-## The full MDMA timeline
+**T+4:00 to T+5:00, descent.** Energy fades first, then the empathogenic quality. Emotional sensitivity often rises as euphoria recedes, and feeling briefly raw or tender is normal.
 
-### T+0:00, Ingestion
-You take the dose. Nothing yet. MDMA is absorbed through the gastrointestinal tract; how quickly depends heavily on stomach contents (see below).
+**T+5:00 to T+24:00, afterglow and comedown.** From roughly T+5 to T+8 some people feel pleasantly tired and reflective, a mild positive carry-over as serotonin normalises. From T+8 to T+24 the comedown can bring fatigue, low mood, flatness or irritability from temporary serotonin depletion. Not everyone gets a significant one; dose, use frequency and individual neurochemistry all matter.
 
-### T+0:20 to T+0:45, First alert
-Subtle shifts begin: mild warmth, a light tingle, slight restlessness or heightened awareness. Some people experience brief nausea during this window as the drug enters the bloodstream. A small number feel anxiety — this is the come-up, not a sign something is wrong. **Do not redose here.** Peak has not started; you have not yet felt what the dose will do.
+Sleep is its own problem. Most people cannot sleep for 4 to 8 hours after effects end, because of norepinephrine release and residual stimulation. Around T+8 to T+10 sleep usually becomes possible, though often restless. See [how to sleep after a rave](/blog/how-to-sleep-after-a-rave.html), and the [comedown guide](/blog/mdma-comedown.html) for the grey day afterwards.
 
-### T+0:45 to T+1:30, Onset
-Effects become unambiguous. The characteristic empathogenic quality of MDMA begins to emerge: emotional openness, increased warmth toward others, heightened sensory appreciation. Tactile sensitivity increases. Jaw tension (bruxism) may start in this window. Pupil dilation, elevated heart rate, and mild temperature increase are common physical signs. MDMA acts by causing rapid release of serotonin, dopamine, and norepinephrine — serotonin stores begin depleting now, which is why the peak eventually fades and redosing has diminishing returns.
+## Redosing does not do what people think
 
-### T+1:30 to T+2:30, Peak
-The most intense phase. Euphoria, empathy, and energy are at their highest. Sensory experiences — music, touch, conversation — feel richly amplified. Jaw clenching typically peaks here (see our guide on [magnesium for jaw clenching](/blog/mdma-magnesium-jaw-clenching.html)). Time perception may be altered, though less dramatically than with classical psychedelics.
+A second dose taken 90 minutes or more into the experience adds roughly **1.5 to 2 hours of effects, not another 4 to 5**. Serotonin stores are already depleted, so there is not enough substrate left to reproduce the first wave.
 
-Clinical pharmacokinetic studies place peak plasma concentrations at approximately 1.5–2.5 hours post-ingestion for standard doses (de la Torre R, Farré M, et al., *Br J Clin Pharmacol*, 2000; [PMID 10671903](https://pubmed.ncbi.nlm.nih.gov/10671903/)). **Peak subjective effects closely track peak plasma levels** — unlike LSD, where receptor binding sustains effects after blood levels fall.
+Each redose also worsens the next day roughly in proportion to how much extra you took.
 
-### T+2:30 to T+4:00, Plateau
-Effects are sustained but no longer intensifying. Many people find this the most socially rewarding phase: connected, communicative, emotionally clear. The experience may feel "less strong" than at peak — **this is serotonin depletion, not a reason to redose**.
+The trap is the T+2:30 to T+3:00 window, where effects feel weaker and the impulse is to top up. That weakening is the depletion starting. More MDMA will not restore the T+1:30 feeling. It will stretch a diminished version out and make tomorrow worse.
 
-### T+4:00 to T+5:00, Gradual descent
-Effects begin winding down noticeably. Energy fades first, followed by the empathogenic quality. Emotional sensitivity often increases as the euphoria recedes — some people feel briefly raw or tender. This is normal and temporary.
+If you are going to redose anyway: once, at half the original dose or less, before the peak has fully ended.
 
-### T+5:00 to T+24:00, Afterglow and comedown
-The primary effects are over. What follows varies widely:
+## What actually changes the duration
 
-- **Afterglow (T+5 to T+8):** Some people feel pleasantly tired, reflective, and calm. Mild positive carry-over from serotonin normalization.
-- **Comedown (T+8 to T+24):** Fatigue, low mood, emotional flatness, or irritability — the result of temporary serotonin depletion. Not everyone experiences a significant comedown; dose, frequency of use, and individual neurochemistry all play a role.
-- **Sleep:** Most people cannot sleep for 4–8 hours after effects have ended due to norepinephrine release and residual stimulation. At T+8–10, sleep is typically possible but may be restless. See our full guide on [how to sleep after a rave](/blog/how-to-sleep-after-a-rave.html).
+**Dose is the biggest lever.** 75 mg may run 3 hours where 150 mg pushes past 5. Higher doses do not only intensify the experience, they lengthen it and speed up depletion. Our [MDMA dosing guide](/blog/mdma-dosing-guide.html) has ranges by body weight.
 
-The day after is often described as a "gray day." See our [comedown guide](/blog/mdma-comedown.html) for specific recovery strategies.
+**Stomach contents change onset, not duration.** Empty stomach shortens onset to 20 to 30 minutes; a full meal pushes it to 75 to 90.
 
----
+**Route matters.** Insufflation comes on faster, 15 to 30 minutes, but runs slightly shorter, and bioavailability differences mean you effectively get less of what you took.
 
-## Redosing: what actually happens
+**CYP2D6 varies between people.** MDMA is metabolized mainly by CYP2D6, and roughly 5 to 10% of people are poor metabolizers who get higher peak plasma levels, longer duration and more adverse effects from the same dose. There is no way to know in advance without genetic testing.
 
-Redosing is common, and its effects are frequently misunderstood.
+**Heat and dancing.** A hot room accelerates distribution and raises hyperthermia risk, which is the leading cause of MDMA deaths. **Drink around 500 mL of water per hour if you are dancing, around 250 mL per hour if you are not.** Overhydration causing hyponatremia is a documented risk in the other direction, so do not drink past what you need.
 
-**A second dose taken 90+ minutes into the experience adds approximately 1.5–2 hours of effects — not another full 4–5 hours.** Serotonin stores are already significantly depleted; there is not enough substrate to reproduce the first wave.
+**Body weight** affects distribution volume slightly, well behind dose and metabolism.
 
-**Each redose worsens the next-day comedown** in rough proportion to the additional dose.
+## Planning around it
 
-**The common mistake:** effects feel "weaker" around T+2:30–3:00 and the impulse is to take more. This is serotonin depletion beginning — redosing will not restore the T+1:30 feeling, it will extend effects at diminished intensity and worsen the next day.
+If you dose at 9 PM, expect to be awake until 3 to 5 AM at minimum, so block out the day rather than the evening.
 
-If you choose to redose: once only, at half the initial dose or less, before the peak has fully ended.
+Do not drive for at least 8 hours after ingestion, and 12 is safer. Reaction time, judgement and pupil dilation all persist long past the point where you feel normal.
 
----
+Keep the next day clear if you can. The comedown day is real even when it is mild.
 
-## What affects duration
+And all of the timing above assumes you know what you took. A pill or powder that is not MDMA has a different timeline entirely, which is the most common reason someone's experience does not match a guide like this one.
 
-**Dose** is the largest variable. A 75 mg dose may last 3 hours; 150 mg can push effects to 5+ hours. Higher doses do not simply increase intensity — they extend duration and accelerate depletion. See our [MDMA dosing guide](/blog/mdma-dosing-guide.html) for dose ranges by body weight.
+<div class="kit-cta"><strong>Every number on this page assumes it is actually MDMA.</strong> A reagent test takes ten minutes and tells you whether the timeline applies at all. <a href="/kits">Get test kits from DanceSafe →</a></div>
 
-**Stomach contents** primarily affect onset timing. An empty stomach shortens onset to 20–30 minutes; a full meal pushes it to 75–90 minutes. Total duration is less affected.
+For effects, risks and safer-use practice in full, see our [MDMA harm reduction guide](/mdma.html). Combining with anything, including alcohol, check the [interaction guide](/interactions.html) first.
 
-**Route of administration.** Insufflation (nasal) has faster onset (15–30 minutes) but slightly shorter overall duration than oral; bioavailability differences also mean you effectively receive less of the dose.
+## Sources
 
-**Individual metabolism (CYP2D6).** MDMA is metabolized primarily by CYP2D6. Roughly 5–10% of people are poor metabolizers and experience higher peak plasma levels, longer duration, and increased adverse-effect risk at the same dose — with no reliable way to know in advance without genetic testing.
-
-**Temperature and physical activity.** Dancing in a hot environment accelerates MDMA distribution and raises hyperthermia risk — the primary cause of MDMA-related deaths. **Drink ~500 mL of water per hour if dancing, ~250 mL per hour if not.** Overhydration causing hyponatremia is also a documented risk; do not drink more than needed.
-
-**Body weight** has a minor effect on distribution volume — secondary to dose and metabolism.
-
----
-
-## Planning around the timeline
-
-The practical implications of the 3–5 hour main-effect window plus extended afterglow:
-
-- **Block out the full day.** If you dose at 9 PM, expect to be awake until 3–5 AM minimum.
-- **Do not drive for at least 8 hours after ingestion** — impaired reaction time, judgment, and significant pupil dilation persist well past the subjective peak. 12 hours is safer.
-- **Don't schedule obligations the next day** if you can avoid it. The comedown day is real even when mild.
-- **Test your MDMA before use.** All the timing above assumes you know what you've taken. See our guide on [how to test MDMA](/blog/how-to-test-mdma.html).
-
-For a full overview of effects, risks, and safer use practices, see our [MDMA harm reduction guide](/mdma.html). If you're combining MDMA with any other substance — including alcohol — check our [drug interaction guide](/interactions.html) first.
-
----
-
-*Sources: [PMID 10671903](https://pubmed.ncbi.nlm.nih.gov/10671903/) — de la Torre R, Farré M, et al. (2000). Non-linear pharmacokinetics of MDMA ('ecstasy') in humans. *British Journal of Clinical Pharmacology*, 49(2):104–109. | [PMID 16771886](https://pubmed.ncbi.nlm.nih.gov/16771886/) — Baylen CA, Rosenberg H. (2006). A review of the acute subjective effects of MDMA/ecstasy. *Addiction*, 101(7):933–947.*
+- de la Torre R, Farré M, et al. Non-linear pharmacokinetics of MDMA ('ecstasy') in humans. *British Journal of Clinical Pharmacology*, 2000. [PMID 10671903](https://pubmed.ncbi.nlm.nih.gov/10671903/)
+- Plasma pharmacokinetics of MDMA after controlled oral administration to young adults. *Therapeutic Drug Monitoring*, 2008. [PMID 18520604](https://pubmed.ncbi.nlm.nih.gov/18520604/)
+- A review of the acute subjective effects of MDMA/ecstasy. *Addiction*, 2006. [PMID 16771886](https://pubmed.ncbi.nlm.nih.gov/16771886/)

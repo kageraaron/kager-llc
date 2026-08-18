@@ -32,15 +32,15 @@ This is not a hypothetical mechanism. It is the established cause of several wel
 - **Pergolide and cabergoline:** Ergot-derived Parkinson's and prolactin drugs that caused valvulopathy at higher doses, again through 5-HT2B activation.
 - **Methysergide:** An older migraine drug linked to fibrosis through the same pathway.
 
-The unifying review here is Bryan Roth's commentary in the New England Journal of Medicine, which laid out 5-HT2B agonism as the common mechanism behind these cases ([PMID 17202450](https://pubmed.ncbi.nlm.nih.gov/17202450/)). The pattern across these drugs is consistent: it takes **sustained, repeated exposure**, not a single dose, to drive valve changes.
+The unifying review here is Bryan Roth's commentary in the New England Journal of Medicine, which laid out 5-HT2B agonism as the common mechanism behind these cases (PMID 17202450). The pattern across these drugs is consistent: it takes **sustained, repeated exposure**, not a single dose, to drive valve changes.
 
 ## Where LSD and psilocybin fit in
 
-Here is the part that links classic psychedelics to that history. In receptor-binding studies, **LSD and psilocin (the active form of psilocybin) are agonists at the 5-HT2B receptor.** The Rickli and Liechti pharmacology work measured functional 5-HT2A and 5-HT2B activation for LSD, psilocin, and related tryptamines, confirming that these compounds engage 5-HT2B and not only the 5-HT2A receptor responsible for the psychedelic effect ([PMID 27216487](https://pubmed.ncbi.nlm.nih.gov/27216487/)).
+Here is the part that links classic psychedelics to that history. In receptor-binding studies, **LSD and psilocin (the active form of psilocybin) are agonists at the 5-HT2B receptor.** The Rickli and Liechti pharmacology work measured functional 5-HT2A and 5-HT2B activation for LSD, psilocin, and related tryptamines, confirming that these compounds engage 5-HT2B and not only the 5-HT2A receptor responsible for the psychedelic effect (PMID 27216487).
 
 LSD in particular is structurally an ergoline, the same chemical family as pergolide and methysergide. That structural overlap is why researchers flagged the question in the first place.
 
-The most direct published analysis is a 2023 review by Tagen and colleagues, which evaluated valve-disease risk specifically for chronic psychedelic and MDMA microdosing. They found that LSD, psilocybin, and DMT all act as partial 5-HT2B agonists. Their measured safety margins at typical microdose concentrations were wider than those of known valve-damaging drugs, but they concluded that valve disease is **a potential risk of chronic microdosing that further study is needed to define** ([PMID 37572027](https://pubmed.ncbi.nlm.nih.gov/37572027/)). A 2024 review by Rouaud and colleagues reached a similar place, noting the structural similarity to fenfluramine and pergolide and stating plainly that the long-term cardiac effects of microdosing **remain unknown** ([PMID 38214279](https://pubmed.ncbi.nlm.nih.gov/38214279/)).
+The most direct published analysis is a 2023 review by Tagen and colleagues, which evaluated valve-disease risk specifically for chronic psychedelic and MDMA microdosing. They found that LSD, psilocybin, and DMT all act as partial 5-HT2B agonists. Their measured safety margins at typical microdose concentrations were wider than those of known valve-damaging drugs, but they concluded that valve disease is **a potential risk of chronic microdosing that further study is needed to define** (PMID 37572027). A 2024 review by Rouaud and colleagues reached a similar place, noting the structural similarity to fenfluramine and pergolide and stating plainly that the long-term cardiac effects of microdosing **remain unknown** (PMID 38214279).
 
 ## What the evidence does and does not show
 
@@ -89,9 +89,6 @@ If you are weighing whether to start at all, read our honest look at the actual 
 
 ---
 
-### Sources
+## Sources
 
-- Roth BL. Drugs and valvular heart disease. *N Engl J Med.* 2007. [PMID 17202450](https://pubmed.ncbi.nlm.nih.gov/17202450/)
-- Rickli A, Moning OD, Hoener MC, Liechti ME. Receptor interaction profiles of novel psychoactive tryptamines compared with classic hallucinogens. *Eur Neuropsychopharmacol.* 2016. [PMID 27216487](https://pubmed.ncbi.nlm.nih.gov/27216487/)
-- Tagen M, Mantuani D, van Heerden L, Holstein A, Klumpers LE, Knowles R. The risk of chronic psychedelic and MDMA microdosing for valvular heart disease. *J Psychopharmacol.* 2023. [PMID 37572027](https://pubmed.ncbi.nlm.nih.gov/37572027/)
-- Rouaud A, Calder AE, Hasler G. Microdosing psychedelics and the risk of cardiac fibrosis and valvulopathy: Comparison to known cardiotoxins. *J Psychopharmacol.* 2024. [PMID 38214279](https://pubmed.ncbi.nlm.nih.gov/38214279/)
+[PMID 17202450](https://pubmed.ncbi.nlm.nih.gov/17202450/) | [PMID 27216487](https://pubmed.ncbi.nlm.nih.gov/27216487/) | [PMID 37572027](https://pubmed.ncbi.nlm.nih.gov/37572027/) | [PMID 38214279](https://pubmed.ncbi.nlm.nih.gov/38214279/)

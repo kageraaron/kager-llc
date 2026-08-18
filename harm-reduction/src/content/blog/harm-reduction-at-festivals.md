@@ -87,7 +87,7 @@ If someone collapses from suspected heat stroke: **move them to a cool space, re
 
 ## Hearing protection
 
-A single night at a festival without earplugs produces measurable temporary threshold shifts. Repeated exposure causes permanent hearing loss that accumulates gradually and is irreversible. A randomised trial at an outdoor festival found earplugs reduced temporary threshold shift roughly fivefold compared with unprotected listening ([PMID 27054284](https://pubmed.ncbi.nlm.nih.gov/27054284/)), which makes this the best-evidenced item on the entire list.
+A single night at a festival without earplugs produces measurable temporary threshold shifts. Repeated exposure causes permanent hearing loss that accumulates gradually and is irreversible. A randomised trial at an outdoor festival found earplugs reduced temporary threshold shift roughly fivefold compared with unprotected listening (PMID 27054284), which makes this the best-evidenced item on the entire list.
 
 High-fidelity earplugs, such as the [DanceSafe EarPeace plugs](/earplugs), reduce volume across frequencies evenly rather than distorting sound quality the way foam does. Loop and Etymotic make comparable high-fidelity plugs if you already own a pair.
 
@@ -130,3 +130,7 @@ Worth being clear about, because packing lists tend to imply everything requires
 The most effective harm reduction happens before the event. Testing, planning hydration, identifying your support person, and knowing where the medical tent is takes about thirty minutes, and most of it is free. The risk reduction is substantial.
 
 For substance-specific guidance, see our [MDMA guide](/mdma.html), [cocaine guide](/cocaine.html), and [ketamine guide](/ketamine.html).
+
+## Sources
+
+[PMID 27054284](https://pubmed.ncbi.nlm.nih.gov/27054284/)

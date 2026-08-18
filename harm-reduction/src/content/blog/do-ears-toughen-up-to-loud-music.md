@@ -7,7 +7,7 @@ tags: ["hearing", "tinnitus", "earplugs", "harm reduction", "festivals"]
 author: "Jordan Mercer"
 ---
 
-**No, your ears do not toughen up or build tolerance to loud music. The opposite is happening.** When a rave that felt painfully loud at the start seems more comfortable an hour in, or the music starts sounding a little quieter and duller, that is not your ears adapting or getting stronger. **It is a temporary threshold shift: your inner ear is already fatigued and partially deafened by the noise.** What feels like "getting used to it" is the early signature of damage in progress. And research shows that even when this fades and your hearing measures normal again, some of the underlying nerve loss is permanent ([PMID 19906956](https://pubmed.ncbi.nlm.nih.gov/19906956/)). The comfort is the problem, not a sign you are safe.
+**No, your ears do not toughen up or build tolerance to loud music. The opposite is happening.** When a rave that felt painfully loud at the start seems more comfortable an hour in, or the music starts sounding a little quieter and duller, that is not your ears adapting or getting stronger. **It is a temporary threshold shift: your inner ear is already fatigued and partially deafened by the noise.** What feels like "getting used to it" is the early signature of damage in progress. And research shows that even when this fades and your hearing measures normal again, some of the underlying nerve loss is permanent (PMID 19906956). The comfort is the problem, not a sign you are safe.
 
 ## Quick answers
 
@@ -20,6 +20,8 @@ author: "Jordan Mercer"
 **Does the muffled feeling after a show mean damage?** Yes, that muffled, underwater sensation is the same temporary threshold shift, signaling the inner ear was pushed past its limit.
 
 **Can I train my ears to handle concerts?** No. You can only limit the dose with earplugs, distance, and breaks. There is no conditioning that makes loud music safe.
+
+**What actually works:** [high-fidelity earplugs](/earplugs), every time, not just when a room already sounds loud. By the time it stops sounding loud you are past the point they were needed.
 
 ---
 
@@ -35,7 +37,7 @@ TTS usually recovers over the following 16 to 48 hours, which is exactly why the
 
 ## Why the recovery is misleading
 
-Here is the part that breaks the toughening-up story. Researchers at Massachusetts Eye and Ear exposed ears to noise that caused **only** a temporary threshold shift, the kind that fully recovers, with hearing thresholds returning to normal within days. Then they looked at the inner ear. Despite the apparent full recovery, the exposure had **permanently destroyed up to 40% of the synaptic connections** between the hair cells and the auditory nerve ([PMID 19906956](https://pubmed.ncbi.nlm.nih.gov/19906956/)). Those connections do not regenerate.
+Here is the part that breaks the toughening-up story. Researchers at Massachusetts Eye and Ear exposed ears to noise that caused **only** a temporary threshold shift, the kind that fully recovers, with hearing thresholds returning to normal within days. Then they looked at the inner ear. Despite the apparent full recovery, the exposure had **permanently destroyed up to 40% of the synaptic connections** between the hair cells and the auditory nerve (PMID 19906956). Those connections do not regenerate.
 
 This is cochlear synaptopathy, or **hidden hearing loss.** It is "hidden" because a standard audiogram, which measures whether you can detect quiet tones, comes back normal. The lost connections mostly carry information about sound in noisy, complex environments, so the damage surfaces years later as the classic complaint: "I can hear fine, but I can't follow a conversation in a loud bar."
 
@@ -61,7 +63,7 @@ People who proudly handle volumes that make others wince usually are not blessed
 
 Since adaptation is a myth and damage is cumulative, the only levers are reducing the dose and protecting the hardware:
 
-- **Wear earplugs every time, not just when it "seems loud."** By the time it stops seeming loud, you are already in threshold-shift territory. A randomized trial found earplugs cut post-festival temporary hearing loss from ~42% to ~8% of ears and tinnitus from 40% to 12% ([PMID 27054284](https://pubmed.ncbi.nlm.nih.gov/27054284/)). High-fidelity ones keep the music clear, see [do earplugs ruin the music](/blog/do-earplugs-ruin-music-at-raves.html).
+- **Wear earplugs every time, not just when it "seems loud."** By the time it stops seeming loud, you are already in threshold-shift territory. A randomized trial found earplugs cut post-festival temporary hearing loss from ~42% to ~8% of ears and tinnitus from 40% to 12% (PMID 27054284). High-fidelity ones keep the music clear, see [do earplugs ruin the music](/blog/do-earplugs-ruin-music-at-raves.html).
 - **Treat the muffled feeling and ringing as a stop sign,** not background noise. Take a break in a quiet area, and reconsider how close you are to the speakers.
 - **Give your ears recovery time** between loud events. Back-to-back loud nights stack damage before the temporary recovery is even complete.
 - **Stop chasing volume.** If the music feels too quiet partway through the night, that is your cue to protect, not to crank it.
@@ -78,4 +80,6 @@ If you want protection that doesn't kill the sound, [high-fidelity earplugs](/ea
 
 ---
 
-*Sources: [PMID 19906956](https://pubmed.ncbi.nlm.nih.gov/19906956/) | [PMID 27054284](https://pubmed.ncbi.nlm.nih.gov/27054284/)*
+## Sources
+
+[PMID 19906956](https://pubmed.ncbi.nlm.nih.gov/19906956/) | [PMID 27054284](https://pubmed.ncbi.nlm.nih.gov/27054284/)

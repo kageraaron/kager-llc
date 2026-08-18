@@ -1,163 +1,107 @@
 ---
 title: "Ecstasy vs Molly: What's Actually in Pressed Pills"
-description: "Ecstasy is pressed tablets, molly is powder, and neither guarantees purity. What drug checking finds in both, and how to test before you use."
+description: "Ecstasy is pressed tablets, molly is powder, and neither word is a purity claim. What drug checking finds in both, and how to test before you take it."
 date: 2026-05-15
-lastmod: 2026-08-12
+lastmod: 2026-08-17
 tags: ["mdma", "ecstasy", "harm reduction", "drug testing", "adulterants"]
 author: "Jordan Mercer"
 ---
 
-"Ecstasy" means pressed pills. "Molly" means powder or crystal. Neither term tells you what's actually in the substance you're holding. Both forms are frequently adulterated — and in some markets, powder is cut more often than pills, not less. The terminology matters for one reason: pills have a fixed dose per tablet (which can be tested), while powder requires weighing. But neither word is a purity guarantee, and **assuming otherwise is one of the most common mistakes people make before taking MDMA**.
-
-## Quick answers
-
-**What's the difference between ecstasy and molly?**
-Ecstasy refers to MDMA pressed into tablet form; molly refers to powder or crystal MDMA. Both are supposed to be MDMA. Neither form is inherently purer.
-
-**Is molly purer than ecstasy?**
-No — and drug checking data proves it. [DanceSafe](https://dancesafe.org/molly-is-not-purer-than-ecstasy-and-there-is-data-to-prove-it/) and DrugsData.org have analyzed thousands of samples across both forms. Powder is often more adulterated because it is easier to cut: no pressing process, no logo, no pill-press consistency check.
-
-**What do pressed pills actually contain?**
-Sometimes MDMA, sometimes nothing close to it. A 25-year analysis of EcstasyData/DrugsData samples found 199 unique adulterants in alleged MDMA samples, and more than half of submitted samples were misrepresented in some way ([PMID 39437494](https://pubmed.ncbi.nlm.nih.gov/39437494/)).
-
-**How much MDMA is in a typical pill?**
-Anywhere from zero to over 300 mg. Pills in the US have historically ranged from 80–120 mg when MDMA-containing; European "superpills" now routinely exceed 200 mg, with some flagged above 300 mg.
-
-**Can you test a pressed pill for fentanyl?**
-Yes. Dissolve a small amount of the pill in water and use a fentanyl test strip. See the [full fentanyl test strip guide](/blog/how-to-use-fentanyl-test-strips.html) for the MDMA-specific dilution protocol.
-
----
-
-## Ecstasy vs molly at a glance
+**"Ecstasy" means pressed pills and "molly" means powder, and neither word tells you anything about what is in your hand.** In some markets powder is cut more often than pills, not less. The only real difference is that a tablet has a fixed dose you can at least characterise, while powder has to be weighed. Treating "molly" as a purity claim is one of the most common mistakes people make before taking MDMA.
 
 | | Ecstasy | Molly |
 |---|---|---|
 | Form | Pressed pills or tablets | Powder or crystal |
 | Supposed to be | MDMA | MDMA |
-| Purity | Not guaranteed | Not guaranteed (often cut more, not less) |
-| Dose certainty | Fixed per tablet, but ranges from 0 to 300+ mg between presses | Requires accurate weighing |
+| Purity | Not guaranteed | Not guaranteed, often cut more rather than less |
+| Dose certainty | Fixed per tablet, but tablets range from 0 to over 300 mg | Requires accurate weighing |
 | Common adulterants | Cathinones, meth, caffeine, PMA/PMMA, DXM | Cathinones and other NPS at similar rates |
-| How to verify | Reagent test (Marquis, Simon's, Mecke) plus a fentanyl strip | Same |
+| How to verify | Marquis, Simon's and Mecke, plus a fentanyl strip | Same |
 
----
+## Where the two words came from
 
-## What "ecstasy" and "molly" actually mean
+The split became common in the US around 2008. "Molly," short for molecular, was supposed to signal pure MDMA, while pills carried the reputation for being cut. Testing data has never supported that.
 
-The vocabulary split between ecstasy and molly became common in the US around 2008. The working assumption was that "molly" (short for molecular) signaled pure MDMA, while pills were more likely to be cut. That assumption has never been supported by testing data.
+Palamar and colleagues documented in *Substance Abuse* in 2016 that molly is marketed as pure MDMA while being frequently adulterated with synthetic cathinones and other novel psychoactive substances, to the point that the name stopped describing the contents. A 25-year analysis of EcstasyData and DrugsData submissions found the same thing from the other direction: the relationship between form and purity is unreliable, and both are routinely misrepresented.
 
-Palamar and colleagues (*Substance Abuse*, 2016) documented that "molly" is marketed as pure MDMA despite being frequently adulterated with synthetic cathinones and other novel psychoactive substances — to the point that the name "molly" no longer reliably describes what's in the bag. Similarly, research analyzing EcstasyData submissions over 25 years found that the relationship between form (powder vs. pill) and purity is unreliable; both are routinely misrepresented ([PMID 39437494](https://pubmed.ncbi.nlm.nih.gov/39437494/)).
+## What has actually turned up in pills
 
-The real distinction between forms: **pills have a fixed geometry that makes dosing more predictable** — once you know what's in the tablet, at least you know the total. Powder requires accurate weighing. Neither form provides information about purity without testing.
+Drug checking data from DrugsData and DanceSafe programs between 1999 and 2023 shows the adulterant mix shifting over time, but the recurring cast is small enough to list.
 
----
+- **Synthetic cathinones.** Methylone, pentylone, N-ethyl pentylone. The dominant class of the past decade. Effects can resemble MDMA at first, with different duration, toxicity and risk.
+- **Amphetamine and methamphetamine.** Stimulation with a far longer duration, more cardiovascular load and higher addiction potential.
+- **Caffeine.** Historically the most common padding. Little direct harm, but it tells you the pill is being stretched.
+- **Piperazines,** BZP and mCPP, sold as legal alternatives around 2009 to 2013. Anxiety, seizures, and a bad night at higher doses.
+- **DXM.** Common in the early-2000s US market. A dissociative, unpredictable at ecstasy doses.
+- **PMA and PMMA.** Rare and high-risk. Slower onset than MDMA, so people redose thinking nothing happened, against a narrow margin. Linked to multiple deaths.
+- **Fentanyl.** Detected in some MDMA samples, less often than in the opioid or cocaine supply, but the spread of fentanyl into the stimulant supply generally is documented.
+- **Nothing active at all.** Some pills are filler.
 
-## What pressed pills commonly contain
+That same 25-year analysis counted **199 unique adulterants** in samples sold as MDMA, and more than half of submitted samples were misrepresented in some way. No list is going to be complete.
 
-Drug checking data from EcstasyData/DrugsData (1999–2023) and DanceSafe programs shows a shifting landscape of adulterants:
+## N-ethyl pentylone is the one to worry about
 
-- **Synthetic cathinones** — methylone, pentylone, N-ethyl pentylone (ephylone): the dominant adulterant class of the past decade. Often produce effects initially resembling MDMA but with different duration, toxicity, and risk profile.
-- **Amphetamine and methamphetamine**: produces stimulant effects but far longer duration, greater cardiovascular load, and higher addiction potential than MDMA.
-- **Caffeine**: historically one of the most common cutting agents. Adds little direct harm but tells you the pill is being padded.
-- **Piperazines (BZP, mCPP)**: marketed as legal MDMA alternatives in the 2009–2013 period; associated with anxiety, seizures, and a miserable experience at high doses.
-- **DXM (dextromethorphan)**: common in early-2000s US pill market; dissociative with unpredictable effects at ecstasy doses.
-- **PMA/PMMA**: rare but high-risk — slower onset than MDMA (meaning users redose, thinking it hasn't worked) combined with a narrow therapeutic window. Associated with multiple deaths.
-- **Fentanyl**: detected in some MDMA samples, though less common than in opioid or cocaine markets. Still tested in some samples from drug checking services ([PMID 37826988](https://pubmed.ncbi.nlm.nih.gov/37826988/) documents fentanyl's broader spread into the stimulant supply).
-- **Nothing active at all**: some pills contain only inactive fillers.
+Also called ephylone, it has turned up in pressed tablets across the US, UK, Australia and South Africa, and it is significantly more potent than MDMA by weight. A tablet pressed to a normal ecstasy weight therefore holds a large relative dose of it.
 
-**199 unique adulterants were detected in alleged MDMA samples between 1999 and 2023.** No single list covers everything in circulation.
+What makes it dangerous is the shape of the experience:
 
----
+1. The first effects resemble MDMA closely enough that most people don't realise anything is wrong.
+2. The empathogenic peak fades faster than MDMA's, so it feels like the drug wore off early.
+3. The stimulant part does not fade. Community reports describe being unable to sleep for 36 hours or more without any redose at all.
+4. People redose, because they think the first one failed. Each one adds stimulant load without returning the warmth they were chasing.
 
-## Why N-ethyl pentylone is the most dangerous adulterant right now
+The endpoint is stimulant toxicity: tachycardia, hyperthermia, agitation, paranoia, hallucinations, and in severe cases death. Forensic toxicology case reports have linked multiple fatalities to it.
 
-N-ethyl pentylone (also called ephylone) is a synthetic cathinone that has been found in pressed MDMA tablets across the US, UK, Australia, and South Africa. It is **significantly more potent than MDMA by weight**, meaning a pill pressed at a standard ecstasy dose contains a large relative dose of N-ethyl pentylone.
+The useful part: N-ethyl pentylone does not give MDMA's reagent results. A Marquis test catches this substitution.
 
-The danger is in how it deceives:
+## Identical pills, wildly different doses
 
-1. **Initial effects partially resemble MDMA** — enough that many users don't realize they've taken something else.
-2. **The empathogenic "peak" fades faster than MDMA's.** Users feel like the drug wore off.
-3. **The stimulant component does not fade.** N-ethyl pentylone's stimulant effects are prolonged — community reports document inability to sleep for 36 hours or more, even without redosing. With redosing, the timeline extends further.
-4. **Users redose** because they think the first pill stopped working. Each additional dose increases the stimulant load without increasing the empathogenic effect they were seeking.
+Morefield and colleagues, publishing in *Addiction* in 2011, analysed pill content alongside the plasma concentrations that resulted and confirmed that appearance predicts nothing. Same logo, same colour, same size, dramatically different MDMA content.
 
-The result is stimulant toxicity: tachycardia, hyperthermia, agitation, paranoia, hallucinations, and in severe cases, death. Multiple fatalities linked to N-ethyl pentylone have been documented in forensic toxicology case reports.
+European pill monitoring shows average content climbing, with some tablets over 300 mg. **A 300 mg pill is two to three times a moderate recreational dose.** Swallowing a whole one on the assumption it holds a normal dose, then redosing at 45 minutes because nothing has happened yet, is the standard route into an emergency department.
 
-**Critically: N-ethyl pentylone does NOT produce the same reagent test results as MDMA.** Testing your pills with a Marquis reagent will catch this substitution.
+**Half a pill, then wait 90 minutes** is the minimum precaution with any tablet you have not had lab tested.
 
----
+## Molly is not purer, and there is data
 
-## Variable dosing in pills: why you can't eyeball it
+The powder-is-purer idea persists because it sounds sensible. No pressing step, no binder needed to hold a shape.
 
-MDMA content in pressed tablets varies enormously. Morefield et al. (*Addiction*, 2011; [PMID 21320226](https://pubmed.ncbi.nlm.nih.gov/21320226/)) analyzed pill content and resulting plasma concentrations and confirmed that the relationship between pill appearance and MDMA dose is unreliable. Pills that look identical — same logo, same color, same size — can contain dramatically different amounts.
+In practice the reverse can hold. Any white or off-white powder mixes into another one invisibly, whereas pressing tablets takes a press and a mould, which some suppliers treat as a reason to protect their product's reputation. [DanceSafe's own drug checking analysis](https://dancesafe.org/molly-is-not-purer-than-ecstasy-and-there-is-data-to-prove-it/) found no evidence that powder is less likely to be adulterated than pills, and Saleemi and colleagues, writing in the *Journal of Psychopharmacology* in 2017, found products sold as molly at raves contained non-MDMA substances at rates comparable to ecstasy tablets.
 
-European pill monitoring data shows the trend toward higher doses: average MDMA content in tested pills has climbed, with some tablets exceeding 300 mg. **A 300 mg pill is two to three times a moderate recreational dose.** Taking one tablet assuming it contains a standard dose, then redosing because you feel nothing after 45 minutes, is how people end up in emergency departments.
+The form tells you nothing. Testing tells you something.
 
-**Half a pill, wait 90 minutes** is the minimum precaution with any pill you can't verify by lab test.
+## Testing a pill
 
----
+Pills have one advantage over powder here: scraping gives you a clean surface to read the colour against. Take a match-head sized scraping for each reagent, on a white ceramic surface.
 
-## The "molly is purer" myth
+**Marquis first.** One or two drops on the scraping, watch for 30 to 60 seconds. MDMA goes **purple to black**. Methamphetamine and amphetamine go orange to brown. Orange, yellow or no reaction means no MDMA, and that is where you stop. Do not take it.
 
-The idea that powder form equals higher purity persists because it sounds intuitive — no pressing process, no additives needed to hold a tablet shape. In practice, the opposite can be true:
+**Simon's separates MDMA from MDA.** MDMA turns blue, MDA does not change. MDA lasts longer and behaves differently, so which one you have changes your dosing.
 
-- Powder is easier to cut: any white or off-white powder can be mixed in without detection by the naked eye
-- Pills require a pill press and mold — a higher-effort operation that some suppliers use as a quality signal for their product
-- DanceSafe's analysis of their own drug checking data found no evidence that powder MDMA is less likely to be adulterated than pressed pills
-- Saleemi et al. (*Journal of Psychopharmacology*, 2017; [PMID 28693371](https://pubmed.ncbi.nlm.nih.gov/28693371/)) found that products sold as "molly" at raves contained a range of non-MDMA substances at similar rates to ecstasy pills
+**Mecke confirms.** MDMA goes blue-green to black, and Mecke catches some cathinones that Marquis can miss in a mixed sample.
 
-Neither form is safer by default. **The form tells you nothing. Testing tells you something.**
+**Fentanyl strips.** Dissolve a pill fragment in water at **2 teaspoons (10 mL) per 10 mg** of material, which is the dilution that stops MDMA itself triggering a false positive. Dip 15 seconds, read at 2 to 5 minutes. **One line is POSITIVE, fentanyl detected, do not use it. Two lines is NEGATIVE.** That reading is backwards from what nearly everyone assumes, so check it twice.
 
----
+<div class="kit-cta">
+<strong>Neither word on the bag is a test result.</strong> Marquis, Simon's and Mecke together separate MDMA from MDA, meth and the cathinones, and a fentanyl strip covers the rest. <a href="/kits">Get test kits from DanceSafe →</a>
+</div>
 
-## How to test pressed pills before use
+Full protocol in the [test kit guide](/test-kits.html), and the MDMA-specific dilution detail in the [fentanyl test strip guide](/blog/how-to-use-fentanyl-test-strips.html).
 
-Pills have one testing advantage over powder: the surface area makes color reactions easier to read. Scrape a small amount (match-head size) off the pill for each test — don't use powder from inside a capsule alone if you can avoid it.
+## If you're going to take it
 
-### Marquis reagent — the primary test
+Testing narrows the field. It does not certify a dose or a purity, so the rest still applies.
 
-Add 1–2 drops to a small scraping on a white ceramic surface. Watch for 30–60 seconds.
+Start with half a pill and wait a full 90 minutes before deciding anything. MDMA peaks later than people expect, and later still on a full stomach.
 
-- **MDMA: purple → black**
-- Methamphetamine/amphetamine: orange → brown
-- No MDMA present: orange, yellow, or no reaction
+If it feels wrong, too much stimulation, not enough warmth, or a peak that fades fast and leaves you wired, treat that as a probable cathinone and do not redose. The stimulant effects can run for many hours regardless of what you do next.
 
-If Marquis does not turn purple to black, **stop there**. Do not use the substance.
+Keep alcohol and other substances out of it, particularly if the reagent result was ambiguous. Check the [interaction checker](/interactions.html) for specific combinations. Drink 250 to 500 mL of water an hour if you're dancing and less if you're not. Have naloxone within reach even at an MDMA event, because fentanyl in MDMA is rare and the cost of meeting it without naloxone nearby is not.
 
-### Simon's reagent — distinguishes MDMA from MDA
+And tell someone what you took. If the night goes wrong, that is the single most useful thing anyone around you can know.
 
-- **MDMA: turns blue**
-- MDA: no color change
+For dosing, supplements, interactions and the comedown, see the [MDMA guide](/mdma.html).
 
-MDA has a longer duration than MDMA and different pharmacology. Knowing which one you have matters for dosing.
+## Sources
 
-### Mecke reagent — additional confirmation
-
-- **MDMA: blue-green to black**
-- Catches some cathinones that Marquis may miss in mixed samples
-
-### Fentanyl test strips
-
-Dissolve a small pill fragment in water, using **2 teaspoons (10 mL) per 10 mg** to avoid a false positive with MDMA. Dip the strip for 15 seconds, wait 2–5 minutes.
-
-- **Two lines = fentanyl not detected**
-- **One line = fentanyl detected — do not use**
-
-All of these are available in [DanceSafe's MDMA testing kit](/mdma-kit). For step-by-step testing instructions see our [test kit guide](/test-kits.html).
-
----
-
-## If you're going to use
-
-Testing is step one — it narrows the field but doesn't guarantee purity or dose. Once you have a result:
-
-- **Harm reduction guidelines suggest starting with half a pill.** Wait a full 90 minutes before deciding whether to take more. MDMA takes longer to peak than people expect, especially on a full stomach.
-- **If effects feel "off" — too much stimulation, not enough warmth, effects fading fast then nothing**: this is consistent with a cathinone substitution. Do not redose. The stimulant effects may persist for hours.
-- **Don't mix with alcohol or other substances** — especially relevant if testing was inconclusive. See our [interaction checker](/interactions.html) for specific combinations.
-- **Stay hydrated but don't overdrink** — 250–500 mL of water per hour if dancing; less if not active.
-- **Have naloxone accessible** even at MDMA-oriented events. Fentanyl contamination is rare in MDMA specifically, but the consequence of encountering it without naloxone nearby is severe.
-- **Tell someone what you took.** If things go wrong, that information matters.
-
-For comprehensive MDMA harm reduction — dosing, supplements, dangerous interactions, and comedown — see our [MDMA harm reduction guide](/mdma.html).
-
----
-
-*Sources: [PMID 39437494](https://pubmed.ncbi.nlm.nih.gov/39437494/) — Misrepresentation of MDMA in the United States, 1999–2023 | [PMID 37826988](https://pubmed.ncbi.nlm.nih.gov/37826988/) — Fentanyl in community drug checking samples | [PMID 28693371](https://pubmed.ncbi.nlm.nih.gov/28693371/) — Saleemi et al., Who is "Molly"? | [PMID 21320226](https://pubmed.ncbi.nlm.nih.gov/21320226/) — Morefield et al., pill content and plasma concentrations | [PMC5578728](https://pmc.ncbi.nlm.nih.gov/articles/PMC5578728/) — Palamar et al., There's Something About Molly | [DanceSafe drug checking](https://dancesafe.org/drug-checking/) | [DrugsData.org](https://www.drugsdata.org/)*
+[PMID 39437494](https://pubmed.ncbi.nlm.nih.gov/39437494/) | [PMID 37826988](https://pubmed.ncbi.nlm.nih.gov/37826988/) | [PMID 21320226](https://pubmed.ncbi.nlm.nih.gov/21320226/) | [PMID 28693371](https://pubmed.ncbi.nlm.nih.gov/28693371/)

@@ -7,7 +7,7 @@ tags: ["mdma", "alcohol", "interactions", "harm reduction"]
 author: "Jordan Mercer"
 ---
 
-Mixing MDMA (molly/ecstasy) and alcohol is one of the most common combinations at raves and festivals, and one of the most physiologically dangerous. The core problem isn't intoxication level: it's that **alcohol compounds MDMA's hyperthermia risk in ways that can be fatal**. A 2021 systematic review ([PMID 34554408](https://pubmed.ncbi.nlm.nih.gov/34554408/)) found that concurrent alcohol use is a consistent risk factor for MDMA-induced overheating, dehydration, and hyponatremia (dangerous low blood sodium). Understanding why helps you make informed choices.
+Mixing MDMA (molly/ecstasy) and alcohol is one of the most common combinations at raves and festivals, and one of the most physiologically dangerous. The core problem isn't intoxication level: it's that **alcohol compounds MDMA's hyperthermia risk in ways that can be fatal**. A 2021 systematic review (PMID 34554408) found that concurrent alcohol use is a consistent risk factor for MDMA-induced overheating, dehydration, and hyponatremia (dangerous low blood sodium). Understanding why helps you make informed choices.
 
 ## Quick answers
 
@@ -25,9 +25,9 @@ Mixing MDMA (molly/ecstasy) and alcohol is one of the most common combinations a
 
 ## Why the combination is specifically dangerous: the mechanism
 
-MDMA causes the body to generate excess heat through two pathways: **increased metabolic heat production** (your muscles and organs run hotter from stimulant activity and serotonin/norepinephrine release) and **cutaneous vasoconstriction** (blood vessels near the skin constrict, reducing your body's ability to radiate heat outward). This is well-established pharmacology ([PMID 27626046](https://pubmed.ncbi.nlm.nih.gov/27626046/)).
+MDMA causes the body to generate excess heat through two pathways: **increased metabolic heat production** (your muscles and organs run hotter from stimulant activity and serotonin/norepinephrine release) and **cutaneous vasoconstriction** (blood vessels near the skin constrict, reducing your body's ability to radiate heat outward). This is well-established pharmacology (PMID 27626046).
 
-Alcohol makes this significantly worse through multiple mechanisms documented in the "Hard Boiled" systematic review ([PMID 34554408](https://pubmed.ncbi.nlm.nih.gov/34554408/)):
+Alcohol makes this significantly worse through multiple mechanisms documented in the "Hard Boiled" systematic review (PMID 34554408):
 
 **Alcohol is a diuretic**: from the first drink, alcohol inhibits antidiuretic hormone (ADH) secretion, causing the kidneys to excrete more water than normal. This starts dehydration earlier than most people realize, especially when combined with sweating.
 
@@ -86,4 +86,6 @@ For a full breakdown of MDMA's risks and safer use practices, see our [MDMA harm
 
 ---
 
-*Sources: [PMID 34554408](https://pubmed.ncbi.nlm.nih.gov/34554408/) | [PMID 27626046](https://pubmed.ncbi.nlm.nih.gov/27626046/) | [PMID 16243206](https://pubmed.ncbi.nlm.nih.gov/16243206/)*
+## Sources
+
+[PMID 34554408](https://pubmed.ncbi.nlm.nih.gov/34554408/) | [PMID 27626046](https://pubmed.ncbi.nlm.nih.gov/27626046/) | [PMID 16243206](https://pubmed.ncbi.nlm.nih.gov/16243206/)

@@ -11,7 +11,7 @@ Drug checking services are on-site or community-based programs that test substan
 
 ## Quick answers
 
-**Do drug checking services actually change what people do?** Yes, and the effect size is large. In multivariable models, people who got a positive fentanyl strip result had **five times the odds** of reporting changes in how they used, such as using less, going slower, or switching route, compared with those who tested negative ([PMID 30292493](https://pubmed.ncbi.nlm.nih.gov/30292493/)). A separate prospective study found the same direction of effect, with 95% wanting to keep using the strips ([PMID 30344005](https://pubmed.ncbi.nlm.nih.gov/30344005/)). **Read the population carefully:** both studies enrolled people who inject drugs, not festival attendees. The finding is strong, and it was measured in a different group than this article advises.
+**Do drug checking services actually change what people do?** Yes, and the effect size is large. In multivariable models, people who got a positive fentanyl strip result had **five times the odds** of reporting changes in how they used, such as using less, going slower, or switching route, compared with those who tested negative (PMID 30292493). A separate prospective study found the same direction of effect, with 95% wanting to keep using the strips (PMID 30344005). **Read the population carefully:** both studies enrolled people who inject drugs, not festival attendees. The finding is strong, and it was measured in a different group than this article advises.
 
 **What can drug checking services detect that a basic reagent test kit can't?** Mass spectrometry services (like The Loop in the UK) can identify novel psychoactive substances, unexpected adulterants, and wrong-drug substitutions that reagent colorimetric tests can miss. Fentanyl test strips detect fentanyl specifically but won't tell you what else is present. No single method catches everything.
 
@@ -25,9 +25,9 @@ Drug checking services are on-site or community-based programs that test substan
 
 The core argument for drug checking is not that it makes drug use safe. It's that **people are going to use regardless**, and giving them accurate information about what they're taking changes outcomes.
 
-The data supports this. **Peiper et al. 2019** (*International Journal of Drug Policy*, [PMID 30292493](https://pubmed.ncbi.nlm.nih.gov/30292493/)) studied fentanyl test strip use at a syringe services program in North Carolina among 125 people who inject drugs. 63% of the sample tested positive for fentanyl. People who received a positive result had **5× the odds of reporting behavioral changes** compared to those who tested negative — modifying how they used (slower administration, using less, or switching route). The study relied on self-report, but the magnitude of the finding is consistent across multiple datasets.
+The data supports this. **Peiper et al. 2019** (*International Journal of Drug Policy*, PMID 30292493) studied fentanyl test strip use at a syringe services program in North Carolina among 125 people who inject drugs. 63% of the sample tested positive for fentanyl. People who received a positive result had **5× the odds of reporting behavioral changes** compared to those who tested negative — modifying how they used (slower administration, using less, or switching route). The study relied on self-report, but the magnitude of the finding is consistent across multiple datasets.
 
-**Krieger et al. 2018** (*International Journal of Drug Policy*, [PMID 30344005](https://pubmed.ncbi.nlm.nih.gov/30344005/)) found extremely high acceptability: 92% of participants reported FTS were easy to use, and 88% said they would use them again. Acceptability is a prerequisite for effectiveness — strips that people won't use don't help anyone.
+**Krieger et al. 2018** (*International Journal of Drug Policy*, PMID 30344005) found extremely high acceptability: 92% of participants reported FTS were easy to use, and 88% said they would use them again. Acceptability is a prerequisite for effectiveness — strips that people won't use don't help anyone.
 
 **Foulds et al. 2022** (*Harm Reduction Journal*) published a systematic review of 14 drug checking service evaluations and found consistent results: clients modify behavior upon receiving unexpected findings, and the services function as a real-time surveillance system for what's circulating in the local supply. No controlled data exists on whether this translates to population-level overdose mortality reduction — that evidence doesn't yet exist. But the behavioral signal is real.
 
@@ -79,7 +79,7 @@ Operating since 2015 under what became the first explicit legal authorization of
 Drug checking is a meaningful harm reduction tool with real limitations.
 
 **What it can do:**
-- Detect the presence of fentanyl with high sensitivity. In a head-to-head validation against street-acquired samples, fentanyl test strips had a **3.7% false negative rate and a 9.6% false positive rate**, the best of the three devices tested, and correctly identified acetyl fentanyl and furanyl fentanyl ([PMID 31951925](https://pubmed.ncbi.nlm.nih.gov/31951925/)). The false positive rate matters as much as the sensitivity: roughly one in ten positives in that study was not fentanyl
+- Detect the presence of fentanyl with high sensitivity. In a head-to-head validation against street-acquired samples, fentanyl test strips had a **3.7% false negative rate and a 9.6% false positive rate**, the best of the three devices tested, and correctly identified acetyl fentanyl and furanyl fentanyl (PMID 31951925). The false positive rate matters as much as the sensitivity: roughly one in ten positives in that study was not fentanyl
 - Identify the primary substance in a sample (mass spectrometry)
 - Detect common adulterants and wrong-drug substitutions
 - Give you information to make an informed choice
@@ -108,4 +108,6 @@ For a combination that covers both substance identification and fentanyl, carry 
 
 ---
 
-*Sources: [PMID 30292493](https://pubmed.ncbi.nlm.nih.gov/30292493/) | [PMID 30344005](https://pubmed.ncbi.nlm.nih.gov/30344005/) | Barratt et al. 2018, Drugs Educ Prev Policy (DOI 10.1080/09687637.2018.1506849) | Foulds et al. 2022, Harm Reduction Journal (DOI 10.1186/s12954-022-00613-3)*
+## Sources
+
+[PMID 30292493](https://pubmed.ncbi.nlm.nih.gov/30292493/) | [PMID 30344005](https://pubmed.ncbi.nlm.nih.gov/30344005/) | [PMID 31951925](https://pubmed.ncbi.nlm.nih.gov/31951925/)

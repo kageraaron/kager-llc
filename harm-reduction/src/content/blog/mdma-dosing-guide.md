@@ -1,150 +1,103 @@
 ---
-title: "MDMA Dosage Guide: What Is a Safe Dose of Molly or Ecstasy?"
-description: "How much molly is a safe dose? Evidence-based MDMA dosage guide: clinical trial doses, body weight rules, redosing rules, and the pressed pill problem."
+title: "MDMA Dosage Guide: What Is a Safe Dose of Molly?"
+description: "Clinical trial doses, the weight-based rule and its real limits, and why non-linear pharmacokinetics make a higher dose riskier than the number suggests."
 date: 2026-05-14
-lastmod: 2026-08-14
+lastmod: 2026-08-17
 tags: ["mdma", "harm reduction", "dosing", "ecstasy", "drug safety"]
 author: "Jordan Mercer"
 ---
 
-**This MDMA (molly/ecstasy) dosage guide starts with the most important principle: the dose that feels modest for one person can be dangerously high for another.** MDMA has non-linear pharmacokinetics, meaning a small increase in dose produces a disproportionately large increase in blood levels and adverse effects. Understanding what "a safe dose of ecstasy" actually means requires understanding that relationship, not just memorizing a number.
+**Clinical trials use 80 to 120 mg. Harm reduction consensus lands on 75 to 125 mg. A first dose should be 75 mg or less.** Those are the numbers most people come here for. The rest of this page is about why the top of that range sits further from the bottom than the arithmetic suggests: MDMA saturates the enzyme that clears it, so plasma levels climb faster than the milligrams do.
 
-## Quick answers
+## What the trials actually gave people
 
-**What is a safe dose of MDMA?** Two different kinds of number get quoted here, and they are worth keeping apart.
+The most tightly controlled MDMA dosing data in existence comes from the MAPS Phase 3 PTSD trials, published by Mitchell and colleagues in *Nature Medicine* in 2021. The protocol was:
 
-- **From clinical trials:** the MAPS Phase 3 PTSD trials used **80 mg** as the starting dose and **120 mg** as the higher therapeutic dose, under medical supervision ([PMID 33972795](https://pubmed.ncbi.nlm.nih.gov/33972795/)). This is the only tightly controlled human dosing data that exists.
-- **From harm reduction consensus:** **75 to 125 mg** orally is the range DanceSafe, TripSit and similar organisations converge on, and **1 to 1.5 mg/kg capped at 120 mg** is the common weight-based heuristic. **No trial has tested the weight-based rule**, it is a practical adaptation of the clinical range.
+- **Session 1:** 80 mg, plus a 40 mg supplemental dose 1.5 to 2.5 hours later
+- **Sessions 2 and 3:** 120 mg, plus a 60 mg supplemental dose
 
-First-time users should start at the low end: **75 mg or less**.
+Evidence tier: clinical trial. These doses were given under medical supervision to people with severe PTSD, some of them with cardiovascular risk factors, and the adverse effect profile was judged acceptable.
 
-**How much MDMA is too much?** There is no established threshold, and the commonly cited **150 mg** ceiling is harm reduction consensus rather than a trial-derived number. What is well established is the pharmacology behind it: MDMA has **non-linear (saturable) pharmacokinetics**, so going from 100 mg to 150 mg is not a 50% increase in exposure, it produces a disproportionately steeper rise in plasma concentration ([PMID 10671903](https://pubmed.ncbi.nlm.nih.gov/10671903/)). That is the mechanism that makes higher doses raise cardiovascular strain and hyperthermia risk faster than the dose number suggests. Many pressed pills contain 150–250 mg per pill, which exceeds the recreational dose before you've even redosed.
+The anchor that gives you is not "120 mg is safe." It's that 80 to 120 mg is where the effect the researchers wanted showed up without unacceptable harm, in a quiet room, with a doctor, no alcohol, no dancing, and nothing else in the drug. A recreational setting adds every variable the trial was designed to remove.
 
-**Do people redose?** Harm reduction guidance is at most once, at half the original dose (40 to 60 mg), no earlier than 90 minutes. **This is consensus practice, not a tested protocol**, though it is consistent with the trial design: the MAPS sessions used a supplemental dose of half the initial one, given 1.5 to 2.5 hours later ([PMID 33972795](https://pubmed.ncbi.nlm.nih.gov/33972795/)). More than one redose significantly extends duration, increases total drug exposure, worsens the next-day comedown, and amplifies adverse effects. The active metabolite MDA has a longer half-life and peaks later, meaning you may not feel a second redose fully until it's already compounded.
+## Milligrams per kilogram, and what that rule is not
 
-**How do I know what's in my pill?** You don't, without testing. Reagent testing and fentanyl test strips are essential, see [our drug testing guide](/test-kits.html).
-
----
-
-## What clinical research uses as doses
-
-The most rigorously controlled MDMA dosing data comes from the MAPS Phase 3 trials for PTSD treatment. Mitchell et al. 2021 (*Nature Medicine*, [PMID 33972795](https://pubmed.ncbi.nlm.nih.gov/33972795/)) used the following protocol:
-
-- **Session 1**: 80 mg initial dose + 40 mg supplemental dose 1.5–2.5 hours later
-- **Sessions 2 and 3**: 120 mg initial dose + 60 mg supplemental dose
-
-These are the most carefully monitored MDMA doses in any published human study. The 80 mg starting dose and 120 mg higher dose bracket what the clinical literature considers a therapeutically active range. At these doses, in a controlled setting with medical supervision, MDMA was found safe enough to administer to people with severe PTSD, including those with comorbid cardiovascular risk factors.
-
-**What this means for recreational use**: the clinical anchor is not "120 mg is totally safe", it's that 80–120 mg is the range where therapeutic benefit was achieved with an acceptable adverse effect profile under controlled conditions. Recreational settings, hot clubs, dancing, alcohol, no medical monitoring, introduce risk factors that clinical settings eliminate entirely.
-
----
-
-## The weight-based approach
-
-The community harm reduction standard for MDMA dosing is **1–1.5 mg/kg body weight**, with most sources recommending a cap of 120 mg regardless of body weight. In practice:
+The community standard is **1 to 1.5 mg/kg of body weight, capped at 120 mg** no matter how large you are.
 
 | Body weight | 1 mg/kg | 1.5 mg/kg |
 |-------------|---------|-----------|
 | 55 kg (120 lb) | 55 mg | 82 mg |
 | 70 kg (154 lb) | 70 mg | 105 mg |
-| 85 kg (187 lb) | 85 mg | 127 mg → cap at 120 mg |
-| 100 kg (220 lb) | 100 mg | 150 mg → cap at 120 mg |
+| 85 kg (187 lb) | 85 mg | 127 mg, cap at 120 mg |
+| 100 kg (220 lb) | 100 mg | 150 mg, cap at 120 mg |
 
-This guideline is not RCT-validated, it comes from clinical pharmacology reasoning and community experience, not a randomized controlled trial. What it does reflect is the general principle that pharmacological effects scale with body mass, and that there's a ceiling above which the risk-benefit ratio deteriorates.
+Evidence tier: harm reduction consensus. No randomised trial has tested a weight-based MDMA rule. It comes from the general principle that drug effect scales with body mass, plus the observation that the risk-benefit ratio deteriorates above a ceiling. It is a reasonable adaptation of the clinical range, not a validated formula, and you should treat the number it gives you as an upper bound rather than a target.
 
-**First-time ecstasy dose**: harm reduction guidelines suggest 75 mg or the low end of the weight-based range, whichever is lower. You can always take more; you cannot undo having taken too much. First experiences often feel more intense because there is no prior tolerance, and anxiety itself can amplify cardiovascular effects.
+For a first experience, take 75 mg or the low end of your weight-based range, whichever is lower. You can always take more. You cannot undo having taken too much.
 
----
+## A weighed dose or a guessed one
 
-## Measuring the dose: scales and capsules
+A milligram target is meaningless if you are eyeballing powder. Most people are much worse at estimating a 100 mg pile than they believe, and the error runs both directions.
 
-A weight-based target is useless if you are eyeballing powder. Most people are far worse at estimating a 100 mg pile than they think, and the error runs in both directions.
+Look for a scale with **0.001 g (1 mg) readability and included calibration weights**, and actually calibrate it. These scales drift, and they arrive uncalibrated more often than not. A [milligram scale from DanceSafe](/mg-scale) is the difference between your intended dose and twice it.
 
-**A milligram scale is the tool for this.** Look for **0.001 g (1 mg) readability and included calibration weights**, and actually calibrate it, since these scales drift and arrive uncalibrated more often than not. A [milligram scale from DanceSafe](/mg-scale) is the difference between taking your intended dose and taking twice it. DanceSafe is a nonprofit that also runs free drug checking at events.
+Be honest about what a cheap scale can do. Readability is not accuracy. A budget 0.001 g scale is genuinely unreliable below roughly 10 to 20 mg, which makes it well suited to MDMA in the 75 to 125 mg range and badly suited to anything measured in single milligrams. **For substances active in micrograms, like LSD, a milligram scale cannot help you at all.** Those need volumetric dosing: dissolve a known quantity in a known volume of liquid, then measure the liquid.
 
-**Know the honest limits of a cheap scale.** Readability is not accuracy. A budget 0.001 g scale is genuinely unreliable below roughly 10 to 20 mg, so it is well suited to MDMA doses in the 75 to 125 mg range and poorly suited to anything measured in single milligrams. **For substances active in micrograms, such as LSD, a milligram scale cannot help you at all.** Those require volumetric dosing, which is dissolving a known quantity in a known volume of liquid and measuring the liquid instead.
+Capsules are a delivery format, not a measuring tool. Capping powder makes a weighed dose easier to swallow, hides the taste, and stops you casually adding a bit more mid-session. It does not make the dose accurate. **Weigh first, then fill.** [Gelatin capsules](https://www.amazon.com/s?k=empty+gelatin+capsules+size+0&tag=ravewellness01-20) are standard; [vegetarian capsules](https://www.amazon.com/s?k=empty+vegetarian+capsules+size+0&tag=ravewellness01-20) made from cellulose behave identically once swallowed. A size 0 capsule holds 400 to 500 mg of powder, far more than any sensible dose, so capsule size is never the constraint.
 
-**Capsules are a delivery format, not a measuring tool.** Capping powder makes a weighed dose easier to swallow and avoids the taste, and it stops you from casually adding "a bit more" mid-session. It does not make the dose accurate. **Weigh first, then fill.** [Gelatin capsules](https://www.amazon.com/s?k=empty+gelatin+capsules+size+0&tag=ravewellness01-20) are the standard and cheapest option; [vegetarian capsules](https://www.amazon.com/s?k=empty+vegetarian+capsules+size+0&tag=ravewellness01-20) made from cellulose are the equivalent for anyone avoiding animal products, and both behave the same once swallowed. A [capsule filling tray](https://www.amazon.com/s?k=capsule+filling+machine+size+0&tag=ravewellness01-20) is worth it only if you are making several at once.
+One thing worth knowing: a capsule delays onset by roughly 10 to 20 minutes compared to bare powder. That delay is exactly the window in which people decide nothing is happening and redose. See [why an MDMA dose can fail to land](/blog/why-didnt-my-molly-work.html).
 
-Two practical notes. Size 0 capsules hold roughly 400 to 500 mg of powder, which is more than any sensible MDMA dose, so you are not limited by capsule size. And a capsule delays onset slightly compared to bare powder, usually by 10 to 20 minutes, which matters because that delay is exactly when people wrongly conclude nothing is happening and redose. See [why an MDMA dose can fail to land](/blog/why-didnt-my-molly-work.html).
+## Doubling the dose does not double the blood level
 
----
+This is the concept most dosing guides skate over, and it's the reason the numbers above have a ceiling at all.
 
-## Why lower doses are genuinely safer: non-linear pharmacokinetics
+De la Torre and colleagues showed in the *British Journal of Clinical Pharmacology* in 2000 that MDMA has **non-linear, saturable pharmacokinetics**. As the dose goes up, plasma concentration rises disproportionately. Going from 75 mg to 150 mg is not a doubling of blood levels, it's a much steeper climb, because MDMA saturates CYP2D6, the liver enzyme that metabolises it, and inhibits its own breakdown. The authors noted plainly that this makes subjects more prone to acute toxicity from what look like modest increases.
 
-This is the key concept that most dosing guides underemphasize.
+A 2004 pharmacology study extended the point: after two consecutive doses, MDMA causes mechanism-based inhibition of CYP2D6, so everyone starts behaving like a poor metaboliser regardless of their genetics. Poor metabolisers reach considerably higher plasma levels from the same dose. That is why redosing is riskier than the milligram arithmetic implies, and part of why some nights turn unexpectedly intense or unexpectedly long.
 
-De la Torre et al. 2000 (*British Journal of Clinical Pharmacology*, [PMID 10671903](https://pubmed.ncbi.nlm.nih.gov/10671903/)) demonstrated that MDMA pharmacokinetics are **non-linear**: as the administered dose increases, MDMA plasma concentrations rise disproportionately, far more than a linear relationship would predict. Going from 75 mg to 150 mg is not a doubling of blood levels; it produces a much steeper climb because MDMA saturates its own metabolic enzyme (CYP2D6) and inhibits its own breakdown.
+Hyperthermia, cardiovascular strain and serotonin toxicity all track this curve. Higher doses are not simply stronger.
 
-The practical consequence: **a small dose increase produces an outsized spike in plasma concentration and adverse effects.** The authors explicitly noted this makes subjects "more prone to develop acute toxicity" from what might seem like modest increases.
+## You cannot tell a pill by looking at it
 
-A related point: after two consecutive doses, MDMA causes mechanism-based inhibition of CYP2D6, making everyone, regardless of their genetic CYP2D6 phenotype, behave like a "poor metabolizer" ([PMID 15228154](https://pubmed.ncbi.nlm.nih.gov/15228154/)). Poor metabolizers accumulate significantly higher plasma MDMA levels from the same dose. This is part of why redosing is pharmacologically riskier than the mg numbers suggest, and why some people have unexpectedly intense or prolonged responses.
+Drug checking data compiled by Palamar and colleagues found pressed tablets ranging from no MDMA at all to more than 240 mg in a single pill. One normal-looking tablet may hold 180 mg, already past the recreational range before any redose, while another from the same batch holds 80 mg. Tablets are also often mixed unevenly, so half a pill is not reliably half the dose.
 
-The dose-response relationship for adverse effects, hyperthermia, cardiovascular strain, serotonin syndrome risk, scales with this non-linearity. This is why harm reduction organizations and clinical researchers converge on keeping doses below 125 mg rather than treating higher doses as simply "stronger."
+Then there is what else is in it. Drug checking regularly turns up methamphetamine, which produces similar stimulation with a much longer half-life and worse neurotoxicity; synthetic cathinones like methylone and MDPV, with unpredictable duration and a narrower margin; and fentanyl, confirmed in MDMA samples at multiple festival checking operations and lethal at microgram doses.
 
----
+<div class="kit-cta">
+<strong>Dose only means something if you know what the substance is.</strong> Marquis plus Simon's tells you whether MDMA is the primary active ingredient. <a href="/kits">Get test kits from DanceSafe →</a>
+</div>
 
-## The pressed pill problem
+Use a fentanyl test strip alongside the reagents on anything pressed. Read the strip as **one line POSITIVE, two lines NEGATIVE**, which is the opposite of what nearly everyone assumes on first look. Test every batch, not just the first one. Our [drug testing guide](/test-kits.html) has the full protocol.
 
-**Pressed pills are one of the most dangerous variables in recreational MDMA use**, for two reasons: unknown dose and unknown content.
+## If you redose
 
-Drug checking databases consistently show that pressed ecstasy tablets span an enormous range, from pills containing no MDMA at all to pills containing 200 mg or more. Drug checking databases, including data compiled by Palamar and colleagues, have found pill content ranging from 0 to over 240 mg per tablet. A single "normal-looking" pill may contain 180 mg, already above the safe recreational range before any redosing, while a different pill from the same batch may contain 80 mg. You cannot tell by looking, and **the tablet is often inconsistently mixed**, meaning the first half and second half of the same pill may have different MDMA concentrations.
+All four of these, not a selection:
 
-The second problem is adulterants. Common substitutes and additions found in drug checking include:
+1. **Once only.** The curve for euphoria flattens with repeated doses. The curve for adverse effects does not.
+2. **Half the original dose.** 100 mg first, 50 mg second. No more.
+3. **Not before 90 minutes.** Peak plasma concentration lands around 1.5 to 2 hours after an oral dose. Redosing earlier stacks on top of a first dose that is still rising.
+4. **Remember MDA.** MDMA partly metabolises into MDA, which has a longer half-life and peaks later. When you redose, MDA from the first dose is still building, so the true pharmacological load is higher than the milligram total says.
 
-- **Methamphetamine**: produces similar stimulant effects but has a much longer half-life, higher addiction potential, and distinct neurotoxicity profile
-- **Synthetic cathinones** (methylone, MDPV, mephedrone), unpredictable duration, lower therapeutic index
-- **Fentanyl**: confirmed in MDMA samples at multiple festival drug checking operations; lethal at microgram doses
+Evidence tier: harm reduction consensus, though it lines up with the trial design, where the supplemental dose was half the first and came 1.5 to 2.5 hours later.
 
-**Testing your supply before dosing is not optional if you care about safe dosing.** A reagent test (Marquis + Simon's reagents) tells you whether MDMA is the primary active substance. A fentanyl test strip tells you whether fentanyl is present. The [DanceSafe MDMA testing kit](/mdma-kit) covers all the reagents you need. Use both before every session, not just once.
+## Why the same dose lands differently
 
-See [our drug testing guide](/test-kits.html) for the full step-by-step testing protocol.
+**Genetics.** Roughly 5 to 10 percent of people of European descent are CYP2D6 poor metabolisers and clear MDMA much more slowly, reaching higher plasma levels from an identical dose. You cannot know this about yourself without genetic testing, which is one more argument for starting low.
 
----
+**Temperature.** MDMA impairs thermoregulation, and MDMA-related deaths are disproportionately associated with hyperthermia rather than isolated cardiac events. Hot rooms, hard dancing and no breaks are a dosing variable even though they aren't measured in milligrams.
 
-## Redosing rules
+**What else is on board.** MAOIs and MDMA can produce fatal serotonin syndrome. Other serotonergic drugs, including several antidepressants, amplify serotonin toxicity risk. Stimulants compound cardiovascular strain. Check the [interaction checker](/interactions.html) before mixing anything.
 
-If you redose, follow these rules, all of them, not just some:
+**Water.** Too little and too much are both dangerous. MDMA promotes water retention, and drinking large volumes of plain water can drop blood sodium to a life-threatening level, a risk that falls disproportionately on women. Around 500 mL per hour while dancing, with electrolytes. If you are sitting down, drink to thirst.
 
-1. **One redose only.** A second redose dramatically increases total drug exposure and adverse effects without proportionally increasing the desired effects. The dose-response curve for euphoria flattens; the curve for adverse effects does not.
-2. **Half the original dose.** If you took 100 mg, the redose is 50 mg. No more.
-3. **Wait at least 90 minutes.** Peak MDMA plasma concentrations occur around 1.5–2 hours after oral dosing. Redosing before this point stacks on top of a still-rising first dose.
-4. **Account for MDA.** MDMA is partially metabolized to MDA, an active metabolite with a longer half-life. MDA peaks later than MDMA. When you redose, MDA from the first dose is still building, the true pharmacological load is higher than the MDMA mg alone suggests.
+## If it's your first time
 
----
+Test it first. Take 75 mg or less. Do not redose, because a single dose is the only way to learn what a single dose does to you. Stay cool, keep electrolytes in the water, and have someone with you who knows what you took and would call for help without hesitating.
 
-## Individual factors that affect MDMA response
+Dose is the most controllable variable in this whole picture and the one most often skipped over. Tested, weighed, at the low end, taken once, in a room you can leave when it gets hot: that is the lowest-risk version of this available.
 
-Two people can take the same dose and have substantially different experiences and risk profiles:
+For the wider picture, see the [MDMA guide](/mdma.html).
 
-**CYP2D6 genetics.** MDMA is metabolized primarily by the liver enzyme CYP2D6. Approximately 5–10% of people of European descent are CYP2D6 "poor metabolizers", they break down MDMA much more slowly, leading to higher plasma concentrations from the same dose. This is not something you can determine without genetic testing, which is why starting low matters even more for first-time users.
+## Sources
 
-**Body temperature and environment.** Hyperthermia is one of the most reliably dangerous MDMA risk factors. Hot dance environments, physical exertion, and inadequate hydration significantly increase the risk of dangerous core temperature elevation. MDMA impairs thermoregulation. This is not a theoretical risk, MDMA-related fatalities are disproportionately associated with hyperthermia, not cardiac events in isolation.
-
-**Drug combinations.** MDMA with MAOIs can cause fatal serotonin syndrome. MDMA with other serotonergic substances (including some antidepressants) significantly amplifies serotonin toxicity risk. MDMA with stimulants compounds cardiovascular strain. For a full breakdown, see [our interaction checker](/interactions.html).
-
-**Hydration status.** Both too little and too much water create risk. MDMA can cause hyponatremia (dangerously low sodium) if you drink excessive plain water without electrolytes, particularly in women. The guideline is approximately 500 mL (about 16 oz) of water per hour of dancing, with electrolyte replacement. If you are not dancing, drink to thirst.
-
----
-
-## First-time user checklist
-
-- [ ] **Test the substance** with at least Marquis + Simon's reagents and a fentanyl test strip before taking anything
-- [ ] **Dose conservatively**: 75 mg or less for a first experience; use the weight-based formula and take the lower estimate
-- [ ] **Know what you weigh** and calculate your 1 mg/kg dose as a reference ceiling
-- [ ] **Weigh the dose** on a calibrated [milligram scale](/mg-scale) rather than estimating it by eye
-- [ ] **Don't redose the first time**: evaluate how a single dose feels before deciding whether redosing is even something you want to do
-- [ ] **Manage temperature**: take breaks from dancing, spend time in cooler areas, don't wear excessive layers
-- [ ] **Drink appropriately**: water with electrolytes, not excessive plain water
-- [ ] **Don't combine with alcohol, SSRIs, or stimulants** without understanding the interactions, check [our interaction guide](/interactions.html) first
-- [ ] **Have a trusted person with you** who knows what you took and can get help if needed
-
----
-
-MDMA dose is one of the most controllable harm reduction variables, and one of the most frequently ignored. The clinical trials, the pharmacokinetics research, and community harm reduction experience all point to the same conclusion: the 75–120 mg range, properly weight-adjusted, tested for content, taken once without heavy redosing, in a cool environment with adequate hydration, represents the lowest achievable risk profile for recreational MDMA use.
-
-For the full picture of MDMA effects, risks, and harm reduction strategies, see [our MDMA guide](/mdma.html).
-
----
-
-*Sources: [PMID 33972795](https://pubmed.ncbi.nlm.nih.gov/33972795/) | [PMID 10671903](https://pubmed.ncbi.nlm.nih.gov/10671903/) | [PMID 15228154](https://pubmed.ncbi.nlm.nih.gov/15228154/) | [PMID 21320226](https://pubmed.ncbi.nlm.nih.gov/21320226/)*
+[PMID 33972795](https://pubmed.ncbi.nlm.nih.gov/33972795/) | [PMID 10671903](https://pubmed.ncbi.nlm.nih.gov/10671903/) | [PMID 15228154](https://pubmed.ncbi.nlm.nih.gov/15228154/) | [PMID 21320226](https://pubmed.ncbi.nlm.nih.gov/21320226/)

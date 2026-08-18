@@ -18,7 +18,7 @@ author: "Jordan Mercer"
 
 **When is it an emergency?** When **one** ear stays muffled or much worse than the other past about 48 hours. That has a treatment window measured in days. See our guide on a [muffled ear after a concert](/blog/muffled-ear-after-concert.html).
 
-**Does zinc work?** No. A Cochrane review found no evidence that oral zinc improves tinnitus ([PMID 27879981](https://pubmed.ncbi.nlm.nih.gov/27879981/)).
+**Does zinc work?** No. A Cochrane review found no evidence that oral zinc improves tinnitus (PMID 27879981).
 
 ---
 
@@ -54,21 +54,21 @@ Sudden sensorineural hearing loss is one-sided, and its treatment window is meas
 
 ## Supplement by supplement, what the trials found
 
-**N-acetylcysteine (NAC).** The most-hyped option, and the results are mixed at best. A randomized, double-blind, placebo-controlled trial in 566 military personnel undergoing weapons training found **no significant difference in the primary outcome**, the rate of threshold shifts ([PMID 25620313](https://pubmed.ncbi.nlm.nih.gov/25620313/)). Post-hoc analyses hinted at benefit in one ear, the kind of finding that generates further studies, not confidence. A systematic review of occupational noise exposure listed NAC among agents with possible protective effect while calling for better trials ([PMID 33788342](https://pubmed.ncbi.nlm.nih.gov/33788342/)). All prevention, dosed before noise. No evidence NAC treats ringing you already have.
+**N-acetylcysteine (NAC).** The most-hyped option, and the results are mixed at best. A randomized, double-blind, placebo-controlled trial in 566 military personnel undergoing weapons training found **no significant difference in the primary outcome**, the rate of threshold shifts (PMID 25620313). Post-hoc analyses hinted at benefit in one ear, the kind of finding that generates further studies, not confidence. A systematic review of occupational noise exposure listed NAC among agents with possible protective effect while calling for better trials (PMID 33788342). All prevention, dosed before noise. No evidence NAC treats ringing you already have.
 
-**Vitamins A, C and E plus magnesium.** The combination tested most directly against the exact situation this post is about, and it failed. A randomized, placebo-controlled, double-blind trial dosed participants for three days before a music exposure, final dose about 30 minutes prior, then measured temporary threshold shift and otoacoustic emissions. There were **no group differences** in either. Transient tinnitus was actually reported *more* often in the treatment group. The authors' summary: no effect on noise-induced changes in hearing ([PMID 27990155](https://pubmed.ncbi.nlm.nih.gov/27990155/)). Best-case dosing, best-matched exposure, negative result.
+**Vitamins A, C and E plus magnesium.** The combination tested most directly against the exact situation this post is about, and it failed. A randomized, placebo-controlled, double-blind trial dosed participants for three days before a music exposure, final dose about 30 minutes prior, then measured temporary threshold shift and otoacoustic emissions. There were **no group differences** in either. Transient tinnitus was actually reported *more* often in the treatment group. The authors' summary: no effect on noise-induced changes in hearing (PMID 27990155). Best-case dosing, best-matched exposure, negative result.
 
-**Magnesium on its own.** A systematic review of pharmacological prevention of noise-induced hearing loss put magnesium aspartate among several agents with promising but heterogeneous results, concluding the clinical significance remains unclear ([PMID 33229875](https://pubmed.ncbi.nlm.nih.gov/33229875/)). "Promising, unclear, prevention only" is the accurate summary, not "magnesium protects your hearing."
+**Magnesium on its own.** A systematic review of pharmacological prevention of noise-induced hearing loss put magnesium aspartate among several agents with promising but heterogeneous results, concluding the clinical significance remains unclear (PMID 33229875). "Promising, unclear, prevention only" is the accurate summary, not "magnesium protects your hearing."
 
-**Zinc.** This one has a clean answer. A Cochrane systematic review concluded there is **no evidence that oral zinc supplementation improves symptoms in adults with tinnitus** ([PMID 27879981](https://pubmed.ncbi.nlm.nih.gov/27879981/)). Its largest included trial, a placebo-controlled crossover study in older adults given 50 mg of zinc daily for four months, found improvement in 5% on zinc versus 2% on placebo, not significant, and concluded zinc is not an effective treatment ([PMID 23598691](https://pubmed.ncbi.nlm.nih.gov/23598691/)). The rare case where the question was actually asked and answered.
+**Zinc.** This one has a clean answer. A Cochrane systematic review concluded there is **no evidence that oral zinc supplementation improves symptoms in adults with tinnitus** (PMID 27879981). Its largest included trial, a placebo-controlled crossover study in older adults given 50 mg of zinc daily for four months, found improvement in 5% on zinc versus 2% on placebo, not significant, and concluded zinc is not an effective treatment (PMID 23598691). The rare case where the question was actually asked and answered.
 
-**Ginkgo biloba.** A 2022 Cochrane review of 12 trials with 1,915 participants found ginkgo **may have little to no effect** on tinnitus symptom severity versus placebo, with high or unclear risk of bias throughout ([PMID 36383762](https://pubmed.ncbi.nlm.nih.gov/36383762/)). A 2025 network meta-analysis in *BMJ Open* did rank ginkgo plus vitamins first for tinnitus severity across 60 trials, but graded that result **very low certainty**, with high heterogeneity, inconsistent comparisons, and only 22% of trials at low risk of bias ([PMID 40441764](https://pubmed.ncbi.nlm.nih.gov/40441764/)). A very-low-certainty top ranking in a noisy network is a reason to run better trials, not to buy something. Those trials also enrolled people with chronic tinnitus, not people who left a show four hours ago.
+**Ginkgo biloba.** A 2022 Cochrane review of 12 trials with 1,915 participants found ginkgo **may have little to no effect** on tinnitus symptom severity versus placebo, with high or unclear risk of bias throughout (PMID 36383762). A 2025 network meta-analysis in *BMJ Open* did rank ginkgo plus vitamins first for tinnitus severity across 60 trials, but graded that result **very low certainty**, with high heterogeneity, inconsistent comparisons, and only 22% of trials at low risk of bias (PMID 40441764). A very-low-certainty top ranking in a noisy network is a reason to run better trials, not to buy something. Those trials also enrolled people with chronic tinnitus, not people who left a show four hours ago.
 
 ---
 
 ## Why the whole field is stuck
 
-There is a structural reason the evidence stays thin. A 2025 debate article in *Acta Otolaryngologica* laid out the problem: a proper randomized trial of a drug against permanent noise-induced hearing loss would require deliberately exposing participants to harmful noise, which is not ethical. So researchers fall back on indirect measures like temporary threshold shift, which are less reliable and less informative than the outcome anyone actually cares about ([PMID 40511989](https://pubmed.ncbi.nlm.nih.gov/40511989/)).
+There is a structural reason the evidence stays thin. A 2025 debate article in *Acta Otolaryngologica* laid out the problem: a proper randomized trial of a drug against permanent noise-induced hearing loss would require deliberately exposing participants to harmful noise, which is not ethical. So researchers fall back on indirect measures like temporary threshold shift, which are less reliable and less informative than the outcome anyone actually cares about (PMID 40511989).
 
 The result is animal data, small heterogeneous human trials, and surrogate endpoints. That is not a field on the verge of a pill that fixes your ears.
 
@@ -76,7 +76,7 @@ The result is animal data, small heterogeneous human trials, and surrogate endpo
 
 ## "It went away" does not mean nothing happened
 
-When ringing fades and hearing feels normal, the intuitive conclusion is that you got away with it. The classic study exposed animals to noise causing only a **temporary** threshold shift, with thresholds fully recovering, and still found permanent loss of the synapses connecting hair cells to the auditory nerve, followed by slow nerve fiber degeneration ([PMID 19906956](https://pubmed.ncbi.nlm.nih.gov/19906956/)). Recovery of the symptom is not recovery of the tissue.
+When ringing fades and hearing feels normal, the intuitive conclusion is that you got away with it. The classic study exposed animals to noise causing only a **temporary** threshold shift, with thresholds fully recovering, and still found permanent loss of the synapses connecting hair cells to the auditory nerve, followed by slow nerve fiber degeneration (PMID 19906956). Recovery of the symptom is not recovery of the tissue.
 
 That mechanism is covered in [can one loud night damage your hearing](/blog/can-one-loud-night-damage-hearing.html), and the related trap of feeling like your ears "toughened up" mid-show in [do your ears toughen up to loud music](/blog/do-ears-toughen-up-to-loud-music.html).
 
@@ -86,7 +86,7 @@ So the ringing tonight is not really a problem to be treated. It is a dose reado
 
 ## The only intervention with solid support
 
-Prevention is where the evidence is genuinely good, and it is not a supplement. A randomized clinical trial at a music festival found earplugs cut the rate of temporary hearing loss roughly fivefold ([PMID 27054284](https://pubmed.ncbi.nlm.nih.gov/27054284/)). That is a larger, cleaner effect than anything in the antioxidant literature, from something that costs less than a drink and lasts years.
+Prevention is where the evidence is genuinely good, and it is not a supplement. A randomized clinical trial at a music festival found earplugs cut the rate of temporary hearing loss roughly fivefold (PMID 27054284). That is a larger, cleaner effect than anything in the antioxidant literature, from something that costs less than a drink and lasts years.
 
 Wear [earplugs](/earplugs) from the start of the night rather than after your ears hurt, step back from the speaker stacks, and take a quiet break every hour. If you think high-fidelity plugs wreck the sound, that objection is answered in [do earplugs ruin music at raves](/blog/do-earplugs-ruin-music-at-raves.html). The full breakdown of volume and exposure time is in our [hearing protection guide](/hearing.html).
 
@@ -98,4 +98,6 @@ There is no supplement with good evidence for ringing you already have. Zinc has
 
 ---
 
-*Sources: [PMID 27879981](https://pubmed.ncbi.nlm.nih.gov/27879981/) | [PMID 23598691](https://pubmed.ncbi.nlm.nih.gov/23598691/) | [PMID 36383762](https://pubmed.ncbi.nlm.nih.gov/36383762/) | [PMID 40441764](https://pubmed.ncbi.nlm.nih.gov/40441764/) | [PMID 25620313](https://pubmed.ncbi.nlm.nih.gov/25620313/) | [PMID 27990155](https://pubmed.ncbi.nlm.nih.gov/27990155/) | [PMID 33229875](https://pubmed.ncbi.nlm.nih.gov/33229875/) | [PMID 33788342](https://pubmed.ncbi.nlm.nih.gov/33788342/) | [PMID 40511989](https://pubmed.ncbi.nlm.nih.gov/40511989/) | [PMID 19906956](https://pubmed.ncbi.nlm.nih.gov/19906956/) | [PMID 27054284](https://pubmed.ncbi.nlm.nih.gov/27054284/)*
+## Sources
+
+[PMID 27879981](https://pubmed.ncbi.nlm.nih.gov/27879981/) | [PMID 25620313](https://pubmed.ncbi.nlm.nih.gov/25620313/) | [PMID 33788342](https://pubmed.ncbi.nlm.nih.gov/33788342/) | [PMID 27990155](https://pubmed.ncbi.nlm.nih.gov/27990155/) | [PMID 33229875](https://pubmed.ncbi.nlm.nih.gov/33229875/) | [PMID 23598691](https://pubmed.ncbi.nlm.nih.gov/23598691/) | [PMID 36383762](https://pubmed.ncbi.nlm.nih.gov/36383762/) | [PMID 40441764](https://pubmed.ncbi.nlm.nih.gov/40441764/) | [PMID 40511989](https://pubmed.ncbi.nlm.nih.gov/40511989/) | [PMID 19906956](https://pubmed.ncbi.nlm.nih.gov/19906956/) | [PMID 27054284](https://pubmed.ncbi.nlm.nih.gov/27054284/)
