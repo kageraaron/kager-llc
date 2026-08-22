@@ -2,26 +2,12 @@
 title: "How Long Do Shrooms Last? Full Psilocybin Timeline"
 description: "Shrooms last 4 to 6 hours. Onset 20 to 60 minutes, peak at 1 to 3 hours, then afterglow. Full psilocybin timeline with pharmacokinetic data."
 date: 2026-08-12
-lastmod: 2026-08-14
+lastmod: 2026-08-18
 tags: ["psilocybin", "mushrooms", "psychedelics", "harm reduction", "duration", "timeline"]
 author: "Jordan Mercer"
 ---
 
-Shrooms last **4 to 6 hours** for most doses, with first effects at 20 to 60 minutes and the peak somewhere between 60 and 180 minutes after eating them. That window stretches with dose, with a full stomach, and with the species you took. Clinical pharmacokinetic work backs the shape of the curve: peak plasma psilocin arrives around 105 minutes after an oral dose (PMID 9204776), and psilocin has a half-life of roughly 3 hours (PMID 28353056). Here is the whole timeline, from swallowing to the next morning.
-
-## Quick answers
-
-**How long do shrooms last?** 4 to 6 hours of primary effects for a typical 1 to 3.5 g dried dose of *Psilocybe cubensis*. Very high doses can run 6 to 8 hours before you feel fully back.
-
-**How long do shrooms take to kick in?** Usually 20 to 60 minutes. An empty stomach pushes you toward the fast end; a large meal beforehand can delay onset past 90 minutes.
-
-**When do shrooms peak?** Roughly 60 to 180 minutes in. Peak plasma psilocin in human pharmacokinetic studies occurred at 105 plus or minus 37 minutes after an oral dose (PMID 9204776), and subjective intensity tracks plasma psilocin closely (PMID 30685771).
-
-**How long does psilocybin stay in your system?** Psilocin's half-life is about 3 hours (PMID 28353056), so it is functionally cleared within roughly 15 hours. Standard workplace drug panels do not test for it.
-
-**Will I feel it the next day?** Often, mildly. Fatigue, a delayed headache, emotional openness, or a lingering afterglow are all common. Headaches after psilocybin are dose-dependent, delayed, and resolve within a day (PMID 22129843).
-
----
+**Shrooms last 4 to 6 hours for most doses, with first effects at 20 to 60 minutes and the peak between 60 and 180 minutes in.** That window stretches with dose, with a full stomach, and with the species. Clinical pharmacokinetics back the shape of the curve: peak plasma psilocin arrives around 105 minutes after an oral dose, give or take 37, and psilocin's half-life is roughly 3 hours. A very high dose can run 6 to 8 hours before you feel fully back.
 
 ## The full shroom timeline
 
@@ -42,48 +28,44 @@ This is also where a dose that was too big announces itself. Nausea often resolv
 Intensity drops off noticeably. Visuals recede into subtle movement at the edges. Thinking straightens out. Appetite comes back. Many people find this the most pleasant stretch: still altered, no longer demanding.
 
 ### T+4:00 to T+6:00, Baseline
-Most people are recognizably themselves by hour 5 or 6. Clinical sessions are typically scheduled at 8 hours to cover even 30 mg doses with margin (PMID 21674151), which tells you how much cushion researchers build in.
+Most people are recognizably themselves by hour 5 or 6. Clinical sessions get scheduled at 8 hours to cover even 30 mg doses with margin, which tells you how much cushion researchers build in.
 
 ### T+6:00 to T+24:00, Afterglow
-Sleep is usually possible once effects end, unlike with [LSD](/blog/how-long-does-lsd-last.html) or [MDMA](/blog/how-long-does-mdma-last.html). What tends to persist is mood lift, emotional openness, physical tiredness, and sometimes a mild delayed headache. In clinical trials, acute adverse effects including nausea, headache, dizziness, and raised blood pressure all resolved within 48 hours (PMID 38598236).
-
----
+Sleep is usually possible once effects end, unlike with [LSD](/blog/how-long-does-lsd-last.html) or [MDMA](/blog/how-long-does-mdma-last.html). What persists is mood lift, emotional openness, tiredness, and sometimes a mild delayed headache. Post-psilocybin headaches are dose-dependent, delayed, and gone within a day; in clinical trials the acute adverse effects, nausea and headache and dizziness and raised blood pressure, all resolved within 48 hours.
 
 ## Why the prodrug step controls the clock
 
-Psilocybin itself is close to inactive. It is a prodrug, dephosphorylated by alkaline phosphatase into psilocin, which is what actually binds 5-HT2A serotonin receptors in the cortex (PMID 28074670). That conversion happens in the gut wall and liver on the way in, which is why onset is not instant and why anything affecting your digestion affects your timeline.
+Psilocybin itself is close to inactive. It is a prodrug, dephosphorylated by alkaline phosphatase into psilocin, which is the molecule that binds 5-HT2A serotonin receptors in the cortex. That conversion happens in the gut wall and liver on the way in, which is why onset is not instant and why anything affecting your digestion moves your timeline.
 
-The conversion is lossy. Absolute oral bioavailability of psilocin after oral psilocybin was estimated at about 53% in human pharmacokinetic work (PMID 9204776). Roughly half of what you eat never becomes circulating active drug. That same study gave psilocybin intravenously and saw psilocin peak within about 2 minutes, confirming that dephosphorylation is fast once absorption is out of the picture.
+The conversion is also lossy. Human pharmacokinetic work put absolute oral bioavailability of psilocin at about 53 percent, so roughly half of what you eat never becomes circulating active drug. The same study gave psilocybin intravenously and saw psilocin peak within about 2 minutes, which confirms dephosphorylation is fast once absorption is out of the picture.
 
-How much psilocin ends up in your blood is what determines intensity. A PET study in 8 healthy volunteers given 3 to 30 mg found 5-HT2A receptor occupancy up to 72%, and subjective intensity correlated with both plasma psilocin and receptor occupancy (PMID 30685771).
+How much psilocin reaches your blood is what sets intensity. A PET study in 8 healthy volunteers given 3 to 30 mg found 5-HT2A receptor occupancy up to 72 percent, with subjective intensity correlating with both plasma psilocin and occupancy.
 
 ## What changes the timeline
 
-**Dose.** The largest variable. Effects scale with dose in a dose-dependent way across every controlled study that has looked (PMID 14615876, PMID 21674151). More does not just mean more intense, it means longer: a 5 g experience does not end at hour 4. Psilocin pharmacokinetics were linear across 0.3 to 0.6 mg/kg, meaning double the dose gives roughly double the exposure with no surprise cliff (PMID 28353056).
+**Dose.** The largest variable by far. Effects scale with dose across every controlled study that has looked, and more does not only mean more intense, it means longer: a 5 g experience does not end at hour 4. Psilocin pharmacokinetics were linear across 0.3 to 0.6 mg/kg, so double the dose gives roughly double the exposure with no surprise cliff.
 
-**Stomach contents.** A full stomach, especially a fatty meal, slows absorption and can push onset past 90 minutes. It usually does not change total duration much, it just moves the whole curve right. Fasting for 3 to 4 hours beforehand gives you a predictable come-up and less nausea.
+**Stomach contents.** A full stomach, a fatty meal especially, slows absorption and can push onset past 90 minutes. It does not change total duration much, it moves the whole curve right. Fasting 3 to 4 hours beforehand buys a predictable come-up and less nausea.
 
 **Preparation.** Tea and [lemon tek](/blog/lemon-tek-psilocybin.html) both speed things up compared with chewing dried caps, because you are not waiting on your stomach to break down fungal cell wall material. Lemon tek is reported to compress onset to 15 to 30 minutes with a sharper peak and shorter total duration, though that specific claim rests on user reports rather than controlled trials.
 
-**Species and potency.** *P. cubensis* runs about 0.5 to 1% psilocybin by dry weight. *P. azurescens* and *P. semilanceata* can be several times stronger per gram, so the same weight is a different dose. Weighing dried material on a [milligram scale](/mg-scale) removes one variable, though it cannot tell you potency. Ranges by dose are in our [psilocybin harm reduction guide](/psilocybin.html), and dose accuracy matters even more in the [microdosing](/blog/microdosing-psilocybin.html) range.
+**Species and potency.** *P. cubensis* runs about 0.5 to 1 percent psilocybin by dry weight. *P. azurescens* and *P. semilanceata* can be several times stronger per gram, so the same weight is a different dose. Weighing dried material on a [milligram scale](/mg-scale) removes one variable but tells you nothing about potency. Ranges by dose are in our [psilocybin harm reduction guide](/psilocybin.html), and accuracy matters more still in the [microdosing](/blog/microdosing-psilocybin.html) range.
 
 **Identification.** None of this timing applies if it is not actually a *Psilocybe*. Amatoxin-containing lookalikes have a delayed and far more dangerous timeline, covered in our guide to [psilocybin lookalikes and Galerina](/blog/psilocybin-lookalikes-galerina.html).
 
 ## Half-life, elimination, and drug testing
 
-Psilocin's terminal half-life is approximately 3 hours (SD 1.1) after oral dosing, and less than 2% of clearance is renal (PMID 28353056). Most of it is glucuronidated, with psilocin-O-glucuronide as the main urinary metabolite (PMID 28074670). Five half-lives puts effective clearance around 15 hours, well past the point you stop feeling anything.
+Psilocin's terminal half-life is approximately 3 hours (SD 1.1) after oral dosing, and less than 2 percent of clearance is renal. Most of it is glucuronidated, with psilocin-O-glucuronide as the main urinary metabolite. Five half-lives puts effective clearance around 15 hours, well past the point you stop feeling anything.
 
-**Standard drug panels do not screen for psilocybin.** Routine urine drug testing targets amphetamines, opioids, cocaine, cannabis, benzodiazepines, and PCP. Psilocybin and psilocin are among the substances that escape detection, and amphetamine immunoassays show low cross-reactivity with psilocin (PMID 28057187). Detecting it takes a specific test that has to be ordered deliberately, which does happen in forensic and impaired-driving casework.
+**Standard drug panels do not screen for psilocybin.** Routine urine testing targets amphetamines, opioids, cocaine, cannabis, benzodiazepines and PCP, and amphetamine immunoassays show low cross-reactivity with psilocin. Detecting it takes a specific test somebody has to order on purpose, which does happen in forensic and impaired-driving casework.
 
 ## Tolerance builds fast
 
-Tolerance to psilocybin develops within days of repeated dosing, and it crosses over with LSD in both directions. Isbell's 1961 crossover work showed that people made tolerant to LSD were also tolerant to psilocybin, and the reverse (PMID 13717955). Practically: taking mushrooms two days in a row means the second day is blunted, and a dose taken within a few days of LSD will underperform. Tolerance resets over roughly a week to two weeks. Chasing it with a bigger dose is how people end up somewhere they did not plan to be. See [can you overdose on mushrooms](/blog/can-you-overdose-on-mushrooms.html) for what the high end actually looks like.
+Tolerance develops within days of repeated dosing and it crosses over with LSD in both directions. Isbell's 1961 crossover work showed people made tolerant to LSD were also tolerant to psilocybin, and the reverse. So mushrooms two days running means a blunted second day, and a dose taken within a few days of LSD will underperform. It resets over roughly one to two weeks. Chasing it with a bigger dose is how people end up somewhere they did not plan to be, and [can you overdose on mushrooms](/blog/can-you-overdose-on-mushrooms.html) covers what the high end looks like.
 
-## The bottom line
+## Block out the whole day
 
-Block out the day: 6 hours of drug, plus a few hours of tail, plus a next day that may be tired and open. Do not redose before 90 minutes, do not drive, and remember that the entire experience is time-limited and pharmacologically predictable in a way that is genuinely reassuring when the peak feels like it will never end.
-
----
+Six hours of drug, a few hours of tail, and a next day that may be tired and open. Do not redose before 90 minutes, do not drive, and hold onto the fact that this is time-limited and pharmacologically predictable, which is genuinely reassuring when the peak feels like it will never end.
 
 ## Sources
 

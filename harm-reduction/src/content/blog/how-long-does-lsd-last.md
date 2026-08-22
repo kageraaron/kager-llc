@@ -1,87 +1,61 @@
 ---
-title: "How Long Does LSD Last? A Complete Timeline of the Trip"
-description: "LSD (acid) lasts 8–12 hours depending on dose. The full timeline from first alert to afterglow, backed by clinical pharmacokinetics data."
+title: "How Long Does LSD Last?"
+description: "8 to 12 hours for most doses, peaking around 2 to 3 hours in. The hour-by-hour timeline, what stretches it, and why you cannot sleep at the end."
 date: 2026-05-13
-lastmod: 2026-05-15
+lastmod: 2026-08-18
 tags: ["lsd", "psychedelics", "harm reduction", "duration"]
 author: "Jordan Mercer"
 ---
 
-LSD (acid) lasts **8 to 12 hours** for most recreational doses, with the peak occurring around 2–3 hours after ingestion. The most precise data comes from a clinical pharmacokinetics study (PMID 28197931) that measured both blood levels and subjective effects in human subjects: at 100 µg, effects lasted an average of 8.2 hours; at 200 µg, they lasted 11.6 hours. What follows is a detailed breakdown of what happens at each stage.
+**8 to 12 hours for most recreational doses, with the peak around 2 to 3 hours in.** The tightest numbers come from Dolder's group in Basel, who dosed healthy volunteers in a lab and measured blood levels against subjective effects: at 100 µg, effects ran an average of 8.2 hours; at 200 µg, 11.6 hours.
 
-## Quick answers
+Doubling the dose did not double the duration. It added about three and a half hours. That is the shape of the whole curve, and it is worth knowing before you decide a bigger tab is a bigger day.
 
-**How long does LSD last?** Typically 8–12 hours for common recreational doses. Lower doses (50–75 µg) may end closer to 6–8 hours; higher doses (200+ µg) can extend to 12–14 hours.
+## The timeline
 
-**When does LSD peak?** Peak effects occur approximately 2–3 hours after ingestion, according to clinical studies of 100–200 µg doses (PMID 28197931).
+**T+0:00, ingestion.** Nothing yet. LSD is usually held under the tongue because the mucous membranes absorb it faster than the stomach does. Fifteen to twenty minutes before you swallow, if you can manage it.
 
-**How long does it take for LSD to take effect?** Most people notice first effects 30–60 minutes after ingestion (the point it "kicks in"), as soon as 20 minutes when held under the tongue on an empty stomach. It then builds into the peak over the next 1–2 hours.
+**T+0:20 to T+0:45, first alert.** Subtle enough to doubt. Light looks slightly different, there is mild restlessness or a flicker of excitement, sometimes a faint tingling. Some people get nauseous here. This is the ramp, not the trip. **Do not redose in this window.** More difficult experiences come from "it felt weak so I took another" than from any other single decision.
 
-**How long does it take to fully come down?** The main experience winds down by hours 8–10, but many people feel residual stimulation, altered mood, or insomnia for several hours beyond that.
+**T+0:45 to T+1:30, onset.** Now it is unambiguous. Colors saturate, edges shimmer, patterns appear on surfaces. Thoughts move faster and sideways. Pupils dilate, heart rate rises, jaw tension and temperature wobble show up. If anxiety is coming, this is often where it announces itself.
 
-**Will I be able to sleep after LSD?** Probably not for 10–14 hours after taking it. LSD has significant stimulant properties and suppresses sleep even after visual effects have resolved.
+**T+2:00 to T+4:00, peak.** Strongest visuals, closed-eye and open-eye both, geometry, tracers, faces and objects distorting. Thinking is non-linear and connections between ideas feel enormous. Time perception goes badly wrong in either direction. In the clinical work, peak subjective effects landed at 2.5 to 2.8 hours for 100 to 200 µg, with the 200 µg peak both higher and slightly later.
 
----
+This is the demanding stretch. A trusted person in the room and a familiar, calm setting measurably lower the odds of a hard time.
 
-## The full LSD timeline
+**T+4:00 to T+6:00, plateau.** Intensity eases without the experience ending. Visuals persist and stop feeling like a lot. Plenty of people find this the best part of the day: enough left to feel meaningful, none of the pressure of the peak. Conversation, music and being outdoors all become accessible again. It also runs longer than most people expect, which is disorienting if you had penciled in a comedown by now.
 
-### T+0:00, Ingestion
-You take the tab (or liquid drop, or blotter). Nothing happens yet. LSD is typically administered sublingually (held under the tongue) to speed absorption, the mucous membranes absorb it faster than the stomach. Keep it under your tongue for 15–20 minutes if possible before swallowing.
+**T+6:00 to T+8:00, descent.** Distortions get subtle rather than prominent. Thinking straightens out. Appetite comes back, and the fatigue from six hours of sustained mental activity starts to land. A 100 µg dose is mostly resolved by hour 8 or 9.
 
-### T+0:20 to T+0:45, First alert
-The first signs are subtle and easy to doubt: a slight shift in how light looks, mild restlessness or excitement, a faint tingling sensation. Some people feel nausea in this window. These are not the trip, they are the ramp-up. **Don't redose here.**
+**T+8:00 to T+12:00, afterglow.** Visuals are all but gone, though mild perceptual oddities for a few more hours are normal and are not HPPD unless they persist for days or weeks. Mood stays open and introspective, and emotional sensitivity runs high.
 
-### T+0:45 to T+1:30, Onset
-Effects become unambiguous. Visual changes begin: colors become more saturated, edges sharpen or shimmer, patterns may appear on surfaces. Thoughts start to move faster or in unexpected directions. Emotional tone shifts, this is where anxiety can emerge if it's going to. Physical effects include pupil dilation, increased heart rate, jaw tension, and mild temperature dysregulation.
+**Sleep is generally not available until at least 10 to 12 hours after ingestion.** LSD releases norepinephrine and dopamine alongside serotonin, and the stimulation outlasts the visuals. Plan for it rather than lying in the dark being annoyed.
 
-The plasma half-life of LSD is approximately 2.6 hours (PMID 28197931), meaning blood levels drop relatively quickly, but subjective effects outlast peak plasma levels significantly, because LSD binds very tightly to 5-HT2A serotonin receptors and creates a receptor activation cascade that continues after LSD itself has cleared.
+## Why the effects outlast the blood levels
 
-### T+2:00 to T+4:00, Peak
-This is the most intense phase. Visual effects are strongest, closed-eye visuals (CEVs) and open-eye visuals (OEVs), geometric patterns, tracers, distortion of faces or objects. Thinking is non-linear; connections between ideas feel profound. Time perception is significantly distorted, an hour can feel like minutes or like much longer.
+LSD's plasma half-life is roughly 2.6 hours, which sounds far too short for a twelve-hour day. The reason the two do not match is that LSD binds very tightly to the 5-HT2A serotonin receptor and stays bound. The receptor keeps signalling after the drug has largely cleared circulation, so subjective effects lag well behind plasma concentration.
 
-Peak subjective effects in clinical studies were reached **2.5–2.8 hours** after ingestion for 100–200 µg doses. At 200 µg, the peak is both higher and slightly later.
+This is the opposite of MDMA, where the felt peak tracks the plasma peak fairly closely. With LSD, "it should be wearing off by now" is not a claim the blood levels can support.
 
-This is also the window where the experience is most demanding. If anxiety or difficult emotions are going to emerge strongly, they typically do so here. Having a trusted person present and a calm, familiar environment substantially reduces the likelihood of a challenging experience.
+## What stretches or shortens it
 
-### T+4:00 to T+6:00, Plateau
-Intensity begins to gradually ease, but you are still firmly in the experience. Visual effects persist but may become less overwhelming. Thinking remains altered. Many people find this the most rewarding part of the trip, enough intensity to feel meaningful, less pressure than the peak.
+**Dose, mostly.** A 50 µg tab runs closer to 6 to 8 hours. 200 µg pushes past 12. Street tabs vary enormously in what they actually contain, and nominal dose claims are worth very little, which is a separate problem covered in [is my acid real or NBOMe](/blog/is-my-acid-real-or-nbome.html).
 
-This is when conversation, music, and being outdoors feel most accessible. Some people find the plateau phase lasts longer than expected, which can be disorienting if you were expecting to "come down" by now.
+**Metabolism, a little.** CYP3A4 activity varies between people, but the measured half-life range is narrow, roughly 2.2 to 3.4 hours. This is not where the big differences come from.
 
-### T+6:00 to T+8:00, Gradual descent
-Effects become noticeably less intense. Visual distortions become subtle rather than prominent. Thinking begins to feel more linear. Appetite may return. Fatigue from the sustained mental activity may start to surface.
+**Redosing, unpredictably.** A second dose two or three hours in extends and intensifies things in a way that is genuinely hard to forecast, because you are stacking a fresh absorption curve on receptors that are already saturated.
 
-For a 100 µg dose, most people have largely resolved effects by hour 8–9. At higher doses, this phase extends.
+**Recent use, a lot.** Tolerance builds fast. Within 2 to 4 days of a previous trip you will need substantially more for the same effect, and cross-tolerance with psilocybin is considerable.
 
-### T+8:00 to T+12:00, Coming down / afterglow
-Visual effects are mostly resolved, though some people experience mild perceptual changes for hours longer (this is normal and not HPPD unless it persists for days or weeks). Thinking is still somewhat altered, more introspective than usual, with heightened emotional sensitivity.
+## Plan the whole day, not the trip
 
-**Sleep is typically not possible until at least 10–12 hours after ingestion** due to LSD's stimulant properties (norepinephrine and dopamine release, alongside serotonin). Plan for this. Trying to force sleep too early leads to frustration.
+Take LSD at noon and you are impaired until at least 10 PM and probably not asleep until after midnight. No obligations, no driving, no decisions that matter, for the entire window. People consistently underestimate the back half.
 
----
+At a festival or anywhere semi-public, the come-up is when anxiety is most likely to surface. Decide in advance where you will go if you need somewhere quieter, and tell whoever you are with. Having the answer ready is most of the value.
 
-## What affects duration
-
-**Dose is the primary variable.** A 50 µg tab will last roughly 6–8 hours. A 200 µg dose can push 12+ hours. Street tabs vary widely in actual content, nominal dose claims are unreliable.
-
-**Individual metabolism** matters but to a lesser degree. CYP3A4 enzyme activity (which metabolizes LSD in the liver) varies between people, but the clinical half-life range is relatively narrow (2.2–3.4 hours).
-
-**Redosing extends duration non-linearly.** Taking a second dose 2–3 hours in will extend and intensify the experience significantly and makes the timeline much harder to predict. Many challenging experiences are the result of redosing because the first dose "felt weak."
-
-**Tolerance develops rapidly.** If you've taken LSD in the past 2–4 days, you'll need a substantially higher dose for similar effects. Cross-tolerance with psilocybin is significant.
-
----
-
-## Planning around the timeline
-
-The most practical implication: **block out a full day**. If you take LSD at noon, plan to be impaired until at least 10 PM, and unable to sleep until midnight or later. Do not schedule obligations, drive, or make important decisions during this window.
-
-If you're using in an unfamiliar or semi-public setting (a festival, for example), know that the come-up phase is when anxiety is most likely to emerge, having a plan for where to go if you need a quieter space reduces that risk.
-
-For a full overview of LSD's effects, risks, and safer use practices, see our [LSD harm reduction guide](/lsd.html). If you're combining LSD with other substances, check our [drug interaction guide](/interactions.html) first.
-
----
+For effects, risks and safer use, see our [LSD harm reduction guide](/lsd.html). If you are combining anything, check the [interaction guide](/interactions.html) first.
 
 ## Sources
 
-[PMID 28197931](https://pubmed.ncbi.nlm.nih.gov/28197931/) | [PMID 26108222](https://pubmed.ncbi.nlm.nih.gov/26108222/)
+- Pharmacokinetics and pharmacodynamics of lysergic acid diethylamide in healthy subjects. *Clinical Pharmacokinetics*, 2017. [PMID 28197931](https://pubmed.ncbi.nlm.nih.gov/28197931/)
+- Pharmacokinetics and concentration-effect relationship of oral LSD in humans. *International Journal of Neuropsychopharmacology*, 2015. [PMID 26108222](https://pubmed.ncbi.nlm.nih.gov/26108222/)
