@@ -1,0 +1,8 @@
+name = "stub-email-router"
+main = "src/index.ts"
+compatibility_date = "2026-01-01"
+
+# Set with: wrangler secret put INGEST_WEBHOOK_SECRET
+# Must match INGEST_WEBHOOK_SECRET in the Next.js app.
+[vars]
+STUB_INGEST_URL = "https://stub.example.com/api/ingest/forward"

@@ -1,0 +1,36 @@
+{
+  "name": "stub",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Stub \u2014 concert and event tracker with automatic ticket-purchase detection from email",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "db:push": "supabase db push",
+    "db:reset": "supabase db reset",
+    "build:bootstrap": "bash scripts/build-bootstrap.sh",
+    "test:live": "LIVE_TEST=1 vitest run test/live-queries.test.ts"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.7.0",
+    "@supabase/supabase-js": "^2.58.0",
+    "next": "^15.5.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "web-push": "^3.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@types/web-push": "^3.6.4",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^15.5.0",
+    "typescript": "^5.6.0",
+    "vitest": "^4.1.5"
+  }
+}
