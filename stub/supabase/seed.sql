@@ -135,6 +135,21 @@ insert into events (id, tm_id, name, headliner_id, venue_id, starts_at, timezone
   ('30000000-0000-4000-8000-000000000009', 'TMSEED09', 'Sunset Rollercoaster', '10000000-0000-4000-8000-000000000009', '20000000-0000-4000-8000-000000000009', now() + interval '52 days', 'America/New_York',    'onsale',    'https://www.ticketmaster.com')
 on conflict (id) do nothing;
 
+-- One archive show pinned to a REAL date and venue, so the setlist.fm lookup
+-- has something to find. Every other seeded event uses relative dates to keep
+-- the Upcoming/Archive split correct; this one is deliberately fixed, because a
+-- setlist only exists for a show that actually happened.
+insert into venues (id, tm_id, name, city, region, country, timezone) values
+  ('20000000-0000-4000-8000-000000000010', null, 'Zepp DiverCity (TOKYO)', 'Tokyo', null, 'JP', 'Asia/Tokyo')
+on conflict (id) do nothing;
+
+insert into events (id, tm_id, name, headliner_id, venue_id, starts_at, timezone, status, image_url)
+select '30000000-0000-4000-8000-000000000010', null, 'Mitski', a.id,
+       '20000000-0000-4000-8000-000000000010',
+       timestamptz '2026-07-28 19:00:00+09', 'Asia/Tokyo', 'completed', a.image_url
+from artists a where a.name = 'Mitski'
+on conflict (id) do nothing;
+
 insert into event_artists (event_id, artist_id, billing)
 select id, headliner_id, 'headliner' from events where headliner_id is not null
 on conflict (event_id, artist_id) do nothing;
@@ -171,7 +186,9 @@ begin
     (u_you, e_fontaines, 'going', 'friends', 'manual',    null,           null,  null, null),
     (u_you, e_bigthief,  'going', 'private', 'manual',    null,           null,  null, null),
     (u_you, e_mitski,    'went',  'friends', 'setlistfm', null,           null,  null, null),
-    (u_you, e_alvvays,   'went',  'friends', 'manual',    null,           null,  null, null)
+    (u_you, e_alvvays,   'went',  'friends', 'manual',    null,           null,  null, null),
+    -- The pinned Tokyo show, so /event/... renders a real 28-song setlist.
+    (u_you, '30000000-0000-4000-8000-000000000010', 'went', 'friends', 'setlistfm', null, null, null, null)
   on conflict (user_id, event_id) do nothing;
 
   -- MARISOL overlaps on two of your shows, and has one of her own.

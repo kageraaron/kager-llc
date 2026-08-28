@@ -34,10 +34,12 @@ export default async function ProfilePage({ params }: { params: Promise<{ handle
       )
     `)
     .eq('user_id', profile.id)
-    .order('starts_at', { referencedTable: 'events', ascending: false })
+    // No .order() on the embedded table here: it sorts within the embed, not the
+    // top-level rows. Sorted below instead. See the note in lib/queries.ts.
     .limit(40);
 
-  const rows = (attendances ?? []) as unknown as { id: string; state: string; event: EventRow }[];
+  const rows = ((attendances ?? []) as unknown as { id: string; state: string; event: EventRow }[])
+    .sort((a, b) => new Date(b.event.starts_at).getTime() - new Date(a.event.starts_at).getTime());
   const now = Date.now();
   const upcoming = rows.filter((r) => new Date(r.event.starts_at).getTime() >= now).reverse();
   const past = rows.filter((r) => new Date(r.event.starts_at).getTime() < now);

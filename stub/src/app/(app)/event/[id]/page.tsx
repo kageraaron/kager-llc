@@ -6,6 +6,8 @@ import { getEvent, getMyAttendance, getNote, getFriendsAtEvent } from '@/lib/que
 import { formatEventDate, formatEventTime, venueLine, formatPrice } from '@/lib/format';
 import { NoteEditor } from '@/components/NoteEditor';
 import { AttendanceControls } from '@/components/AttendanceControls';
+import { Setlist } from '@/components/Setlist';
+import { getSetlistForEvent } from '@/lib/providers/setlistfm';
 
 export const dynamic = 'force-dynamic';
 
@@ -25,6 +27,13 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
 
   const isPast = new Date(event.starts_at).getTime() < Date.now();
   const image = event.image_url ?? event.headliner?.image_url;
+
+  // Setlists only exist for shows that have happened. Failures are swallowed in
+  // the provider: a missing setlist is the normal case, not an error.
+  const setlist =
+    isPast && event.headliner?.name && process.env.SETLISTFM_API_KEY
+      ? await getSetlistForEvent(event.headliner.name, event.starts_at, event.timezone)
+      : null;
 
   return (
     <main className="page">
@@ -91,6 +100,8 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
           </div>
         </section>
       )}
+
+      {setlist && <Setlist setlist={setlist} />}
 
       <NoteEditor eventId={event.id} initial={note?.body ?? ''} />
 

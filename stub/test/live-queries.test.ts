@@ -62,11 +62,11 @@ describe.skipIf(!enabled)('live queries against seeded project', () => {
     expect(rows[0].event.tm_id).toBe('TMSEED01');
 
     // Ordering by the embedded table is the syntax most likely to be wrong.
-    const dates = rows.map((r) => r.event.starts_at);
-    expect([...dates].sort()).toEqual(dates);
+    const times = rows.map((r) => new Date(r.event.starts_at).getTime());
+    expect([...times].sort((a, b) => a - b)).toEqual(times);
 
     // Only future events; the archive must not bleed in.
-    expect(new Date(rows[0].event.starts_at).getTime()).toBeGreaterThan(Date.now());
+    expect(times[0]).toBeGreaterThan(Date.now());
 
     // Ticket metadata from the "gmail" source survives the join.
     const jb = rows.find((r) => r.event.id === E_JBREKKIE)!;
@@ -75,14 +75,17 @@ describe.skipIf(!enabled)('live queries against seeded project', () => {
     expect(jb.price_cents).toBe(12850);
   });
 
-  it('getArchive returns the 2 past shows, newest first', async () => {
+  it('getArchive returns the 3 past shows, newest first', async () => {
     const rows = await getArchive(db, DEMO_ID);
-    expect(rows).toHaveLength(2);
+    // Mitski (relative -21d), Alvvays (relative -95d), and the Tokyo Mitski show
+    // pinned to a real date so the setlist.fm lookup has something to find.
+    expect(rows).toHaveLength(3);
     expect(rows[0].event.headliner?.name).toBe('Mitski');
+    expect(rows.map((r) => r.event.venue?.name)).toContain('Zepp DiverCity (TOKYO)');
 
-    const dates = rows.map((r) => r.event.starts_at);
-    expect([...dates].sort().reverse()).toEqual(dates);
-    expect(new Date(rows[0].event.starts_at).getTime()).toBeLessThan(Date.now());
+    const times = rows.map((r) => new Date(r.event.starts_at).getTime());
+    expect([...times].sort((a, b) => b - a)).toEqual(times);
+    expect(times[0]).toBeLessThan(Date.now());
   });
 
   it('getFriendsAtEvent excludes non-friends', async () => {

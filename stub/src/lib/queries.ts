@@ -6,6 +6,21 @@ import type { SupabaseClient } from '@supabase/supabase-js';
  * the friendship is accepted AND the row is marked visibility='friends'.
  */
 
+/**
+ * NOTE ON ORDERING: PostgREST's `.order(col, { referencedTable })` sorts rows
+ * WITHIN an embedded resource, not the top-level rows. Because each attendance
+ * embeds exactly one event, using it to sort a list of attendances by event date
+ * is a silent no-op - rows come back in arbitrary order. So every query that
+ * needs date order sorts in JS after the fetch. At a personal calendar's scale
+ * that costs nothing, and it removes a dependency on subtle PostgREST semantics.
+ */
+function byEventDate<T extends { event: { starts_at: string } }>(rows: T[], dir: 'asc' | 'desc'): T[] {
+  const sign = dir === 'asc' ? 1 : -1;
+  return [...rows].sort(
+    (a, b) => sign * (new Date(a.event.starts_at).getTime() - new Date(b.event.starts_at).getTime()),
+  );
+}
+
 /** Columns every event card needs. Kept in one place so the shapes stay aligned. */
 const EVENT_SELECT = `
   id, tm_id, name, starts_at, timezone, image_url, url, status,
@@ -44,11 +59,10 @@ export async function getUpcoming(db: SupabaseClient, userId: string) {
     .select(`id, state, visibility, source, ticket_ref, seat_info, price_cents, event:events!inner ( ${EVENT_SELECT} )`)
     .eq('user_id', userId)
     .in('state', ['going', 'interested'])
-    .gte('events.starts_at', new Date().toISOString())
-    .order('starts_at', { referencedTable: 'events', ascending: true });
+    .gte('events.starts_at', new Date().toISOString());
 
   if (error) throw error;
-  return (data ?? []) as unknown as AttendanceWithEvent[];
+  return byEventDate((data ?? []) as unknown as AttendanceWithEvent[], 'asc');
 }
 
 /** Past shows. Anything whose start time has passed, newest first. */
@@ -57,11 +71,10 @@ export async function getArchive(db: SupabaseClient, userId: string) {
     .from('attendances')
     .select(`id, state, visibility, source, ticket_ref, seat_info, price_cents, event:events!inner ( ${EVENT_SELECT} )`)
     .eq('user_id', userId)
-    .lt('events.starts_at', new Date().toISOString())
-    .order('starts_at', { referencedTable: 'events', ascending: false });
+    .lt('events.starts_at', new Date().toISOString());
 
   if (error) throw error;
-  return (data ?? []) as unknown as AttendanceWithEvent[];
+  return byEventDate((data ?? []) as unknown as AttendanceWithEvent[], 'desc');
 }
 
 /**
@@ -79,8 +92,7 @@ export async function getFriendsPlans(db: SupabaseClient, userId: string) {
     .neq('user_id', userId)
     .eq('visibility', 'friends')
     .in('state', ['going', 'interested'])
-    .gte('events.starts_at', new Date().toISOString())
-    .order('starts_at', { referencedTable: 'events', ascending: true });
+    .gte('events.starts_at', new Date().toISOString());
 
   if (error) throw error;
 
@@ -93,7 +105,7 @@ export async function getFriendsPlans(db: SupabaseClient, userId: string) {
   };
 
   const byEvent = new Map<string, { event: EventRow; friends: Row['profile'][] }>();
-  for (const row of (data ?? []) as unknown as Row[]) {
+  for (const row of byEventDate((data ?? []) as unknown as Row[], 'asc')) {
     const entry = byEvent.get(row.event.id) ?? { event: row.event, friends: [] };
     entry.friends.push(row.profile);
     byEvent.set(row.event.id, entry);

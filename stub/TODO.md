@@ -10,24 +10,44 @@ Ordered by what blocks what. **§1 is the only section that blocks sharing it.**
 
 ## 1. Before anyone else touches it
 
-### 1.1 The test accounts are a live backdoor — **do this first**
+### 1.1 ~~The test accounts are a live backdoor~~ — **RESOLVED**
 
-`supabase/seed.sql` creates five real accounts with the password `stubdemo123`,
-and that file is in the repo. Right now project `syrsjdreydgblrwpalyw` contains
-them. Anyone who reads the repo can sign in as `demo@stub.local`.
+**Done 2026-08-28.** Production project `biichwtrfmrdgiqtvxme` (`stub-prod`) is
+provisioned with schema only:
 
-Two options:
+- All 8 migrations applied and tracked.
+- **0 users, 0 profiles, 0 attendances, 0 notes.**
+- 15 tables / 25 policies / 15 RLS-enabled — byte-identical counts to dev.
+- Advisors: only the 2 known-accepted warnings (§6).
+- Signup verified end to end with a throwaway user: profile, calendar token and
+  inbound address all auto-created, then deleted. Confirms the `0006`
+  `search_path` fix — without it every signup raises 42883.
 
-- **Separate prod project** (recommended). Free tier allows 2. Apply
-  `migrations/*` but **never** `seed.sql`. Keeps the verified dev setup intact.
-- **Reuse this project**: delete all five users, and set
-  `NEXT_PUBLIC_ENABLE_PASSWORD_LOGIN` to unset in production. You lose the
-  fixture data that `npm run test:live` asserts against.
+Dev project `syrsjdreydgblrwpalyw` keeps the seed so `npm run test:live` works.
 
-```sql
--- if reusing: nukes the seed accounts and everything cascading off them
-delete from auth.users where email like '%@stub.local';
-```
+Remaining: point Vercel's **Production** env at the prod project (§1.6).
+
+<details><summary>Original issue</summary>
+
+`supabase/seed.sql` creates five real accounts with the password `stubdemo123`.
+**The repo is PUBLIC** (`kageraaron/kager-llc`), so that password is readable by
+anyone on the internet, and project `syrsjdreydgblrwpalyw` currently contains
+those accounts.
+
+The moment the app is deployed to a public URL, `demo@stub.local` /
+`stubdemo123` is a working login for a stranger. Do this before, not after,
+the first deploy.
+
+**Decided: separate prod project.** Steps are in `SETUP.md` → "Going to production".
+
+`npm run build:bootstrap` now emits two files:
+
+| File | Contents | Use on |
+|---|---|---|
+| `supabase/schema.sql` | migrations only, **no accounts** | **production** |
+| `supabase/bootstrap.sql` | migrations + seed | dev/test only |
+
+</details>
 
 ### 1.2 Two Google OAuth clients, not one
 
@@ -70,7 +90,45 @@ Unblocks four things at once:
 
 - `VAPID_PUBLIC_KEY` / `VAPID_PRIVATE_KEY` — `npx web-push generate-vapid-keys`.
   Push code is built; nothing sends without these.
-- `SETLISTFM_API_KEY` — archive import is built and idle without it.
+- ~~`SETLISTFM_API_KEY`~~ — **done**, in `.env.local`. Still needs adding to Vercel.
+
+### 1.6 Deployment: Vercel Hobby caps crons at once per day
+
+First deploy of `vercel.json` fails with:
+
+> Hobby accounts are limited to daily cron jobs. This cron expression
+> (`*/30 * * * *`) would run more than once per day.
+
+**Fixed, without paying.** The repo is public, so **GitHub Actions minutes are
+free and unlimited** — scheduling moved there:
+
+- `vercel.json` now runs each job **once daily** (valid on Hobby, acts as a
+  safety net).
+- `.github/workflows/stub-cron.yml` calls the deployed endpoints on the real
+  cadence: Gmail scan every 30 min, reminders hourly. Both jobs are idempotent,
+  so the overlap is harmless.
+
+This is the one legitimate use for **GitHub Secrets** in this project (contrary
+to what §1.3 says about runtime config):
+
+| Secret | Value |
+|---|---|
+| `STUB_BASE_URL` | deployed URL, no trailing slash |
+| `CRON_SECRET` | same value as in Vercel's env vars |
+
+### Still to do for the first deploy
+
+1. **Set Root Directory to `stub`** in Vercel → Settings → Build & Deployment.
+   This is a monorepo; without it Vercel builds the repo root and fails.
+2. **Add environment variables** in Vercel (see §1.3). At minimum:
+   `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`,
+   `SUPABASE_SERVICE_ROLE_KEY`, `NEXT_PUBLIC_SITE_URL`, `TOKEN_ENCRYPTION_KEY`,
+   `CRON_SECRET`, `TICKETMASTER_API_KEY`, `SETLISTFM_API_KEY`.
+   **Do not** set `NEXT_PUBLIC_ENABLE_PASSWORD_LOGIN` in Production.
+3. Push the `vercel.json` fix, then redeploy.
+
+Project: `prj_FChnfQJaJ4YbeLabejV05nkVWBbb` (team `dbob3226-4368s-projects`,
+hobby plan). No deployments yet.
 
 ---
 
@@ -125,15 +183,14 @@ you'd add around it.
 
 ### Missing features, ranked by (value ÷ effort)
 
+~~**Show the setlist on past events**~~ — **DONE.** `getSetlistForEvent()` matches
+on artist + date (in the venue's timezone) and renders on `/event/[id]` for shows
+that have happened. Covers, guests and tape tracks are annotated.
+
 **1. Ratings + a short review per show** — *Banded's core loop.* **S**
 Add `rating smallint check (rating between 1 and 5)` to `attendances`, plus a
 public `review text` distinct from the existing private `notes`. The Archive
 becomes worth revisiting instead of a dead list.
-
-**2. Show the setlist on past events** — **S**
-`src/lib/providers/setlistfm.ts` already exists. Add `getSetlistForEvent(artist,
-date)` and render the songs on `/event/[id]` when the date has passed. Highest
-delight-per-line-of-code in this list.
 
 **3. "Artist you follow just announced a show"** — *Bandsintown's whole product.* **M**
 You already have `user_artists` (favourites), `push_subscriptions`, and a cron
@@ -194,6 +251,26 @@ attraction `upcomingEvents` count or exact-name match.
 
 ---
 
+### 4.1 Supabase branching — not now, maybe on Pro
+
+Considered branching instead of a second project. It does not fit this case:
+
+- **Pro plan only** ($25/mo); the free plan has no branching. Each branch also
+  bills ~$0.013/hr (~$9.68/mo if left running), and compute credits do not offset it.
+- **It runs the other direction.** Your main project *is* production; branches are
+  ephemeral previews you merge *into* main. There is no "branch as production".
+- **It would not have solved the problem.** The seeded accounts live in the main
+  project, so making that production keeps the backdoor. Branches are data-less
+  and would have started clean while prod stayed compromised.
+
+Supabase's own guidance: branches for short-lived PR previews, a **separate
+project** for anything long-lived. Two projects is correct here.
+
+**Revisit on Pro** for per-PR preview databases wired to Vercel preview
+deployments — that is what branching is genuinely good at.
+
+---
+
 ## 5. Integrations
 
 ### 5.1 Spotify — built, but hard-capped
@@ -210,8 +287,16 @@ case. **Recommend building this instead of relying on Spotify.**
 MusicKit needs an active Apple Developer membership. Sign in with Apple, same.
 Both have documented stubs. Only worth it if you go to the App Store.
 
-### 5.4 setlist.fm — built, needs a key
-Archive backfill works. Also the source for §3.2.
+### 5.4 setlist.fm — **working**
+Key is in `.env.local`. Powers both the archive backfill and the setlist display.
+
+**Gotcha worth remembering:** setlist.fm signals rate limiting with
+**`403 Forbidden`, not `429`** — indistinguishable from a bad key at a glance.
+Measured: rapid sequential calls intermittently 403; ~1.2s spacing is reliably
+fine. The client now spaces calls 700ms apart and retries a 403 with exponential
+backoff before concluding the key is wrong.
+
+Not yet done: the archive import needs your setlist.fm **username** to run.
 
 ### 5.5 Calendar — **done**
 Per-event `.ics` download and a subscribable `webcal://` feed with a rotatable
@@ -226,6 +311,13 @@ token. Notes are included in your own download, excluded from the shared feed.
   is fixed via `AbortController` but nothing guards it.
 - **`getUpcoming` does N+1 queries** — one `getFriendsAtEvent` per event. Fine at
   a dozen shows; fix with a single grouped query before it isn't.
+- **Event lists are sorted in JS, not SQL.** PostgREST's
+  `.order(col, { referencedTable })` sorts rows *within* an embedded resource,
+  not the top-level rows — so ordering a list of attendances by event date that
+  way is a silent no-op. This shipped as a real bug (Archive came back
+  unsorted) and was caught by `npm run test:live`. If these lists ever grow past
+  a few hundred rows, move to a database view or an RPC so the sort happens in
+  Postgres with `LIMIT` pushed down.
 - **Gmail ingestion has never run end to end.** Extractors are unit-tested
   against fixtures only. No real confirmation email has been through the pipeline.
 - **`pg_trgm` installed in `public`** — linter warning. Moving it risks the

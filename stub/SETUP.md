@@ -139,7 +139,8 @@ Open <http://localhost:3000/login> and sign in as
 - **Upcoming** — 4 shows. Japanese Breakfast and Turnstile badged *From Gmail*.
   Japanese Breakfast shows a **2**-avatar stack (Marisol + Dev), **not 3** —
   Sasha is going to it but is not your friend.
-- **Archive** — 2 shows, grouped by year.
+- **Archive** — 3 shows, grouped by year. The Tokyo Mitski show is pinned to a
+  real date, so opening it renders an actual 28-song setlist from setlist.fm.
 - **Inbox** — badge `2`; one *62% match*, one *No match found*.
 - **Friends** — 3 friends, 1 pending request from Sasha, plus *what your friends
   are going to*: Wednesday and Sunset Rollercoaster.
@@ -269,6 +270,95 @@ node scripts/verify-rls.mjs
   Google-only.
 
 Anything beyond those three is new and worth reading.
+
+---
+
+---
+
+## Going to production
+
+The project you set up above is your **dev** project: it contains five test
+accounts whose password (`stubdemo123`) is committed to this public repo. Never
+deploy against it.
+
+### 1. Create a second Supabase project
+
+Same steps as §1. Name it `stub-prod`. The free tier allows two projects.
+
+> **Why not Supabase branching?** Branching is Pro-only, bills per branch-hour,
+> and works the other way round: your main project *is* production and branches
+> are ephemeral previews merged *into* it. See `TODO.md` §4.1.
+
+If you use the MCP servers, keep them named `supabase-dev` and `supabase-prod`
+rather than a bare `supabase`, so it is never ambiguous which database a query
+is about to hit.
+
+### 2. Apply the schema — **`schema.sql`, not `bootstrap.sql`**
+
+SQL Editor → New query → paste **`supabase/schema.sql`** → Run.
+
+That file is migrations only: every table, policy, function and trigger, and
+**no user accounts**. `bootstrap.sql` is the dev bundle and includes the seed —
+running it in production would recreate the backdoor.
+
+Verify:
+
+```sql
+select count(*) from auth.users;   -- expect 0
+select count(*) from profiles;     -- expect 0
+```
+
+Both files are generated; regenerate with `npm run build:bootstrap`.
+
+### 3. Point Vercel at the prod project
+
+In Vercel → Settings → Environment Variables, scoped to **Production**:
+
+| Variable | Value |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | the **prod** project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | prod publishable key |
+| `SUPABASE_SERVICE_ROLE_KEY` | prod secret key |
+| `NEXT_PUBLIC_SITE_URL` | your deployed URL |
+| `TOKEN_ENCRYPTION_KEY` | a **new** `openssl rand -base64 32` |
+| `CRON_SECRET` | a new `openssl rand -hex 32` |
+| `TICKETMASTER_API_KEY` | same key is fine |
+| `SETLISTFM_API_KEY` | same key is fine |
+
+**Do not set `NEXT_PUBLIC_ENABLE_PASSWORD_LOGIN` in Production.** Without it the
+login page offers only Google and magic link, and the seeded-password path
+cannot exist.
+
+Use a **different** `TOKEN_ENCRYPTION_KEY` from dev: it encrypts Gmail refresh
+tokens, and the two databases should not be able to decrypt each other's.
+
+### 4. Set the Vercel Root Directory
+
+Settings → Build & Deployment → **Root Directory: `stub`**. This is a monorepo;
+without it Vercel builds the repo root and fails.
+
+### 5. GitHub Actions secrets
+
+Settings → Secrets and variables → Actions:
+
+- `STUB_BASE_URL` — deployed URL, no trailing slash
+- `CRON_SECRET` — must match the Vercel Production value
+
+### 6. Google OAuth for production
+
+Two clients, per `TODO.md` §1.2. The sign-in client (basic scopes only) can be
+published to Production with no verification and **no user cap**; only the Gmail
+client stays in Testing at 100 users.
+
+Add to the **prod** Supabase project: Authentication → Providers → Google, and
+Authentication → URL Configuration → Site URL + `https://your-app/**`.
+
+### What not to run against production
+
+- `supabase/seed.sql` and `supabase/bootstrap.sql` — both create test accounts.
+- `npm run test:live` — asserts against seeded fixtures; it will fail, and it
+  signs in with the test password.
+- `scripts/verify-rls.mjs` — creates and deletes users.
 
 ---
 
