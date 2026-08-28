@@ -26,7 +26,7 @@ interface EventHit {
 export default function BrowsePage() {
   const router = useRouter();
   const [query, setQuery] = useState('');
-  const [artists, setArtists] = useState<ArtistHit[]>([]);
+  const [results, setResults] = useState<{ query: string; artists: ArtistHit[] } | null>(null);
   const [selected, setSelected] = useState<ArtistHit | null>(null);
   const [events, setEvents] = useState<EventHit[]>([]);
   const [loading, setLoading] = useState(false);
@@ -34,35 +34,62 @@ export default function BrowsePage() {
   const [added, setAdded] = useState<Set<string>>(new Set());
   const [pending, startTransition] = useTransition();
 
-  // Debounced artist search.
+  const artists = results?.artists ?? [];
+  // Only trust the empty state when the settled results match what's in the box.
+  const resultsAreCurrent = results?.query === query.trim();
+
+  /**
+   * Debounced artist search.
+   *
+   * Two things have to be right here, and both bit us:
+   *
+   * 1. Superseded requests must be ABORTED, not just have their timer cleared.
+   *    Clearing the timeout does nothing once fetch has started, so a slow
+   *    response for "Chris L" could land after the one for "Chris Lake" and
+   *    overwrite good results with none.
+   * 2. Results are stored WITH the query that produced them, so we only render
+   *    "no results" for the text currently in the box. Ticketmaster matches
+   *    whole words only — "Chris L" genuinely returns nothing — so without this
+   *    the empty state flickers on every keystroke mid-word.
+   */
   useEffect(() => {
     if (selected) return;
     const q = query.trim();
     if (q.length < 2) {
-      setArtists([]);
+      setResults(null);
       return;
     }
+
+    const controller = new AbortController();
 
     const timer = setTimeout(async () => {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(`/api/search/artists?q=${encodeURIComponent(q)}`);
+        const res = await fetch(`/api/search/artists?q=${encodeURIComponent(q)}`, {
+          signal: controller.signal,
+        });
         const json = await res.json();
         if (!res.ok) throw new Error(json.error ?? 'Search failed');
-        setArtists(json.artists);
+        setResults({ query: q, artists: json.artists });
       } catch (err) {
+        // An aborted request was superseded by a newer one; not an error.
+        if (err instanceof DOMException && err.name === 'AbortError') return;
         setError(err instanceof Error ? err.message : 'Search failed');
       } finally {
-        setLoading(false);
+        if (!controller.signal.aborted) setLoading(false);
       }
     }, 320);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
   }, [query, selected]);
 
   async function openArtist(artist: ArtistHit) {
     setSelected(artist);
+    setResults(null);
     setLoading(true);
     setError(null);
     try {
@@ -172,10 +199,13 @@ export default function BrowsePage() {
             ))}
           </div>
 
-          {query.trim().length >= 2 && !loading && artists.length === 0 && (
+          {query.trim().length >= 2 && !loading && resultsAreCurrent && artists.length === 0 && (
             <div className="empty">
               <h2>No artists found</h2>
-              <p>Try a different spelling. Stub searches Ticketmaster&rsquo;s music catalog.</p>
+              <p>
+                Ticketmaster matches whole words, so a half-typed name finds nothing.
+                Try finishing the name, or search just the surname.
+              </p>
             </div>
           )}
         </>

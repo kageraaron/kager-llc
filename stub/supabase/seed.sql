@@ -93,16 +93,20 @@ end $$;
 
 -- ============================================================ catalog
 
-insert into artists (id, tm_id, name, genres) values
-  ('10000000-0000-4000-8000-000000000001', 'K8vZ917K7f7', 'Japanese Breakfast',   '{Rock,Indie}'),
-  ('10000000-0000-4000-8000-000000000002', 'K8vZ9171Ck0', 'Turnstile',            '{Rock,Punk}'),
-  ('10000000-0000-4000-8000-000000000003', 'K8vZ917pkPV', 'Fontaines D.C.',       '{Rock,Alternative}'),
-  ('10000000-0000-4000-8000-000000000004', 'K8vZ9174sB7', 'Mitski',               '{Rock,Indie}'),
-  ('10000000-0000-4000-8000-000000000005', 'K8vZ917oWOV', 'Alvvays',              '{Rock,Indie}'),
-  ('10000000-0000-4000-8000-000000000006', 'K8vZ917bJ17', 'Big Thief',            '{Rock,Folk}'),
-  ('10000000-0000-4000-8000-000000000007', 'K8vZ9171hJf', 'Wednesday',            '{Rock,Indie}'),
-  ('10000000-0000-4000-8000-000000000008', 'K8vZ917_ru0', 'Slowdive',             '{Rock,Shoegaze}'),
-  ('10000000-0000-4000-8000-000000000009', 'K8vZ9174e6f', 'Sunset Rollercoaster', '{Rock,Indie}')
+-- tm_id and image_url are REAL Ticketmaster values, looked up by name. The
+-- first version of this seed used invented ids that happened to collide with
+-- other artists' attractions (K8vZ9171Ck0 is Disney On Ice, not Turnstile),
+-- so anything resolving by tm_id fetched the wrong act.
+insert into artists (id, tm_id, name, genres, image_url) values
+  ('10000000-0000-4000-8000-000000000001', 'K8vZ917fRQ0', 'Japanese Breakfast', '{Rock,Indie}', 'https://s1.ticketm.net/dam/a/d5e/ea27dcf2-30b5-45e0-8a53-61a552933d5e_RETINA_PORTRAIT_3_2.jpg'),
+  ('10000000-0000-4000-8000-000000000002', 'K8vZ9173bFV', 'Turnstile', '{Rock,Punk}', 'https://s1.ticketm.net/dam/a/a37/9a486633-4306-4fcb-a0ea-3e4c84d01a37_RETINA_PORTRAIT_16_9.jpg'),
+  ('10000000-0000-4000-8000-000000000003', 'K8vZ9179LP7', 'Fontaines D.C.', '{Rock,Alternative}', 'https://s1.ticketm.net/dam/a/bca/2bbd924a-fead-4c53-b6d6-1ab4d097cbca_RETINA_PORTRAIT_3_2.jpg'),
+  ('10000000-0000-4000-8000-000000000004', 'K8vZ917Kkx0', 'Mitski', '{Rock,Indie}', 'https://s1.ticketm.net/dam/a/c8d/48852c5f-9627-4cdc-a86b-7df526ee8c8d_RETINA_PORTRAIT_16_9.jpg'),
+  ('10000000-0000-4000-8000-000000000005', 'K8vZ9173Naf', 'Alvvays', '{Rock,Indie}', 'https://s1.ticketm.net/dam/a/ec8/3f453c5d-987f-473b-9f2a-eb41677ceec8_RETINA_PORTRAIT_3_2.jpg'),
+  ('10000000-0000-4000-8000-000000000006', 'K8vZ917K5F0', 'Big Thief', '{Rock,Folk}', 'https://s1.ticketm.net/dam/a/a53/cb8b3235-2bcb-4995-93bd-da0dda12aa53_RETINA_PORTRAIT_3_2.jpg'),
+  ('10000000-0000-4000-8000-000000000007', 'K8vZ917_sEV', 'Wednesday', '{Rock,Indie}', 'https://s1.ticketm.net/dam/a/698/4d5ac8e8-1c1a-4e21-8c17-f5b7b6913698_RETINA_PORTRAIT_3_2.jpg'),
+  ('10000000-0000-4000-8000-000000000008', 'K8vZ9173nY0', 'Slowdive', '{Rock,Shoegaze}', 'https://s1.ticketm.net/dam/a/2d3/aaccfee5-ceed-481d-8724-5dc92a73d2d3_RETINA_PORTRAIT_3_2.jpg'),
+  ('10000000-0000-4000-8000-000000000009', 'K8vZ9179on7', 'Sunset Rollercoaster', '{Rock,Indie}', 'https://s1.ticketm.net/dam/a/f86/25d3b4f1-6307-4621-9078-0fa42e3ccf86_1670551_RETINA_PORTRAIT_3_2.jpg')
 on conflict (id) do nothing;
 
 insert into venues (id, tm_id, name, city, region, country, timezone) values
@@ -134,6 +138,10 @@ on conflict (id) do nothing;
 insert into event_artists (event_id, artist_id, billing)
 select id, headliner_id, 'headliner' from events where headliner_id is not null
 on conflict (event_id, artist_id) do nothing;
+
+-- Events show their headliner's artwork unless they carry their own.
+update events e set image_url = a.image_url
+from artists a where e.headliner_id = a.id and e.image_url is null;
 
 -- ============================================================ attendances
 

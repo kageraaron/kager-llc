@@ -94,17 +94,21 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
 
       <NoteEditor eventId={event.id} initial={note?.body ?? ''} />
 
-      {event.url && (
-        <a
-          className="btn btn-block"
-          style={{ marginTop: 20 }}
-          href={event.url}
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          Open on Ticketmaster
+      <div className="stack" style={{ marginTop: 20 }}>
+        <a className="btn btn-block" href={`/api/events/${event.id}/ics`}>
+          Add to calendar
         </a>
-      )}
+        {event.url && (
+          <a
+            className="btn btn-block"
+            href={event.url}
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            Open on Ticketmaster
+          </a>
+        )}
+      </div>
     </main>
   );
 }

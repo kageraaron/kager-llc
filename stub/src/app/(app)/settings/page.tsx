@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth';
 import { SignOutButton } from '@/components/SignOutButton';
 import { PushToggle } from '@/components/PushToggle';
+import { CalendarSubscribe } from '@/components/CalendarSubscribe';
 
 export const dynamic = 'force-dynamic';
 
@@ -23,6 +24,7 @@ export default async function SettingsPage() {
       </header>
 
       <PushToggle vapidPublicKey={process.env.VAPID_PUBLIC_KEY ?? null} />
+      <CalendarSubscribe />
 
       <div className="stack">
         {profile?.handle && (

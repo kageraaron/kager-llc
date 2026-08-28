@@ -1,5 +1,6 @@
 'use server';
 
+import { randomBytes } from 'node:crypto';
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
@@ -208,6 +209,47 @@ export async function updateProfile(input: {
 
   revalidatePath('/friends');
   return { ok: true as const };
+}
+
+// ---------------------------------------------------------------- calendar
+
+/**
+ * Returns the caller's calendar subscription URL. The token is revoked from the
+ * `authenticated` grant, so it can only be read server-side, via the admin
+ * client, after we've confirmed who is asking.
+ */
+export async function getCalendarUrl() {
+  const { user } = await requireUser();
+  const admin = createAdminClient();
+
+  const { data } = await admin
+    .from('profiles')
+    .select('calendar_token')
+    .eq('id', user.id)
+    .maybeSingle();
+
+  if (!data?.calendar_token) return { ok: false as const, error: 'No calendar token' };
+
+  const base = process.env.NEXT_PUBLIC_SITE_URL ?? '';
+  return { ok: true as const, url: `${base}/api/calendar/${data.calendar_token}` };
+}
+
+/** Invalidates the old feed URL. Existing subscribers stop receiving updates. */
+export async function rotateCalendarToken() {
+  const { user } = await requireUser();
+  const admin = createAdminClient();
+
+  const token = randomBytes(24).toString('hex');
+  const { error } = await admin
+    .from('profiles')
+    .update({ calendar_token: token })
+    .eq('id', user.id);
+
+  if (error) return { ok: false as const, error: error.message };
+
+  const base = process.env.NEXT_PUBLIC_SITE_URL ?? '';
+  revalidatePath('/settings');
+  return { ok: true as const, url: `${base}/api/calendar/${token}` };
 }
 
 // ---------------------------------------------------------------- inbox review

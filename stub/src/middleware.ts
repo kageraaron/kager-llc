@@ -32,7 +32,10 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith('/login') ||
     pathname.startsWith('/auth') ||
     pathname.startsWith('/api/cron') ||
-    pathname.startsWith('/api/ingest');
+    pathname.startsWith('/api/ingest') ||
+    // Calendar clients cannot carry a session; the feed's token IS its
+    // credential, and the route validates it with the service role.
+    pathname.startsWith('/api/calendar');
 
   if (!user && !isPublic) {
     const url = request.nextUrl.clone();
