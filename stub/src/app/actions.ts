@@ -79,6 +79,114 @@ export async function addEventFromSearch(source: 'ticketmaster' | 'jambase', id:
 }
 
 /**
+ * Create a show by hand, for one no provider lists.
+ *
+ * This is Stub's equivalent of Shop letting you type a carrier and tracking
+ * number when the inbox scan misses an order — and it is not a rare case.
+ * An AXS-sold club show (Overmono DJ Set + Ben UFO, San Francisco, Sept 2026)
+ * is absent from BOTH JamBase and Ticketmaster. Aggregator coverage of
+ * afterparties and late-announced club nights is genuinely poor.
+ *
+ * The event is written to the shared catalog with no provider id, so it will
+ * never collide with a synced row.
+ */
+export async function createManualEvent(input: {
+  artistName: string;
+  venueName?: string;
+  city?: string;
+  region?: string;
+  /** Local wall time, "2026-09-27T22:00" from a datetime-local input. */
+  startsAt: string;
+  timezone?: string;
+  url?: string;
+}) {
+  const { user } = await requireUser();
+
+  const artistName = input.artistName.trim();
+  if (artistName.length < 1) return { ok: false as const, error: 'Artist name is required' };
+
+  const when = new Date(input.startsAt);
+  if (Number.isNaN(when.getTime())) return { ok: false as const, error: 'That date is not valid' };
+
+  const admin = createAdminClient();
+
+  // Reuse an existing artist by name before creating another one, so manual
+  // entries join up with synced shows by the same act.
+  const { data: existingArtist } = await admin
+    .from('artists')
+    .select('id')
+    .ilike('name', artistName)
+    .limit(1)
+    .maybeSingle();
+
+  let artistId = existingArtist?.id ?? null;
+  if (!artistId) {
+    const { data } = await admin
+      .from('artists')
+      .insert({ name: artistName })
+      .select('id')
+      .single();
+    artistId = data?.id ?? null;
+  }
+
+  let venueId: string | null = null;
+  if (input.venueName?.trim()) {
+    const { data: existingVenue } = await admin
+      .from('venues')
+      .select('id')
+      .ilike('name', input.venueName.trim())
+      .eq('city', input.city?.trim() ?? '')
+      .limit(1)
+      .maybeSingle();
+
+    venueId = existingVenue?.id ?? null;
+    if (!venueId) {
+      const { data } = await admin
+        .from('venues')
+        .insert({
+          name: input.venueName.trim(),
+          city: input.city?.trim() || null,
+          region: input.region?.trim() || null,
+          timezone: input.timezone || null,
+        })
+        .select('id')
+        .single();
+      venueId = data?.id ?? null;
+    }
+  }
+
+  const { data: event, error } = await admin
+    .from('events')
+    .insert({
+      name: artistName,
+      headliner_id: artistId,
+      venue_id: venueId,
+      starts_at: when.toISOString(),
+      timezone: input.timezone || null,
+      status: 'onsale',
+      url: input.url?.trim() || null,
+    })
+    .select('id')
+    .single();
+
+  if (error || !event) {
+    return { ok: false as const, error: error?.message ?? 'Could not create that show' };
+  }
+
+  if (artistId) {
+    await admin
+      .from('event_artists')
+      .insert({ event_id: event.id, artist_id: artistId, billing: 'headliner' });
+  }
+
+  await recordAttendance(admin, { userId: user.id, eventId: event.id, source: 'manual' });
+
+  revalidatePath('/upcoming');
+  revalidatePath('/archive');
+  return { ok: true as const, eventId: event.id };
+}
+
+/**
  * Add an event that already exists in our catalog. This is the path used from
  * the event detail page, where the row was loaded from `events` - no reason to
  * spend a Ticketmaster call re-fetching something we already have.
@@ -276,6 +384,30 @@ export async function updateProfile(input: {
   }
 
   revalidatePath('/friends');
+  return { ok: true as const };
+}
+
+/**
+ * Disconnect Gmail in one step.
+ *
+ * Deletes the stored tokens outright rather than flagging the row inactive —
+ * there is no reason to keep an encrypted refresh token for a connection the
+ * user has just revoked.
+ */
+export async function disconnectGmail() {
+  const { supabase, user } = await requireUser();
+
+  const { error } = await supabase
+    .from('email_accounts')
+    .delete()
+    .eq('user_id', user.id)
+    .eq('provider', 'gmail');
+
+  if (error) return { ok: false as const, error: error.message };
+
+  revalidatePath('/settings/connections');
+  revalidatePath('/upcoming');
+  revalidatePath('/inbox');
   return { ok: true as const };
 }
 

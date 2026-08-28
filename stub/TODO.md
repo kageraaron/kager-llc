@@ -373,6 +373,88 @@ asking for geolocation permission.
 
 ---
 
+## 5.7 Ingestion fixes from the first real Gmail connect
+
+Connecting a real inbox surfaced three bugs that each independently hid a show.
+The trigger was a **forwarded** Ticketmaster confirmation (a spouse forwarding
+"Fwd: You Got Tickets To Moby"):
+
+1. **The Gmail query never fetched it.** No subject pattern matched "You Got
+   Tickets To", and a forward's sender is a personal address, so `from:` filters
+   miss too. The message was invisible to the sync.
+2. **No extractor matched.** Every vendor extractor keys off the sender domain,
+   which forwarding destroys — and Gmail strips JSON-LD when forwarding, so the
+   structured path was gone as well.
+3. **`findOrderNumber` returned "Confirmed".** It captured the next word after
+   "Order" in "Order Confirmed", and its character class excluded `/`, which
+   would also have truncated `54-48418/NCA` to `54-48418`.
+
+Fixed: `unwrapForward()` in `normalize.ts` rewrites a forward to look like the
+original (sender + subject pulled from the forward header); broader Ticketmaster
+subject patterns; order-number candidates must contain a digit and may contain
+`/`. Covered by the `forwardedTicketmaster` fixture.
+
+**Still open — worth doing while real mail is flowing:**
+- Every confirmation that fails to parse should be added to
+  `test/fixtures/emails.ts` (scrubbed) and fixed against. That is the intended
+  workflow and the only way coverage improves.
+- The Inbox review queue currently only shows *parsed* candidates. Messages that
+  matched the Gmail query but produced no ticket are recorded as
+  `ingest_messages.status = 'ignored'` and never surfaced — those are exactly
+  the ones worth seeing.
+
+### Added alongside
+- **Manual event entry** (`createManualEvent`, offered from Browse). Necessary,
+  not a nicety: an AXS club show (Overmono DJ Set + Ben UFO, SF) is absent from
+  **both** JamBase and Ticketmaster. No aggregator covers afterparties well.
+- **"Check for new tickets"** button — full 30-day re-scan on demand, with a
+  scanned/added/review/skipped breakdown so a miss is diagnosable. Waiting 30
+  minutes for cron to learn whether parsing worked is a miserable loop.
+- **One-step Gmail disconnect**, which deletes the stored tokens rather than
+  flagging the row inactive.
+
+---
+
+## 5.8 Caching and rate limits — **not yet done**
+
+Nothing is cached beyond Next's per-request `revalidate` hints. Current exposure:
+
+| Provider | Limit | Current usage |
+|---|---|---|
+| JamBase | trial quota, unpublished | every keystroke in Browse (debounced 320ms) |
+| Ticketmaster | 5000/day, 5/sec | fallback only now |
+| setlist.fm | ~1/sec, 403s when exceeded | one call per past event page view |
+| MusicBrainz | 1/sec, hard | artist resolution during Spotify import |
+
+Worth doing, roughly in value order:
+
+1. **Cache setlist lookups in the database.** A past show's setlist never
+   changes, so `getSetlistForEvent` should write through to a `setlists` table
+   (or a jsonb column on `events`) and never re-fetch. Currently every page view
+   of an archived event hits setlist.fm.
+2. **Cache search responses.** Keyed on the normalised query + geo + radius,
+   ~5 minutes, in Postgres or an in-memory LRU. "What's on near me" is highly
+   repeatable across users in the same city.
+3. **Serve Browse from the local catalog first.** Events already synced live in
+   `events`; the `pg_trgm` index exists and is unused for this.
+4. **Persist geocoded coordinates** on `profiles.home_lat/home_lng` so repeat
+   location searches skip the permission prompt entirely.
+
+Do (1) first — it is the only one currently making a network call on a page
+render, and setlist.fm is the strictest limit.
+
+---
+
+## 5.9 Browse pagination — **not yet done**
+
+Browse requests `perPage=40` and shows only that. JamBase reports the true total
+(1,546 within 25mi of SF), so the data for infinite scroll is already there —
+`searchEvents` accepts `page`. Needs an IntersectionObserver sentinel plus
+append-rather-than-replace result state, being careful not to reintroduce the
+stale-response race the AbortController currently prevents.
+
+---
+
 ## 6. Known issues / technical debt
 
 - **No regression test for the Browse fetch race.** Needs jsdom +

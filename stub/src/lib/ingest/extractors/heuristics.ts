@@ -91,13 +91,33 @@ export function findDate(text: string, opts: { preferFuture?: boolean } = {}): s
   return candidates[0].date;
 }
 
-/** Order / confirmation number following a recognizable label. */
+/**
+ * Order / confirmation number following a recognizable label.
+ *
+ * Two traps, both hit by a real Ticketmaster email reading
+ * "Order Confirmed / Order # 54-48418/NCA":
+ *
+ *  - A loose label match captures the next WORD, yielding "Confirmed".
+ *    So the candidate must contain a digit.
+ *  - Real references contain "/" and other separators, which a
+ *    `[A-Z0-9-]` class silently truncates to "54-48418".
+ */
 export function findOrderNumber(text: string): string | undefined {
-  const m =
-    /(?:order|confirmation|reference|booking)\s*(?:number|no\.?|#|id)?\s*[:#]?\s*([A-Z0-9][A-Z0-9-]{4,24})/i.exec(
-      text,
-    );
-  return m?.[1];
+  const CANDIDATE = String.raw`([A-Z0-9][A-Z0-9/\-]{3,29})`;
+
+  // A "#" is the strongest signal, so try that shape first.
+  const patterns = [
+    new RegExp(String.raw`(?:order|confirmation|reference|booking)\s*(?:number|no\.?|id)?\s*#\s*` + CANDIDATE, 'i'),
+    new RegExp(String.raw`(?:order|confirmation|reference|booking)\s*(?:number|no\.?|id)\s*[:#]?\s*` + CANDIDATE, 'i'),
+    new RegExp(String.raw`(?:order|confirmation|reference|booking)\s*[:#]\s*` + CANDIDATE, 'i'),
+  ];
+
+  for (const re of patterns) {
+    const m = re.exec(text);
+    // Must look like an identifier, not the next English word.
+    if (m && /\d/.test(m[1])) return m[1];
+  }
+  return undefined;
 }
 
 /** Total price in cents, plus its currency symbol if we can see one. */
@@ -132,7 +152,8 @@ export function findVenue(text: string): { venueName?: string; city?: string; re
 /** Strip the marketing noise vendors wrap around an artist name. */
 export function cleanArtistName(raw: string): string {
   return raw
-    .replace(/\s*\((?:live|tour|presented by[^)]*)\)/gi, '')
+    // Age restrictions and format tags are venue metadata, not part of the name.
+    .replace(/\s*\((?:\d{1,2}\+|all ages|live|tour|presented by[^)]*)\)/gi, '')
     .replace(/\s*[-–—]\s*(?:the\s+)?\w+\s+tour\b.*$/i, '')
     .replace(/^\s*(?:your tickets? (?:for|to)|you're going to|tickets? for)\s*/i, '')
     // Vendors join the prefix to the artist with a separator ("Order Confirmation: Turnstile").

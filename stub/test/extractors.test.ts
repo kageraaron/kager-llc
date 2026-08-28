@@ -8,6 +8,7 @@ import {
   eventbriteJsonLd,
   marketingNoise,
   packageNoise,
+  forwardedTicketmaster,
 } from './fixtures/emails';
 
 const run = (raw: Parameters<typeof normalizeEmail>[0]) => runExtractors(normalizeEmail(raw));
@@ -66,6 +67,25 @@ describe('vendor extractors', () => {
     expect(t.artistName).toBe('Fontaines D.C.');
     expect(t.venueName).toBe('Brooklyn Steel');
     expect(t.startsAt).toBe('2026-06-14T20:00:00');
+  });
+});
+
+describe('forwarded confirmations', () => {
+  it('unwraps a forward and parses the original', () => {
+    const result = run(forwardedTicketmaster);
+    expect(result?.extractor).toBe('ticketmaster');
+
+    const t = result!.ticket;
+    expect(t.artistName).toBe('Moby');            // "(18+)" is venue metadata
+    expect(t.startsAt).toBe('2026-11-05T19:00:00');
+    expect(t.ticketRef).toBe('54-48418/NCA');     // not "Confirmed", not truncated
+    expect(t.priceCents).toBe(19960);
+  });
+
+  it('is reachable by the Gmail query at all', async () => {
+    const { buildTicketQuery } = await import('@/lib/providers/gmail');
+    // A forward's sender is personal, so only the subject can match.
+    expect(buildTicketQuery(30)).toMatch(/you got tickets/i);
   });
 });
 

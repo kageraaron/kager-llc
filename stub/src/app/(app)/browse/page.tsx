@@ -4,6 +4,7 @@ import { useState, useEffect, useTransition, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { addEventFromSearch } from '@/app/actions';
 import { formatEventDate } from '@/lib/format';
+import { ManualEventForm } from '@/components/ManualEventForm';
 
 interface EventHit {
   source: 'jambase' | 'ticketmaster';
@@ -39,6 +40,7 @@ export default function BrowsePage() {
   const [radius, setRadius] = useState(50);
   const [locating, setLocating] = useState(false);
   const [locError, setLocError] = useState<string | null>(null);
+  const [manual, setManual] = useState(false);
 
   const nearMe = coords !== null;
   const q = query.trim();
@@ -229,6 +231,34 @@ export default function BrowsePage() {
           </p>
         </div>
       )}
+
+      {/* No listings service is complete — club nights and afterparties are
+          routinely absent from all of them — so manual entry is always offered,
+          not just when a search comes back empty. */}
+      <section style={{ marginTop: 28 }}>
+        {!manual ? (
+          <button className="btn btn-block" onClick={() => setManual(true)}>
+            Can&rsquo;t find it? Add a show manually
+          </button>
+        ) : (
+          <>
+            <div className="spread">
+              <div className="section-label" style={{ margin: 0 }}>Add manually</div>
+              <button
+                className="muted"
+                style={{ fontSize: 12, textDecoration: 'underline' }}
+                onClick={() => setManual(false)}
+              >
+                Cancel
+              </button>
+            </div>
+            <p className="muted" style={{ margin: '4px 0 0', lineHeight: 1.5 }}>
+              For shows no listings service has — club nights, afterparties, DIY bills.
+            </p>
+            <ManualEventForm onDone={() => setManual(false)} />
+          </>
+        )}
+      </section>
 
       {results?.source && events.length > 0 && (
         <p className="muted" style={{ fontSize: 11, textAlign: 'center', marginTop: 16 }}>

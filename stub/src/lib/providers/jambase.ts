@@ -196,7 +196,13 @@ export function headlinerOf(event: JBEvent, matching?: string): JBPerformer | nu
   return isFestival(event) ? null : performers[0];
 }
 
-/** Best ticket link, preferring the primary vendor over resale. */
+/**
+ * Best ticket link, preferring the primary vendor over resale.
+ *
+ * This is why Ticketmaster is not needed as a separate integration: JamBase's
+ * `offers` array already carries the primary purchase link, which is often a
+ * Ticketmaster or AXS URL, alongside resale options.
+ */
 export function ticketUrl(event: JBEvent): string | null {
   const offers = event.offers ?? [];
   const primary = offers.find((o) => o.category === 'ticketingLinkPrimary');

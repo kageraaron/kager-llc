@@ -4,6 +4,7 @@ import { getCurrentUser } from '@/lib/auth';
 import { GOOGLE_TESTING_USER_CAP } from '@/lib/providers/gmail';
 import { SPOTIFY_DEV_USER_CAP } from '@/lib/providers/spotify';
 import { SetlistImport } from '@/components/SetlistImport';
+import { GmailControls } from '@/components/GmailControls';
 
 export const dynamic = 'force-dynamic';
 
@@ -63,7 +64,7 @@ export default async function ConnectionsPage({
                 {gmail.last_synced_at &&
                   ` · last checked ${new Date(gmail.last_synced_at).toLocaleString()}`}
               </div>
-              <a className="btn btn-block" href="/api/connect/gmail/start">Reconnect</a>
+              <GmailControls email={gmail.email} status={gmail.status} />
             </>
           ) : (
             <a className="btn btn-primary btn-block" href="/api/connect/gmail/start">Connect Gmail</a>

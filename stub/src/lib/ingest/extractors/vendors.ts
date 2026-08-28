@@ -43,12 +43,14 @@ const SPECS: VendorSpec[] = [
   {
     name: 'ticketmaster',
     domains: ['ticketmaster.com', 'email.ticketmaster.com', 'livenation.com', 'email.livenation.com'],
-    subject: /(?:your (?:tickets?|order)|order confirmation|you're going)/i,
+    // "You Got Tickets To X" is Ticketmaster's most common phrasing and was
+    // missing, so real confirmations were skipped entirely.
+    subject: /(?:your (?:tickets?|order)|order confirmation|you're going|you got tickets)/i,
     specific: (email, text) => ({
       tmEventId: ticketmasterEventId(email.html),
       artistName: artistFromSubject(
         email.subject,
-        /^(?:your tickets? (?:for|to)|order confirmation(?: for)?|you're going to)\s*/i,
+        /^(?:your tickets? (?:for|to)|order confirmation(?: for)?|you're going to|you got tickets to)\s*/i,
       ),
       ...findVenue(text),
     }),

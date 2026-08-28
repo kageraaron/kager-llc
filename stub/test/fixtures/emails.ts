@@ -102,6 +102,33 @@ export const eventbriteJsonLd: RawEmailInput = {
 </script></head><body>See you there.</body></html>`,
 };
 
+/**
+ * A FORWARDED Ticketmaster confirmation — from a real failure.
+ *
+ * Three things broke at once here, and each would have hidden the show:
+ *  1. The Gmail query had no subject pattern for "You Got Tickets To", and a
+ *     forward's sender is a personal address, so it was never even fetched.
+ *  2. Vendor extractors key off the sender domain, which a forward destroys.
+ *  3. Gmail strips JSON-LD when forwarding, so the structured path was gone too.
+ */
+export const forwardedTicketmaster: RawEmailInput = {
+  from: 'BENJAMIN STOLLMAN <ben@example.com>',
+  subject: 'Fwd: You Got Tickets To Moby (18+)',
+  receivedAt: '2026-08-28T23:22:00Z',
+  html: `<div>---------- Forwarded message ---------<br>
+From: Ticketmaster &lt;customer_support@email.ticketmaster.com&gt;<br>
+Date: Wed, Aug 26, 2026 at 10:02 AM<br>
+Subject: You Got Tickets To Moby (18+)<br>
+To: &lt;someone@example.edu&gt;</div>
+<div>My Account</div>
+<div>Order Confirmed</div>
+<div>Order # 54-48418/NCA</div>
+<div>Moby (18+)</div>
+<div>Thu &middot; Nov 05, 2026 &middot; 7:00 PM</div>
+<div>Bill Graham Civic Auditorium &mdash; San Francisco, California</div>
+<div>Payment Method VISA &mdash; 0925 Total: $199.60</div>`,
+};
+
 /** Not a ticket email. Must be rejected by every extractor. */
 export const marketingNoise: RawEmailInput = {
   from: 'Ticketmaster <news@email.ticketmaster.com>',

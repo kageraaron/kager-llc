@@ -5,15 +5,19 @@ import { searchEvents as tmSearchEvents, getAttractionEvents, pickImage } from '
 import * as jambase from '@/lib/providers/jambase';
 
 /**
- * Event search for Browse.
+ * Event search for Browse. JamBase only.
  *
- * JamBase is preferred when configured: Ticketmaster only lists events it sells
- * tickets to, so it misses the club circuit and — the case that drove this —
- * festival appearances. "Overmono in San Francisco" returns nothing from
- * Ticketmaster because the SF date is a Portola set; JamBase returns it.
+ * Ticketmaster is no longer queried: it only lists events it sells tickets to,
+ * so it misses the club circuit and festival appearances. JamBase already
+ * carries the Ticketmaster purchase link in its `offers` array when one exists,
+ * so nothing is lost by dropping it as a search source.
  *
- * Falls back to Ticketmaster whenever JamBase is unconfigured or errors, so a
- * lapsed JamBase trial degrades the results rather than breaking the page.
+ * Ticketmaster remains as an emergency fallback ONLY when JamBase is
+ * unconfigured — e.g. the trial has lapsed and no key is set — so Browse
+ * degrades rather than going blank.
+ *
+ * NEITHER source is complete. An AXS-sold club show (Overmono DJ Set + Ben UFO,
+ * SF, Sept 2026) is absent from both. That is why manual entry exists.
  */
 
 export interface EventHit {

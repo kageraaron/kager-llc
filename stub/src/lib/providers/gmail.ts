@@ -65,14 +65,19 @@ async function gapi<T>(token: string, path: string): Promise<T> {
  */
 export function buildTicketQuery(days = 30): string {
   const senders = TICKET_SENDER_DOMAINS.map((d) => `from:${d}`).join(' OR ');
+  // Subject matching carries the whole load for FORWARDED confirmations, which
+  // arrive from a personal address and so never match a sender filter.
   const subjects = [
     'subject:"your tickets"',
     'subject:"your ticket"',
+    'subject:"you got tickets"',
     'subject:"order confirmation"',
     'subject:"ticket confirmation"',
     'subject:"you\'re going"',
     'subject:"booking confirmed"',
     'subject:"your order"',
+    'subject:"tickets to"',
+    'subject:"order confirmed"',
   ].join(' OR ');
   return `newer_than:${days}d ((${senders}) OR (${subjects})) -category:promotions`;
 }
