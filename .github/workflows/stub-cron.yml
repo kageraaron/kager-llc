@@ -1,0 +1,89 @@
+name: Stub scheduled jobs
+
+# Vercel's Hobby plan caps cron jobs at ONE RUN PER DAY, which is useless for
+# inbox scanning. This repo is public, so GitHub Actions minutes are free and
+# unlimited — we schedule here and just call the deployed endpoints.
+#
+# vercel.json keeps a daily run of each as a safety net, so the app still works
+# if this workflow is ever disabled. Both jobs are idempotent (ingest dedupes on
+# a content hash, reminders dedupe via sent_reminders), so overlap is harmless.
+#
+# Required repository secrets (Settings → Secrets and variables → Actions):
+#   STUB_BASE_URL  e.g. https://stub.vercel.app   (no trailing slash)
+#   CRON_SECRET    must match the value in Vercel's environment variables
+
+on:
+  schedule:
+    # Gmail scan every 30 minutes. GitHub may delay scheduled runs under load;
+    # that is fine here, nothing depends on exact timing.
+    - cron: '*/30 * * * *'
+    # Day-before reminders, hourly on the hour.
+    - cron: '0 * * * *'
+  workflow_dispatch:
+    inputs:
+      job:
+        description: 'Which job to run'
+        required: true
+        default: 'both'
+        type: choice
+        options: [both, gmail-sync, reminders]
+
+concurrency:
+  group: stub-cron
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check configuration
+        env:
+          BASE: ${{ secrets.STUB_BASE_URL }}
+          SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$BASE" ] || [ -z "$SECRET" ]; then
+            echo "::error::STUB_BASE_URL and CRON_SECRET must be set as repository secrets."
+            exit 1
+          fi
+
+      - name: Gmail sync
+        # The 30-minute schedule fires this; manual runs honour the input.
+        if: >-
+          github.event_name == 'schedule' && github.event.schedule == '*/30 * * * *' ||
+          github.event_name == 'workflow_dispatch' &&
+            (inputs.job == 'both' || inputs.job == 'gmail-sync')
+        env:
+          BASE: ${{ secrets.STUB_BASE_URL }}
+          SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          code=$(curl -sS -o /tmp/out.json -w '%{http_code}' --max-time 120 \
+            -H "Authorization: Bearer $SECRET" "$BASE/api/cron/gmail-sync")
+          echo "HTTP $code"
+          # Never print the body unredacted — it contains connected email addresses.
+          python3 -c "
+import json,sys
+try:
+    d = json.load(open('/tmp/out.json'))
+except Exception:
+    print('non-JSON response'); sys.exit(0)
+for a in d.get('summary', []):
+    a.pop('email', None)
+print(json.dumps({'ok': d.get('ok'), 'accounts': d.get('accounts'), 'summary': d.get('summary')}))
+"
+          [ "$code" = "200" ] || { echo "::error::gmail-sync returned $code"; exit 1; }
+
+      - name: Send reminders
+        if: >-
+          github.event_name == 'schedule' && github.event.schedule == '0 * * * *' ||
+          github.event_name == 'workflow_dispatch' &&
+            (inputs.job == 'both' || inputs.job == 'reminders')
+        env:
+          BASE: ${{ secrets.STUB_BASE_URL }}
+          SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          code=$(curl -sS -o /tmp/rem.json -w '%{http_code}' --max-time 120 \
+            -H "Authorization: Bearer $SECRET" "$BASE/api/cron/reminders")
+          echo "HTTP $code"
+          cat /tmp/rem.json
+          echo
+          [ "$code" = "200" ] || { echo "::error::reminders returned $code"; exit 1; }
