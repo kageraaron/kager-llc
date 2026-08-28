@@ -14,6 +14,17 @@ export async function GET() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.redirect(new URL('/login', process.env.NEXT_PUBLIC_SITE_URL));
 
+  // Fail loudly on missing config. Without this the URL below gets
+  // `client_id=undefined` and Google answers with a bare `401 invalid_client`,
+  // which looks like a broken OAuth client rather than an unset env var.
+  if (!process.env.GOOGLE_OAUTH_CLIENT_ID) {
+    return NextResponse.redirect(
+      `${process.env.NEXT_PUBLIC_SITE_URL}/settings/connections?error=${encodeURIComponent(
+        'GOOGLE_OAUTH_CLIENT_ID is not set on the server',
+      )}`,
+    );
+  }
+
   const redirectUri = `${process.env.NEXT_PUBLIC_SITE_URL}/api/connect/gmail/callback`;
 
   const url = new URL('https://accounts.google.com/o/oauth2/v2/auth');
