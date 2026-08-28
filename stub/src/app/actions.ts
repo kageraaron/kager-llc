@@ -5,7 +5,8 @@ import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { getEvent as tmGetEvent } from '@/lib/providers/ticketmaster';
-import { upsertEvent, recordAttendance } from '@/lib/ingest/catalog';
+import { upsertEvent, upsertJamBaseEvent, recordAttendance } from '@/lib/ingest/catalog';
+import * as jambase from '@/lib/providers/jambase';
 import { getCurrentUser } from '@/lib/auth';
 
 /**
@@ -40,6 +41,37 @@ export async function addEventByTmId(tmId: string, state: 'going' | 'interested'
   if (state !== 'going') {
     await admin.from('attendances').update({ state }).eq('user_id', user.id).eq('event_id', eventId);
   }
+
+  revalidatePath('/upcoming');
+  revalidatePath('/browse');
+  return { ok: true as const, eventId };
+}
+
+/**
+ * Add a search result, from whichever provider produced it.
+ *
+ * Browse can return Ticketmaster or JamBase hits in the same list, so the
+ * result carries its source and this resolves it against the right API.
+ */
+export async function addEventFromSearch(source: 'ticketmaster' | 'jambase', id: string) {
+  const { user } = await requireUser();
+  const admin = createAdminClient();
+
+  let eventId: string | null = null;
+
+  if (source === 'jambase') {
+    const target = await jambase.getEventById(id);
+    if (!target) return { ok: false as const, error: 'Event not found' };
+    eventId = await upsertJamBaseEvent(admin, target);
+  } else {
+    const tmEvent = await tmGetEvent(id);
+    if (!tmEvent) return { ok: false as const, error: 'Event not found' };
+    eventId = await upsertEvent(admin, tmEvent);
+  }
+
+  if (!eventId) return { ok: false as const, error: 'Could not save that event' };
+
+  await recordAttendance(admin, { userId: user.id, eventId, source: 'manual' });
 
   revalidatePath('/upcoming');
   revalidatePath('/browse');
@@ -122,6 +154,42 @@ export async function saveNote(eventId: string, body: string) {
   }
 
   revalidatePath(`/event/${eventId}`);
+  return { ok: true as const };
+}
+
+/**
+ * Rate a show, with an optional short review.
+ *
+ * Unlike `notes`, the review rides on the attendance row, so accepted friends
+ * see it whenever visibility = 'friends'. That distinction is deliberate: notes
+ * are for you, reviews are for the people you went with.
+ *
+ * Passing `null` as the rating clears both.
+ */
+export async function rateShow(eventId: string, rating: number | null, review?: string) {
+  const { supabase, user } = await requireUser();
+
+  if (rating !== null && (!Number.isInteger(rating) || rating < 1 || rating > 5)) {
+    return { ok: false as const, error: 'Rating must be 1-5' };
+  }
+  if (review && review.length > 1000) {
+    return { ok: false as const, error: 'Reviews are capped at 1000 characters' };
+  }
+
+  const { error } = await supabase
+    .from('attendances')
+    .update({
+      rating,
+      review: rating === null ? null : (review?.trim() || null),
+      rated_at: rating === null ? null : new Date().toISOString(),
+    })
+    .eq('user_id', user.id)
+    .eq('event_id', eventId);
+
+  if (error) return { ok: false as const, error: error.message };
+
+  revalidatePath(`/event/${eventId}`);
+  revalidatePath('/archive');
   return { ok: true as const };
 }
 

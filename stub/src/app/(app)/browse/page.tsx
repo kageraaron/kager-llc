@@ -1,79 +1,107 @@
 'use client';
 
-import { useState, useEffect, useTransition } from 'react';
+import { useState, useEffect, useTransition, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { addEventByTmId } from '@/app/actions';
+import { addEventFromSearch } from '@/app/actions';
 import { formatEventDate } from '@/lib/format';
 
-interface ArtistHit { tmId: string; name: string; image: string | null; genres: string[] }
 interface EventHit {
-  tmId: string;
+  source: 'jambase' | 'ticketmaster';
+  id: string;
   name: string;
+  artist: string | null;
   startsAt: string | null;
   timezone: string | null;
   image: string | null;
-  artist: string | null;
   venue: string | null;
   city: string | null;
   region: string | null;
+  isFestival: boolean;
 }
 
 /**
- * Search for an artist, then pick a date. This is also the manual-add path -
- * the equivalent of Shop letting you enter a carrier and tracking number when
- * the automatic scan misses an order.
+ * Search shows by artist, by location, or both.
+ *
+ * Backed by JamBase where configured, which is what makes "Overmono in San
+ * Francisco" work — Ticketmaster misses it because that date is a festival set
+ * it doesn't sell tickets to.
  */
 export default function BrowsePage() {
   const router = useRouter();
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState<{ query: string; artists: ArtistHit[] } | null>(null);
-  const [selected, setSelected] = useState<ArtistHit | null>(null);
-  const [events, setEvents] = useState<EventHit[]>([]);
+  const [results, setResults] = useState<{ key: string; events: EventHit[]; source: string | null } | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [added, setAdded] = useState<Set<string>>(new Set());
   const [pending, startTransition] = useTransition();
 
-  const artists = results?.artists ?? [];
-  // Only trust the empty state when the settled results match what's in the box.
-  const resultsAreCurrent = results?.query === query.trim();
+  const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
+  const [radius, setRadius] = useState(50);
+  const [locating, setLocating] = useState(false);
+  const [locError, setLocError] = useState<string | null>(null);
 
-  /**
-   * Debounced artist search.
-   *
-   * Two things have to be right here, and both bit us:
-   *
-   * 1. Superseded requests must be ABORTED, not just have their timer cleared.
-   *    Clearing the timeout does nothing once fetch has started, so a slow
-   *    response for "Chris L" could land after the one for "Chris Lake" and
-   *    overwrite good results with none.
-   * 2. Results are stored WITH the query that produced them, so we only render
-   *    "no results" for the text currently in the box. Ticketmaster matches
-   *    whole words only — "Chris L" genuinely returns nothing — so without this
-   *    the empty state flickers on every keystroke mid-word.
-   */
+  const nearMe = coords !== null;
+  const q = query.trim();
+  // A location alone is a valid search — that is the "what's on near me" case.
+  const canSearch = q.length >= 2 || nearMe;
+  const searchKey = `${q}|${coords ? `${coords.lat.toFixed(3)},${coords.lng.toFixed(3)},${radius}` : ''}`;
+
+  function useMyLocation() {
+    if (!navigator.geolocation) {
+      setLocError('This browser has no location support.');
+      return;
+    }
+    setLocating(true);
+    setLocError(null);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setCoords({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+        setLocating(false);
+      },
+      (err) => {
+        setLocError(
+          err.code === err.PERMISSION_DENIED
+            ? 'Location permission denied.'
+            : 'Could not get your location.',
+        );
+        setLocating(false);
+      },
+      { timeout: 10_000, maximumAge: 600_000 },
+    );
+  }
+
+  const run = useCallback(
+    async (signal: AbortSignal) => {
+      const params = new URLSearchParams();
+      if (q.length >= 2) params.set('q', q);
+      if (coords) {
+        params.set('lat', String(coords.lat));
+        params.set('lng', String(coords.lng));
+        params.set('radius', String(radius));
+      }
+
+      const res = await fetch(`/api/search/events?${params}`, { signal });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error ?? 'Search failed');
+      return { key: searchKey, events: json.events as EventHit[], source: json.source as string | null };
+    },
+    [q, coords, radius, searchKey],
+  );
+
+  // Debounced, and aborted on supersede — a slow response for a half-typed
+  // query must never overwrite a newer one.
   useEffect(() => {
-    if (selected) return;
-    const q = query.trim();
-    if (q.length < 2) {
+    if (!canSearch) {
       setResults(null);
       return;
     }
-
     const controller = new AbortController();
-
     const timer = setTimeout(async () => {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(`/api/search/artists?q=${encodeURIComponent(q)}`, {
-          signal: controller.signal,
-        });
-        const json = await res.json();
-        if (!res.ok) throw new Error(json.error ?? 'Search failed');
-        setResults({ query: q, artists: json.artists });
+        setResults(await run(controller.signal));
       } catch (err) {
-        // An aborted request was superseded by a newer one; not an error.
         if (err instanceof DOMException && err.name === 'AbortError') return;
         setError(err instanceof Error ? err.message : 'Search failed');
       } finally {
@@ -85,31 +113,14 @@ export default function BrowsePage() {
       clearTimeout(timer);
       controller.abort();
     };
-  }, [query, selected]);
+  }, [canSearch, run]);
 
-  async function openArtist(artist: ArtistHit) {
-    setSelected(artist);
-    setResults(null);
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch(`/api/search/events?attractionId=${encodeURIComponent(artist.tmId)}`);
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.error ?? 'Could not load dates');
-      setEvents(json.events);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Could not load dates');
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  function add(ev: EventHit) {
+  function add(hit: EventHit) {
     setError(null);
     startTransition(async () => {
-      const res = await addEventByTmId(ev.tmId);
+      const res = await addEventFromSearch(hit.source, hit.id);
       if (res.ok) {
-        setAdded((prev) => new Set(prev).add(ev.tmId));
+        setAdded((prev) => new Set(prev).add(hit.id));
         router.refresh();
       } else {
         setError(res.error);
@@ -117,33 +128,70 @@ export default function BrowsePage() {
     });
   }
 
+  const events = results?.events ?? [];
+  const resultsAreCurrent = results?.key === searchKey;
+
   return (
     <main className="page">
       <header className="page-header">
         <h1>Browse</h1>
-        <div className="sub">Search an artist to find and add a show</div>
+        <div className="sub">
+          {nearMe ? 'Shows near you' : 'Search an artist, or find what’s on nearby'}
+        </div>
       </header>
 
-      {selected ? (
-        <>
-          <button
-            className="btn"
-            style={{ marginBottom: 14 }}
-            onClick={() => { setSelected(null); setEvents([]); }}
-          >
-            &larr; {selected.name}
+      <input
+        className="input"
+        placeholder="Artist name"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        autoComplete="off"
+        autoCorrect="off"
+      />
+
+      <div className="row" style={{ marginTop: 10, flexWrap: 'wrap', gap: 8 }}>
+        {!nearMe ? (
+          <button className="btn" disabled={locating} onClick={useMyLocation}>
+            {locating ? 'Locating…' : 'Near me'}
           </button>
+        ) : (
+          <>
+            <span className="pill pill-going">Near you</span>
+            <select
+              className="input"
+              style={{ width: 'auto', padding: '6px 10px', fontSize: 14 }}
+              value={radius}
+              onChange={(e) => setRadius(Number(e.target.value))}
+            >
+              {[10, 25, 50, 100].map((r) => (
+                <option key={r} value={r}>within {r} mi</option>
+              ))}
+            </select>
+            <button
+              className="muted"
+              style={{ fontSize: 12, textDecoration: 'underline' }}
+              onClick={() => setCoords(null)}
+            >
+              Clear
+            </button>
+          </>
+        )}
+      </div>
 
-          {loading && <p className="muted">Loading dates...</p>}
-          {!loading && events.length === 0 && (
-            <div className="empty">
-              <h2>No upcoming dates</h2>
-              <p>Ticketmaster has no scheduled events for {selected.name} right now.</p>
-            </div>
-          )}
+      {locError && <p className="error" style={{ marginTop: 8 }}>{locError}</p>}
+      {loading && <p className="muted" style={{ marginTop: 12 }}>Searching…</p>}
 
-          {events.map((ev) => (
-            <div key={ev.tmId} className="card">
+      <div style={{ marginTop: 14 }}>
+        {events.map((ev) => {
+          const isAdded = added.has(ev.id);
+          return (
+            <div key={`${ev.source}:${ev.id}`} className="card">
+              {ev.image ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img className="thumb" src={ev.image} alt="" loading="lazy" />
+              ) : (
+                <div className="thumb" />
+              )}
               <div className="body">
                 <div className="title">{ev.artist ?? ev.name}</div>
                 <div className="meta">
@@ -152,63 +200,40 @@ export default function BrowsePage() {
                 <div className="meta">
                   {[ev.venue, ev.city, ev.region].filter(Boolean).join(' · ')}
                 </div>
+                {ev.isFestival && (
+                  <div style={{ marginTop: 5 }}>
+                    <span className="pill">Festival · {ev.name}</span>
+                  </div>
+                )}
               </div>
               <button
-                className={`btn ${added.has(ev.tmId) ? '' : 'btn-primary'}`}
+                className={`btn ${isAdded ? '' : 'btn-primary'}`}
                 style={{ alignSelf: 'center' }}
-                disabled={pending || added.has(ev.tmId)}
+                disabled={pending || isAdded}
                 onClick={() => add(ev)}
               >
-                {added.has(ev.tmId) ? 'Added' : 'Add'}
+                {isAdded ? 'Added' : 'Add'}
               </button>
             </div>
-          ))}
-        </>
-      ) : (
-        <>
-          <input
-            className="input"
-            placeholder="Search artists"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            autoComplete="off"
-            autoCorrect="off"
-          />
+          );
+        })}
+      </div>
 
-          {loading && <p className="muted" style={{ marginTop: 12 }}>Searching...</p>}
+      {canSearch && !loading && resultsAreCurrent && events.length === 0 && (
+        <div className="empty">
+          <h2>Nothing found</h2>
+          <p>
+            {nearMe
+              ? 'No upcoming shows in that radius. Try widening it.'
+              : 'Artist names are matched in full, so a half-typed name finds nothing.'}
+          </p>
+        </div>
+      )}
 
-          <div style={{ marginTop: 12 }}>
-            {artists.map((a) => (
-              <button
-                key={a.tmId}
-                className="card"
-                style={{ width: '100%', textAlign: 'left', alignItems: 'center' }}
-                onClick={() => openArtist(a)}
-              >
-                {a.image ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img className="thumb" src={a.image} alt="" style={{ borderRadius: '50%' }} />
-                ) : (
-                  <div className="thumb" style={{ borderRadius: '50%' }} />
-                )}
-                <div className="body">
-                  <div className="title">{a.name}</div>
-                  {a.genres.length > 0 && <div className="meta">{a.genres.join(' · ')}</div>}
-                </div>
-              </button>
-            ))}
-          </div>
-
-          {query.trim().length >= 2 && !loading && resultsAreCurrent && artists.length === 0 && (
-            <div className="empty">
-              <h2>No artists found</h2>
-              <p>
-                Ticketmaster matches whole words, so a half-typed name finds nothing.
-                Try finishing the name, or search just the surname.
-              </p>
-            </div>
-          )}
-        </>
+      {results?.source && events.length > 0 && (
+        <p className="muted" style={{ fontSize: 11, textAlign: 'center', marginTop: 16 }}>
+          via {results.source === 'jambase' ? 'JamBase' : 'Ticketmaster'}
+        </p>
       )}
 
       {error && <p className="error" style={{ marginTop: 12 }}>{error}</p>}

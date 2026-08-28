@@ -672,6 +672,61 @@ grant update (handle, display_name, bio, avatar_url, home_city)
   on profiles to authenticated;
 
 -- ============================================================================
+-- supabase/migrations/0009_ratings_and_reviews.sql
+-- ============================================================================
+
+-- Ratings and short reviews on attendances.
+--
+-- Deliberately DISTINCT from `notes`:
+--
+--   notes   owner-only, never shared, no friend path in RLS. Where you write
+--           "Marisol has the tickets, meet at 7".
+--   review  travels with the attendance row, so accepted friends see it when
+--           visibility = 'friends'. Where you write "best show of the year".
+--
+-- No new policies are needed: both columns live on `attendances`, which already
+-- has the owner-plus-accepted-friends read rule.
+
+alter table attendances
+  add column if not exists rating smallint
+    check (rating is null or (rating between 1 and 5)),
+  add column if not exists review text
+    check (review is null or char_length(review) <= 1000),
+  add column if not exists rated_at timestamptz;
+
+-- Rating a show only makes sense once it has happened; enforced in the UI
+-- rather than the schema, since `starts_at` lives on `events`.
+create index if not exists attendances_rated on attendances (user_id, rating)
+  where rating is not null;
+
+-- ============================================================================
+-- supabase/migrations/0010_jambase_ids.sql
+-- ============================================================================
+
+-- JamBase identifiers on the catalog tables.
+--
+-- JamBase aggregates ~60 sources and, unlike Ticketmaster, sees festival
+-- lineups and the club circuit. Events can therefore arrive from either
+-- provider, so each catalog row carries whichever ids it has and we upsert on
+-- the one we know. Partial unique indexes, because most rows have only one.
+
+alter table events  add column if not exists jambase_id text;
+alter table venues  add column if not exists jambase_id text;
+alter table artists add column if not exists jambase_id text;
+
+create unique index if not exists events_jambase_id_key
+  on events (jambase_id) where jambase_id is not null;
+create unique index if not exists venues_jambase_id_key
+  on venues (jambase_id) where jambase_id is not null;
+create unique index if not exists artists_jambase_id_key
+  on artists (jambase_id) where jambase_id is not null;
+
+-- Festivals span days and behave differently in the UI (no single start time,
+-- a lineup rather than a headliner).
+alter table events add column if not exists is_festival boolean not null default false;
+alter table events add column if not exists ends_at timestamptz;
+
+-- ============================================================================
 -- supabase/seed.sql
 -- ============================================================================
 

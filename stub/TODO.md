@@ -49,21 +49,44 @@ the first deploy.
 
 </details>
 
-### 1.2 Two Google OAuth clients, not one
+### 1.2 Google OAuth — one project, Testing mode  *(decided)*
 
-This is what makes the friend-group case work, and it is not obvious.
+**Correction to earlier guidance in this file:** the OAuth consent screen —
+its scopes *and* its publishing status — is configured **per GCP project**, and
+shared by every OAuth client in that project. So "two clients, one project"
+does not work: you cannot have one client Published with basic scopes and
+another in Testing with `gmail.readonly`. That would need two separate projects.
 
-| Client | Scopes | Publishing status | User limit |
-|---|---|---|---|
-| **Sign-in** | `openid`, `email`, `profile` | **Production** | **none** |
-| **Gmail scan** | `gmail.readonly` | **Testing** | 100 test users |
+**Chosen: Option A — a single GCP project in Testing mode.**
 
-Non-sensitive scopes can be published to Production **without verification and
-with no user cap**. Only the restricted Gmail scope forces Testing mode. So:
-friends sign in freely; only those who want inbox scanning need adding to the
-test-user list.
+| | |
+|---|---|
+| Publishing status | **Testing** |
+| Scopes | `openid`, `email`, `profile`, `gmail.readonly` |
+| User cap | **100**, and every user must be on the test-user list |
+| Sign-in client redirect URI | `https://biichwtrfmrdgiqtvxme.supabase.co/auth/v1/callback` |
+| Gmail client redirect URI | `https://stub-two.vercel.app/api/connect/gmail/callback` |
 
-Today both paths share one client. Split them.
+Note the two redirect URIs point at different hosts: sign-in goes through
+Supabase, Gmail connect comes back to the app.
+
+Every friend must be added under **Test users** — for plain sign-in too, not
+just Gmail. That is the cost of Option A, and it is cheap at this scale.
+
+> A Published consent screen requesting `gmail.readonly` is blocked outright for
+> unverified apps, which is why the whole project sits in Testing rather than
+> being published.
+
+**Option B, if the 100 cap or the manual test-user list ever bites:** split into
+two GCP projects — one Published with basic scopes for unlimited sign-in, one in
+Testing with `gmail.readonly` for the Gmail client.
+
+### Required env vars (Vercel, Production)
+
+`GOOGLE_OAUTH_CLIENT_ID` **and** `GOOGLE_OAUTH_CLIENT_SECRET`. Vercel bakes env
+vars into a deployment, so **redeploy** after adding them. Also enable the
+**Gmail API** in the project (APIs & Services → Library) — without it the token
+is issued but every call 403s.
 
 ### 1.3 Secrets → Vercel, not GitHub
 
@@ -187,10 +210,15 @@ you'd add around it.
 on artist + date (in the venue's timezone) and renders on `/event/[id]` for shows
 that have happened. Covers, guests and tape tracks are annotated.
 
-**1. Ratings + a short review per show** — *Banded's core loop.* **S**
-Add `rating smallint check (rating between 1 and 5)` to `attendances`, plus a
-public `review text` distinct from the existing private `notes`. The Archive
-becomes worth revisiting instead of a dead list.
+~~**Ratings + a short review per show**~~ — **DONE.** Migration `0009` adds
+`rating` (1-5), `review`, `rated_at` to `attendances`. Stars on the event page
+for past shows you attended, stars on Archive cards, and friends' ratings and
+reviews render on the event page.
+
+The `review` / `notes` split is the point: `review` rides on the attendance row
+so accepted friends see it under `visibility = 'friends'`; `notes` stays
+owner-only with no friend path in RLS. The UI says which is which, since they
+sit inches apart on the same page.
 
 **3. "Artist you follow just announced a show"** — *Bandsintown's whole product.* **M**
 You already have `user_artists` (favourites), `push_subscriptions`, and a cron
@@ -239,9 +267,35 @@ parent/child model. Defer until it actually bites.
 Also worth doing:
 - **Cache picked artists locally** and search `artists` first (the `pg_trgm` GIN
   index is already built for exactly this) before hitting any API.
-- **Bandsintown for coverage.** Ticketmaster misses small/DIY/indie shows
-  entirely. Bandsintown indexes far more of the club circuit. Needs partner
-  approval — worth applying.
+~~**Broader catalogue**~~ — **DONE (JamBase).** Base URL is
+`https://api.data.jambase.com/v3` (not `data.jambase.com`, which serves the docs
+SPA). Bearer auth. Search params: `artistName`, `geoLatitude` + `geoLongitude` +
+`geoRadiusAmount` + `geoRadiusUnits`, `eventDateFrom` / `eventDateTo`.
+`geoCityId` and `geoMetroId` are rejected despite appearing in docs.
+
+Measured against the case that prompted it — **Overmono in San Francisco**:
+
+| | Ticketmaster | JamBase |
+|---|---|---|
+| Overmono events worldwide | 8 | 17 |
+| **In San Francisco** | **0** | **1 (Portola, Pier 80)** |
+| All upcoming within 25mi of SF | — | **1,546** |
+
+Ticketmaster misses it because the SF date is a *festival appearance* it doesn't
+sell tickets to. `src/lib/providers/jambase.ts` + `upsertJamBaseEvent` in
+`catalog.ts`; migration `0010` adds `jambase_id` to events/venues/artists plus
+`is_festival` and `ends_at`. Search falls back to Ticketmaster if the key is
+absent or the call fails.
+
+> **Billing:** JamBase is a **14-day trial**, not a free tier. When it lapses,
+> search silently degrades to Ticketmaster — which is safe, but re-opens the
+> coverage gap. Decide before the trial ends.
+
+**Still to do on JamBase:**
+- **Deduplicate against Ticketmaster.** The same show can exist under both
+  `tm_id` and `jambase_id` as two catalog rows. Needs a reconciliation pass on
+  (artist, date, venue).
+- **Bandsintown** remains the free alternative if the JamBase bill isn't worth it.
 
 **Known wart:** searching a famous name surfaces tribute acts as if they were the
 real artist ("Taylor Swift" → *Warner Vineyards, Paw Paw*). Ticketmaster's
@@ -304,6 +358,21 @@ token. Notes are included in your own download, excluded from the shared feed.
 
 ---
 
+## 5.6 Location-aware search — **DONE**
+
+Browse now searches by artist, by location, or both. "Near me" uses browser
+geolocation with a 10/25/50/100-mile radius; location alone answers "what's on
+near me". Festivals are labelled, and the searched artist is shown rather than
+an arbitrary lineup member — searching Overmono used to surface "Robyn" because
+she was first in Portola's lineup.
+
+**Still to do:** search by *named* city ("shows in San Francisco") needs
+geocoding. `profiles.home_lat` / `home_lng` exist but are never populated —
+filling them from the home-city string would give a default location without
+asking for geolocation permission.
+
+---
+
 ## 6. Known issues / technical debt
 
 - **No regression test for the Browse fetch race.** Needs jsdom +
@@ -328,6 +397,13 @@ token. Notes are included in your own download, excluded from the shared feed.
   policy. Hardened in `0007` so it only answers about the caller's own pairs.
 - **Calendar token is a bearer credential in a URL.** Rotatable from Settings.
   Inherent to how calendar subscriptions work.
+- **Security audit not yet run.** `npm run security-review` / the `/security-review`
+  command exists but has never been run against this codebase. Worth doing before
+  sharing the URL, particularly over: the calendar-token bearer URL, the ingest
+  HMAC webhook, service-role usage in server actions, and the `NEXT_PUBLIC_*`
+  boundary.
+- ~~**"Connect Gmail" shown even when connected**~~ — fixed. `/upcoming`'s empty
+  state prompted unconditionally; Settings and Inbox already checked.
 - **Ticket price data is uniquely valuable and unused** — `price_cents` comes
   free from confirmation emails. Nobody else has it. See §3.5.
 

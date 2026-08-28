@@ -39,7 +39,7 @@ export default async function ArchivePage() {
           <section key={year}>
             <div className="section-label">{year} · {yearRows.length}</div>
             {yearRows.map((row) => (
-              <EventCard key={row.id} event={row.event} />
+              <EventCard key={row.id} event={row.event} rating={row.rating} />
             ))}
           </section>
         ))

@@ -1,5 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { pickImage, type TMEvent, type TMAttraction, type TMVenue } from '@/lib/providers/ticketmaster';
+import type { JBEvent, JBPerformer, JBVenue } from '@/lib/providers/jambase';
+import { jbId, resolveStart, headlinerOf, ticketUrl, isFestival } from '@/lib/providers/jambase';
 
 /**
  * Writes into the shared catalog tables (artists / venues / events).
@@ -183,4 +185,126 @@ export async function recordAttendance(
     price_cents: params.priceCents ?? null,
     purchased_at: params.purchasedAt ?? null,
   });
+}
+
+// ---------------------------------------------------------------- JamBase
+
+
+async function upsertJbArtist(db: SupabaseClient, p: JBPerformer): Promise<string | null> {
+  const id = jbId(p.identifier);
+  if (!id || !p.name) return null;
+
+  const { data, error } = await db
+    .from('artists')
+    .upsert(
+      {
+        jambase_id: id,
+        name: p.name,
+        image_url: p.image || null,
+        genres: (p.genre ?? []).slice(0, 6),
+      },
+      { onConflict: 'jambase_id' },
+    )
+    .select('id')
+    .single();
+
+  if (error) {
+    console.error('upsertJbArtist failed', { id, error: error.message });
+    return null;
+  }
+  return data.id;
+}
+
+async function upsertJbVenue(db: SupabaseClient, v: JBVenue): Promise<string | null> {
+  const id = jbId(v.identifier);
+  if (!id || !v.name) return null;
+
+  const addr = v.address ?? {};
+  const { data, error } = await db
+    .from('venues')
+    .upsert(
+      {
+        jambase_id: id,
+        name: v.name,
+        city: addr.addressLocality ?? null,
+        region: addr.addressRegion?.alternateName ?? addr.addressRegion?.name ?? null,
+        country: addr.addressCountry?.identifier ?? null,
+        lat: v.geo?.latitude ?? null,
+        lng: v.geo?.longitude ?? null,
+        timezone: addr['x-timezone'] ?? null,
+      },
+      { onConflict: 'jambase_id' },
+    )
+    .select('id')
+    .single();
+
+  if (error) {
+    console.error('upsertJbVenue failed', { id, error: error.message });
+    return null;
+  }
+  return data.id;
+}
+
+/**
+ * Persist a JamBase event into the shared catalog.
+ *
+ * Mirrors `upsertEvent` for Ticketmaster. The two can describe the same show;
+ * they are not currently reconciled, which is a known gap — see TODO.
+ */
+export async function upsertJamBaseEvent(db: SupabaseClient, ev: JBEvent): Promise<string | null> {
+  const id = jbId(ev.identifier);
+  const startsAt = resolveStart(ev);
+  if (!id || !startsAt || !ev.name) return null;
+
+  const performers = ev.performer ?? [];
+  const head = headlinerOf(ev);
+
+  const artistIds: string[] = [];
+  for (const p of performers.slice(0, 12)) {
+    const artistId = await upsertJbArtist(db, p);
+    if (artistId) artistIds.push(artistId);
+  }
+  const headlinerId = head ? await upsertJbArtist(db, head) : null;
+
+  const venueId = ev.location ? await upsertJbVenue(db, ev.location) : null;
+
+  const { data, error } = await db
+    .from('events')
+    .upsert(
+      {
+        jambase_id: id,
+        name: ev.name,
+        // Festivals deliberately have no headliner; the event name is the label.
+        headliner_id: headlinerId ?? (isFestival(ev) ? null : artistIds[0] ?? null),
+        venue_id: venueId,
+        starts_at: startsAt,
+        ends_at: ev.endDate && ev.endDate !== ev.startDate ? `${ev.endDate}T23:59:59Z` : null,
+        timezone: ev.location?.address?.['x-timezone'] ?? null,
+        status: ev.eventStatus ?? 'scheduled',
+        url: ticketUrl(ev),
+        image_url: ev.image || null,
+        is_festival: isFestival(ev),
+      },
+      { onConflict: 'jambase_id' },
+    )
+    .select('id')
+    .single();
+
+  if (error) {
+    console.error('upsertJamBaseEvent failed', { id, error: error.message });
+    return null;
+  }
+
+  if (artistIds.length) {
+    await db.from('event_artists').upsert(
+      artistIds.map((artist_id) => ({
+        event_id: data.id,
+        artist_id,
+        billing: artist_id === headlinerId ? 'headliner' : 'support',
+      })),
+      { onConflict: 'event_id,artist_id' },
+    );
+  }
+
+  return data.id;
 }

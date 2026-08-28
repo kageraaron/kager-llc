@@ -11,6 +11,14 @@ export default async function UpcomingPage() {
   const user = await getCurrentUser(supabase);
   const rows = await getUpcoming(supabase, user!.id);
 
+  // Only offer to connect Gmail if it isn't already connected — Settings and
+  // Inbox both check this, and the empty state here used to prompt regardless.
+  const { data: emailAccounts } = await supabase
+    .from('email_accounts')
+    .select('id, provider, status')
+    .eq('user_id', user!.id);
+  const gmail = (emailAccounts ?? []).find((a) => a.provider === 'gmail');
+
   // Friends-per-event for the avatar stacks. One query per event is fine at the
   // scale this app runs at (a personal calendar, not a feed).
   const friendsByEvent = new Map<string, Awaited<ReturnType<typeof getFriendsAtEvent>>>();
@@ -32,13 +40,22 @@ export default async function UpcomingPage() {
       {rows.length === 0 ? (
         <div className="empty">
           <h2>No shows yet</h2>
-          <p>
-            Connect Gmail and Stub will find ticket confirmations on its own.
-            Or add a show by hand from Browse.
-          </p>
+          {gmail ? (
+            <p>
+              Stub is watching {gmail.status === 'active' ? 'your inbox' : 'your inbox (reconnect needed)'} for
+              ticket confirmations. Nothing found yet — add a show from Browse in the meantime.
+            </p>
+          ) : (
+            <p>
+              Connect Gmail and Stub will find ticket confirmations on its own.
+              Or add a show by hand from Browse.
+            </p>
+          )}
           <div className="stack" style={{ marginTop: 20, maxWidth: 260, marginInline: 'auto' }}>
-            <Link className="btn btn-primary btn-block" href="/settings/connections">Connect Gmail</Link>
-            <Link className="btn btn-block" href="/browse">Find a show</Link>
+            {!gmail && (
+              <Link className="btn btn-primary btn-block" href="/settings/connections">Connect Gmail</Link>
+            )}
+            <Link className={`btn btn-block ${gmail ? 'btn-primary' : ''}`} href="/browse">Find a show</Link>
           </div>
         </div>
       ) : (

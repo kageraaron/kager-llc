@@ -49,14 +49,21 @@ export interface AttendanceWithEvent {
   ticket_ref: string | null;
   seat_info: string | null;
   price_cents: number | null;
+  /** 1-5, or null if unrated. Shared with friends, unlike `notes`. */
+  rating: number | null;
+  review: string | null;
   event: EventRow;
 }
+
+/** Columns selected for every attendance row. */
+const ATTENDANCE_SELECT =
+  'id, state, visibility, source, ticket_ref, seat_info, price_cents, rating, review';
 
 /** Shows the signed-in user is going to, soonest first. */
 export async function getUpcoming(db: SupabaseClient, userId: string) {
   const { data, error } = await db
     .from('attendances')
-    .select(`id, state, visibility, source, ticket_ref, seat_info, price_cents, event:events!inner ( ${EVENT_SELECT} )`)
+    .select(`${ATTENDANCE_SELECT}, event:events!inner ( ${EVENT_SELECT} )`)
     .eq('user_id', userId)
     .in('state', ['going', 'interested'])
     .gte('events.starts_at', new Date().toISOString());
@@ -69,7 +76,7 @@ export async function getUpcoming(db: SupabaseClient, userId: string) {
 export async function getArchive(db: SupabaseClient, userId: string) {
   const { data, error } = await db
     .from('attendances')
-    .select(`id, state, visibility, source, ticket_ref, seat_info, price_cents, event:events!inner ( ${EVENT_SELECT} )`)
+    .select(`${ATTENDANCE_SELECT}, event:events!inner ( ${EVENT_SELECT} )`)
     .eq('user_id', userId)
     .lt('events.starts_at', new Date().toISOString());
 
@@ -117,16 +124,19 @@ export async function getFriendsPlans(db: SupabaseClient, userId: string) {
 export async function getFriendsAtEvent(db: SupabaseClient, eventId: string, userId: string) {
   const { data, error } = await db
     .from('attendances')
-    .select('id, state, profile:profiles!inner ( id, handle, display_name, avatar_url )')
+    .select('id, state, rating, review, profile:profiles!inner ( id, handle, display_name, avatar_url )')
     .eq('event_id', eventId)
     .eq('visibility', 'friends')
     .neq('user_id', userId)
-    .in('state', ['going', 'interested']);
+    // 'went' included so friends' ratings show up on past shows.
+    .in('state', ['going', 'interested', 'went']);
 
   if (error) throw error;
   return (data ?? []) as unknown as {
     id: string;
     state: string;
+    rating: number | null;
+    review: string | null;
     profile: { id: string; handle: string; display_name: string; avatar_url: string | null };
   }[];
 }
@@ -140,7 +150,7 @@ export async function getEvent(db: SupabaseClient, eventId: string) {
 export async function getMyAttendance(db: SupabaseClient, eventId: string, userId: string) {
   const { data } = await db
     .from('attendances')
-    .select('id, state, visibility, source, ticket_ref, seat_info, price_cents')
+    .select(ATTENDANCE_SELECT)
     .eq('event_id', eventId)
     .eq('user_id', userId)
     .maybeSingle();

@@ -7,6 +7,7 @@ import { formatEventDate, formatEventTime, venueLine, formatPrice } from '@/lib/
 import { NoteEditor } from '@/components/NoteEditor';
 import { AttendanceControls } from '@/components/AttendanceControls';
 import { Setlist } from '@/components/Setlist';
+import { RatingControl, Stars } from '@/components/RatingControl';
 import { getSetlistForEvent } from '@/lib/providers/setlistfm';
 
 export const dynamic = 'force-dynamic';
@@ -80,7 +81,7 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
       {friends.length > 0 && (
         <section style={{ marginTop: 24 }}>
           <div className="section-label">
-            {friends.length} friend{friends.length === 1 ? '' : 's'} going
+            {friends.length} friend{friends.length === 1 ? '' : 's'} {isPast ? 'went' : 'going'}
           </div>
           <div className="stack" style={{ gap: 8 }}>
             {friends.map((f) => (
@@ -91,14 +92,29 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
                 ) : (
                   <div className="avatar" />
                 )}
-                <div>
-                  <div style={{ fontWeight: 550 }}>{f.profile.display_name || f.profile.handle}</div>
+                <div style={{ minWidth: 0 }}>
+                  <div className="row" style={{ gap: 8 }}>
+                    <span style={{ fontWeight: 550 }}>{f.profile.display_name || f.profile.handle}</span>
+                    {f.rating != null && <Stars rating={f.rating} size={12} />}
+                  </div>
                   <div className="muted">@{f.profile.handle} · {f.state}</div>
+                  {f.review && (
+                    <div style={{ fontSize: 13, lineHeight: 1.45, marginTop: 3 }}>{f.review}</div>
+                  )}
                 </div>
               </Link>
             ))}
           </div>
         </section>
+      )}
+
+      {isPast && attendance && (
+        <RatingControl
+          eventId={event.id}
+          initialRating={attendance.rating ?? null}
+          initialReview={attendance.review ?? null}
+          sharedWithFriends={attendance.visibility === 'friends'}
+        />
       )}
 
       {setlist && <Setlist setlist={setlist} />}

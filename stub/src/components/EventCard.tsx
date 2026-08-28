@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { eventDateParts, formatEventTime, venueLine } from '@/lib/format';
+import { Stars } from '@/components/RatingControl';
 import type { EventRow } from '@/lib/queries';
 
 interface Props {
@@ -7,9 +8,11 @@ interface Props {
   /** Small avatar stack of friends also attending. */
   friends?: { id: string; handle: string; display_name: string; avatar_url: string | null }[];
   badge?: { label: string; tone?: 'going' | 'review' };
+  /** 1-5 when the viewer has rated this show. */
+  rating?: number | null;
 }
 
-export function EventCard({ event, friends, badge }: Props) {
+export function EventCard({ event, friends, badge, rating }: Props) {
   const { month, day } = eventDateParts(event.starts_at, event.timezone);
   const image = event.image_url ?? event.headliner?.image_url;
 
@@ -34,6 +37,10 @@ export function EventCard({ event, friends, badge }: Props) {
           {formatEventTime(event.starts_at, event.timezone)}
           {event.status && event.status !== 'onsale' && ` · ${event.status}`}
         </div>
+
+        {rating != null && (
+          <div style={{ marginTop: 5 }}><Stars rating={rating} /></div>
+        )}
 
         {(friends?.length || badge) && (
           <div className="row" style={{ marginTop: 7 }}>
