@@ -4,22 +4,24 @@ import { getCurrentUser } from '@/lib/auth';
 import { searchEvents as tmSearchEvents, getAttractionEvents, pickImage } from '@/lib/providers/ticketmaster';
 import * as jambase from '@/lib/providers/jambase';
 import * as spotifyconcerts from '@/lib/providers/spotifyconcerts';
+import * as bandsintown from '@/lib/providers/bandsintown';
 import {
   searchCacheKey,
   readSearchCache,
   writeSearchCache,
   geocodePlace,
   cachedArtistConcerts,
+  cachedBandsintownArtist,
 } from '@/lib/cache';
 
 /**
- * Event search for Browse. Three sources, split by what each is actually good at.
+ * Event search for Browse. Four sources, split by what each is actually good at.
  *
- * **Spotify (RapidAPI) answers artist queries.** It is the only source here that
- * matches partial names — "Chris L" finds Chris Lake, which Ticketmaster returns
- * zero for — and it resolves to a canonical Spotify artist rather than whatever
- * tribute act shares the name. It also has the club circuit: Overmono + Ben UFO
- * at Public Works, SF is in Spotify and in NEITHER of the other two.
+ * **Spotify (RapidAPI) answers artist queries.** It is the only automatic source
+ * here that matches partial names — "Chris L" finds Chris Lake, which
+ * Ticketmaster returns zero for — and it resolves to a canonical Spotify artist
+ * rather than whatever tribute act shares the name. It also has the club
+ * circuit: Overmono + Ben UFO at Public Works, SF.
  *
  * **JamBase answers location queries.** Spotify has no "what's on near me"
  * endpoint at all, so anything without an artist name goes here. JamBase also
@@ -28,8 +30,21 @@ import {
  * **Ticketmaster is the emergency fallback**, used only when the source above it
  * is unconfigured or failing, so Browse degrades rather than going blank.
  *
+ * **Bandsintown is opt-in only, via `?deep=1`.** It is the most accurate source
+ * in the app and the scarcest — ~200 credits against a 99/day cap, one credit a
+ * query. Browse is debounced at 320ms but still fires on typing, so putting it
+ * in the automatic path would spend the entire balance in a single session of
+ * someone playing with the search box. Instead the UI offers it as a "still
+ * can't find it?" action after a cheap search has already come back thin, which
+ * is the only case where its accuracy is worth a credit.
+ *
+ * `get_city_events` is deliberately NOT wired in even for deep search: its date
+ * filters are ignored upstream, it is metro-wide with no radius, and it costs
+ * 3 credits for ~10 rows. JamBase does that job better and cheaper.
+ *
  * An artist query WITH a location is served by Spotify and filtered locally on
- * the coordinates every row carries — no second request.
+ * the coordinates every row carries — no second request. Bandsintown rows carry
+ * no coordinates, so a deep search filters on city NAME instead.
  *
  * No source is complete, which is why manual entry still exists.
  */
@@ -38,7 +53,7 @@ import {
 const PER_PAGE = 40;
 
 export interface EventHit {
-  source: 'jambase' | 'ticketmaster' | 'spotify';
+  source: 'jambase' | 'ticketmaster' | 'spotify' | 'bandsintown';
   /** Provider-scoped id; the add action needs `source` to know how to resolve it. */
   id: string;
   name: string;
@@ -88,6 +103,28 @@ function fromSpotify(c: spotifyconcerts.SpotifyConcert, searched?: string): Even
     city: c.city,
     region: c.region,
     isFestival: c.isFestival,
+  };
+}
+
+/**
+ * No coordinates and no IANA zone on a Bandsintown list row — only a naive local
+ * wall time. `startsAt` is therefore anchored at UTC for display, which the card
+ * renders in the viewer's zone, exactly as the Spotify path already does. The
+ * true zone arrives later via `enrichEventDetails` if the user saves the show.
+ */
+function fromBandsintown(e: bandsintown.BITEvent): EventHit {
+  return {
+    source: 'bandsintown',
+    id: e.id,
+    name: e.name,
+    artist: e.artistName,
+    startsAt: `${e.startsAtLocal.replace(/Z$/, '')}Z`,
+    timezone: null,
+    image: null,
+    venue: e.venueName,
+    city: e.city,
+    region: null,
+    isFestival: false,
   };
 }
 
@@ -156,6 +193,50 @@ export async function GET(request: NextRequest) {
         { error: err instanceof Error ? err.message : 'search failed' },
         { status: 502 },
       );
+    }
+  }
+
+  /**
+   * Deep search — Bandsintown, opt-in, one credit.
+   *
+   * Runs BEFORE the cheap providers rather than after, and that is not a
+   * contradiction of the cost-ordered cascade in `ingest/match.ts`. The two are
+   * answering different questions. There, the cascade is automatic and the goal
+   * is to avoid spending; here the user has already been shown a cheap result,
+   * judged it wrong or thin, and explicitly asked for the accurate source. Going
+   * back through Spotify and JamBase first would just re-serve the answer they
+   * already rejected.
+   *
+   * A miss still falls through, so a deep search that finds nothing degrades to
+   * ordinary results rather than an empty page.
+   */
+  const deep = searchParams.get('deep') === '1';
+  if (deep && keyword && bandsintown.isConfigured()) {
+    const result = await cachedBandsintownArtist(keyword);
+
+    if (result?.artist && result.events.length > 0) {
+      // City-name matching, not a radius — Bandsintown rows carry no
+      // coordinates. `resolvedPlace` is a geocoder label like "San Francisco,
+      // California, United States", so the leading component is the city.
+      const cityHint = resolvedPlace?.split(',')[0]?.trim() || place;
+      const inRange = cityHint
+        ? bandsintown.nearCity(result.events, cityHint)
+        : result.events;
+
+      if (inRange.length > 0) {
+        return NextResponse.json({
+          source: 'bandsintown',
+          place: resolvedPlace,
+          artist: result.artist.name,
+          total: inRange.length,
+          page: 1,
+          perPage: inRange.length,
+          // The whole tour arrives in one response; there is nothing to page.
+          hasMore: false,
+          deep: true,
+          events: inRange.map(fromBandsintown),
+        });
+      }
     }
   }
 

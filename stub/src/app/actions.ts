@@ -9,12 +9,19 @@ import {
   upsertEvent,
   upsertJamBaseEvent,
   upsertSpotifyEvent,
+  upsertBandsintownEvent,
   recordAttendance,
 } from '@/lib/ingest/catalog';
 import * as jambase from '@/lib/providers/jambase';
+import { toInstant } from '@/lib/providers/bandsintown';
 import { getCurrentUser } from '@/lib/auth';
 import type { ParsedTicket } from '@/lib/types';
-import { geocodePlace, cachedArtistConcerts } from '@/lib/cache';
+import {
+  geocodePlace,
+  cachedArtistConcerts,
+  cachedBandsintownArtist,
+  cachedBandsintownEvent,
+} from '@/lib/cache';
 
 /**
  * Server actions for everything the user does by hand.
@@ -57,17 +64,22 @@ export async function addEventByTmId(tmId: string, state: 'going' | 'interested'
 /**
  * Add a search result, from whichever provider produced it.
  *
- * Browse can return Ticketmaster or JamBase hits in the same list, so the
- * result carries its source and this resolves it against the right API.
+ * Browse can return hits from any of the four providers in the same list, so
+ * the result carries its source and this resolves it against the right API.
+ *
+ * Neither the Spotify nor the Bandsintown branch normally spends quota: both
+ * re-read the cached artist response that produced the result in the first
+ * place. That is why `query` is threaded through from the UI rather than the
+ * event being fetched by id — there is no get-concert-by-id on either.
  */
 export async function addEventFromSearch(
-  source: 'ticketmaster' | 'jambase' | 'spotify',
+  source: 'ticketmaster' | 'jambase' | 'spotify' | 'bandsintown',
   id: string,
   /**
-   * The artist query the result came from. Required for Spotify, which has no
-   * get-concert-by-id endpoint — the only way back to a concert is the artist
-   * search that produced it. That search is cached, so this normally costs no
-   * request against the 1000/month quota.
+   * The artist query the result came from. Required for Spotify AND
+   * Bandsintown, neither of which has a get-event-by-id endpoint we can afford
+   * — the only route back to a row is the artist search that produced it. Both
+   * searches are cached, so this normally spends nothing.
    */
   query?: string,
 ) {
@@ -84,6 +96,15 @@ export async function addEventFromSearch(
     eventId = await upsertSpotifyEvent(admin, concert, {
       searched: query,
       spotifyArtistId: result?.artist?.id ?? null,
+    });
+  } else if (source === 'bandsintown') {
+    if (!query) return { ok: false as const, error: 'Could not save that event' };
+    const result = await cachedBandsintownArtist(query);
+    const event = result?.events.find((e) => e.id === id);
+    if (!event) return { ok: false as const, error: 'Event not found' };
+    eventId = await upsertBandsintownEvent(admin, event, {
+      searched: query,
+      bandsintownArtistId: result?.artist?.id ?? null,
     });
   } else if (source === 'jambase') {
     const target = await jambase.getEventById(id);
@@ -647,4 +668,75 @@ export async function rejectCandidate(candidateId: string) {
 
   revalidatePath('/inbox');
   return { ok: true as const };
+}
+
+/**
+ * Fill in an event's missing timezone, ticket link and street address from
+ * Bandsintown. **Spends one credit**, and only when there is something to gain.
+ *
+ * This is the "one provider to search, another to fetch details" split. The
+ * cheap providers are good enough to FIND a show and place it on a list; they
+ * are routinely missing the fields that matter once you have committed to going
+ * — a real IANA zone (so the reminder fires at the right hour) and a vendor
+ * ticket URL rather than a listings page.
+ *
+ * Guarded three ways, because a credit is expensive here:
+ *
+ *  1. It returns early if the row already has a timezone and a URL — most rows
+ *     from Ticketmaster and JamBase do, so this typically costs nothing.
+ *  2. It needs a `bandsintown_id`, so it only runs for events Bandsintown
+ *     actually produced or was reconciled onto.
+ *  3. The underlying `cachedBandsintownEvent` caches for 30 days and refuses to
+ *     spend past the daily budget.
+ */
+export async function enrichEventDetails(eventId: string) {
+  await requireUser();
+  const admin = createAdminClient();
+
+  const { data: event } = await admin
+    .from('events')
+    .select('id, bandsintown_id, timezone, url, venue_id')
+    .eq('id', eventId)
+    .maybeSingle();
+
+  if (!event?.bandsintown_id) return { ok: false as const, error: 'Nothing to enrich' };
+  if (event.timezone && event.url) return { ok: true as const, enriched: false };
+
+  const details = await cachedBandsintownEvent(event.bandsintown_id);
+  if (!details) return { ok: false as const, error: 'Details unavailable' };
+
+  const timezone = event.timezone ?? details.timezone;
+
+  /*
+   * With a real zone in hand, the stored instant can finally be corrected. The
+   * row was written from a naive local wall time anchored at UTC, so a 22:00
+   * San Francisco show is sitting in the database at 22:00Z — seven hours early.
+   * This is the only point in the pipeline where that is fixable.
+   */
+  const startsAt =
+    !event.timezone && details.timezone && details.startsAtLocal
+      ? toInstant(details.startsAtLocal, details.timezone)
+      : null;
+
+  await admin
+    .from('events')
+    .update({
+      timezone,
+      url: event.url ?? details.ticketUrl,
+      ...(startsAt ? { starts_at: startsAt } : {}),
+    })
+    .eq('id', eventId);
+
+  // The zone belongs on the venue too — every future show in that room gets it
+  // for free, which is the whole point of a shared catalog.
+  if (event.venue_id && details.timezone) {
+    await admin
+      .from('venues')
+      .update({ timezone: details.timezone })
+      .eq('id', event.venue_id)
+      .is('timezone', null);
+  }
+
+  revalidatePath(`/event/${eventId}`);
+  return { ok: true as const, enriched: true };
 }

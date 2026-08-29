@@ -7,7 +7,7 @@ import { formatEventDate } from '@/lib/format';
 import { ManualEventForm } from '@/components/ManualEventForm';
 
 interface EventHit {
-  source: 'jambase' | 'ticketmaster' | 'spotify';
+  source: 'jambase' | 'ticketmaster' | 'spotify' | 'bandsintown';
   id: string;
   name: string;
   artist: string | null;
@@ -19,6 +19,14 @@ interface EventHit {
   region: string | null;
   isFestival: boolean;
 }
+
+/** Attribution shown under the results. Four providers can now answer. */
+const SOURCE_LABELS: Record<string, string> = {
+  jambase: 'JamBase',
+  ticketmaster: 'Ticketmaster',
+  spotify: 'Spotify',
+  bandsintown: 'Bandsintown',
+};
 
 /**
  * Search shows by artist, by location, or both.
@@ -42,6 +50,16 @@ export default function BrowsePage() {
     hasMore: boolean;
   } | null>(null);
   const [loadingMore, setLoadingMore] = useState(false);
+  /**
+   * Deep search is a one-shot, per-query opt-in, never sticky.
+   *
+   * Held as the query it was requested FOR rather than a boolean, so editing
+   * the box silently drops back to the cheap providers. A sticky flag would put
+   * a credit-charging provider on the keystroke path, which is exactly what the
+   * search route's `deep` gate exists to prevent.
+   */
+  const [deepFor, setDeepFor] = useState<string | null>(null);
+  const [deepSearching, setDeepSearching] = useState(false);
   const sentinel = useRef<HTMLDivElement | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -144,6 +162,7 @@ export default function BrowsePage() {
       }
       if (hasLocation) params.set('radius', String(radius));
       params.set('page', String(page));
+      if (deepFor && deepFor === q) params.set('deep', '1');
 
       const res = await fetch(`/api/search/events?${params}`, { signal });
       const json = await res.json();
@@ -158,7 +177,7 @@ export default function BrowsePage() {
         hasMore: Boolean(json.hasMore),
       };
     },
-    [q, coords, placeQuery, hasLocation, radius, searchKey],
+    [q, coords, placeQuery, hasLocation, radius, searchKey, deepFor],
   );
 
   // Debounced, and aborted on supersede — a slow response for a half-typed
@@ -178,7 +197,10 @@ export default function BrowsePage() {
         if (err instanceof DOMException && err.name === 'AbortError') return;
         setError(err instanceof Error ? err.message : 'Search failed');
       } finally {
-        if (!controller.signal.aborted) setLoading(false);
+        if (!controller.signal.aborted) {
+          setLoading(false);
+          setDeepSearching(false);
+        }
       }
     }, 320);
 
@@ -379,6 +401,32 @@ export default function BrowsePage() {
         </div>
       )}
 
+      {/*
+        Deep search: the accurate-but-scarce provider, behind an explicit tap.
+        Offered only for an artist query that has already come back — thin or
+        wrong — from the cheap providers, which is the only case where a credit
+        off a ~200-credit balance is worth spending. Never fires on typing.
+      */}
+      {q.length >= 2 && resultsAreCurrent && !loading && deepFor !== q && (
+        <section style={{ marginTop: 20 }}>
+          <button
+            className="btn btn-block"
+            disabled={deepSearching}
+            onClick={() => {
+              setDeepSearching(true);
+              setDeepFor(q);
+            }}
+          >
+            {deepSearching ? 'Searching Bandsintown…' : 'Search harder (Bandsintown)'}
+          </button>
+          <p className="muted" style={{ margin: '6px 0 0', fontSize: 11, lineHeight: 1.5 }}>
+            {events.length === 0
+              ? 'Bandsintown lists club shows the others miss.'
+              : 'Missing a date? Bandsintown often has small-venue shows the others don’t.'}
+          </p>
+        </section>
+      )}
+
       {/* No listings service is complete — club nights and afterparties are
           routinely absent from all of them — so manual entry is always offered,
           not just when a search comes back empty. */}
@@ -418,7 +466,7 @@ export default function BrowsePage() {
       {results?.source && events.length > 0 && (
         <p className="muted" style={{ fontSize: 11, textAlign: 'center', marginTop: 16 }}>
           {events.length} shown{results.hasMore ? '' : ' · that’s everything'} · via{' '}
-          {results.source === 'jambase' ? 'JamBase' : 'Ticketmaster'}
+          {SOURCE_LABELS[results.source] ?? results.source}
         </p>
       )}
 

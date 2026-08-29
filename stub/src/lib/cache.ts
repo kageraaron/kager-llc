@@ -2,6 +2,7 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { getSetlistForEvent, countSongs, type SFMFullSetlist } from '@/lib/providers/setlistfm';
 import { geocode, type Place } from '@/lib/providers/geocode';
 import { searchArtistConcerts, type ArtistConcerts } from '@/lib/providers/spotifyconcerts';
+import * as bandsintown from '@/lib/providers/bandsintown';
 
 /**
  * Provider response caching, backed by Postgres.
@@ -205,6 +206,238 @@ export async function cachedArtistConcerts(query: string): Promise<ArtistConcert
     return result;
   } catch (err) {
     console.error('spotify concerts lookup failed', err);
+    return null;
+  }
+}
+
+// ------------------------------------------------- bandsintown (via Parse)
+
+/**
+ * 24 hours — the longest TTL of any provider here, and deliberately so.
+ *
+ * Bandsintown is the scarcest source in the app (~200 credits total against a
+ * 99/day cap, versus Spotify's 1000/month and Ticketmaster's 5000/day). A tour
+ * schedule changes on the order of days, so a day-old answer is not meaningfully
+ * worse, and at 1 credit a call the cache is the difference between the budget
+ * lasting months and lasting an afternoon.
+ */
+const BANDSINTOWN_TTL_SECONDS = 24 * 3_600;
+
+/** A miss is cached too, but briefly — a small artist may get added tomorrow. */
+const BANDSINTOWN_MISS_TTL_SECONDS = 6 * 3_600;
+
+/** Event detail is far more stable than a tour listing: venue and zone do not move. */
+const BANDSINTOWN_DETAIL_TTL_SECONDS = 30 * 86_400;
+
+/**
+ * Hard local ceiling on credits spent per rolling 24 hours.
+ *
+ * Below the upstream 99/day cap on purpose. The upstream cap protects Parse;
+ * this one protects the *balance*, which is the thing that actually runs out —
+ * hitting 99/day for two days straight would empty a ~200-credit account.
+ *
+ * Override with `BANDSINTOWN_DAILY_CREDITS` once the plan is known to refill.
+ */
+function dailyCreditCap(): number {
+  const raw = Number(process.env.BANDSINTOWN_DAILY_CREDITS);
+  return Number.isFinite(raw) && raw > 0 ? raw : 25;
+}
+
+/**
+ * Credits already spent in the last 24 hours, from the ledger.
+ *
+ * Reads the rollup view rather than counting rows, so this stays one indexed
+ * query no matter how long the log gets.
+ *
+ * Returns **null when the ledger cannot be read** — a missing view (the app
+ * deployed ahead of migration `0014`), a permissions problem, an outage. That
+ * is deliberately distinct from `0`: swallowing the error and answering "zero
+ * spent" would make the budget guard pass unconditionally and spend blind
+ * against a balance that does not refill. `null` means "unknown", and
+ * `checkBudget` refuses on unknown.
+ */
+export async function creditsSpentToday(provider = 'bandsintown'): Promise<number | null> {
+  const admin = createAdminClient();
+  const { data, error } = await admin
+    .from('provider_spend_today')
+    .select('credits_spent')
+    .eq('provider', provider)
+    .maybeSingle();
+
+  if (error) {
+    console.error('provider_spend_today unreadable — refusing to spend', error.message);
+    return null;
+  }
+  // No row simply means nothing has been spent in the window yet.
+  return data?.credits_spent ?? 0;
+}
+
+/** Record a spend. Append-only; failures here must never fail the call itself. */
+async function recordSpend(
+  provider: string,
+  endpoint: string,
+  credits: number,
+  remaining: number | null,
+) {
+  const admin = createAdminClient();
+  const { error } = await admin
+    .from('provider_spend')
+    .insert({ provider, endpoint, credits, remaining });
+  if (error) console.error('provider_spend insert failed', error.message);
+}
+
+export interface BudgetVerdict {
+  allowed: boolean;
+  /** Null when the ledger could not be read — see `creditsSpentToday`. */
+  spent: number | null;
+  cap: number;
+}
+
+/**
+ * May we spend `credits` against the daily budget right now?
+ *
+ * Checked BEFORE the call, because the upstream only reports the remaining
+ * balance in the response — by which point the credit is already gone.
+ *
+ * This is advisory rather than transactional: two concurrent requests can both
+ * pass a check that only one should. That is an accepted trade — the cap sits
+ * well below the real ceiling precisely so a small overshoot is harmless, and
+ * a lock here would serialise every search.
+ *
+ * It does, however, **fail closed**. An unreadable ledger means we do not know
+ * what has been spent, and guessing "nothing" against a ~200-credit balance that
+ * does not refill is the one genuinely expensive mistake available here. The
+ * cost of refusing is that Bandsintown degrades to the other three providers,
+ * which every call site already handles.
+ */
+/** Log-friendly reason a spend was refused — "23/25 credits" or "ledger unreadable". */
+function budgetReason(v: BudgetVerdict): string {
+  return v.spent === null ? 'ledger unreadable' : `${v.spent}/${v.cap} credits used`;
+}
+
+export async function checkBudget(
+  credits: number,
+  provider = 'bandsintown',
+): Promise<BudgetVerdict> {
+  const cap = dailyCreditCap();
+  const spent = await creditsSpentToday(provider);
+  if (spent === null) return { allowed: false, spent: null, cap };
+  return { allowed: spent + credits <= cap, spent, cap };
+}
+
+/**
+ * An artist's Bandsintown tour, cached and budgeted.
+ *
+ * Returns null on every failure path — an unconfigured key, an exhausted
+ * budget, an upstream error, or an artist Bandsintown does not recognise — so
+ * that callers degrade to the cheaper providers instead of surfacing an error.
+ * The distinction between those cases is logged, not returned: no call site
+ * behaves differently, they all just fall through.
+ */
+export async function cachedBandsintownArtist(
+  query: string,
+): Promise<bandsintown.ArtistEvents | null> {
+  const q = query.trim();
+  if (q.length < 2 || !bandsintown.isConfigured()) return null;
+
+  const key = searchCacheKey({ provider: 'bandsintown', q });
+  const cached = await readSearchCache<bandsintown.ArtistEvents>(key);
+  if (cached) return cached;
+
+  const cost = bandsintown.CREDIT_COST.get_artist_events_by_name;
+  const budget = await checkBudget(cost);
+  if (!budget.allowed) {
+    console.warn(
+      `Bandsintown artist lookup skipped: ${budgetReason(budget)}`,
+    );
+    return null;
+  }
+
+  try {
+    const result = await bandsintown.getArtistEvents(q);
+    await recordSpend('bandsintown', 'get_artist_events_by_name', cost, result.creditsRemaining);
+
+    // A resolved artist with no dates is a real answer worth caching at full
+    // TTL; an unresolved name is cached briefly in case they get listed later.
+    await writeSearchCache(
+      key,
+      result,
+      result.artist ? BANDSINTOWN_TTL_SECONDS : BANDSINTOWN_MISS_TTL_SECONDS,
+    );
+    return result;
+  } catch (err) {
+    // A quota error still consumed nothing, but must not be cached as a miss —
+    // that would hide the artist for six hours after the budget resets.
+    console.error('bandsintown artist lookup failed', err);
+    return null;
+  }
+}
+
+/**
+ * Full detail for one Bandsintown event, cached for 30 days.
+ *
+ * This is the enrichment path: it is what supplies an IANA timezone and a real
+ * vendor ticket URL for an event we have already decided to save. Called for a
+ * single event on demand — never mapped over a result list, which would cost a
+ * credit per row.
+ */
+export async function cachedBandsintownEvent(
+  eventId: string,
+): Promise<bandsintown.BITEventDetails | null> {
+  if (!eventId || !bandsintown.isConfigured()) return null;
+
+  const key = searchCacheKey({ provider: 'bandsintown-event', q: eventId });
+  const cached = await readSearchCache<{ event: bandsintown.BITEventDetails | null }>(key);
+  if (cached) return cached.event;
+
+  const cost = bandsintown.CREDIT_COST.get_event_details;
+  const budget = await checkBudget(cost);
+  if (!budget.allowed) {
+    console.warn(`Bandsintown detail skipped: ${budgetReason(budget)}`);
+    return null;
+  }
+
+  try {
+    const event = await bandsintown.getEventDetails(eventId);
+    await recordSpend('bandsintown', 'get_event_details', cost, null);
+    // Wrapped so a cached miss is distinguishable from a cache miss, same as
+    // `geocodePlace`. Without it every unknown id re-spends a credit.
+    await writeSearchCache(key, { event }, BANDSINTOWN_DETAIL_TTL_SECONDS);
+    return event;
+  } catch (err) {
+    console.error('bandsintown event detail failed', err);
+    return null;
+  }
+}
+
+/**
+ * An artist's PAST shows, for Archive backfill. Cached for 30 days.
+ *
+ * Tour history is append-only and the tail never changes, so this is the safest
+ * long cache in the file. Takes an `id-name` slug, which comes from a prior
+ * `cachedBandsintownArtist` call — resolving a name here would cost a second
+ * credit for something the upcoming-events response already told us.
+ */
+export async function cachedBandsintownPastEvents(
+  slug: string,
+): Promise<bandsintown.BITEvent[] | null> {
+  if (!slug || !bandsintown.isConfigured()) return null;
+
+  const key = searchCacheKey({ provider: 'bandsintown-past', q: slug });
+  const cached = await readSearchCache<{ events: bandsintown.BITEvent[] }>(key);
+  if (cached) return cached.events;
+
+  const cost = bandsintown.CREDIT_COST.get_artist_past_events;
+  const budget = await checkBudget(cost);
+  if (!budget.allowed) return null;
+
+  try {
+    const events = await bandsintown.getArtistPastEvents(slug);
+    await recordSpend('bandsintown', 'get_artist_past_events', cost, null);
+    await writeSearchCache(key, { events }, BANDSINTOWN_DETAIL_TTL_SECONDS);
+    return events;
+  } catch (err) {
+    console.error('bandsintown past events failed', err);
     return null;
   }
 }

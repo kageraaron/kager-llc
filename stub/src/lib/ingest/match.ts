@@ -4,7 +4,9 @@ import * as jambase from '@/lib/providers/jambase';
 import type { JBEvent } from '@/lib/providers/jambase';
 import * as spotifyconcerts from '@/lib/providers/spotifyconcerts';
 import type { SpotifyConcert } from '@/lib/providers/spotifyconcerts';
-import { cachedArtistConcerts } from '@/lib/cache';
+import * as bandsintown from '@/lib/providers/bandsintown';
+import type { BITEvent } from '@/lib/providers/bandsintown';
+import { cachedArtistConcerts, cachedBandsintownArtist } from '@/lib/cache';
 
 /**
  * Turn a parsed ticket into a specific real-world event.
@@ -76,7 +78,7 @@ export function similarity(a: string, b: string): number {
  * `raw` is carried through untouched so that, once a candidate wins, it can be
  * handed to the right catalog upsert.
  */
-export type CandidateSource = 'ticketmaster' | 'jambase' | 'spotify';
+export type CandidateSource = 'ticketmaster' | 'jambase' | 'spotify' | 'bandsintown';
 
 export interface CatalogCandidate {
   source: CandidateSource;
@@ -89,7 +91,7 @@ export interface CatalogCandidate {
   startsAt: string | null;
   venueName: string | null;
   city: string | null;
-  raw: TMEvent | JBEvent | SpotifyConcert;
+  raw: TMEvent | JBEvent | SpotifyConcert | BITEvent;
 }
 
 function msOrNull(iso: string | null): number | null {
@@ -136,6 +138,30 @@ export function fromSpotify(c: SpotifyConcert, searched?: string): CatalogCandid
     venueName: c.venueName,
     city: c.city,
     raw: c,
+  };
+}
+
+/**
+ * Bandsintown rows carry a naive local wall time and no zone, so `startsAt` is
+ * anchored at UTC here rather than converted.
+ *
+ * That is not a fudge for scoring purposes: `ticket.startsAt` is itself local
+ * wall time whenever the email gave no zone, so the two are usually being
+ * compared on the same footing. And the date term awards full credit inside 24
+ * hours and decays over the next 48, which absorbs a zone error comfortably
+ * larger than any real one. The honest instant is resolved later, at persist
+ * time, where `upsertBandsintownEvent` has a venue timezone to work with.
+ */
+export function fromBandsintown(ev: BITEvent, searched?: string): CatalogCandidate {
+  return {
+    source: 'bandsintown',
+    id: ev.id,
+    artistName: ev.artistName ?? searched ?? null,
+    name: ev.name,
+    startsAt: `${ev.startsAtLocal.replace(/Z$/, '')}Z`,
+    venueName: ev.venueName,
+    city: ev.city,
+    raw: ev,
   };
 }
 
@@ -301,33 +327,69 @@ async function spotifyCandidates(ticket: ParsedTicket): Promise<CatalogCandidate
 }
 
 /**
+ * Bandsintown candidates. **Costs a credit** off a ~200-credit balance, so this
+ * is the one provider fetch that checks a budget before it runs (inside
+ * `cachedBandsintownArtist`) and returns nothing rather than spending when the
+ * daily allowance is gone.
+ *
+ * Like the Spotify path this returns the artist's whole worldwide tour, so it
+ * is narrowed to the date window before scoring — otherwise a 36-date tour
+ * contributes 36 candidates and drowns the real answer in near-ties.
+ */
+async function bandsintownCandidates(ticket: ParsedTicket): Promise<CatalogCandidate[]> {
+  const keyword = bandsintown.queryForTicket(ticket);
+  if (!keyword || !bandsintown.isConfigured()) return [];
+
+  const result = await cachedBandsintownArtist(keyword);
+  if (!result?.artist) return [];
+
+  const inWindow = ticket.startsAt
+    ? bandsintown.withinDays(result.events, ticket.startsAt, 2)
+    : result.events;
+
+  return inWindow.map((e) => fromBandsintown(e, keyword));
+}
+
+/**
  * Find the event a ticket refers to, consulting providers in cost order.
  *
- * **Ticketmaster → JamBase → Spotify**, and it stops as soon as a provider
- * yields a confident, unambiguous match. The order is quota economics, not
- * preference:
+ * **Ticketmaster → JamBase → Spotify → Bandsintown**, stopping as soon as a
+ * provider yields a confident, unambiguous match. The order is quota economics,
+ * not preference — cheapest first, scarcest last:
  *
- * | Provider | Free allowance |
- * |---|---|
- * | Ticketmaster | 5,000/day (~150,000/mo) — effectively free |
- * | JamBase | trial quota, larger than Spotify's |
- * | Spotify (RapidAPI) | **1,000 per MONTH** — scarcest by two orders of magnitude |
+ * | Provider | Free allowance | Cost of one lookup |
+ * |---|---|---|
+ * | Ticketmaster | 5,000/day (~150,000/mo) | effectively free |
+ * | JamBase | 14-day trial quota | metered |
+ * | Spotify (RapidAPI) | 1,000 per MONTH (~33/day) | 1 request |
+ * | Bandsintown (Parse) | **~200 credits, 99/day cap** | **1 credit** |
  *
- * Spotify goes last precisely BECAUSE it is the best at club shows: the cascade
- * only reaches it when the cheap providers have already failed, which is exactly
- * the small-venue case it wins. Spending the scarce quota only on genuine misses
- * is strictly better than spending it on every Ticketmaster miss.
+ * The two scarcest sources go last precisely BECAUSE they are the best at club
+ * shows: the cascade only reaches them when the cheap providers have already
+ * failed, which is exactly the small-venue case they win. Spending scarce quota
+ * only on genuine misses beats spending it on every Ticketmaster miss.
+ *
+ * Bandsintown sits below Spotify despite being the more accurate of the two,
+ * because it is roughly 5x scarcer per month and it is the only source whose
+ * balance does not visibly refill. When both would answer, the cheaper one
+ * should.
+ *
+ * This ordering is affordable ONLY on the ingestion path. Browse must not walk
+ * this cascade on a keystroke — see `api/search/events`, which keeps
+ * Bandsintown behind an explicit user action.
  *
  * Real example: an Eventbrite confirmation for Silva Bumpa at Monarch, SF
  * returns **0** candidates from Ticketmaster and no club show from JamBase
  * (whose only same-day SF event is a different one, Portola at Pier 80), while
- * Spotify has Monarch exactly.
+ * Spotify has Monarch exactly. Overmono @ Public Works, SF is the mirror case:
+ * absent from Ticketmaster and JamBase, present in both Spotify and Bandsintown.
  */
 export async function matchTicket(ticket: ParsedTicket): Promise<MatchResult> {
   const providers: { source: CandidateSource; run: () => Promise<CatalogCandidate[]> }[] = [
     { source: 'ticketmaster', run: async () => (await findCandidatesForTicket(ticket)).map(fromTicketmaster) },
     { source: 'jambase', run: () => jambaseCandidates(ticket) },
     { source: 'spotify', run: () => spotifyCandidates(ticket) },
+    { source: 'bandsintown', run: () => bandsintownCandidates(ticket) },
   ];
 
   const consulted: CandidateSource[] = [];

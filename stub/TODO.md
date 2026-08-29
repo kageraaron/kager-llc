@@ -1,10 +1,31 @@
 # Stub — remaining work
 
-Living backlog. Current state: working app on a seeded Supabase project, running
-locally. Everything below is what stands between that and a thing your friends
-actually use.
+Living backlog. Current state: **deployed and running against a real production
+database with real users.** Everything below is what stands between that and a
+thing your friends actually use.
 
 Ordered by what blocks what. **§1 is the only section that blocks sharing it.**
+
+## Status at a glance — 2026-08-29
+
+| | |
+|---|---|
+| **Deployed** | `stub-two.vercel.app`, commit `8d497ee`, READY. Every route 200, no 5xx. Per-deployment URLs are SSO-walled, see §1.6 |
+| **Prod DB** | `biichwtrfmrdgiqtvxme`, all **14** migrations applied |
+| **Prod keys** | `RAPID_API_KEY` and `PARSE_API_KEY` both set. Bandsintown is live on the next deploy |
+| **Dev DB** | `syrsjdreydgblrwpalyw`, seeded, all **14** migrations |
+| **Tests** | **91** offline passing; live suites for queries, geocode, Spotify |
+| **Providers wired** | Ticketmaster, JamBase, Spotify/RapidAPI, **Bandsintown/Parse**, setlist.fm, MusicBrainz, Nominatim |
+| **Email vendors parsed** | Ticketmaster, AXS, DICE, Eventbrite, See Tickets/Eventim, Frontgate, TicketWeb, Etix |
+
+**Blocking a wider share:** Google OAuth test-user list (§1.2) · a domain (§1.4)
+· VAPID keys (§1.5) · security review (§6). *(Deployment Protection and
+`RAPID_API_KEY` are both resolved — share `stub-two.vercel.app`, not a
+per-deployment URL.)*
+
+**Nearest high-value work:** invite flow (§2) · friend activity feed (§3.4) ·
+serve Browse from the local catalog (§5.8.3, now the biggest efficiency win
+left) · backfill provider dedupe over existing rows (§5.12).
 
 ---
 
@@ -12,20 +33,21 @@ Ordered by what blocks what. **§1 is the only section that blocks sharing it.**
 
 ### 1.1 ~~The test accounts are a live backdoor~~ — **RESOLVED**
 
-**Done 2026-08-28.** Production project `biichwtrfmrdgiqtvxme` (`stub-prod`) is
-provisioned with schema only:
+**Done 2026-08-28**, and **live since 2026-08-29.** Production project
+`biichwtrfmrdgiqtvxme` (`stub-prod`) was provisioned with schema only — no seed,
+so the `stubdemo123` accounts exist nowhere in production.
 
-- All 8 migrations applied and tracked.
-- **0 users, 0 profiles, 0 attendances, 0 notes.**
-- 15 tables / 25 policies / 15 RLS-enabled — byte-identical counts to dev.
+**Current production state (2026-08-29):** 2 users · 2 events · 10 artists ·
+1 attendance. Real data now, so treat it accordingly.
+
+- **All 13 migrations applied and tracked** (`0012` and `0013` applied
+  2026-08-29 — see below).
 - Advisors: only the 2 known-accepted warnings (§6).
 - Signup verified end to end with a throwaway user: profile, calendar token and
   inbound address all auto-created, then deleted. Confirms the `0006`
   `search_path` fix — without it every signup raises 42883.
 
 Dev project `syrsjdreydgblrwpalyw` keeps the seed so `npm run test:live` works.
-
-Remaining: point Vercel's **Production** env at the prod project (§1.6).
 
 <details><summary>Original issue</summary>
 
@@ -139,20 +161,44 @@ to what §1.3 says about runtime config):
 | `STUB_BASE_URL` | deployed URL, no trailing slash |
 | `CRON_SECRET` | same value as in Vercel's env vars |
 
-### ⚠ Production database is two migrations behind
+### ~~Production database is two migrations behind~~ — **RESOLVED 2026-08-29**
 
-`supabase-prod` (`biichwtrfmrdgiqtvxme`) has **0001–0011**. Missing **0012** and
-**0013**, both of which the current code needs:
+Prod was on `0001–0011`, which meant two live defects:
 
-- Without `0012`, `events.spotify_concert_id` does not exist, so a Spotify match
-  cannot be persisted — `persistCandidate` returns null and ingestion errors on
-  exactly the club shows the cascade was built to catch.
-- Without `0013`, `jambase_id` is still enforced by a *partial* unique index, so
-  **adding a JamBase event from Browse fails in production today** (see §6).
+- no `events.spotify_concert_id`, so a Spotify match could not be persisted —
+  `persistCandidate` returned null and ingestion errored on exactly the club
+  shows the cascade exists to catch;
+- `jambase_id` still enforced by a *partial* unique index, so **adding a JamBase
+  event from Browse failed in production** (see §6).
 
-Both are additive and low risk. Applying them to prod needs a human — an attempt
-to run SQL against the prod project was refused by the permission layer, and it
-was not worked around.
+`0012` and `0013` are now applied and verified: spotify columns present, 6 unique
+constraints created, 0 leftover partial indexes, user data untouched. The
+`ON CONFLICT` path was then exercised directly against prod for all three upserts
+that were failing.
+
+> **Post-mortem worth keeping.** The verification probe was written as a single
+> statement using data-modifying CTEs — insert, then `delete ... where id in
+> (select id from ins)` — on the assumption that one statement means one
+> transaction and therefore self-cleaning. It is not: every CTE in a statement
+> sees the **same snapshot**, so the DELETE could not see rows the INSERT had
+> just written. It returned 0, and three `__probe__` rows persisted in
+> production until they were found and removed. To verify a write path against
+> real data, do the insert and the cleanup as **separate statements** and check
+> in between — or probe a scratch project instead.
+
+### The budget guard fails closed
+
+`creditsSpentToday` returns `null`, not `0`, when the ledger cannot be read — a
+missing view, a permissions problem, an outage — and `checkBudget` refuses on
+`null`.
+
+This was a real bug on the first pass: the query destructured only `data` and
+swallowed `error`, so an unreadable ledger read as "nothing spent" and the guard
+passed unconditionally. Against a ~200-credit balance that is not known to
+refill, spending blind is the one genuinely expensive mistake available here, and
+it would have been live the moment prod deployed ahead of `0014`. Refusing costs
+nothing by comparison: Bandsintown degrades to the other three providers, which
+every call site already handles.
 
 ### Still to do for the first deploy
 
@@ -166,7 +212,36 @@ was not worked around.
 3. Push the `vercel.json` fix, then redeploy.
 
 Project: `prj_FChnfQJaJ4YbeLabejV05nkVWBbb` (team `dbob3226-4368s-projects`,
-hobby plan). No deployments yet.
+hobby plan). **Deployed and serving** — 8 production deployments, latest builds
+clean in ~30s. Items 1–3 above are done.
+
+### ⚠ Deployment Protection makes the deploy URLs look broken
+
+This is what "the production build won't load" actually was — **not** a build
+failure. The build was `READY` with zero errors.
+
+| URL | Result |
+|---|---|
+| `stub-<hash>-…vercel.app` | **302 → `vercel.com/sso-api`** (Vercel login wall) |
+| `stub-git-main-…vercel.app` | **302 → `vercel.com/sso-api`** |
+| `stub-two.vercel.app` | **200 OK** |
+
+Vercel Authentication is on, so per-deployment and branch URLs are viewable only
+by the Vercel team. **Anyone you send those links to sees a login wall.** Use
+`stub-two.vercel.app` — which is also the host the Gmail OAuth redirect points
+at (§1.2) — or turn Deployment Protection off before sharing.
+
+> Unrelated red herring: the build log's `npm warn allow-scripts …
+> unrs-resolver` is a warning, not an error. `unrs-resolver` is a transitive dep
+> of the ESLint toolchain and is not imported by the app or by `next build`.
+
+### ~~Confirm `RAPID_API_KEY` is in Vercel Production~~ — **confirmed set**
+
+Worth keeping in mind whenever this key rotates or a new environment is created:
+the match cascade (§5.11) degrades **silently** without it. `isConfigured()`
+returns false, Spotify is skipped, and club shows quietly go back to being
+unmatched with nothing in the logs to say why. A typo in the variable *name*
+fails exactly the same way.
 
 ---
 
@@ -592,6 +667,52 @@ Covered by `eventbriteSpacedStartDate`, `seeTicketsNoArtistInSubject` and
 
 ---
 
+## 5.8 Caching and rate limits — **mostly done**
+
+Migration `0011` adds two caches, both in Postgres rather than in process —
+Vercel runs each request in a short-lived isolated function, so an in-memory
+cache would be cold on most requests and shared with nobody, which is exactly
+where the wins are. Original exposure:
+
+| Provider | Limit | Current usage |
+|---|---|---|
+| JamBase | trial quota, unpublished | every keystroke in Browse (debounced 320ms) |
+| Ticketmaster | 5000/day, 5/sec | fallback only now |
+| setlist.fm | ~1/sec, 403s when exceeded | one call per past event page view |
+| MusicBrainz | 1/sec, hard | artist resolution during Spotify import |
+
+1. ~~**Cache setlist lookups in the database.**~~ — **DONE.** `event_setlists`,
+   via `getCachedSetlist`. A hit is cached forever, because a past setlist does
+   not change. A **miss is cached too**, for 3 days: setlist.fm entries are
+   added by users days or weeks after a show, and without negative caching every
+   view of an archived event re-hit an API that answers 403 when throttled. A
+   provider *error* is not cached as a miss — that would poison the entry on a
+   transient outage.
+2. ~~**Cache search responses.**~~ — **DONE.** `search_cache`, 5-minute TTL,
+   keyed on the normalised query + geo + radius + page. Coordinates are rounded
+   to ~1km so two people in the same neighbourhood share an entry.
+3. **Serve Browse from the local catalog first** — *still to do.* Events already
+   synced live in `events`; the `pg_trgm` index exists and is unused for this.
+4. ~~**Persist geocoded coordinates**~~ — **DONE**, see §5.6.
+
+Geocoding rides on `search_cache` too (30 days on a hit, 1 hour on a miss). The
+payload is wrapped as `{ place }` rather than stored bare, so a cached *miss* is
+distinguishable from a cache miss — otherwise every typo re-hits a geocoder
+limited to one request per second.
+
+---
+
+## 5.9 Browse pagination — **DONE**
+
+An IntersectionObserver sentinel appends the next page as it scrolls into view.
+The stale-response race needed its own guard here: an AbortController covers
+page 1, but an append resolves later and lands on whatever is on screen, so
+`loadMore` captures the results key at request time and drops the response if
+the key has changed. Results are also de-duplicated on `source:id`, since a
+shifting upstream page window can repeat a row.
+
+---
+
 ## 5.10 Spotify concert graph (RapidAPI) — **DONE**
 
 `src/lib/providers/spotifyconcerts.ts`, on the `spotify81` RapidAPI proxy.
@@ -742,49 +863,109 @@ anyway"**, which builds the show from the parsed artist, venue, city and date vi
 
 ---
 
-## 5.8 Caching and rate limits — **mostly done**
+## 5.12 Bandsintown, via Parse — **DONE**
 
-Migration `0011` adds two caches, both in Postgres rather than in process —
-Vercel runs each request in a short-lived isolated function, so an in-memory
-cache would be cold on most requests and shared with nobody, which is exactly
-where the wins are. Original exposure:
+Fourth event provider. `providers/bandsintown.ts`, migration `0014`, README
+["The provider architecture"](./README.md#the-provider-architecture).
 
-| Provider | Limit | Current usage |
-|---|---|---|
-| JamBase | trial quota, unpublished | every keystroke in Browse (debounced 320ms) |
-| Ticketmaster | 5000/day, 5/sec | fallback only now |
-| setlist.fm | ~1/sec, 403s when exceeded | one call per past event page view |
-| MusicBrainz | 1/sec, hard | artist resolution during Spotify import |
+### Why a fourth provider
 
-1. ~~**Cache setlist lookups in the database.**~~ — **DONE.** `event_setlists`,
-   via `getCachedSetlist`. A hit is cached forever, because a past setlist does
-   not change. A **miss is cached too**, for 3 days: setlist.fm entries are
-   added by users days or weeks after a show, and without negative caching every
-   view of an archived event re-hit an API that answers 403 when throttled. A
-   provider *error* is not cached as a miss — that would poison the entry on a
-   transient outage.
-2. ~~**Cache search responses.**~~ — **DONE.** `search_cache`, 5-minute TTL,
-   keyed on the normalised query + geo + radius + page. Coordinates are rounded
-   to ~1km so two people in the same neighbourhood share an entry.
-3. **Serve Browse from the local catalog first** — *still to do.* Events already
-   synced live in `events`; the `pg_trgm` index exists and is unused for this.
-4. ~~**Persist geocoded coordinates**~~ — **DONE**, see §5.6.
+`get_artist_events_by_name("Overmono")` returns **Overmono @ Public Works, San
+Francisco, 2026-09-27** — the club show absent from both Ticketmaster and
+JamBase, and the reason manual entry exists (§5.7). Whole tour, one credit.
 
-Geocoding rides on `search_cache` too (30 days on a hit, 1 hour on a miss). The
-payload is wrapped as `{ place }` rather than stored bare, so a cached *miss* is
-distinguishable from a cache miss — otherwise every typo re-hits a geocoder
-limited to one request per second.
+It also carries two fields nothing else here has: a real **IANA timezone**
+(where the Spotify proxy gives only a UTC offset, which cannot be converted to a
+zone), and an artist's **past tour dates**, which is a source the Archive tab has
+never had — setlist.fm can only tell you what was played at a show you already
+know happened.
 
----
+### BILLING — the real constraint, and it is severe
 
-## 5.9 Browse pagination — **DONE**
+Measured live on 2026-08-29: **~200 credits total**, 99/day cap, **1 credit per
+artist query**. That is roughly 5x tighter than the RapidAPI Spotify quota and
+four orders of magnitude tighter than Ticketmaster — and unlike the others, the
+balance is not known to refill.
 
-An IntersectionObserver sentinel appends the next page as it scrolls into view.
-The stale-response race needed its own guard here: an AbortController covers
-page 1, but an append resolves later and lands on whatever is on screen, so
-`loadMore` captures the results key at request time and drops the response if
-the key has changed. Results are also de-duplicated on `source:id`, since a
-shifting upstream page window can repeat a row.
+Consequences, all implemented:
+
+- **Last** in the ingestion cascade, below Spotify. Reached only when a real
+  ticket matched nothing cheaper — precisely the small-venue case it wins, at a
+  volume of one call per unmatched email rather than per keystroke.
+- **Never** on the Browse keystroke path. Gated behind `?deep=1` and a "Search
+  harder" button. The flag is held as the query it was requested *for*, not a
+  boolean, so editing the box drops back to the cheap providers automatically.
+- 24-hour cache TTL on tours, 30 days on event detail and past events.
+- A real **budget ledger** — `provider_spend` + the `provider_spend_today`
+  rollup view. `checkBudget` refuses to spend past `BANDSINTOWN_DAILY_CREDITS`
+  (default 25/day) *before* the call, because the upstream only reports the
+  remaining balance in the response, i.e. after the credit is gone.
+
+### Two endpoints that do not work as documented — verified live
+
+1. **`country` / `region` filters on the artist endpoints are broken.**
+   `get_artist_events_by_name("Overmono", country: "US")` returns an **empty**
+   events array; the same call with no filter returns the US dates. Never pass
+   them — fetch worldwide (same one credit) and filter locally.
+
+2. **`get_city_events` ignores `start_date` / `end_date`.** A request for
+   2026-09-26..2026-09-28 came back with 2026-08-29 events. Also metro-wide with
+   no radius (a `san-francisco-ca` query returns San Jose, Napa, Petaluma), ~10
+   rows a page, **3 credits a page**.
+
+   So it is deliberately **not wired in**, even for deep search — JamBase does
+   location better and cheaper. Bandsintown is an artist-query and event-detail
+   provider here, nothing else.
+
+### The naive-timestamp trap
+
+Artist rows give `2026-09-27T22:00:00` with **no zone**. Writing that straight to
+Postgres reads it back as UTC and puts a 22:00 San Francisco show seven hours
+early. Handled in three places:
+
+- `BITEvent.startsAtLocal` is deliberately named to stop anyone treating it as an
+  instant.
+- `upsertBandsintownEvent` resolves the zone in priority order — the event's own
+  `timezone` (detail rows only), then the zone another provider already stored on
+  the matched venue, then a bare UTC anchor with `timezone` left null (which is
+  what the Spotify path already does and the UI already handles).
+- `enrichEventDetails` is the only place the stored instant can be **corrected**
+  once a real zone arrives — and it writes the zone onto the venue row too, so
+  every future show in that room gets it free.
+
+### Search vs. detail — the split this settles
+
+One tier finds the show, another enriches it. `enrichEventDetails` spends a
+credit only when the row is actually missing a timezone or a ticket URL, only for
+rows with a `bandsintown_id`, and behind a 30-day cache. Most saved events never
+trigger it.
+
+### Reconciliation — partly done
+
+`reconcileEvent` merges a Bandsintown write into an existing row from another
+provider rather than duplicating it. Conservative on purpose: same-day start
+**and** matching venue or headliner, and it refuses when two rows name different
+headliners. A merge adds and fills gaps, never overwrites — `starts_at` in
+particular is left alone, since the incumbent's came with a real zone.
+
+**Still open:** this only runs when a Bandsintown write passes through. A JamBase
+row and a Spotify row added a week apart still duplicate. A backfill pass over
+`events` would clean those up, and is the natural next step.
+
+### Still to do
+
+- [x] `PARSE_API_KEY` into Vercel Production — **done 2026-08-29**.
+- [x] Migration `0014` applied to prod (`biichwtrfmrdgiqtvxme`) — **done
+      2026-08-29**, ahead of the deploy that ships the provider. Verified: the
+      three `bandsintown_id` columns exist, all three uniques are real
+      `pg_constraint` rows rather than partial indexes (the `0013` trap), and
+      `provider_spend_today` resolves. Prod advisors match dev exactly.
+- [ ] Confirm whether the ~200-credit balance refills monthly. If it does,
+      `BANDSINTOWN_DAILY_CREDITS` can go up from 25.
+- [ ] Per-user rate limit in front of `?deep=1` — one user can currently consume
+      the whole day's allowance.
+- [ ] Wire `getArtistPastEvents` into the Archive tab. The provider function and
+      its cache exist; nothing calls them yet.
 
 ---
 
@@ -832,7 +1013,8 @@ shifting upstream page window can repeat a row.
   service worker script that responds with a redirect fails registration
   outright, which silently kills the PWA: no install, no offline shell, and any
   already-installed app stuck on a stale worker. Confirmed in production logs
-  (`GET /sw.js 307`) before the fix.
+  (`GET /sw.js 307`) before the fix, and verified `200` on `stub-two.vercel.app`
+  after it.
 - **`pg_trgm` installed in `public`** — linter warning. Moving it risks the
   `gin_trgm_ops` indexes. Accepted.
 - **Leaked-password protection is off** — one dashboard toggle
@@ -841,6 +1023,11 @@ shifting upstream page window can repeat a row.
   policy. Hardened in `0007` so it only answers about the caller's own pairs.
 - **Calendar token is a bearer credential in a URL.** Rotatable from Settings.
   Inherent to how calendar subscriptions work.
+- **Dev catalog has orphan rows from testing.** A live end-to-end run of the
+  Spotify upsert left ~13 artist rows created by name (Ben UFO plus a WILDLANDS
+  festival lineup) and a `jb-probe-1` row in the **dev** project. Harmless, but
+  they will show up in artist lookups. Clear with
+  `delete from artists where created_at > '2026-08-29' and tm_id is null`.
 - **Security audit not yet run.** `npm run security-review` / the `/security-review`
   command exists but has never been run against this codebase. Worth doing before
   sharing the URL, particularly over: the calendar-token bearer URL, the ingest
@@ -856,12 +1043,13 @@ shifting upstream page window can repeat a row.
 ## 7. Verification
 
 ```bash
-npm test              # 18 offline: extractors + matcher
+npm test              # 91 offline: extractors, matcher, providers
 npm run test:live     # 9 live: real queries + RLS against seeded data
 npx tsc --noEmit
 npm run build
 node scripts/verify-rls.mjs   # throwaway users, deeper privacy check
 ```
 
-Supabase advisors should show exactly three known warnings (§6). Anything else
-is new.
+Supabase advisors should show the three known warnings (§6), plus two INFO
+`rls_enabled_no_policy` notices for `search_cache` and `provider_spend` — both
+are service-role-only tables by design. Anything else is new.

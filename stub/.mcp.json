@@ -3,6 +3,16 @@
     "supabase": {
       "type": "http",
       "url": "https://mcp.supabase.com/mcp?project_ref=syrsjdreydgblrwpalyw&features=docs%2Caccount%2Cdatabase%2Cdebugging%2Cdevelopment%2Cfunctions%2Cbranching%2Cstorage"
+    },
+    "parse": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://api.parse.bot/mcp/25ccb7dd-ea12-4f2c-bb0a-966dbe1228e3",
+        "--header",
+        "X-API-Key:${PARSE_API_KEY}"
+      ]
     }
   }
 }

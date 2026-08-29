@@ -4,6 +4,8 @@ import type { JBEvent, JBPerformer, JBVenue } from '@/lib/providers/jambase';
 import { jbId, resolveStart, headlinerOf, ticketUrl, isFestival } from '@/lib/providers/jambase';
 import type { SpotifyConcert } from '@/lib/providers/spotifyconcerts';
 import { headlinerOf as spotifyHeadlinerOf } from '@/lib/providers/spotifyconcerts';
+import type { BITEvent } from '@/lib/providers/bandsintown';
+import { toInstant } from '@/lib/providers/bandsintown';
 import type { CatalogCandidate } from '@/lib/ingest/match';
 
 /**
@@ -489,5 +491,260 @@ export async function persistCandidate(
       return upsertJamBaseEvent(db, candidate.raw as JBEvent);
     case 'spotify':
       return upsertSpotifyEvent(db, candidate.raw as SpotifyConcert, { searched: opts.searched });
+    case 'bandsintown':
+      return upsertBandsintownEvent(db, candidate.raw as BITEvent, { searched: opts.searched });
   }
+}
+
+// ---------------------------------------------------------------- Bandsintown
+
+/**
+ * Artists arrive as a name plus, for the searched artist only, a Bandsintown id.
+ * Same shape of problem as the Spotify path: a lineup is billed as bare names.
+ */
+async function upsertBitArtist(
+  db: SupabaseClient,
+  name: string,
+  bandsintownId?: string | null,
+): Promise<string | null> {
+  if (!name.trim()) return null;
+
+  if (bandsintownId) {
+    const { data, error } = await db
+      .from('artists')
+      .upsert({ bandsintown_id: bandsintownId, name }, { onConflict: 'bandsintown_id' })
+      .select('id')
+      .single();
+    if (error) {
+      console.error('upsertBitArtist failed', { bandsintownId, error: error.message });
+      return null;
+    }
+    return data.id;
+  }
+
+  const { data: existing } = await db.from('artists').select('id').ilike('name', name).maybeSingle();
+  if (existing) return existing.id;
+
+  const { data, error } = await db.from('artists').insert({ name }).select('id').single();
+  if (error) {
+    console.error('upsertBitArtist insert failed', { name, error: error.message });
+    return null;
+  }
+  return data.id;
+}
+
+/**
+ * Venues carry no id on Bandsintown list rows — only a name and a city string
+ * like "San Francisco". So this is name+city matching, the same fallback the
+ * Spotify path uses when `venueId` is null.
+ *
+ * That matching is what makes reconciliation work: a Spotify row already placed
+ * "Public Works" in "San Francisco" with coordinates, and this finds that row
+ * rather than inserting a second one beside it.
+ */
+async function upsertBitVenue(db: SupabaseClient, ev: BITEvent): Promise<string | null> {
+  if (!ev.venueName) return null;
+
+  let lookup = db.from('venues').select('id').ilike('name', ev.venueName);
+  lookup = ev.city ? lookup.ilike('city', ev.city) : lookup.is('city', null);
+  const { data: existing } = await lookup.maybeSingle();
+  if (existing) return existing.id;
+
+  const { data, error } = await db
+    .from('venues')
+    .insert({ name: ev.venueName, city: ev.city })
+    .select('id')
+    .single();
+  if (error) {
+    console.error('upsertBitVenue insert failed', { name: ev.venueName, error: error.message });
+    return null;
+  }
+  return data.id;
+}
+
+/**
+ * Persist a Bandsintown event into the shared catalog.
+ *
+ * Two things here that the other three upserts do not have to deal with.
+ *
+ * **1. The start time is a naive local wall time.** `2026-09-27T22:00:00` with
+ * no zone. Writing that to Postgres as-is would be read back as UTC and put a
+ * 22:00 San Francisco show at 15:00. So the zone is resolved in priority order:
+ * the event's own `timezone` (present only on detail rows), then the timezone
+ * another provider already stored on the matched venue row, and only then a bare
+ * UTC anchor with `timezone` left null — which is exactly what the Spotify path
+ * already does and what the UI already handles by falling back to the viewer's
+ * zone.
+ *
+ * **2. It may be describing a show we already have.** Bandsintown is the LAST
+ * provider consulted, so by the time we get here JamBase or Spotify has often
+ * already written this event under its own id. `reconcileEvent` looks for that
+ * row first and merges into it, rather than creating a duplicate the Upcoming
+ * tab would show twice.
+ */
+export async function upsertBandsintownEvent(
+  db: SupabaseClient,
+  ev: BITEvent,
+  opts: { searched?: string; bandsintownArtistId?: string | null } = {},
+): Promise<string | null> {
+  if (!ev.id || !ev.startsAtLocal) return null;
+
+  const venueId = await upsertBitVenue(db, ev);
+
+  // Zone resolution, best source first.
+  let timezone = ev.timezone;
+  if (!timezone && venueId) {
+    const { data: venue } = await db.from('venues').select('timezone').eq('id', venueId).maybeSingle();
+    timezone = venue?.timezone ?? null;
+  }
+  const startsAt =
+    toInstant(ev.startsAtLocal, timezone)
+    ?? `${ev.startsAtLocal.replace(/Z$/, '')}Z`;
+
+  const headlinerName = ev.artistName ?? opts.searched ?? null;
+  const artistIds: string[] = [];
+  for (const name of [...new Set([headlinerName, ...ev.lineup].filter((n): n is string => !!n))].slice(0, 12)) {
+    const id = await upsertBitArtist(
+      db,
+      name,
+      name === headlinerName ? opts.bandsintownArtistId ?? null : null,
+    );
+    if (id) artistIds.push(id);
+  }
+  const headlinerId = headlinerName
+    ? await upsertBitArtist(db, headlinerName, opts.bandsintownArtistId ?? null)
+    : null;
+
+  // Does another provider already have this show?
+  const existingId = await reconcileEvent(db, {
+    startsAt,
+    venueId,
+    headlinerId,
+    name: ev.name,
+  });
+
+  const row = {
+    bandsintown_id: ev.id,
+    name: ev.name,
+    headliner_id: headlinerId,
+    venue_id: venueId,
+    starts_at: startsAt,
+    timezone,
+    status: 'scheduled',
+    url: ev.ticketUrl ?? ev.eventUrl,
+    is_festival: false,
+  };
+
+  if (existingId) {
+    /*
+     * Merge, do not overwrite. The existing row came from a provider we trust
+     * for the fields it filled in — JamBase has images and festival flags,
+     * Spotify has venue coordinates — so this only ADDS the Bandsintown id and
+     * fills gaps. `starts_at` in particular is left alone: the incumbent's
+     * value came with a real zone, and ours may be a bare UTC anchor.
+     */
+    const { data: current } = await db
+      .from('events')
+      .select('timezone, url')
+      .eq('id', existingId)
+      .maybeSingle();
+
+    const { error } = await db
+      .from('events')
+      .update({
+        bandsintown_id: ev.id,
+        // Bandsintown's IANA zone is worth taking when nobody else had one —
+        // it is the only source here that reports a real zone for club shows.
+        timezone: current?.timezone ?? timezone,
+        url: current?.url ?? row.url,
+      })
+      .eq('id', existingId);
+
+    if (error) {
+      console.error('reconcile update failed', { existingId, error: error.message });
+      return existingId;
+    }
+    await linkEventArtists(db, existingId, artistIds, headlinerId);
+    return existingId;
+  }
+
+  const { data, error } = await db
+    .from('events')
+    .upsert(row, { onConflict: 'bandsintown_id' })
+    .select('id')
+    .single();
+
+  if (error) {
+    console.error('upsertBandsintownEvent failed', { id: ev.id, error: error.message });
+    return null;
+  }
+
+  await linkEventArtists(db, data.id, artistIds, headlinerId);
+  return data.id;
+}
+
+/**
+ * Find an existing catalog row describing the same show, from any provider.
+ *
+ * The catalog keys on provider ids, so two providers describing one gig produce
+ * two rows unless something looks for the overlap. `ingest/match.sameShow` does
+ * this for in-flight CANDIDATES; this is the persisted equivalent.
+ *
+ * Deliberately conservative — it would rather miss a duplicate than merge two
+ * genuinely different shows, because a merge is much harder to undo than a
+ * duplicate. So it requires a same-day start AND either the same venue row or
+ * the same headliner. Two nights of one residency at one venue are a real risk,
+ * which is why the window is the calendar day rather than `sameShow`'s 12 hours.
+ */
+async function reconcileEvent(
+  db: SupabaseClient,
+  ev: { startsAt: string; venueId: string | null; headlinerId: string | null; name: string },
+): Promise<string | null> {
+  if (!ev.venueId && !ev.headlinerId) return null;
+
+  const t = new Date(ev.startsAt).getTime();
+  if (Number.isNaN(t)) return null;
+  const from = new Date(t - 12 * 3_600_000).toISOString();
+  const to = new Date(t + 12 * 3_600_000).toISOString();
+
+  let query = db
+    .from('events')
+    .select('id, venue_id, headliner_id')
+    .gte('starts_at', from)
+    .lte('starts_at', to)
+    .is('bandsintown_id', null);
+
+  // Venue is the stronger signal: an artist can play two cities in two days,
+  // but two different shows rarely share a venue AND a day.
+  if (ev.venueId) query = query.eq('venue_id', ev.venueId);
+  else if (ev.headlinerId) query = query.eq('headliner_id', ev.headlinerId);
+
+  const { data } = await query.limit(2);
+  if (!data || data.length !== 1) return null;
+
+  // Matched on venue+day alone? Require the headliner to agree, or be unknown
+  // on one side — otherwise two bands at one club on one night would merge.
+  if (ev.venueId && ev.headlinerId && data[0].headliner_id) {
+    if (data[0].headliner_id !== ev.headlinerId) return null;
+  }
+
+  return data[0].id;
+}
+
+/** Shared by the Bandsintown paths; mirrors the tail of the other upserts. */
+async function linkEventArtists(
+  db: SupabaseClient,
+  eventId: string,
+  artistIds: string[],
+  headlinerId: string | null,
+) {
+  if (!artistIds.length) return;
+  await db.from('event_artists').upsert(
+    artistIds.map((artist_id) => ({
+      event_id: eventId,
+      artist_id,
+      billing: artist_id === headlinerId ? 'headliner' : 'support',
+    })),
+    { onConflict: 'event_id,artist_id' },
+  );
 }
