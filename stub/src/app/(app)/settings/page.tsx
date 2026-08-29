@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth';
 import { SignOutButton } from '@/components/SignOutButton';
+import { DeleteAccountButton } from '@/components/DeleteAccountButton';
 import { PushToggle } from '@/components/PushToggle';
 import { CalendarSubscribe } from '@/components/CalendarSubscribe';
 
@@ -37,8 +38,11 @@ export default async function SettingsPage() {
       <p className="muted" style={{ fontSize: 11, marginTop: 32, lineHeight: 1.6 }}>
         Stub keeps your notes private to you — they are never shared with friends, at any
         visibility setting. Connected mailboxes are read for ticket confirmations only, and
-        message bodies are never stored.
+        message bodies are never stored. You can delete your account and everything in
+        it at any time, below.
       </p>
+
+      <DeleteAccountButton />
     </main>
   );
 }

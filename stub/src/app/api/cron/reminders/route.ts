@@ -28,8 +28,14 @@ function configureWebPush(): boolean {
 }
 
 export async function GET(request: NextRequest) {
-  const auth = request.headers.get('authorization');
-  if (process.env.CRON_SECRET && auth !== `Bearer ${process.env.CRON_SECRET}`) {
+  // Fails closed — see the note in `cron/gmail-sync`. An unset secret must lock
+  // the endpoint, not open it.
+  const secret = process.env.CRON_SECRET;
+  if (!secret) {
+    console.error('CRON_SECRET is not set — refusing to run');
+    return NextResponse.json({ error: 'not configured' }, { status: 503 });
+  }
+  if (request.headers.get('authorization') !== `Bearer ${secret}`) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   }
 

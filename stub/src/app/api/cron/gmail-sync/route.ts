@@ -26,10 +26,23 @@ export const maxDuration = 60;
 const MAX_MESSAGES_PER_ACCOUNT = 40;
 
 export async function GET(request: NextRequest) {
-  // Vercel Cron sends this header; reject anything else so the endpoint is not
-  // an open trigger for other people's mailbox scans.
-  const auth = request.headers.get('authorization');
-  if (process.env.CRON_SECRET && auth !== `Bearer ${process.env.CRON_SECRET}`) {
+  /*
+   * Vercel Cron sends this header; reject anything else so the endpoint is not
+   * an open trigger for other people's mailbox scans.
+   *
+   * FAILS CLOSED. This used to read `if (CRON_SECRET && auth !== ...)`, which
+   * skipped the check entirely when the variable was unset — a missing secret
+   * made the endpoint publicly triggerable rather than locked. That is the
+   * expensive direction to be wrong in: this route scans every connected
+   * mailbox and runs the full ingestion cascade, so an open trigger burns Gmail
+   * quota and, since the cascade reaches Bandsintown, real credits.
+   */
+  const secret = process.env.CRON_SECRET;
+  if (!secret) {
+    console.error('CRON_SECRET is not set — refusing to run');
+    return NextResponse.json({ error: 'not configured' }, { status: 503 });
+  }
+  if (request.headers.get('authorization') !== `Bearer ${secret}`) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   }
 

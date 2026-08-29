@@ -4,6 +4,7 @@ import { randomBytes } from 'node:crypto';
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { decryptToken } from '@/lib/crypto';
 import { getEvent as tmGetEvent } from '@/lib/providers/ticketmaster';
 import {
   upsertEvent,
@@ -739,4 +740,112 @@ export async function enrichEventDetails(eventId: string) {
 
   revalidatePath(`/event/${eventId}`);
   return { ok: true as const, enriched: true };
+}
+
+// ---------------------------------------------------------------- account
+
+/**
+ * Delete the caller's account and everything belonging to them.
+ *
+ * Four things have to happen, and only the first is automatic:
+ *
+ * 1. **Database rows.** `auth.users` → `profiles` → every user-owned table is a
+ *    chain of `ON DELETE CASCADE`, so deleting the auth user removes
+ *    attendances, notes, email accounts, ingest messages and candidates,
+ *    friendships (from both sides), push subscriptions, sent reminders,
+ *    inbound addresses and user_artists. Verified against the live constraint
+ *    graph rather than assumed.
+ *
+ * 2. **The Google grant.** Cascading the row deletes our copy of the refresh
+ *    token but leaves Stub listed in the user's Google account with
+ *    `gmail.readonly` still granted. For a restricted scope that is not good
+ *    enough, so the token is revoked at Google first.
+ *
+ * 3. **Storage.** Avatar objects live in the `avatars` bucket and are NOT
+ *    reachable from any foreign key, so cascade does not touch them. They have
+ *    to be removed explicitly or they outlive the account.
+ *
+ * 4. **Catalog rows are deliberately kept.** `artists`, `venues` and `events`
+ *    are shared global facts, not personal data — a show still happened after
+ *    someone leaves, and deleting them would corrupt other users' timelines.
+ *
+ * Ordering matters: revoke and clear storage BEFORE deleting the user, because
+ * afterwards there is no row left to tell us which token or which files.
+ */
+export async function deleteAccount(confirmation: string) {
+  const { user } = await requireUser();
+
+  /*
+   * Typed confirmation, checked server-side.
+   *
+   * A client-side-only check would be a UI nicety rather than a guard: this is
+   * a server action, reachable by anyone who can call it with a session. The
+   * cost of an accidental invocation is total and unrecoverable, so the intent
+   * has to be proven where it cannot be skipped.
+   */
+  if (confirmation.trim().toUpperCase() !== 'DELETE') {
+    return { ok: false as const, error: 'Type DELETE to confirm' };
+  }
+
+  const admin = createAdminClient();
+
+  // 1. Revoke the Google grant while we can still read the token.
+  const { data: accounts } = await admin
+    .from('email_accounts')
+    .select('refresh_token')
+    .eq('user_id', user.id)
+    .eq('provider', 'gmail');
+
+  for (const account of accounts ?? []) {
+    if (!account.refresh_token) continue;
+    try {
+      await revokeGoogleToken(decryptToken(account.refresh_token));
+    } catch (err) {
+      // A revoke failure must not strand the user in an undeletable account.
+      // Their copy of the token is destroyed either way by the cascade below;
+      // what survives is only the grant listed in their Google account, which
+      // they can remove themselves.
+      console.error('google token revoke failed during account deletion', err);
+    }
+  }
+
+  // 2. Storage — not covered by any cascade.
+  try {
+    const { data: files } = await admin.storage.from('avatars').list(user.id);
+    if (files?.length) {
+      await admin.storage
+        .from('avatars')
+        .remove(files.map((f) => `${user.id}/${f.name}`));
+    }
+  } catch (err) {
+    console.error('avatar cleanup failed during account deletion', err);
+  }
+
+  // 3. The user row, which cascades everything else.
+  const { error } = await admin.auth.admin.deleteUser(user.id);
+  if (error) {
+    console.error('deleteAccount failed', error.message);
+    return { ok: false as const, error: 'Could not delete the account' };
+  }
+
+  return { ok: true as const };
+}
+
+/**
+ * Tell Google to drop the grant.
+ *
+ * Revoking a refresh token invalidates the whole grant, so Stub disappears from
+ * the user's third-party access list rather than lingering with a restricted
+ * scope attached. Google answers 200 on success and 400 for a token that is
+ * already invalid, which is a no-op we can ignore.
+ */
+async function revokeGoogleToken(refreshToken: string): Promise<void> {
+  const res = await fetch('https://oauth2.googleapis.com/revoke', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({ token: refreshToken }),
+  });
+  if (!res.ok && res.status !== 400) {
+    throw new Error(`google revoke returned ${res.status}`);
+  }
 }

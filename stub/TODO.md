@@ -11,9 +11,9 @@ Ordered by what blocks what. **§1 is the only section that blocks sharing it.**
 | | |
 |---|---|
 | **Deployed** | `stub-two.vercel.app`, commit `8d497ee`, READY. Every route 200, no 5xx. Per-deployment URLs are SSO-walled, see §1.6 |
-| **Prod DB** | `biichwtrfmrdgiqtvxme`, all **14** migrations applied |
+| **Prod DB** | `biichwtrfmrdgiqtvxme`, all **16** migrations applied |
 | **Prod keys** | `RAPID_API_KEY` and `PARSE_API_KEY` both set. Bandsintown is live on the next deploy |
-| **Dev DB** | `syrsjdreydgblrwpalyw`, seeded, all **14** migrations |
+| **Dev DB** | `syrsjdreydgblrwpalyw`, seeded, all **16** migrations |
 | **Tests** | **91** offline passing; live suites for queries, geocode, Spotify |
 | **Providers wired** | Ticketmaster, JamBase, Spotify/RapidAPI, **Bandsintown/Parse**, setlist.fm, MusicBrainz, Nominatim |
 | **Email vendors parsed** | Ticketmaster, AXS, DICE, Eventbrite, See Tickets/Eventim, Frontgate, TicketWeb, Etix |
@@ -966,6 +966,113 @@ row and a Spotify row added a week apart still duplicate. A backfill pass over
       the whole day's allowance.
 - [ ] Wire `getArtistPastEvents` into the Archive tab. The provider function and
       its cache exist; nothing calls them yet.
+
+---
+
+## 5.13 Account deletion — **DONE**
+
+Self-serve, in Settings. `deleteAccount` in `app/actions.ts`,
+`components/DeleteAccountButton.tsx`.
+
+Four things have to happen and only the first is automatic:
+
+1. **Rows.** `auth.users` → `profiles` → every user-owned table is a chain of
+   `ON DELETE CASCADE`, verified against the live constraint graph rather than
+   assumed. One `admin.auth.admin.deleteUser` removes attendances, notes, email
+   accounts, ingest messages and candidates, friendships from both sides, push
+   subscriptions, sent reminders, inbound addresses and user_artists.
+2. **The Google grant.** Cascading deletes *our* copy of the refresh token but
+   leaves Stub listed in the user's Google account with `gmail.readonly` still
+   granted. For a restricted scope that is not good enough, so the token is
+   revoked at `oauth2.googleapis.com/revoke` first. A revoke failure is logged,
+   not fatal — it must not strand someone in an undeletable account.
+3. **Storage.** Avatars are in the `avatars` bucket, reachable from no foreign
+   key, so cascade does not touch them. Removed explicitly.
+4. **Catalog rows are deliberately kept.** `artists`/`venues`/`events` are shared
+   facts, not personal data — a show still happened after someone leaves, and
+   deleting them would corrupt other users' timelines.
+
+Ordering matters: revoke and clear storage **before** deleting the user, because
+afterwards no row remains to say which token or which files.
+
+The typed `DELETE` confirmation is re-checked **server-side**. A client-only
+check would be decoration: this is a server action, callable by anyone holding a
+session, and the cost of an accidental invocation is total.
+
+### Still to do
+
+- [ ] Offer a data export before deletion. Attendance history with prices is
+      genuinely unrecoverable, and §3.5 argues that data is the valuable part.
+- [ ] Deleting a user leaves their `ingest_messages` dedupe hashes gone, so a
+      re-signup re-processes the same mail. Correct for a fresh start, worth
+      knowing when testing.
+
+---
+
+## 5.14 Security audit — 2026-08-29
+
+Full pass over prod: RLS, grants, secrets, endpoint auth, crypto.
+
+### Fixed
+
+1. **`anon` held SELECT/INSERT/UPDATE on every column of `email_accounts`,
+   including `access_token` and `refresh_token`.** Migration `0015`.
+
+   Not a live leak — RLS is on and every policy is scoped to `{authenticated}`,
+   so an `anon` request matched no policy and got zero rows (confirmed
+   empirically against prod: the query *succeeds* and returns nothing). The
+   problem was that RLS was the **only** thing between an unauthenticated caller
+   and every refresh token. One policy written for `public` instead of
+   `authenticated`, or one table shipped with RLS off, and the grant becomes
+   load-bearing.
+
+   `0015` revokes `anon` across the public schema and changes the default
+   privileges so new tables do not silently re-acquire it. Safe by construction:
+   since `anon` already saw zero rows everywhere, revoking cannot change any
+   request that works today. Verified after: 0 `anon` column grants remain on
+   both dev and prod, `authenticated` grants untouched (`email_accounts` still
+   exposes exactly its 7 non-token columns).
+
+2. **Both cron endpoints failed OPEN on a missing `CRON_SECRET`.** The check was
+   `if (process.env.CRON_SECRET && auth !== ...)`, so an unset variable skipped
+   authentication entirely and left the route publicly triggerable.
+
+   `/api/cron/gmail-sync` scans every connected mailbox and runs the full
+   ingestion cascade, so an open trigger burns Gmail quota and — since the
+   cascade now reaches Bandsintown — real credits. Both routes now return 503
+   when the secret is absent. Same fail-open class as the budget-guard bug in
+   §5.12; worth grepping for the pattern before adding any new gated endpoint.
+
+### Verified clean
+
+- **RLS on every table** in `public` (18/18). The two with no policies
+  (`search_cache`, `provider_spend`) are service-role-only by design.
+- **Token columns**: `authenticated` has SELECT on 7 of `email_accounts`'
+  columns and **not** on `access_token`, `refresh_token`, `token_expires`,
+  `history_id`. The README claim holds.
+- **Token encryption**: AES-256-GCM, fresh 12-byte IV per encryption, auth tag
+  verified on decrypt, key length checked at 32 bytes. Correct.
+- **Notes** are `user_id = auth.uid()` for ALL commands — private at every
+  visibility setting, as documented.
+- **Attendances** expose friends' rows only via `visibility = 'friends' AND
+  are_friends(...)`.
+- **Forward-inbox webhook** uses HMAC-SHA256 with `timingSafeEqual`.
+- **No secrets tracked in git** — only `.env.example`; `.gitignore` covers
+  `.env` and `.env.*`.
+- **Service-role client** throws when unconfigured and is never imported into a
+  client component.
+
+### Open, low priority
+
+- [ ] `provider_spend` and `search_cache` grant `authenticated` SELECT despite
+      having no policy. RLS yields zero rows so it is inert, but the grant is
+      pointless — revoke for tidiness. Left as-is for now to stay consistent
+      with `search_cache`, which predates this.
+- [ ] Add `import 'server-only'` to `lib/supabase/admin.ts` and `lib/crypto.ts`
+      so accidental client import is a build error rather than a review catch.
+- [ ] Pre-existing advisor warnings, unchanged: `pg_trgm` in the public schema,
+      `are_friends` executable as SECURITY DEFINER by `authenticated`, leaked-
+      password protection disabled. See §6.
 
 ---
 
