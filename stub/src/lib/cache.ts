@@ -1,5 +1,7 @@
 import { createAdminClient } from '@/lib/supabase/admin';
 import { getSetlistForEvent, countSongs, type SFMFullSetlist } from '@/lib/providers/setlistfm';
+import { geocode, type Place } from '@/lib/providers/geocode';
+import { searchArtistConcerts, type ArtistConcerts } from '@/lib/providers/spotifyconcerts';
 
 /**
  * Provider response caching, backed by Postgres.
@@ -133,4 +135,76 @@ export async function writeSearchCache(key: string, payload: unknown, ttlSeconds
 export async function pruneSearchCache() {
   const admin = createAdminClient();
   await admin.from('search_cache').delete().lt('expires_at', new Date().toISOString());
+}
+
+// ---------------------------------------------------------------- geocoding
+
+/**
+ * A city does not move, so a hit is good effectively forever. A miss is worth
+ * retrying sooner — usually it means a typo the user is still fixing, and
+ * caching "San Francisc" as permanently unresolvable helps nobody.
+ */
+const GEOCODE_HIT_TTL_SECONDS = 30 * 86_400;
+const GEOCODE_MISS_TTL_SECONDS = 3_600;
+
+/**
+ * Geocode a place name, cached in `search_cache` alongside search responses.
+ *
+ * The payload is wrapped in an object rather than stored bare, so a cached
+ * *miss* (`{ place: null }`) is distinguishable from a cache miss (`null`) —
+ * without that, every unresolvable query would re-hit a geocoder that allows
+ * one request per second.
+ */
+export async function geocodePlace(query: string): Promise<Place | null> {
+  const q = query.trim();
+  if (q.length < 2) return null;
+
+  const key = searchCacheKey({ provider: 'geocode', q });
+  const cached = await readSearchCache<{ place: Place | null }>(key);
+  if (cached) return cached.place;
+
+  const place = await geocode(q);
+  await writeSearchCache(
+    key,
+    { place },
+    place ? GEOCODE_HIT_TTL_SECONDS : GEOCODE_MISS_TTL_SECONDS,
+  );
+  return place;
+}
+
+// ------------------------------------------------- spotify concerts (RapidAPI)
+
+/**
+ * Six hours, which is far longer than the 5 minutes search responses get.
+ *
+ * Two reasons. A tour schedule changes on the order of days, not minutes. And
+ * the free plan allows **1000 requests a month** — roughly 33 a day across every
+ * user — so this is the one provider where the cache is a budget control rather
+ * than a latency optimisation.
+ */
+const SPOTIFY_CONCERTS_TTL_SECONDS = 6 * 3_600;
+
+/**
+ * An artist's concerts, cached.
+ *
+ * Returns null rather than throwing so callers degrade to JamBase on an outage
+ * or an exhausted quota. The whole response is cached, so the "Add" action can
+ * re-resolve a concert by id without spending a request.
+ */
+export async function cachedArtistConcerts(query: string): Promise<ArtistConcerts | null> {
+  const q = query.trim();
+  if (q.length < 2) return null;
+
+  const key = searchCacheKey({ provider: 'spotifyconcerts', q });
+  const cached = await readSearchCache<ArtistConcerts>(key);
+  if (cached) return cached;
+
+  try {
+    const result = await searchArtistConcerts(q);
+    await writeSearchCache(key, result, SPOTIFY_CONCERTS_TTL_SECONDS);
+    return result;
+  } catch (err) {
+    console.error('spotify concerts lookup failed', err);
+    return null;
+  }
 }

@@ -366,10 +366,25 @@ near me". Festivals are labelled, and the searched artist is shown rather than
 an arbitrary lineup member — searching Overmono used to surface "Robyn" because
 she was first in Portola's lineup.
 
-**Still to do:** search by *named* city ("shows in San Francisco") needs
-geocoding. `profiles.home_lat` / `home_lng` exist but are never populated —
-filling them from the home-city string would give a default location without
-asking for geolocation permission.
+~~**Still to do:** search by *named* city~~ — **DONE.** Browse has a city box
+next to the artist box; `/api/search/events?place=` geocodes the name through
+Nominatim (`src/lib/providers/geocode.ts`) and searches that radius. Free, no
+key, no user cap — the same trade as MusicBrainz, at a hard 1 req/s.
+
+`profiles.home_lat` / `home_lng` are populated at last: `resolveHomeLocation()`
+geocodes `home_city` once, stores the coordinates, and Browse opens on them —
+so the common case never raises the geolocation prompt at all. Changing your
+home city nulls them, and the next Browse visit refills them.
+
+Coordinates beat a place name wherever both are present, in the route and in the
+UI both, so "Near me" is never silently overridden by stale text in the box.
+
+**Gotcha worth remembering:** Nominatim fills `address.city` with the
+*enclosing* city, so "Brooklyn" comes back as `suburb` with `city: "New York"`.
+Labelling from the address gives Brooklyn's coordinates the name "New York, NY".
+`hit.name` is the field that means what you want. Caught by a live call, not by
+a fixture — which is why `test/geocode.test.ts` has a `LIVE_TEST=1` half that
+calls the real service.
 
 ---
 
@@ -398,10 +413,12 @@ subject patterns; order-number candidates must contain a digit and may contain
 - Every confirmation that fails to parse should be added to
   `test/fixtures/emails.ts` (scrubbed) and fixed against. That is the intended
   workflow and the only way coverage improves.
-- The Inbox review queue currently only shows *parsed* candidates. Messages that
-  matched the Gmail query but produced no ticket are recorded as
-  `ingest_messages.status = 'ignored'` and never surfaced — those are exactly
-  the ones worth seeing.
+- ~~The Inbox review queue currently only shows *parsed* candidates.~~ —
+  **DONE.** A collapsed "Scanned, nothing found" section on `/inbox` lists the
+  last 50 messages with `status` in (`ignored`, `error`), with subject, sender,
+  date and — for errors — the error itself. Those are the ones worth scrubbing
+  into `test/fixtures/emails.ts`; until now the only debuggable case was the one
+  case with no UI.
 
 ### Added alongside
 - **Manual event entry** (`createManualEvent`, offered from Browse). Necessary,
@@ -415,9 +432,12 @@ subject patterns; order-number candidates must contain a digit and may contain
 
 ---
 
-## 5.8 Caching and rate limits — **not yet done**
+## 5.8 Caching and rate limits — **mostly done**
 
-Nothing is cached beyond Next's per-request `revalidate` hints. Current exposure:
+Migration `0011` adds two caches, both in Postgres rather than in process —
+Vercel runs each request in a short-lived isolated function, so an in-memory
+cache would be cold on most requests and shared with nobody, which is exactly
+where the wins are. Original exposure:
 
 | Provider | Limit | Current usage |
 |---|---|---|
@@ -426,32 +446,35 @@ Nothing is cached beyond Next's per-request `revalidate` hints. Current exposure
 | setlist.fm | ~1/sec, 403s when exceeded | one call per past event page view |
 | MusicBrainz | 1/sec, hard | artist resolution during Spotify import |
 
-Worth doing, roughly in value order:
+1. ~~**Cache setlist lookups in the database.**~~ — **DONE.** `event_setlists`,
+   via `getCachedSetlist`. A hit is cached forever, because a past setlist does
+   not change. A **miss is cached too**, for 3 days: setlist.fm entries are
+   added by users days or weeks after a show, and without negative caching every
+   view of an archived event re-hit an API that answers 403 when throttled. A
+   provider *error* is not cached as a miss — that would poison the entry on a
+   transient outage.
+2. ~~**Cache search responses.**~~ — **DONE.** `search_cache`, 5-minute TTL,
+   keyed on the normalised query + geo + radius + page. Coordinates are rounded
+   to ~1km so two people in the same neighbourhood share an entry.
+3. **Serve Browse from the local catalog first** — *still to do.* Events already
+   synced live in `events`; the `pg_trgm` index exists and is unused for this.
+4. ~~**Persist geocoded coordinates**~~ — **DONE**, see §5.6.
 
-1. **Cache setlist lookups in the database.** A past show's setlist never
-   changes, so `getSetlistForEvent` should write through to a `setlists` table
-   (or a jsonb column on `events`) and never re-fetch. Currently every page view
-   of an archived event hits setlist.fm.
-2. **Cache search responses.** Keyed on the normalised query + geo + radius,
-   ~5 minutes, in Postgres or an in-memory LRU. "What's on near me" is highly
-   repeatable across users in the same city.
-3. **Serve Browse from the local catalog first.** Events already synced live in
-   `events`; the `pg_trgm` index exists and is unused for this.
-4. **Persist geocoded coordinates** on `profiles.home_lat/home_lng` so repeat
-   location searches skip the permission prompt entirely.
-
-Do (1) first — it is the only one currently making a network call on a page
-render, and setlist.fm is the strictest limit.
+Geocoding rides on `search_cache` too (30 days on a hit, 1 hour on a miss). The
+payload is wrapped as `{ place }` rather than stored bare, so a cached *miss* is
+distinguishable from a cache miss — otherwise every typo re-hits a geocoder
+limited to one request per second.
 
 ---
 
-## 5.9 Browse pagination — **not yet done**
+## 5.9 Browse pagination — **DONE**
 
-Browse requests `perPage=40` and shows only that. JamBase reports the true total
-(1,546 within 25mi of SF), so the data for infinite scroll is already there —
-`searchEvents` accepts `page`. Needs an IntersectionObserver sentinel plus
-append-rather-than-replace result state, being careful not to reintroduce the
-stale-response race the AbortController currently prevents.
+An IntersectionObserver sentinel appends the next page as it scrolls into view.
+The stale-response race needed its own guard here: an AbortController covers
+page 1, but an append resolves later and lands on whatever is on screen, so
+`loadMore` captures the results key at request time and drops the response if
+the key has changed. Results are also de-duplicated on `source:id`, since a
+shifting upstream page window can repeat a row.
 
 ---
 
@@ -460,8 +483,11 @@ stale-response race the AbortController currently prevents.
 - **No regression test for the Browse fetch race.** Needs jsdom +
   `@testing-library/react`. The bug (stale response overwriting newer results)
   is fixed via `AbortController` but nothing guards it.
-- **`getUpcoming` does N+1 queries** — one `getFriendsAtEvent` per event. Fine at
-  a dozen shows; fix with a single grouped query before it isn't.
+- ~~**`getUpcoming` does N+1 queries**~~ — fixed. `getFriendsAtEvents` takes a
+  list of event ids, does one `.in()`, and groups in JS; `/upcoming` uses it for
+  its avatar stacks. `npm run test:live` asserts the batched result matches the
+  per-event query row for row, because this is the same shape of PostgREST
+  rewrite that silently broke Archive's ordering.
 - **Event lists are sorted in JS, not SQL.** PostgREST's
   `.order(col, { referencedTable })` sorts rows *within* an embedded resource,
   not the top-level rows — so ordering a list of attendances by event date that

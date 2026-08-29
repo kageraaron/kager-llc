@@ -5,9 +5,15 @@ import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { getEvent as tmGetEvent } from '@/lib/providers/ticketmaster';
-import { upsertEvent, upsertJamBaseEvent, recordAttendance } from '@/lib/ingest/catalog';
+import {
+  upsertEvent,
+  upsertJamBaseEvent,
+  upsertSpotifyEvent,
+  recordAttendance,
+} from '@/lib/ingest/catalog';
 import * as jambase from '@/lib/providers/jambase';
 import { getCurrentUser } from '@/lib/auth';
+import { geocodePlace, cachedArtistConcerts } from '@/lib/cache';
 
 /**
  * Server actions for everything the user does by hand.
@@ -53,13 +59,32 @@ export async function addEventByTmId(tmId: string, state: 'going' | 'interested'
  * Browse can return Ticketmaster or JamBase hits in the same list, so the
  * result carries its source and this resolves it against the right API.
  */
-export async function addEventFromSearch(source: 'ticketmaster' | 'jambase', id: string) {
+export async function addEventFromSearch(
+  source: 'ticketmaster' | 'jambase' | 'spotify',
+  id: string,
+  /**
+   * The artist query the result came from. Required for Spotify, which has no
+   * get-concert-by-id endpoint — the only way back to a concert is the artist
+   * search that produced it. That search is cached, so this normally costs no
+   * request against the 1000/month quota.
+   */
+  query?: string,
+) {
   const { user } = await requireUser();
   const admin = createAdminClient();
 
   let eventId: string | null = null;
 
-  if (source === 'jambase') {
+  if (source === 'spotify') {
+    if (!query) return { ok: false as const, error: 'Could not save that event' };
+    const result = await cachedArtistConcerts(query);
+    const concert = result?.concerts.find((c) => c.id === id);
+    if (!concert) return { ok: false as const, error: 'Event not found' };
+    eventId = await upsertSpotifyEvent(admin, concert, {
+      searched: query,
+      spotifyArtistId: result?.artist?.id ?? null,
+    });
+  } else if (source === 'jambase') {
     const target = await jambase.getEventById(id);
     if (!target) return { ok: false as const, error: 'Event not found' };
     eventId = await upsertJamBaseEvent(admin, target);
@@ -383,8 +408,73 @@ export async function updateProfile(input: {
     return { ok: false as const, error: error.message };
   }
 
+  // Moving city invalidates the cached coordinates. Null them rather than
+  // geocoding inline — the geocoder allows one request per second, and nobody
+  // should wait on it to save a bio. `resolveHomeLocation` refills them on the
+  // next Browse visit. Service role because `0008` deliberately withholds
+  // update rights on these columns from `authenticated`.
+  if (patch.home_city !== undefined) {
+    await createAdminClient()
+      .from('profiles')
+      .update({ home_lat: null, home_lng: null })
+      .eq('id', user.id);
+  }
+
   revalidatePath('/friends');
   return { ok: true as const };
+}
+
+export interface HomeLocation {
+  city: string;
+  lat: number;
+  lng: number;
+}
+
+/**
+ * The user's home city as coordinates, geocoded once and then remembered.
+ *
+ * This is what lets Browse open on "what's on near me" without ever prompting
+ * for geolocation permission. `home_lat` / `home_lng` have existed since `0001`
+ * and were never populated; this is what populates them.
+ *
+ * Returns null when no home city is set or the name does not resolve — Browse
+ * falls back to the explicit "Near me" button in both cases.
+ */
+export async function resolveHomeLocation(): Promise<HomeLocation | null> {
+  const { supabase, user } = await requireUser();
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('home_city')
+    .eq('id', user.id)
+    .maybeSingle();
+
+  const city = profile?.home_city?.trim();
+  if (!city) return null;
+
+  // Coordinates are not readable through the request-scoped client: `0008`
+  // narrows the `authenticated` select grant on `profiles` to a column list
+  // that excludes them.
+  const admin = createAdminClient();
+  const { data: coords } = await admin
+    .from('profiles')
+    .select('home_lat, home_lng')
+    .eq('id', user.id)
+    .maybeSingle();
+
+  if (coords?.home_lat != null && coords?.home_lng != null) {
+    return { city, lat: coords.home_lat, lng: coords.home_lng };
+  }
+
+  const place = await geocodePlace(city);
+  if (!place) return null;
+
+  await admin
+    .from('profiles')
+    .update({ home_lat: place.lat, home_lng: place.lng })
+    .eq('id', user.id);
+
+  return { city: place.label, lat: place.lat, lng: place.lng };
 }
 
 /**

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth';
 import { CandidateCard } from '@/components/CandidateCard';
+import { SkippedMessages, type SkippedMessage } from '@/components/SkippedMessages';
 
 export const dynamic = 'force-dynamic';
 
@@ -30,7 +31,21 @@ export default async function InboxPage() {
     .select('id, provider, email, last_synced_at')
     .eq('user_id', user!.id);
 
+  /**
+   * Messages that were read but yielded nothing. Capped, because a 30-day scan
+   * of a real inbox turns up a lot of marketing — the point is to make a missed
+   * confirmation *findable*, not to render the whole mailbox.
+   */
+  const { data: skipped } = await supabase
+    .from('ingest_messages')
+    .select('id, subject, from_addr, received_at, status, error')
+    .eq('user_id', user!.id)
+    .in('status', ['ignored', 'error'])
+    .order('received_at', { ascending: false, nullsFirst: false })
+    .limit(50);
+
   const rows = (candidates ?? []) as unknown as React.ComponentProps<typeof CandidateCard>['candidate'][];
+  const skippedRows = (skipped ?? []) as SkippedMessage[];
 
   return (
     <main className="page">
@@ -48,6 +63,7 @@ export default async function InboxPage() {
             <p>
               Stub is watching {accounts.map((a) => a.email).join(', ')}. Confirmations it can read
               clearly go straight to Upcoming; anything ambiguous shows up here.
+              {skippedRows.length > 0 && ' Everything it read but couldn’t parse is listed below.'}
             </p>
           ) : (
             <>
@@ -68,6 +84,8 @@ export default async function InboxPage() {
       ) : (
         rows.map((c) => <CandidateCard key={c.id} candidate={c} />)
       )}
+
+      <SkippedMessages messages={skippedRows} />
     </main>
   );
 }

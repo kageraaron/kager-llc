@@ -120,6 +120,14 @@ export async function getFriendsPlans(db: SupabaseClient, userId: string) {
   return [...byEvent.values()];
 }
 
+export interface FriendAtEvent {
+  id: string;
+  state: string;
+  rating: number | null;
+  review: string | null;
+  profile: { id: string; handle: string; display_name: string; avatar_url: string | null };
+}
+
 /** Friends attending one specific event. Powers the event detail page. */
 export async function getFriendsAtEvent(db: SupabaseClient, eventId: string, userId: string) {
   const { data, error } = await db
@@ -132,13 +140,45 @@ export async function getFriendsAtEvent(db: SupabaseClient, eventId: string, use
     .in('state', ['going', 'interested', 'went']);
 
   if (error) throw error;
-  return (data ?? []) as unknown as {
-    id: string;
-    state: string;
-    rating: number | null;
-    review: string | null;
-    profile: { id: string; handle: string; display_name: string; avatar_url: string | null };
-  }[];
+  return (data ?? []) as unknown as FriendAtEvent[];
+}
+
+/**
+ * The same thing for a whole list of events, in one round trip.
+ *
+ * `/upcoming` used to call `getFriendsAtEvent` once per event to build its
+ * avatar stacks. That is a query per row: fine at a dozen shows, and quietly
+ * quadratic-feeling on a page that also has to wait for all of them. One
+ * `.in()` and a group-by in JS gets the same result in a single request.
+ *
+ * Returns a Map so callers can look up by event id without re-scanning.
+ */
+export async function getFriendsAtEvents(
+  db: SupabaseClient,
+  eventIds: string[],
+  userId: string,
+): Promise<Map<string, FriendAtEvent[]>> {
+  const byEvent = new Map<string, FriendAtEvent[]>();
+  if (eventIds.length === 0) return byEvent;
+
+  const { data, error } = await db
+    .from('attendances')
+    .select(
+      'id, event_id, state, rating, review, profile:profiles!inner ( id, handle, display_name, avatar_url )',
+    )
+    .in('event_id', eventIds)
+    .eq('visibility', 'friends')
+    .neq('user_id', userId)
+    .in('state', ['going', 'interested', 'went']);
+
+  if (error) throw error;
+
+  for (const row of (data ?? []) as unknown as (FriendAtEvent & { event_id: string })[]) {
+    const list = byEvent.get(row.event_id);
+    if (list) list.push(row);
+    else byEvent.set(row.event_id, [row]);
+  }
+  return byEvent;
 }
 
 export async function getEvent(db: SupabaseClient, eventId: string) {

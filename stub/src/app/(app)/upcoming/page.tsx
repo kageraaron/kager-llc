@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth';
-import { getUpcoming, getFriendsAtEvent } from '@/lib/queries';
+import { getUpcoming, getFriendsAtEvents } from '@/lib/queries';
 import { EventCard } from '@/components/EventCard';
 import Link from 'next/link';
 
@@ -19,13 +19,12 @@ export default async function UpcomingPage() {
     .eq('user_id', user!.id);
   const gmail = (emailAccounts ?? []).find((a) => a.provider === 'gmail');
 
-  // Friends-per-event for the avatar stacks. One query per event is fine at the
-  // scale this app runs at (a personal calendar, not a feed).
-  const friendsByEvent = new Map<string, Awaited<ReturnType<typeof getFriendsAtEvent>>>();
-  await Promise.all(
-    rows.map(async (r) => {
-      friendsByEvent.set(r.event.id, await getFriendsAtEvent(supabase, r.event.id, user!.id));
-    }),
+  // Friends-per-event for the avatar stacks, in one query rather than one per
+  // row. RLS still decides what comes back; batching only changes the round trips.
+  const friendsByEvent = await getFriendsAtEvents(
+    supabase,
+    rows.map((r) => r.event.id),
+    user!.id,
   );
 
   return (

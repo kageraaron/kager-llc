@@ -2,12 +2,12 @@
 
 import { useState, useEffect, useRef, useTransition, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { addEventFromSearch } from '@/app/actions';
+import { addEventFromSearch, resolveHomeLocation } from '@/app/actions';
 import { formatEventDate } from '@/lib/format';
 import { ManualEventForm } from '@/components/ManualEventForm';
 
 interface EventHit {
-  source: 'jambase' | 'ticketmaster';
+  source: 'jambase' | 'ticketmaster' | 'spotify';
   id: string;
   name: string;
   artist: string | null;
@@ -32,8 +32,12 @@ export default function BrowsePage() {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<{
     key: string;
+    /** The artist query these results came from — not the current box contents. */
+    query: string;
     events: EventHit[];
     source: string | null;
+    /** What the server resolved a typed place name to, e.g. "San Francisco, CA". */
+    place: string | null;
     page: number;
     hasMore: boolean;
   } | null>(null);
@@ -44,19 +48,66 @@ export default function BrowsePage() {
   const [added, setAdded] = useState<Set<string>>(new Set());
   const [pending, startTransition] = useTransition();
 
+  /**
+   * Location is either exact coordinates (the device, or the geocoded home
+   * city) or a typed place name the server resolves. Coordinates win when both
+   * are present, mirroring the search route's own precedence — so typing in the
+   * place box clears them rather than being silently ignored.
+   */
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
+  const [place, setPlace] = useState('');
   const [radius, setRadius] = useState(50);
   const [locating, setLocating] = useState(false);
   const [locError, setLocError] = useState<string | null>(null);
   const [manual, setManual] = useState(false);
+  /** Set once the home city has been offered, so it is never re-applied over a user choice. */
+  const [homeTried, setHomeTried] = useState(false);
+  /**
+   * Whether the user has picked a location themselves. A ref, not state: it
+   * only ever gates the one-shot home-city default, and reading it must not
+   * re-run the effect that reads it.
+   */
+  const locationTouched = useRef(false);
 
   const nearMe = coords !== null;
+  const placeQuery = place.trim();
+  const hasLocation = nearMe || placeQuery.length >= 2;
   const q = query.trim();
   // A location alone is a valid search — that is the "what's on near me" case.
-  const canSearch = q.length >= 2 || nearMe;
-  const searchKey = `${q}|${coords ? `${coords.lat.toFixed(3)},${coords.lng.toFixed(3)},${radius}` : ''}`;
+  const canSearch = q.length >= 2 || hasLocation;
+  const searchKey = `${q}|${
+    coords ? `${coords.lat.toFixed(3)},${coords.lng.toFixed(3)}` : `@${placeQuery.toLowerCase()}`
+  }|${hasLocation ? radius : ''}`;
+
+  /**
+   * Default to the user's home city.
+   *
+   * `resolveHomeLocation` geocodes `profiles.home_city` once and remembers the
+   * coordinates, so Browse can open on "what's on near me" without ever raising
+   * the browser's geolocation prompt. Applied only to an untouched page.
+   */
+  useEffect(() => {
+    let cancelled = false;
+    resolveHomeLocation()
+      .then((home) => {
+        // Never override a location the user chose while this was in flight.
+        if (cancelled || !home || locationTouched.current) return;
+        setPlace(home.city);
+        setCoords({ lat: home.lat, lng: home.lng });
+      })
+      .catch(() => {
+        // No home city, or the geocoder is down. The "Near me" button still works.
+      })
+      .finally(() => {
+        if (!cancelled) setHomeTried(true);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   function useMyLocation() {
+    locationTouched.current = true;
     if (!navigator.geolocation) {
       setLocError('This browser has no location support.');
       return;
@@ -66,6 +117,7 @@ export default function BrowsePage() {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         setCoords({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+        setPlace('');
         setLocating(false);
       },
       (err) => {
@@ -87,8 +139,10 @@ export default function BrowsePage() {
       if (coords) {
         params.set('lat', String(coords.lat));
         params.set('lng', String(coords.lng));
-        params.set('radius', String(radius));
+      } else if (placeQuery.length >= 2) {
+        params.set('place', placeQuery);
       }
+      if (hasLocation) params.set('radius', String(radius));
       params.set('page', String(page));
 
       const res = await fetch(`/api/search/events?${params}`, { signal });
@@ -96,13 +150,15 @@ export default function BrowsePage() {
       if (!res.ok) throw new Error(json.error ?? 'Search failed');
       return {
         key: searchKey,
+        query: q,
         events: json.events as EventHit[],
         source: (json.source as string | null) ?? null,
+        place: (json.place as string | null) ?? null,
         page: (json.page as number) ?? page,
         hasMore: Boolean(json.hasMore),
       };
     },
-    [q, coords, radius, searchKey],
+    [q, coords, placeQuery, hasLocation, radius, searchKey],
   );
 
   // Debounced, and aborted on supersede — a slow response for a half-typed
@@ -180,8 +236,12 @@ export default function BrowsePage() {
 
   function add(hit: EventHit) {
     setError(null);
+    const queryForHit = results?.query ?? q;
     startTransition(async () => {
-      const res = await addEventFromSearch(hit.source, hit.id);
+      // Spotify results can only be re-resolved through the artist search that
+      // produced them, so the query has to travel with the id — and it must be
+      // the query that produced THIS hit, not whatever is in the box now.
+      const res = await addEventFromSearch(hit.source, hit.id, queryForHit);
       if (res.ok) {
         setAdded((prev) => new Set(prev).add(hit.id));
         router.refresh();
@@ -199,7 +259,7 @@ export default function BrowsePage() {
       <header className="page-header">
         <h1>Browse</h1>
         <div className="sub">
-          {nearMe ? 'Shows near you' : 'Search an artist, or find what’s on nearby'}
+          {hasLocation ? 'Shows near ' + (results?.place ?? (nearMe ? 'you' : placeQuery)) : 'Search an artist, a city, or both'}
         </div>
       </header>
 
@@ -212,19 +272,39 @@ export default function BrowsePage() {
         autoCorrect="off"
       />
 
+      <input
+        className="input"
+        style={{ marginTop: 8 }}
+        placeholder={homeTried ? 'City — or use your location' : 'City…'}
+        value={place}
+        // Typing a city name supersedes device coordinates; the search route
+        // ignores `place` whenever lat/lng are present, so they must go.
+        onChange={(e) => {
+          locationTouched.current = true;
+          setPlace(e.target.value);
+          setCoords(null);
+          setLocError(null);
+        }}
+        autoComplete="off"
+        autoCorrect="off"
+        aria-label="City"
+      />
+
       <div className="row" style={{ marginTop: 10, flexWrap: 'wrap', gap: 8 }}>
-        {!nearMe ? (
+        {!nearMe && (
           <button className="btn" disabled={locating} onClick={useMyLocation}>
             {locating ? 'Locating…' : 'Near me'}
           </button>
-        ) : (
+        )}
+        {nearMe && <span className="pill pill-going">{place || 'Near you'}</span>}
+        {hasLocation && (
           <>
-            <span className="pill pill-going">Near you</span>
             <select
               className="input"
               style={{ width: 'auto', padding: '6px 10px', fontSize: 14 }}
               value={radius}
               onChange={(e) => setRadius(Number(e.target.value))}
+              aria-label="Search radius"
             >
               {[10, 25, 50, 100].map((r) => (
                 <option key={r} value={r}>within {r} mi</option>
@@ -233,7 +313,11 @@ export default function BrowsePage() {
             <button
               className="muted"
               style={{ fontSize: 12, textDecoration: 'underline' }}
-              onClick={() => setCoords(null)}
+              onClick={() => {
+                locationTouched.current = true;
+                setCoords(null);
+                setPlace('');
+              }}
             >
               Clear
             </button>
@@ -286,8 +370,10 @@ export default function BrowsePage() {
         <div className="empty">
           <h2>Nothing found</h2>
           <p>
-            {nearMe
-              ? 'No upcoming shows in that radius. Try widening it.'
+            {hasLocation
+              ? q
+                ? `No upcoming ${q} shows in that radius. Try widening it, or clear the city.`
+                : 'No upcoming shows in that radius. Try widening it.'
               : 'Artist names are matched in full, so a half-typed name finds nothing.'}
           </p>
         </div>

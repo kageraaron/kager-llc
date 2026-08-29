@@ -5,6 +5,7 @@ import {
   getArchive,
   getFriendsPlans,
   getFriendsAtEvent,
+  getFriendsAtEvents,
   getEvent,
   getMyAttendance,
   getNote,
@@ -96,6 +97,29 @@ describe.skipIf(!enabled)('live queries against seeded project', () => {
     // are_friends() or the attendances policy is wrong.
     expect(handles).toEqual(['dev_okafor', 'marisol']);
     expect(handles).not.toContain('sasha_lin');
+  });
+
+  it('getFriendsAtEvents batches to the same answer as the per-event query', async () => {
+    // `/upcoming` swapped a query-per-row for one `.in()`. RLS is evaluated
+    // per row either way, but this is exactly the kind of PostgREST rewrite
+    // that has silently changed results in this codebase before (see the
+    // embedded-`.order()` no-op), so assert the two agree row for row.
+    const upcoming = await getUpcoming(db, DEMO_ID);
+    const ids = upcoming.map((r) => r.event.id);
+    const batched = await getFriendsAtEvents(db, ids, DEMO_ID);
+
+    for (const id of ids) {
+      const one = (await getFriendsAtEvent(db, id, DEMO_ID)).map((f) => f.profile.handle).sort();
+      const many = (batched.get(id) ?? []).map((f) => f.profile.handle).sort();
+      expect(many).toEqual(one);
+    }
+
+    // Not merely equal-and-empty: the seed has friends on this show.
+    expect(batched.get(E_JBREKKIE)?.map((f) => f.profile.handle).sort())
+      .toEqual(['dev_okafor', 'marisol']);
+
+    // An empty input must not turn into an unfiltered query.
+    expect((await getFriendsAtEvents(db, [], DEMO_ID)).size).toBe(0);
   });
 
   it('getFriendsPlans groups friends by event and omits my own shows', async () => {

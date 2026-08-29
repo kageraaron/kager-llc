@@ -3,29 +3,42 @@ import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth';
 import { searchEvents as tmSearchEvents, getAttractionEvents, pickImage } from '@/lib/providers/ticketmaster';
 import * as jambase from '@/lib/providers/jambase';
-import { searchCacheKey, readSearchCache, writeSearchCache } from '@/lib/cache';
+import * as spotifyconcerts from '@/lib/providers/spotifyconcerts';
+import {
+  searchCacheKey,
+  readSearchCache,
+  writeSearchCache,
+  geocodePlace,
+  cachedArtistConcerts,
+} from '@/lib/cache';
 
 /**
- * Event search for Browse. JamBase only.
+ * Event search for Browse. Three sources, split by what each is actually good at.
  *
- * Ticketmaster is no longer queried: it only lists events it sells tickets to,
- * so it misses the club circuit and festival appearances. JamBase already
- * carries the Ticketmaster purchase link in its `offers` array when one exists,
- * so nothing is lost by dropping it as a search source.
+ * **Spotify (RapidAPI) answers artist queries.** It is the only source here that
+ * matches partial names — "Chris L" finds Chris Lake, which Ticketmaster returns
+ * zero for — and it resolves to a canonical Spotify artist rather than whatever
+ * tribute act shares the name. It also has the club circuit: Overmono + Ben UFO
+ * at Public Works, SF is in Spotify and in NEITHER of the other two.
  *
- * Ticketmaster remains as an emergency fallback ONLY when JamBase is
- * unconfigured — e.g. the trial has lapsed and no key is set — so Browse
- * degrades rather than going blank.
+ * **JamBase answers location queries.** Spotify has no "what's on near me"
+ * endpoint at all, so anything without an artist name goes here. JamBase also
+ * catches the festival appearances Ticketmaster misses.
  *
- * NEITHER source is complete. An AXS-sold club show (Overmono DJ Set + Ben UFO,
- * SF, Sept 2026) is absent from both. That is why manual entry exists.
+ * **Ticketmaster is the emergency fallback**, used only when the source above it
+ * is unconfigured or failing, so Browse degrades rather than going blank.
+ *
+ * An artist query WITH a location is served by Spotify and filtered locally on
+ * the coordinates every row carries — no second request.
+ *
+ * No source is complete, which is why manual entry still exists.
  */
 
 /** One page of results. JamBase reports the true total, so this drives paging. */
 const PER_PAGE = 40;
 
 export interface EventHit {
-  source: 'jambase' | 'ticketmaster';
+  source: 'jambase' | 'ticketmaster' | 'spotify';
   /** Provider-scoped id; the add action needs `source` to know how to resolve it. */
   id: string;
   name: string;
@@ -60,6 +73,24 @@ function fromJamBase(e: jambase.JBEvent, searched?: string): EventHit | null {
   };
 }
 
+function fromSpotify(c: spotifyconcerts.SpotifyConcert, searched?: string): EventHit {
+  return {
+    source: 'spotify',
+    id: c.id,
+    name: c.title,
+    artist: spotifyconcerts.headlinerOf(c, searched),
+    startsAt: c.startsAt,
+    // No IANA zone in the payload — only a UTC offset, which cannot be turned
+    // into one. Rendering falls back to the viewer's zone.
+    timezone: null,
+    image: null,
+    venue: c.venueName,
+    city: c.city,
+    region: c.region,
+    isFestival: c.isFestival,
+  };
+}
+
 export async function GET(request: NextRequest) {
   const supabase = await createClient();
   const user = await getCurrentUser(supabase);
@@ -68,10 +99,31 @@ export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
   const keyword = searchParams.get('q') ?? searchParams.get('artist') ?? undefined;
   const attractionId = searchParams.get('attractionId') ?? undefined;
-  const lat = searchParams.get('lat') ? Number(searchParams.get('lat')) : undefined;
-  const lng = searchParams.get('lng') ? Number(searchParams.get('lng')) : undefined;
   const radius = searchParams.get('radius') ? Number(searchParams.get('radius')) : 50;
   const page = Math.max(1, Number(searchParams.get('page') ?? 1) || 1);
+
+  let lat = searchParams.get('lat') ? Number(searchParams.get('lat')) : undefined;
+  let lng = searchParams.get('lng') ? Number(searchParams.get('lng')) : undefined;
+
+  /**
+   * A named place ("shows in San Francisco") is an alternative to browser
+   * geolocation, not an addition to it: explicit coordinates always win, so
+   * "near me" is never silently overridden by a stale place name in the box.
+   */
+  const place = searchParams.get('place')?.trim() || undefined;
+  let resolvedPlace: string | null = null;
+  if (place && !(Number.isFinite(lat) && Number.isFinite(lng))) {
+    const hit = await geocodePlace(place);
+    if (!hit) {
+      return NextResponse.json(
+        { error: `Couldn't find a place called "${place}"`, events: [], source: null },
+        { status: 404 },
+      );
+    }
+    lat = hit.lat;
+    lng = hit.lng;
+    resolvedPlace = hit.label;
+  }
 
   const hasGeo = Number.isFinite(lat) && Number.isFinite(lng);
   if (!keyword && !attractionId && !hasGeo) {
@@ -107,7 +159,43 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  // Preferred path: JamBase, which supports artist and/or location.
+  /**
+   * Artist queries go to Spotify first.
+   *
+   * Cached for 6 hours rather than the 5 minutes the JamBase path uses: the
+   * free plan is 1000 requests a MONTH, so the cache here is a budget control.
+   * Falling through to JamBase is the correct behaviour for an unconfigured
+   * key, an exhausted quota, or an artist Spotify does not recognise.
+   */
+  if (keyword && spotifyconcerts.isConfigured()) {
+    const result = await cachedArtistConcerts(keyword);
+
+    if (result?.artist && result.concerts.length > 0) {
+      const inRange =
+        hasGeo && lat !== undefined && lng !== undefined
+          ? spotifyconcerts.withinRadius(result.concerts, lat, lng, radius)
+          : result.concerts;
+
+      // An artist with tour dates but none near the requested city is a real
+      // answer, not a failure — but it is a useless one, so let JamBase try
+      // rather than showing an empty list.
+      if (inRange.length > 0) {
+        return NextResponse.json({
+          source: 'spotify',
+          place: resolvedPlace,
+          artist: result.artist.name,
+          total: inRange.length,
+          page: 1,
+          perPage: inRange.length,
+          // The whole tour arrives in one response; there is nothing to page.
+          hasMore: false,
+          events: inRange.map((c) => fromSpotify(c, keyword)),
+        });
+      }
+    }
+  }
+
+  // Location queries, and anything Spotify could not answer.
   if (jambase.isConfigured()) {
     // Cached across users: "what's on near me" is the same upstream query for
     // everyone in a city, and JamBase is a metered trial.
@@ -128,6 +216,8 @@ export async function GET(request: NextRequest) {
 
       const payload = {
         source: 'jambase',
+        // Echoed so the UI can confirm what "San Francisco" resolved to.
+        place: resolvedPlace,
         total,
         page,
         perPage: PER_PAGE,
@@ -153,6 +243,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       source: 'ticketmaster',
+      place: resolvedPlace,
       events: events.map((e) => ({
         source: 'ticketmaster' as const,
         id: e.id,
