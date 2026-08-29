@@ -43,7 +43,23 @@ function iso(y: number, mo: number, d: number, time: [number, number] | null): s
  * use: "Fri, Mar 14, 2026", "March 14, 2026 at 8:00 PM", "14 March 2026",
  * "03/14/2026". Returns local wall time with no offset.
  */
-export function findDate(text: string, opts: { preferFuture?: boolean } = {}): string | undefined {
+export function findDate(
+  text: string,
+  opts: {
+    preferFuture?: boolean;
+    /**
+     * Accept dates with NO YEAR, resolving them against this reference instant
+     * (normally the email's own received date).
+     *
+     * Off by default, and deliberately so: a bare "01 Oct" is a weak signal
+     * that would fire on addresses and footers. DICE is the case that needs it
+     * — it renders "Sat 01 Oct,10:00 PM GMT-7" with no year anywhere in the
+     * message — and its shape is tight enough (weekday and/or a time attached)
+     * to be safe.
+     */
+    yearlessReference?: string;
+  } = {},
+): string | undefined {
   const candidates: { date: string; index: number }[] = [];
 
   // Mon DD, YYYY  (optionally followed by a time on the same or next line)
@@ -72,6 +88,39 @@ export function findDate(text: string, opts: { preferFuture?: boolean } = {}): s
     const d = Number(m[2]);
     if (mo >= 1 && mo <= 12 && d >= 1 && d <= 31) {
       candidates.push({ date: iso(Number(m[3]), mo, d, parseTime(m[4] ?? '')), index: m.index });
+    }
+  }
+
+  // Year-less: "Sat 01 Oct, 10:00 PM" / "Oct 01, 10:00 PM". Only consulted when
+  // nothing above matched, so a dated message is never second-guessed.
+  if (candidates.length === 0 && opts.yearlessReference) {
+    const ref = new Date(opts.yearlessReference);
+    if (!Number.isNaN(ref.getTime())) {
+      const yearless = new RegExp(
+        String.raw`\b(?:(?:mon|tue|wed|thu|fri|sat|sun)[a-z]*,?\s+)?` +
+          String.raw`(?:(\d{1,2})\s+(${MONTH_ALT})|(${MONTH_ALT})[a-z]*\.?\s+(\d{1,2}))` +
+          String.raw`[a-z]*\.?\s*,?\s*([^\n]{0,24})`,
+        'gi',
+      );
+
+      for (const m of text.matchAll(yearless)) {
+        const day = Number(m[1] ?? m[4]);
+        const mo = MONTHS[(m[2] ?? m[3]).toLowerCase().slice(0, 3)];
+        const time = parseTime(m[5] ?? '');
+        // Require a time. Without one this is far too eager — it would fire on
+        // any "Suite 900"-shaped fragment that happens to sit near a month name.
+        if (!time || !day || day > 31) continue;
+
+        // Choose the year that lands nearest the reference date: a confirmation
+        // for "01 Oct" sent in late December means the following year.
+        let best: { date: string; delta: number } | null = null;
+        for (const y of [ref.getUTCFullYear() - 1, ref.getUTCFullYear(), ref.getUTCFullYear() + 1]) {
+          const iso8601 = iso(y, mo, day, time);
+          const delta = Math.abs(new Date(`${iso8601}Z`).getTime() - ref.getTime());
+          if (!best || delta < best.delta) best = { date: iso8601, delta };
+        }
+        if (best) candidates.push({ date: best.date, index: m.index });
+      }
     }
   }
 
@@ -105,11 +154,19 @@ export function findDate(text: string, opts: { preferFuture?: boolean } = {}): s
 export function findOrderNumber(text: string): string | undefined {
   const CANDIDATE = String.raw`([A-Z0-9][A-Z0-9/\-]{3,29})`;
 
+  const LABEL = String.raw`(?:order|confirmation|reference|booking)`;
+  // Vendors bracket the value with emphasis marks: AXS's plain-text part reads
+  // "Your confirmation number is *46641640*".
+  const LEAD = String.raw`[*"'\s]*`;
+
   // A "#" is the strongest signal, so try that shape first.
   const patterns = [
-    new RegExp(String.raw`(?:order|confirmation|reference|booking)\s*(?:number|no\.?|id)?\s*#\s*` + CANDIDATE, 'i'),
-    new RegExp(String.raw`(?:order|confirmation|reference|booking)\s*(?:number|no\.?|id)\s*[:#]?\s*` + CANDIDATE, 'i'),
-    new RegExp(String.raw`(?:order|confirmation|reference|booking)\s*[:#]\s*` + CANDIDATE, 'i'),
+    new RegExp(LABEL + String.raw`\s*(?:number|no\.?|id)?\s*#` + LEAD + CANDIDATE, 'i'),
+    // "... number is 46641640" — a prose connector rather than a colon, which
+    // is how AXS and several others phrase it.
+    new RegExp(LABEL + String.raw`\s*(?:number|no\.?|id)\s*(?:\(s\))?\s*(?:is|:)` + LEAD + CANDIDATE, 'i'),
+    new RegExp(LABEL + String.raw`\s*(?:number|no\.?|id)\s*(?:\(s\))?\s*[:#]?` + LEAD + CANDIDATE, 'i'),
+    new RegExp(LABEL + String.raw`\s*[:#]` + LEAD + CANDIDATE, 'i'),
   ];
 
   for (const re of patterns) {
@@ -120,15 +177,57 @@ export function findOrderNumber(text: string): string | undefined {
   return undefined;
 }
 
-/** Total price in cents, plus its currency symbol if we can see one. */
+/**
+ * Total price in cents, plus its currency symbol if we can see one.
+ *
+ * Picking "the first thing labelled total" is wrong, and was: real receipts put
+ * a SUBTOTAL above the real one. An AXS order reads
+ *
+ *   Sub Total: $240.00 / Service Fees: $71.64 / Grand Total: $311.64
+ *
+ * and Frontgate reads "Event Subtotal: $1018.00 ... Total: $1037.95". The old
+ * pattern had no word boundary, so "total" matched inside "Subtotal" and the
+ * first hit won — recording $240.00 for a $311.64 order, and $1018.00 for a
+ * $1037.95 one.
+ *
+ * So: score every labelled amount and keep the best. Ties go to the LAST one,
+ * because a receipt builds up to its total.
+ */
+const PRICE_LABELS: { re: RegExp; score: number }[] = [
+  { re: /grand\s+total/i, score: 3 },
+  { re: /amount\s+charged(?:\s+to[^:\n]*)?/i, score: 3 },
+  { re: /amount\s+paid/i, score: 3 },
+  { re: /order\s+total/i, score: 3 },
+  { re: /total\s+charged/i, score: 3 },
+  // A bare "Total" is right far more often than not, but loses to the above.
+  { re: /total/i, score: 1 },
+];
+
 export function findPrice(text: string): { cents?: number; currency?: string } {
-  const m = /(?:order\s+total|total|amount\s+(?:paid|charged)|grand\s+total)\s*[:]?\s*([$£€])\s?([\d,]+\.\d{2})/i.exec(
-    text,
-  );
-  if (!m) return {};
-  const cents = Math.round(Number(m[2].replace(/,/g, '')) * 100);
-  const currency = { $: 'USD', '£': 'GBP', '€': 'EUR' }[m[1]];
-  return { cents: Number.isFinite(cents) ? cents : undefined, currency };
+  // `\b` before the label is what keeps "Subtotal" from matching "total".
+  const AMOUNT = /\b([A-Za-z][A-Za-z ]{0,24}?total|amount\s+(?:charged|paid)[^:\n$]{0,24}|total)\s*:?\s*([$£€])\s?([\d,]+\.\d{2})/gi;
+
+  let best: { cents: number; currency?: string; score: number } | null = null;
+
+  for (const m of text.matchAll(AMOUNT)) {
+    const label = m[1];
+    // Subtotals and line items are never the amount the user actually paid.
+    if (/sub\s*total|service\s+fee|shipping|tax/i.test(label)) continue;
+
+    const score = PRICE_LABELS.find((l) => l.re.test(label))?.score ?? 0;
+    if (score === 0) continue;
+
+    const cents = Math.round(Number(m[3].replace(/,/g, '')) * 100);
+    if (!Number.isFinite(cents)) continue;
+
+    // >= so that a later match of equal score wins.
+    if (!best || score >= best.score) {
+      best = { cents, currency: { $: 'USD', '£': 'GBP', '€': 'EUR' }[m[2]], score };
+    }
+  }
+
+  if (!best) return {};
+  return { cents: best.cents, currency: best.currency };
 }
 
 /**
@@ -152,9 +251,22 @@ export function findVenue(text: string): { venueName?: string; city?: string; re
 /** Strip the marketing noise vendors wrap around an artist name. */
 export function cleanArtistName(raw: string): string {
   return raw
+    // Emphasis markers from a multipart TEXT alternative, which renders bold as
+    // "*Mipso*". Reading the artist out of the body picks these up, and they
+    // would otherwise be stored as part of the name.
+    .replace(/^[*_~]+|[*_~]+$/g, '')
+    .trim()
     // Age restrictions and format tags are venue metadata, not part of the name.
     .replace(/\s*\((?:\d{1,2}\+|all ages|live|tour|presented by[^)]*)\)/gi, '')
     .replace(/\s*[-–—]\s*(?:the\s+)?\w+\s+tour\b.*$/i, '')
+    // Ticket-type suffixes vendors append to the artist: AXS sends
+    // "Chris Stussy - Presale" and "Chris Lake - Admissions". A whitelist, not
+    // a blanket "drop everything after a dash", which would maul names like
+    // "Nine Inch Nails - Trent Reznor" or any legitimately hyphenated act.
+    .replace(
+      /\s*[-–—]\s*(?:pre-?sale|on-?sale|admissions?|general\s+admission|ga|vip|presented\s+by.*|early\s+entry)\s*$/i,
+      '',
+    )
     .replace(/^\s*(?:your tickets? (?:for|to)|you're going to|tickets? for)\s*/i, '')
     // Vendors join the prefix to the artist with a separator ("Order Confirmation: Turnstile").
     .replace(/^\s*[:\-–—|]\s*/, '')

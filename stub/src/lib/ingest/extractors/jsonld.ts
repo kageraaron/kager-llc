@@ -11,6 +11,19 @@ import { extractJsonLdBlocks } from '@/lib/ingest/html';
  * scraping the rendered table. Run this before any vendor-specific extractor.
  */
 
+/**
+ * Repair a nearly-ISO timestamp.
+ *
+ * Eventbrite emits `"2024-06-23 14:00:00"` — a SPACE where ISO 8601 requires a
+ * `T`. V8 happens to parse that, so it survives locally, but it is not valid
+ * ISO: strict parsers return NaN, and it is inconsistent with every other
+ * extractor's output.
+ */
+export function normalizeIsoish(raw?: string): string | undefined {
+  if (!raw) return undefined;
+  return raw.replace(/^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2})/, '$1T$2');
+}
+
 interface JsonLdNode {
   '@type'?: string | string[];
   name?: string;
@@ -75,7 +88,7 @@ function fromEventNode(event: JsonLdNode, reservation?: JsonLdNode): ParsedTicke
     city,
     region,
     country,
-    startsAt: event.startDate,
+    startsAt: normalizeIsoish(event.startDate),
     sourceUrl: event.url ?? reservation?.url,
     ticketRef: reservation?.reservationNumber ?? reservation?.reservedTicket?.ticketNumber,
     seatInfo,

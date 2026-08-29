@@ -78,6 +78,11 @@ export function buildTicketQuery(days = 30): string {
     'subject:"your order"',
     'subject:"tickets to"',
     'subject:"order confirmed"',
+    // Real subjects seen in the wild that matched none of the above. These
+    // matter most for FORWARDED confirmations, where the `from:` clauses miss.
+    'subject:"thank you for your order"',
+    'subject:"you received tickets"',
+    'subject:"here are your tickets"',
   ].join(' OR ');
   return `newer_than:${days}d ((${senders}) OR (${subjects})) -category:promotions`;
 }

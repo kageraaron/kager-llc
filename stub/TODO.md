@@ -253,8 +253,16 @@ parent/child model. Defer until it actually bites.
 
 ## 4. Search is too restrictive — real fix available
 
-**The problem:** Ticketmaster matches whole words only. `"Chris L"` returns
-**zero** results; `"Chris Lake"` returns one. Every partial name looks broken.
+~~**The problem:** Ticketmaster matches whole words only.~~ — **SOLVED, by
+Spotify (RapidAPI).** See §5.10. `"Chris L"` → Chris Lake and `"taylor swif"` →
+Taylor Swift, and the match is to a canonical Spotify artist id, which also kills
+the tribute-act wart described at the bottom of this section.
+
+The MusicBrainz-typeahead plan below is no longer needed — Spotify does both
+halves (name resolution *and* dates) in one request. `providers/musicbrainz.ts`
+stays for the Spotify-OAuth import path, which resolves names to MBIDs.
+
+<details><summary>Original plan, superseded</summary>
 
 **The fix: split typeahead from date lookup.**
 
@@ -263,6 +271,8 @@ parent/child model. Defer until it actually bites.
   1 req/s, so debounce and cache. `src/lib/providers/musicbrainz.ts` already
   exists.
 - **Ticketmaster for the dates**, once an artist is chosen.
+
+</details>
 
 Also worth doing:
 - **Cache picked artists locally** and search `artists` first (the `pg_trgm` GIN
@@ -409,10 +419,145 @@ original (sender + subject pulled from the forward header); broader Ticketmaster
 subject patterns; order-number candidates must contain a digit and may contain
 `/`. Covered by the `forwardedTicketmaster` fixture.
 
+### 5.7.1 Five more real emails, five more holes — **all fixed**
+
+Run against real mail from AXS, See Tickets/Eventim and Frontgate: **all five
+failed.** Each was a distinct hole, not one bug five times.
+
+| Email | Failed because |
+|---|---|
+| AXS "Thank you for your order for Chris Stussy - Presale" | subject matched no pattern |
+| AXS "Thank you for your order for Kaskade - Presale" | same |
+| AXS "You Received Tickets" (a transfer) | same, and an unhandled body shape |
+| See Tickets "Here Are Your Tickets for Shiba San" | vendor had **no field extraction at all** |
+| Frontgate "Your Outside Lands Receipt" | **no extractor existed** |
+
+**1. AXS's real subjects were never matched.** The pattern wanted "order
+confirmation" / "your tickets"; AXS actually sends *"Thank you for your order
+for X - Presale"* and *"You Received Tickets"*. Neither matched, so the emails
+were never even opened. Broadened, and `cleanArtistName` now strips the
+ticket-type suffixes AXS appends (`- Presale`, `- Admissions`) from a
+**whitelist** — not a blanket "drop everything after a dash", which would maul
+legitimately hyphenated names.
+
+**2. The event date lived only in the HTML part.** AXS sends
+`multipart/alternative`, and the **text part is a degraded copy**: its
+order-details table collapses to `Order details for **  *Quantity* *Type* …`
+with artist, venue and date stripped out. The HTML carries the real line:
+
+> `Order details for Chris Stussy - Presale at Shed A scheduled on 2/27/2026 6:00 PM`
+
+The pipeline prefers `email.text` when present, so the extractor was reading the
+gutted copy and falling back to the generic date scan — which returned the
+**order** date (Jan 27) as the event date (Feb 27). The AXS extractor now checks
+the HTML first and only then the text part.
+
+> Sharpest lesson here: `text || htmlToText(html)` is not a safe default. A
+> vendor's text alternative can be strictly less informative than its HTML.
+
+**3. Ticket transfers are a different shape.** "Alex transferred 3 tickets to
+you for the following event:" followed by three bare lines — date, event, venue —
+with no order number and no price. A gifted ticket is still a show you are going
+to, so it now parses; the "needs a name and a date" guard passes on those two
+alone.
+
+**4. See Tickets matched but never produced anything.** Its spec had no
+`specific`, so no artist, event or venue was ever set, and the
+"needs at least one of them" guard rejected **every** message. It now reads the
+guest-list phrasing and the labelled block, stitching the door time
+("Show 10:00PM") onto the date line two rows above it.
+
+**5. "Sub Total" beat "Grand Total".** `findPrice` had no word boundary, so
+`total` matched inside `Sub*total*` and the first hit won — recording $240.00
+for a $311.64 AXS order, and $1018.00 for a $1037.95 Frontgate one. Amounts are
+now scored by label, subtotals/fees/shipping excluded, ties going to the last
+match because a receipt builds up to its total.
+
+**6. Order numbers phrased in prose.** AXS writes "Your confirmation number is
+*46641640*" — a connector word and emphasis marks where `findOrderNumber`
+expected a colon.
+
+Also added: a `frontgate` vendor (it handles Outside Lands, ACL and much of the
+US festival circuit), multi-day festival receipts filing under their first day,
+and the three missing subjects in `buildTicketQuery` so **forwarded** copies get
+fetched at all.
+
+All five now yield artist/event, venue, city, region, correct start time, order
+reference and price. Covered by `axsOrderPresale`, `axsTransfer`,
+`seeTicketsGuestList` and `frontgateFestival` in `test/fixtures/emails.ts`.
+
+> One encoding note worth keeping: AXS writes the time as `6:00\u202fPM` with a
+> **narrow no-break space**. JS `\s` covers U+202F so `parseTime` copes — but
+> only if the body was decoded as UTF-8. Decode it per-byte as latin1 and it
+> becomes mojibake that silently stops matching.
+
+### 5.7.2 Second batch — Eventbrite, See Tickets, DICE
+
+Three more real emails. One parsed but with a subtly invalid date; two were
+wrong or missing entirely.
+
+**1. DICE matched no extractor at all.** Its subject *is* the event title —
+"SLOTHACID TOUR: SACHA ROBOTTI + TRUTH X LIES" — so no subject pattern can ever
+match it. Vendor specs now support `trustDomain`, accepting on the sender domain
+alone. `tickets@dice.fm` is purely transactional, so that is safe *provided*
+something else rejects marketing: the body (or subject) must carry a
+confirmation marker — "you're going to", "purchase confirmation", "ticket
+details". Without that guard a promo for a dated show has both a name and a date
+and would parse as a ticket the user never bought. There is a test for exactly
+that.
+
+**2. DICE's date has no year.** It renders "Sat 01 Oct,10:00 PM GMT-7", and the
+year appears nowhere in the message. `findDate` now takes an opt-in
+`yearlessReference` (the email's received date) and picks the year landing
+nearest it. Opt-in on purpose — a bare "01 Oct" is a weak signal — and it
+additionally requires an attached time before it will fire.
+
+**3. See Tickets invented an artist called "Here Are Your Tickets".** When the
+subject carries no artist, the strip pattern found no "for", removed nothing,
+and returned the whole subject. That would have created a junk artist row and
+poisoned matching. Two fixes: a `BOILERPLATE_SUBJECT` guard that returns nothing
+rather than boilerplate, and reading the real bill out of the body, where it
+sits directly above the date, headliner first:
+
+```
+Goldenvoice Presents
+Mipso          <- headliner
+Julia Pratt    <- support
+Saturday, February 17, 2024
+```
+
+**4. Doors time was being filed as the start time.** "Doors 8:00PM | Show
+9:00PM" is one line with doors first, so the gig landed an hour early. The show
+time now wins.
+
+**5. `*Mipso*` — emphasis markers leaked into the artist name.** A
+`multipart/alternative` text part renders bold as `*X*`, and reading a name out
+of the body picks the asterisks up. Stripped in `cleanArtistName`.
+
+**6. Eventbrite's `startDate` is not valid ISO 8601.** It emits
+`"2024-06-23 14:00:00"` — a space where ISO requires a `T`. V8 parses it, so it
+looks fine locally and would have gone unnoticed; strict parsers return NaN.
+Normalised in the JSON-LD extractor.
+
+> Two traps worth remembering from this batch. A `\b`-anchored label is not
+> enough for a labelled row: `\bEvent\s*\n` matched the prose "…to access this
+> **event**" and captured the next line, which was the HTML entity `&#8202;` —
+> so DICE briefly reported an artist named `&#8202;`. Labelled rows are matched
+> to a whole line now, and a candidate with no letters or digits is rejected.
+> Second, the Eventbrite order was genuinely **free** ($0.00), so a missing
+> price there is correct rather than a bug — worth checking before "fixing".
+
+Covered by `eventbriteSpacedStartDate`, `seeTicketsNoArtistInSubject` and
+`diceEventTitleSubject`.
+
 **Still open — worth doing while real mail is flowing:**
 - Every confirmation that fails to parse should be added to
   `test/fixtures/emails.ts` (scrubbed) and fixed against. That is the intended
   workflow and the only way coverage improves.
+- **Nothing yet reconciles a festival receipt against a festival event.** The
+  Frontgate receipt yields `eventName: "Outside Lands"` with no artist, which the
+  matcher (artist + date + venue) is not built to place. Related to the
+  `is_festival` work in §4.
 - ~~The Inbox review queue currently only shows *parsed* candidates.~~ —
   **DONE.** A collapsed "Scanned, nothing found" section on `/inbox` lists the
   last 50 messages with `status` in (`ignored`, `error`), with subject, sender,
@@ -429,6 +574,99 @@ subject patterns; order-number candidates must contain a digit and may contain
   minutes for cron to learn whether parsing worked is a miserable loop.
 - **One-step Gmail disconnect**, which deletes the stored tokens rather than
   flagging the row inactive.
+
+---
+
+## 5.10 Spotify concert graph (RapidAPI) — **DONE**
+
+`src/lib/providers/spotifyconcerts.ts`, on the `spotify81` RapidAPI proxy.
+Distinct from `providers/spotify.ts`, which is the OAuth favourites import and
+is hard-capped at 5 users — **this one needs no user consent and has no
+per-user cap.**
+
+Endpoint: `GET /partner/search-concert-artists?query=…&details=true&parsed=true`.
+
+> **Both flags are required and are not optional tuning.** `parsed=true` flattens
+> Spotify's GraphQL nesting into usable rows but leaves `venueName`,
+> `coordinates`, `country` and `region` **null**. `details=true` is what fills
+> them. With only one of the two you get a city and nothing else, which is not
+> enough to place a show.
+
+### Why it earns a place
+
+Measured against the two cases already in this file:
+
+| | Ticketmaster | JamBase | **Spotify** |
+|---|---|---|---|
+| `"Chris L"` | 0 | — | **Chris Lake** |
+| `"taylor swif"` | 0 | — | **Taylor Swift** (the real one) |
+| Overmono worldwide | 8 | 17 | **17** |
+| Overmono **in SF** | 0 | 1 (Portola) | **1 (Public Works)** |
+
+That SF row is the punchline: **Overmono + Ben UFO at Public Works** is the
+AXS club show §5.7 cites as absent from *both* other providers — the show that
+manual entry was built for. Spotify has it. The two sources are complementary
+rather than redundant: JamBase found the Portola festival set, Spotify found the
+club night.
+
+Per event it returns venue name, venue id, lat/lng, city/region/country, a
+festival flag, the full billed lineup, and a share URL.
+
+### What it cannot do
+
+**Location-only search.** There is no "what's on near me" endpoint. `geoHash` is
+accepted and echoed back in `metadata`, but `nearby` resolves from the *proxy's*
+server location — it answers "Montreal" regardless — and comes back empty. So:
+
+- **artist queries → Spotify**, and an artist query *with* a location is filtered
+  locally on the coordinates every row carries (`withinRadius`), costing no
+  second request;
+- **location-only queries → JamBase**;
+- **Ticketmaster** stays the fallback beneath both.
+
+### Two traps worth remembering
+
+1. **The search has no relevance floor — it always returns something.** Querying
+   `zzzznotanartist` confidently answers with the band `Zzz.`. `matchesQuery()`
+   rejects that. Note the guard cannot be a naive bidirectional prefix test,
+   because `"zzz"` *is* a prefix of `"zzzznotanartist"`; the reverse direction is
+   only accepted when the query overruns the name by ≤3 characters.
+2. **A festival bills its lineup in the promoter's order.** Searching Overmono
+   returns WILDLANDS, whose 25-name bill starts with John Summit and has Overmono
+   tenth. `headlinerOf(concert, searched)` shows the artist you searched for —
+   the same bug §5.6 already fixed once for JamBase, where Overmono surfaced as
+   "Robyn".
+
+Also: `startDateIsoString` arrives as `2026-09-27T22:00-07:00` — **no seconds**,
+and an offset rather than an IANA zone. It is normalised to a real instant before
+it reaches Postgres, and `events.timezone` is left null because an offset cannot
+be turned into a zone. Venue coordinates are stored, so a zone can be derived
+later if it matters.
+
+### BILLING — the real constraint
+
+**1000 requests per month** on the free plan. That is by a wide margin the
+tightest limit of any provider here — roughly 33/day across all users. Mitigations
+in place:
+
+- every call goes through `cachedArtistConcerts`, **6-hour TTL** (not the 5
+  minutes the JamBase path uses) — the cache is a budget control, not a latency
+  optimisation;
+- `quotaRemaining` is read from `x-ratelimit-requests-remaining` and logged as a
+  warning below 100 left, because the failure mode is a *silent* degrade to
+  JamBase;
+- "Add" re-resolves a concert through the same cached search, so adding a show
+  normally costs no request.
+
+**Still to do:** the same reconciliation gap §4 already notes for JamBase now has
+a third id. A show can exist as three rows under `tm_id`, `jambase_id` and
+`spotify_concert_id`. Migration `0012` adds the columns; nothing dedupes them.
+
+Related wart: `upsertSpotifyEvent` writes an artist row per billed name (capped
+at 12), and only the *searched* artist can carry a Spotify id — the lineup is
+`[{ name }]` with no per-artist ids. Adding one festival therefore creates a
+dozen thin, id-less artist rows. Harmless but untidy, and it feeds the same
+dedupe problem.
 
 ---
 
@@ -497,6 +735,24 @@ shifting upstream page window can repeat a row.
   Postgres with `LIMIT` pushed down.
 - **Gmail ingestion has never run end to end.** Extractors are unit-tested
   against fixtures only. No real confirmation email has been through the pipeline.
+- ~~**JamBase events could never be added from Browse**~~ — **fixed in `0013`,
+  and it was silent.** `0010` and `0012` enforced provider ids with *partial*
+  unique indexes (`... where jambase_id is not null`). PostgREST's
+  `onConflict: 'jambase_id'` emits a bare `ON CONFLICT (jambase_id)`, and
+  Postgres only uses a partial index for that if the statement repeats the index
+  predicate — which PostgREST never emits. So every JamBase catalog upsert
+  failed with *"there is no unique or exclusion constraint matching the ON
+  CONFLICT specification"*, was caught and logged, and Browse just said "Could
+  not save that event".
+
+  A plain `UNIQUE` constraint was the right tool all along: Postgres treats
+  NULLs as distinct, so a nullable column can be UNIQUE and still have any number
+  of id-less rows. That is exactly what `0001` does for `tm_id`, `mbid` and
+  `setlistfm_id` — which is why *those* upserts always worked. `0013` swaps both
+  providers' partial indexes for real constraints.
+
+  Caught only by exercising the write path against a real database. Nothing in
+  the offline suite touches PostgREST, so no unit test could have found it.
 - **`pg_trgm` installed in `public`** — linter warning. Moving it risks the
   `gin_trgm_ops` indexes. Accepted.
 - **Leaked-password protection is off** — one dashboard toggle

@@ -20,6 +20,16 @@ interface VendorSpec {
   name: string;
   domains: string[];
   subject: RegExp;
+  /**
+   * Accept on the sender domain alone, ignoring the subject.
+   *
+   * For a purely transactional sender this is right: DICE titles its
+   * confirmations with the EVENT NAME and nothing else
+   * ("SLOTHACID TOUR: SACHA ROBOTTI + TRUTH X LIES"), so no subject pattern can
+   * ever match it. `parse` still requires a name and a date, so marketing mail
+   * from the same domain is rejected there rather than here.
+   */
+  trustDomain?: boolean;
   /** Vendor-specific pass, run before the shared heuristics fill the gaps. */
   specific?: (email: NormalizedEmail, text: string) => Partial<ParsedTicket>;
 }
@@ -33,11 +43,190 @@ function ticketmasterEventId(html: string): string | undefined {
   return undefined;
 }
 
-/** The subject is usually the cleanest artist signal we get. */
+/**
+ * Subject lines that are pure boilerplate, with no artist in them at all.
+ *
+ * A real See Tickets email is subjected simply "Here Are Your Tickets". The
+ * strip pattern expects "... for <artist>", finds no "for", removes nothing,
+ * and hands back the whole subject — so the ticket was recorded with
+ * `artistName: "Here Are Your Tickets"`, which then creates a junk artist row
+ * and poisons matching. Returning nothing is strictly better: the body block
+ * usually knows, and failing that the message belongs in the review queue.
+ */
+const BOILERPLATE_SUBJECT =
+  /^(?:here are |)?(?:your |you received |)(?:e-?)?tickets?!?$|^(?:order|purchase|ticket|booking)\s+confirm(?:ation|ed)$|^your order$|^purchase confirmation$/i;
+
+/** The subject is usually the cleanest artist signal we get — when it has one. */
 function artistFromSubject(subject: string, strip: RegExp): string | undefined {
-  const cleaned = cleanArtistName(subject.replace(strip, '').trim());
+  const stripped = subject.replace(strip, '').trim();
+  if (BOILERPLATE_SUBJECT.test(stripped)) return undefined;
+  const cleaned = cleanArtistName(stripped);
+  if (cleaned.length < 2) return undefined;
+  return BOILERPLATE_SUBJECT.test(cleaned) ? undefined : cleaned;
+}
+
+/** Non-empty, whitespace-trimmed lines. Both text and HTML views pad heavily. */
+function lines(text: string): string[] {
+  return text.split('\n').map((l) => l.trim()).filter(Boolean);
+}
+
+/**
+ * AXS purchase confirmations carry one authoritative line:
+ *
+ *   Order details for Chris Stussy - Presale at Shed A scheduled on 2/27/2026 6:00 PM
+ *
+ * Artist, venue and start time in one place. That matters more than
+ * convenience: the surrounding text also contains the ORDER date ("Jan 27
+ * 2026") earlier in the document, and the generic `findDate` scan prefers the
+ * earliest-appearing date whenever no future one is present — so on a
+ * past-dated email it would confidently return the purchase date as the event
+ * date. Anchoring here avoids the question.
+ *
+ * Note the time arrives as "6:00\u202fPM" — a NARROW NO-BREAK SPACE, not a
+ * plain one. JS `\s` covers U+202F, so `parseTime` handles it, but only if the
+ * body was decoded as UTF-8 rather than latin1.
+ */
+const AXS_ORDER_LINE =
+  /Order details for\s+(.{2,120}?)\s+at\s+(.{2,80}?)\s+scheduled on\s+(\d{1,2}\/\d{1,2}\/\d{4}[^\n]{0,20})/i;
+
+/**
+ * AXS transfer notices ("Ben transferred 3 tickets to you") are a different
+ * shape entirely — no order number, no price, and the event laid out as three
+ * consecutive lines:
+ *
+ *   Sat May 2, 2026 - 8:00 PM
+ *   Chris Lake - Admissions
+ *   Shed A, San Francisco, CA
+ *
+ * A transferred ticket is still a show you are going to, so this is worth
+ * reading rather than skipping.
+ */
+const AXS_TRANSFER = /transferred\s+\d+\s+tickets?\s+to\s+you\s+for\s+the\s+following\s+event/i;
+
+function parseAxsTransfer(text: string): Partial<ParsedTicket> | null {
+  const all = lines(text);
+  const at = all.findIndex((l) => AXS_TRANSFER.test(l));
+  if (at === -1) return null;
+
+  const dateLine = all[at + 1];
+  const eventLine = all[at + 2];
+  const venueLine = all[at + 3];
+  if (!dateLine || !eventLine) return null;
+
+  const out: Partial<ParsedTicket> = {
+    artistName: cleanArtistName(eventLine),
+    startsAt: findDate(dateLine),
+  };
+
+  // "Shed A, San Francisco, CA"
+  if (venueLine) {
+    const parts = venueLine.split(/\s*,\s*/).filter(Boolean);
+    const region = parts.length > 1 && /^[A-Z]{2}$/.test(parts[parts.length - 1]) ? parts.pop() : undefined;
+    const city = parts.length > 1 ? parts.pop() : undefined;
+    const venueName = parts.join(', ') || undefined;
+    Object.assign(out, { venueName, city, region });
+  }
+
+  return out;
+}
+
+/**
+ * See Tickets / Eventim lay the event out as a labelled block:
+ *
+ *   Shiba San
+ *   Friday, May 8, 2026
+ *   1015 Folsom
+ *   1015 Folsom St, San Francisco, CA
+ *   Show 10:00PM
+ *
+ * The full weekday-prefixed date line is the anchor; venue and address follow
+ * it. The artist comes from the subject or the "guest list for X" phrasing,
+ * both of which are cleaner than the block's first line.
+ */
+const LONG_DATE_LINE = /^(?:mon|tue|wed|thu|fri|sat|sun)[a-z]*,?\s+[a-z]+\s+\d{1,2},?\s+\d{4}$/i;
+
+/** "Goldenvoice Presents", "DJ Dials & 1015 Folsom Present:" — the block's top. */
+const PRESENTER_LINE = /\bpresents?\s*:?\s*$/i;
+
+function parseSeeTicketsBlock(text: string): Partial<ParsedTicket> {
+  const all = lines(text);
+  const at = all.findIndex((l) => LONG_DATE_LINE.test(l));
+  if (at === -1) return {};
+
+  const out: Partial<ParsedTicket> = {};
+
+  /*
+   * The bill sits directly ABOVE the date, headliner first:
+   *
+   *   Goldenvoice Presents
+   *   Mipso            <- headliner
+   *   Julia Pratt      <- support
+   *   Saturday, February 17, 2024
+   *
+   * Walk up from the date until a presenter line or prose, then take the
+   * topmost name. This is the only reliable artist source here — the subject
+   * is often just "Here Are Your Tickets".
+   */
+  const bill: string[] = [];
+  for (let i = at - 1; i >= 0 && at - i <= 4; i--) {
+    const line = all[i];
+    if (PRESENTER_LINE.test(line)) break;
+    // Prose, not a name.
+    if (line.length > 60 || /[.!?]$/.test(line) || /,/.test(line)) break;
+    bill.unshift(line);
+  }
+  if (bill.length) out.artistName = cleanArtistName(bill[0]);
+
+  /*
+   * The time sits a couple of lines below the date, as either "Show 10:00PM"
+   * or "Doors 8:00PM | Show 9:00PM".
+   *
+   * Prefer the SHOW time. Both appear on one line with doors first, so reading
+   * the line as-is takes doors and files the gig an hour early.
+   */
+  const timeLine = all.slice(at, at + 5).find((l) => /^(?:show|doors?)\b/i.test(l));
+  const showTime = timeLine?.match(/\bshow\s*([0-9][^|]*)/i)?.[1]?.trim() ?? timeLine;
+  out.startsAt = findDate(showTime ? `${all[at]} ${showTime}` : all[at]);
+
+  const venueName = all[at + 1];
+  if (venueName && !/^(?:show|doors?)\b/i.test(venueName)) out.venueName = venueName;
+
+  const address = all[at + 2];
+  if (address?.includes(',')) {
+    const parts = address.split(/\s*,\s*/).filter(Boolean);
+    if (parts.length > 1 && /^[A-Z]{2}$/.test(parts[parts.length - 1])) out.region = parts.pop();
+    if (parts.length > 1) out.city = parts.pop();
+  }
+
+  return out;
+}
+
+/**
+ * DICE titles are "TOUR NAME: HEADLINER + SUPPORT". The full string is the
+ * event name, but the matcher scores on an ARTIST, so pull the first act out:
+ * strip a leading "... TOUR:" segment, then take everything before the first
+ * "+" separator.
+ */
+function diceHeadliner(title: string): string | undefined {
+  const afterTour = /tour\s*:\s*(.+)$/i.exec(title)?.[1] ?? title;
+  const first = afterTour.split(/\s+(?:\+|x|&|and)\s+/i)[0];
+  const cleaned = cleanArtistName(first);
   return cleaned.length >= 2 ? cleaned : undefined;
 }
+
+/**
+ * Proof that a DICE email is a CONFIRMATION rather than marketing.
+ *
+ * `trustDomain` lets any dice.fm mail reach `parse`, which is necessary because
+ * DICE subjects its confirmations with the bare event title. The cost is that
+ * promotional mail from the same domain arrives here too — and a promo for a
+ * dated show ("Tickets on sale — Fri 12 Dec") has both a name and a date, so it
+ * would otherwise parse as a ticket the user never bought.
+ *
+ * So the subject alone is never enough: the body has to say it is an order.
+ */
+const DICE_CONFIRMATION =
+  /you're going to|purchase confirmation|ticket details|your tickets are stored/i;
 
 const SPECS: VendorSpec[] = [
   {
@@ -58,26 +247,121 @@ const SPECS: VendorSpec[] = [
   {
     name: 'axs',
     domains: ['axs.com', 'email.axs.com', 'e.axs.com'],
-    subject: /(?:order confirmation|your tickets?|purchase confirmation)/i,
-    specific: (email) => ({
-      artistName: artistFromSubject(
-        email.subject,
-        /^(?:order confirmation(?: for)?|your tickets? (?:for|to)|purchase confirmation(?: for)?)\s*/i,
-      ),
-    }),
+    // AXS's actual purchase subject is "Thank you for your order for X - Presale",
+    // and its transfer subject is "You Received Tickets". Neither matched the
+    // original pattern, so every real AXS email was skipped before parsing.
+    subject:
+      /(?:order confirmation|your tickets?|purchase confirmation|thank you for your order|you received tickets|tickets? transferred)/i,
+    specific: (email, text) => {
+      /*
+       * Look in the HTML as well as the plain-text part, and in that order of
+       * preference. AXS sends BOTH, and the multipart/alternative text part is
+       * a degraded copy: its order-details table renders as
+       * "Order details for **  *Quantity* *Type* ..." with the artist, venue
+       * and event date stripped out. Only the HTML carries the real line.
+       *
+       * The pipeline hands `specific` the text part whenever one exists, so
+       * relying on it alone silently produced the ORDER date as the event date.
+       */
+      const htmlText = htmlToText(email.html);
+      for (const haystack of [htmlText, text]) {
+        const order = AXS_ORDER_LINE.exec(haystack);
+        if (order) {
+          return {
+            artistName: cleanArtistName(order[1]),
+            venueName: order[2].trim(),
+            startsAt: findDate(order[3]),
+          };
+        }
+      }
+
+      for (const haystack of [text, htmlText]) {
+        const transfer = parseAxsTransfer(haystack);
+        if (transfer) return transfer;
+      }
+
+      return {
+        artistName: artistFromSubject(
+          email.subject,
+          /^(?:order confirmation(?: for)?|your tickets? (?:for|to)|purchase confirmation(?: for)?|thank you for your order for)\s*/i,
+        ),
+      };
+    },
   },
   {
     name: 'dice',
     domains: ['dice.fm', 'email.dice.fm', 'mail.dice.fm'],
-    subject: /(?:you're going|your ticket|booking confirmed)/i,
+    subject: /(?:you're going|your ticket|booking confirmed|purchase confirmation)/i,
+    // DICE subjects the email with the EVENT NAME alone, so no pattern matches.
+    trustDomain: true,
     specific: (email, text) => {
-      // DICE lays out labelled rows: "Event", "Venue", "Date".
-      const event = /\bEvent\s*\n\s*([^\n]{2,80})/i.exec(text)?.[1];
-      const venue = /\bVenue\s*\n\s*([^\n]{2,80})/i.exec(text)?.[1];
-      return {
-        artistName: event ? cleanArtistName(event) : artistFromSubject(email.subject, /^you're going to\s*/i),
-        venueName: venue?.trim(),
-      };
+      // The HTML view keeps the label/value rows on separate lines; the text
+      // alternative runs them together. Check both.
+      const htmlText = htmlToText(email.html);
+      const out: Partial<ParsedTicket> = {};
+
+      // Marketing mail from dice.fm reaches this point too (see `trustDomain`).
+      // Without a confirmation marker in the SUBJECT or the body, return
+      // nothing and let the "needs a name" guard in buildExtractor reject it.
+      const confirmed =
+        DICE_CONFIRMATION.test(email.subject) ||
+        DICE_CONFIRMATION.test(htmlText) ||
+        DICE_CONFIRMATION.test(text);
+      if (!confirmed) return {};
+
+      for (const haystack of [htmlText, text]) {
+        // "You're going to <title>" is the one reliable name anchor. The
+        // "Event" label the old code looked for is not present in a real DICE
+        // confirmation.
+        /*
+         * Two layouts, both real:
+         *  - current: "You're going to <title>" in the body, venue/date under
+         *    "Ticket details" with a "Date & time" label;
+         *  - older:   labelled rows "Event" / "Venue" / "Date".
+         * Fall back to the subject, which on a current confirmation IS the title.
+         */
+        const title =
+          /^[ \t]*Event[ \t]*$\n[ \t]*([^\n]{2,120})/im.exec(haystack)?.[1]?.trim() ||
+          /you're going to\s+([^\n]{2,120})/i.exec(haystack)?.[1]?.trim() ||
+          artistFromSubject(email.subject, /^you're going to\s*/i) ||
+          undefined;
+
+        const venue = /^[ \t]*Venue[ \t]*$\n[ \t]*([^\n]{2,80})/im.exec(haystack)?.[1]?.trim();
+        // "Date & time" then "Sat 01 Oct,10:00 PM GMT-7" — NO YEAR anywhere in
+        // the message, so the received date resolves it.
+        const when =
+          /^[ \t]*Date[ \t]*(?:&|and)[ \t]*time[ \t]*$\n[ \t]*([^\n]{4,60})/im.exec(haystack)?.[1]?.trim() ??
+          /^[ \t]*Date[ \t]*$\n[ \t]*([^\n]{4,60})/im.exec(haystack)?.[1]?.trim();
+        // "Price" then "$70.26". Not a "total"-shaped label, so findPrice misses it.
+        const price =
+          /^[ \t]*Price[ \t]*$\n[ \t]*([$£€])[ \t]?([\d,]+\.\d{2})/im.exec(haystack) ??
+          /\bTotal\s*:?\s*([$£€])\s?([\d,]+\.\d{2})/i.exec(haystack);
+
+        // Reject a "title" with no letters or digits: an HTML entity such
+        // as &#8202; is not a name.
+        if (title && /[a-z0-9]/i.test(title) && !out.eventName) {
+          out.eventName = cleanArtistName(title);
+          out.artistName = diceHeadliner(title);
+        }
+        if (venue && !out.venueName) out.venueName = venue;
+        if (when && !out.startsAt) {
+          out.startsAt = findDate(when, { yearlessReference: email.receivedAt });
+        }
+        if (price && out.priceCents === undefined) {
+          out.priceCents = Math.round(Number(price[2].replace(/,/g, '')) * 100);
+          out.currency = { $: 'USD', '£': 'GBP', '€': 'EUR' }[price[1]];
+        }
+      }
+
+      // The address line under the venue: "314 11th St, San Francisco, CA 94103, USA".
+      const addr = /^[ \t]*Venue[ \t]*$\n[ \t]*[^\n]{2,80}\n[ \t]*([^\n]{6,120})/im.exec(htmlText)?.[1];
+      const geo = /,\s*([A-Za-z .'-]{2,40}),\s*([A-Z]{2})\b/.exec(addr ?? '');
+      if (geo) {
+        out.city = geo[1].trim();
+        out.region = geo[2];
+      }
+
+      return out;
     },
   },
   {
@@ -91,8 +375,59 @@ const SPECS: VendorSpec[] = [
   },
   {
     name: 'seetickets',
-    domains: ['seetickets.us', 'seetickets.com', 'wl.seetickets.us'],
-    subject: /(?:order confirmation|your tickets?|e-?ticket)/i,
+    domains: ['seetickets.us', 'seetickets.com', 'wl.seetickets.us', 'eventim.com'],
+    subject: /(?:order confirmation|your tickets?|e-?ticket|here are your tickets|guest list)/i,
+    // Previously had no `specific` at all, so it never produced a name and the
+    // "needs at least one of artist/event/venue" guard rejected every message.
+    specific: (email, text) => {
+      const guestList = /added to the guest list for\s+([^\n.]{2,80})/i.exec(text)?.[1];
+      return {
+        artistName:
+          (guestList && cleanArtistName(guestList)) ||
+          artistFromSubject(
+            email.subject,
+            /^(?:here are your tickets for|your tickets? (?:for|to)|order confirmation(?: for)?)\s*/i,
+          ),
+        ...parseSeeTicketsBlock(text),
+      };
+    },
+  },
+  {
+    // Frontgate handles a lot of US festivals (Outside Lands, Austin City
+    // Limits). It was missing entirely, so those receipts matched no extractor.
+    name: 'frontgate',
+    domains: ['frontgatetickets.com', 'order-support.frontgatetickets.com'],
+    subject: /(?:receipt|your tickets?|order confirmation|order #)/i,
+    specific: (email, text) => {
+      // "Your Outside Lands Receipt - Order #173544320" -> "Outside Lands".
+      const eventName = artistFromSubject(
+        email.subject,
+        /^your\s+/i,
+      )?.replace(/\s*receipt\b.*$/i, '').trim();
+
+      // "Friday, August 7, 2026 - Sunday, August 9, 2026" then "at Golden Gate Park".
+      const venue = /^\s*at\s+(.{2,80})$/im.exec(text)?.[1]?.trim();
+      const all = lines(text);
+      const dateAt = all.findIndex((l) => /^[a-z]+day,\s+[a-z]+\s+\d{1,2},\s+\d{4}/i.test(l));
+
+      const out: Partial<ParsedTicket> = {
+        eventName: eventName && eventName.length >= 2 ? eventName : undefined,
+        venueName: venue,
+      };
+
+      // A festival spans days; the first date is the one to file it under.
+      if (dateAt !== -1) out.startsAt = findDate(all[dateAt].split(/\s*[-–—]\s*/)[0]);
+
+      // The address sits under the "at <venue>" line.
+      const cityLine = all.find((l) => /^[A-Za-z .'-]{2,40},\s*[A-Z]{2}$/.test(l));
+      if (cityLine) {
+        const [city, region] = cityLine.split(/\s*,\s*/);
+        out.city = city;
+        out.region = region;
+      }
+
+      return out;
+    },
   },
   {
     name: 'ticketweb',
@@ -118,7 +453,8 @@ function buildExtractor(spec: VendorSpec): Extractor {
     match(email) {
       const domain = senderDomain(email.from);
       const domainHit = spec.domains.some((d) => domain === d || domain.endsWith(`.${d}`));
-      return domainHit && spec.subject.test(email.subject);
+      if (!domainHit) return false;
+      return spec.trustDomain || spec.subject.test(email.subject);
     },
 
     parse(email) {
