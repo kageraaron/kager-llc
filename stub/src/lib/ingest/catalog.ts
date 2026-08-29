@@ -4,6 +4,7 @@ import type { JBEvent, JBPerformer, JBVenue } from '@/lib/providers/jambase';
 import { jbId, resolveStart, headlinerOf, ticketUrl, isFestival } from '@/lib/providers/jambase';
 import type { SpotifyConcert } from '@/lib/providers/spotifyconcerts';
 import { headlinerOf as spotifyHeadlinerOf } from '@/lib/providers/spotifyconcerts';
+import type { CatalogCandidate } from '@/lib/ingest/match';
 
 /**
  * Writes into the shared catalog tables (artists / venues / events).
@@ -465,4 +466,28 @@ export async function upsertSpotifyEvent(
   }
 
   return data.id;
+}
+
+// ---------------------------------------------------------------- dispatch
+
+/**
+ * Persist whichever provider's candidate won the match.
+ *
+ * The matcher is provider-agnostic; the catalog is not — each source has its own
+ * id column and upsert. This is the one place that knows how to get from a
+ * `CatalogCandidate` back to a concrete row.
+ */
+export async function persistCandidate(
+  db: SupabaseClient,
+  candidate: CatalogCandidate,
+  opts: { searched?: string } = {},
+): Promise<string | null> {
+  switch (candidate.source) {
+    case 'ticketmaster':
+      return upsertEvent(db, candidate.raw as TMEvent);
+    case 'jambase':
+      return upsertJamBaseEvent(db, candidate.raw as JBEvent);
+    case 'spotify':
+      return upsertSpotifyEvent(db, candidate.raw as SpotifyConcert, { searched: opts.searched });
+  }
 }

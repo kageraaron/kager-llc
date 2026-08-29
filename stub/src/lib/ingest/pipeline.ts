@@ -2,7 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { normalizeEmail, contentHash, type RawEmailInput } from '@/lib/ingest/normalize';
 import { runExtractors } from '@/lib/ingest/extractors';
 import { matchTicket } from '@/lib/ingest/match';
-import { upsertEvent, recordAttendance } from '@/lib/ingest/catalog';
+import { persistCandidate, recordAttendance } from '@/lib/ingest/catalog';
 
 /**
  * The one path every ingested email takes, whether it arrived via the Gmail
@@ -72,8 +72,8 @@ export async function ingestEmail(
     return { status: 'error', message: err instanceof Error ? err.message : String(err) };
   }
 
-  // Nothing plausible came back from Ticketmaster. Still queue it for review so
-  // the user can add the show by hand rather than losing the signal entirely.
+  // No provider in the cascade had anything plausible. Still queue it for review
+  // so the user can add the show by hand rather than losing the signal entirely.
   if (!match.best) {
     const { data: candidate } = await db
       .from('ingest_candidates')
@@ -91,7 +91,9 @@ export async function ingestEmail(
     return { status: 'needs_review', candidateId: candidate?.id ?? '', confidence: 0 };
   }
 
-  const eventId = await upsertEvent(db, match.best.event);
+  const eventId = await persistCandidate(db, match.best.candidate, {
+    searched: extraction.ticket.artistName ?? extraction.ticket.eventName,
+  });
   if (!eventId) return { status: 'error', message: 'could not persist matched event' };
 
   if (match.autoAdd) {

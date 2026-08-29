@@ -13,6 +13,7 @@ import {
 } from '@/lib/ingest/catalog';
 import * as jambase from '@/lib/providers/jambase';
 import { getCurrentUser } from '@/lib/auth';
+import type { ParsedTicket } from '@/lib/types';
 import { geocodePlace, cachedArtistConcerts } from '@/lib/cache';
 
 /**
@@ -571,6 +572,69 @@ export async function confirmCandidate(candidateId: string) {
   revalidatePath('/inbox');
   revalidatePath('/upcoming');
   return { ok: true as const };
+}
+
+/**
+ * Create the show by hand straight from a parsed candidate.
+ *
+ * The gap this closes: when no provider recognises the event, the candidate is
+ * stored with `matched_event_id = null` and `confirmCandidate` refuses it
+ * outright — "No event matched, search for it in Browse instead". That is a dead
+ * end for exactly the shows aggregators are worst at, and it throws away a
+ * perfectly good parse: we already know the artist, venue, city and start time
+ * from the email. Retyping all of it into Browse is busywork.
+ *
+ * Everything is taken from the parsed ticket, so this is one click.
+ */
+export async function createEventFromCandidate(candidateId: string) {
+  const { supabase, user } = await requireUser();
+
+  const { data: candidate } = await supabase
+    .from('ingest_candidates')
+    .select('id, parsed, matched_event_id')
+    .eq('id', candidateId)
+    .eq('user_id', user.id)
+    .maybeSingle();
+
+  if (!candidate) return { ok: false as const, error: 'Candidate not found' };
+
+  const parsed = candidate.parsed as ParsedTicket;
+  const name = parsed.artistName ?? parsed.eventName;
+  if (!name) return { ok: false as const, error: 'That email had no artist or event name' };
+  if (!parsed.startsAt) return { ok: false as const, error: 'That email had no event date' };
+
+  const created = await createManualEvent({
+    artistName: name,
+    venueName: parsed.venueName,
+    city: parsed.city,
+    region: parsed.region,
+    startsAt: parsed.startsAt,
+  });
+  if (!created.ok) return created;
+
+  const admin = createAdminClient();
+
+  // Re-record with the ticket metadata: `createManualEvent` files it as
+  // 'manual', but this one came from an email and carries a reference and a
+  // price worth keeping.
+  await recordAttendance(admin, {
+    userId: user.id,
+    eventId: created.eventId,
+    source: 'gmail',
+    ticketRef: parsed.ticketRef,
+    seatInfo: parsed.seatInfo,
+    priceCents: parsed.priceCents,
+    purchasedAt: parsed.purchasedAt,
+  });
+
+  await supabase
+    .from('ingest_candidates')
+    .update({ state: 'confirmed', matched_event_id: created.eventId })
+    .eq('id', candidateId);
+
+  revalidatePath('/inbox');
+  revalidatePath('/upcoming');
+  return { ok: true as const, eventId: created.eventId };
 }
 
 export async function rejectCandidate(candidateId: string) {

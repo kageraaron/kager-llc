@@ -139,6 +139,21 @@ to what §1.3 says about runtime config):
 | `STUB_BASE_URL` | deployed URL, no trailing slash |
 | `CRON_SECRET` | same value as in Vercel's env vars |
 
+### ⚠ Production database is two migrations behind
+
+`supabase-prod` (`biichwtrfmrdgiqtvxme`) has **0001–0011**. Missing **0012** and
+**0013**, both of which the current code needs:
+
+- Without `0012`, `events.spotify_concert_id` does not exist, so a Spotify match
+  cannot be persisted — `persistCandidate` returns null and ingestion errors on
+  exactly the club shows the cascade was built to catch.
+- Without `0013`, `jambase_id` is still enforced by a *partial* unique index, so
+  **adding a JamBase event from Browse fails in production today** (see §6).
+
+Both are additive and low risk. Applying them to prod needs a human — an attempt
+to run SQL against the prod project was refused by the permission layer, and it
+was not worked around.
+
 ### Still to do for the first deploy
 
 1. **Set Root Directory to `stub`** in Vercel → Settings → Build & Deployment.
@@ -670,6 +685,63 @@ dedupe problem.
 
 ---
 
+## 5.11 Matching: a provider cascade — **DONE**
+
+Until now `matchTicket` asked **Ticketmaster and nothing else**. Architecturally
+a matched ticket was always linked to a real catalog row — `persistCandidate`
+writes the event and `recordAttendance` links the user, which is what makes the
+event page and friend matching work — but the *lookup* only ever had one source,
+and it is the source least likely to know about a club night.
+
+Now: **Ticketmaster → JamBase → Spotify**, stopping at the first confident,
+unambiguous match. The order is quota economics:
+
+| Provider | Free allowance |
+|---|---|
+| Ticketmaster | 5,000/day (~150,000/mo) — effectively free |
+| JamBase | trial quota, larger than Spotify's |
+| Spotify (RapidAPI) | **1,000 per MONTH** — scarcest by two orders of magnitude |
+
+Spotify goes **last precisely because it is the best** at club shows: the cascade
+only reaches it once the cheap providers have failed, which is exactly the case
+it wins. Spending a 1,000/month budget only on genuine misses beats spending it
+on every Ticketmaster miss. When the JamBase trial lapses, `isConfigured()`
+returns false and the cascade quietly becomes Ticketmaster → Spotify.
+
+### Two things this exposed, both serious
+
+**1. A confident match on the WRONG event.** Real ticket: Silva Bumpa at
+*Monarch*, San Francisco, 27 Sep. JamBase answered with *Portola* at Pier 80
+Warehouse — same city, same night, artist match **100%**, because Silva Bumpa
+genuinely is on the Portola bill. It scored **0.876**, over the 0.8 auto-add
+line, so it would have been added silently and the cascade would never have
+reached Spotify (which has Monarch exactly).
+
+The venue was the only thing that disagreed, and at 0.12 weight it could not
+counteract anything. The root cause is conceptual: the scorer treated a
+**contradicting** venue identically to a **missing** one — both merely fail to
+add credit. Absence of evidence is not evidence of absence. A venue similarity
+below 0.35 now caps confidence at 0.55, which keeps the candidate visible as a
+review suggestion but out of auto-add, and lets the cascade continue. With the
+cap in place the same ticket resolves to Spotify/Monarch at confidence **1.0**.
+
+**2. Cross-provider duplicates read as ambiguity.** The good case for a cascade
+is that several providers have the event — but two near-identical top scores
+tripped the "cannot honestly pick one" rule and forced review exactly when we
+were most certain. `sameShow()` collapses them: within 12 hours (providers
+disagree by hours over doors vs. stage times) plus either venue or name
+agreement.
+
+### Manual entry from a parsed candidate
+
+`confirmCandidate` refuses a candidate with no `matched_event_id` — "search for
+it in Browse instead" — which was a dead end for precisely the shows aggregators
+miss, and threw away a perfectly good parse. The Inbox card now offers **"Add it
+anyway"**, which builds the show from the parsed artist, venue, city and date via
+`createEventFromCandidate`, keeping the ticket reference and price.
+
+---
+
 ## 5.8 Caching and rate limits — **mostly done**
 
 Migration `0011` adds two caches, both in Postgres rather than in process —
@@ -753,6 +825,14 @@ shifting upstream page window can repeat a row.
 
   Caught only by exercising the write path against a real database. Nothing in
   the offline suite touches PostgREST, so no unit test could have found it.
+- ~~**The service worker was being redirected to /login**~~ — fixed. The
+  middleware matcher excluded `_next/static`, `icons` and `manifest.webmanifest`
+  but not `sw.js`. The browser fetches a service worker **without credentials**,
+  so the session cookie is absent and the auth gate answered `307 → /login`. A
+  service worker script that responds with a redirect fails registration
+  outright, which silently kills the PWA: no install, no offline shell, and any
+  already-installed app stuck on a stale worker. Confirmed in production logs
+  (`GET /sw.js 307`) before the fix.
 - **`pg_trgm` installed in `public`** — linter warning. Moving it risks the
   `gin_trgm_ops` indexes. Accepted.
 - **Leaked-password protection is off** — one dashboard toggle

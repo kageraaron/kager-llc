@@ -55,5 +55,17 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|icons|manifest.webmanifest).*)'],
+  /*
+   * `sw.js` MUST be excluded.
+   *
+   * The service worker is fetched by the browser without credentials, so the
+   * session cookie is absent and the auth gate below 307s it to /login. A
+   * service worker script that answers with a redirect fails registration
+   * outright — the spec rejects it — which silently kills the PWA: no install,
+   * no offline shell, and an already-installed app left on a stale worker.
+   *
+   * Same reasoning as the other static assets here: none of them are routes,
+   * and none of them can carry a session.
+   */
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|icons|manifest.webmanifest|sw.js).*)'],
 };

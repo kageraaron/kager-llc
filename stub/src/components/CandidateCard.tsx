@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import { confirmCandidate, rejectCandidate } from '@/app/actions';
+import { confirmCandidate, rejectCandidate, createEventFromCandidate } from '@/app/actions';
 import { formatEventDate, venueLine } from '@/lib/format';
 import type { ParsedTicket } from '@/lib/types';
 
@@ -57,6 +57,8 @@ export function CandidateCard({ candidate }: Props) {
 
   const { parsed, event } = candidate;
   const pct = Math.round(candidate.confidence * 100);
+  // Creating the show by hand needs at minimum something to call it and a date.
+  const canAddManually = Boolean((parsed.artistName ?? parsed.eventName) && parsed.startsAt);
 
   return (
     <div className="card" style={{ flexDirection: 'column', gap: 10 }}>
@@ -103,7 +105,9 @@ export function CandidateCard({ candidate }: Props) {
         </div>
       ) : (
         <p className="muted" style={{ margin: 0 }}>
-          Stub could not find this show in Ticketmaster. Add it from Browse if you still want it tracked.
+          No listing service has this show — not Ticketmaster, JamBase or Spotify.
+          That is common for club nights and afterparties. Everything below was
+          read from the email, so it can be added as-is.
         </p>
       )}
 
@@ -116,14 +120,33 @@ export function CandidateCard({ candidate }: Props) {
         >
           Not a ticket
         </button>
-        <button
-          className="btn btn-primary"
-          style={{ flex: 1 }}
-          disabled={pending || !candidate.matched_event_id}
-          onClick={() => act(() => confirmCandidate(candidate.id), 'confirmed')}
-        >
-          Yes, add it
-        </button>
+
+        {/*
+          * With no matched event, "Yes, add it" has nothing to point at and the
+          * action refuses. Rather than a dead end, offer to build the show from
+          * what the email already told us — artist, venue, city and date are all
+          * parsed and shown directly above this button.
+          */}
+        {candidate.matched_event_id ? (
+          <button
+            className="btn btn-primary"
+            style={{ flex: 1 }}
+            disabled={pending}
+            onClick={() => act(() => confirmCandidate(candidate.id), 'confirmed')}
+          >
+            Yes, add it
+          </button>
+        ) : (
+          <button
+            className="btn btn-primary"
+            style={{ flex: 1 }}
+            disabled={pending || !canAddManually}
+            title={canAddManually ? undefined : 'The email is missing an act or a date'}
+            onClick={() => act(() => createEventFromCandidate(candidate.id), 'confirmed')}
+          >
+            Add it anyway
+          </button>
+        )}
       </div>
 
       {error && <p className="error" style={{ margin: 0 }}>{error}</p>}

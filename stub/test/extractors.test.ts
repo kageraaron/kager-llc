@@ -16,6 +16,7 @@ import {
   eventbriteSpacedStartDate,
   seeTicketsNoArtistInSubject,
   diceEventTitleSubject,
+  eventbriteClubShow,
 } from './fixtures/emails';
 
 const run = (raw: Parameters<typeof normalizeEmail>[0]) => runExtractors(normalizeEmail(raw));
@@ -252,5 +253,24 @@ describe('real-world vendor emails, batch 2', () => {
       text: 'Here are your tickets.\n\nNo event details at all.',
     });
     expect(stripped).toBeNull();
+  });
+});
+
+describe('the club show that no aggregator lists', () => {
+  it('parses cleanly even though nothing will match it', () => {
+    // Ticketmaster returns zero candidates for this. The extractor still has to
+    // produce a complete ticket, because that parse is what the "Add it anyway"
+    // button in the Inbox builds the event from.
+    const t = run(eventbriteClubShow)!.ticket;
+    expect(t.eventName).toBe('Silva Bumpa');
+    expect(t.venueName).toBe('Monarch');
+    expect(t.city).toBe('San Francisco');
+    expect(t.region).toBe('CA');
+    expect(t.startsAt).toBe('2026-09-27T22:00:00');
+    expect(t.ticketRef).toBe('15000000000');
+
+    // Enough to create the show by hand: a name and a date.
+    expect(t.artistName ?? t.eventName).toBeTruthy();
+    expect(t.startsAt).toBeTruthy();
   });
 });

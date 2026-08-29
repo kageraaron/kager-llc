@@ -1,9 +1,22 @@
 import { describe, it, expect } from 'vitest';
-import { similarity, scoreCandidate, AUTO_ADD_THRESHOLD } from '@/lib/ingest/match';
+import {
+  similarity,
+  scoreCandidate,
+  fromTicketmaster,
+  fromSpotify,
+  sameShow,
+  AUTO_ADD_THRESHOLD,
+} from '@/lib/ingest/match';
 import type { TMEvent } from '@/lib/providers/ticketmaster';
 import type { ParsedTicket } from '@/lib/types';
+import type { SpotifyConcert } from '@/lib/providers/spotifyconcerts';
 
-function tmEvent(over: Partial<TMEvent> & { artist?: string; venue?: string; city?: string; start?: string }): TMEvent {
+/** Builds a Ticketmaster event and normalises it the way the matcher does. */
+function tmEvent(over: Partial<TMEvent> & { artist?: string; venue?: string; city?: string; start?: string }) {
+  return fromTicketmaster(tmRaw(over));
+}
+
+function tmRaw(over: Partial<TMEvent> & { artist?: string; venue?: string; city?: string; start?: string }): TMEvent {
   const { artist, venue, city, start, ...rest } = over;
   return {
     id: 'TM123',
@@ -96,5 +109,145 @@ describe('scoreCandidate', () => {
       tmEvent({ artist: 'Japanese Breakfast' }),
     );
     expect(res.confidence).toBeLessThan(AUTO_ADD_THRESHOLD);
+  });
+});
+
+describe('cross-provider candidates', () => {
+  const ticket: ParsedTicket = {
+    eventName: 'Silva Bumpa',
+    venueName: 'Monarch',
+    city: 'San Francisco',
+    startsAt: '2026-09-27T22:00:00',
+  };
+
+  /** Shape a Spotify concert the way `fromSpotify` would. */
+  const spotifyCandidate = (over: Partial<SpotifyConcert> = {}): SpotifyConcert => ({
+    id: 'sp1',
+    title: 'Silva Bumpa',
+    // 22:00 PDT on the 27th IS 05:00 UTC on the 28th — the provider stores UTC.
+    startsAt: '2026-09-28T05:00:00.000Z',
+    city: 'San Francisco',
+    region: 'CA',
+    country: 'US',
+    venueName: 'Monarch',
+    venueId: 'v1',
+    lat: 37.77,
+    lng: -122.42,
+    isFestival: false,
+    url: null,
+    artists: ['Silva Bumpa'],
+    ...over,
+  });
+
+  it('scores a Spotify club show highly even across the UTC date boundary', () => {
+    const res = scoreCandidate(ticket, fromSpotify(spotifyCandidate(), 'Silva Bumpa'));
+    expect(res.confidence).toBeGreaterThan(AUTO_ADD_THRESHOLD);
+  });
+
+  it('does not confuse a same-day festival at another venue for the club show', () => {
+    // JamBase's only same-day San Francisco event for this artist is Portola at
+    // Pier 80 — right date, right city, wrong show. It must not outrank Monarch.
+    const portola = fromSpotify(
+      spotifyCandidate({ id: 'sp2', title: 'Portola', venueName: 'Pier 80', venueId: 'v2' }),
+      'Silva Bumpa',
+    );
+    const monarch = fromSpotify(spotifyCandidate(), 'Silva Bumpa');
+
+    const scoredPortola = scoreCandidate(ticket, portola);
+    const scoredMonarch = scoreCandidate(ticket, monarch);
+    expect(scoredMonarch.confidence).toBeGreaterThan(scoredPortola.confidence);
+  });
+
+  describe('sameShow', () => {
+    it('collapses the same gig reported by two providers', () => {
+      // The good case for a cascade is that more than one provider has the
+      // event. Without this, two strong scores read as "ambiguous" and the
+      // ticket is pushed to review exactly when we are most confident.
+      const fromTm = tmEvent({
+        artist: 'Silva Bumpa',
+        venue: 'Monarch',
+        city: 'San Francisco',
+        start: '2026-09-28T05:00:00Z',
+      });
+      const fromSp = fromSpotify(spotifyCandidate(), 'Silva Bumpa');
+      expect(sameShow(fromTm, fromSp)).toBe(true);
+    });
+
+    it('keeps genuinely different shows apart', () => {
+      const monarch = fromSpotify(spotifyCandidate(), 'Silva Bumpa');
+      const portola = fromSpotify(
+        spotifyCandidate({ id: 'sp2', title: 'Portola', venueName: 'Pier 80', artists: ['Portola'] }),
+        'Portola',
+      );
+      expect(sameShow(monarch, portola)).toBe(false);
+    });
+
+    it('treats far-apart dates as different shows even at the same venue', () => {
+      const night1 = fromSpotify(spotifyCandidate(), 'Silva Bumpa');
+      const night2 = fromSpotify(
+        spotifyCandidate({ id: 'sp3', startsAt: '2026-09-29T05:00:00.000Z' }),
+        'Silva Bumpa',
+      );
+      expect(sameShow(night1, night2)).toBe(false);
+    });
+  });
+});
+
+describe('venue contradiction', () => {
+  /**
+   * Regression for a real auto-add of the WRONG event.
+   *
+   * An Eventbrite ticket for Silva Bumpa at Monarch, SF on 27 Sep matched
+   * JamBase's "Portola" festival at Pier 80 Warehouse — same city, same night,
+   * and a 100% artist match, because Silva Bumpa genuinely is on the Portola
+   * bill. Venue was the only thing that disagreed, and at 0.12 weight it could
+   * not stop a 0.876 score from crossing the 0.8 auto-add line.
+   */
+  const ticket: ParsedTicket = {
+    eventName: 'Silva Bumpa',
+    venueName: 'Monarch',
+    city: 'San Francisco',
+    startsAt: '2026-09-27T22:00:00',
+  };
+
+  it('caps a candidate whose venue disagrees, keeping it out of auto-add', () => {
+    const portola = tmEvent({
+      artist: 'Silva Bumpa',
+      venue: 'Pier 80 Warehouse',
+      city: 'San Francisco',
+      start: '2026-09-27T03:00:00Z',
+    });
+    const res = scoreCandidate(ticket, portola);
+
+    expect(res.confidence).toBeLessThan(AUTO_ADD_THRESHOLD);
+    expect(res.reasons.join(' ')).toContain('venue contradicts');
+  });
+
+  it('leaves a matching venue untouched', () => {
+    const monarch = tmEvent({
+      artist: 'Silva Bumpa',
+      venue: 'Monarch',
+      city: 'San Francisco',
+      start: '2026-09-28T05:00:00Z',
+    });
+    const res = scoreCandidate(ticket, monarch);
+
+    expect(res.confidence).toBeGreaterThan(AUTO_ADD_THRESHOLD);
+    expect(res.reasons.join(' ')).not.toContain('contradicts');
+  });
+
+  it('tolerates the same venue spelled differently', () => {
+    // The cap must not fire on naming noise, only on genuine disagreement.
+    const res = scoreCandidate(
+      { ...ticket, venueName: 'The Fillmore' },
+      tmEvent({ artist: 'Silva Bumpa', venue: 'Fillmore', city: 'San Francisco', start: '2026-09-28T05:00:00Z' }),
+    );
+    expect(res.reasons.join(' ')).not.toContain('contradicts');
+  });
+
+  it('does not penalise a candidate with no venue information', () => {
+    // Absence of evidence is not evidence of absence.
+    const res = scoreCandidate(ticket, tmEvent({ artist: 'Silva Bumpa', start: '2026-09-28T05:00:00Z' }));
+    expect(res.reasons.join(' ')).not.toContain('contradicts');
   });
 });

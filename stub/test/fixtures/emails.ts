@@ -403,3 +403,41 @@ export const diceEventTitleSubject: RawEmailInput = {
 </table>
 </body></html>`,
 };
+
+/**
+ * Eventbrite confirmation for a small-club show: Silva Bumpa at Monarch, SF.
+ *
+ * This one is a matcher fixture as much as an extractor fixture. Ticketmaster
+ * returns ZERO candidates for it, and the artist is simultaneously booked at a
+ * festival in the same city on the same night — so it is the case that proves
+ * both the provider cascade and the venue-contradiction guard.
+ */
+export const eventbriteClubShow: RawEmailInput = {
+  from: '"Eventbrite" <noreply@order.eventbrite.com>',
+  subject: 'Order Confirmation for Silva Bumpa',
+  receivedAt: '2026-08-21T16:37:19Z',
+  html: `<html><head>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "EventReservation",
+  "reservationNumber": "15000000000",
+  "underName": { "@type": "Person", "name": "Pat Rivera" },
+  "reservationFor": {
+    "@type": "Event",
+    "name": "Silva Bumpa",
+    "startDate": "2026-09-27 22:00:00",
+    "location": {
+      "@type": "Place",
+      "name": "Monarch",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "San Francisco",
+        "addressRegion": "CA",
+        "addressCountry": "US"
+      }
+    }
+  }
+}
+</script></head><body><p>Order #15000000000 - August 21, 2026</p></body></html>`,
+};
