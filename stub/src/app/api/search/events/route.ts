@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth';
 import { searchEvents as tmSearchEvents, getAttractionEvents, pickImage } from '@/lib/providers/ticketmaster';
 import * as jambase from '@/lib/providers/jambase';
+import { searchCacheKey, readSearchCache, writeSearchCache } from '@/lib/cache';
 
 /**
  * Event search for Browse. JamBase only.
@@ -19,6 +20,9 @@ import * as jambase from '@/lib/providers/jambase';
  * NEITHER source is complete. An AXS-sold club show (Overmono DJ Set + Ben UFO,
  * SF, Sept 2026) is absent from both. That is why manual entry exists.
  */
+
+/** One page of results. JamBase reports the true total, so this drives paging. */
+const PER_PAGE = 40;
 
 export interface EventHit {
   source: 'jambase' | 'ticketmaster';
@@ -67,6 +71,7 @@ export async function GET(request: NextRequest) {
   const lat = searchParams.get('lat') ? Number(searchParams.get('lat')) : undefined;
   const lng = searchParams.get('lng') ? Number(searchParams.get('lng')) : undefined;
   const radius = searchParams.get('radius') ? Number(searchParams.get('radius')) : 50;
+  const page = Math.max(1, Number(searchParams.get('page') ?? 1) || 1);
 
   const hasGeo = Number.isFinite(lat) && Number.isFinite(lng);
   if (!keyword && !attractionId && !hasGeo) {
@@ -104,6 +109,12 @@ export async function GET(request: NextRequest) {
 
   // Preferred path: JamBase, which supports artist and/or location.
   if (jambase.isConfigured()) {
+    // Cached across users: "what's on near me" is the same upstream query for
+    // everyone in a city, and JamBase is a metered trial.
+    const key = searchCacheKey({ provider: 'jambase', q: keyword, lat, lng, radius, page });
+    const cached = await readSearchCache<Record<string, unknown>>(key);
+    if (cached) return NextResponse.json({ ...cached, cached: true });
+
     try {
       const { events, total } = await jambase.searchEvents({
         artistName: keyword,
@@ -111,14 +122,21 @@ export async function GET(request: NextRequest) {
         lng: hasGeo ? lng : undefined,
         radiusMiles: radius,
         startDate: new Date().toISOString().slice(0, 10),
-        perPage: 40,
+        page,
+        perPage: PER_PAGE,
       });
 
-      return NextResponse.json({
+      const payload = {
         source: 'jambase',
         total,
+        page,
+        perPage: PER_PAGE,
+        hasMore: page * PER_PAGE < total,
         events: events.map((e) => fromJamBase(e, keyword)).filter(Boolean),
-      });
+      };
+
+      await writeSearchCache(key, payload, 300);
+      return NextResponse.json(payload);
     } catch (err) {
       console.error('JamBase search failed, falling back to Ticketmaster', err);
     }

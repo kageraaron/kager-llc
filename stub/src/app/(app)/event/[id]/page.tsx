@@ -8,7 +8,7 @@ import { NoteEditor } from '@/components/NoteEditor';
 import { AttendanceControls } from '@/components/AttendanceControls';
 import { Setlist } from '@/components/Setlist';
 import { RatingControl, Stars } from '@/components/RatingControl';
-import { getSetlistForEvent } from '@/lib/providers/setlistfm';
+import { getCachedSetlist } from '@/lib/cache';
 
 export const dynamic = 'force-dynamic';
 
@@ -29,11 +29,12 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
   const isPast = new Date(event.starts_at).getTime() < Date.now();
   const image = event.image_url ?? event.headliner?.image_url;
 
-  // Setlists only exist for shows that have happened. Failures are swallowed in
-  // the provider: a missing setlist is the normal case, not an error.
+  // Setlists only exist for shows that have happened, and are cached in the
+  // database: a hit never expires (a past setlist does not change), a miss is
+  // re-checked after a few days because entries get added late.
   const setlist =
     isPast && event.headliner?.name && process.env.SETLISTFM_API_KEY
-      ? await getSetlistForEvent(event.headliner.name, event.starts_at, event.timezone)
+      ? (await getCachedSetlist(event.id, event.headliner.name, event.starts_at, event.timezone)).setlist
       : null;
 
   return (

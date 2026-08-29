@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useTransition, useCallback } from 'react';
+import { useState, useEffect, useRef, useTransition, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { addEventFromSearch } from '@/app/actions';
 import { formatEventDate } from '@/lib/format';
@@ -30,7 +30,15 @@ interface EventHit {
 export default function BrowsePage() {
   const router = useRouter();
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState<{ key: string; events: EventHit[]; source: string | null } | null>(null);
+  const [results, setResults] = useState<{
+    key: string;
+    events: EventHit[];
+    source: string | null;
+    page: number;
+    hasMore: boolean;
+  } | null>(null);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const sentinel = useRef<HTMLDivElement | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [added, setAdded] = useState<Set<string>>(new Set());
@@ -72,8 +80,8 @@ export default function BrowsePage() {
     );
   }
 
-  const run = useCallback(
-    async (signal: AbortSignal) => {
+  const fetchPage = useCallback(
+    async (page: number, signal?: AbortSignal) => {
       const params = new URLSearchParams();
       if (q.length >= 2) params.set('q', q);
       if (coords) {
@@ -81,11 +89,18 @@ export default function BrowsePage() {
         params.set('lng', String(coords.lng));
         params.set('radius', String(radius));
       }
+      params.set('page', String(page));
 
       const res = await fetch(`/api/search/events?${params}`, { signal });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error ?? 'Search failed');
-      return { key: searchKey, events: json.events as EventHit[], source: json.source as string | null };
+      return {
+        key: searchKey,
+        events: json.events as EventHit[],
+        source: (json.source as string | null) ?? null,
+        page: (json.page as number) ?? page,
+        hasMore: Boolean(json.hasMore),
+      };
     },
     [q, coords, radius, searchKey],
   );
@@ -102,7 +117,7 @@ export default function BrowsePage() {
       setLoading(true);
       setError(null);
       try {
-        setResults(await run(controller.signal));
+        setResults(await fetchPage(1, controller.signal));
       } catch (err) {
         if (err instanceof DOMException && err.name === 'AbortError') return;
         setError(err instanceof Error ? err.message : 'Search failed');
@@ -115,7 +130,53 @@ export default function BrowsePage() {
       clearTimeout(timer);
       controller.abort();
     };
-  }, [canSearch, run]);
+  }, [canSearch, fetchPage]);
+
+  /**
+   * Append the next page.
+   *
+   * Guarded on the results key so a page-2 response cannot land on top of a
+   * different search — the same class of bug the AbortController prevents for
+   * page 1, but appending needs its own check because it resolves later.
+   */
+  const loadMore = useCallback(async () => {
+    if (!results || !results.hasMore || loadingMore) return;
+    const keyAtRequest = results.key;
+
+    setLoadingMore(true);
+    try {
+      const next = await fetchPage(results.page + 1);
+      setResults((prev) => {
+        if (!prev || prev.key !== keyAtRequest) return prev; // superseded
+        const seen = new Set(prev.events.map((e) => `${e.source}:${e.id}`));
+        return {
+          ...prev,
+          page: next.page,
+          hasMore: next.hasMore,
+          events: [...prev.events, ...next.events.filter((e) => !seen.has(`${e.source}:${e.id}`))],
+        };
+      });
+    } catch {
+      // A failed page-2 should not clear what is already on screen.
+    } finally {
+      setLoadingMore(false);
+    }
+  }, [results, loadingMore, fetchPage]);
+
+  // Infinite scroll: fire when the sentinel below the list comes into view.
+  useEffect(() => {
+    const node = sentinel.current;
+    if (!node || !results?.hasMore) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) loadMore();
+      },
+      { rootMargin: '400px' },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [results?.hasMore, loadMore]);
 
   function add(hit: EventHit) {
     setError(null);
@@ -260,9 +321,18 @@ export default function BrowsePage() {
         )}
       </section>
 
+      {/* Sentinel: sits below the list so the observer fires before the user
+          reaches the bottom (rootMargin 400px). */}
+      {results?.hasMore && <div ref={sentinel} style={{ height: 1 }} />}
+
+      {loadingMore && (
+        <p className="muted" style={{ textAlign: 'center', marginTop: 12 }}>Loading more…</p>
+      )}
+
       {results?.source && events.length > 0 && (
         <p className="muted" style={{ fontSize: 11, textAlign: 'center', marginTop: 16 }}>
-          via {results.source === 'jambase' ? 'JamBase' : 'Ticketmaster'}
+          {events.length} shown{results.hasMore ? '' : ' · that’s everything'} · via{' '}
+          {results.source === 'jambase' ? 'JamBase' : 'Ticketmaster'}
         </p>
       )}
 
