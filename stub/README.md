@@ -145,14 +145,20 @@ hasn't measured the trade-offs, so the measurements are written down.
 | **Ticketmaster** | 5,000/day, 5/sec | ~free | US arena shows it sells tickets to; canonical event ids in emails | Whole-word matching only; blind to anything it doesn't sell |
 | **JamBase** | 14-day trial quota | metered | **Location search**; festival lineups | Trial, not a free tier — expires |
 | **Spotify** (spotify81 via RapidAPI) | **1,000/month** (~33/day) | 1 request | Partial names (`Chris L` → Chris Lake); canonical artist id; club circuit; every row has lat/lng | No location-only search at all |
-| **Bandsintown** (via Parse) | **~200 credits, 99/day cap** | **1 credit** | Most accurate on club shows; **real IANA timezone**; **past tour dates** | No coordinates; no usable location search (see below) |
+| **Bandsintown** (via Parse) | **200 credits/month** (~6.6/day) | **1 credit** | Most accurate on club shows; **real IANA timezone**; **past tour dates** | No coordinates; no usable location search (see below) |
 
 Two supporting providers are metered too: **setlist.fm** (~1/sec, answers `403`
 rather than `429` when throttled) and **Nominatim** geocoding (a hard 1/sec).
 
 The spread here is four orders of magnitude — Ticketmaster allows ~150,000 calls
-a month, Bandsintown allows about 200 *ever*. Nearly every decision below falls
-out of that one fact.
+a month, Bandsintown allows 200. Nearly every decision below falls out of that
+one fact.
+
+If 200/month stops being enough, Parse's paid tiers are **Hobby $30/mo for 1,000
+credits** and **Developer $100/mo for 5,000**. Hobby is the first thing to buy —
+at 5x the headroom it would let Bandsintown move ahead of Spotify for artist
+queries, and would make deep search cheap enough to stop gating behind a button.
+Nothing in the code needs to change but the two cap values.
 
 ### The cheapest search is the one you don't make
 
@@ -310,11 +316,20 @@ and overrunning does not throttle — it empties the account. Worse, the remaini
 balance is only reported in the response, i.e. after the credit is already spent.
 
 So the budget is enforced *locally, before the call*. Migration `0014` adds
-`provider_spend`, an append-only ledger, and `provider_spend_today`, a rollup
-view so the guard is one indexed query. `checkBudget` in `lib/cache.ts` refuses
-to spend past `BANDSINTOWN_DAILY_CREDITS` (default **25/day**, deliberately well
-under the upstream 99/day cap — that cap protects Parse, this one protects the
-balance).
+`provider_spend`, an append-only ledger; `0016` adds a month-to-date rollup
+beside the daily one, so each guard is one indexed query.
+
+**Three ceilings, doing three different jobs:**
+
+| Cap | Default | What it protects against |
+|---|---|---|
+| `BANDSINTOWN_MONTHLY_CREDITS` | 180 | The real quota. 180 against a real 200 leaves ~10% headroom, because Parse resets on its own clock and our month boundary is UTC. |
+| `BANDSINTOWN_DAILY_CREDITS` | 25 | A burst limiter, not a budget — stops one runaway afternoon eating the month in an hour. Deliberately above 200/30, since real usage is lumpy. |
+| `BANDSINTOWN_DEEP_PER_USER` | 5/day | One person spending the whole friend group's month via "Search harder". Cache hits don't count. |
+
+A daily cap alone was the wrong shape of guard and briefly shipped that way: 25/day
+permits 750 a month, 3.75x the allowance, so the budget could be honoured every
+single day and still blow the month.
 
 The guard is advisory rather than transactional: two concurrent requests can both
 pass a check only one should. That is an accepted trade — the cap sits far below

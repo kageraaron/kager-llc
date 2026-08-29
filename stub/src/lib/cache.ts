@@ -230,17 +230,31 @@ const BANDSINTOWN_MISS_TTL_SECONDS = 6 * 3_600;
 const BANDSINTOWN_DETAIL_TTL_SECONDS = 30 * 86_400;
 
 /**
- * Hard local ceiling on credits spent per rolling 24 hours.
+ * Two ceilings, because the quota is monthly but the risk is bursty.
  *
- * Below the upstream 99/day cap on purpose. The upstream cap protects Parse;
- * this one protects the *balance*, which is the thing that actually runs out —
- * hitting 99/day for two days straight would empty a ~200-credit account.
+ * The Parse free tier is **200 credits per calendar month** (Hobby is 1,000 at
+ * $30, Developer 5,000 at $100). That works out at ~6.6 credits a day, so:
  *
- * Override with `BANDSINTOWN_DAILY_CREDITS` once the plan is known to refill.
+ *  - **Monthly is the real ceiling.** It is the quota. Defaults to 180 rather
+ *    than 200, leaving ~10% headroom for the fact that Parse resets on its own
+ *    clock and our month boundary is UTC — the two can disagree by hours.
+ *
+ *  - **Daily is a burst limiter**, not a budget. It exists so one runaway
+ *    afternoon cannot consume the month in an hour. It is deliberately larger
+ *    than 200/30: real usage is lumpy, and a hard 6/day would refuse the second
+ *    genuine search of the evening while leaving the month underspent.
+ *
+ * Whichever binds first wins. The upstream 99/day cap is irrelevant at these
+ * numbers — it would let you empty the whole month in two days.
  */
 function dailyCreditCap(): number {
   const raw = Number(process.env.BANDSINTOWN_DAILY_CREDITS);
   return Number.isFinite(raw) && raw > 0 ? raw : 25;
+}
+
+function monthlyCreditCap(): number {
+  const raw = Number(process.env.BANDSINTOWN_MONTHLY_CREDITS);
+  return Number.isFinite(raw) && raw > 0 ? raw : 180;
 }
 
 /**
@@ -256,20 +270,29 @@ function dailyCreditCap(): number {
  * against a balance that does not refill. `null` means "unknown", and
  * `checkBudget` refuses on unknown.
  */
-export async function creditsSpentToday(provider = 'bandsintown'): Promise<number | null> {
+async function spendFromView(view: string, provider: string): Promise<number | null> {
   const admin = createAdminClient();
   const { data, error } = await admin
-    .from('provider_spend_today')
+    .from(view)
     .select('credits_spent')
     .eq('provider', provider)
     .maybeSingle();
 
   if (error) {
-    console.error('provider_spend_today unreadable — refusing to spend', error.message);
+    console.error(`${view} unreadable — refusing to spend`, error.message);
     return null;
   }
   // No row simply means nothing has been spent in the window yet.
   return data?.credits_spent ?? 0;
+}
+
+export async function creditsSpentToday(provider = 'bandsintown'): Promise<number | null> {
+  return spendFromView('provider_spend_today', provider);
+}
+
+/** Credits spent since the start of the current UTC calendar month. */
+export async function creditsSpentThisMonth(provider = 'bandsintown'): Promise<number | null> {
+  return spendFromView('provider_spend_month', provider);
 }
 
 /** Record a spend. Append-only; failures here must never fail the call itself. */
@@ -291,6 +314,10 @@ export interface BudgetVerdict {
   /** Null when the ledger could not be read — see `creditsSpentToday`. */
   spent: number | null;
   cap: number;
+  spentMonth: number | null;
+  capMonth: number;
+  /** Which ceiling refused, for logging. Null when allowed. */
+  boundBy: 'day' | 'month' | 'unknown' | null;
 }
 
 /**
@@ -312,7 +339,10 @@ export interface BudgetVerdict {
  */
 /** Log-friendly reason a spend was refused — "23/25 credits" or "ledger unreadable". */
 function budgetReason(v: BudgetVerdict): string {
-  return v.spent === null ? 'ledger unreadable' : `${v.spent}/${v.cap} credits used`;
+  if (v.boundBy === 'unknown') return 'ledger unreadable';
+  if (v.boundBy === 'month') return `monthly cap reached (${v.spentMonth}/${v.capMonth})`;
+  if (v.boundBy === 'day') return `daily burst cap reached (${v.spent}/${v.cap} today)`;
+  return `${v.spent}/${v.cap} today, ${v.spentMonth}/${v.capMonth} this month`;
 }
 
 export async function checkBudget(
@@ -320,9 +350,23 @@ export async function checkBudget(
   provider = 'bandsintown',
 ): Promise<BudgetVerdict> {
   const cap = dailyCreditCap();
-  const spent = await creditsSpentToday(provider);
-  if (spent === null) return { allowed: false, spent: null, cap };
-  return { allowed: spent + credits <= cap, spent, cap };
+  const capMonth = monthlyCreditCap();
+
+  // One round trip each; both views are indexed on (provider, spent_at).
+  const [spent, spentMonth] = await Promise.all([
+    creditsSpentToday(provider),
+    creditsSpentThisMonth(provider),
+  ]);
+
+  const base = { spent, cap, spentMonth, capMonth };
+  if (spent === null || spentMonth === null) {
+    return { ...base, allowed: false, boundBy: 'unknown' };
+  }
+  // Monthly is checked first because it is the one that actually costs money to
+  // exceed; the daily cap only shapes how fast the month is consumed.
+  if (spentMonth + credits > capMonth) return { ...base, allowed: false, boundBy: 'month' };
+  if (spent + credits > cap) return { ...base, allowed: false, boundBy: 'day' };
+  return { ...base, allowed: true, boundBy: null };
 }
 
 /**
@@ -440,4 +484,88 @@ export async function cachedBandsintownPastEvents(
     console.error('bandsintown past events failed', err);
     return null;
   }
+}
+
+/**
+ * Per-user ceiling on deep searches, on top of the global budget.
+ *
+ * The global caps stop the deployment overspending; they do nothing about *who*
+ * spent it. With 200 credits a month across the whole friend group, one person
+ * repeatedly tapping "Search harder" can consume everyone else's allowance in a
+ * sitting — and the failure is invisible to them, because a refused deep search
+ * just falls back to the ordinary providers.
+ *
+ * The ledger already records every spend, so this is a count over the same
+ * rows. `endpoint` is reused to carry the user id rather than adding a column:
+ * a deep search is logged as `deep:<uuid>`, which keeps the guard to one indexed
+ * query and leaves the plain `get_artist_events_by_name` rows (ingestion, which
+ * is automatic and not attributable to a person's tapping) uncounted.
+ */
+const DEEP_SEARCHES_PER_USER_PER_DAY = 5;
+
+export async function checkUserDeepSearchBudget(
+  userId: string,
+): Promise<{ allowed: boolean; used: number; cap: number }> {
+  const cap = Number(process.env.BANDSINTOWN_DEEP_PER_USER) || DEEP_SEARCHES_PER_USER_PER_DAY;
+  const admin = createAdminClient();
+
+  const since = new Date(Date.now() - 86_400_000).toISOString();
+  const { count, error } = await admin
+    .from('provider_spend')
+    .select('id', { count: 'exact', head: true })
+    .eq('provider', 'bandsintown')
+    .eq('endpoint', `deep:${userId}`)
+    .gte('spent_at', since);
+
+  // Fails closed, same reasoning as `checkBudget`.
+  if (error) {
+    console.error('deep search budget unreadable — refusing', error.message);
+    return { allowed: false, used: 0, cap };
+  }
+  return { allowed: (count ?? 0) < cap, used: count ?? 0, cap };
+}
+
+/**
+ * A deep search, attributed to the user who asked for it.
+ *
+ * Wraps `cachedBandsintownArtist` so the per-user counter only advances on a
+ * genuine upstream spend. A cache hit is free and must not count against
+ * anyone — otherwise searching the same artist twice would burn two of the
+ * five, for one credit.
+ */
+export async function deepSearchForUser(
+  userId: string,
+  query: string,
+): Promise<bandsintown.ArtistEvents | null> {
+  const q = query.trim();
+  if (q.length < 2 || !bandsintown.isConfigured()) return null;
+
+  // A cached answer bypasses the per-user limit entirely — nothing is spent.
+  const key = searchCacheKey({ provider: 'bandsintown', q });
+  const cached = await readSearchCache<bandsintown.ArtistEvents>(key);
+  if (cached) return cached;
+
+  const budget = await checkUserDeepSearchBudget(userId);
+  if (!budget.allowed) {
+    console.warn(`deep search refused for ${userId}: ${budget.used}/${budget.cap} in 24h`);
+    return null;
+  }
+
+  const result = await cachedBandsintownArtist(q);
+  // Attribute the spend only if one actually happened. `cachedBandsintownArtist`
+  // returns null when the global budget refused, in which case nothing was spent
+  // and nothing should be charged to this user.
+  if (result) {
+    const admin = createAdminClient();
+    const { error } = await admin.from('provider_spend').insert({
+      provider: 'bandsintown',
+      endpoint: `deep:${userId}`,
+      // Zero credits: the real cost is already logged by
+      // `cachedBandsintownArtist`. This row exists only to attribute the
+      // action, and must not double-count against the global caps.
+      credits: 0,
+    });
+    if (error) console.error('deep search attribution failed', error.message);
+  }
+  return result;
 }

@@ -11,7 +11,7 @@ import {
   writeSearchCache,
   geocodePlace,
   cachedArtistConcerts,
-  cachedBandsintownArtist,
+  deepSearchForUser,
 } from '@/lib/cache';
 
 /**
@@ -212,7 +212,10 @@ export async function GET(request: NextRequest) {
    */
   const deep = searchParams.get('deep') === '1';
   if (deep && keyword && bandsintown.isConfigured()) {
-    const result = await cachedBandsintownArtist(keyword);
+    // Attributed to the caller, so one person cannot spend the whole friend
+    // group's monthly allowance. A cache hit bypasses the limit — nothing is
+    // spent, so nothing is charged.
+    const result = await deepSearchForUser(user.id, keyword);
 
     if (result?.artist && result.events.length > 0) {
       // City-name matching, not a radius — Bandsintown rows carry no

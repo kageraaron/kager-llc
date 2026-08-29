@@ -2,7 +2,7 @@
   "name": "stub",
   "version": "0.1.0",
   "private": true,
-  "description": "Stub \u2014 concert and event tracker with automatic ticket-purchase detection from email",
+  "description": "Stub — concert and event tracker with automatic ticket-purchase detection from email",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -21,6 +21,7 @@
     "next": "^15.5.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "server-only": "^0.0.1",
     "web-push": "^3.6.7"
   },
   "devDependencies": {

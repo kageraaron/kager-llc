@@ -960,12 +960,73 @@ row and a Spotify row added a week apart still duplicate. A backfill pass over
       three `bandsintown_id` columns exist, all three uniques are real
       `pg_constraint` rows rather than partial indexes (the `0013` trap), and
       `provider_spend_today` resolves. Prod advisors match dev exactly.
-- [ ] Confirm whether the ~200-credit balance refills monthly. If it does,
-      `BANDSINTOWN_DAILY_CREDITS` can go up from 25.
-- [ ] Per-user rate limit in front of `?deep=1` — one user can currently consume
-      the whole day's allowance.
+- [x] ~~Confirm whether the ~200-credit balance refills monthly~~ — **it does.
+      Parse Free is 200 credits/month.** That forced a real fix, below.
+- [x] Per-user rate limit in front of `?deep=1` — **done**, `deepSearchForUser`.
 - [ ] Wire `getArtistPastEvents` into the Archive tab. The provider function and
       its cache exist; nothing calls them yet.
+
+---
+
+## 5.12.1 The quota is monthly, and the daily cap was the wrong guard
+
+Parse Free is **200 credits per calendar month**, not a one-off balance. `0014`
+shipped assuming the latter, with only a 24-hour rollup and a 25/day cap.
+
+That combination is wrong in an expensive direction: **25/day permits 750 a
+month — 3.75x the allowance.** The budget could be honoured every single day and
+still blow the month by a wide margin, and the first sign would be a dead
+provider mid-month.
+
+Now three ceilings, each doing a different job (`0016` adds the month view):
+
+| Cap | Default | Job |
+|---|---|---|
+| `BANDSINTOWN_MONTHLY_CREDITS` | 180 | The real quota. 180 not 200 — Parse resets on its own clock, our boundary is UTC, and the two can disagree by hours. |
+| `BANDSINTOWN_DAILY_CREDITS` | 25 | Burst limiter. Kept above 200/30 on purpose: usage is lumpy, and a hard 6/day would refuse the second genuine search of an evening while leaving the month underspent. |
+| `BANDSINTOWN_DEEP_PER_USER` | 5/day | Per-person fairness — see below. |
+
+Monthly is checked first, because it is the one that actually costs money to
+exceed; the daily cap only shapes how fast the month is consumed. Both still fail
+closed on an unreadable ledger.
+
+`prune_provider_spend`'s 30-day retention is now **load-bearing** rather than
+tidiness — trimming below a full calendar month would corrupt the month-to-date
+total. Do not lower it.
+
+### Per-user attribution
+
+The global caps stop the *deployment* overspending; they say nothing about who
+spent it. With 200 credits a month across the whole friend group, one person
+tapping "Search harder" can consume everyone else's allowance in a sitting — and
+it is invisible to them, because a refused deep search silently falls back to the
+ordinary providers.
+
+`deepSearchForUser` counts per user over the same ledger, reusing `endpoint` to
+carry `deep:<uuid>` rather than adding a column. Two deliberate details:
+
+- **A cache hit bypasses the limit entirely.** Nothing is spent, so nothing is
+  charged — otherwise searching the same artist twice would burn two of five for
+  one credit.
+- **The attribution row is `credits: 0`.** The real cost is already logged by
+  `cachedBandsintownArtist`; this row exists only to say who asked, and must not
+  double-count against the global caps.
+
+### If we need more — the scaling plan
+
+| Tier | Cost | Credits/mo | What it unlocks |
+|---|---|---|---|
+| **Free** | $0 | 200 | Today. Bandsintown is last in the cascade and gated behind a button. |
+| **Hobby** | $30/mo | 1,000 | 5x. First thing to buy. Enough to move Bandsintown **ahead of Spotify** for artist queries (it is the more accurate of the two — see §5.12) and to stop gating deep search behind a button. |
+| **Developer** | $100/mo | 5,000 | 25x. Only worth it with real user growth, or if `get_city_events` (3 credits/page) ever becomes worth using — though its broken date filters are the reason it is unwired, and money does not fix those. |
+
+Nothing in the code changes to move tiers — set `BANDSINTOWN_MONTHLY_CREDITS`
+and `BANDSINTOWN_DAILY_CREDITS`. The cascade order in `ingest/match.ts` and the
+`?deep=1` gate are the two things worth revisiting on Hobby.
+
+**Before buying anything**, do §5.8.3 (serve Browse from the local catalog). It is
+free and removes the largest single source of provider calls; the right time to
+judge whether 200/month is genuinely too few is after it lands.
 
 ---
 
@@ -1068,8 +1129,11 @@ Full pass over prod: RLS, grants, secrets, endpoint auth, crypto.
       having no policy. RLS yields zero rows so it is inert, but the grant is
       pointless — revoke for tidiness. Left as-is for now to stay consistent
       with `search_cache`, which predates this.
-- [ ] Add `import 'server-only'` to `lib/supabase/admin.ts` and `lib/crypto.ts`
-      so accidental client import is a build error rather than a review catch.
+- [x] ~~Add `import 'server-only'`~~ — **done** for `lib/supabase/admin.ts` and
+      `lib/crypto.ts`. `next build` passes, which confirms no client component
+      reaches either. Vitest needs the package's own `empty.js` alias (see
+      `vitest.config.mts`) since it is neither a client nor a server component;
+      that weakens nothing, as the enforcement is at build time.
 - [ ] Pre-existing advisor warnings, unchanged: `pg_trgm` in the public schema,
       `are_friends` executable as SECURITY DEFINER by `authenticated`, leaked-
       password protection disabled. See §6.
