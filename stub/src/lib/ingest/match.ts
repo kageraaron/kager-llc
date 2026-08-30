@@ -197,6 +197,14 @@ export function fromBandsintown(ev: BITEvent, searched?: string): CatalogCandida
 export interface ScoredMatch {
   candidate: CatalogCandidate;
   confidence: number;
+  /**
+   * The score before any contradiction cap.
+   *
+   * Only used to break ties. The cap flattens every contradicted candidate to
+   * exactly `CONTRADICTION_CAP`, which throws away the information that one of
+   * them was a far better answer than the other — see `decide`.
+   */
+  rawConfidence: number;
   reasons: string[];
 }
 
@@ -212,7 +220,7 @@ export function scoreCandidate(ticket: ParsedTicket, c: CatalogCandidate): Score
 
   // A direct id from the email body is as good as it gets.
   if (ticket.tmEventId && c.source === 'ticketmaster' && ticket.tmEventId === c.id) {
-    return { candidate: c, confidence: 1, reasons: ['exact Ticketmaster event id'] };
+    return { candidate: c, confidence: 1, rawConfidence: 1, reasons: ['exact Ticketmaster event id'] };
   }
   /*
    * Same reasoning for Eventbrite, and if anything stronger: the candidate was
@@ -220,7 +228,7 @@ export function scoreCandidate(ticket: ParsedTicket, c: CatalogCandidate): Score
    * — it is the event the ticket is for, told to us by the company that sold it.
    */
   if (ticket.ebEventId && c.source === 'eventbrite' && ticket.ebEventId === c.id) {
-    return { candidate: c, confidence: 1, reasons: ['exact Eventbrite event id'] };
+    return { candidate: c, confidence: 1, rawConfidence: 1, reasons: ['exact Eventbrite event id'] };
   }
 
   let score = 0;
@@ -283,12 +291,13 @@ export function scoreCandidate(ticket: ParsedTicket, c: CatalogCandidate): Score
    * candidate still surfaces as a review suggestion; it just cannot be applied
    * silently. It also lets the cascade keep going and find the real show.
    */
+  const rawConfidence = confidence;
   if (venueContradicts && confidence > CONTRADICTION_CAP) {
     confidence = CONTRADICTION_CAP;
     reasons.push('venue contradicts — capped');
   }
 
-  return { candidate: c, confidence, reasons };
+  return { candidate: c, confidence, rawConfidence, reasons };
 }
 
 /**
@@ -506,9 +515,7 @@ export async function matchTicket(ticket: ParsedTicket): Promise<MatchResult> {
     }
     consulted.push(provider.source);
 
-    scored = [...scored, ...found.map((c) => scoreCandidate(ticket, c))].sort(
-      (a, b) => b.confidence - a.confidence,
-    );
+    scored = [...scored, ...found.map((c) => scoreCandidate(ticket, c))].sort(byConfidence);
 
     const verdict = decide(scored);
     // Stop the moment we are confident: everything below this point costs quota.
@@ -518,6 +525,23 @@ export async function matchTicket(ticket: ParsedTicket): Promise<MatchResult> {
   return { ...decide(scored), consulted };
 }
 
+/**
+ * Rank candidates, breaking ties on the UNCAPPED score.
+ *
+ * The contradiction cap flattens every contradicted candidate to exactly 0.55,
+ * so a plain sort on `confidence` leaves them tied and the winner is decided by
+ * whatever order the providers happened to return — which is arbitrary.
+ *
+ * That produced a real wrong answer. A Kaskade ticket for "Shed A" on Apr 17
+ * surfaced **Coachella, Indio, Apr 19** as the best match, while Kaskade at
+ * Pier 48 on the exact date sat below it. Both capped to 0.55; Coachella simply
+ * came back first. Ranking on the uncapped score puts the same-day show ahead,
+ * where it belongs, without weakening the cap that keeps either off auto-add.
+ */
+function byConfidence(a: ScoredMatch, b: ScoredMatch): number {
+  return b.confidence - a.confidence || b.rawConfidence - a.rawConfidence;
+}
+
 function decide(scored: ScoredMatch[]): Omit<MatchResult, 'consulted'> {
   const best = scored[0] ?? null;
   if (!best) return { best: null, autoAdd: false, alternatives: [] };
@@ -525,7 +549,15 @@ function decide(scored: ScoredMatch[]): Omit<MatchResult, 'consulted'> {
   // Ambiguity is judged only against OTHER shows. A second provider describing
   // the same gig is corroboration, not a competing answer.
   const rival = scored.slice(1).find((s) => !sameShow(best.candidate, s.candidate));
-  const ambiguous = rival !== undefined && best.confidence - rival.confidence < 0.05;
+  /*
+   * Compare on the uncapped score too. Two capped candidates are always within
+   * 0.05 of each other by construction, so on `confidence` alone every
+   * contradicted match reads as ambiguous even when one is obviously better.
+   */
+  const ambiguous =
+    rival !== undefined &&
+    best.confidence - rival.confidence < 0.05 &&
+    best.rawConfidence - rival.rawConfidence < 0.05;
 
   return {
     best,

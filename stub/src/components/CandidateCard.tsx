@@ -130,42 +130,55 @@ export function CandidateCard({ candidate }: Props) {
         </p>
       )}
 
-      <div className="row" style={{ gap: 8 }}>
-        <button
-          className="btn"
-          style={{ flex: 1 }}
-          disabled={pending}
-          onClick={() => act(() => rejectCandidate(candidate.id), 'rejected')}
-        >
-          Not a ticket
-        </button>
-
-        {/*
-          * With no matched event, "Yes, add it" has nothing to point at and the
-          * action refuses. Rather than a dead end, offer to build the show from
-          * what the email already told us — artist, venue, city and date are all
-          * parsed and shown directly above this button.
-          */}
-        {candidate.matched_event_id ? (
+      {/*
+        * Three outcomes, not two.
+        *
+        * A suggested match can be confidently wrong — a Kaskade ticket for
+        * "Shed A" surfaced Coachella, two days and 500 miles away — and with
+        * only "Yes, add it" beside "Not a ticket", accepting the suggestion was
+        * the sole way to record a show you genuinely went to. That trades a
+        * missing entry for a WRONG one, which is the worse failure: a bad row
+        * propagates into the Archive, the friend feed and the artist catalog.
+        *
+        * So the email's own details are always offered as a third option. It is
+        * the only path here that cannot be wrong about which show it is, since
+        * it invents nothing — every field came off the confirmation.
+        */}
+      <div className="stack" style={{ gap: 8 }}>
+        {candidate.matched_event_id && (
           <button
-            className="btn btn-primary"
-            style={{ flex: 1 }}
+            className="btn btn-primary btn-block"
             disabled={pending}
             onClick={() => act(() => confirmCandidate(candidate.id), 'confirmed')}
           >
-            Yes, add it
-          </button>
-        ) : (
-          <button
-            className="btn btn-primary"
-            style={{ flex: 1 }}
-            disabled={pending || !canAddManually}
-            title={canAddManually ? undefined : 'The email is missing an act or a date'}
-            onClick={() => act(() => createEventFromCandidate(candidate.id), 'confirmed')}
-          >
-            Add it anyway
+            Yes, that&rsquo;s the show
           </button>
         )}
+
+        <div className="row" style={{ gap: 8 }}>
+          <button
+            className="btn"
+            style={{ flex: 1 }}
+            disabled={pending}
+            onClick={() => act(() => rejectCandidate(candidate.id), 'rejected')}
+          >
+            Not a ticket
+          </button>
+
+          <button
+            className={`btn ${candidate.matched_event_id ? '' : 'btn-primary'}`}
+            style={{ flex: 1 }}
+            disabled={pending || !canAddManually}
+            title={
+              canAddManually
+                ? 'Creates the show exactly as the email describes it'
+                : 'The email is missing an act or a date'
+            }
+            onClick={() => act(() => createEventFromCandidate(candidate.id), 'confirmed')}
+          >
+            {candidate.matched_event_id ? 'Use email details' : 'Add it anyway'}
+          </button>
+        </div>
       </div>
 
       {error && <p className="error" style={{ margin: 0 }}>{error}</p>}

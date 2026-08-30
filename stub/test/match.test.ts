@@ -252,3 +252,62 @@ describe('venue contradiction', () => {
     expect(res.reasons.join(' ')).not.toContain('contradicts');
   });
 });
+
+/**
+ * The contradiction cap flattens every contradicted candidate to exactly 0.55,
+ * which discards the information that one was a much better answer. With a
+ * plain sort on `confidence` the winner is then decided by whatever order the
+ * providers happened to return.
+ *
+ * That produced a real wrong answer in a live inbox: a Kaskade ticket for
+ * "Shed A" on Apr 17 surfaced **Coachella, Indio, Apr 19** as the best match,
+ * while Kaskade at Pier 48 on the exact date sat below it. Bandsintown simply
+ * returned Coachella first.
+ */
+describe('ranking capped candidates', () => {
+  const past = (venue: string, city: string, at: string) => ({
+    id: venue,
+    name: venue,
+    artistName: null,
+    startsAtLocal: at,
+    venueName: venue,
+    city,
+    timezone: null,
+    ticketUrl: null,
+    eventUrl: null,
+    lineup: [],
+  });
+
+  const ticket: ParsedTicket = {
+    artistName: 'Kaskade',
+    venueName: 'Shed A',
+    startsAt: '2026-04-17T21:00:00',
+  };
+
+  const coachella = past('Coachella Festival Main Stage', 'Indio', '2026-04-19T20:00:00');
+  const pier48 = past('Pier 48 - Lot #39', 'San Francisco', '2026-04-17T20:00:00');
+
+  it('ranks the same-day show above a festival two days away', () => {
+    const scored = [coachella, pier48]
+      .map((c) => scoreCandidate(ticket, fromBandsintown(c, 'Kaskade')))
+      .sort((a, b) => b.confidence - a.confidence || b.rawConfidence - a.rawConfidence);
+
+    expect(scored[0].candidate.venueName).toBe('Pier 48 - Lot #39');
+  });
+
+  it('caps both, so neither can be added silently', () => {
+    // Ranking better must not mean trusting more: the venue still contradicts.
+    for (const c of [coachella, pier48]) {
+      const r = scoreCandidate(ticket, fromBandsintown(c, 'Kaskade'));
+      expect(r.confidence).toBe(0.55);
+      expect(r.confidence).toBeLessThan(AUTO_ADD_THRESHOLD);
+      expect(r.reasons).toContain('venue contradicts — capped');
+    }
+  });
+
+  it('keeps the uncapped scores far enough apart to be a real signal', () => {
+    const a = scoreCandidate(ticket, fromBandsintown(pier48, 'Kaskade'));
+    const b = scoreCandidate(ticket, fromBandsintown(coachella, 'Kaskade'));
+    expect(a.rawConfidence).toBeGreaterThan(b.rawConfidence + 0.05);
+  });
+});
