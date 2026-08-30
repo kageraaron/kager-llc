@@ -40,6 +40,19 @@ const ORDER_SUFFIX = /\s*[:,\-–—]?\s*order\s*#?\s*[A-Z0-9][A-Z0-9/\-]{3,}\s*
 /** "@ MIDLINE 03.28" — a venue and date appended to the act. */
 const VENUE_DATE_SUFFIX = /\s*@\s*[^@]{2,40}?\s+\d{1,2}[./-]\d{1,2}(?:[./-]\d{2,4})?\s*$/i;
 
+/**
+ * A promoter's party billed "<BRAND> w/ <ACTS>".
+ *
+ * "MACCABI SF w/ ADAM TEN + MITA GAMI" — MACCABI SF is the night, ADAM TEN and
+ * MITA GAMI are who played. For a memory app the act is what belongs on the
+ * card, and it is also the only half that resolves against any provider.
+ *
+ * Anchored on "w/" or "with" specifically, and the "+" split only happens AFTER
+ * that match. A bare "+" is not enough on its own — "Simon + Garfunkel" is one
+ * act's actual name, and splitting it would be a rename, not a cleanup.
+ */
+const PARTY_WITH_ACTS = /\s+(?:w\/|with)\s+/i;
+
 /** A trailing "Digital Tickets" / "Tickets" that is packaging, not a name. */
 const TICKET_WORD_SUFFIX = /\s*[-–—:]?\s*(?:digital\s+|e-?|mobile\s+|print\s+at\s+home\s+)?tickets?\s*$/i;
 
@@ -51,6 +64,7 @@ const TICKET_WORD_SUFFIX = /\s*[-–—:]?\s*(?:digital\s+|e-?|mobile\s+|print\s
  */
 export function looksLikeJunkName(name: string): boolean {
   return (
+    PARTY_WITH_ACTS.test(name) ||
     ORDER_SUFFIX.test(name) ||
     NOISE_PREFIX.test(name) ||
     VENUE_DATE_SUFFIX.test(name) ||
@@ -72,6 +86,16 @@ export function proposeCleanName(raw: string): string | null {
   if (!looksLikeJunkName(raw)) return null;
 
   let name = raw;
+
+  /*
+   * "<BRAND> w/ <ACT> + <ACT>" -> the first act. Done first, because the acts
+   * half can itself carry a presale tag or an order number.
+   */
+  if (PARTY_WITH_ACTS.test(name)) {
+    const acts = name.split(PARTY_WITH_ACTS).slice(1).join(' with ');
+    const first = acts.split(/\s*[+,]\s*/)[0]?.trim();
+    if (first && first.length >= 2) name = first;
+  }
 
   // Order matters: strip the tail before the ticket word, or "Order #123"
   // leaves "… Tickets :" behind for the next rule to trip over.

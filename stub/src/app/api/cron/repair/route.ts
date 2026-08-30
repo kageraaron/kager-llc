@@ -125,6 +125,7 @@ export async function GET(request: NextRequest) {
     imagesTried: 0,
     namesCleaned: 0,
     namesMerged: 0,
+    eventNamesCleaned: 0,
     headlinersFixed: 0,
     supersededCards: 0,
     identityResolved: 0,
@@ -408,6 +409,26 @@ export async function GET(request: NextRequest) {
     // The event usually carries the same junk string, for the same reason.
     await admin.from('events').update({ name: cleaned }).eq('name', artist.name);
     fixed.namesCleaned++;
+  }
+
+  /*
+   * Event names are cleaned SEPARATELY, not only alongside their artist.
+   *
+   * The two drift apart. A re-scan can fix the artist — "Eric Prydz - Artist
+   * Presale" became "Eric Prydz" once the suffix rule was broadened — while the
+   * event row, written earlier, keeps the old string and shows it as the
+   * subtitle on the event page. By then there is no artist with the junk name
+   * left to key off.
+   */
+  const { data: allEvents } = await admin.from('events').select('id, name');
+
+  for (const event of allEvents ?? []) {
+    if (!event.name) continue;
+    const cleaned = proposeCleanName(event.name);
+    if (!cleaned) continue;
+
+    const { error } = await admin.from('events').update({ name: cleaned }).eq('id', event.id);
+    if (!error) fixed.eventNamesCleaned++;
   }
 
   /*

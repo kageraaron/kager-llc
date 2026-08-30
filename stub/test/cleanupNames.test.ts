@@ -29,6 +29,24 @@ describe('proposeCleanName — real rows from production', () => {
   });
 });
 
+describe('proposeCleanName — a promoter party billed with its acts', () => {
+  it('takes the act, not the party brand', () => {
+    // MACCABI SF is the night; ADAM TEN and MITA GAMI are who played. The act
+    // is also the only half that resolves against any provider.
+    expect(proposeCleanName('MACCABI SF w/ ADAM TEN + MITA GAMI')).toBe('ADAM TEN');
+    expect(proposeCleanName('Dirtybird SF with Claude VonStroke')).toBe('Claude VonStroke');
+  });
+
+  it('only splits on "+" once "w/" has already matched', () => {
+    /*
+     * A bare "+" is not enough on its own: "Simon + Garfunkel" is one act's
+     * actual name, and splitting it would be a rename rather than a cleanup.
+     */
+    expect(proposeCleanName('Simon + Garfunkel')).toBeNull();
+    expect(proposeCleanName('Sleaford Mods + Special Guest')).toBeNull();
+  });
+});
+
 describe('proposeCleanName — declines rather than guesses', () => {
   it('leaves an ordinary name completely alone', () => {
     for (const name of [
