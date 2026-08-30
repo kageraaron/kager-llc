@@ -4,6 +4,7 @@ import {
   scoreCandidate,
   fromTicketmaster,
   fromSpotify,
+  fromBandsintown,
   sameShow,
   AUTO_ADD_THRESHOLD,
 } from '@/lib/ingest/match';

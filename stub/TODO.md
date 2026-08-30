@@ -14,7 +14,7 @@ Ordered by what blocks what. **§1 is the only section that blocks sharing it.**
 | **Prod DB** | `biichwtrfmrdgiqtvxme`, all **19** migrations applied |
 | **Prod keys** | `RAPID_API_KEY` and `PARSE_API_KEY` both set. Bandsintown is live on the next deploy |
 | **Dev DB** | `syrsjdreydgblrwpalyw`, seeded, all **19** migrations |
-| **Tests** | **159** offline passing; live suites for queries, geocode, Spotify concerts, Spotify Web API, Eventbrite |
+| **Tests** | **162** offline passing; live suites for queries, geocode, Spotify concerts, Spotify Web API, Eventbrite |
 | **Providers wired** | **Eventbrite**, Ticketmaster, JamBase, Spotify/RapidAPI, Bandsintown/Parse, setlist.fm, MusicBrainz, Nominatim |
 | **Email vendors parsed** | Ticketmaster, AXS, DICE, Eventbrite, See Tickets/Eventim, Frontgate, TicketWeb, Etix |
 
@@ -1614,6 +1614,102 @@ artist and venue, so the notice is a duplicate with no unique information.
 - **setlist.fm as a second past-show source.** Already integrated for setlists;
   it is also a database of shows that definitely happened, and it is free. Worth
   trying before spending a Bandsintown credit.
+
+---
+
+## 5.19 The cron has never run — two YAML bugs — 2026-08-29
+
+`gh workflow run` returned `HTTP 422: Workflow does not have 'workflow_dispatch'
+trigger`, which was the thread that unravelled it.
+
+**The workflow file has never been valid, so nothing has ever run.** Not the
+30-minute Gmail scan, not the hourly reminders. Every message in the production
+database arrived from a manual "Scan" press.
+
+The tell was in the API: GitHub reported the workflow's `name` as
+`.github/workflows/stub-cron.yml` — its *path* — while `reddit-bot.yml` next to
+it reported `Run Reddit Bot`. GitHub falls back to the path when it cannot parse
+the file. `gh run view` confirmed: *"This run likely failed because of a workflow
+file issue."* Every run in the history was a 0-second failure triggered by
+`push`, and `--event=schedule` returned nothing at all, ever.
+
+### Bug 1 — a column-0 heredoc closed the block scalar
+
+```yaml
+run: |
+  python3 -c "
+import json,sys        # <- column 0, outside the block scalar
+try:
+```
+
+A block scalar's content must stay indented past its key. At `import json,sys`
+the scalar ends, YAML tries to read a mapping entry, and dies on `try:` with
+*"can not read a block mapping entry; a multiline key may not be an implicit
+key"*. Replaced with a one-line `jq` filter, which does the same redaction with
+no indentation hazard.
+
+### Bug 2 — a folded scalar that wasn't folding
+
+```yaml
+if: >-
+  github.event_name == 'workflow_dispatch' &&
+    (inputs.job == 'both' || inputs.job == 'gmail-sync')   # <- extra indent
+```
+
+In a folded scalar a **more-indented** line is kept literal rather than folded,
+so this injected a real newline into the middle of the expression. Latent behind
+bug 1 and would have surfaced the moment it was fixed. All continuation lines are
+now at the same indentation, with a comment at the top of the file saying why.
+
+### Also missing
+
+`STUB_BASE_URL` was never set as a repository secret — only `CRON_SECRET` was —
+so even a parseable workflow would have failed its own config check at 0s. Set
+separately.
+
+### The lesson
+
+**A workflow file is code with no type checker and no test.** Both bugs are
+invisible to review and neither produced an error anywhere a person would look:
+the symptom was silence. `npx js-yaml .github/workflows/*.yml` catches both in a
+second and is worth a pre-commit hook.
+
+Second-order: this is the *third* silent failure in this codebase in one day —
+Bandsintown's envelope (§5.18), the Spotify batch endpoint, and now this. The
+pattern is the same each time: something that fails into a `catch`, a fallback,
+or a scheduler nobody reads. **Prefer loud failure at the boundary.**
+
+---
+
+## 5.20 A capped match still has to rank — 2026-08-29
+
+Reported from the live Inbox: a Kaskade ticket for "Shed A" on Apr 17 offered
+**Coachella, Indio, Apr 19** as its best match, with Kaskade at Pier 48 on the
+exact date ranked below it.
+
+`CONTRADICTION_CAP` flattens *every* venue-contradicting candidate to exactly
+0.55, so both tied — and `sort` left them in whatever order the provider
+returned. Bandsintown returned Coachella first, so Coachella won. The ranking was
+arbitrary, not wrong-headed.
+
+Fixed by keeping `rawConfidence` (the pre-cap score) on `ScoredMatch` and using
+it as the tiebreak. Pier 48 scores 0.87 raw against Coachella's 0.75, so it now
+ranks first while both stay capped at 0.55 and neither can auto-add. The
+ambiguity check compares raw scores too — otherwise every pair of capped
+candidates reads as ambiguous by construction.
+
+### Three outcomes in the Inbox, not two
+
+The same report asked for it, and it is the right call. With only "Not a ticket"
+and "Yes, add it", accepting a confidently wrong suggestion was the only way to
+record a show you actually attended — trading a missing entry for a **wrong**
+one, which is worse: a bad row propagates into the Archive, the friend feed and
+the artist catalog.
+
+The card now offers *Yes, that's the show* / *Use email details* / *Not a
+ticket*. "Use email details" (`createEventFromCandidate`, which already existed
+for the no-match case) is the only path that cannot be wrong about which show it
+is — it invents nothing, every field came off the confirmation.
 
 ---
 
