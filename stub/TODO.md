@@ -14,7 +14,7 @@ Ordered by what blocks what. **§1 is the only section that blocks sharing it.**
 | **Prod DB** | `biichwtrfmrdgiqtvxme`, all **22** migrations applied |
 | **Prod keys** | `RAPID_API_KEY` and `PARSE_API_KEY` both set. Bandsintown is live on the next deploy |
 | **Dev DB** | `syrsjdreydgblrwpalyw`, seeded, all **22** migrations |
-| **Tests** | **234** offline passing; live suites for queries, geocode, Spotify concerts, Spotify Web API, Eventbrite |
+| **Tests** | **250** offline passing; live suites for queries, geocode, Spotify concerts, Spotify Web API, Eventbrite |
 | **Providers wired** | **Eventbrite**, Ticketmaster, JamBase, Spotify/RapidAPI, Bandsintown/Parse, setlist.fm, MusicBrainz, Nominatim |
 | **Email vendors parsed** | Ticketmaster, AXS, DICE, Eventbrite, See Tickets/Eventim, Frontgate, **TicketWeb**, **SeatGeek**, **Tixr**, Etix |
 
@@ -2298,6 +2298,173 @@ thing to search for.
 All 19 messages re-checked after the change: **17 of 17 ticket emails parse
 correctly with no regressions**, and the two non-tickets — a personal email and
 a Gap receipt — are still rejected.
+
+---
+
+## 5.29 Why the Archive had no photos and a hollow setlist badge — 2026-08-30
+
+Two questions from the Archive, both with the same shape of answer: the code was
+right, the job that runs it never did.
+
+### Photos: the enrichment job was manual-only
+
+`identity_checked_at` was **null for every artist in production** — MusicBrainz
+identity and the Deezer photo backfill live in `api/cron/repair`, and that job
+was `workflow_dispatch` only. It had never run once, so Shiba San, KETTAMA and
+most of the catalog kept their initials placeholder indefinitely.
+
+That caution was wrong. It was gated on "this rewrites existing rows", but four
+of its five passes only FILL NULLS, and the fifth rewrites only strings that are
+demonstrably a localized lineup join. Now scheduled daily at 07:40 UTC, still
+manually triggerable, still bounded and resumable per run.
+
+**The general lesson, and it is the third time this week:** a job that exists but
+is not scheduled is indistinguishable from a job that does not exist. The
+symptom is always "the feature does nothing", never an error.
+
+### The setlist badge would have been a lie
+
+KETTAMA's cached setlist was `{"sets":{"set":[]}}` with `found: true`.
+setlist.fm has **stub pages** — someone creates the gig, nobody logs the songs —
+and we were recording that as a hit.
+
+Two consequences, the second worse than the first: the Archive card would show a
+"Setlist" badge with nothing behind it, and a hit is cached **forever** on the
+reasoning that a past setlist does not change. The stub would have been
+permanent.
+
+An empty setlist is now a MISS: the badge stays off, the event page shows
+nothing rather than an empty shell, and `recheck_after` schedules another look —
+which is right, because songs get added to these pages late and often. Five
+existing stub rows were reset in production.
+
+`getSetlistFlags` also filters on `song_count > 0` rather than `found` alone, so
+a badge can never promise more than the page can keep.
+
+Shiba San's absence was correct all along: setlist.fm genuinely has no entry.
+
+### `&amp;` in stored names
+
+A real artist row read **"Skrillex &amp; Four Tet"**, which matches nothing on
+any provider and looks broken on a card. `htmlToText` decodes entities, but a
+name does not always come through it — a multipart plain-text part carries them
+literally, and so does JSON-LD. `cleanArtistName` now decodes them, and the
+existing rows were cleaned.
+
+### Junk artist names — **FIXED**, see §5.30
+
+---
+
+## 5.30 Cleaning up junk artist names — 2026-08-30
+
+Five stored headliners were unusable:
+
+```
+Day Trip Digital Tickets : Order #175815029
+Your tickets: Black Book Records - Miami Music Week
+MMW26: ODD MOB @ MIDLINE 03.28
+Max Styler - Artist Presale
+Eric Prydz - Artist Presale
+```
+
+### The obvious repair does not work here
+
+"If we matched it to an event, we can match it to the artist" — reasonable, and
+false for these. **All five have `matched_a_provider = false`.** They exist
+*because* no provider had them: `createEventFromCandidate` ("Add it anyway")
+takes the email's parsed name and uses it for the event AND the artist, so a
+poor parse lands twice. There is nothing to look up; the string is all there is.
+
+### So it only ever subtracts
+
+`ingest/cleanupNames.ts` removes recognised noise and nothing else — an order
+number, a "Your tickets:" prefix, a series code, a presale tag, a venue-and-date
+tail. No rewriting, no guessing.
+
+That is what makes it safe without a provider to check against: **stripping
+noise cannot turn one artist into a different artist**, only into a shorter
+version of the same one or into nothing, in which case it declines. It returns
+null rather than a guess whenever the result would be empty, unchanged or
+implausibly short.
+
+Dry-run over the real catalog: **5 changed, 15 legitimate names untouched** —
+including the ones most likely to trip a careless rule ("Nine Inch Nails - Trent
+Reznor", "Godspeed You! Black Emperor", "Tegan & Sara", "LSR/CITY: CYBERPUNK",
+"!!!").
+
+### Merging, not just renaming
+
+Three of the five clean to a name that **already exists** in the catalog:
+
+| Old | New | Action |
+|---|---|---|
+| Day Trip Digital Tickets : Order #… | Day Trip | **merge** |
+| MMW26: ODD MOB @ MIDLINE 03.28 | ODD MOB | **merge** |
+| Eric Prydz - Artist Presale | Eric Prydz | **merge** |
+| Your tickets: Black Book Records… | Black Book Records - Miami Music Week | rename |
+| Max Styler - Artist Presale | Max Styler | rename |
+
+Renaming blindly would recreate exactly the duplicates `0021` just merged away,
+so the pass folds into the incumbent instead — repointing events and
+`event_artists` with the same insert-then-delete used in `0021`, because those
+composite keys collide on a plain update.
+
+A rename also clears `identity_checked_at` and `image_url`: whatever was
+resolved under the old name is about the wrong thing, and the next run should
+look again under the corrected one. That is also why this pass runs **last**.
+
+---
+
+## 5.31 Four more real emails — 2026-08-30
+
+Three of four parsed already; the faults were in the details.
+
+### Ticketmaster: the separator is not always a dash
+
+`leadingAct` split only on " - ", so these stored the whole production title as
+the artist and matched nothing:
+
+```
+Weezer: Voyage To The Blue Planet Tour 2024  ->  Weezer
+Sofi Tukker Presents: Animal Talk            ->  Sofi Tukker
+```
+
+Dash is tried before colon, because a title can carry both and the dash is the
+outer separator — "GARETH EMERY - LSR/CITY: CYBERPUNK" must not split at the
+colon. A trailing "Presents" is dropped: it introduces the production, it is not
+part of the act.
+
+### Tixr had only been taught the festival layout
+
+```
+festival                              single night
+Lightning in a Bottle 2027            Cash Cash
+Lightning In A Bottle, Buena Vista…   YOLO Nightclub
+Wed May 26 - Sun May 30               Sat Nov 16 at 10:00 PM
+```
+
+The first parse required a comma in the venue line and a date RANGE. An ordinary
+club booking has neither, so it produced no venue, no date, and was dropped
+entirely for want of a date. Both are now optional shapes.
+
+### A forward's own date is the right reference for a year-less date
+
+`unwrapForward` rewrote `from` and `subject` but left `receivedAt` as the
+FORWARDING date. Tixr writes "Sat Nov 16 at 10:00 PM" with no year, and
+`findDate` resolves that against `receivedAt` — so a 2024 booking forwarded in
+2026 resolved to **16 November 2026**, a show two years out that never existed.
+
+The forward header's `Date:` is the original send date and is now adopted as
+`receivedAt`. Gmail formats it as "Tue, Nov 12, 2024 at 9:11 PM", which `Date`
+rejects, so the " at " is normalised away first.
+
+Together with §5.28 (stripping the header block so its date is not scannable at
+all), the forward path now carries the original sender, subject AND date.
+
+### Verified
+
+All four correct, and the earlier 19 re-checked with **zero changes**.
+`EXTRACTOR_VERSION` bumped to 2, so a re-scan picks these up.
 
 ---
 

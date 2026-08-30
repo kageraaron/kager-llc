@@ -29,7 +29,7 @@ export const extractors: Extractor[] = [jsonLdExtractor, ...vendorExtractors, ge
  *   1 — TicketWeb/SeatGeek/Tixr added; qualified presale suffixes stripped;
  *       emphasis-wrapped totals read; generic fallback extractor added.
  */
-export const EXTRACTOR_VERSION = 1;
+export const EXTRACTOR_VERSION = 2;
 
 export interface ExtractionResult {
   extractor: string;

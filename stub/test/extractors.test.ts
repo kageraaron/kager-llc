@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { runExtractors } from '@/lib/ingest/extractors';
+import { leadingAct } from '@/lib/ingest/extractors/vendors';
 import { cleanArtistName } from '@/lib/ingest/extractors/heuristics';
 import { normalizeEmail, contentHash, stripForwardHeaders } from '@/lib/ingest/normalize';
 import {
@@ -24,6 +25,9 @@ import {
   tixrFestival,
   axsQualifiedPresale,
   ticketmasterForwardedLate,
+  ticketmasterColonTitle,
+  ticketmasterPresentsTitle,
+  tixrSingleNight,
 } from './fixtures/emails';
 
 const run = (raw: Parameters<typeof normalizeEmail>[0]) => runExtractors(normalizeEmail(raw));
@@ -499,5 +503,75 @@ Date: this one is body text, not a header`,
   it('leaves a message with no forward marker untouched', () => {
     const plain = 'From: someone\nDate: whenever\nHello';
     expect(stripForwardHeaders(plain)).toBe(plain);
+  });
+});
+
+describe('HTML entities in names', () => {
+  it('decodes an entity that survived into an artist name', () => {
+    /*
+     * A real stored row read "Skrillex &amp; Four Tet" — which matches nothing
+     * on any provider and looks broken on the card. `htmlToText` decodes these,
+     * but a name does not always come through it: a multipart plain-text part
+     * carries them literally, and so does JSON-LD.
+     */
+    expect(cleanArtistName('Skrillex &amp; Four Tet')).toBe('Skrillex & Four Tet');
+    expect(cleanArtistName('DJ Dials &amp; 1015 Folsom')).toBe('DJ Dials & 1015 Folsom');
+    expect(cleanArtistName('Godspeed You&#39;s Emperor')).toBe("Godspeed You's Emperor");
+  });
+
+  it('leaves a name with no entities untouched', () => {
+    expect(cleanArtistName('Tegan & Sara')).toBe('Tegan & Sara');
+  });
+});
+
+describe('Ticketmaster production titles', () => {
+  it('splits on a colon, not only a dash', () => {
+    // "Weezer: Voyage To The Blue Planet Tour 2024" matched nothing as a whole.
+    const t = runExtractors(normalizeEmail(ticketmasterColonTitle))!.ticket;
+    expect(t.artistName).toBe('Weezer');
+    expect(t.eventName).toBe('Weezer: Voyage To The Blue Planet Tour 2024');
+    expect(t.venueName).toBe('Chase Center');
+    expect(t.startsAt).toBe('2024-10-09T19:00:00');
+  });
+
+  it('drops a trailing "Presents", which introduces the production', () => {
+    const t = runExtractors(normalizeEmail(ticketmasterPresentsTitle))!.ticket;
+    expect(t.artistName).toBe('Sofi Tukker');
+    expect(t.eventName).toBe('Sofi Tukker Presents: Animal Talk');
+    expect(t.venueName).toBe('Cow Palace');
+  });
+
+  it('prefers the dash when a title carries both separators', () => {
+    // "GARETH EMERY - LSR/CITY: CYBERPUNK" must not split at the colon.
+    expect(leadingAct('GARETH EMERY - LSR/CITY: CYBERPUNK')).toBe('GARETH EMERY');
+  });
+
+  it('leaves a title with no separator alone', () => {
+    expect(leadingAct('Fred Again')).toBe('Fred Again');
+    expect(leadingAct('Nine Inch Nails - Trent Reznor')).toBe('Nine Inch Nails');
+  });
+});
+
+describe('Tixr single-night booking', () => {
+  const t = () => runExtractors(normalizeEmail(tixrSingleNight))!.ticket;
+
+  it('reads a venue line with no comma and a date that is not a range', () => {
+    /*
+     * The first Tixr parse was written against a festival and required both —
+     * so an ordinary club booking produced neither venue nor date, and was
+     * dropped entirely for want of a date.
+     */
+    expect(t().eventName).toBe('Cash Cash');
+    expect(t().venueName).toBe('YOLO Nightclub');
+  });
+
+  it('resolves a year-less date against the ORIGINAL send date', () => {
+    /*
+     * "Sat Nov 16 at 10:00 PM" carries no year. Forwarded in 2026, resolving
+     * against the forwarding date gives November 2026 — a show two years in the
+     * future that never existed. The forward header's own `Date:` is the right
+     * reference, and `unwrapForward` now adopts it.
+     */
+    expect(t().startsAt).toBe('2024-11-16T22:00:00');
   });
 });

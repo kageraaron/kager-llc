@@ -326,8 +326,30 @@ export function findVenue(text: string): { venueName?: string; city?: string; re
 }
 
 /** Strip the marketing noise vendors wrap around an artist name. */
+/**
+ * HTML entities that survive into a name.
+ *
+ * `htmlToText` decodes these, but a name does not always come through it — a
+ * multipart plain-text part can contain "DJ Dials &amp; 1015 Folsom", and
+ * JSON-LD carries whatever the vendor encoded. A real stored artist row reads
+ * "Skrillex &amp; Four Tet", which then fails to match anything and looks
+ * broken on the card.
+ */
+function decodeEntities(s: string): string {
+  return s
+    .replace(/&amp;/gi, '&')
+    .replace(/&#0*39;|&apos;|&#x27;/gi, "'")
+    .replace(/&quot;|&#0*34;/gi, '"')
+    .replace(/&nbsp;|&#160;/gi, ' ')
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>')
+    .replace(/&#8217;|&rsquo;/gi, '\u2019')
+    .replace(/&#8211;|&ndash;/gi, '–')
+    .replace(/&#8212;|&mdash;/gi, '—');
+}
+
 export function cleanArtistName(raw: string): string {
-  return raw
+  return decodeEntities(raw)
     // Emphasis markers from a multipart TEXT alternative, which renders bold as
     // "*Mipso*". Reading the artist out of the body picks these up, and they
     // would otherwise be stored as part of the name.

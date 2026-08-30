@@ -156,3 +156,44 @@ describe('yearsWithShows', () => {
     expect(yearsWithShows([])).toEqual([]);
   });
 });
+
+/**
+ * The Upcoming and Archive pages both group by year using `yearOf`, so the
+ * New Year's Eve case is the one worth pinning: a 9pm 31 December show in San
+ * Francisco is stored as `2026-01-01T04:00:00Z`, and bucketing on the raw
+ * instant files it under the following year.
+ *
+ * Archive had exactly that bug (`new Date(starts_at).getFullYear()`, which uses
+ * the runtime zone — UTC on Vercel). Same fault as the 5 AM card, elsewhere.
+ */
+describe('year grouping for Upcoming and Archive', () => {
+  const group = (rows: AttendanceWithEvent[]) => {
+    const out: [number, AttendanceWithEvent[]][] = [];
+    for (const r of rows) {
+      const y = yearOf(r);
+      const last = out[out.length - 1];
+      if (last && last[0] === y) last[1].push(r);
+      else out.push([y, [r]]);
+    }
+    return out;
+  };
+
+  it('keeps a New Year’s Eve show in the year it was played', () => {
+    const grouped = group([
+      row({ artist: 'A', venue: 'Monarch', at: '2026-12-15T04:00:00Z' }),
+      row({ artist: 'B', venue: 'Monarch', at: '2027-01-01T04:00:00Z' }),
+      row({ artist: 'C', venue: 'Monarch', at: '2027-03-02T04:00:00Z' }),
+    ]);
+    expect(grouped.map(([y, g]) => [y, g.length])).toEqual([[2026, 2], [2027, 1]]);
+  });
+
+  it('produces a single group when everything is in one year', () => {
+    // Upcoming renders no divider at all in this case — a lone header above
+    // every show is noise.
+    const grouped = group([
+      row({ artist: 'A', venue: 'Monarch', at: '2026-09-01T04:00:00Z' }),
+      row({ artist: 'B', venue: 'Monarch', at: '2026-11-01T04:00:00Z' }),
+    ]);
+    expect(grouped).toHaveLength(1);
+  });
+});

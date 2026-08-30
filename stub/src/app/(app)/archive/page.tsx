@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth';
 import { getArchive, getSetlistFlags } from '@/lib/queries';
+import { yearOf } from '@/lib/yearInReview';
 import { EventCard } from '@/components/EventCard';
 import Link from 'next/link';
 
@@ -14,10 +15,17 @@ export default async function ArchivePage() {
   // One query for the whole page, and no setlist.fm traffic at all.
   const withSetlist = await getSetlistFlags(supabase, rows.map((r) => r.event.id));
 
-  // Group by year so a long history stays scannable.
+  /*
+   * Group by year so a long history stays scannable — in the VENUE's zone.
+   *
+   * `new Date(starts_at).getFullYear()` uses the RUNTIME's zone, which is UTC
+   * on Vercel, so a 9pm New Year's Eve show in San Francisco
+   * (`2026-01-01T04:00:00Z`) was filed under the following year. Same fault as
+   * the 5 AM card, in a different place.
+   */
   const byYear = new Map<string, typeof rows>();
   for (const row of rows) {
-    const year = new Date(row.event.starts_at).getFullYear().toString();
+    const year = String(yearOf(row));
     byYear.set(year, [...(byYear.get(year) ?? []), row]);
   }
 

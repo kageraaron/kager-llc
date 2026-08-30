@@ -30,6 +30,18 @@ const FORWARDED_FROM = /^\s*From:\s*(?:"?([^"<\n]*?)"?\s*)?<?([^\s<>@]+@[^\s<>]+
 const FORWARDED_SUBJECT = /^\s*Subject:\s*(.+)$/im;
 
 /**
+ * The ORIGINAL send date, from the forward header.
+ *
+ * `receivedAt` is what resolves a year-less date — a Tixr confirmation says
+ * "Sat Nov 16 at 10:00 PM" and nothing else — so on a forward it has to be the
+ * date the vendor sent the mail, not the date someone passed it along.
+ *
+ * A real Tixr booking for **16 November 2024**, forwarded in 2026, resolved to
+ * 16 November **2026**: a show two years in the future that never existed.
+ */
+const FORWARDED_DATE = /^\s*Date:\s*(.+)$/im;
+
+/**
  * Rewrite a forwarded message to look like the original.
  *
  * Without this, forwards are invisible to the pipeline: every vendor extractor
@@ -57,7 +69,23 @@ export function unwrapForward(email: NormalizedEmail): NormalizedEmail {
     ? `${(fromMatch[1] ?? '').trim()} <${fromMatch[2].trim()}>`.trim()
     : email.from;
 
-  return { ...email, from: originalFrom, subject, text: stripForwardHeaders(email.text) };
+  /*
+   * Take the original date when it parses. Gmail writes it as
+   * "Tue, Nov 12, 2024 at 9:11 PM", which `Date` does not accept, so the " at "
+   * is normalised away first.
+   */
+  const rawDate = FORWARDED_DATE.exec(source)?.[1]?.trim();
+  const parsedDate = rawDate ? new Date(rawDate.replace(/\s+at\s+/i, ' ')) : null;
+  const receivedAt =
+    parsedDate && !Number.isNaN(parsedDate.getTime()) ? parsedDate.toISOString() : email.receivedAt;
+
+  return {
+    ...email,
+    from: originalFrom,
+    subject,
+    receivedAt,
+    text: stripForwardHeaders(email.text),
+  };
 }
 
 /**

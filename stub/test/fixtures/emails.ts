@@ -628,3 +628,65 @@ View Mobile Ticket
 Please note - this show is 18+ ONLY.
 Order Total $312.60`,
 };
+
+/**
+ * Ticketmaster titles a production "<ACT><separator><PRODUCTION>", and the
+ * separator is not always a dash. Both of these stored the whole string as the
+ * artist and matched nothing.
+ */
+export const ticketmasterColonTitle: RawEmailInput = {
+  from: 'Ticketmaster <customer_support@email.ticketmaster.com>',
+  subject: 'You Got Tickets To Weezer: Voyage To The Blue Planet Tour 2024',
+  receivedAt: '2024-03-14T12:00:00Z',
+  text: `You Got the Tickets
+Order # 39-00000/NCA
+Weezer: Voyage To The Blue Planet Tour 2024
+Wed · Oct 9, 2024 · 7:00 PM
+Chase Center — San Francisco, California
+Order Total $438.00`,
+};
+
+export const ticketmasterPresentsTitle: RawEmailInput = {
+  from: 'Ticketmaster <customer_support@email.ticketmaster.com>',
+  subject: 'You Got Tickets To Sofi Tukker Presents: Animal Talk (18+)',
+  receivedAt: '2026-04-23T12:00:00Z',
+  text: `You Got the Tickets
+Order # 34-00000/NCA
+Sofi Tukker Presents: Animal Talk
+Sat · Oct 24, 2026 · 8:00 PM
+Cow Palace — Daly City, California
+Order Total $275.00`,
+};
+
+/**
+ * Tixr's SINGLE-NIGHT layout — the common case, and the one the first version
+ * could not read at all.
+ *
+ * The venue line has no comma and the date is not a range, both of which the
+ * festival-shaped parse required. It also carries no year, so the forward's
+ * ORIGINAL date is what resolves it: forwarded in 2026, this show was 2024.
+ */
+export const tixrSingleNight: RawEmailInput = {
+  from: 'Pat Rivera <pat@example.com>',
+  subject: 'Fwd: Order Confirmation: Cash Cash',
+  receivedAt: '2026-08-30T12:00:00Z',
+  text: `---------- Forwarded message ---------
+From: Tixr <no-reply@tixr.com>
+Date: Tue, Nov 12, 2024 at 9:11 PM
+Subject: Order Confirmation: Cash Cash
+To: Pat Rivera <pat@example.com>
+
+Order Confirmation
+Cash Cash
+YOLO Nightclub
+Sat Nov 16 at 10:00 PM
+4 Items
+Ticket Info
+$ 120.00
+4x
+Ticket Tier 2 - $30
+Order Info
+Order Date: 11/12/24
+Order ID: AA0AAAA0AA
+Total Including Fees: $ 135.20`,
+};

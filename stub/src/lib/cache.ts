@@ -63,24 +63,39 @@ export async function getCachedSetlist(
     return { setlist: null, cached: false };
   }
 
-  const recheckAfter = fetched
+  /*
+   * An EMPTY setlist is a miss, not a hit.
+   *
+   * setlist.fm has stub pages: someone creates the gig, nobody logs the songs.
+   * A real KETTAMA show came back `{"sets":{"set":[]}}` with `found: true`,
+   * which put a "Setlist" badge on the Archive card and then showed nothing
+   * behind it. Worse, a hit is cached FOREVER — a past setlist does not change
+   * — so the stub would have been permanent.
+   *
+   * Treating it as a miss both hides the badge and schedules a recheck, which
+   * is right: songs get added to these pages late, and often.
+   */
+  const songs = fetched ? countSongs(fetched) : 0;
+  const isHit = !!fetched && songs > 0;
+
+  const recheckAfter = isHit
     ? null
     : new Date(Date.now() + SETLIST_MISS_RETRY_DAYS * 86_400_000).toISOString();
 
   await admin.from('event_setlists').upsert(
     {
       event_id: eventId,
-      found: !!fetched,
+      found: isHit,
       payload: fetched,
       setlistfm_url: fetched?.url ?? null,
-      song_count: fetched ? countSongs(fetched) : 0,
+      song_count: songs,
       fetched_at: new Date().toISOString(),
       recheck_after: recheckAfter,
     },
     { onConflict: 'event_id' },
   );
 
-  return { setlist: fetched, cached: false };
+  return { setlist: isHit ? fetched : null, cached: false };
 }
 
 // ---------------------------------------------------------------- search

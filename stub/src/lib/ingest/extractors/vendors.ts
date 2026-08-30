@@ -112,6 +112,30 @@ function artistFromSubject(subject: string, strip: RegExp): string | undefined {
   return BOILERPLATE_SUBJECT.test(cleaned) || SENTENCE_SUBJECT.test(cleaned) ? undefined : cleaned;
 }
 
+/**
+ * The searchable act at the front of a Ticketmaster event title.
+ *
+ * Ticketmaster names an event "<ACT><separator><PRODUCTION>", and the
+ * production half matches nothing on any provider. Three real shapes:
+ *
+ *     GARETH EMERY - LSR/CITY: CYBERPUNK      -> GARETH EMERY
+ *     Weezer: Voyage To The Blue Planet Tour  -> Weezer
+ *     Sofi Tukker Presents: Animal Talk       -> Sofi Tukker
+ *
+ * Dash before colon, because a title can carry both and the dash is the outer
+ * separator. "Presents" is then dropped: it introduces the production, it is
+ * not part of the act's name.
+ *
+ * Splitting stays safe when both halves are acts ("Nine Inch Nails - Trent
+ * Reznor") — the leading half is still the right thing to search for.
+ */
+export function leadingAct(title: string): string {
+  const dashed = title.split(/\s+[-–—]\s+/)[0]?.trim() ?? title;
+  const lead = dashed !== title ? dashed : (title.split(/\s*:\s+/)[0]?.trim() ?? title);
+  const withoutPresents = lead.replace(/\s+presents?\s*$/i, '').trim();
+  return withoutPresents.length >= 2 ? withoutPresents : lead;
+}
+
 /** Non-empty, whitespace-trimmed lines. Both text and HTML views pad heavily. */
 function lines(text: string): string[] {
   return text.split('\n').map((l) => l.trim()).filter(Boolean);
@@ -336,8 +360,7 @@ const SPECS: VendorSpec[] = [
        */
       if (title) {
         out.eventName = title;
-        const lead = title.split(/\s+[-–—]\s+/)[0]?.trim();
-        out.artistName = lead && lead.length >= 2 ? cleanArtistName(lead) : title;
+        out.artistName = cleanArtistName(leadingAct(title)) || title;
       }
 
       return out;
@@ -697,25 +720,53 @@ const SPECS: VendorSpec[] = [
       const haystack = text || htmlToText(email.html);
       const all = lines(haystack);
 
-      // "Lightning In A Bottle, Buena Vista Lake" — venue, then location.
+      /*
+       * Two layouts, and the single-night one is the common case:
+       *
+       *   festival                              single night
+       *   ------------------------------------  --------------------
+       *   Lightning in a Bottle 2027            Cash Cash
+       *   Lightning In A Bottle, Buena Vista…   YOLO Nightclub
+       *   Wed May 26 - Sun May 30               Sat Nov 16 at 10:00 PM
+       *
+       * The first version required a comma in the venue line and a date RANGE,
+       * so a plain club booking produced neither venue nor date and was dropped
+       * entirely. Both are now optional shapes rather than requirements.
+       */
       const at = all.findIndex((l) => name && l.trim() === name.trim());
-      const venueLine = at !== -1 ? all[at + 1] : undefined;
-      if (venueLine?.includes(',')) {
+      const block = at !== -1 ? all.slice(at + 1, at + 5) : [];
+
+      const venueLine = block[0];
+      if (venueLine && !/^\d|^[A-Z][a-z]{2}\s/.test(venueLine)) {
+        // "Lightning In A Bottle, Buena Vista Lake" -> the location half.
         const parts = venueLine.split(/\s*,\s*/).filter(Boolean);
-        out.venueName = parts[parts.length - 1] ?? undefined;
+        out.venueName = (parts.length > 1 ? parts[parts.length - 1] : parts[0])?.trim();
       }
 
       /*
-       * A festival title ending in a year is the most reliable date signal in
-       * the message, and the only one that disambiguates a year-less range.
+       * A festival title ending in a year is the most reliable date signal
+       * available, and the only thing that disambiguates a year-less RANGE —
+       * "Wed May 26" in a mail received in June 2026 resolves to 2026 against
+       * the received date, but the festival is 2027.
+       *
+       * A single-night booking has no such conflict: the show is days away, so
+       * the received date is the right reference.
        */
       const titleYear = /\b(20\d{2})\b/.exec(name ?? '')?.[1];
-      const range = all.find((l) => /^[A-Z][a-z]{2}\s+[A-Z][a-z]{2}\s+\d{1,2}\s*[-–—]/.test(l));
+      const range = block.find((l) => /^[A-Z][a-z]{2}\s+[A-Z][a-z]{2}\s+\d{1,2}\s*[-–—]/.test(l));
+
       if (range) {
         const firstDay = range.split(/\s*[-–—]\s*/)[0];
         out.startsAt = titleYear
           ? findDate(`${firstDay} ${titleYear}`)
           : findDate(firstDay, { yearlessReference: email.receivedAt });
+      } else {
+        const single = block.find((l) => /^[A-Z][a-z]{2}\s+[A-Z][a-z]{2}\s+\d{1,2}\b/.test(l));
+        if (single) {
+          out.startsAt = titleYear
+            ? findDate(`${single} ${titleYear}`)
+            : findDate(single, { yearlessReference: email.receivedAt });
+        }
       }
 
       return out;

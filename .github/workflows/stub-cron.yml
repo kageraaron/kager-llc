@@ -25,6 +25,10 @@ on:
     # New-show announcements for followed artists, once a day. Not more: this
     # is a push to a phone, and the news keeps.
     - cron: '0 16 * * *'
+    # Catalog enrichment, daily. Every pass is bounded, idempotent and fills
+    # nulls rather than overwriting, so it is safe unattended — and without a
+    # schedule the artist photos and MusicBrainz identities never fill in at all.
+    - cron: '40 7 * * *'
     # Database keep-alive, daily. Supabase pauses a free project after ~7 days
     # idle; this writes one row so that clock never gets close to running out.
     - cron: '17 6 * * *'
@@ -117,11 +121,21 @@ jobs:
           # is exactly the thing you want to hear about before it happens.
           [ "$code" = "200" ] || { echo "::error::keepalive returned $code"; exit 1; }
 
-      - name: Repair catalog rows
-        # MANUAL ONLY, and not part of "both": this rewrites existing rows, so it
-        # runs when you ask for it and never on a schedule. Idempotent — a second
-        # run finds nothing left to fix.
-        if: github.event_name == 'workflow_dispatch' && inputs.job == 'repair'
+      - name: Repair and enrich catalog rows
+        # Daily, and manually on request.
+        #
+        # This was manual-only on the reasoning that it "rewrites existing
+        # rows". That was too cautious and had a real cost: artist photos and
+        # MusicBrainz identities are filled in HERE, so leaving it unscheduled
+        # meant they were never filled in at all — every club act kept its
+        # initials placeholder indefinitely.
+        #
+        # Every pass is bounded per run, idempotent, and fills nulls rather than
+        # overwriting. The one pass that does rewrite (localized event titles)
+        # only touches strings that are demonstrably a lineup join.
+        if: >-
+          github.event_name == 'schedule' && github.event.schedule == '40 7 * * *' ||
+          github.event_name == 'workflow_dispatch' && inputs.job == 'repair'
         env:
           BASE: ${{ secrets.STUB_BASE_URL }}
           SECRET: ${{ secrets.CRON_SECRET }}

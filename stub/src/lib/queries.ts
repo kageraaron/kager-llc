@@ -318,7 +318,10 @@ export async function getSetlistFlags(
     .from('event_setlists')
     .select('event_id')
     .in('event_id', eventIds)
-    .eq('found', true);
+    .eq('found', true)
+    // A row with no songs is a setlist.fm stub, not a setlist. Badging it puts
+    // a promise on the card that the event page cannot keep.
+    .gt('song_count', 0);
 
   return new Set((data ?? []).map((r) => r.event_id as string));
 }

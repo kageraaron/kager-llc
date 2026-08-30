@@ -4,6 +4,7 @@ import { inferTimezone } from '@/lib/timezone';
 import { getArtistMetadata, isAppConfigured } from '@/lib/providers/spotify';
 import { findArtistImage } from '@/lib/providers/artistImages';
 import { getArtistLinks, resolveMbid } from '@/lib/providers/musicbrainz';
+import { proposeCleanName } from '@/lib/ingest/cleanupNames';
 
 /**
  * One-off repairs for catalog rows written before a provider bug was fixed.
@@ -51,8 +52,13 @@ import { getArtistLinks, resolveMbid } from '@/lib/providers/musicbrainz';
  * photo lookup from a guess into an exact fetch, and it only exists once pass 4
  * has run.
  *
- * Every pass only fills a null or rewrites a title that is demonstrably a
- * lineup join, so nothing a human entered is touched.
+ * **6. Junk artist names.** Rows created by "Add it anyway", which uses the
+ * email's parsed name for both the event and the artist — so a poor parse lands
+ * twice. These have no provider to ask (that is why they exist), so the repair
+ * only ever subtracts recognised noise. See `ingest/cleanupNames`.
+ *
+ * Every pass only fills a null, subtracts known noise, or rewrites a title that
+ * is demonstrably a lineup join. Nothing a human typed is touched.
  */
 
 export const maxDuration = 60;
@@ -106,6 +112,8 @@ export async function GET(request: NextRequest) {
     artistsSkipped: false,
     imagesByName: 0,
     imagesTried: 0,
+    namesCleaned: 0,
+    namesMerged: 0,
     identityResolved: 0,
     identityTried: 0,
     imagesFromId: 0,
@@ -314,6 +322,79 @@ export async function GET(request: NextRequest) {
       .eq('id', artist.id)
       .is('image_url', null);
     if (!error) fixed.imagesByName++;
+  }
+
+  /*
+   * ---- 6. Junk artist names.
+   *
+   * Runs LAST so a renamed artist is picked up by the identity and image passes
+   * on the NEXT run rather than being enriched under its old, wrong name.
+   */
+  const { data: allArtists } = await admin.from('artists').select('id, name, image_url');
+
+  for (const artist of allArtists ?? []) {
+    if (!artist.name) continue;
+    const cleaned = proposeCleanName(artist.name);
+    if (!cleaned) continue;
+
+    /*
+     * The clean name may already exist — "Eric Prydz - Artist Presale" and a
+     * properly-parsed "Eric Prydz" can both be in the catalog. Renaming into it
+     * would create a duplicate of exactly the kind `0021` just merged away, so
+     * fold into the incumbent instead.
+     */
+    const { data: existing } = await admin
+      .from('artists')
+      .select('id, image_url')
+      .ilike('name', cleaned)
+      .neq('id', artist.id)
+      .limit(1)
+      .maybeSingle();
+
+    if (existing) {
+      await admin.from('events').update({ headliner_id: existing.id }).eq('headliner_id', artist.id);
+
+      // Composite keys: insert-then-delete, never update — see `0021`.
+      const { data: links } = await admin
+        .from('event_artists')
+        .select('event_id, billing')
+        .eq('artist_id', artist.id);
+      for (const l of links ?? []) {
+        await admin
+          .from('event_artists')
+          .upsert(
+            { event_id: l.event_id, artist_id: existing.id, billing: l.billing },
+            { onConflict: 'event_id,artist_id', ignoreDuplicates: true },
+          );
+      }
+      await admin.from('event_artists').delete().eq('artist_id', artist.id);
+      await admin.from('user_artists').delete().eq('artist_id', artist.id);
+
+      if (!existing.image_url && artist.image_url) {
+        await admin.from('artists').update({ image_url: artist.image_url }).eq('id', existing.id);
+      }
+      await admin.from('artists').delete().eq('id', artist.id);
+      fixed.namesMerged++;
+      continue;
+    }
+
+    /*
+     * Rename in place, and clear the enrichment markers: the identity and photo
+     * resolved under the old name are about the wrong thing, and the next run
+     * should look again under the corrected one.
+     */
+    const { error } = await admin
+      .from('artists')
+      .update({ name: cleaned, identity_checked_at: null, image_url: null })
+      .eq('id', artist.id);
+    if (error) {
+      console.error('name cleanup failed', { id: artist.id, error: error.message });
+      continue;
+    }
+
+    // The event usually carries the same junk string, for the same reason.
+    await admin.from('events').update({ name: cleaned }).eq('name', artist.name);
+    fixed.namesCleaned++;
   }
 
   return NextResponse.json({ ok: true, ...fixed });
