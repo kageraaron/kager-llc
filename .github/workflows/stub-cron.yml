@@ -19,6 +19,9 @@ on:
     - cron: '*/30 * * * *'
     # Day-before reminders, hourly on the hour.
     - cron: '0 * * * *'
+    # Database keep-alive, daily. Supabase pauses a free project after ~7 days
+    # idle; this writes one row so that clock never gets close to running out.
+    - cron: '17 6 * * *'
   workflow_dispatch:
     inputs:
       job:
@@ -26,7 +29,7 @@ on:
         required: true
         default: 'both'
         type: choice
-        options: [both, gmail-sync, reminders]
+        options: [both, gmail-sync, reminders, keepalive, repair]
 
 concurrency:
   group: stub-cron
@@ -87,3 +90,39 @@ print(json.dumps({'ok': d.get('ok'), 'accounts': d.get('accounts'), 'summary': d
           cat /tmp/rem.json
           echo
           [ "$code" = "200" ] || { echo "::error::reminders returned $code"; exit 1; }
+
+      - name: Keep database awake
+        # Daily schedule fires this; manual runs honour the input. Also runs on
+        # every manual "both", since it is a single cheap request.
+        if: >-
+          github.event_name == 'schedule' && github.event.schedule == '17 6 * * *' ||
+          github.event_name == 'workflow_dispatch' &&
+            (inputs.job == 'both' || inputs.job == 'keepalive')
+        env:
+          BASE: ${{ secrets.STUB_BASE_URL }}
+          SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          code=$(curl -sS -o /tmp/beat.json -w '%{http_code}' --max-time 60 \
+            -H "Authorization: Bearer $SECRET" "$BASE/api/cron/keepalive")
+          echo "HTTP $code"
+          cat /tmp/beat.json
+          echo
+          # This one failing means the project is drifting toward a pause, which
+          # is exactly the thing you want to hear about before it happens.
+          [ "$code" = "200" ] || { echo "::error::keepalive returned $code"; exit 1; }
+
+      - name: Repair catalog rows
+        # MANUAL ONLY, and not part of "both": this rewrites existing rows, so it
+        # runs when you ask for it and never on a schedule. Idempotent — a second
+        # run finds nothing left to fix.
+        if: github.event_name == 'workflow_dispatch' && inputs.job == 'repair'
+        env:
+          BASE: ${{ secrets.STUB_BASE_URL }}
+          SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          code=$(curl -sS -o /tmp/repair.json -w '%{http_code}' --max-time 120 \
+            -H "Authorization: Bearer $SECRET" "$BASE/api/cron/repair")
+          echo "HTTP $code"
+          cat /tmp/repair.json
+          echo
+          [ "$code" = "200" ] || { echo "::error::repair returned $code"; exit 1; }
