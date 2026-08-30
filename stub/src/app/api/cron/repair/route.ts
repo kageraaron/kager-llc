@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { inferTimezone } from '@/lib/timezone';
 import { getArtistMetadata, isAppConfigured } from '@/lib/providers/spotify';
+import { findArtistImage } from '@/lib/providers/artistImages';
 
 /**
  * One-off repairs for catalog rows written before a provider bug was fixed.
@@ -35,11 +36,24 @@ import { getArtistMetadata, isAppConfigured } from '@/lib/providers/spotify';
  * (February 2026 removed the batch endpoint for development-mode apps), so it
  * asks only about artists that have no picture at all.
  *
+ * **4. Artists with no Spotify id at all.** Most of the catalog, in practice —
+ * a Bandsintown or setlist.fm row carries a bare name. Those are looked up by
+ * NAME against free sources (Deezer, then Spotify search), which is the only
+ * way a club-circuit act ever gets a face. See `providers/artistImages`.
+ *
  * Every pass only fills a null or rewrites a title that is demonstrably a
  * lineup join, so nothing a human entered is touched.
  */
 
 export const maxDuration = 60;
+
+/**
+ * Artists to look up per run. Deezer allows 50 requests / 5 seconds, so this is
+ * nowhere near its limit — the constraint is the 60-second function budget.
+ * Whatever is left over is picked up next run, since the filter is simply
+ * "still has no image".
+ */
+const MAX_IMAGE_LOOKUPS = 60;
 
 /** Same separator set as the provider's `titleFor`, for the same reason. */
 const TITLE_SEPARATORS =
@@ -63,7 +77,15 @@ export async function GET(request: NextRequest) {
   }
 
   const admin = createAdminClient();
-  const fixed = { venueZones: 0, eventZones: 0, titles: 0, artists: 0, artistsSkipped: false };
+  const fixed = {
+    venueZones: 0,
+    eventZones: 0,
+    titles: 0,
+    artists: 0,
+    artistsSkipped: false,
+    imagesByName: 0,
+    imagesTried: 0,
+  };
 
   // ---- 1a. Venue zones, derived from the region we already store.
   const { data: venues } = await admin
@@ -177,6 +199,35 @@ export async function GET(request: NextRequest) {
         .is('image_url', null);
       if (!error) fixed.artists++;
     }
+  }
+
+  /*
+   * ---- 4. Artist photos by NAME, from free sources.
+   *
+   * Runs after pass 3, so anything the Spotify id path already resolved is
+   * skipped. Bounded per run: this is a memory app's cosmetic layer, not
+   * something worth spending the whole function budget on, and the next run
+   * picks up where this one stopped because the filter is "still has no image".
+   */
+  const { data: faceless } = await admin
+    .from('artists')
+    .select('id, name')
+    .is('image_url', null)
+    .limit(MAX_IMAGE_LOOKUPS);
+
+  for (const artist of faceless ?? []) {
+    if (!artist.name) continue;
+    fixed.imagesTried++;
+
+    const found = await findArtistImage(artist.name);
+    if (!found) continue;
+
+    const { error } = await admin
+      .from('artists')
+      .update({ image_url: found.url })
+      .eq('id', artist.id)
+      .is('image_url', null);
+    if (!error) fixed.imagesByName++;
   }
 
   return NextResponse.json({ ok: true, ...fixed });

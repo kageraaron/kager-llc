@@ -16,6 +16,7 @@ import {
   formatEventDate,
   formatEventTime,
   initials,
+  ticketVendorName,
   venueLine,
 } from '@/lib/format';
 import { NoteEditor } from '@/components/NoteEditor';
@@ -168,7 +169,7 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
             target="_blank"
             rel="noreferrer noopener"
           >
-            Open on Ticketmaster
+            Open on {ticketVendorName(event.url) ?? 'the ticket site'}
           </a>
         )}
       </div>

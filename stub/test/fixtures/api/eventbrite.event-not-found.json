@@ -1,0 +1,14 @@
+{
+  "recordedAt": "2026-08-30",
+  "url": "https://www.eventbriteapi.com/v3/events/1/",
+  "status": 404,
+  "headers": {
+    "content-type": "application/json",
+    "x-rate-limit": "token:<redacted-EVENTBRITE_API_KEY> 4/2000 reset=3520s, key:QZF7LRXAILN4B2W5PX 4/2000 reset=3520s"
+  },
+  "body": {
+    "status_code": 404,
+    "error_description": "The event you requested does not exist.",
+    "error": "NOT_FOUND"
+  }
+}

@@ -22,6 +22,9 @@ on:
     - cron: '*/30 * * * *'
     # Day-before reminders, hourly on the hour.
     - cron: '0 * * * *'
+    # New-show announcements for followed artists, once a day. Not more: this
+    # is a push to a phone, and the news keeps.
+    - cron: '0 16 * * *'
     # Database keep-alive, daily. Supabase pauses a free project after ~7 days
     # idle; this writes one row so that clock never gets close to running out.
     - cron: '17 6 * * *'
@@ -32,7 +35,7 @@ on:
         required: true
         default: 'both'
         type: choice
-        options: [both, gmail-sync, reminders, keepalive, repair]
+        options: [both, gmail-sync, reminders, announce, keepalive, repair]
 
 concurrency:
   group: stub-cron
@@ -129,3 +132,19 @@ jobs:
           cat /tmp/repair.json
           echo
           [ "$code" = "200" ] || { echo "::error::repair returned $code"; exit 1; }
+
+      - name: Announce new shows
+        if: >-
+          github.event_name == 'schedule' && github.event.schedule == '0 16 * * *' ||
+          github.event_name == 'workflow_dispatch' &&
+          (inputs.job == 'both' || inputs.job == 'announce')
+        env:
+          BASE: ${{ secrets.STUB_BASE_URL }}
+          SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          code=$(curl -sS -o /tmp/ann.json -w '%{http_code}' --max-time 120 \
+            -H "Authorization: Bearer $SECRET" "$BASE/api/cron/announce")
+          echo "HTTP $code"
+          cat /tmp/ann.json
+          echo
+          [ "$code" = "200" ] || { echo "::error::announce returned $code"; exit 1; }

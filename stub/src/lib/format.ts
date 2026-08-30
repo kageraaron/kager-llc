@@ -131,3 +131,41 @@ export function formatQuantity(quantity?: number | null): string | null {
   if (quantity === null || quantity === undefined || quantity < 1) return null;
   return `${quantity} ticket${quantity === 1 ? '' : 's'}`;
 }
+
+/**
+ * Which site an event URL actually points at.
+ *
+ * The event page hard-coded "Open on Ticketmaster", but `events.url` is written
+ * by whichever provider won the match — so a Bandsintown-sourced show offered a
+ * Ticketmaster button that opened bandsintown.com. Five providers write this
+ * column; only one of them is Ticketmaster.
+ *
+ * Falls back to the bare hostname rather than a guess, so an unrecognised
+ * vendor still gets an honest label.
+ */
+const VENDOR_HOSTS: [RegExp, string][] = [
+  [/(^|\.)ticketmaster\./i, 'Ticketmaster'],
+  [/(^|\.)livenation\./i, 'Live Nation'],
+  [/(^|\.)eventbrite\./i, 'Eventbrite'],
+  [/(^|\.)bandsintown\.com$/i, 'Bandsintown'],
+  [/(^|\.)spotify\.com$/i, 'Spotify'],
+  [/(^|\.)jambase\.com$/i, 'JamBase'],
+  [/(^|\.)dice\.fm$/i, 'DICE'],
+  [/(^|\.)axs\.com$/i, 'AXS'],
+  [/(^|\.)seetickets\./i, 'See Tickets'],
+  [/(^|\.)setlist\.fm$/i, 'setlist.fm'],
+];
+
+export function ticketVendorName(url?: string | null): string | null {
+  if (!url) return null;
+  let host: string;
+  try {
+    host = new URL(url).hostname;
+  } catch {
+    return null;
+  }
+  for (const [pattern, name] of VENDOR_HOSTS) {
+    if (pattern.test(host)) return name;
+  }
+  return host.replace(/^www\./, '');
+}

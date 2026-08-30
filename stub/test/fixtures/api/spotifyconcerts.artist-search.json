@@ -1,0 +1,741 @@
+{
+  "recordedAt": "2026-08-30",
+  "url": "https://spotify81.p.rapidapi.com/partner/search-concert-artists?query=Silva%20Bumpa&details=true&parsed=true",
+  "status": 200,
+  "headers": {
+    "content-type": "application/json; charset=utf-8",
+    "x-ratelimit-requests-remaining": "966"
+  },
+  "body": {
+    "success": true,
+    "data": {
+      "artist": {
+        "id": "2dPLkqesvPXpIlP65JoLrf",
+        "uri": "spotify:artist:2dPLkqesvPXpIlP65JoLrf",
+        "name": "Silva Bumpa",
+        "imageUrl": "https://i.scdn.co/image/ab6761610000e5ebd52a564d068eb5b06ad3bd25"
+      },
+      "concerts": {
+        "concerts": [
+          {
+            "id": "1cWJyvWq75SuamFtKUrSOs",
+            "uri": "spotify:concert:1cWJyvWq75SuamFtKUrSOs",
+            "title": "Silva Bumpa y Dean Turnley",
+            "startDateIsoString": "2026-09-27T22:00-07:00",
+            "city": "San Francisco",
+            "country": "US",
+            "region": "CA",
+            "venueName": "Monarch",
+            "venueUri": "spotify:venue:4a9o74auIB2iAVrR0xV91F",
+            "venueId": "4a9o74auIB2iAVrR0xV91F",
+            "coordinates": {
+              "latitude": 37.7809861,
+              "longitude": -122.4085
+            },
+            "metroArea": {
+              "fullName": "San Francisco",
+              "geonameId": "5391959"
+            },
+            "festival": false,
+            "status": "UNKNOWN",
+            "doorsOpenTimeIsoString": null,
+            "shareUrl": "https://open.spotify.com/concert/1cWJyvWq75SuamFtKUrSOs",
+            "artists": [
+              {
+                "name": "Silva Bumpa"
+              },
+              {
+                "name": "Dean Turnley"
+              }
+            ],
+            "details": {
+              "id": "1cWJyvWq75SuamFtKUrSOs",
+              "uri": "spotify:concert:1cWJyvWq75SuamFtKUrSOs",
+              "title": "Silva Bumpa y Dean Turnley",
+              "status": "UNKNOWN",
+              "startDateIsoString": "2026-09-27T22:00-07:00",
+              "doorsOpenTimeIsoString": null,
+              "ageRestriction": "",
+              "festival": false,
+              "venue": {
+                "uri": "spotify:venue:4a9o74auIB2iAVrR0xV91F",
+                "id": "4a9o74auIB2iAVrR0xV91F",
+                "name": "Monarch"
+              },
+              "location": {
+                "name": "Monarch",
+                "city": "San Francisco",
+                "country": "US",
+                "region": "CA",
+                "coordinates": {
+                  "latitude": 37.7809861,
+                  "longitude": -122.4085
+                },
+                "metroArea": {
+                  "fullName": "San Francisco",
+                  "geonameId": "5391959"
+                }
+              },
+              "artists": [
+                {
+                  "id": "2dPLkqesvPXpIlP65JoLrf",
+                  "uri": "spotify:artist:2dPLkqesvPXpIlP65JoLrf",
+                  "name": "Silva Bumpa",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5ebd52a564d068eb5b06ad3bd25",
+                  "headerImageUrl": "https://image-cdn-ak.spotifycdn.com/image/ab676186000001942db766eda112625fbd3b54d3",
+                  "colorHex": null,
+                  "hasMerch": true
+                },
+                {
+                  "id": "3BcWcwYXVjvLWHMGKsuvsd",
+                  "uri": "spotify:artist:3BcWcwYXVjvLWHMGKsuvsd",
+                  "name": "Dean Turnley",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5ebeaab6c2f430d35bce8b88240",
+                  "headerImageUrl": "https://image-cdn-ak.spotifycdn.com/image/ab67618600000194c743d19d18c4313d5354cb6f",
+                  "colorHex": null,
+                  "hasMerch": true
+                }
+              ],
+              "concepts": [
+                {
+                  "uri": "spotify:concept:7dzORpKTe08HJboBhZ0d7K",
+                  "name": "uk garage",
+                  "weight": 93.92631530761719
+                },
+                {
+                  "uri": "spotify:concept:1J9pUDx6minjAWzoY3j9jv",
+                  "name": "house",
+                  "weight": 69.63455772399902
+                },
+                {
+                  "uri": "spotify:concept:4VlgQccQC9pNnZgoI7hKXp",
+                  "name": "dance",
+                  "weight": 51.79922354221344
+                },
+                {
+                  "uri": "spotify:concept:0OBG1pylaHZZ2myejxJZ4c",
+                  "name": "electrónica",
+                  "weight": 35.546138286590576
+                },
+                {
+                  "uri": "spotify:concept:1avnPtQt8J7iV8Q9qulkcr",
+                  "name": "tech house",
+                  "weight": 9.43721628189087
+                }
+              ],
+              "offers": [
+                {
+                  "provider": "Eventbrite",
+                  "providerImageUrl": "https://tickets.spotifycdn.com/partner-assets/eventbrite.png",
+                  "url": "https://prf.hn/click/camref:1101l3IrXq/pubref:/tsource:Display/ar:%3A1cWJyvWq75SuamFtKUrSOs/eventid:1cWJyvWq75SuamFtKUrSOs/destination:https%3A%2F%2Fwww.eventbrite.com%2Fe%2F1998116550390%3Faff%3Debopdstspotify",
+                  "urlType": "EVENT_PAGE",
+                  "saleType": "on-sale",
+                  "availability": "AVAILABLE",
+                  "accessCode": "1998116550390",
+                  "hasPromoCodes": false,
+                  "firstParty": false,
+                  "currency": null,
+                  "minPrice": null,
+                  "maxPrice": null,
+                  "startDateIsoString": "2026-08-20T19:00:00Z",
+                  "endDateIsoString": "2026-09-28T06:30:00Z"
+                }
+              ],
+              "shareUrl": "https://open.spotify.com/concert/1cWJyvWq75SuamFtKUrSOs"
+            }
+          },
+          {
+            "id": "75c5w96wBGfhXqGakhJ2aW",
+            "uri": "spotify:concert:75c5w96wBGfhXqGakhJ2aW",
+            "title": "Silva Bumpa",
+            "startDateIsoString": "2026-09-04T22:00-05:00",
+            "city": "Chicago",
+            "country": "US",
+            "region": "IL",
+            "venueName": "Radius",
+            "venueUri": "spotify:venue:4zXxLi45vMHH1BEP7yYGgo",
+            "venueId": "4zXxLi45vMHH1BEP7yYGgo",
+            "coordinates": {
+              "latitude": 41.8526859,
+              "longitude": -87.6425721
+            },
+            "metroArea": {
+              "fullName": "Chicago",
+              "geonameId": "4887398"
+            },
+            "festival": false,
+            "status": "UNKNOWN",
+            "doorsOpenTimeIsoString": "2026-09-04T22:00-05:00",
+            "shareUrl": "https://open.spotify.com/concert/75c5w96wBGfhXqGakhJ2aW",
+            "artists": [
+              {
+                "name": "Silva Bumpa"
+              }
+            ],
+            "details": {
+              "id": "75c5w96wBGfhXqGakhJ2aW",
+              "uri": "spotify:concert:75c5w96wBGfhXqGakhJ2aW",
+              "title": "Silva Bumpa",
+              "status": "UNKNOWN",
+              "startDateIsoString": "2026-09-04T22:00-05:00",
+              "doorsOpenTimeIsoString": "2026-09-04T22:00-05:00",
+              "ageRestriction": "",
+              "festival": false,
+              "venue": {
+                "uri": "spotify:venue:4zXxLi45vMHH1BEP7yYGgo",
+                "id": "4zXxLi45vMHH1BEP7yYGgo",
+                "name": "Radius"
+              },
+              "location": {
+                "name": "Radius",
+                "city": "Chicago",
+                "country": "US",
+                "region": "IL",
+                "coordinates": {
+                  "latitude": 41.8526859,
+                  "longitude": -87.6425721
+                },
+                "metroArea": {
+                  "fullName": "Chicago",
+                  "geonameId": "4887398"
+                }
+              },
+              "artists": [
+                {
+                  "id": "2dPLkqesvPXpIlP65JoLrf",
+                  "uri": "spotify:artist:2dPLkqesvPXpIlP65JoLrf",
+                  "name": "Silva Bumpa",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5ebd52a564d068eb5b06ad3bd25",
+                  "headerImageUrl": "https://image-cdn-ak.spotifycdn.com/image/ab676186000001942db766eda112625fbd3b54d3",
+                  "colorHex": null,
+                  "hasMerch": true
+                }
+              ],
+              "concepts": [
+                {
+                  "uri": "spotify:concept:7dzORpKTe08HJboBhZ0d7K",
+                  "name": "uk garage",
+                  "weight": 46.963157653808594
+                },
+                {
+                  "uri": "spotify:concept:1J9pUDx6minjAWzoY3j9jv",
+                  "name": "house",
+                  "weight": 31.159507751464844
+                },
+                {
+                  "uri": "spotify:concept:4VlgQccQC9pNnZgoI7hKXp",
+                  "name": "dance",
+                  "weight": 25.034006118774414
+                },
+                {
+                  "uri": "spotify:concept:0OBG1pylaHZZ2myejxJZ4c",
+                  "name": "electrónica",
+                  "weight": 15.28963851928711
+                },
+                {
+                  "uri": "spotify:concept:1avnPtQt8J7iV8Q9qulkcr",
+                  "name": "tech house",
+                  "weight": 2.4978129863739014
+                }
+              ],
+              "offers": [
+                {
+                  "provider": "AXS",
+                  "providerImageUrl": "https://tickets.spotifycdn.com/partner-assets/axs.png",
+                  "url": "https://prf.hn/click/camref:1101lu4oX/pubref:/tsource:Display/ar:%3A75c5w96wBGfhXqGakhJ2aW/eventid:75c5w96wBGfhXqGakhJ2aW/destination:https%3A%2F%2Fwww.axs.com%2Fevents%2F1582169%2Fchris-stassy-after-dark-tickets%3Fcid%3Daffspotify%26sharedId%3D%26subId1%3D%26subId3%3D75c5w96wBGfhXqGakhJ2aW",
+                  "urlType": "TICKET_PAGE",
+                  "saleType": "on-sale",
+                  "availability": "AVAILABLE",
+                  "accessCode": "1582169",
+                  "hasPromoCodes": false,
+                  "firstParty": false,
+                  "currency": null,
+                  "minPrice": null,
+                  "maxPrice": null,
+                  "startDateIsoString": "2026-08-21T17:00:00Z",
+                  "endDateIsoString": "2026-09-05T10:00:00Z"
+                }
+              ],
+              "shareUrl": "https://open.spotify.com/concert/75c5w96wBGfhXqGakhJ2aW"
+            }
+          },
+          {
+            "id": "3jtCKgkr4wOdiSMi6ZKWLK",
+            "uri": "spotify:concert:3jtCKgkr4wOdiSMi6ZKWLK",
+            "title": "ARC Music Festival 2026",
+            "startDateIsoString": "2026-09-04T17:00-05:00",
+            "city": "Chicago",
+            "country": "US",
+            "region": "IL",
+            "venueName": "Union Park",
+            "venueUri": "spotify:venue:2yA4B0DVS21L7euauboDxr",
+            "venueId": "2yA4B0DVS21L7euauboDxr",
+            "coordinates": {
+              "latitude": 41.8839452,
+              "longitude": -87.6655371
+            },
+            "metroArea": {
+              "fullName": "Chicago",
+              "geonameId": "4887398"
+            },
+            "festival": true,
+            "status": "UNKNOWN",
+            "doorsOpenTimeIsoString": null,
+            "shareUrl": "https://open.spotify.com/concert/3jtCKgkr4wOdiSMi6ZKWLK",
+            "artists": [
+              {
+                "name": "Azzecca"
+              },
+              {
+                "name": "Ben UFO"
+              },
+              {
+                "name": "Brunello"
+              },
+              {
+                "name": "Chase & Status"
+              },
+              {
+                "name": "CHRIS STASSY"
+              },
+              {
+                "name": "Cristoph"
+              },
+              {
+                "name": "Eli & Fur"
+              },
+              {
+                "name": "GENESI"
+              },
+              {
+                "name": "IDEMI"
+              },
+              {
+                "name": "INVT"
+              },
+              {
+                "name": "Joy Orbison"
+              },
+              {
+                "name": "KI/KI"
+              },
+              {
+                "name": "Korolova"
+              },
+              {
+                "name": "KASIA"
+              },
+              {
+                "name": "Luke Dean"
+              },
+              {
+                "name": "Mau P"
+              },
+              {
+                "name": "Max Dean"
+              },
+              {
+                "name": "MEDUZA"
+              },
+              {
+                "name": "Notre Dame"
+              },
+              {
+                "name": "Prospa"
+              },
+              {
+                "name": "Pegassi"
+              },
+              {
+                "name": "Sara Landry"
+              },
+              {
+                "name": "Silva Bumpa"
+              },
+              {
+                "name": "The Black Madonna"
+              },
+              {
+                "name": "Tiga"
+              },
+              {
+                "name": "ZULAN"
+              },
+              {
+                "name": "camoufly"
+              },
+              {
+                "name": "canary yellow"
+              },
+              {
+                "name": "mischluft"
+              }
+            ],
+            "details": {
+              "id": "3jtCKgkr4wOdiSMi6ZKWLK",
+              "uri": "spotify:concert:3jtCKgkr4wOdiSMi6ZKWLK",
+              "title": "ARC Music Festival 2026",
+              "status": "UNKNOWN",
+              "startDateIsoString": "2026-09-04T17:00-05:00",
+              "doorsOpenTimeIsoString": null,
+              "ageRestriction": "",
+              "festival": true,
+              "venue": {
+                "uri": "spotify:venue:2yA4B0DVS21L7euauboDxr",
+                "id": "2yA4B0DVS21L7euauboDxr",
+                "name": "Union Park"
+              },
+              "location": {
+                "name": "Union Park",
+                "city": "Chicago",
+                "country": "US",
+                "region": "IL",
+                "coordinates": {
+                  "latitude": 41.8839452,
+                  "longitude": -87.6655371
+                },
+                "metroArea": {
+                  "fullName": "Chicago",
+                  "geonameId": "4887398"
+                }
+              },
+              "artists": [
+                {
+                  "id": "2k5DY2QDU3kBi5DX7OQlWj",
+                  "uri": "spotify:artist:2k5DY2QDU3kBi5DX7OQlWj",
+                  "name": "Azzecca",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5ebd34603065ae649a222d138c6",
+                  "headerImageUrl": "https://image-cdn-ak.spotifycdn.com/image/ab676186000001942473cac0028a416f07c9efbe",
+                  "colorHex": null,
+                  "hasMerch": true
+                },
+                {
+                  "id": "44j1ebTzFis2TUjf7boDpM",
+                  "uri": "spotify:artist:44j1ebTzFis2TUjf7boDpM",
+                  "name": "Ben UFO",
+                  "imageUrl": "https://i.scdn.co/image/ab67616d0000b273819cfb3f891635a288a44818",
+                  "headerImageUrl": null,
+                  "colorHex": null,
+                  "hasMerch": true
+                },
+                {
+                  "id": "7FZIk8RSha4GBa4ZEPuytU",
+                  "uri": "spotify:artist:7FZIk8RSha4GBa4ZEPuytU",
+                  "name": "Brunello",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5ebf09aeff34e4a5c220d6627a5",
+                  "headerImageUrl": "https://image-cdn-ak.spotifycdn.com/image/ab67618600000194b92af4c91d7832f00f777f8d",
+                  "colorHex": null,
+                  "hasMerch": true
+                },
+                {
+                  "id": "3jNkaOXasoc7RsxdchvEVq",
+                  "uri": "spotify:artist:3jNkaOXasoc7RsxdchvEVq",
+                  "name": "Chase & Status",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5ebf90a880bf5313e0eb14c05c9",
+                  "headerImageUrl": "https://image-cdn-ak.spotifycdn.com/image/ab6761860000019488fe983aaac5d21fc917a539",
+                  "colorHex": null,
+                  "hasMerch": true
+                },
+                {
+                  "id": "3BxjasMelf9pKaE4f7Y0So",
+                  "uri": "spotify:artist:3BxjasMelf9pKaE4f7Y0So",
+                  "name": "CHRIS STASSY",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5eb4cc3d7f3a3274ecfe6692aa6",
+                  "headerImageUrl": "https://image-cdn-ak.spotifycdn.com/image/ab67618600000194886eeb2fe263c3ba0bf443d4",
+                  "colorHex": null,
+                  "hasMerch": true
+                },
+                {
+                  "id": "532SqCIYmJyXEdEiCJLgYG",
+                  "uri": "spotify:artist:532SqCIYmJyXEdEiCJLgYG",
+                  "name": "Cristoph",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5eb5c0dc438cc96e8e21f50ab4b",
+                  "headerImageUrl": "https://image-cdn-ak.spotifycdn.com/image/ab676186000001945936714b22a06376a7f00c74",
+                  "colorHex": null,
+                  "hasMerch": true
+                },
+                {
+                  "id": "5CkVLGKUJkIc1pmSk10QP4",
+                  "uri": "spotify:artist:5CkVLGKUJkIc1pmSk10QP4",
+                  "name": "Eli & Fur",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5ebfa24a6dc97cf2fc0b329c773",
+                  "headerImageUrl": "https://image-cdn-ak.spotifycdn.com/image/ab67618600000194f19338c373656fc2068fbce0",
+                  "colorHex": null,
+                  "hasMerch": true
+                },
+                {
+                  "id": "4OG9hOPsfAEziKvOJj2SG7",
+                  "uri": "spotify:artist:4OG9hOPsfAEziKvOJj2SG7",
+                  "name": "GENESI",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5ebd8ca415eb84795f2fd696dee",
+                  "headerImageUrl": "https://image-cdn-ak.spotifycdn.com/image/ab67618600000194f76f21c7c657b7e7fa71b5bc",
+                  "colorHex": null,
+                  "hasMerch": true
+                },
+                {
+                  "id": "09OK5GXLbMSjg8lOb4wRVT",
+                  "uri": "spotify:artist:09OK5GXLbMSjg8lOb4wRVT",
+                  "name": "IDEMI",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5eb94d55cf814a5969f814ac232",
+                  "headerImageUrl": "https://image-cdn-ak.spotifycdn.com/image/ab67618600000194702f176f0d1abd99fe38cd01",
+                  "colorHex": null,
+                  "hasMerch": true
+                },
+                {
+                  "id": "7iS41tYQBUyJsZYcxCse0D",
+                  "uri": "spotify:artist:7iS41tYQBUyJsZYcxCse0D",
+                  "name": "INVT",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5ebe79a7b87607d9a2118d97305",
+                  "headerImageUrl": "https://image-cdn-ak.spotifycdn.com/image/ab676186000001949f9caf0bc671aefb3011aa63",
+                  "colorHex": null,
+                  "hasMerch": true
+                },
+                {
+                  "id": "0aIpJqqTLf683ojWREc5lg",
+                  "uri": "spotify:artist:0aIpJqqTLf683ojWREc5lg",
+                  "name": "Joy Orbison",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5eb2987a128276c87b2f944b167",
+                  "headerImageUrl": "https://image-cdn-ak.spotifycdn.com/image/ab676186000001945beb64e32dd7d58244eb58b8",
+                  "colorHex": null,
+                  "hasMerch": true
+                },
+                {
+                  "id": "0UMs6dTf23FC2fHc40fXNS",
+                  "uri": "spotify:artist:0UMs6dTf23FC2fHc40fXNS",
+                  "name": "KI/KI",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5eb24922d9e27ed94a52ff1f3c4",
+                  "headerImageUrl": "https://image-cdn-fa.spotifycdn.com/image/ab67618600000194a0c69b78b232bb6e1707f00f",
+                  "colorHex": null,
+                  "hasMerch": true
+                },
+                {
+                  "id": "0I6oCyQQ1Q50q97y9B9gAx",
+                  "uri": "spotify:artist:0I6oCyQQ1Q50q97y9B9gAx",
+                  "name": "Korolova",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5ebcc42b2d875feb8081e4980f1",
+                  "headerImageUrl": "https://image-cdn-fa.spotifycdn.com/image/ab6761860000019443aed85477fb66360c09dbea",
+                  "colorHex": null,
+                  "hasMerch": true
+                },
+                {
+                  "id": "7eHoBIirKPLD1FtgLZnjFV",
+                  "uri": "spotify:artist:7eHoBIirKPLD1FtgLZnjFV",
+                  "name": "KASIA",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5ebf7fc63cdf6c13c84dc32a9d6",
+                  "headerImageUrl": null,
+                  "colorHex": null,
+                  "hasMerch": true
+                },
+                {
+                  "id": "2BhXOZ96YbOdXz8F6HVUw4",
+                  "uri": "spotify:artist:2BhXOZ96YbOdXz8F6HVUw4",
+                  "name": "Luke Dean",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5ebbc6eeb6d6f071d9e6b64fd17",
+                  "headerImageUrl": null,
+                  "colorHex": null,
+                  "hasMerch": true
+                },
+                {
+                  "id": "0w1sbtZVQoK6GzV4A4OkCv",
+                  "uri": "spotify:artist:0w1sbtZVQoK6GzV4A4OkCv",
+                  "name": "Mau P",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5eb19e9a2b64d09e0dcbd3c5541",
+                  "headerImageUrl": "https://image-cdn-ak.spotifycdn.com/image/ab67618600000194ae49e7c69411c8b9568a622b",
+                  "colorHex": null,
+                  "hasMerch": true
+                },
+                {
+                  "id": "65TLDWbTJxYASqadmNAxvc",
+                  "uri": "spotify:artist:65TLDWbTJxYASqadmNAxvc",
+                  "name": "Max Dean",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5eb5908620bcbe1c73de2ae008f",
+                  "headerImageUrl": "https://image-cdn-ak.spotifycdn.com/image/ab67618600000194ff807518f64813d265832297",
+                  "colorHex": null,
+                  "hasMerch": true
+                },
+                {
+                  "id": "0xRXCcSX89eobfrshSVdyu",
+                  "uri": "spotify:artist:0xRXCcSX89eobfrshSVdyu",
+                  "name": "MEDUZA",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5eb1b3b3325a43e81577b03b9c9",
+                  "headerImageUrl": "https://image-cdn-ak.spotifycdn.com/image/ab67618600000194cb27126dc25d42f1e1e4c0bb",
+                  "colorHex": null,
+                  "hasMerch": true
+                },
+                {
+                  "id": "6Q1Ps2F5LkdxLAM6S7KPpt",
+                  "uri": "spotify:artist:6Q1Ps2F5LkdxLAM6S7KPpt",
+                  "name": "Notre Dame",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5eb1d1abb37b56a5b00befa40f0",
+                  "headerImageUrl": "https://image-cdn-ak.spotifycdn.com/image/ab676186000001948ad3f559e8efcda3f9b9c8ca",
+                  "colorHex": null,
+                  "hasMerch": true
+                },
+                {
+                  "id": "6HabM2PUM519iIxervGWSb",
+                  "uri": "spotify:artist:6HabM2PUM519iIxervGWSb",
+                  "name": "Prospa",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5eb695aceda1a09af723204d1d7",
+                  "headerImageUrl": "https://image-cdn-ak.spotifycdn.com/image/ab6761860000019445f8d346979d096747e426e4",
+                  "colorHex": null,
+                  "hasMerch": true
+                },
+                {
+                  "id": "2A4uiWrfuBpVFugyvxAt4c",
+                  "uri": "spotify:artist:2A4uiWrfuBpVFugyvxAt4c",
+                  "name": "Pegassi",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5eb0492c9bbea6f50188301df76",
+                  "headerImageUrl": null,
+                  "colorHex": null,
+                  "hasMerch": true
+                },
+                {
+                  "id": "7eILArMiTFTQf8SEh5fFHK",
+                  "uri": "spotify:artist:7eILArMiTFTQf8SEh5fFHK",
+                  "name": "Sara Landry",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5eb708646b1b7df2b176f8a585f",
+                  "headerImageUrl": "https://image-cdn-ak.spotifycdn.com/image/ab6761860000019454379cc432c58a6f73cb4cf1",
+                  "colorHex": null,
+                  "hasMerch": true
+                },
+                {
+                  "id": "2dPLkqesvPXpIlP65JoLrf",
+                  "uri": "spotify:artist:2dPLkqesvPXpIlP65JoLrf",
+                  "name": "Silva Bumpa",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5ebd52a564d068eb5b06ad3bd25",
+                  "headerImageUrl": "https://image-cdn-ak.spotifycdn.com/image/ab676186000001942db766eda112625fbd3b54d3",
+                  "colorHex": null,
+                  "hasMerch": true
+                },
+                {
+                  "id": "2nNEvsyPzLwKVZrfkwLpNK",
+                  "uri": "spotify:artist:2nNEvsyPzLwKVZrfkwLpNK",
+                  "name": "The Black Madonna",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5eb63998a2c60b8b23c93962147",
+                  "headerImageUrl": "https://image-cdn-ak.spotifycdn.com/image/ab676186000001946e5b0da6919bc0ac077708b7",
+                  "colorHex": null,
+                  "hasMerch": true
+                },
+                {
+                  "id": "5l9wiTZVfqQTfMDOt0HtwC",
+                  "uri": "spotify:artist:5l9wiTZVfqQTfMDOt0HtwC",
+                  "name": "Tiga",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5eb4cadec9a07cd964d1420a7bc",
+                  "headerImageUrl": "https://image-cdn-fa.spotifycdn.com/image/ab676186000001945c46e253b20cb7aa05c6c06a",
+                  "colorHex": null,
+                  "hasMerch": true
+                },
+                {
+                  "id": "2Yz9F5lQVc0p6SDxkw2BvF",
+                  "uri": "spotify:artist:2Yz9F5lQVc0p6SDxkw2BvF",
+                  "name": "ZULAN",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5eb1990aad605000ba36b1ad725",
+                  "headerImageUrl": "https://image-cdn-ak.spotifycdn.com/image/ab676186000001949ed8b58932d923c94fa9f064",
+                  "colorHex": null,
+                  "hasMerch": true
+                },
+                {
+                  "id": "6ZmJg6NCjGmRgC2GEI86pQ",
+                  "uri": "spotify:artist:6ZmJg6NCjGmRgC2GEI86pQ",
+                  "name": "camoufly",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5ebdbee33b433eda976bc7f665f",
+                  "headerImageUrl": "https://image-cdn-ak.spotifycdn.com/image/ab6761860000019405541d813e71da998d48859e",
+                  "colorHex": null,
+                  "hasMerch": true
+                },
+                {
+                  "id": "6dGWL8hxc3I833xMD6ycBv",
+                  "uri": "spotify:artist:6dGWL8hxc3I833xMD6ycBv",
+                  "name": "canary yellow",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5eb7c7084703733a22d3e0da619",
+                  "headerImageUrl": "https://image-cdn-ak.spotifycdn.com/image/ab6761860000019492b3730977514a0861f73ee5",
+                  "colorHex": null,
+                  "hasMerch": true
+                },
+                {
+                  "id": "6IPWduBm255hSxmAcNoHjF",
+                  "uri": "spotify:artist:6IPWduBm255hSxmAcNoHjF",
+                  "name": "mischluft",
+                  "imageUrl": "https://i.scdn.co/image/ab6761610000e5eb40f6f1570e54c1a3c9767797",
+                  "headerImageUrl": "https://image-cdn-ak.spotifycdn.com/image/ab67618600000194d6f2a308cdddeb59c5655874",
+                  "colorHex": null,
+                  "hasMerch": true
+                }
+              ],
+              "concepts": [
+                {
+                  "uri": "spotify:concept:0OBG1pylaHZZ2myejxJZ4c",
+                  "name": "electrónica",
+                  "weight": 4114.513164818287
+                },
+                {
+                  "uri": "spotify:concept:3wnxK73pBdUC6ChDOt0z86",
+                  "name": "electrónica",
+                  "weight": 3260.15708732605
+                },
+                {
+                  "uri": "spotify:concept:1J9pUDx6minjAWzoY3j9jv",
+                  "name": "house",
+                  "weight": 2831.414540708065
+                },
+                {
+                  "uri": "spotify:concept:1J3L1KXNtAAv7AnRVVORti",
+                  "name": "electro",
+                  "weight": 2802.4058009386063
+                },
+                {
+                  "uri": "spotify:concept:0d5BcmOXdnNbXcgd7KiZrl",
+                  "name": "edm",
+                  "weight": 2437.907412290573
+                }
+              ],
+              "offers": [
+                {
+                  "provider": "Bandsintown",
+                  "providerImageUrl": "https://tickets.spotifycdn.com/partner-assets/bandsintown.png",
+                  "url": "https://www.bandsintown.com/t/108069315?ticket_id=2027171204&app_id=spt_feed&came_from=281&utm_medium=web&utm_source=spt_feed&utm_campaign=ticket",
+                  "urlType": "TICKET_PAGE",
+                  "saleType": "on-sale",
+                  "availability": "UNKNOWN",
+                  "accessCode": "213093_0904",
+                  "hasPromoCodes": false,
+                  "firstParty": false,
+                  "currency": null,
+                  "minPrice": null,
+                  "maxPrice": null,
+                  "startDateIsoString": "2023-01-01T00:00:00Z",
+                  "endDateIsoString": "2026-09-04T22:00:00Z"
+                }
+              ],
+              "shareUrl": "https://open.spotify.com/concert/3jtCKgkr4wOdiSMi6ZKWLK"
+            }
+          }
+        ]
+      },
+      "detailsEnriched": 20,
+      "error": null
+    },
+    "metadata": {
+      "query": "Silva Bumpa",
+      "geoHash": "0",
+      "includeNearby": true,
+      "limit": 1,
+      "details": true,
+      "parsed": true,
+      "detailsLimit": 20,
+      "matchedArtists": [
+        {
+          "id": "2dPLkqesvPXpIlP65JoLrf",
+          "name": "Silva Bumpa"
+        }
+      ],
+      "timestamp": "2026-08-30T18:34:05.995Z",
+      "source": "pathfinder-v2",
+      "operations": [
+        "searchDesktop",
+        "ArtistConcerts",
+        "concert"
+      ]
+    }
+  }
+}

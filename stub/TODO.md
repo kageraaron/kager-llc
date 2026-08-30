@@ -14,12 +14,12 @@ Ordered by what blocks what. **§1 is the only section that blocks sharing it.**
 | **Prod DB** | `biichwtrfmrdgiqtvxme`, all **19** migrations applied |
 | **Prod keys** | `RAPID_API_KEY` and `PARSE_API_KEY` both set. Bandsintown is live on the next deploy |
 | **Dev DB** | `syrsjdreydgblrwpalyw`, seeded, all **19** migrations |
-| **Tests** | **162** offline passing; live suites for queries, geocode, Spotify concerts, Spotify Web API, Eventbrite |
+| **Tests** | **203** offline passing; live suites for queries, geocode, Spotify concerts, Spotify Web API, Eventbrite |
 | **Providers wired** | **Eventbrite**, Ticketmaster, JamBase, Spotify/RapidAPI, Bandsintown/Parse, setlist.fm, MusicBrainz, Nominatim |
 | **Email vendors parsed** | Ticketmaster, AXS, DICE, Eventbrite, See Tickets/Eventim, Frontgate, TicketWeb, Etix |
 
-**Blocking a wider share:** Google OAuth test-user list (§1.2) · a domain (§1.4)
-· VAPID keys (§1.5) · security review (§6). *(Deployment Protection and
+**Blocking a wider share:** Google OAuth test-user list (§1.2) · a domain (§1.4,
+which also gates a proper `VAPID_SUBJECT`) · security review (§6). *(Deployment Protection and
 `RAPID_API_KEY` are both resolved — share `stub-two.vercel.app`, not a
 per-deployment URL.)*
 
@@ -123,18 +123,66 @@ Environment Variables**, scoped per environment.
 
 ### 1.4 Buy a domain (~$10/yr)
 
-Unblocks four things at once:
+Unblocks five things at once:
 
 - **Forward-to-inbox** (`FEATURE_FORWARD_INBOX`) — needs DNS on Cloudflare for
   Email Routing. See `workers/email-router/README.md`.
 - A stable OAuth redirect URI that doesn't change per deploy.
 - A real PWA install identity (icon + name on the home screen).
 - Somewhere to point `INBOUND_EMAIL_DOMAIN`.
+- **A role address for `VAPID_SUBJECT`** — see below.
+
+#### `VAPID_SUBJECT` wants a role address, not a personal one — **BLOCKED on the domain**
+
+`VAPID_SUBJECT` is the contact address push services (Apple, Google, Mozilla)
+use to reach the operator when an app's pushes misbehave. It is sent with every
+push, so it should be a **role address on the app's own domain** —
+`mailto:push@<domain>` or `mailto:stub@<domain>` — not the maintainer's personal
+inbox.
+
+Two reasons, and the second is the one that bites:
+
+- It is operational contact metadata, and putting a personal address in it means
+  a third party's abuse desk mails a human's private inbox.
+- It is set once per deployment and easy to forget. Changing it later means
+  remembering it exists — this note is that reminder.
+
+**Until the domain exists**, set it to any real mailbox you monitor so pushes
+work at all: **Apple REJECTS a placeholder subject**, so an unset or fake value
+means iOS pushes fail silently while Android and desktop succeed — a failure
+that presents as a device bug rather than a config one. Swap it for the role
+address the day DNS is live, in `.env.local` **and** Vercel.
+
+#### Two more contact addresses want the same treatment
+
+`MUSICBRAINZ_USER_AGENT` and `NOMINATIM_USER_AGENT` are both still on the
+`you@example.com` placeholder. These are not cosmetic: **both services require a
+real contact in the User-Agent as a condition of use**, and both are documented
+as blocking clients that do not provide one. Nominatim in particular enforces
+hard.
+
+So the domain actually unblocks **three** contact addresses, all of which should
+be role addresses rather than anyone's personal inbox:
+
+| Variable | Sent to | Set to |
+|---|---|---|
+| `VAPID_SUBJECT` | Apple / Google / Mozilla push services | `mailto:push@<domain>` |
+| `MUSICBRAINZ_USER_AGENT` | MusicBrainz | `Stub/0.1.0 ( contact@<domain> )` |
+| `NOMINATIM_USER_AGENT` | OpenStreetMap Nominatim | `Stub/0.1.0 ( contact@<domain> )` |
+
+Do all three in the same pass, in `.env.local` **and** Vercel.
 
 ### 1.5 Remaining keys
 
-- `VAPID_PUBLIC_KEY` / `VAPID_PRIVATE_KEY` — `npx web-push generate-vapid-keys`.
-  Push code is built; nothing sends without these.
+- ~~`VAPID_PUBLIC_KEY` / `VAPID_PRIVATE_KEY`~~ — **done 2026-08-30**, in
+  `.env.local` and Vercel. Verified `web-push` accepts them.
+- `VAPID_SUBJECT` — **currently unset**, so it falls back to a placeholder and
+  iOS pushes will fail. Needs a real mailbox now and a role address on the
+  domain later; see §1.4.
+- `EVENTBRITE_API_KEY` — **done 2026-08-30**, in `.env.local` and Vercel.
+- `SPOTIFY_CLIENT_ID` / `SPOTIFY_CLIENT_SECRET` — **done 2026-08-30**. Only the
+  client-credentials flow is used (artist artwork); no redirect URI needed for
+  it, and the 5-user cap does not apply.
 - ~~`SETLISTFM_API_KEY`~~ — **done**, in `.env.local`. Still needs adding to Vercel.
 
 ### 1.6 Deployment: Vercel Hobby caps crons at once per day
@@ -338,23 +386,62 @@ so accepted friends see it under `visibility = 'friends'`; `notes` stays
 owner-only with no friend path in RLS. The UI says which is which, since they
 sit inches apart on the same page.
 
-**3. "Artist you follow just announced a show"** — *Bandsintown's whole product.* **M**
-You already have `user_artists` (favourites), `push_subscriptions`, and a cron
-runner. Missing piece: a nightly job that queries Ticketmaster per followed
-artist, diffs against `events`, and pushes on new rows. Reuse
-`sent_reminders` for dedupe.
+~~**3. "Artist you follow just announced a show"**~~ — **DONE 2026-08-30.**
+`api/cron/announce`, daily at 16:00 UTC.
+
+Diffs `user_artists` against upcoming `events` and pushes, deduping on
+`sent_reminders` with `kind = 'announce'`. Skips shows the user is already
+attending, and anything more than a year out.
+
+Two implementation notes worth keeping:
+
+- **It claims the send before pushing.** The `sent_reminders` insert IS the
+  dedupe, and its primary key makes it atomic, so a concurrent run loses the
+  race and skips instead of double-notifying. Pushing first and recording after
+  would double-send whenever the write failed.
+- **It announces from the local catalog, not a per-artist provider sweep.** The
+  catalog is shared, so an artist's new date usually arrives via someone else's
+  ingestion at zero provider cost. The honest trade-off: **an artist nobody has
+  searched for will not announce.** A bounded Ticketmaster refresh for followed
+  artists is the natural next step — free at 5,000/day — and slots in ahead of
+  the diff without changing anything else.
+
+**VAPID_SUBJECT must be a real `mailto:`.** Apple's push service rejects a
+placeholder, so leaving it unset means iOS pushes fail while every other
+platform succeeds — a failure that looks like a device bug.
 
 **4. Friend activity feed** — **M**
 Friends' plans exist only as a list on `/friends`. A chronological "Marisol is
 going to X", "Dev rated Y" feed is what makes a social app feel alive.
 
-**5. Year in review** — **M**
-Shows seen, venues, top artists, total spent (`price_cents` is already captured
-from ticket emails — nobody else has this data). Very shareable.
+~~**5. Year in review**~~ — **DONE 2026-08-30.** `/year/[year]`, linked from each
+Archive year heading. Shows, distinct artists, venues, cities, total spent,
+tickets bought, first-time artists, average rating, most-seen artist and venue,
+busiest month, and the year's first and last show.
+
+Two things worth keeping right:
+
+- **Honest totals.** A show with no receipt is *unknown*, not free. Spend and
+  ticket counts report the denominator they cover (`from 3 of 11 with a
+  receipt`) rather than implying the total is complete, and return null rather
+  than 0 when nothing is priced.
+- **Years are bucketed in the VENUE's zone.** A 9pm New Year's Eve show in San
+  Francisco is `2026-01-01T04:00:00Z`; bucketing on the stored instant files it
+  under the wrong year — the same class of bug as the 5 AM card. Tested.
+
+Costs nothing to serve: it is a pure function over rows `/archive` already
+fetches, so no extra query and no provider call.
 
 **6. Venue following** — *Songkick's differentiator.* **M**
 `user_venues` mirroring `user_artists`. Strong for people who follow a local room
 rather than specific acts.
+
+~~**Setlists on Archive cards**~~ — **DONE 2026-08-30.** A "Setlist" pill on any
+archived card whose setlist is already cached. Reads `event_setlists` only —
+**no setlist.fm calls** — because it is the strictest limit we deal with and one
+lookup per Archive row would be both slow and a good way to get 403'd. The
+consequence, stated plainly: a show whose setlist exists but has never been
+opened shows no pill until someone opens it once.
 
 **7. Photos per show** — **M**
 Supabase Storage is already wired for avatars. Same pattern, new bucket. Turns
@@ -1710,6 +1797,169 @@ The card now offers *Yes, that's the show* / *Use email details* / *Not a
 ticket*. "Use email details" (`createEventFromCandidate`, which already existed
 for the no-match case) is the only path that cannot be wrong about which show it
 is — it invents nothing, every field came off the confirmation.
+
+---
+
+## 5.20.1 Two smaller fixes from the same report — 2026-08-30
+
+**"Open on Ticketmaster" opened Bandsintown.** The event page hard-coded the
+label, but `events.url` is written by whichever provider won the match — five of
+them do, and only one is Ticketmaster. `ticketVendorName()` now derives the
+label from the URL host, falling back to the bare hostname rather than guessing,
+so an unrecognised vendor still gets an honest button.
+
+**Eventbrite was not overwriting a localized name on reconcile.** It took the
+zone and the id but left `name` alone, so a row Browse had already created from
+Spotify kept "Silva Bumpa y Dean Turnley" even though the first-party name was
+in hand. That contradicted the ordering principle §5.16 had just established.
+Eventbrite now takes the name outright on reconcile, for the same reason it
+takes the zone: the incumbent's value is not merely absent, it is worse.
+
+`url` and `image_url` are still left to the incumbent — there a richer provider
+genuinely may have had something better first.
+
+### Is the Spanish title rebuild still needed? — **yes, but barely**
+
+Worth writing down because it is a reasonable thing to want to delete. Since
+`displayEventName` started preferring the headliner, the localized *event* name
+reaches almost nothing: cards, the ICS feed, the calendar subscription and the
+push reminders all render `headliner?.name`. It now surfaces in exactly two
+places — the event page subtitle, and the matcher's `similarity(name, c.name)`.
+
+Still load-bearing for a Spotify-only show (Overmono at Public Works involves no
+Eventbrite at all), so it stays. But its blast radius is a fraction of what it
+was when it was written, and if the Spotify concerts provider is ever dropped,
+`titleFor` goes with it.
+
+---
+
+## 5.21 Songkick scraping — evaluated and declined — 2026-08-30
+
+Proposed: fork [Integuru-AI/Songkick-Unofficial-API](https://github.com/Integuru-AI/Songkick-Unofficial-API)
+as a provider to save metered credits. **Not doing it**, for four reasons in
+descending order of how hard they are to argue with.
+
+1. **The repo has no licence.** 1 star, 0 forks, no `LICENSE` file — which under
+   default copyright means all rights reserved. There is no legal basis to fork
+   it. This alone settles it.
+2. **Songkick clearly does not want it.** `robots.txt` enumerates and blocks
+   scrapers and AI agents by name — `import.io`, `CCBot`, `ClaudeBot`,
+   `PerplexityBot`, `Google-Extended`, `AhrefsBot` and a dozen more. There is no
+   blanket `Disallow: /`, but the intent is not ambiguous.
+3. **It duplicates a provider we already have working.** Songkick and
+   Bandsintown cover substantially the same ground, and Bandsintown started
+   actually functioning once the envelope bug was fixed (§5.18). Songkick's real
+   differentiator is *venue following*, which is a feature to build on our own
+   data, not a data source to acquire.
+4. **It would add a fourth silent-failure surface.** Three provider bugs in one
+   day were all invisible because they failed quietly into a cascade. A scraper
+   is the most fragile possible version of that — it breaks on a CSS change,
+   with no version, no changelog and no error.
+
+**Where the credits actually go, and what already relieves it.** The scarce
+providers are Bandsintown (200/month) and Spotify via RapidAPI (1,000/month),
+and both are spent on the same thing: placing a club show. Three cheaper sources
+now absorb most of that before either is reached — Eventbrite (free, 2,000/hour,
+first-party, §5.16), setlist.fm (free, past shows, §5.22) and the shared local
+catalog, which is the first cache and costs nothing. Adding a scraper would save
+credits that are increasingly not being spent.
+
+---
+
+## 5.22 setlist.fm as a matcher, and the JamBase succession plan — 2026-08-30
+
+Wired `search/setlists?artistName=&date=` into the cascade for **past-dated
+tickets only**. Measured against a real unmatched inbox: 4 of 6 found (Kaskade
+at Pier 48, Chris Lake at Pier 48, KETTAMA at The Regency, Chris Lorenzo at
+Moscone), the two misses being small club nights.
+
+It sits ahead of Bandsintown's past-events endpoint because it is free and
+better targeted — one query for an exact artist+date, versus a credit to resolve
+a slug plus another to pull fifty dates. It is a no-op on any future-dated
+ticket.
+
+**This is also the answer to JamBase lapsing.** JamBase is a 14-day trial, not a
+free tier. When it goes, the gap is specifically Browse's *location* search:
+setlist.fm covers the past, Eventbrite covers anything bought through it, and
+Ticketmaster covers what it sells. Nothing free currently answers "what is on
+near me" except Ticketmaster, which is blind to the club circuit — that is the
+hole to plan for, and it is not one a Songkick scraper would fill legally.
+
+---
+
+## 5.23 Notifications, now that VAPID keys exist — 2026-08-30
+
+Two new pushes, both deliberately hard to trigger.
+
+**New-show announcements** (`api/cron/announce`, §3.3) — daily.
+
+**Scan results** (`lib/notifyScan.ts`, fired from the Gmail cron) — only when a
+run **added** a show or queued one **to review**, never on a quiet pass. The
+scan runs every 30 minutes and finds nothing almost every time; a "found
+nothing" push twice an hour is how someone turns notifications off for good.
+The copy leads with the review count when there is one, because an added show
+needs no action and a review item is a question.
+
+Both are best-effort: a push failure never fails the work that produced it, and
+a 404/410 prunes the dead subscription.
+
+**`VAPID_SUBJECT` must be a real `mailto:`.** Apple rejects a placeholder, so an
+unset value means iOS pushes fail while every other platform succeeds — which
+presents as a device bug rather than a config one.
+
+---
+
+## 5.24 Positioning: a memory app, not a discovery app — 2026-08-30
+
+Decided this session, and it re-ranks most of the backlog.
+
+Search and purchase are well served by Bandsintown, DICE and the ticket vendors
+themselves. What nobody does is the *stub in your pocket after the show*. So
+Browse leaves the tab bar and **`/add` takes its slot**.
+
+- `/browse` still exists and still works — no links break, and it is reachable
+  from `/add`. It is simply not one of the five things the app puts in front of
+  you.
+- Manual entry moved out of Browse to its own route. It had been a sub-feature
+  of discovery, which is backwards: the shows worth recording are often exactly
+  the ones no listing service ever had — a club night, a warehouse party,
+  something from 2017.
+
+**What this changes about provider spend.** The budget now goes on *enriching
+what you already have* rather than on searching for what you might want. Free,
+cacheable enrichment is the priority; metered search is not. That makes the
+JamBase lapse (§5.22) much less threatening — its value was location search,
+which is the thing we just deprioritised.
+
+### Artist photos — the most visible gap in a memory app
+
+A card with no picture is the failure you notice, and the event providers are
+unreliable about artwork for exactly the acts this app is for: Ticketmaster and
+JamBase have it only for what they sell, the Spotify concerts proxy only in its
+`details` view, Bandsintown not at all.
+
+`providers/artistImages` fills it by NAME, from free sources only:
+
+| Source | Cost | Notes |
+|---|---|---|
+| **Deezer** | **no API key at all** | 50 req/5s. Measured 5/5 exact hits |
+| **Spotify search** | free | Needs app credentials; `limit` caps at 10 in dev mode |
+
+Backfilled by pass 4 of `api/cron/repair`, bounded at 60 artists per run and
+resumable — the filter is simply "still has no image", so the next run continues.
+`artists.image_url` is the permanent cache; nothing re-queries a resolved artist.
+
+**The matching bar, and the case that set it.** Every candidate goes through
+`namesMatch` before being accepted, because a search endpoint with no relevance
+floor always returns *something* and a stranger's face on someone's memory is
+worse than initials.
+
+But strict equality was wrong. **Chris Stussy renamed himself to CHRIS STASSY** —
+so Deezer holds the old spelling, Spotify the new one, and our own row whatever
+the ticket email said, which is usually the oldest of the three. All are correct;
+equality would reject whichever source happened to be current. `namesMatch`
+therefore allows one character of difference on names of 8+ characters — enough
+for a rename, not enough to merge "Kiss" and "Kish".
 
 ---
 

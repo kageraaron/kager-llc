@@ -42,19 +42,19 @@ export default async function UpcomingPage() {
           {gmail ? (
             <p>
               Stub is watching {gmail.status === 'active' ? 'your inbox' : 'your inbox (reconnect needed)'} for
-              ticket confirmations. Nothing found yet — add a show from Browse in the meantime.
+              ticket confirmations. Nothing found yet — add one by hand in the meantime.
             </p>
           ) : (
             <p>
               Connect Gmail and Stub will find ticket confirmations on its own.
-              Or add a show by hand from Browse.
+              Or add one by hand.
             </p>
           )}
           <div className="stack" style={{ marginTop: 20, maxWidth: 260, marginInline: 'auto' }}>
             {!gmail && (
               <Link className="btn btn-primary btn-block" href="/settings/connections">Connect Gmail</Link>
             )}
-            <Link className={`btn btn-block ${gmail ? 'btn-primary' : ''}`} href="/browse">Find a show</Link>
+            <Link className={`btn btn-block ${gmail ? 'btn-primary' : ''}`} href="/add">Add a show</Link>
           </div>
         </div>
       ) : (

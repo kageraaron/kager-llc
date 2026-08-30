@@ -1,0 +1,13 @@
+{
+  "recordedAt": "2026-08-30",
+  "url": "https://accounts.spotify.com/api/token",
+  "status": 200,
+  "headers": {
+    "content-type": "application/json"
+  },
+  "body": {
+    "access_token": "<redacted-access_token>",
+    "token_type": "Bearer",
+    "expires_in": 3600
+  }
+}

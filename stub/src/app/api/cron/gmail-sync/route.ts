@@ -11,6 +11,7 @@ import {
   parseGmailMessage,
 } from '@/lib/providers/gmail';
 import { ingestEmail } from '@/lib/ingest/pipeline';
+import { notifyScanResults } from '@/lib/notifyScan';
 
 /**
  * Scheduled Gmail scan. Runs every 30 minutes (see vercel.json crons).
@@ -116,6 +117,13 @@ export async function GET(request: NextRequest) {
           status: 'active',
         })
         .eq('id', account.id);
+
+      /*
+       * Tell the user only when the scan actually found something. A silent
+       * scan is the normal case — it runs every 30 minutes — and a "found
+       * nothing" push twice an hour is how someone turns notifications off.
+       */
+      await notifyScanResults(admin, account.user_id, counts);
 
       summary.push({ email: account.email, scanned: messageIds.length, ...counts });
     } catch (err) {

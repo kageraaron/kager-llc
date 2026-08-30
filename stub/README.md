@@ -1,9 +1,15 @@
 # Stub
 
-Concert tracker with automatic ticket detection. Where the Shop app scans your
-inbox for tracking numbers, Stub scans it for **ticket confirmations** and
-populates the shows you're going to — with manual add as the fallback when it
-can't read one.
+Concert **memory** app with automatic ticket detection. Where the Shop app scans
+your inbox for tracking numbers, Stub scans it for **ticket confirmations** and
+builds a record of the shows you're going to and the ones you've been to.
+
+**It is not a discovery app.** Search and purchase are things other apps already
+do well; the `/browse` route still exists but is not in the tab bar. The job here
+is the stub in your pocket after the show — the date, the room, the lineup, the
+setlist, what you paid, who else went. That framing decides most trade-offs
+below, and in particular it is why the provider budget goes on *enriching what
+you already have* rather than on searching for what you might want.
 
 Next.js PWA, installable to the iOS home screen. Runs on free tiers end to end.
 
@@ -17,6 +23,7 @@ Next.js PWA, installable to the iOS home screen. Runs on free tiers end to end.
 | Upcoming / Archive tabs, manual add | Built |
 | Going / Interested shown on the Upcoming list | Built |
 | Ticket count and price per order, parsed and editable | Built |
+| Year in review (shows, venues, spend, top artist) | Built |
 | Private notes (owner-only, enforced in RLS) | Built |
 | Friends-going on events | Built |
 | Friend invite links, and sending an event to a friend | Built |
@@ -26,13 +33,16 @@ Next.js PWA, installable to the iOS home screen. Runs on free tiers end to end.
 | Forward-to-inbox address | Built, **switched off** — needs a domain |
 | Bandsintown deep search + detail enrichment | Built — needs a Parse key |
 | setlist.fm archive import | Built |
+| setlist.fm matching for past-dated tickets | Built |
+| Setlist badge on Archive cards (cached only, no API calls) | Built |
 | Spotify favorites import | Built, capped at 5 users by Spotify |
 | Spotify artist artwork (client credentials, no user cap) | Built — fallback only |
 | Supabase keep-alive (free tier pauses after 7 days idle) | Built — GitHub Actions cron |
-| Web push day-before reminders | Built — add VAPID keys to send |
+| Web push day-before reminders | Built |
+| "Artist you follow announced a show" push | Built |
 | Sign in with Apple, Apple Music import | **Not built** — needs paid Apple Developer |
 
-## Three constraints worth knowing before you start
+## Five constraints worth knowing before you start
 
 1. **Gmail's `gmail.readonly` is a restricted scope.** Production use requires
    Google verification plus an annual CASA Tier 2 assessment. Stub stays in OAuth
@@ -44,6 +54,71 @@ Next.js PWA, installable to the iOS home screen. Runs on free tiers end to end.
    an optional import connection only.
 3. **Apple needs $99/yr.** Sign in with Apple and MusicKit both require an active
    Apple Developer Program membership. Both are stubbed with TODOs.
+4. **Nothing *lists* a show that already happened.** Every listing provider drops
+   an event once it is over, so a years-back mailbox scan mostly fills the review
+   Inbox rather than the Archive. Two sources answer the past — **setlist.fm**
+   (free, tried first) and Bandsintown's past-events endpoint (a credit, tried
+   second). Good coverage for touring acts, patchy for small club nights.
+5. **JamBase is a 14-day trial, not a free tier.** When it lapses the specific
+   gap is Browse's *location* search. The past is covered by setlist.fm,
+   purchases by Eventbrite, arena shows by Ticketmaster — but nothing free
+   answers "what is on near me" except Ticketmaster, which is blind to the club
+   circuit. That is the hole to plan for.
+
+## Operational patterns
+
+Hard-won, mostly from things that failed silently. Worth reading before changing
+anything in `lib/providers/` or `.github/workflows/`.
+
+- **Migrations gate deploys.** `getPendingCount` runs in the app *layout*, so a
+  table it queries missing from prod takes down every authenticated page, not
+  one route. Apply migrations **before** pushing. This has bitten once — TODO
+  §5.17.
+- **Validate workflow YAML.** `npm run lint:workflows`. The cron file was
+  unparseable from the day it was written — a heredoc at column 0 closed a block
+  scalar — so nothing ran for two days, with no error anywhere a person would
+  look. TODO §5.19.
+- **Provider responses are recorded, not hand-mocked.** `npm run fixtures:record`
+  captures real responses to `test/fixtures/api/`; `test/transport.test.ts`
+  replays them through the real clients, offline. Three provider bugs in one day
+  were invisible to a green suite because they lived between `fetch` and the
+  normalizer, which nothing exercised. An unmatched request **throws** rather
+  than reaching the network. Re-record when a provider changes shape and *read
+  the diff*. Secrets are scrubbed from the whole serialized fixture, not just
+  known field names — Eventbrite echoes your private token back in
+  `x-rate-limit`, which leaked it into a committed file on the first run.
+- **Provider failures are silent by design.** `matchTicket` catches a provider
+  error and continues down the cascade, which is right for resilience and
+  dangerous for debugging: a completely broken provider looks exactly like one
+  with no results. Transport code needs its own tests.
+- **Push is deliberately hard to trigger.** `api/cron/announce` (a followed
+  artist has a new show) and the Gmail scan (`lib/notifyScan.ts`, only when a run
+  *added* or *queued for review*, never on a quiet pass — it runs every 30
+  minutes and finds nothing almost every time). Both claim their dedupe row
+  before sending, so a concurrent run skips rather than double-notifying, and
+  both prune a subscription on 404/410.
+- **`VAPID_SUBJECT` must be a real, monitored `mailto:`.** Apple rejects a
+  placeholder, so an unset value means iOS pushes fail silently while Android and
+  desktop work. Prefer a role address on the app's domain over a personal inbox —
+  TODO §1.4.
+- **`api/cron/repair`** is a manual, idempotent `workflow_dispatch` job for rows
+  written before a provider bug was fixed. Re-ingesting does *not* work:
+  ingestion dedupes on a content hash, so a confirmation read once is skipped
+  forever. Rows must be repaired in place.
+- **`api/cron/keepalive`** writes one row daily. Supabase pauses a free project
+  after ~7 days idle. Scheduled from GitHub Actions, not `vercel.json` — Hobby
+  caps crons at two and both slots are taken.
+- **Artist photos come from free sources, by name.** `providers/artistImages` —
+  Deezer first (no API key at all, 50 req/5s), then Spotify search (free, but
+  needs credentials). Backfilled by `api/cron/repair`. This exists because the
+  *event* providers are unreliable about artwork for exactly the club-circuit
+  acts this app is for, and a blank thumbnail is the most visible failure in a
+  memory app. Every candidate goes through `namesMatch` first: a wrong face on
+  someone's memory is worse than initials.
+- **We do not scrape.** A Songkick scraper was evaluated and declined: the
+  candidate library has no licence, Songkick's `robots.txt` names and blocks
+  scrapers explicitly, it duplicates Bandsintown, and it would add a fourth
+  silent-failure surface. TODO §5.21.
 
 ## Setup
 
@@ -211,10 +286,21 @@ Gmail poller ─┐
 Email Worker ─┘                                        └─> review Inbox (<0.80)
 
   match cascade, first-party then cheapest, STOPS at the first confident answer:
-  Eventbrite ──> Ticketmaster ──> JamBase ──> Spotify ──> Bandsintown
-   ~free, and       ~free          trial     1 req/mo     1 credit
-   DEFINITIVE                                            (+1 for past shows)
+  Eventbrite ─> Ticketmaster ─> JamBase ─> Spotify ─> setlist.fm ─> Bandsintown
+   ~free, and      ~free         trial    1 req/mo    free, PAST     1 credit
+   DEFINITIVE                                         shows only   (+1 past)
 ```
+
+**Why setlist.fm sits where it does.** It answers one question nothing else can
+— "did this artist play here on this date" — and it is free, so it goes ahead of
+Bandsintown's past-events endpoint, which charges a credit to resolve a slug and
+another to pull fifty dates. It is a no-op on any ticket for a show that has not
+happened yet. Measured on a real unmatched inbox: 4 of 6 past tickets found.
+
+**It is also the JamBase succession plan.** JamBase is a 14-day trial, not a free
+tier. When it lapses, location search is the gap — setlist.fm covers the past,
+Eventbrite covers anything bought through it, and Ticketmaster covers what it
+sells. Browse's location query is what will need rethinking.
 
 ```
 BROWSE — interactive, fires on typing, volume is high
@@ -421,9 +507,11 @@ Measured against the four providers as wired today.
    against JamBase, Spotify and Bandsintown independently. Only the last two are
    cached under a shared key.
 5. **JamBase is a 14-day trial, not a free tier.** Every call site already
-   degrades via `isConfigured()`, but when it lapses, location search has no
+   degrades via `isConfigured()`. When it lapses, *location* search has no good
    replacement — Spotify has no location endpoint and Bandsintown's is unusable
-   (below). Ticketmaster is the only fallback and it is much thinner.
+   (below), leaving only Ticketmaster, which is much thinner. Matching is less
+   exposed than it was: Eventbrite and setlist.fm now absorb the first-party and
+   past-show cases for free. See TODO §5.22.
 
 ### Three things about Bandsintown that do not work as documented
 

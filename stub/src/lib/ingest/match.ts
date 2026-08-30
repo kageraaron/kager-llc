@@ -7,6 +7,8 @@ import type { SpotifyConcert } from '@/lib/providers/spotifyconcerts';
 import * as bandsintown from '@/lib/providers/bandsintown';
 import type { BITEvent } from '@/lib/providers/bandsintown';
 import * as eventbrite from '@/lib/providers/eventbrite';
+import * as setlistfm from '@/lib/providers/setlistfm';
+import type { SFMSetlist } from '@/lib/providers/setlistfm';
 import type { EBEvent } from '@/lib/providers/eventbrite';
 import {
   cachedArtistConcerts,
@@ -89,6 +91,7 @@ export type CandidateSource =
   | 'ticketmaster'
   | 'jambase'
   | 'spotify'
+  | 'setlistfm'
   | 'bandsintown';
 
 export interface CatalogCandidate {
@@ -102,7 +105,7 @@ export interface CatalogCandidate {
   startsAt: string | null;
   venueName: string | null;
   city: string | null;
-  raw: TMEvent | JBEvent | SpotifyConcert | BITEvent | EBEvent;
+  raw: TMEvent | JBEvent | SpotifyConcert | BITEvent | EBEvent | SFMSetlist;
 }
 
 function msOrNull(iso: string | null): number | null {
@@ -126,6 +129,30 @@ export function fromEventbrite(ev: EBEvent): CatalogCandidate {
     venueName: ev.venueName,
     city: ev.city,
     raw: ev,
+  };
+}
+
+/**
+ * A setlist.fm setlist, as a candidate.
+ *
+ * `eventDate` is `dd-MM-yyyy` with no time — a setlist records the night, not
+ * the doors. Anchored at 20:00 local so it lands in the right calendar day
+ * rather than at midnight UTC, which for a US show is the previous afternoon.
+ * The date term in `scoreCandidate` gives full credit inside 24 hours, so the
+ * approximation costs nothing.
+ */
+export function fromSetlistFm(sl: SFMSetlist, searched?: string): CatalogCandidate {
+  const [day, month, year] = sl.eventDate.split('-');
+  const city = sl.venue?.city;
+  return {
+    source: 'setlistfm',
+    id: sl.id,
+    artistName: sl.artist?.name ?? searched ?? null,
+    name: sl.artist?.name ?? sl.venue?.name ?? '',
+    startsAt: `${year}-${month}-${day}T20:00:00`,
+    venueName: sl.venue?.name ?? null,
+    city: city?.name ?? null,
+    raw: sl,
   };
 }
 
@@ -361,6 +388,23 @@ async function eventbriteCandidates(ticket: ParsedTicket): Promise<CatalogCandid
   return [fromEventbrite(event)];
 }
 
+/**
+ * Past shows, from the one free database of gigs that definitely happened.
+ *
+ * Runs ONLY for a past-dated ticket, because that is the only case no other
+ * provider can serve — everything else in the cascade lists what is on sale.
+ * Free, one request, and no id to resolve first, so it goes ahead of
+ * Bandsintown's past-events endpoint, which costs two credits for the same job.
+ */
+async function setlistfmCandidates(ticket: ParsedTicket): Promise<CatalogCandidate[]> {
+  const keyword = ticket.artistName ?? ticket.eventName;
+  if (!keyword || !ticket.startsAt || !isPastTicket(ticket)) return [];
+  if (!process.env.SETLISTFM_API_KEY) return [];
+
+  const setlists = await setlistfm.searchSetlists(keyword, ticket.startsAt);
+  return setlists.slice(0, 5).map((sl) => fromSetlistFm(sl, keyword));
+}
+
 async function jambaseCandidates(ticket: ParsedTicket): Promise<CatalogCandidate[]> {
   const keyword = ticket.artistName ?? ticket.eventName;
   if (!keyword || !jambase.isConfigured()) return [];
@@ -498,6 +542,12 @@ export async function matchTicket(ticket: ParsedTicket): Promise<MatchResult> {
     { source: 'ticketmaster', run: async () => (await findCandidatesForTicket(ticket)).map(fromTicketmaster) },
     { source: 'jambase', run: () => jambaseCandidates(ticket) },
     { source: 'spotify', run: () => spotifyCandidates(ticket) },
+    /*
+     * Past-dated tickets only, and free — so it sits ahead of Bandsintown,
+     * which charges two credits to answer the same question. A no-op on any
+     * ticket for a show that has not happened yet.
+     */
+    { source: 'setlistfm', run: () => setlistfmCandidates(ticket) },
     { source: 'bandsintown', run: () => bandsintownCandidates(ticket) },
   ];
 

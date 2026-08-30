@@ -23,9 +23,11 @@ interface Props {
   state?: string | null;
   /** 1-5 when the viewer has rated this show. */
   rating?: number | null;
+  /** A setlist is already cached for this show — see `getSetlistFlags`. */
+  hasSetlist?: boolean;
 }
 
-export function EventCard({ event, friends, badge, state, rating }: Props) {
+export function EventCard({ event, friends, badge, state, rating, hasSetlist }: Props) {
   // Not `event.timezone` directly: a provider that gave us no zone would render
   // this card in the server's zone, which is UTC. See `eventZone`.
   const zone = eventZone(event);
@@ -60,9 +62,10 @@ export function EventCard({ event, friends, badge, state, rating }: Props) {
           <div style={{ marginTop: 5 }}><Stars rating={rating} /></div>
         )}
 
-        {(friends?.length || badge || attending) && (
+        {(friends?.length || badge || attending || hasSetlist) && (
           <div className="row" style={{ marginTop: 7 }}>
             {attending && <span className={`pill pill-${attending.tone}`}>{attending.label}</span>}
+            {hasSetlist && <span className="pill">Setlist</span>}
             {badge && <span className={`pill ${badge.tone ? `pill-${badge.tone}` : ''}`}>{badge.label}</span>}
             {friends && friends.length > 0 && (
               <div className="row" style={{ gap: 6 }}>

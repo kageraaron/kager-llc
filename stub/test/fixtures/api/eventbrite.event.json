@@ -1,0 +1,106 @@
+{
+  "recordedAt": "2026-08-30",
+  "url": "https://www.eventbriteapi.com/v3/events/1998116550390/?expand=venue",
+  "status": 200,
+  "headers": {
+    "content-type": "application/json",
+    "x-rate-limit": "token:<redacted-EVENTBRITE_API_KEY> 3/2000 reset=3521s, key:QZF7LRXAILN4B2W5PX 3/2000 reset=3521s"
+  },
+  "body": {
+    "name": {
+      "text": "Silva Bumpa",
+      "html": "Silva Bumpa"
+    },
+    "description": {
+      "text": "Silva Bumpa's sounds combine UK bass grit with the singalong bounce of club classics, bottling mid-noughties bassline.",
+      "html": "Silva Bumpa's sounds combine UK bass grit with the singalong bounce of club classics, bottling mid-noughties bassline."
+    },
+    "url": "https://www.eventbrite.com/e/silva-bumpa-tickets-1998116550390",
+    "start": {
+      "timezone": "America/Los_Angeles",
+      "local": "2026-09-27T22:00:00",
+      "utc": "2026-09-28T05:00:00Z"
+    },
+    "end": {
+      "timezone": "America/Los_Angeles",
+      "local": "2026-09-28T03:00:00",
+      "utc": "2026-09-28T10:00:00Z"
+    },
+    "organization_id": "264324044466",
+    "created": "2026-08-15T23:24:56Z",
+    "changed": "2026-08-22T03:27:13Z",
+    "published": "2026-08-18T19:01:47Z",
+    "capacity": null,
+    "capacity_is_custom": null,
+    "status": "live",
+    "currency": "USD",
+    "listed": true,
+    "shareable": true,
+    "online_event": false,
+    "tx_time_limit": 1200,
+    "hide_start_date": false,
+    "hide_end_date": false,
+    "locale": "en_US",
+    "is_locked": false,
+    "privacy_setting": "unlocked",
+    "is_series": false,
+    "is_series_parent": false,
+    "inventory_type": "limited",
+    "is_reserved_seating": false,
+    "show_pick_a_seat": false,
+    "show_seatmap_thumbnail": false,
+    "show_colors_in_seatmap_thumbnail": false,
+    "source": "coyote",
+    "is_free": false,
+    "version": null,
+    "summary": "Silva Bumpa's sounds combine UK bass grit with the singalong bounce of club classics, bottling mid-noughties bassline.",
+    "facebook_event_id": null,
+    "logo_id": "1191610975",
+    "organizer_id": "17594300979",
+    "venue_id": "221021429",
+    "category_id": "103",
+    "subcategory_id": "3023",
+    "format_id": "6",
+    "id": "1998116550390",
+    "resource_uri": "https://www.eventbriteapi.com/v3/events/1998116550390/",
+    "is_externally_ticketed": false,
+    "logo": {
+      "crop_mask": null,
+      "original": {
+        "url": "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1191610975%2F2342731624493%2F1%2Foriginal.20260821-173622?auto=format%2Ccompress&q=75&sharp=10&s=415b2b8858a38fc609a0971b9f6c9c53",
+        "width": 1364,
+        "height": 952
+      },
+      "id": "1191610975",
+      "url": "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1191610975%2F2342731624493%2F1%2Foriginal.20260821-173622?crop=focalpoint&fit=crop&h=200&w=450&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.5&fp-y=0.5&s=39f5ef48883e7ec1af63e566a08218ac",
+      "aspect_ratio": "1.43",
+      "edge_color": "#665847",
+      "edge_color_set": true
+    },
+    "venue": {
+      "address": {
+        "address_1": "101 6th Street",
+        "address_2": "",
+        "city": "San Francisco",
+        "region": "CA",
+        "postal_code": "94103",
+        "country": "US",
+        "latitude": "37.7809861",
+        "longitude": "-122.4085",
+        "localized_address_display": "101 6th Street, San Francisco, CA 94103",
+        "localized_area_display": "San Francisco, CA",
+        "localized_multi_line_address_display": [
+          "101 6th Street",
+          "San Francisco, CA 94103"
+        ]
+      },
+      "resource_uri": "https://www.eventbriteapi.com/v3/venues/221021429/",
+      "id": "221021429",
+      "age_restriction": null,
+      "capacity": null,
+      "name": "Monarch",
+      "latitude": "37.7809861",
+      "longitude": "-122.4085"
+    }
+  }
+}

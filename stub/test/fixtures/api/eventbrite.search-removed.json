@@ -1,0 +1,13 @@
+{
+  "recordedAt": "2026-08-30",
+  "url": "https://www.eventbriteapi.com/v3/events/search/?q=music",
+  "status": 404,
+  "headers": {
+    "content-type": "application/json"
+  },
+  "body": {
+    "status_code": 404,
+    "error_description": "The path you requested does not exist.",
+    "error": "NOT_FOUND"
+  }
+}

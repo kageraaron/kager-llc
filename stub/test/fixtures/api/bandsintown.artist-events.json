@@ -1,0 +1,232 @@
+{
+  "recordedAt": "2026-08-30",
+  "url": "https://api.parse.bot/scraper/25ccb7dd-ea12-4f2c-bb0a-966dbe1228e3/get_artist_events_by_name?artist_name=KETTAMA",
+  "status": 200,
+  "headers": {
+    "content-type": "application/json"
+  },
+  "body": {
+    "status": "success",
+    "data": {
+      "name": "Kettama",
+      "id": 15142594,
+      "verified": true,
+      "image_url": "https://photos.bandsintown.com/thumb/22527503.jpeg",
+      "follower_count": 42826,
+      "follower_count_text": "42.8K Followers",
+      "events": [
+        {
+          "title": "Kettama @ Pacha Ibiza",
+          "artist_name": "Kettama",
+          "venue_name": "Pacha Ibiza",
+          "city": "Ibiza",
+          "country": null,
+          "starts_at": "2026-09-20T23:00:00",
+          "event_url": "https://www.bandsintown.com/e/1039267187-kettama-at-pacha-ibiza?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=event",
+          "ticket_url": "https://www.bandsintown.com/e/1039267187-kettama-at-pacha-ibiza?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=ticket_rsvp",
+          "lineup": []
+        },
+        {
+          "title": "Kettama @ Shrine Expo Hall",
+          "artist_name": "Kettama",
+          "venue_name": "Shrine Expo Hall",
+          "city": "Los Angeles",
+          "country": null,
+          "starts_at": "2026-09-30T19:00:00",
+          "event_url": "https://www.bandsintown.com/e/108424282-kettama-at-shrine-expo-hall?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=event",
+          "ticket_url": "https://www.bandsintown.com/e/108424282-kettama-at-shrine-expo-hall?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=ticket_rsvp",
+          "lineup": []
+        },
+        {
+          "title": "Kettama @ Shrine Expo Hall",
+          "artist_name": "Kettama",
+          "venue_name": "Shrine Expo Hall",
+          "city": "Los Angeles",
+          "country": null,
+          "starts_at": "2026-10-01T19:00:00",
+          "event_url": "https://www.bandsintown.com/e/108407123-kettama-at-shrine-expo-hall?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=event",
+          "ticket_url": "https://www.bandsintown.com/e/108407123-kettama-at-shrine-expo-hall?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=ticket_rsvp",
+          "lineup": []
+        },
+        {
+          "title": "Kettama @ Shrine Expo Hall",
+          "artist_name": "Kettama",
+          "venue_name": "Shrine Expo Hall",
+          "city": "Los Angeles",
+          "country": null,
+          "starts_at": "2026-10-02T19:00:00",
+          "event_url": "https://www.bandsintown.com/e/108419422-kettama-at-shrine-expo-hall?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=event",
+          "ticket_url": "https://www.bandsintown.com/e/108419422-kettama-at-shrine-expo-hall?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=ticket_rsvp",
+          "lineup": []
+        },
+        {
+          "title": "Kettama @ Knockdown Center",
+          "artist_name": "Kettama",
+          "venue_name": "Knockdown Center",
+          "city": "Maspeth",
+          "country": null,
+          "starts_at": "2026-10-07T19:00:00",
+          "event_url": "https://www.bandsintown.com/e/108418394-kettama-at-knockdown-center?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=event",
+          "ticket_url": "https://www.bandsintown.com/e/108418394-kettama-at-knockdown-center?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=ticket_rsvp",
+          "lineup": []
+        },
+        {
+          "title": "Kettama @ Knockdown Center",
+          "artist_name": "Kettama",
+          "venue_name": "Knockdown Center",
+          "city": "Maspeth",
+          "country": null,
+          "starts_at": "2026-10-08T19:00:00",
+          "event_url": "https://www.bandsintown.com/e/108407127-kettama-at-knockdown-center?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=event",
+          "ticket_url": "https://www.bandsintown.com/e/108407127-kettama-at-knockdown-center?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=ticket_rsvp",
+          "lineup": []
+        },
+        {
+          "title": "Kettama @ Knockdown Center",
+          "artist_name": "Kettama",
+          "venue_name": "Knockdown Center",
+          "city": "Maspeth",
+          "country": null,
+          "starts_at": "2026-10-09T19:00:00",
+          "event_url": "https://www.bandsintown.com/e/108418265-kettama-at-knockdown-center?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=event",
+          "ticket_url": "https://www.bandsintown.com/e/108418265-kettama-at-knockdown-center?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=ticket_rsvp",
+          "lineup": []
+        },
+        {
+          "title": "Kettama @ A.i. Warehouse",
+          "artist_name": "Kettama",
+          "venue_name": "A.i. Warehouse",
+          "city": "Washington",
+          "country": null,
+          "starts_at": "2026-10-16T19:00:00",
+          "event_url": "https://www.bandsintown.com/e/108407138-kettama-at-a.i.-warehouse?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=event",
+          "ticket_url": "https://www.bandsintown.com/e/108407138-kettama-at-a.i.-warehouse?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=ticket_rsvp",
+          "lineup": []
+        },
+        {
+          "title": "III Points 2026",
+          "artist_name": "Kettama",
+          "venue_name": "Mana Wynwood",
+          "city": "Miami",
+          "country": null,
+          "starts_at": "2026-10-17T16:00:00",
+          "event_url": "https://www.bandsintown.com/e/1039806233-kettama-at-mana-wynwood?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=event",
+          "ticket_url": "https://www.bandsintown.com/e/1039806233-kettama-at-mana-wynwood?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=ticket_rsvp",
+          "lineup": []
+        },
+        {
+          "title": "Kettama @ LIV Nightclub Las Vegas",
+          "artist_name": "Kettama",
+          "venue_name": "LIV Nightclub Las Vegas",
+          "city": "Las Vegas",
+          "country": null,
+          "starts_at": "2026-10-18T22:30:00",
+          "event_url": "https://www.bandsintown.com/e/1037938279-kettama-at-liv-nightclub-las-vegas?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=event",
+          "ticket_url": "https://www.bandsintown.com/e/1037938279-kettama-at-liv-nightclub-las-vegas?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=ticket_rsvp",
+          "lineup": []
+        },
+        {
+          "title": "Kettama @ SILO",
+          "artist_name": "Kettama",
+          "venue_name": "SILO",
+          "city": "Dallas",
+          "country": null,
+          "starts_at": "2026-10-23T19:00:00",
+          "event_url": "https://www.bandsintown.com/e/108407113-kettama-at-silo?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=event",
+          "ticket_url": "https://www.bandsintown.com/e/108407113-kettama-at-silo?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=ticket_rsvp",
+          "lineup": []
+        },
+        {
+          "title": "Kettama @ Mission Ballroom",
+          "artist_name": "Kettama",
+          "venue_name": "Mission Ballroom",
+          "city": "Denver",
+          "country": null,
+          "starts_at": "2026-10-24T19:00:00",
+          "event_url": "https://www.bandsintown.com/e/108407147-kettama-at-mission-ballroom?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=event",
+          "ticket_url": "https://www.bandsintown.com/e/108407147-kettama-at-mission-ballroom?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=ticket_rsvp",
+          "lineup": []
+        },
+        {
+          "title": "Kettama @ HISTORY",
+          "artist_name": "Kettama",
+          "venue_name": "HISTORY",
+          "city": "Toronto",
+          "country": null,
+          "starts_at": "2026-10-30T19:00:00",
+          "event_url": "https://www.bandsintown.com/e/108407114-kettama-at-history?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=event",
+          "ticket_url": "https://www.bandsintown.com/e/108407114-kettama-at-history?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=ticket_rsvp",
+          "lineup": []
+        },
+        {
+          "title": "Kettama @ HISTORY",
+          "artist_name": "Kettama",
+          "venue_name": "HISTORY",
+          "city": "Toronto",
+          "country": null,
+          "starts_at": "2026-10-31T19:00:00",
+          "event_url": "https://www.bandsintown.com/e/108418418-kettama-at-history?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=event",
+          "ticket_url": "https://www.bandsintown.com/e/108418418-kettama-at-history?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=ticket_rsvp",
+          "lineup": []
+        },
+        {
+          "title": "Kettama @ LIV Nightclub Las Vegas",
+          "artist_name": "Kettama",
+          "venue_name": "LIV Nightclub Las Vegas",
+          "city": "Las Vegas",
+          "country": null,
+          "starts_at": "2026-11-01T22:30:00",
+          "event_url": "https://www.bandsintown.com/e/1037953287-kettama-at-liv-nightclub-las-vegas?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=event",
+          "ticket_url": "https://www.bandsintown.com/e/1037953287-kettama-at-liv-nightclub-las-vegas?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=ticket_rsvp",
+          "lineup": []
+        },
+        {
+          "title": "Kettama @ Depot Mayfield",
+          "artist_name": "Kettama",
+          "venue_name": "Depot Mayfield",
+          "city": "Manchester",
+          "country": null,
+          "starts_at": "2026-11-06T19:00:00",
+          "event_url": "https://www.bandsintown.com/e/1039779796-kettama-at-depot-mayfield?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=event",
+          "ticket_url": "https://www.bandsintown.com/e/1039779796-kettama-at-depot-mayfield?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=ticket_rsvp",
+          "lineup": []
+        },
+        {
+          "title": "Kettama @ Gold Coast Sports and Leisure Centre",
+          "artist_name": "Kettama",
+          "venue_name": "Gold Coast Sports and Leisure Centre",
+          "city": "Carrara",
+          "country": null,
+          "starts_at": "2026-12-13T11:30:00",
+          "event_url": "https://www.bandsintown.com/e/1039759995-kettama-at-gold-coast-sports-and-leisure-centre?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=event",
+          "ticket_url": "https://www.bandsintown.com/e/1039759995-kettama-at-gold-coast-sports-and-leisure-centre?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=ticket_rsvp",
+          "lineup": []
+        },
+        {
+          "title": "Decadence Arizona 2026",
+          "artist_name": "Kettama",
+          "venue_name": "Phoenix Raceway",
+          "city": "Avondale",
+          "country": null,
+          "starts_at": "2026-12-30T19:00:00",
+          "event_url": "https://www.bandsintown.com/e/108723006-kettama-at-phoenix-raceway?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=event",
+          "ticket_url": "https://www.bandsintown.com/e/108723006-kettama-at-phoenix-raceway?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=ticket_rsvp",
+          "lineup": []
+        },
+        {
+          "title": "Snow Machine Japan 2027",
+          "artist_name": "Kettama",
+          "venue_name": "Hakuba Happo-One Snow Resort",
+          "city": "Hakuba",
+          "country": null,
+          "starts_at": "2027-03-02T12:00:00",
+          "event_url": "https://www.bandsintown.com/e/108760938-kettama-at-hakuba-happo-one-snow-resort?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=event",
+          "ticket_url": "https://www.bandsintown.com/e/108760938-kettama-at-hakuba-happo-one-snow-resort?came_from=251&utm_medium=web&utm_source=artist_page&utm_campaign=ticket_rsvp",
+          "lineup": []
+        }
+      ],
+      "artist_slug": "15142594-kettama",
+      "artist_id": 15142594
+    }
+  }
+}

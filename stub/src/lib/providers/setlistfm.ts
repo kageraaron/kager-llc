@@ -1,9 +1,34 @@
 /**
  * setlist.fm — free for non-commercial use, key in the `x-api-key` header.
  *
- * The endpoint that earns its keep here is /user/{userId}/attended: it is the
- * best free source of a user's PAST concerts, which is exactly what the Archive
- * tab wants seeded. Ticketmaster only knows about events it sold tickets to.
+ * Two jobs here, and the second matters more than it looks.
+ *
+ * **1. Seeding the Archive.** `/user/{userId}/attended` is the best free source
+ * of a user's past concerts. Ticketmaster only knows what it sold.
+ *
+ * **2. Matching a PAST ticket.** Every listing provider in the cascade answers
+ * "what is on sale", so a confirmation for a show that already happened matches
+ * nothing anywhere and lands in the review queue. setlist.fm is a database of
+ * shows that *definitely happened*, and `/search/setlists?artistName=&date=`
+ * answers the exact question a past ticket asks.
+ *
+ * Measured against a real unmatched inbox on 2026-08-30 — 4 of 6 found, and the
+ * two misses were small club nights:
+ *
+ * | Ticket | setlist.fm |
+ * |---|---|
+ * | Kaskade, 17 Apr 2026 | Pier 48, San Francisco |
+ * | Chris Lake, 2 May 2026 | Pier 48, San Francisco |
+ * | KETTAMA, 6 May 2026 | The Regency Ballroom, San Francisco |
+ * | Chris Lorenzo, 19 Dec 2025 | Moscone Center, San Francisco |
+ * | Shiba San, 8 May 2026 | — |
+ * | Chris Stussy, 27 Feb 2026 | — |
+ *
+ * It goes ahead of Bandsintown's past-events endpoint for that job because it is
+ * **free and better targeted**: one query for an exact artist+date, versus a
+ * credit to resolve a slug plus another to pull fifty recent dates. That also
+ * makes it the answer to JamBase's trial expiring — it is a permanent free
+ * source rather than a countdown.
  */
 
 const BASE = 'https://api.setlist.fm/rest/1.0';
@@ -96,6 +121,34 @@ export function parseSetlistDate(eventDate: string): string | null {
 }
 
 /** Paginated: one page is 20 setlists. Caller decides how deep to go. */
+/**
+ * Shows by this artist on this exact date.
+ *
+ * Returns `[]` rather than throwing for the ordinary misses — an artist
+ * setlist.fm has never heard of, or a night nobody logged — so a caller walking
+ * the cascade is not forced to tell those apart from a real failure.
+ */
+export async function searchSetlists(
+  artistName: string,
+  isoDate: string,
+  timeZone?: string | null,
+): Promise<SFMSetlist[]> {
+  if (!artistName.trim() || Number.isNaN(new Date(isoDate).getTime())) return [];
+  // UTC by default, deliberately — see `toSetlistDate`.
+  const date = toSetlistDate(isoDate, timeZone);
+
+  const qs = new URLSearchParams({ artistName: artistName.trim(), date });
+  try {
+    const data = await sfmFetch<{ setlist?: SFMSetlist[] }>(`/search/setlists?${qs}`);
+    return data.setlist ?? [];
+  } catch (err) {
+    // A 404 is how the API says "no results", and is not worth logging.
+    const message = err instanceof Error ? err.message : String(err);
+    if (!/\b404\b/.test(message)) console.error('setlist.fm search failed', { artistName, date, message });
+    return [];
+  }
+}
+
 export async function getAttended(userId: string, page = 1): Promise<{ setlists: SFMSetlist[]; total: number }> {
   const data = await sfmFetch<{ setlist?: SFMSetlist[]; total?: number }>(
     `/user/${encodeURIComponent(userId)}/attended?p=${page}`,

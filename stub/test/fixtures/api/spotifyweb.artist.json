@@ -1,0 +1,35 @@
+{
+  "recordedAt": "2026-08-30",
+  "url": "https://api.spotify.com/v1/artists/2dPLkqesvPXpIlP65JoLrf",
+  "status": 200,
+  "headers": {
+    "content-type": "application/json; charset=utf-8"
+  },
+  "body": {
+    "external_urls": {
+      "spotify": "https://open.spotify.com/artist/2dPLkqesvPXpIlP65JoLrf"
+    },
+    "href": "https://api.spotify.com/v1/artists/2dPLkqesvPXpIlP65JoLrf?locale=*",
+    "id": "2dPLkqesvPXpIlP65JoLrf",
+    "images": [
+      {
+        "url": "https://i.scdn.co/image/ab6761610000e5ebd52a564d068eb5b06ad3bd25",
+        "height": 640,
+        "width": 640
+      },
+      {
+        "url": "https://i.scdn.co/image/ab67616100005174d52a564d068eb5b06ad3bd25",
+        "height": 320,
+        "width": 320
+      },
+      {
+        "url": "https://i.scdn.co/image/ab6761610000f178d52a564d068eb5b06ad3bd25",
+        "height": 160,
+        "width": 160
+      }
+    ],
+    "name": "Silva Bumpa",
+    "type": "artist",
+    "uri": "spotify:artist:2dPLkqesvPXpIlP65JoLrf"
+  }
+}

@@ -8,6 +8,7 @@ import { getArtistMetadata } from '@/lib/providers/spotify';
 import { inferTimezone } from '@/lib/timezone';
 import type { BITEvent } from '@/lib/providers/bandsintown';
 import type { EBEvent } from '@/lib/providers/eventbrite';
+import type { SFMSetlist } from '@/lib/providers/setlistfm';
 import { toInstant } from '@/lib/providers/bandsintown';
 import type { CatalogCandidate } from '@/lib/ingest/match';
 
@@ -634,7 +635,125 @@ export async function persistCandidate(
       return upsertBandsintownEvent(db, candidate.raw as BITEvent, { searched: opts.searched });
     case 'eventbrite':
       return upsertEventbriteEvent(db, candidate.raw as EBEvent);
+    case 'setlistfm':
+      return upsertSetlistFmEvent(db, candidate.raw as SFMSetlist, { searched: opts.searched });
   }
+}
+
+// ---------------------------------------------------------------- setlist.fm
+
+/**
+ * Persist a show from setlist.fm.
+ *
+ * This is the ARCHIVE path: it only ever runs for a ticket whose date has
+ * already passed, because that is the one case no listing provider can serve.
+ *
+ * What it does and does not know:
+ *
+ *  - **Date, not time.** A setlist records the night. Anchored at 20:00 in the
+ *    venue's inferred zone, which is honest to the day and vague about the hour
+ *    — exactly the precision the source has.
+ *  - **No ticket URL.** `url` points at the setlist.fm page, which for a past
+ *    show is the useful link anyway.
+ *  - **No image.** Artist artwork still comes from the artist row.
+ *
+ * There is no provider-id column for setlist.fm on `events`; these rows are
+ * keyed by reconciliation against what is already there, and created fresh only
+ * when nothing matches. That is deliberate — a past show is written once and
+ * never re-synced, so an upsert key would buy nothing.
+ */
+export async function upsertSetlistFmEvent(
+  db: SupabaseClient,
+  sl: SFMSetlist,
+  opts: { searched?: string } = {},
+): Promise<string | null> {
+  const artistName = sl.artist?.name ?? opts.searched;
+  const [day, month, year] = (sl.eventDate ?? '').split('-');
+  if (!artistName || !day || !month || !year) return null;
+
+  const city = sl.venue?.city;
+  const region = city?.stateCode ?? city?.state ?? null;
+  const country = city?.country?.code ?? null;
+  const timezone = inferTimezone(region, country);
+
+  const venueId = sl.venue?.name
+    ? await upsertSetlistFmVenue(db, {
+        name: sl.venue.name,
+        city: city?.name ?? null,
+        region,
+        country,
+        lat: city?.coords?.lat ?? null,
+        lng: city?.coords?.long ?? null,
+        timezone,
+      })
+    : null;
+
+  const startsAt =
+    toInstant(`${year}-${month}-${day}T20:00:00`, timezone) ??
+    `${year}-${month}-${day}T20:00:00Z`;
+
+  const artistId = await upsertSpotifyArtist(db, artistName);
+
+  const existingId = await reconcileEvent(
+    db,
+    { startsAt, venueId, headlinerId: artistId, name: artistName },
+    null,
+  );
+  if (existingId) return existingId;
+
+  const { data, error } = await db
+    .from('events')
+    .insert({
+      name: artistName,
+      headliner_id: artistId,
+      venue_id: venueId,
+      starts_at: startsAt,
+      timezone,
+      status: 'completed',
+      url: sl.url ?? null,
+    })
+    .select('id')
+    .single();
+
+  if (error) {
+    console.error('upsertSetlistFmEvent failed', { id: sl.id, error: error.message });
+    return null;
+  }
+
+  if (artistId) await linkEventArtists(db, data.id, [artistId], artistId);
+  return data.id;
+}
+
+/** Name+city venue matching, the same fallback the Spotify and BIT paths use. */
+async function upsertSetlistFmVenue(
+  db: SupabaseClient,
+  v: {
+    name: string;
+    city: string | null;
+    region: string | null;
+    country: string | null;
+    lat: number | null;
+    lng: number | null;
+    timezone: string | null;
+  },
+): Promise<string | null> {
+  let lookup = db.from('venues').select('id, timezone').ilike('name', v.name);
+  lookup = v.city ? lookup.ilike('city', v.city) : lookup.is('city', null);
+  const { data: existing } = await lookup.maybeSingle();
+
+  if (existing) {
+    if (!existing.timezone && v.timezone) {
+      await db.from('venues').update({ timezone: v.timezone }).eq('id', existing.id).is('timezone', null);
+    }
+    return existing.id;
+  }
+
+  const { data, error } = await db.from('venues').insert(v).select('id').single();
+  if (error) {
+    console.error('upsertSetlistFmVenue failed', { name: v.name, error: error.message });
+    return null;
+  }
+  return data.id;
 }
 
 // ---------------------------------------------------------------- Eventbrite
@@ -685,10 +804,20 @@ export async function upsertEventbriteEvent(
 
   if (existingId) {
     /*
-     * Fill gaps, and take the zone and image outright. A row written by the
-     * Spotify path has `timezone: null` by construction — that is the bug this
-     * whole provider fixes — so preferring the incumbent's value there would
-     * preserve the fault we came to correct.
+     * Fill gaps, but take NAME and ZONE outright.
+     *
+     * Both are cases where the incumbent's value is not merely absent, it is
+     * actively worse, and this provider is first-party to the ticket:
+     *
+     *  - `timezone` is `null` by construction on a Spotify-written row — the
+     *    bug this whole provider fixes. Preferring the incumbent would preserve
+     *    the fault we came to correct.
+     *  - `name` on that same row is a lineup join localized by the proxy, so a
+     *    Browse search can have already stored "Silva Bumpa y Dean Turnley".
+     *    Eventbrite knows what the promoter actually called it.
+     *
+     * `url` and `image_url` are left to the incumbent, because there a richer
+     * provider genuinely may have had something better first.
      */
     const { data: current } = await db
       .from('events')
@@ -700,6 +829,7 @@ export async function upsertEventbriteEvent(
       .from('events')
       .update({
         eventbrite_id: ev.id,
+        name: ev.name,
         timezone: ev.timezone,
         url: current?.url ?? row.url,
         image_url: current?.image_url ?? row.image_url,
@@ -975,8 +1105,13 @@ async function reconcileEvent(
    * The caller's own provider-id column. Rows that already carry one are
    * excluded, so a re-sync reconciles against OTHER providers' rows rather than
    * trying to merge a row into itself.
+   *
+   * `null` for a provider with no id column of its own — setlist.fm — where
+   * there is no self-match to avoid and excluding anything would only prevent
+   * legitimate merges. A past show that Bandsintown also has is the SAME gig,
+   * and should join that row rather than duplicate it.
    */
-  ownIdColumn: 'bandsintown_id' | 'eventbrite_id' = 'bandsintown_id',
+  ownIdColumn: 'bandsintown_id' | 'eventbrite_id' | null = 'bandsintown_id',
 ): Promise<string | null> {
   if (!ev.venueId && !ev.headlinerId) return null;
 
@@ -989,8 +1124,9 @@ async function reconcileEvent(
     .from('events')
     .select('id, venue_id, headliner_id')
     .gte('starts_at', from)
-    .lte('starts_at', to)
-    .is(ownIdColumn, null);
+    .lte('starts_at', to);
+
+  if (ownIdColumn) query = query.is(ownIdColumn, null);
 
   // Venue is the stronger signal: an artist can play two cities in two days,
   // but two different shows rarely share a venue AND a day.

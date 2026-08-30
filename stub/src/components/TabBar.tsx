@@ -3,9 +3,21 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+/*
+ * Browse is deliberately NOT in here.
+ *
+ * Stub is a memory app: the job is recording the shows you went to, and search
+ * and purchase are things other apps already do well. The `/browse` route still
+ * exists and still works — links and bookmarks to it are not broken, and it is
+ * reachable from `/add` — it is just no longer one of the five things the app
+ * puts in front of you.
+ *
+ * `/add` takes the slot because manual entry IS the memory-app primitive: the
+ * shows worth recording are often the ones no listing service ever had.
+ */
 const TABS = [
   { href: '/upcoming', label: 'Upcoming', icon: 'calendar' },
-  { href: '/browse', label: 'Browse', icon: 'search' },
+  { href: '/add', label: 'Add', icon: 'plus' },
   { href: '/inbox', label: 'Inbox', icon: 'inbox' },
   { href: '/friends', label: 'Friends', icon: 'friends' },
   { href: '/archive', label: 'Archive', icon: 'archive' },
@@ -28,11 +40,19 @@ function Icon({ name }: { name: string }) {
           <path d="M3 10h18M8 3v4M16 3v4" />
         </svg>
       );
+    // Kept: `/browse` still exists and still renders this icon on its own page.
     case 'search':
       return (
         <svg {...common}>
           <circle cx="11" cy="11" r="7" />
           <path d="m20 20-3.5-3.5" />
+        </svg>
+      );
+    case 'plus':
+      return (
+        <svg {...common}>
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 8v8M8 12h8" />
         </svg>
       );
     case 'inbox':

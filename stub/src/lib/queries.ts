@@ -297,6 +297,33 @@ export async function getSentEventInvites(
 }
 
 /**
+ * Which of these events already have a setlist cached.
+ *
+ * Reads `event_setlists` only — **no setlist.fm calls**. That distinction is the
+ * whole design: setlist.fm is the strictest limit we deal with (it answers 403
+ * rather than 429 when throttled), so fetching one per Archive row would be
+ * both slow and a good way to get blocked. The event page fetches on demand and
+ * caches; this just surfaces what that has already found.
+ *
+ * The consequence, stated plainly: a show whose setlist exists but has never
+ * been opened shows no badge until someone opens it once.
+ */
+export async function getSetlistFlags(
+  db: SupabaseClient,
+  eventIds: string[],
+): Promise<Set<string>> {
+  if (eventIds.length === 0) return new Set();
+
+  const { data } = await db
+    .from('event_setlists')
+    .select('event_id')
+    .in('event_id', eventIds)
+    .eq('found', true);
+
+  return new Set((data ?? []).map((r) => r.event_id as string));
+}
+
+/**
  * Everything waiting in the Inbox, for the tab badge: unreviewed ticket
  * candidates plus shows friends have sent over. Both land on the same page, so
  * counting only one of them would leave the badge disagreeing with it.

@@ -2,7 +2,7 @@
   "name": "stub",
   "version": "0.1.0",
   "private": true,
-  "description": "Stub — concert and event tracker with automatic ticket-purchase detection from email",
+  "description": "Stub \u2014 concert and event tracker with automatic ticket-purchase detection from email",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -13,7 +13,9 @@
     "db:push": "supabase db push",
     "db:reset": "supabase db reset",
     "build:bootstrap": "bash scripts/build-bootstrap.sh",
-    "test:live": "LIVE_TEST=1 vitest run test/live-queries.test.ts"
+    "test:live": "LIVE_TEST=1 vitest run test/live-queries.test.ts",
+    "fixtures:record": "node scripts/record-api-fixtures.mjs",
+    "lint:workflows": "npx --yes js-yaml ../.github/workflows/stub-cron.yml > /dev/null && echo \"workflow yaml ok\""
   },
   "dependencies": {
     "@supabase/ssr": "^0.7.0",

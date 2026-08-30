@@ -257,6 +257,24 @@ textarea.input { resize: vertical; min-height: 120px; line-height: 1.5; }
 /* Interested is the weaker commitment of the two, so it reads quieter than Going. */
 .pill-interested { background: var(--surface-2); color: var(--muted); }
 
+/* Year in review. auto-fit keeps it two-up on a phone and wider on a tablet
+   without a media query. */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.stat {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+}
+.stat-value { font-size: 26px; font-weight: 750; letter-spacing: -0.03em; line-height: 1.1; }
+.stat-label { font-size: 13px; color: var(--muted); margin-top: 3px; }
+.stat-note { font-size: 11px; color: var(--muted); opacity: 0.8; margin-top: 4px; line-height: 1.35; }
+
 .avatar {
   width: 36px;
   height: 36px;

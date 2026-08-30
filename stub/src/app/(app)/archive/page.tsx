@@ -1,7 +1,8 @@
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth';
-import { getArchive } from '@/lib/queries';
+import { getArchive, getSetlistFlags } from '@/lib/queries';
 import { EventCard } from '@/components/EventCard';
+import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 
@@ -9,6 +10,9 @@ export default async function ArchivePage() {
   const supabase = await createClient();
   const user = await getCurrentUser(supabase);
   const rows = await getArchive(supabase, user!.id);
+
+  // One query for the whole page, and no setlist.fm traffic at all.
+  const withSetlist = await getSetlistFlags(supabase, rows.map((r) => r.event.id));
 
   // Group by year so a long history stays scannable.
   const byYear = new Map<string, typeof rows>();
@@ -37,9 +41,19 @@ export default async function ArchivePage() {
       ) : (
         [...byYear.entries()].map(([year, yearRows]) => (
           <section key={year}>
-            <div className="section-label">{year} · {yearRows.length}</div>
+            <div className="row" style={{ justifyContent: 'space-between', alignItems: 'baseline' }}>
+              <div className="section-label">{year} · {yearRows.length}</div>
+              <Link className="muted" style={{ fontSize: 13 }} href={`/year/${year}`}>
+                Year in review &rarr;
+              </Link>
+            </div>
             {yearRows.map((row) => (
-              <EventCard key={row.id} event={row.event} rating={row.rating} />
+              <EventCard
+                key={row.id}
+                event={row.event}
+                rating={row.rating}
+                hasSetlist={withSetlist.has(row.event.id)}
+              />
             ))}
           </section>
         ))
