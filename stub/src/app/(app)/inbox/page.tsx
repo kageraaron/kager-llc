@@ -3,6 +3,8 @@ import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth';
 import { CandidateCard } from '@/components/CandidateCard';
 import { SkippedMessages, type SkippedMessage } from '@/components/SkippedMessages';
+import { EventInviteCard } from '@/components/EventInviteCard';
+import { getPendingEventInvites } from '@/lib/queries';
 
 export const dynamic = 'force-dynamic';
 
@@ -20,7 +22,7 @@ export default async function InboxPage() {
     .select(`
       id, parsed, confidence, matched_event_id,
       message:ingest_messages ( subject, from_addr ),
-      event:events ( id, name, starts_at, timezone, image_url, venue:venues ( name, city, region ) )
+      event:events ( id, name, starts_at, timezone, image_url, venue:venues ( name, city, region, country, timezone ) )
     `)
     .eq('user_id', user!.id)
     .eq('state', 'pending')
@@ -44,6 +46,10 @@ export default async function InboxPage() {
     .order('received_at', { ascending: false, nullsFirst: false })
     .limit(50);
 
+  // Shows friends have sent over. Same queue as ticket confirmations because
+  // it is the same question — "is this yours?" — asked about a different source.
+  const invites = await getPendingEventInvites(supabase, user!.id);
+
   const rows = (candidates ?? []) as unknown as React.ComponentProps<typeof CandidateCard>['candidate'][];
   const skippedRows = (skipped ?? []) as SkippedMessage[];
 
@@ -52,11 +58,22 @@ export default async function InboxPage() {
       <header className="page-header">
         <h1>Inbox</h1>
         <div className="sub">
-          {rows.length === 0 ? 'Nothing to review' : `${rows.length} to review`}
+          {rows.length + invites.length === 0
+            ? 'Nothing to review'
+            : `${rows.length + invites.length} to review`}
         </div>
       </header>
 
-      {rows.length === 0 ? (
+      {invites.length > 0 && (
+        <section>
+          <div className="section-label">From friends</div>
+          {invites.map((invite) => (
+            <EventInviteCard key={invite.id} invite={invite} />
+          ))}
+        </section>
+      )}
+
+      {rows.length === 0 && invites.length === 0 ? (
         <div className="empty">
           <h2>All caught up</h2>
           {accounts && accounts.length > 0 ? (

@@ -727,3 +727,483 @@ create unique index if not exists artists_jambase_id_key
 -- a lineup rather than a headliner).
 alter table events add column if not exists is_festival boolean not null default false;
 alter table events add column if not exists ends_at timestamptz;
+
+-- ============================================================================
+-- supabase/migrations/0011_caches.sql
+-- ============================================================================
+
+-- Provider response caches.
+--
+-- Two different shapes, because the data has two different lifetimes.
+
+-- ============================================================ setlists
+--
+-- A past show's setlist never changes once it exists, so a hit is cached
+-- forever. A MISS is cached too, with a short TTL: setlist.fm entries are added
+-- by users days or weeks after a show, and without negative caching every view
+-- of an archived event re-hits an API that returns 403 when rate limited.
+
+create table if not exists event_setlists (
+  event_id    uuid primary key references events(id) on delete cascade,
+  found       boolean not null,
+  payload     jsonb,
+  setlistfm_url text,
+  song_count  integer not null default 0,
+  fetched_at  timestamptz not null default now(),
+  -- Null for hits (never expires). Set for misses, so we retry later.
+  recheck_after timestamptz
+);
+
+create index if not exists event_setlists_recheck
+  on event_setlists (recheck_after) where recheck_after is not null;
+
+alter table event_setlists enable row level security;
+
+-- Setlists are public facts about public shows; any signed-in user may read
+-- them. Writes go through the service role.
+create policy "setlists readable" on event_setlists
+  for select to authenticated using (true);
+
+-- ============================================================ search
+--
+-- Short-lived, keyed on the normalised query. "What's on near me" is highly
+-- repeatable across users in the same city, and JamBase is a metered trial.
+
+create table if not exists search_cache (
+  cache_key  text primary key,
+  payload    jsonb not null,
+  expires_at timestamptz not null,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists search_cache_expiry on search_cache (expires_at);
+
+alter table search_cache enable row level security;
+-- No policy: this table is service-role only. Callers reach it through the
+-- search route, never directly from the browser.
+
+-- ============================================================================
+-- supabase/migrations/0012_spotify_ids.sql
+-- ============================================================================
+
+-- Spotify identifiers on the catalog tables.
+--
+-- A third provider can describe the same show, so each catalog row carries
+-- whichever ids it has and we upsert on the one we know. Partial unique
+-- indexes, because most rows have only one. Mirrors `0010` for JamBase.
+--
+-- Note this is the *concert graph* read through the RapidAPI proxy, not the
+-- OAuth Spotify integration in `providers/spotify.ts`.
+
+alter table events  add column if not exists spotify_concert_id text;
+alter table venues  add column if not exists spotify_venue_id   text;
+alter table artists add column if not exists spotify_artist_id  text;
+
+create unique index if not exists events_spotify_concert_id_key
+  on events (spotify_concert_id) where spotify_concert_id is not null;
+create unique index if not exists venues_spotify_venue_id_key
+  on venues (spotify_venue_id) where spotify_venue_id is not null;
+create unique index if not exists artists_spotify_artist_id_key
+  on artists (spotify_artist_id) where spotify_artist_id is not null;
+
+-- ============================================================================
+-- supabase/migrations/0013_provider_id_unique_constraints.sql
+-- ============================================================================
+
+-- Provider id columns need unique CONSTRAINTS, not partial unique indexes.
+--
+-- `0010` (JamBase) and `0012` (Spotify) both created
+--
+--   create unique index ... on events (jambase_id) where jambase_id is not null;
+--
+-- reasoning that most rows carry only one provider's id. That is true, and the
+-- index does enforce uniqueness — but it does not support the upsert.
+--
+-- PostgREST's `onConflict: 'jambase_id'` emits `ON CONFLICT (jambase_id)`.
+-- Postgres will only use a PARTIAL index for that if the statement repeats the
+-- index predicate (`ON CONFLICT (jambase_id) WHERE jambase_id is not null`),
+-- which PostgREST never emits. So every one of those upserts failed with
+--
+--   there is no unique or exclusion constraint matching the ON CONFLICT specification
+--
+-- `upsertJamBaseEvent`, `upsertJbArtist` and `upsertJbVenue` all take this
+-- path, which means adding a JamBase event from Browse has never worked. It
+-- went unnoticed because the failure is caught and logged, and Browse just says
+-- "Could not save that event".
+--
+-- A plain UNIQUE constraint is the right tool and always was: Postgres treats
+-- NULLs as distinct, so a nullable column can be UNIQUE and still have any
+-- number of rows without an id. That is exactly what `0001` does for `tm_id`,
+-- `mbid` and `setlistfm_id`, which is why those upserts work.
+
+drop index if exists events_jambase_id_key;
+drop index if exists venues_jambase_id_key;
+drop index if exists artists_jambase_id_key;
+drop index if exists events_spotify_concert_id_key;
+drop index if exists venues_spotify_venue_id_key;
+drop index if exists artists_spotify_venue_id_key;
+drop index if exists artists_spotify_artist_id_key;
+
+do $$
+begin
+  -- Guarded individually so a partially-applied run is safe to repeat.
+  if not exists (select 1 from pg_constraint where conname = 'events_jambase_id_uniq') then
+    alter table events add constraint events_jambase_id_uniq unique (jambase_id);
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'venues_jambase_id_uniq') then
+    alter table venues add constraint venues_jambase_id_uniq unique (jambase_id);
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'artists_jambase_id_uniq') then
+    alter table artists add constraint artists_jambase_id_uniq unique (jambase_id);
+  end if;
+
+  if not exists (select 1 from pg_constraint where conname = 'events_spotify_concert_id_uniq') then
+    alter table events add constraint events_spotify_concert_id_uniq unique (spotify_concert_id);
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'venues_spotify_venue_id_uniq') then
+    alter table venues add constraint venues_spotify_venue_id_uniq unique (spotify_venue_id);
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'artists_spotify_artist_id_uniq') then
+    alter table artists add constraint artists_spotify_artist_id_uniq unique (spotify_artist_id);
+  end if;
+end $$;
+
+-- ============================================================================
+-- supabase/migrations/0014_bandsintown.sql
+-- ============================================================================
+
+-- Bandsintown (via Parse) — identifiers, plus a real credit ledger.
+--
+-- ============================================================ identifiers
+--
+-- Fourth provider that can describe the same show. Same pattern as `0010`
+-- (JamBase) and `0012` (Spotify), but using UNIQUE CONSTRAINTS rather than
+-- partial unique indexes — see `0013` for why the indexes silently broke every
+-- upsert that used them. Postgres treats NULLs as distinct, so a nullable
+-- column can be UNIQUE and still have any number of rows without an id.
+
+alter table events  add column if not exists bandsintown_id text;
+alter table artists add column if not exists bandsintown_id text;
+alter table venues  add column if not exists bandsintown_id text;
+
+do $$
+begin
+  if not exists (select 1 from pg_constraint where conname = 'events_bandsintown_id_uniq') then
+    alter table events add constraint events_bandsintown_id_uniq unique (bandsintown_id);
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'artists_bandsintown_id_uniq') then
+    alter table artists add constraint artists_bandsintown_id_uniq unique (bandsintown_id);
+  end if;
+  if not exists (select 1 from pg_constraint where conname = 'venues_bandsintown_id_uniq') then
+    alter table venues add constraint venues_bandsintown_id_uniq unique (bandsintown_id);
+  end if;
+end $$;
+
+-- ============================================================ credit ledger
+--
+-- Every other provider here is metered in requests per day or per month, and
+-- the cost of overrunning is a 429 we can back off from. Bandsintown is metered
+-- in CREDITS off a small prepaid balance (~200 at the time of writing, with a
+-- 99/day cap), and overrunning it does not throttle us — it empties the
+-- account. The response header tells us the remaining balance only AFTER we
+-- have already spent, which is too late to be a control.
+--
+-- So the budget is enforced locally, before the call. `provider_spend` is an
+-- append-only log of what we actually spent; `provider_spend_today` rolls it up
+-- so the guard is one indexed query.
+--
+-- This is deliberately generic (`provider` is a text column) rather than
+-- Bandsintown-specific: the Spotify proxy has the same shape of problem at
+-- 1000/month, and should move onto this once it earns it.
+
+create table if not exists provider_spend (
+  id         bigserial primary key,
+  provider   text not null,
+  endpoint   text not null,
+  credits    integer not null default 1,
+  -- What the upstream said was left AFTER this call. Null when not reported.
+  -- Lets us detect drift between our ledger and the real balance.
+  remaining  integer,
+  -- Null on a cache hit that we logged for observability; set on a real call.
+  spent_at   timestamptz not null default now()
+);
+
+create index if not exists provider_spend_lookup
+  on provider_spend (provider, spent_at desc);
+
+alter table provider_spend enable row level security;
+-- No policy: service-role only. Nothing in the browser needs to read this.
+
+-- Credits spent per provider in the last 24 hours.
+create or replace view provider_spend_today as
+  select provider,
+         sum(credits)::integer as credits_spent,
+         count(*)::integer     as calls,
+         max(spent_at)         as last_call,
+         -- The most recent upstream-reported balance, for drift detection.
+         (array_agg(remaining order by spent_at desc)
+            filter (where remaining is not null))[1] as last_reported_remaining
+    from provider_spend
+   where spent_at > now() - interval '24 hours'
+   group by provider;
+
+-- Views inherit the RLS of their base tables under `security_invoker`, which is
+-- what we want: service-role only, same as `provider_spend` itself.
+alter view provider_spend_today set (security_invoker = on);
+
+-- Trim the log. Called opportunistically, like `pruneSearchCache` — the daily
+-- guard only ever looks back 24 hours, so a 30-day tail is generous.
+create or replace function prune_provider_spend()
+returns void
+language sql
+security invoker
+set search_path = ''
+as $$
+  delete from public.provider_spend where spent_at < now() - interval '30 days';
+$$;
+
+-- ============================================================================
+-- supabase/migrations/0015_revoke_anon.sql
+-- ============================================================================
+
+-- Take the `anon` role off the public schema entirely.
+--
+-- Found during the 2026-08-29 security audit. `email_accounts` stores encrypted
+-- Google OAuth refresh tokens, and column-level grants correctly withheld
+-- `access_token`, `refresh_token`, `token_expires` and `history_id` from
+-- `authenticated` (that is what `0007` did). But `anon` still held the Supabase
+-- defaults: SELECT, INSERT and UPDATE on **every column**, both tokens included.
+--
+-- This was not a live leak. RLS is enabled on the table and every policy is
+-- scoped to `{authenticated}`, so an `anon` request matches no policy and gets
+-- zero rows — confirmed empirically against prod, where the query succeeds and
+-- returns nothing. The problem is that RLS was the *only* thing standing
+-- between an unauthenticated caller and every refresh token in the system. One
+-- permissive policy written for `public` instead of `authenticated`, or one
+-- table shipped with RLS off, and the grant is suddenly load-bearing.
+--
+-- So this removes the second layer's dependence on the first.
+--
+-- Safe by construction: because RLS already yields zero rows to `anon` on every
+-- table here, revoking the grant cannot change the result of any request that
+-- works today. Nothing in the app reads the public schema unauthenticated — the
+-- login page talks only to `auth`, and `middleware.ts` gates every other route.
+
+revoke all on all tables in schema public from anon;
+revoke all on all sequences in schema public from anon;
+revoke all on all functions in schema public from anon;
+
+-- Future tables must not silently re-grant it. Supabase's defaults are set for
+-- the `postgres` role, which is what owns objects created by migrations.
+alter default privileges for role postgres in schema public
+  revoke all on tables from anon;
+alter default privileges for role postgres in schema public
+  revoke all on sequences from anon;
+alter default privileges for role postgres in schema public
+  revoke all on functions from anon;
+
+-- `authenticated` keeps its column-level grants from `0001`/`0007` untouched;
+-- this migration deliberately does not go near them.
+
+-- ============================================================================
+-- supabase/migrations/0016_provider_spend_month.sql
+-- ============================================================================
+
+-- Month-to-date spend, because the Bandsintown quota is monthly.
+--
+-- `0014` shipped with only a 24-hour rollup, on the assumption that the ~200
+-- credits were a one-off prepaid balance. They are not: the Parse free tier is
+-- **200 credits per month**, resetting on the calendar month.
+--
+-- That makes a daily cap the wrong shape of guard on its own. A 25/day ceiling
+-- permits 750 credits a month — 3.75x the actual allowance — so the budget could
+-- be honoured every single day and still blow the month by a wide margin.
+--
+-- Both limits are now enforced, and they do different jobs:
+--
+--   * the MONTHLY cap is the real ceiling — it is the quota;
+--   * the DAILY cap is a burst limiter, stopping one runaway afternoon (or one
+--     enthusiastic user hammering "Search harder") from consuming the whole
+--     month in an hour.
+--
+-- Whichever binds first wins.
+
+create or replace view provider_spend_month as
+  select provider,
+         sum(credits)::integer as credits_spent,
+         count(*)::integer     as calls,
+         max(spent_at)         as last_call,
+         (array_agg(remaining order by spent_at desc)
+            filter (where remaining is not null))[1] as last_reported_remaining
+    from provider_spend
+   -- Calendar month in UTC. Parse resets on its own clock and we cannot see it,
+   -- so this may drift from the upstream reset by a few hours. The headroom in
+   -- BANDSINTOWN_MONTHLY_CREDITS (180 against a real 200) absorbs that.
+   where spent_at >= date_trunc('month', now() at time zone 'utc')
+   group by provider;
+
+alter view provider_spend_month set (security_invoker = on);
+
+-- The 30-day retention in `prune_provider_spend` is now load-bearing rather
+-- than tidiness: trimming below a full calendar month would corrupt the
+-- month-to-date total. 30 days is the minimum safe value; leave it alone.
+
+-- ============================================================================
+-- supabase/migrations/0017_ticket_quantity.sql
+-- ============================================================================
+
+-- Number of tickets purchased on an attendance, when a receipt exposes it.
+alter table attendances
+  add column if not exists ticket_quantity integer check (ticket_quantity is null or ticket_quantity > 0);
+
+-- ============================================================================
+-- supabase/migrations/0018_invites_and_heartbeat.sql
+-- ============================================================================
+
+-- Invites (friend and event) plus a liveness heartbeat.
+--
+-- Three unrelated-looking things in one migration because they are all small
+-- and all landed together; splitting them would just be three files to apply.
+
+-- ============================================================ friend invites
+--
+-- Adding a friend currently requires knowing their handle, which means the
+-- handle has to travel out of band before anyone can connect. An invite link
+-- carries the identity itself: the recipient opens it, signs in, and the
+-- friendship is created without either side typing anything.
+--
+-- The token IS the credential, so it is random, revocable, and expiring. It is
+-- deliberately reusable up to `max_uses` — one link pasted into a group chat is
+-- the case this exists for.
+
+create table friend_invites (
+  token       text primary key,
+  user_id     uuid not null references profiles(id) on delete cascade,
+  created_at  timestamptz not null default now(),
+  expires_at  timestamptz not null default now() + interval '30 days',
+  max_uses    integer not null default 25 check (max_uses > 0),
+  uses        integer not null default 0 check (uses >= 0),
+  revoked_at  timestamptz
+);
+
+create index friend_invites_user on friend_invites (user_id);
+
+alter table friend_invites enable row level security;
+
+-- Owners manage their own links. REDEEMING one is not covered by any policy
+-- here: the redeemer cannot see the row (they only hold the token), so that
+-- path goes through the service role in a server action, which is also what
+-- lets it check expiry and use count in one place.
+create policy "own invites readable" on friend_invites
+  for select to authenticated using (user_id = auth.uid());
+
+create policy "create own invites" on friend_invites
+  for insert to authenticated with check (user_id = auth.uid());
+
+create policy "revoke own invites" on friend_invites
+  for update to authenticated
+  using (user_id = auth.uid()) with check (user_id = auth.uid());
+
+create policy "delete own invites" on friend_invites
+  for delete to authenticated using (user_id = auth.uid());
+
+-- ============================================================ event invites
+--
+-- "You should come to this" — one friend pointing another at a specific show.
+--
+-- Distinct from an attendance: the recipient has not said yes to anything yet.
+-- Accepting creates the attendance and closes the invite; declining just closes
+-- it. Unique on (event, sender, recipient) so re-sending is idempotent rather
+-- than filling the recipient's list with duplicates.
+
+create type event_invite_state as enum ('pending', 'accepted', 'declined');
+
+create table event_invites (
+  id           uuid primary key default gen_random_uuid(),
+  event_id     uuid not null references events(id) on delete cascade,
+  from_user_id uuid not null references profiles(id) on delete cascade,
+  to_user_id   uuid not null references profiles(id) on delete cascade,
+  message      text not null default '' check (char_length(message) <= 280),
+  state        event_invite_state not null default 'pending',
+  created_at   timestamptz not null default now(),
+  responded_at timestamptz,
+  constraint event_invites_not_self check (from_user_id <> to_user_id),
+  unique (event_id, from_user_id, to_user_id)
+);
+
+create index event_invites_to_user on event_invites (to_user_id, state);
+create index event_invites_from_user on event_invites (from_user_id);
+
+alter table event_invites enable row level security;
+
+-- Both parties can see the invite; nobody else can.
+create policy "see own event invites" on event_invites
+  for select to authenticated
+  using (from_user_id = auth.uid() or to_user_id = auth.uid());
+
+-- You may only send as yourself, and only to an accepted friend. Without the
+-- friendship check this is an open channel for a stranger to put text in
+-- someone's inbox.
+create policy "send event invites" on event_invites
+  for insert to authenticated
+  with check (
+    from_user_id = auth.uid()
+    and are_friends(auth.uid(), to_user_id)
+  );
+
+-- The recipient responds; the sender may retract by deleting.
+create policy "respond to event invites" on event_invites
+  for update to authenticated
+  using (to_user_id = auth.uid()) with check (to_user_id = auth.uid());
+
+create policy "retract event invites" on event_invites
+  for delete to authenticated using (from_user_id = auth.uid());
+
+-- ============================================================ heartbeat
+--
+-- Supabase pauses a free project after ~7 days with no activity, and the first
+-- person back then hits a dead app. A scheduled write keeps it awake.
+--
+-- A WRITE rather than a read, deliberately: it is unambiguous activity, and the
+-- row's timestamp doubles as a record of when the keep-alive last actually ran,
+-- which is the thing you want to check when the project paused anyway.
+--
+-- Single row, upserted by the service role. No RLS policies at all, so the
+-- table is invisible to every client — nothing outside the cron touches it.
+
+create table service_heartbeat (
+  id         text primary key,
+  beat_at    timestamptz not null default now(),
+  note       text not null default ''
+);
+
+alter table service_heartbeat enable row level security;
+
+insert into service_heartbeat (id, note) values ('keepalive', 'bootstrap')
+  on conflict (id) do nothing;
+
+-- ============================================================================
+-- supabase/migrations/0019_eventbrite_id.sql
+-- ============================================================================
+
+-- Eventbrite event ids on the shared catalog.
+--
+-- Eventbrite is the first provider here that is FIRST-PARTY to the ticket: when
+-- a confirmation carries an Eventbrite link, the id in it identifies the exact
+-- event, and Eventbrite's own API answers with the authoritative name, venue
+-- and — the field that motivated this — a real IANA timezone.
+--
+-- Partial unique index rather than a plain `unique`, matching the pattern in
+-- `0013`: most events have no Eventbrite id, and a plain unique constraint over
+-- a nullable column behaves differently across engines. This one indexes only
+-- the rows that actually carry an id.
+
+alter table events add column if not exists eventbrite_id text;
+
+create unique index if not exists events_eventbrite_id_key
+  on events (eventbrite_id) where eventbrite_id is not null;
+
+-- Eventbrite has no performer entity — it sells tickets to events, not to
+-- artists — so rows written from it have a null `headliner_id` and no
+-- `event_artists`. Nothing to add for that; noted so the absence reads as
+-- deliberate rather than as a gap.

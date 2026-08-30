@@ -29,7 +29,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ handle
       id, state,
       event:events!inner (
         id, tm_id, name, starts_at, timezone, image_url, url, status,
-        venue:venues ( id, name, city, region ),
+        venue:venues ( id, name, city, region, country, timezone ),
         headliner:artists!events_headliner_id_fkey ( id, name, image_url )
       )
     `)

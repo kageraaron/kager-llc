@@ -11,11 +11,11 @@ Ordered by what blocks what. **§1 is the only section that blocks sharing it.**
 | | |
 |---|---|
 | **Deployed** | `stub-two.vercel.app`, commit `8d497ee`, READY. Every route 200, no 5xx. Per-deployment URLs are SSO-walled, see §1.6 |
-| **Prod DB** | `biichwtrfmrdgiqtvxme`, all **16** migrations applied |
+| **Prod DB** | `biichwtrfmrdgiqtvxme`, **16** migrations applied — `0017`, `0018`, `0019` PENDING |
 | **Prod keys** | `RAPID_API_KEY` and `PARSE_API_KEY` both set. Bandsintown is live on the next deploy |
-| **Dev DB** | `syrsjdreydgblrwpalyw`, seeded, all **16** migrations |
-| **Tests** | **91** offline passing; live suites for queries, geocode, Spotify |
-| **Providers wired** | Ticketmaster, JamBase, Spotify/RapidAPI, **Bandsintown/Parse**, setlist.fm, MusicBrainz, Nominatim |
+| **Dev DB** | `syrsjdreydgblrwpalyw`, seeded, all **19** migrations |
+| **Tests** | **151** offline passing; live suites for queries, geocode, Spotify concerts, Spotify Web API, Eventbrite |
+| **Providers wired** | **Eventbrite**, Ticketmaster, JamBase, Spotify/RapidAPI, Bandsintown/Parse, setlist.fm, MusicBrainz, Nominatim |
 | **Email vendors parsed** | Ticketmaster, AXS, DICE, Eventbrite, See Tickets/Eventim, Frontgate, TicketWeb, Etix |
 
 **Blocking a wider share:** Google OAuth test-user list (§1.2) · a domain (§1.4)
@@ -23,7 +23,7 @@ Ordered by what blocks what. **§1 is the only section that blocks sharing it.**
 `RAPID_API_KEY` are both resolved — share `stub-two.vercel.app`, not a
 per-deployment URL.)*
 
-**Nearest high-value work:** invite flow (§2) · friend activity feed (§3.4) ·
+**Nearest high-value work:** friend activity feed (§3.4) ·
 serve Browse from the local catalog (§5.8.3, now the biggest efficiency win
 left) · backfill provider dedupe over existing rows (§5.12).
 
@@ -261,14 +261,42 @@ What actually constrains the friend group:
 | Spotify import | **5 users** | Hard cap, Premium required (see §5.1) |
 | Web push on iOS | 16.4+, **installed only** | Won't fire from a browser tab |
 
-**Free-tier gotcha:** Supabase projects pause after 7 days idle. If friends use
-it sporadically, the first person back hits a dead app. Either upgrade ($25/mo)
-or add a cron ping to keep it warm.
+**Free-tier gotcha** — **RESOLVED 2026-08-29.** Supabase pauses a project after
+roughly 7 days idle, and the first person back would hit a dead app rather than
+a slow one. `api/cron/keepalive` writes one row to `service_heartbeat`, called
+daily from `.github/workflows/stub-cron.yml`.
 
-### Onboarding gap
-There's no invite flow. A new user lands on an empty app with no friends and no
-shows. Worth building: an invite link that pre-fills a friend request, so the
-first thing they see isn't an empty state.
+`gmail-sync` already queried the database every 30 minutes and in practice kept
+it awake, but only for accounts that are connected and active — an app with no
+connected mailbox does no database work at all — and it is exactly the sort of
+job that gets switched off while debugging. The keep-alive has no third-party
+dependency and no per-user state, so it fails only when something real is wrong,
+and the row's timestamp says when it last ran.
+
+Not a Vercel cron: the Hobby plan caps those at two and both slots are taken.
+
+### Onboarding gap — **RESOLVED 2026-08-29**
+Two invite paths now exist.
+
+**Friend invite link** (`friend_invites`, `/invite/[token]`). Adding by handle
+required the handle to travel out of band first, which is a chicken-and-egg
+problem for a new user. The link carries the identity: open it, sign in, already
+friends. Reusable up to 25 times and expiring after 30 days, because the real
+use is one link pasted into a group chat. Redemption runs through the service
+role — the redeemer holds the token but cannot see the row it names.
+
+This needed a fix in the sign-in path to work at all: `/login` was dropping the
+`?next=` middleware sets, so a signed-out visitor following an invite landed on
+an empty Upcoming with no friendship made. `next` is now carried through OAuth
+and the magic link, guarded against protocol-relative off-site redirects on both
+ends.
+
+**Event invites** (`event_invites`). "You should come to this" — a show sent to a
+specific friend, landing in their Inbox with the sender's name on it. Accepting
+records `interested` rather than `going`: being invited is not the same as
+holding a ticket, and Upcoming treats `going` as settled. RLS requires an
+accepted friendship on insert, so this is not an open channel into a stranger's
+inbox.
 
 ---
 
@@ -664,6 +692,296 @@ Covered by `eventbriteSpacedStartDate`, `seeTicketsNoArtistInSubject` and
   minutes for cron to learn whether parsing worked is a miserable loop.
 - **One-step Gmail disconnect**, which deletes the stored tokens rather than
   flagging the row inactive.
+
+---
+
+## 5.7.2 The Silva Bumpa row — two provider bugs, one card — **FIXED**
+
+An Eventbrite confirmation for **Silva Bumpa at Monarch, San Francisco**
+rendered as:
+
+```
+Silva Bumpa
+Silva Bumpa y Dean Turnley
+Mon, Sep 28 · 5:00 AM
+Monarch · San Francisco · CA
+```
+
+Three things wrong on one card, none of them in the email parsing. The ticket
+matched the **Spotify concerts** provider — Ticketmaster returns nothing for
+this show and JamBase's only same-day SF event is Portola — and every fault was
+in what that provider gave us or what we did with it. All three verified against
+the live API on 2026-08-29.
+
+### The time was never 5:00 AM
+
+The API returns `2026-09-27T22:00-07:00`, which normalises to the correct
+instant `2026-09-28T05:00:00.000Z`. The bug was that `upsertSpotifyEvent` wrote
+**`timezone: null`**, on the reasoning that a UTC offset is not an IANA zone —
+true, but it left nothing to render with. The format helpers pass no `timeZone`
+option when they have none, so `toLocaleString` falls back to the RUNTIME's
+zone, and every page here is server-rendered on Vercel, in UTC. 10pm Pacific,
+displayed in UTC, is 5:00 AM the next morning. The instant was right the whole
+time.
+
+Fixed in three layers, because any one of them alone leaves a gap:
+
+- **`lib/timezone.ts`** — region -> IANA, US states and Canadian provinces,
+  disambiguating "CA" by country. Lifted out of `actions.ts`, where a copy had
+  been written for the manual-entry form, and now shared.
+- **Write time** — `upsertSpotifyEvent` resolves the zone from the venue row a
+  richer provider already placed, then from the region, and backfills the venue
+  row so the next provider inherits it.
+- **Render time** — `format.eventZone()` walks event -> venue -> region.
+  Nothing reads `event.timezone` directly any more, including the push
+  reminders, which were announcing the wrong showtime for the same reason.
+
+### The Spanish was Spotify's, and we cannot turn it off
+
+The title came back as `"Silva Bumpa y Dean Turnley"`. Spotify builds a
+multi-act concert title server-side and **localizes it from `Accept-Language`**.
+Fetching the concert page directly proves it — one URL, two languages:
+
+```
+Accept-Language: en-US -> "Silva Bumpa, Dean Turnley Tickets San Francisco (Monarch) on 9/27/2026 at 10:00 PM"
+Accept-Language: es-ES -> "Entradas para Silva Bumpa y Dean Turnley en San Francisco (Monarch) el 27/9/2026 a las 22:00"
+```
+
+(That English string is also independent confirmation of the timezone fix:
+**10:00 PM on 9/27**, not 5:00 AM on 9/28.)
+
+**The `spotify81` proxy sends a Spanish `Accept-Language` upstream and there is
+no way to override it.** Tested against `/partner/concert` on 2026-08-29 — all
+three returned `"Silva Bumpa y Dean Turnley"`:
+
+| Attempt | Result |
+|---|---|
+| plain request | Spanish |
+| `Accept-Language: en-US` on the call to the proxy | Spanish — not forwarded |
+| `locale=en_US` + `market=US` + `language=en` | Spanish — params ignored |
+
+And there is nothing to pass: the endpoint's entire parameter surface is
+`query`, `details`, `detailsLimit`, `geoHash`, `includeNearby`, `parsed`. No
+locale, documented or otherwise.
+
+**This is a different axis from the Montreal thing.** The proxy's *geo* default
+resolves to Montreal — that is why `nearby` is useless and why the related
+concerts are all Quebec. But a Montreal server would give French `"et"`, not
+Spanish `"y"`. Location and language are set independently upstream, and only
+the geo one was already documented. The earlier note in this file blaming server
+location for the language was wrong.
+
+So the title is rebuilt from the `artists` array, which is clean and which we
+were already reading. The separator list covers more than Spanish deliberately:
+the locale this proxy is pinned to could change under us, and the rebuild should
+survive it.
+
+The same response carries `"Real McCoy y Turbo B."`, `"Tinlicker y Helsloot"`,
+and a five-act bill as `"Dom Dolla, Chris Lorenzo, Silva Bumpa, Bushbaby y Cole
+Knight"`. The existing `publicWorks` test fixture had `"Overmono y Ben UFO"` in
+it the whole time and nobody noticed.
+
+### Would the official Spotify Web API fix this? — **no**
+
+Checked, because it is the obvious question. **The public Web API has no
+concerts.** It covers albums, artists, tracks, playlists, player, search,
+audiobooks and episodes; there is no live-events, tour-date or ticketing
+endpoint in it at all. Spotify's concert graph sits behind an internal partner
+API — the `spotify:concert:` URIs and `open.spotify.com/concert` pages — which
+is exactly what this proxy wraps. That is why the proxy is *necessary*, not
+merely convenient, and switching to the Web API would mean losing the club-show
+coverage that motivated adding it (§5.10).
+
+It would also be a dead end for a friend-group app on its own terms: a
+development-mode app is capped at **5 allowlisted users**, and extended quota
+mode has required an **organisation with 250,000+ monthly active users** since
+May 2025 — a bar this project cannot clear. That is the same cap that keeps
+`providers/spotify.ts` a per-user connection rather than the sign-in method
+(§5.1).
+
+### What the Web API IS good for — **BUILT, but narrower than expected**
+
+Artist artwork, as a **fallback**. `providers/spotify.ts` now carries both flows;
+`getArtistMetadata()` is the client-credentials one. It needs only the app's id
+and secret — no redirect URI, no user consent, and the 5-user cap does not bind
+it, because it authorizes no users.
+
+Two live findings on 2026-08-29 cut the feature down from what it was pitched as.
+Both are pinned by `test/live-spotify.test.ts` (`LIVE_TEST=1`).
+
+**1. February 2026 removed every "Get Several" endpoint for development-mode
+apps.** Measured with an app token:
+
+| Endpoint | Status |
+|---|---|
+| `GET /artists/{id}` | **200** |
+| `GET /artists?ids=…` | **403** |
+| `GET /albums/{id}` / `?ids=` | 200 / **403** |
+| `GET /tracks/{id}` / `?ids=` | 200 / **403** |
+| `GET /search` | 200 (`limit` now caps at 10) |
+| `GET /artists/{id}/albums` | 200 |
+| `GET /artists/{id}/top-tracks` | **403** |
+| `GET /artists/{id}/related-artists` | **403** |
+| `GET /browse/new-releases`, `GET /markets` | **403** |
+
+This matches the [published list](https://developer.spotify.com/documentation/web-api/references/changes/february-2026)
+with one exception: the changelog says Get Related Artists is still supported
+and it answered 403. So enrichment costs **one request per artist**, not one per
+lineup — which is why the batching the first cut was built around had to go.
+
+**2. Genres are gone, and artwork is the same URL we already had.** The
+dev-mode artist object is exactly `external_urls`, `href`, `id`, `images`,
+`name`, `type`, `uri`. The migration guide lists `followers` and `popularity` as
+removed and does **not** list `genres` — but no artist returns one, Taylor Swift
+and The Weeknd included. Artist genres therefore still come only from
+Ticketmaster and JamBase.
+
+And the image it returns for Silva Bumpa is byte-identical to the one the
+concerts proxy already gave us — `ab6761610000e5eb…`, the same 640px render.
+
+So this is **not** an upgrade over the proxy. It is worth having for exactly one
+case: the proxy carries artist artwork only in its `details` view, and
+`detailsLimit` caps how many concerts in a response get that view, so later rows
+of a long tour come back as bare names. Those artists have a Spotify id and no
+picture, and this is the only way to give them one.
+
+Scoped accordingly, so it is close to free in the steady state:
+
+- **Only acts with no image in the payload** are looked up at all.
+- **`missingArtwork()`** then drops any the database already resolved — which is
+  what stops the multi-year backfill (§5.15), persisting hundreds of events in a
+  row, from re-asking the same questions hundreds of times.
+- **`MAX_LOOKUPS = 12`**, concurrency 4, one 429 retry honouring `Retry-After`
+  only when the wait is short.
+- **Best-effort throughout.** No credentials, a failed token, a 403, a 404, a
+  network throw — all yield an empty map and the proxy's image stands.
+
+Existing rows are backfilled by pass 3 of `api/cron/repair`, which asks only
+about artists with a Spotify id and no image at all.
+
+**Still not a replacement for the concerts proxy** — no live-event data exists in
+the Web API. This is a complement, and a small one.
+
+### Alternatives evaluated and rejected
+
+| Option | Why not |
+|---|---|
+| A different RapidAPI Spotify wrapper | They all scrape the same upstream — responses carry `"source": "pathfinder-v2"`, Spotify's internal gateway. Reproduced the Spanish through **two independent subscriptions** (our key and a separate one), so the locale is pinned at the vendor's client, not at our account. No wrapper documents or exposes a locale knob, the vendor's own portal included. Picking one that happens to answer in English is luck that can flip silently. |
+| Official Spotify Web API for concerts | No concerts endpoint exists. |
+| Songkick | Closed: *"not approving API requests for student projects, educational purposes or hobbyist purposes."* Paid licensing and a signed partnership agreement only. |
+
+The rewrite only fires when the stored title is **demonstrably nothing but the
+lineup joined together**: split on every separator and conjunction we know of,
+and require the pieces to be exactly the set of billed acts. `"Goldrush:
+Midnight Riders"` and `"Leeds Festival 2026 - Sunday"` fail that test and pass
+through untouched, which is the important half — those titles carry information
+the lineup does not. It also fails safe on a name that contains a conjunction:
+`"Y La Bamba"` splits into `"La Bamba"`, stops matching, and the provider's
+title survives.
+
+A display-layer `.replace(/ y /, ' and ')` was the tempting fix and is the wrong
+one: it only handles Spanish, it leaves the database wrong, and it does not
+reach the ICS feed, the calendar subscription, the push payload, or the matcher.
+
+### The missing artist photo
+
+Spotify **does** have artwork for both acts — but only under `details.artists[]`,
+and `normalizeConcert` was reading the top-level `artists`, which carries names
+alone. So `upsertSpotifyArtist` stored no `image_url`, and for a club-circuit
+act no other provider in the cascade has one either. The lineup is now merged
+from both views and the artwork stored.
+
+`initials()` is the fallback for when it genuinely is absent — "SB" on a tinted
+tile, rather than an empty grey square.
+
+### Repairing rows already written
+
+**Re-ingesting the email does not fix these.** Ingestion dedupes on a content
+hash, so a confirmation that has been read once is skipped forever. Existing
+rows have to be repaired in place: `api/cron/repair` (CRON_SECRET, manual
+trigger only, idempotent) fills missing venue and event zones and rewrites
+titles that are localized lineup joins. Run it once via the workflow's
+`workflow_dispatch` after deploying.
+
+---
+
+## 5.16 Eventbrite — the first FIRST-PARTY provider — 2026-08-29
+
+Every other provider in the cascade is a third party guessing which real-world
+show a ticket refers to. Eventbrite is not: when an Eventbrite confirmation
+lands, the email carries the **event id**, and we hand it back to the company
+that sold the ticket.
+
+That closes the exact gap §5.7.2 is about. For the Monarch booking:
+
+| Field | Spotify proxy | Email JSON-LD | **Eventbrite API** |
+|---|---|---|---|
+| name | `Silva Bumpa y Dean Turnley` | `Silva Bumpa` | **`Silva Bumpa`** |
+| start | correct instant | `2026-09-27 22:00:00` (no zone) | **`2026-09-28T05:00:00Z`** |
+| timezone | **null** — the bug | absent | **`America/Los_Angeles`** |
+| venue | Monarch | Monarch | **Monarch + coordinates** |
+| image | none | none | **event artwork** |
+
+Even the confirmation email's own structured data cannot supply the zone. Only
+the vendor knows it.
+
+### Free, and by a wide margin the cheapest thing here
+
+Measured from the `x-rate-limit` response header: **2,000 requests per hour**.
+
+| Provider | Allowance |
+|---|---|
+| Ticketmaster | 5,000/day |
+| **Eventbrite** | **2,000/hour** |
+| JamBase | trial quota |
+| Spotify (RapidAPI) | 1,000/month |
+| Bandsintown (Parse) | ~200 credits total |
+
+So it goes **first** in the cascade. That costs nothing on other vendors' mail,
+because it only runs when the email actually carried an Eventbrite link — and
+when it does, `scoreCandidate` returns confidence 1 and the cascade stops before
+spending a single metered request anywhere else. An Eventbrite ticket now
+resolves for free where it used to walk all the way down to Spotify.
+
+### What it cannot do
+
+**Public event search is gone** — `/v3/events/search/` returns 404. Eventbrite
+withdrew it years ago. This provider can answer "what is event 12345?" and never
+"what is on near me", which is why it is not wired into Browse. `0019` and the
+live suite pin both facts.
+
+### Shape of the integration
+
+- `providers/eventbrite.ts` — `eventIdFromText` (handles slugged URLs, bare ids,
+  other TLDs, and links a bulk sender percent-encoded inside a click tracker),
+  plus `getEvent`.
+- `ParsedTicket.ebEventId`, extracted by the Eventbrite vendor spec, exactly
+  parallel to `tmEventId`.
+- `upsertEventbriteEvent` in `catalog.ts`, with `events.eventbrite_id` (`0019`).
+  It **reconciles**: if Browse already created a Spotify or JamBase row for the
+  same gig, this merges into it — and unlike the Bandsintown path it overwrites
+  `timezone` outright, because the incumbent's is `null` by construction and
+  that is the fault being corrected.
+- Online-only events are skipped: a webinar is not a show anyone attends.
+
+**No artists.** Eventbrite sells tickets to *events* and has no performer
+entity, so these rows have a null `headliner_id` and no `event_artists`. The
+card falls back to the event name and its initials — which for "Silva Bumpa" is
+the right answer anyway.
+
+### Not built: order import
+
+`GET /v3/users/me/orders/` works and is a **complete purchase history** — 20
+real orders back to 2016 on the live account, each with gross cost, attendee
+count and the full event. That is, in one request, most of what §5.15's
+multi-year email backfill is trying to reconstruct by parsing, and it is
+authoritative rather than inferred.
+
+It is not wired in because the key is a **personal token for one account**.
+Using it to import "my orders" would import the token owner's orders for
+whoever clicked, which is a privacy bug rather than a feature. Doing it properly
+means per-user Eventbrite OAuth, alongside the Gmail and Spotify connections —
+a real piece of work, and the obvious next one.
 
 ---
 
@@ -1137,6 +1455,70 @@ Full pass over prod: RLS, grants, secrets, endpoint auth, crypto.
 - [ ] Pre-existing advisor warnings, unchanged: `pg_trgm` in the public schema,
       `are_friends` executable as SECURITY DEFINER by `authenticated`, leaked-
       password protection disabled. See §6.
+
+---
+
+## 5.15 Ticket counts, deep backfill, and the Upcoming pill — 2026-08-29
+
+### How many tickets — `attendances.ticket_quantity` (`0017`)
+
+Parsed from the receipt where one exists, tried strongest-signal first:
+
+1. a labelled count — "Quantity: 4", "Qty 2", "Number of tickets: 3";
+2. counted in prose — "3 tickets", "2 x General Admission", and the AXS transfer
+   line "Alex transferred 3 tickets to you";
+3. a flattened receipt table.
+
+The third needed the most care. `htmlToText` treats `<td>` as a block tag, so a
+receipt table does not arrive as rows of columns — every cell lands on its own
+line, and in the AXS layout the header cells end up four lines from their
+values. Anchoring on nearby words does not work. What the layouts share is a
+line holding **nothing but a small integer with a money cell within two lines**,
+which is what the extractor keys on. Capped at 20: a bigger number in that
+position is a row count or a seat number.
+
+A bare `Tickets: 2` is deliberately not a signal. "Tickets" is far too common a
+word in these emails ("your tickets 2 days before the show").
+
+Shown on the event page as total, count and per-ticket price, editable by hand —
+a guest-list add has no price and a transfer has no order table, so parsing will
+never cover everything.
+
+One related bug fixed while here: `buildExtractor` spread the vendor-specific
+result over the shared heuristics, so a vendor pass returning `undefined` for a
+field it looked for and did not find **deleted** the value the heuristics had
+already produced. Only defined values win now.
+
+### Going / Interested on the Upcoming list
+
+The card shows the viewer's own attendance state as its first pill. The
+distinction is "tickets bought" versus "want to go", which was previously only
+visible by opening each show. The "From Gmail" source badge lost its accent
+colour so the state pill is the one that reads.
+
+### Scanning years back — configurable lookback
+
+The scan window is now a select: 30 days, 1, 2, 5 or 10 years.
+
+It had to become **resumable** to work at all. A decade of ticket mail is
+thousands of messages, each costing a Gmail fetch, an extraction and — when it
+parses — a walk down the provider cascade. That is nowhere near 60 seconds, and
+`maxDuration` is 60. So `listMessagePage` returns one page plus a cursor, the
+route handles one page per request, and the client loops with a running count
+and a Stop button. A timeout costs a page, not the scan. The incremental
+`history_id` only advances on the **last** page — moving it early would mark
+everything as seen while older pages were still unprocessed, and the nightly
+cron would never revisit them.
+
+**Set expectations before running one.** Every provider in the cascade lists
+shows that are *on sale*. A confirmation from 2021 parses fine and matches
+nothing, so it lands in the review queue for a manual add rather than appearing
+in the Archive on its own. The UI says so above the button.
+
+Genuine archive backfill wants `bandsintown.getArtistPastEvents`, which is
+already wrapped and is the only source here that answers "what did they play
+near me in 2024". Not wired into ingestion yet — it costs a credit per artist
+off a ~200-credit balance, so it needs a budget story first.
 
 ---
 

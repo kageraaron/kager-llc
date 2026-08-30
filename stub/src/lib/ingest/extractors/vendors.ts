@@ -1,9 +1,11 @@
 import type { Extractor, NormalizedEmail, ParsedTicket } from '@/lib/types';
 import { htmlToText, senderDomain, extractLinks } from '@/lib/ingest/html';
+import { eventIdFromText as ebEventIdFromText } from '@/lib/providers/eventbrite';
 import {
   findDate,
   findOrderNumber,
   findPrice,
+  findTicketQuantity,
   findVenue,
   cleanArtistName,
 } from '@/lib/ingest/extractors/heuristics';
@@ -32,6 +34,21 @@ interface VendorSpec {
   trustDomain?: boolean;
   /** Vendor-specific pass, run before the shared heuristics fill the gaps. */
   specific?: (email: NormalizedEmail, text: string) => Partial<ParsedTicket>;
+}
+
+/**
+ * Eventbrite puts the event id in every deep link, the same way Ticketmaster
+ * does. It is worth strictly more here, though: the id can be handed straight
+ * back to Eventbrite's own API for an authoritative answer, including the IANA
+ * timezone the email's JSON-LD leaves out.
+ */
+function eventbriteEventId(email: NormalizedEmail, text: string): string | undefined {
+  for (const href of extractLinks(email.html)) {
+    const id = ebEventIdFromText(href);
+    if (id) return id;
+  }
+  // Plain-text alternatives carry bare URLs with no href to extract.
+  return ebEventIdFromText(email.html) ?? ebEventIdFromText(text);
 }
 
 /** Ticketmaster/Live Nation put the event id in every deep link. */
@@ -116,6 +133,7 @@ function parseAxsTransfer(text: string): Partial<ParsedTicket> | null {
   const out: Partial<ParsedTicket> = {
     artistName: cleanArtistName(eventLine),
     startsAt: findDate(dateLine),
+    ticketQuantity: Number(/\btransferred\s+(\d+)\s+tickets?\s+to\s+you/i.exec(all[at])?.[1] ?? '') || undefined,
   };
 
   // "Shed A, San Francisco, CA"
@@ -271,6 +289,7 @@ const SPECS: VendorSpec[] = [
             artistName: cleanArtistName(order[1]),
             venueName: order[2].trim(),
             startsAt: findDate(order[3]),
+            ticketQuantity: findTicketQuantity(haystack),
           };
         }
       }
@@ -369,6 +388,7 @@ const SPECS: VendorSpec[] = [
     domains: ['eventbrite.com', 'order.eventbrite.com', 'noreply.eventbrite.com'],
     subject: /(?:your tickets?|order confirmation|you're going)/i,
     specific: (email, text) => ({
+      ebEventId: eventbriteEventId(email, text),
       eventName: artistFromSubject(email.subject, /^(?:your tickets? (?:for|to)|order confirmation(?: for)?)\s*/i),
       ...findVenue(text),
     }),
@@ -446,6 +466,13 @@ const SPECS: VendorSpec[] = [
   },
 ];
 
+/** Drop keys whose value is `undefined`, so a spread cannot erase a known field. */
+function definedOnly(vendor: Partial<ParsedTicket>): Partial<ParsedTicket> {
+  return Object.fromEntries(
+    Object.entries(vendor).filter(([, v]) => v !== undefined),
+  ) as Partial<ParsedTicket>;
+}
+
 function buildExtractor(spec: VendorSpec): Extractor {
   return {
     name: spec.name,
@@ -462,14 +489,29 @@ function buildExtractor(spec: VendorSpec): Extractor {
       const vendor = spec.specific?.(email, text) ?? {};
       const price = findPrice(text);
 
+      /*
+       * Quantity often lives ONLY in the HTML. A multipart AXS confirmation
+       * sends a plain-text part whose order table has been flattened to
+       * "Order details for ** *Quantity* *Type* ..." with every value stripped
+       * out, while the HTML still has the real row. So fall back to the HTML
+       * view rather than concluding the count is unknown.
+       */
+      const ticketQuantity =
+        findTicketQuantity(text) ??
+        (email.html ? findTicketQuantity(htmlToText(email.html)) : undefined);
+
       const ticket: ParsedTicket = {
         // Event dates are in the future at purchase time; that disambiguates
         // the event date from the order date sitting right next to it.
         startsAt: findDate(text, { preferFuture: true }),
         ticketRef: findOrderNumber(text),
         priceCents: price.cents,
+        ticketQuantity,
         currency: price.currency,
-        ...vendor,
+        // A vendor pass that looked for a field and did not find it returns
+        // `undefined` for it. Spreading that would DELETE the value the shared
+        // heuristics just found, so only real values are allowed to win.
+        ...definedOnly(vendor),
       };
 
       // Require at least a name and a date, else this is not a ticket email.

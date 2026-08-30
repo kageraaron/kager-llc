@@ -153,6 +153,18 @@ button { font: inherit; color: inherit; cursor: pointer; background: none; borde
   flex-shrink: 0;
 }
 
+.thumb-initials {
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  font-weight: 750;
+  letter-spacing: 0;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent) 16%, transparent), transparent),
+    var(--surface-2);
+  border: 1px solid var(--border);
+}
+
 .card .body { min-width: 0; flex: 1; }
 .card .title {
   font-weight: 650;
@@ -242,6 +254,8 @@ textarea.input { resize: vertical; min-height: 120px; line-height: 1.5; }
 }
 .pill-going { background: var(--accent-dim); color: var(--accent); border-color: transparent; }
 .pill-review { background: color-mix(in srgb, var(--warn) 18%, transparent); color: var(--warn); border-color: transparent; }
+/* Interested is the weaker commitment of the two, so it reads quieter than Going. */
+.pill-interested { background: var(--surface-2); color: var(--muted); }
 
 .avatar {
   width: 36px;

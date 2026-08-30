@@ -142,6 +142,7 @@ describe('real-world vendor emails', () => {
     expect(t.ticketRef).toBe('40000000');
     // Grand Total, not the $240.00 Sub Total sitting above it.
     expect(t.priceCents).toBe(31164);
+    expect(t.ticketQuantity).toBe(4);
     expect(t.currency).toBe('USD');
   });
 
@@ -158,6 +159,7 @@ describe('real-world vendor emails', () => {
     // No order number or price on a transfer, and that must not disqualify it.
     expect(t.ticketRef).toBeUndefined();
     expect(t.priceCents).toBeUndefined();
+    expect(t.ticketQuantity).toBe(3);
   });
 
   it('See Tickets: guest-list confirmation with a labelled block', () => {
@@ -187,6 +189,7 @@ describe('real-world vendor emails', () => {
     expect(t.ticketRef).toBe('100000000');
     // $1037.95 total, not the $1018.00 "Event Subtotal".
     expect(t.priceCents).toBe(103795);
+    expect(t.ticketQuantity).toBe(2);
   });
 });
 

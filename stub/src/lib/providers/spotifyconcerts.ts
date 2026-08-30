@@ -25,6 +25,30 @@
  * So this complements JamBase rather than replacing it: artist queries here,
  * location queries there.
  *
+ * It also answers in SPANISH, and cannot be asked not to. That corrupts nothing
+ * we depend on for matching — artist names, dates, venues and ids all come back
+ * clean — but it does reach the generated event TITLE. See `titleFor`.
+ *
+ * ## Why not the official Spotify Web API
+ *
+ * Because concerts are not in it. The public Web API covers albums, artists,
+ * tracks, playlists, player, search and audiobooks; there is no live-events,
+ * tour-date or ticketing endpoint anywhere in it. Spotify's concert graph lives
+ * behind an internal partner API — the `spotify:concert:` URIs and
+ * open.spotify.com/concert pages — which is what this proxy wraps and what
+ * makes the proxy necessary rather than merely convenient.
+ *
+ * The Web API would additionally be a dead end for a friend-group app: an app
+ * in development mode is capped at 5 allowlisted users, and extended quota mode
+ * has required an organisation with 250,000+ monthly active users since May
+ * 2025. That cap is why `providers/spotify.ts` is a per-user connection rather
+ * than the sign-in method.
+ *
+ * It IS the right source for artist metadata if the artwork here ever proves
+ * unreliable: `GET /v1/artists/{id}` takes the same Spotify artist id the
+ * concert payload gives us, and the client-credentials flow authorizes no users
+ * at all, so the 5-user cap does not apply to it.
+ *
  * BILLING: the free plan is **1000 requests per month** — by a wide margin the
  * tightest limit of any provider here. Every call site must go through the
  * cache in `lib/cache.ts`, and `isConfigured()` lets callers degrade to JamBase
@@ -40,6 +64,13 @@ export function isConfigured(): boolean {
 
 // ---------------------------------------------------------------- raw shapes
 
+interface RawArtistRef {
+  id?: string;
+  uri?: string;
+  name?: string;
+  imageUrl?: string | null;
+}
+
 interface RawConcert {
   id?: string;
   uri?: string;
@@ -54,7 +85,10 @@ interface RawConcert {
   festival?: boolean;
   status?: string | null;
   shareUrl?: string | null;
-  artists?: { name?: string }[];
+  /** Top-level refs carry a NAME only. The images live under `details`. */
+  artists?: RawArtistRef[];
+  /** Present only with `details=true`; the richer view of the same concert. */
+  details?: { artists?: RawArtistRef[] } | null;
 }
 
 interface RawResponse {
@@ -71,6 +105,17 @@ interface RawResponse {
 export interface SpotifyArtist {
   id: string;
   name: string;
+  imageUrl: string | null;
+}
+
+/**
+ * One billed act. `id` and `imageUrl` come from the `details` view and are the
+ * only artist artwork any provider in the cascade offers for a club show — the
+ * reason a Monarch booking used to render with a blank thumbnail.
+ */
+export interface SpotifyLineupArtist {
+  name: string;
+  spotifyArtistId: string | null;
   imageUrl: string | null;
 }
 
@@ -92,6 +137,8 @@ export interface SpotifyConcert {
   url: string | null;
   /** Full billed lineup, in the API's order. */
   artists: string[];
+  /** The same lineup with whatever ids and artwork the `details` view carried. */
+  lineup: SpotifyLineupArtist[];
 }
 
 export interface ArtistConcerts {
@@ -139,15 +186,114 @@ function toIso(raw: string | undefined): string | null {
   return Number.isNaN(t) ? null : new Date(t).toISOString();
 }
 
+/**
+ * Merge the two views of the billed lineup.
+ *
+ * The top-level `artists` array carries names only; `details.artists` carries
+ * the same acts with their Spotify id and artwork. Names are the join key
+ * because the two views agree on them and on nothing else reliably.
+ */
+function mergeLineup(raw: RawConcert): SpotifyLineupArtist[] {
+  const detailed = new Map<string, RawArtistRef>();
+  for (const a of raw.details?.artists ?? []) {
+    if (a.name) detailed.set(norm(a.name), a);
+  }
+
+  const order = (raw.artists ?? []).length ? raw.artists ?? [] : raw.details?.artists ?? [];
+  const out: SpotifyLineupArtist[] = [];
+  for (const a of order) {
+    if (!a.name) continue;
+    const rich = detailed.get(norm(a.name));
+    out.push({
+      name: a.name,
+      spotifyArtistId: rich?.id ?? a.id ?? rich?.uri?.split(':').pop() ?? null,
+      imageUrl: rich?.imageUrl ?? a.imageUrl ?? null,
+    });
+  }
+  return out;
+}
+
+/**
+ * Separators Spotify uses to join a lineup into a title.
+ *
+ * ## Why the titles come back in Spanish
+ *
+ * Spotify builds a multi-act concert title server-side and localizes it from
+ * the request's `Accept-Language`. Fetching the same concert page directly
+ * proves it — one URL, two languages:
+ *
+ *   Accept-Language: en-US -> "Silva Bumpa, Dean Turnley Tickets San Francisco…"
+ *   Accept-Language: es-ES -> "Entradas para Silva Bumpa y Dean Turnley en…"
+ *
+ * **This proxy sends a Spanish one upstream, and nothing we do changes that.**
+ * Verified on 2026-08-29 against `/partner/concert`, which returned
+ * "Silva Bumpa y Dean Turnley" for all three of:
+ *
+ *   - a plain request;
+ *   - `Accept-Language: en-US` set on the call to the proxy (not forwarded);
+ *   - `locale=en_US`, `market=US` and `language=en` as query parameters.
+ *
+ * The endpoint has no locale parameter to pass — `query`, `details`,
+ * `detailsLimit`, `geoHash`, `includeNearby` and `parsed` are the entire
+ * surface. So the title cannot be fixed at the source and is rebuilt from the
+ * lineup instead; see `titleFor`.
+ *
+ * Not to be confused with the proxy's GEO default, which resolves to Montreal
+ * (see the module header on `nearby`). Location and language are separate axes
+ * here — a Montreal server would give French "et", not Spanish "y".
+ *
+ * The separators below therefore have to cover more than Spanish: whatever
+ * locale this proxy is pinned to could change under us, and the same rebuild
+ * should keep working when it does.
+ */
+const TITLE_SEPARATORS =
+  /\s*(?:,|&|\+|\band\b|\by\b|\be\b|\bet\b|\bund\b|\ben\b|\bi\b|\boch\b|\bog\b|\bja\b|\bmed\b)\s*/gi;
+
+/** "A" / "A and B" / "A, B and C" — the English join Spotify would have used. */
+function joinNames(names: string[]): string {
+  if (names.length <= 1) return names[0] ?? '';
+  return `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`;
+}
+
+/**
+ * The event title, with a generated lineup join rewritten in English.
+ *
+ * The rewrite is applied ONLY when the provider's title is demonstrably nothing
+ * but the lineup joined together: split it on every separator and conjunction
+ * we know of, and require the pieces to be exactly the set of billed acts. A
+ * promoter's real title ("Goldrush: Midnight Riders", "Leeds Festival 2026")
+ * does not survive that test and is passed through untouched, which is the
+ * important half — those titles carry information the lineup does not.
+ *
+ * The test also fails safe on a name that CONTAINS a conjunction ("Y La Bamba"
+ * splits into "La Bamba", which no longer matches the lineup), so the worst
+ * case is that we leave the provider's title alone.
+ */
+export function titleFor(rawTitle: string, lineup: SpotifyLineupArtist[]): string {
+  const names = lineup.map((a) => a.name);
+  if (names.length === 0) return rawTitle;
+  if (names.length === 1) return rawTitle.trim() === names[0].trim() ? names[0] : rawTitle;
+
+  const parts = rawTitle.split(TITLE_SEPARATORS).map((p) => p.trim()).filter(Boolean);
+  if (parts.length !== names.length) return rawTitle;
+
+  const billed = new Set(names.map(norm));
+  if (!parts.every((p) => billed.has(norm(p)))) return rawTitle;
+
+  return joinNames(names);
+}
+
 /** Pure: raw row → our shape, or null if it lacks an id or a usable date. */
 export function normalizeConcert(raw: RawConcert): SpotifyConcert | null {
   const id = raw.id ?? raw.uri?.split(':').pop();
   const startsAt = toIso(raw.startDateIsoString);
   if (!id || !startsAt) return null;
 
+  const lineup = mergeLineup(raw);
+
   return {
     id,
-    title: raw.title ?? 'Untitled',
+    title: titleFor(raw.title ?? 'Untitled', lineup),
     startsAt,
     city: raw.city ?? null,
     region: raw.region ?? null,
@@ -158,7 +304,8 @@ export function normalizeConcert(raw: RawConcert): SpotifyConcert | null {
     lng: raw.coordinates?.longitude ?? null,
     isFestival: !!raw.festival,
     url: raw.shareUrl ?? null,
-    artists: (raw.artists ?? []).map((a) => a.name).filter((n): n is string => !!n),
+    artists: lineup.map((a) => a.name),
+    lineup,
   };
 }
 

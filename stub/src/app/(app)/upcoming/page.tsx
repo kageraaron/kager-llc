@@ -62,10 +62,13 @@ export default async function UpcomingPage() {
           <EventCard
             key={row.id}
             event={row.event}
+            state={row.state}
             friends={friendsByEvent.get(row.event.id)?.map((f) => f.profile)}
+            // Deliberately untoned. The attendance pill beside it is the one
+            // worth the accent colour; two accented pills in a row read as noise.
             badge={
               row.source !== 'manual'
-                ? { label: row.source === 'gmail' ? 'From Gmail' : 'Imported', tone: 'going' }
+                ? { label: row.source === 'gmail' ? 'From Gmail' : 'Imported' }
                 : undefined
             }
           />

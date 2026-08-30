@@ -38,8 +38,10 @@ interface JsonLdNode {
   addressRegion?: string;
   addressCountry?: string | { name?: string };
   performer?: JsonLdNode | JsonLdNode[];
-  reservedTicket?: { ticketNumber?: string; ticketedSeat?: Record<string, string> };
+  reservedTicket?: { ticketNumber?: string; ticketedSeat?: Record<string, string> } | { ticketNumber?: string; ticketedSeat?: Record<string, string> }[];
   totalPrice?: string | number;
+  totalTicketQuantity?: string | number;
+  numTickets?: string | number;
   priceCurrency?: string;
   bookingTime?: string;
 }
@@ -71,12 +73,21 @@ function money(total?: string | number): number | undefined {
   return Number.isFinite(n) ? Math.round(n * 100) : undefined;
 }
 
+function quantity(raw?: string | number): number | undefined {
+  if (raw === undefined || raw === null) return undefined;
+  const n = typeof raw === 'number' ? raw : Number(String(raw).replace(/[^0-9]/g, ''));
+  return Number.isInteger(n) && n > 0 && n <= 20 ? n : undefined;
+}
+
 /** Walk a node into a ParsedTicket, given the event node and optional reservation wrapper. */
 function fromEventNode(event: JsonLdNode, reservation?: JsonLdNode): ParsedTicket | null {
   if (!event.name && !event.startDate) return null;
 
   const { city, region, country } = addressOf(event.location);
-  const seat = reservation?.reservedTicket?.ticketedSeat;
+  const reservedTicket = Array.isArray(reservation?.reservedTicket)
+    ? reservation?.reservedTicket[0]
+    : reservation?.reservedTicket;
+  const seat = reservedTicket?.ticketedSeat;
   const seatInfo = seat
     ? [seat.seatSection, seat.seatRow, seat.seatNumber].filter(Boolean).join(' · ') || undefined
     : undefined;
@@ -90,9 +101,13 @@ function fromEventNode(event: JsonLdNode, reservation?: JsonLdNode): ParsedTicke
     country,
     startsAt: normalizeIsoish(event.startDate),
     sourceUrl: event.url ?? reservation?.url,
-    ticketRef: reservation?.reservationNumber ?? reservation?.reservedTicket?.ticketNumber,
+    ticketRef: reservation?.reservationNumber ?? reservedTicket?.ticketNumber,
     seatInfo,
     priceCents: money(reservation?.totalPrice),
+    ticketQuantity:
+      quantity(reservation?.totalTicketQuantity) ??
+      quantity(reservation?.numTickets) ??
+      (Array.isArray(reservation?.reservedTicket) ? reservation.reservedTicket.length : undefined),
     currency: reservation?.priceCurrency,
     purchasedAt: reservation?.bookingTime,
   };

@@ -335,22 +335,17 @@ export function matchesQuery(query: string, artistName: string): boolean {
 }
 
 /**
- * Resolve a naive local wall time against a zone.
+ * Resolving a naive local wall time against a zone is not Bandsintown-specific
+ * — the manual entry form needs the same thing — so it lives in `lib/timezone`
+ * and is re-exported here for the call sites that already import it from this
+ * module.
  *
- * `2026-09-27T22:00:00` + `America/Los_Angeles` → `2026-09-28T05:00:00.000Z`.
+ * `2026-09-27T22:00:00` + `America/Los_Angeles` -> `2026-09-28T05:00:00.000Z`.
  * With no zone we cannot honestly produce an instant, so the caller gets null
  * and decides — `upsertBandsintownEvent` anchors it as UTC and leaves
- * `timezone` null, which is what the Spotify path already does.
+ * `timezone` null.
  */
-export function toInstant(local: string, timezone: string | null): string | null {
-  if (!timezone) return null;
-  const naive = new Date(`${local.replace(/Z$/, '')}Z`);
-  if (Number.isNaN(naive.getTime())) return null;
-
-  const asUtc = new Date(naive.toLocaleString('en-US', { timeZone: 'UTC' }));
-  const asLocal = new Date(naive.toLocaleString('en-US', { timeZone: timezone }));
-  return new Date(naive.getTime() + (asUtc.getTime() - asLocal.getTime())).toISOString();
-}
+export { toInstant } from '@/lib/timezone';
 
 // ---------------------------------------------------------------- endpoints
 

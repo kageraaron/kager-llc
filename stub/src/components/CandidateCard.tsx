@@ -3,7 +3,7 @@
 import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { confirmCandidate, rejectCandidate, createEventFromCandidate } from '@/app/actions';
-import { formatEventDate, venueLine } from '@/lib/format';
+import { displayEventName, eventZone, formatEventDate, initials, venueLine } from '@/lib/format';
 import type { ParsedTicket } from '@/lib/types';
 
 interface Props {
@@ -19,7 +19,13 @@ interface Props {
       starts_at: string;
       timezone: string | null;
       image_url: string | null;
-      venue: { name: string; city: string | null; region: string | null } | null;
+      venue: {
+        name: string;
+        city: string | null;
+        region: string | null;
+        country: string | null;
+        timezone: string | null;
+      } | null;
     } | null;
   };
 }
@@ -59,6 +65,7 @@ export function CandidateCard({ candidate }: Props) {
   const pct = Math.round(candidate.confidence * 100);
   // Creating the show by hand needs at minimum something to call it and a date.
   const canAddManually = Boolean((parsed.artistName ?? parsed.eventName) && parsed.startsAt);
+  const eventTitle = event ? displayEventName(event) : null;
 
   return (
     <div className="card" style={{ flexDirection: 'column', gap: 10 }}>
@@ -94,12 +101,14 @@ export function CandidateCard({ candidate }: Props) {
               // eslint-disable-next-line @next/next/no-img-element
               <img className="thumb" style={{ width: 44, height: 44 }} src={event.image_url} alt="" />
             ) : (
-              <div className="thumb" style={{ width: 44, height: 44 }} />
+              <div className="thumb thumb-initials" style={{ width: 44, height: 44 }}>
+                {initials(eventTitle ?? event.name)}
+              </div>
             )}
             <div style={{ minWidth: 0 }}>
-              <div style={{ fontWeight: 600 }}>{event.name}</div>
+              <div style={{ fontWeight: 600 }}>{eventTitle}</div>
               <div className="muted">{venueLine(event.venue)}</div>
-              <div className="muted">{formatEventDate(event.starts_at, event.timezone)}</div>
+              <div className="muted">{formatEventDate(event.starts_at, eventZone(event))}</div>
             </div>
           </div>
         </div>

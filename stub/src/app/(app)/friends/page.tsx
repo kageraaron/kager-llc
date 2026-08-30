@@ -4,6 +4,7 @@ import { getCurrentUser } from '@/lib/auth';
 import { getFriendsPlans } from '@/lib/queries';
 import { EventCard } from '@/components/EventCard';
 import { AddFriend, FriendRequestRow } from '@/components/FriendControls';
+import { InviteLink } from '@/components/InviteLink';
 
 export const dynamic = 'force-dynamic';
 
@@ -47,6 +48,7 @@ export default async function FriendsPage() {
       </header>
 
       <AddFriend />
+      <InviteLink />
 
       {incoming.length > 0 && (
         <section>

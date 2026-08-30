@@ -6,6 +6,8 @@ import * as spotifyconcerts from '@/lib/providers/spotifyconcerts';
 import type { SpotifyConcert } from '@/lib/providers/spotifyconcerts';
 import * as bandsintown from '@/lib/providers/bandsintown';
 import type { BITEvent } from '@/lib/providers/bandsintown';
+import * as eventbrite from '@/lib/providers/eventbrite';
+import type { EBEvent } from '@/lib/providers/eventbrite';
 import { cachedArtistConcerts, cachedBandsintownArtist } from '@/lib/cache';
 
 /**
@@ -78,7 +80,12 @@ export function similarity(a: string, b: string): number {
  * `raw` is carried through untouched so that, once a candidate wins, it can be
  * handed to the right catalog upsert.
  */
-export type CandidateSource = 'ticketmaster' | 'jambase' | 'spotify' | 'bandsintown';
+export type CandidateSource =
+  | 'eventbrite'
+  | 'ticketmaster'
+  | 'jambase'
+  | 'spotify'
+  | 'bandsintown';
 
 export interface CatalogCandidate {
   source: CandidateSource;
@@ -91,13 +98,31 @@ export interface CatalogCandidate {
   startsAt: string | null;
   venueName: string | null;
   city: string | null;
-  raw: TMEvent | JBEvent | SpotifyConcert | BITEvent;
+  raw: TMEvent | JBEvent | SpotifyConcert | BITEvent | EBEvent;
 }
 
 function msOrNull(iso: string | null): number | null {
   if (!iso) return null;
   const t = new Date(iso).getTime();
   return Number.isNaN(t) ? null : t;
+}
+
+/**
+ * Eventbrite candidates are only ever produced from an id the email itself
+ * carried, so there is no fuzzy resolution step and no wrong-artist risk.
+ */
+export function fromEventbrite(ev: EBEvent): CatalogCandidate {
+  return {
+    source: 'eventbrite',
+    id: ev.id,
+    // Eventbrite has no separate artist entity; the event name is the billing.
+    artistName: null,
+    name: ev.name,
+    startsAt: ev.startsAt,
+    venueName: ev.venueName,
+    city: ev.city,
+    raw: ev,
+  };
 }
 
 export function fromTicketmaster(ev: TMEvent): CatalogCandidate {
@@ -184,6 +209,14 @@ export function scoreCandidate(ticket: ParsedTicket, c: CatalogCandidate): Score
   // A direct id from the email body is as good as it gets.
   if (ticket.tmEventId && c.source === 'ticketmaster' && ticket.tmEventId === c.id) {
     return { candidate: c, confidence: 1, reasons: ['exact Ticketmaster event id'] };
+  }
+  /*
+   * Same reasoning for Eventbrite, and if anything stronger: the candidate was
+   * FETCHED BY that id from Eventbrite's own API, so this is not a match at all
+   * — it is the event the ticket is for, told to us by the company that sold it.
+   */
+  if (ticket.ebEventId && c.source === 'eventbrite' && ticket.ebEventId === c.id) {
+    return { candidate: c, confidence: 1, reasons: ['exact Eventbrite event id'] };
   }
 
   let score = 0;
@@ -296,6 +329,25 @@ function withinWindow(ticket: ParsedTicket, startsAt: string | null): boolean {
   return Math.abs(want - got) <= DATE_SLACK_MS;
 }
 
+/**
+ * The event the email points at, straight from the vendor that sold the ticket.
+ *
+ * Costs one request against a 2,000/hour allowance, and only ever runs when the
+ * email carried an Eventbrite link — so it is free in both senses on every
+ * other vendor's mail.
+ */
+async function eventbriteCandidates(ticket: ParsedTicket): Promise<CatalogCandidate[]> {
+  const id = eventbrite.eventIdForTicket(ticket);
+  if (!id || !eventbrite.isConfigured()) return [];
+
+  const event = await eventbrite.getEvent(id);
+  // An online-only event is not a show anyone attends in a venue; skip it
+  // rather than putting a webinar on the calendar.
+  if (!event || event.isOnline) return [];
+
+  return [fromEventbrite(event)];
+}
+
 async function jambaseCandidates(ticket: ParsedTicket): Promise<CatalogCandidate[]> {
   const keyword = ticket.artistName ?? ticket.eventName;
   if (!keyword || !jambase.isConfigured()) return [];
@@ -386,6 +438,9 @@ async function bandsintownCandidates(ticket: ParsedTicket): Promise<CatalogCandi
  */
 export async function matchTicket(ticket: ParsedTicket): Promise<MatchResult> {
   const providers: { source: CandidateSource; run: () => Promise<CatalogCandidate[]> }[] = [
+    // First, and free: it only runs when the email handed us an Eventbrite id,
+    // and when it does the answer is definitive rather than a best guess.
+    { source: 'eventbrite', run: () => eventbriteCandidates(ticket) },
     { source: 'ticketmaster', run: async () => (await findCandidatesForTicket(ticket)).map(fromTicketmaster) },
     { source: 'jambase', run: () => jambaseCandidates(ticket) },
     { source: 'spotify', run: () => spotifyCandidates(ticket) },

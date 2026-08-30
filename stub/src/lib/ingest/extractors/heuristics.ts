@@ -231,6 +231,80 @@ export function findPrice(text: string): { cents?: number; currency?: string } {
 }
 
 /**
+ * How many tickets the order was for.
+ *
+ * Three shapes, tried strongest first, because they are not equally trustworthy.
+ *
+ * The third one is the one that needs explaining. `htmlToText` treats `<td>` as
+ * a block tag, so a receipt TABLE does not arrive as a row of columns — every
+ * cell lands on its own line. A real AXS order table:
+ *
+ *     Quantity        3-Day General Admission Tier 1
+ *     Type            2
+ *     Price           $1018.00
+ *     Total
+ *     4               (Frontgate, right-hand column)
+ *     Presale DP
+ *     $60.00
+ *     $240.00
+ *
+ * so the quantity is a line holding nothing but a small integer, with a money
+ * cell a line or two below it. Anchoring on the words around it does not work —
+ * in the AXS layout the header cells are four lines away from their values.
+ *
+ * Capped at 20 throughout: a larger number in any of these positions is a row
+ * count, a seat number or a year, not a personal ticket order.
+ */
+const MAX_QUANTITY = 20;
+
+function validQuantity(n: number): number | undefined {
+  return Number.isInteger(n) && n > 0 && n <= MAX_QUANTITY ? n : undefined;
+}
+
+/** A flattened table cell holding a currency amount, e.g. "$1,018.00". */
+const MONEY_CELL = /^[$£€]\s?[\d,]+(?:\.\d{2})?$/;
+
+export function findTicketQuantity(text: string): number | undefined {
+  // 1. An explicit label. "Quantity: 4", "Qty 2", "Number of tickets: 3".
+  const labelled =
+    /\b(?:qty|quantity|number\s+of\s+tickets?|no\.?\s+of\s+tickets?|ticket\s+count)\b\s*[:#]?\s*(\d{1,2})\b/i.exec(
+      text,
+    );
+  if (labelled) {
+    const n = validQuantity(Number(labelled[1]));
+    if (n) return n;
+  }
+
+  /*
+   * 2. Counted in prose. "3 tickets", "2 x General Admission", and the AXS
+   *    transfer phrasing "Alex transferred 3 tickets to you".
+   *
+   *    A bare "Tickets: 2" is deliberately NOT here: "tickets" is far too common
+   *    a word in these emails ("your tickets 2 days before the show") for the
+   *    label alone to mean anything.
+   */
+  const prose =
+    /\b(\d{1,2})\s*(?:x\s*)?(?:e-?)?(?:tickets?|passes?|admissions?|guests?)\b/i.exec(text);
+  if (prose) {
+    const n = validQuantity(Number(prose[1]));
+    if (n) return n;
+  }
+
+  // 3. A flattened receipt table: an integer-only cell followed closely by money.
+  const cells = text.split('\n').map((l) => l.trim());
+  for (let i = 0; i < cells.length; i++) {
+    if (!/^\d{1,2}$/.test(cells[i])) continue;
+    // The money cell is the next one in a 3-column table and the one after in a
+    // 4-column one, so look two ahead and no further.
+    if (!cells.slice(i + 1, i + 3).some((c) => MONEY_CELL.test(c))) continue;
+    const n = validQuantity(Number(cells[i]));
+    if (n) return n;
+  }
+
+  return undefined;
+}
+
+/**
  * Venue + city from a line like "The Fillmore, San Francisco, CA".
  * Looked up near a label when one exists, since a bare comma-separated line is
  * too weak a signal on its own.

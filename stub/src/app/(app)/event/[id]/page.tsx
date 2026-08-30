@@ -2,9 +2,25 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth';
-import { getEvent, getMyAttendance, getNote, getFriendsAtEvent } from '@/lib/queries';
-import { formatEventDate, formatEventTime, venueLine, formatPrice } from '@/lib/format';
+import {
+  getEvent,
+  getMyAttendance,
+  getNote,
+  getFriendsAtEvent,
+  getFriends,
+  getSentEventInvites,
+} from '@/lib/queries';
+import {
+  displayEventName,
+  eventZone,
+  formatEventDate,
+  formatEventTime,
+  initials,
+  venueLine,
+} from '@/lib/format';
 import { NoteEditor } from '@/components/NoteEditor';
+import { TicketDetails } from '@/components/TicketDetails';
+import { SendToFriend } from '@/components/SendToFriend';
 import { AttendanceControls } from '@/components/AttendanceControls';
 import { Setlist } from '@/components/Setlist';
 import { RatingControl, Stars } from '@/components/RatingControl';
@@ -20,21 +36,27 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
   const event = await getEvent(supabase, id);
   if (!event) notFound();
 
-  const [attendance, note, friends] = await Promise.all([
+  const [attendance, note, friends, myFriends, alreadySent] = await Promise.all([
     getMyAttendance(supabase, id, user!.id),
     getNote(supabase, id, user!.id),
     getFriendsAtEvent(supabase, id, user!.id),
+    getFriends(supabase, user!.id),
+    getSentEventInvites(supabase, id, user!.id),
   ]);
 
   const isPast = new Date(event.starts_at).getTime() < Date.now();
   const image = event.image_url ?? event.headliner?.image_url;
+  const title = displayEventName(event);
+  // See `eventZone`: rendering a zone-less row directly would use the server's
+  // zone, which is UTC, and show a 10pm club show as 5:00 AM the next morning.
+  const zone = eventZone(event);
 
   // Setlists only exist for shows that have happened, and are cached in the
   // database: a hit never expires (a past setlist does not change), a miss is
   // re-checked after a few days because entries get added late.
   const setlist =
     isPast && event.headliner?.name && process.env.SETLISTFM_API_KEY
-      ? (await getCachedSetlist(event.id, event.headliner.name, event.starts_at, event.timezone)).setlist
+      ? (await getCachedSetlist(event.id, event.headliner.name, event.starts_at, zone)).setlist
       : null;
 
   return (
@@ -45,31 +67,43 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
         </Link>
       </header>
 
-      {image && (
+      {image ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={image}
           alt=""
           style={{ width: '100%', aspectRatio: '16/9', objectFit: 'cover', borderRadius: 'var(--radius)' }}
         />
+      ) : (
+        <div
+          className="thumb thumb-initials"
+          style={{ width: '100%', aspectRatio: '16/9', height: 'auto', borderRadius: 'var(--radius)', fontSize: 42 }}
+        >
+          {initials(title)}
+        </div>
       )}
 
       <h1 style={{ fontSize: 26, letterSpacing: '-0.02em', margin: '16px 0 4px' }}>
-        {event.headliner?.name ?? event.name}
+        {title}
       </h1>
       {event.headliner && event.name !== event.headliner.name && (
         <div className="muted">{event.name}</div>
       )}
 
       <div className="stack" style={{ gap: 4, marginTop: 12 }}>
-        <div>{formatEventDate(event.starts_at, event.timezone)} · {formatEventTime(event.starts_at, event.timezone)}</div>
+        <div>{formatEventDate(event.starts_at, zone)} · {formatEventTime(event.starts_at, zone)}</div>
         <div className="muted">{venueLine(event.venue)}</div>
-        {attendance?.seat_info && <div className="muted">Seat: {attendance.seat_info}</div>}
-        {attendance?.ticket_ref && <div className="muted">Order {attendance.ticket_ref}</div>}
-        {attendance?.price_cents != null && (
-          <div className="muted">Paid {formatPrice(attendance.price_cents)}</div>
-        )}
       </div>
+
+      {attendance && (
+        <TicketDetails
+          eventId={event.id}
+          quantity={attendance.ticket_quantity ?? null}
+          priceCents={attendance.price_cents ?? null}
+          seatInfo={attendance.seat_info ?? null}
+          ticketRef={attendance.ticket_ref ?? null}
+        />
+      )}
 
       <div style={{ marginTop: 20 }}>
         <AttendanceControls
@@ -123,6 +157,7 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
       <NoteEditor eventId={event.id} initial={note?.body ?? ''} />
 
       <div className="stack" style={{ marginTop: 20 }}>
+        <SendToFriend eventId={event.id} friends={myFriends} invited={alreadySent} />
         <a className="btn btn-block" href={`/api/events/${event.id}/ics`}>
           Add to calendar
         </a>

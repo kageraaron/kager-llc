@@ -14,7 +14,7 @@ import {
   recordAttendance,
 } from '@/lib/ingest/catalog';
 import * as jambase from '@/lib/providers/jambase';
-import { toInstant } from '@/lib/providers/bandsintown';
+import { inferTimezone, toInstant } from '@/lib/timezone';
 import { getCurrentUser } from '@/lib/auth';
 import type { ParsedTicket } from '@/lib/types';
 import {
@@ -38,6 +38,23 @@ async function requireUser() {
   const user = await getCurrentUser(supabase);
   if (!user) throw new Error('Not signed in');
   return { supabase, user };
+}
+
+/**
+ * Turn what the manual entry form gave us into a real instant.
+ *
+ * The form collects wall time — "8:00 PM at Monarch" — which is not an instant
+ * until a zone is attached. Handing that straight to `new Date()` interprets it
+ * in the SERVER's zone (UTC on Vercel), so a 10pm show was stored five hours
+ * early. When we can name the venue's zone, resolve against that instead.
+ */
+function resolveManualStart(startsAt: string, timezone: string | null): string | null {
+  // A value that already carries a zone is authoritative; do not second-guess it.
+  const hasZone = /(?:z|[+-]\d{2}:?\d{2})$/i.test(startsAt.trim());
+  if (!hasZone && timezone) return toInstant(startsAt, timezone);
+
+  const when = new Date(startsAt);
+  return Number.isNaN(when.getTime()) ? null : when.toISOString();
 }
 
 
@@ -143,6 +160,8 @@ export async function createManualEvent(input: {
   venueName?: string;
   city?: string;
   region?: string;
+  /** ISO-3166 alpha-2, when the form knows it. Disambiguates "CA". */
+  country?: string;
   /** Local wall time, "2026-09-27T22:00" from a datetime-local input. */
   startsAt: string;
   timezone?: string;
@@ -152,9 +171,6 @@ export async function createManualEvent(input: {
 
   const artistName = input.artistName.trim();
   if (artistName.length < 1) return { ok: false as const, error: 'Artist name is required' };
-
-  const when = new Date(input.startsAt);
-  if (Number.isNaN(when.getTime())) return { ok: false as const, error: 'That date is not valid' };
 
   const admin = createAdminClient();
 
@@ -178,16 +194,18 @@ export async function createManualEvent(input: {
   }
 
   let venueId: string | null = null;
+  let timezone = input.timezone || inferTimezone(input.region, input.country);
   if (input.venueName?.trim()) {
     const { data: existingVenue } = await admin
       .from('venues')
-      .select('id')
+      .select('id, timezone')
       .ilike('name', input.venueName.trim())
       .eq('city', input.city?.trim() ?? '')
       .limit(1)
       .maybeSingle();
 
     venueId = existingVenue?.id ?? null;
+    timezone = input.timezone || existingVenue?.timezone || inferTimezone(input.region, input.country);
     if (!venueId) {
       const { data } = await admin
         .from('venues')
@@ -195,7 +213,8 @@ export async function createManualEvent(input: {
           name: input.venueName.trim(),
           city: input.city?.trim() || null,
           region: input.region?.trim() || null,
-          timezone: input.timezone || null,
+          country: input.country?.trim() || null,
+          timezone,
         })
         .select('id')
         .single();
@@ -203,14 +222,17 @@ export async function createManualEvent(input: {
     }
   }
 
+  const startsAt = resolveManualStart(input.startsAt, timezone);
+  if (!startsAt) return { ok: false as const, error: 'That date is not valid' };
+
   const { data: event, error } = await admin
     .from('events')
     .insert({
       name: artistName,
       headliner_id: artistId,
       venue_id: venueId,
-      starts_at: when.toISOString(),
-      timezone: input.timezone || null,
+      starts_at: startsAt,
+      timezone,
       status: 'onsale',
       url: input.url?.trim() || null,
     })
@@ -297,6 +319,58 @@ export async function removeAttendance(eventId: string) {
 }
 
 /** Private note. RLS on `notes` is owner-only, with no friend read path. */
+/**
+ * Correct the ticket details on a show you are already attending.
+ *
+ * Quantity and price are read out of a confirmation email when the receipt
+ * exposes them, but plenty do not — a guest-list add has no price at all, and a
+ * transfer has no order table. This is the manual path for those, and for the
+ * cases where the heuristics guessed wrong.
+ *
+ * Passing `null` clears a field; omitting it leaves it alone.
+ */
+export async function setTicketDetails(
+  eventId: string,
+  input: { ticketQuantity?: number | null; priceCents?: number | null },
+) {
+  const { supabase, user } = await requireUser();
+
+  const patch: Record<string, number | null> = {};
+
+  if (input.ticketQuantity !== undefined) {
+    const q = input.ticketQuantity;
+    if (q !== null && (!Number.isInteger(q) || q < 1 || q > 100)) {
+      return { ok: false as const, error: 'Ticket count must be between 1 and 100' };
+    }
+    patch.ticket_quantity = q;
+  }
+
+  if (input.priceCents !== undefined) {
+    const p = input.priceCents;
+    // 1,000,000 cents is $10,000 — comfortably above any real order, and low
+    // enough to catch a dollars-entered-as-cents slip.
+    if (p !== null && (!Number.isFinite(p) || p < 0 || p > 1_000_000)) {
+      return { ok: false as const, error: 'That price does not look right' };
+    }
+    patch.price_cents = p === null ? null : Math.round(p);
+  }
+
+  if (Object.keys(patch).length === 0) return { ok: true as const };
+
+  const { error } = await supabase
+    .from('attendances')
+    .update(patch)
+    .eq('event_id', eventId)
+    .eq('user_id', user.id);
+
+  if (error) return { ok: false as const, error: error.message };
+
+  revalidatePath(`/event/${eventId}`);
+  revalidatePath('/upcoming');
+  revalidatePath('/archive');
+  return { ok: true as const };
+}
+
 export async function saveNote(eventId: string, body: string) {
   const { supabase, user } = await requireUser();
 
@@ -400,6 +474,211 @@ export async function removeFriend(otherUserId: string) {
   const { supabase, user } = await requireUser();
   await supabase.from('friendships').delete().match(pair(user.id, otherUserId));
   revalidatePath('/friends');
+  return { ok: true as const };
+}
+
+// ------------------------------------------------------- friend invite links
+
+/**
+ * A shareable link that adds the sender as a friend.
+ *
+ * Adding by handle requires the handle to travel out of band first, which is a
+ * chicken-and-egg problem for a brand-new user: they land on an empty app with
+ * nobody to see. A link removes the step — open it, sign in, done.
+ *
+ * The existing link is reused rather than minting a new one per click, so a URL
+ * already pasted into a group chat keeps working. `rotate` is the escape hatch
+ * when a link has travelled somewhere it should not have.
+ */
+export async function getFriendInviteUrl(rotate = false) {
+  const { supabase, user } = await requireUser();
+
+  const base = process.env.NEXT_PUBLIC_SITE_URL ?? '';
+
+  if (rotate) {
+    await supabase.from('friend_invites').delete().eq('user_id', user.id);
+  } else {
+    const { data: existing } = await supabase
+      .from('friend_invites')
+      .select('token, expires_at, uses, max_uses, revoked_at')
+      .eq('user_id', user.id)
+      .is('revoked_at', null)
+      .gt('expires_at', new Date().toISOString())
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (existing && existing.uses < existing.max_uses) {
+      return { ok: true as const, url: `${base}/invite/${existing.token}` };
+    }
+  }
+
+  // 24 bytes of randomness, hex-encoded: the same shape as the calendar token,
+  // and far beyond guessing for something that grants a friend request.
+  const token = randomBytes(24).toString('hex');
+  const { error } = await supabase.from('friend_invites').insert({ token, user_id: user.id });
+  if (error) return { ok: false as const, error: error.message };
+
+  revalidatePath('/friends');
+  return { ok: true as const, url: `${base}/invite/${token}` };
+}
+
+/**
+ * Redeem an invite link.
+ *
+ * Runs through the service role on purpose: the redeemer holds the token but
+ * cannot see the row it names, and expiry, revocation and the use count all
+ * have to be checked in one place before anything is written.
+ *
+ * The friendship is created ACCEPTED rather than pending. The link is a
+ * deliberate act by its owner — that is the consent — and leaving the new user
+ * staring at "request sent" would reproduce the empty first run this exists to
+ * avoid. Either side can still remove it afterwards.
+ */
+export async function redeemFriendInvite(token: string) {
+  const { user } = await requireUser();
+  const admin = createAdminClient();
+
+  const { data: invite } = await admin
+    .from('friend_invites')
+    .select('token, user_id, expires_at, uses, max_uses, revoked_at')
+    .eq('token', token)
+    .maybeSingle();
+
+  if (!invite) return { ok: false as const, error: 'That invite link is not valid' };
+  if (invite.revoked_at) return { ok: false as const, error: 'That invite link was revoked' };
+  if (new Date(invite.expires_at).getTime() < Date.now()) {
+    return { ok: false as const, error: 'That invite link has expired' };
+  }
+  if (invite.uses >= invite.max_uses) {
+    return { ok: false as const, error: 'That invite link has been used too many times' };
+  }
+  if (invite.user_id === user.id) {
+    return { ok: false as const, error: 'That is your own invite link' };
+  }
+
+  const { data: profile } = await admin
+    .from('profiles')
+    .select('handle, display_name')
+    .eq('id', invite.user_id)
+    .maybeSingle();
+
+  const p = pair(user.id, invite.user_id);
+  const { data: existing } = await admin
+    .from('friendships')
+    .select('status')
+    .match(p)
+    .maybeSingle();
+
+  if (existing?.status === 'accepted') {
+    return { ok: true as const, alreadyFriends: true, profile };
+  }
+
+  const { error } = await admin.from('friendships').upsert(
+    { ...p, status: 'accepted', requested_by: invite.user_id },
+    { onConflict: 'user_low,user_high' },
+  );
+  if (error) return { ok: false as const, error: error.message };
+
+  // Best-effort: a lost increment costs one extra use of the link, which is a
+  // far better failure than refusing a friendship that was already created.
+  await admin
+    .from('friend_invites')
+    .update({ uses: invite.uses + 1 })
+    .eq('token', token);
+
+  revalidatePath('/friends');
+  return { ok: true as const, alreadyFriends: false, profile };
+}
+
+// ------------------------------------------------------------- event invites
+
+/**
+ * Send a show to a friend. "You should come to this."
+ *
+ * Not an attendance — the recipient has not agreed to anything yet — so it
+ * lands in their Inbox as something to accept or decline. Idempotent on
+ * (event, sender, recipient): sending twice re-opens the same invite rather
+ * than stacking duplicates in their list.
+ *
+ * RLS enforces that the recipient is an accepted friend; this only has to
+ * produce a good error when they are not.
+ */
+export async function inviteFriendToEvent(eventId: string, toUserId: string, message = '') {
+  const { supabase, user } = await requireUser();
+
+  if (toUserId === user.id) return { ok: false as const, error: 'That is you' };
+
+  const { error } = await supabase.from('event_invites').upsert(
+    {
+      event_id: eventId,
+      from_user_id: user.id,
+      to_user_id: toUserId,
+      message: message.trim().slice(0, 280),
+      state: 'pending',
+      responded_at: null,
+    },
+    { onConflict: 'event_id,from_user_id,to_user_id' },
+  );
+
+  if (error) {
+    // The insert policy requires an accepted friendship, so a rejection here is
+    // nearly always that rather than anything the user can act on directly.
+    if (error.code === '42501') {
+      return { ok: false as const, error: 'You can only send shows to friends' };
+    }
+    return { ok: false as const, error: error.message };
+  }
+
+  revalidatePath(`/event/${eventId}`);
+  return { ok: true as const };
+}
+
+/**
+ * Accept or decline an invite someone sent you.
+ *
+ * Accepting records the attendance as `interested` rather than `going`: being
+ * invited is not the same as having a ticket, and `going` is what the Upcoming
+ * list treats as "this is happening". The user can promote it from the event
+ * page once they have actually bought.
+ */
+export async function respondToEventInvite(inviteId: string, accept: boolean) {
+  const { supabase, user } = await requireUser();
+
+  const { data: invite } = await supabase
+    .from('event_invites')
+    .select('id, event_id, to_user_id, state')
+    .eq('id', inviteId)
+    .maybeSingle();
+
+  if (!invite || invite.to_user_id !== user.id) {
+    return { ok: false as const, error: 'That invite is not yours' };
+  }
+
+  const { error } = await supabase
+    .from('event_invites')
+    .update({ state: accept ? 'accepted' : 'declined', responded_at: new Date().toISOString() })
+    .eq('id', inviteId);
+
+  if (error) return { ok: false as const, error: error.message };
+
+  if (accept) {
+    const { error: attendanceError } = await supabase.from('attendances').upsert(
+      {
+        user_id: user.id,
+        event_id: invite.event_id,
+        state: 'interested',
+        visibility: 'friends',
+        source: 'manual',
+      },
+      { onConflict: 'user_id,event_id', ignoreDuplicates: true },
+    );
+    if (attendanceError) return { ok: false as const, error: attendanceError.message };
+  }
+
+  revalidatePath('/inbox');
+  revalidatePath('/upcoming');
+  revalidatePath(`/event/${invite.event_id}`);
   return { ok: true as const };
 }
 
@@ -584,10 +863,16 @@ export async function confirmCandidate(candidateId: string) {
   }
 
   const admin = createAdminClient();
+  const parsed = candidate.parsed as ParsedTicket;
   await recordAttendance(admin, {
     userId: user.id,
     eventId: candidate.matched_event_id,
     source: 'gmail',
+    ticketRef: parsed.ticketRef,
+    seatInfo: parsed.seatInfo,
+    priceCents: parsed.priceCents,
+    ticketQuantity: parsed.ticketQuantity,
+    purchasedAt: parsed.purchasedAt,
   });
   await supabase.from('ingest_candidates').update({ state: 'confirmed' }).eq('id', candidateId);
 
@@ -646,6 +931,7 @@ export async function createEventFromCandidate(candidateId: string) {
     ticketRef: parsed.ticketRef,
     seatInfo: parsed.seatInfo,
     priceCents: parsed.priceCents,
+    ticketQuantity: parsed.ticketQuantity,
     purchasedAt: parsed.purchasedAt,
   });
 

@@ -106,6 +106,37 @@ export async function listMessageIds(token: string, query: string, max = 100): P
 }
 
 /**
+ * One page of results, with the cursor to continue from.
+ *
+ * `listMessageIds` collects every page before returning, which is right for a
+ * bounded 30-day scan and wrong for a multi-year backfill: a decade of mail is
+ * thousands of messages, and ingesting them all in one request would blow
+ * through the 60-second function budget long before it finished.
+ *
+ * So a backfill walks pages instead, one request per page, carrying this token
+ * between them. The scan survives a timeout because the cursor lives on the
+ * client rather than in the middle of a loop.
+ */
+export async function listMessagePage(
+  token: string,
+  query: string,
+  pageToken?: string,
+  pageSize = 50,
+): Promise<{ ids: string[]; nextPageToken: string | null }> {
+  const qs = new URLSearchParams({ q: query, maxResults: String(Math.min(100, pageSize)) });
+  if (pageToken) qs.set('pageToken', pageToken);
+
+  const data = await gapi<{ messages?: { id: string }[]; nextPageToken?: string }>(
+    token,
+    `/messages?${qs}`,
+  );
+  return {
+    ids: (data.messages ?? []).map((m) => m.id),
+    nextPageToken: data.nextPageToken ?? null,
+  };
+}
+
+/**
  * Incremental sync. Returns message ids added since `startHistoryId`, plus the
  * new cursor. Gmail expires history older than about a week, so a 404 here
  * means we must fall back to a full query re-scan.

@@ -50,6 +50,7 @@ export interface Attendance {
   ticket_ref: string | null;
   seat_info: string | null;
   price_cents: number | null;
+  ticket_quantity: number | null;
   purchased_at: string | null;
 }
 
@@ -79,8 +80,14 @@ export interface ParsedTicket {
   ticketRef?: string;
   seatInfo?: string;
   priceCents?: number;
+  ticketQuantity?: number;
   currency?: string;
   purchasedAt?: string;
+  /**
+   * Eventbrite event id, scraped from a link in the email. Decisive when
+   * present: it identifies the exact event rather than describing it.
+   */
+  ebEventId?: string;
   /** Ticketmaster event id, when the email hands it to us directly. */
   tmEventId?: string;
   sourceUrl?: string;

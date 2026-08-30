@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import webpush from 'web-push';
 import { createAdminClient } from '@/lib/supabase/admin';
-import { formatEventTime } from '@/lib/format';
+import { eventZone, formatEventTime } from '@/lib/format';
 
 /**
  * Day-before show reminders.
@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
       user_id,
       event:events!inner (
         id, name, starts_at, timezone,
-        venue:venues ( name, city ),
+        venue:venues ( name, city, region, country, timezone ),
         headliner:artists!events_headliner_id_fkey ( name )
       )
     `)
@@ -71,7 +71,13 @@ export async function GET(request: NextRequest) {
       name: string;
       starts_at: string;
       timezone: string | null;
-      venue: { name: string; city: string | null } | null;
+      venue: {
+        name: string;
+        city: string | null;
+        region: string | null;
+        country: string | null;
+        timezone: string | null;
+      } | null;
       headliner: { name: string } | null;
     };
   };
@@ -96,7 +102,9 @@ export async function GET(request: NextRequest) {
     const payload = JSON.stringify({
       title: `${title} is tomorrow`,
       body: [
-        formatEventTime(row.event.starts_at, row.event.timezone),
+        // `eventZone`, not `event.timezone`: a zone-less row would otherwise be
+        // announced in the server's zone and tell the user the wrong showtime.
+        formatEventTime(row.event.starts_at, eventZone(row.event)),
         row.event.venue?.name,
       ].filter(Boolean).join(' · '),
       url: `/event/${row.event.id}`,

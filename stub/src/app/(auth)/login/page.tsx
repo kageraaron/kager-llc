@@ -27,12 +27,33 @@ export default function LoginPage() {
   const supabase = createClient();
   const origin = typeof window !== 'undefined' ? window.location.origin : '';
 
+  /*
+   * Carry the page the user was actually trying to reach through sign-in.
+   *
+   * Without this an invite link is a dead end for the person it is aimed at:
+   * middleware redirects a signed-out visitor here with `?next=/invite/<token>`,
+   * and dropping it lands them on an empty Upcoming with no friendship made.
+   *
+   * Read from `window.location` rather than `useSearchParams` so this stays a
+   * plain client component with no Suspense boundary. Same single-slash guard as
+   * the callback route: `//evil.example` is an off-site redirect.
+   */
+  const next =
+    typeof window !== 'undefined'
+      ? (() => {
+          const raw = new URLSearchParams(window.location.search).get('next');
+          return raw && raw.startsWith('/') && !raw.startsWith('//') ? raw : '/upcoming';
+        })()
+      : '/upcoming';
+
+  const callbackUrl = `${origin}/auth/callback?next=${encodeURIComponent(next)}`;
+
   async function signInWithGoogle() {
     setBusy(true);
     setError(null);
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: `${origin}/auth/callback` },
+      options: { redirectTo: callbackUrl },
     });
     if (error) {
       setError(error.message);
@@ -47,7 +68,7 @@ export default function LoginPage() {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setBusy(false);
     if (error) setError(error.message);
-    else window.location.href = '/upcoming';
+    else window.location.href = next;
   }
 
   async function sendMagicLink(e: React.FormEvent) {
@@ -56,7 +77,7 @@ export default function LoginPage() {
     setError(null);
     const { error } = await supabase.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: `${origin}/auth/callback` },
+      options: { emailRedirectTo: callbackUrl },
     });
     setBusy(false);
     if (error) setError(error.message);

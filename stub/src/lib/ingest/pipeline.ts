@@ -104,6 +104,7 @@ export async function ingestEmail(
       ticketRef: extraction.ticket.ticketRef,
       seatInfo: extraction.ticket.seatInfo,
       priceCents: extraction.ticket.priceCents,
+      ticketQuantity: extraction.ticket.ticketQuantity,
       purchasedAt: extraction.ticket.purchasedAt,
     });
 

@@ -4,6 +4,7 @@ import {
   normalizeConcert,
   headlinerOf,
   milesBetween,
+  titleFor,
   withinRadius,
   type SpotifyConcert,
 } from '@/lib/providers/spotifyconcerts';
@@ -125,6 +126,128 @@ describe('normalizeConcert', () => {
     expect(normalizeConcert({ ...publicWorks, startDateIsoString: undefined })).toBeNull();
     expect(normalizeConcert({ ...publicWorks, startDateIsoString: 'not a date' })).toBeNull();
     expect(normalizeConcert({ uri: undefined, id: undefined, startDateIsoString: '2027-01-01T00:00Z' })).toBeNull();
+  });
+});
+
+/**
+ * The Monarch booking, captured verbatim on 2026-08-29 — the row behind a real
+ * bug report: a 10pm show that displayed as "Mon, Sep 28 · 5:00 AM" under a
+ * title in Spanish.
+ */
+const monarch = {
+  id: '1cWJyvWq75SuamFtKUrSOs',
+  uri: 'spotify:concert:1cWJyvWq75SuamFtKUrSOs',
+  title: 'Silva Bumpa y Dean Turnley',
+  startDateIsoString: '2026-09-27T22:00-07:00',
+  city: 'San Francisco',
+  country: 'US',
+  region: 'CA',
+  venueName: 'Monarch',
+  venueId: '4a9o74auIB2iAVrR0xV91F',
+  coordinates: { latitude: 37.7809861, longitude: -122.4085 },
+  festival: false,
+  shareUrl: 'https://open.spotify.com/concert/1cWJyvWq75SuamFtKUrSOs',
+  artists: [{ name: 'Silva Bumpa' }, { name: 'Dean Turnley' }],
+  details: {
+    artists: [
+      {
+        id: '2dPLkqesvPXpIlP65JoLrf',
+        uri: 'spotify:artist:2dPLkqesvPXpIlP65JoLrf',
+        name: 'Silva Bumpa',
+        imageUrl: 'https://i.scdn.co/image/ab6761610000e5ebd52a564d068eb5b06ad3bd25',
+      },
+      {
+        id: '3BcWcwYXVjvLWHMGKsuvsd',
+        uri: 'spotify:artist:3BcWcwYXVjvLWHMGKsuvsd',
+        name: 'Dean Turnley',
+        imageUrl: 'https://i.scdn.co/image/ab6761610000e5ebeaab6c2f430d35bce8b88240',
+      },
+    ],
+  },
+};
+
+describe('titleFor — localized lineup joins', () => {
+  const lineup = (...names: string[]) =>
+    names.map((name) => ({ name, spotifyArtistId: null, imageUrl: null }));
+
+  it('rewrites the conjunction Spotify localizes from Accept-Language', () => {
+    /*
+     * Spotify builds the title server-side and localizes it. The same concert
+     * page proves it — en-US gives "Silva Bumpa, Dean Turnley", es-ES gives
+     * "Silva Bumpa y Dean Turnley" — and this proxy is pinned to Spanish with
+     * no parameter or header that overrides it. Verified live 2026-08-29:
+     * "Silva Bumpa y Dean Turnley", "Overmono y Ben UFO", "Real McCoy y Turbo B.".
+     */
+    expect(titleFor('Silva Bumpa y Dean Turnley', lineup('Silva Bumpa', 'Dean Turnley')))
+      .toBe('Silva Bumpa and Dean Turnley');
+    expect(titleFor('Overmono y Ben UFO', lineup('Overmono', 'Ben UFO')))
+      .toBe('Overmono and Ben UFO');
+  });
+
+  it('handles a long bill, keeping the promoter’s billing order', () => {
+    const names = ['Dom Dolla', 'Chris Lorenzo', 'Silva Bumpa', 'Bushbaby', 'Cole Knight'];
+    expect(titleFor('Dom Dolla, Chris Lorenzo, Silva Bumpa, Bushbaby y Cole Knight', lineup(...names)))
+      .toBe('Dom Dolla, Chris Lorenzo, Silva Bumpa, Bushbaby and Cole Knight');
+  });
+
+  it('leaves a promoter’s real title alone', () => {
+    // These carry information the lineup does not, so rewriting them would lose
+    // rather than fix. Neither splits into exactly the billed acts.
+    expect(titleFor('Goldrush: Midnight Riders', lineup('Silva Bumpa')))
+      .toBe('Goldrush: Midnight Riders');
+    expect(titleFor('Leeds Festival 2026 - Sunday', lineup('Silva Bumpa', 'Skepta')))
+      .toBe('Leeds Festival 2026 - Sunday');
+    expect(titleFor('WILDLANDS 2027 | Boorloo - Perth', lineup('John Summit', 'Overmono')))
+      .toBe('WILDLANDS 2027 | Boorloo - Perth');
+  });
+
+  it('fails safe on an artist name that contains a conjunction', () => {
+    // "Y La Bamba" splits into "La Bamba", which no longer matches the billed
+    // act — so the provider's title survives untouched. Leaving it alone is the
+    // right failure: worst case we keep what the API said.
+    expect(titleFor('Y La Bamba y Tuck', lineup('Y La Bamba', 'Tuck')))
+      .toBe('Y La Bamba y Tuck');
+  });
+
+  it('passes a single-act title through', () => {
+    expect(titleFor('Silva Bumpa', lineup('Silva Bumpa'))).toBe('Silva Bumpa');
+    expect(titleFor('Silva Bumpa at Monarch', lineup('Silva Bumpa'))).toBe('Silva Bumpa at Monarch');
+  });
+
+  it('passes anything through when the lineup is unknown', () => {
+    expect(titleFor('Some Show', [])).toBe('Some Show');
+  });
+});
+
+describe('normalizeConcert — lineup and artwork', () => {
+  it('rebuilds the title from the billed acts', () => {
+    expect(normalizeConcert(monarch)?.title).toBe('Silva Bumpa and Dean Turnley');
+  });
+
+  it('picks up the artist ids and artwork that only the details view carries', () => {
+    // Without this a club-circuit act has no image from ANY provider in the
+    // cascade, and the card renders a blank thumbnail.
+    const c = normalizeConcert(monarch)!;
+    expect(c.lineup).toHaveLength(2);
+    expect(c.lineup[0]).toMatchObject({
+      name: 'Silva Bumpa',
+      spotifyArtistId: '2dPLkqesvPXpIlP65JoLrf',
+    });
+    expect(c.lineup[0].imageUrl).toContain('i.scdn.co');
+    expect(c.artists).toEqual(['Silva Bumpa', 'Dean Turnley']);
+  });
+
+  it('still produces a lineup when only names are available', () => {
+    const c = normalizeConcert(publicWorks)!;
+    expect(c.lineup.map((a) => a.name)).toEqual(['Overmono', 'Ben UFO']);
+    expect(c.lineup[0].spotifyArtistId).toBeNull();
+    expect(c.lineup[0].imageUrl).toBeNull();
+  });
+
+  it('stores the right instant for a show that crosses the UTC date boundary', () => {
+    // 22:00 PDT on the 27th IS 05:00 UTC on the 28th. The instant was never the
+    // bug — rendering it without a zone was.
+    expect(normalizeConcert(monarch)?.startsAt).toBe('2026-09-28T05:00:00.000Z');
   });
 });
 

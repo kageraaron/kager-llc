@@ -136,6 +136,7 @@ describe('cross-provider candidates', () => {
     isFestival: false,
     url: null,
     artists: ['Silva Bumpa'],
+    lineup: [{ name: 'Silva Bumpa', spotifyArtistId: null, imageUrl: null }],
     ...over,
   });
 

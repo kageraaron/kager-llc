@@ -4,7 +4,16 @@
  * Events are rendered in the VENUE's timezone, not the viewer's: a show at 8pm
  * in Brooklyn should read "8:00 PM" to someone looking at it from California.
  * That is why `events.timezone` is stored alongside `starts_at`.
+ *
+ * When that column is null the fallback matters more than it looks. These
+ * helpers pass no `timeZone` option at all in that case, so `toLocaleString`
+ * uses the RUNTIME's zone — and every page here is server-rendered, on Vercel,
+ * in UTC. A 10pm San Francisco show stored correctly as `2026-09-28T05:00:00Z`
+ * then renders as "Mon, Sep 28 · 5:00 AM". Use `eventZone` rather than reading
+ * `event.timezone` directly, so a missing zone falls back to the venue's.
  */
+
+import { inferTimezone } from '@/lib/timezone';
 
 export function eventDateParts(iso: string, timeZone?: string | null) {
   const d = new Date(iso);
@@ -62,4 +71,63 @@ export function venueLine(venue?: {
 } | null): string {
   if (!venue) return '';
   return [venue.name, venue.city, venue.region].filter(Boolean).join(' · ');
+}
+
+/**
+ * The event's own zone, or the best stand-in for it.
+ *
+ * `events.timezone` first, then whatever another provider stored on the venue
+ * row, then the venue's region. Null only when we know nothing at all about
+ * where the show is — at which point the caller renders in the runtime zone and
+ * there is genuinely nothing better to do.
+ */
+export function eventZone(event: {
+  timezone?: string | null;
+  venue?: { timezone?: string | null; region?: string | null; country?: string | null } | null;
+}): string | null {
+  return (
+    event.timezone ??
+    event.venue?.timezone ??
+    inferTimezone(event.venue?.region, event.venue?.country)
+  );
+}
+
+/**
+ * The name to put on a card or a page heading.
+ *
+ * The headliner when there is one, because a provider's event TITLE is often a
+ * whole bill ("Silva Bumpa and Dean Turnley") where the artist row is the thing
+ * the user recognises. `||` rather than `??` on purpose: an artist row can carry
+ * an empty name, and falling through to the event name is better than blank.
+ */
+export function displayEventName(event: {
+  name: string;
+  headliner?: { name: string | null } | null;
+}): string {
+  return event.headliner?.name || event.name;
+}
+
+/**
+ * Monogram for the placeholder thumbnail, used when neither the event nor the
+ * artist has an image. "Silva Bumpa" -> "SB", "Overmono" -> "OV".
+ *
+ * Everything after a co-billing separator is dropped first, so a two-act bill
+ * gives the headliner's initials rather than one letter from each act.
+ */
+export function initials(name: string): string {
+  const parts = name
+    .replace(/\s+(?:and|&|\+|x|b2b|vs\.?)\s+.*$/i, '')
+    .split(/[\s,]+/)
+    .map((p) => p.replace(/[^\p{L}\p{N}]/gu, ''))
+    .filter(Boolean);
+
+  if (parts.length === 0) return '?';
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return `${[...parts[0]][0]}${[...parts[1]][0]}`.toUpperCase();
+}
+
+/** "4 tickets" / "1 ticket", or null when we never learned the count. */
+export function formatQuantity(quantity?: number | null): string | null {
+  if (quantity === null || quantity === undefined || quantity < 1) return null;
+  return `${quantity} ticket${quantity === 1 ? '' : 's'}`;
 }
