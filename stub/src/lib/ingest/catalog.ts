@@ -1192,19 +1192,32 @@ export async function upsertBandsintownEvent(
 }
 
 /**
- * Find an existing catalog row describing the same show, from any provider.
+ * Find an existing catalog row describing the same show, from any provider —
+ * or from another user's manual add.
+ *
+ * This is what makes the social features work at all. Two people at the same
+ * gig must point at ONE event row, or "what your friends are going to" cannot
+ * connect them. A real pair:
+ *
+ *   Parcels - PORTOLA PURCHASER PRESALE   Regency Ballroom   2026-09-26 22:00
+ *   Parcels with Velvet Trip - Ages 21+   Regency Ballroom   2026-09-27 05:00
+ *
+ * The same instant, stored twice — once as naive local time from an email, once
+ * as a real UTC instant from Ticketmaster — so they looked seven hours apart and
+ * neither user could see the other was going. The +/-12 hour window absorbs
+ * exactly that.
  *
  * The catalog keys on provider ids, so two providers describing one gig produce
  * two rows unless something looks for the overlap. `ingest/match.sameShow` does
  * this for in-flight CANDIDATES; this is the persisted equivalent.
  *
- * Deliberately conservative — it would rather miss a duplicate than merge two
- * genuinely different shows, because a merge is much harder to undo than a
+ * Still deliberately conservative — it would rather miss a duplicate than merge
+ * two genuinely different shows, because a merge is much harder to undo than a
  * duplicate. So it requires a same-day start AND either the same venue row or
  * the same headliner. Two nights of one residency at one venue are a real risk,
  * which is why the window is the calendar day rather than `sameShow`'s 12 hours.
  */
-async function reconcileEvent(
+export async function reconcileEvent(
   db: SupabaseClient,
   ev: { startsAt: string; venueId: string | null; headlinerId: string | null; name: string },
   /**

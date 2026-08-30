@@ -12,6 +12,7 @@ import {
   upsertSpotifyEvent,
   upsertBandsintownEvent,
   recordAttendance,
+  reconcileEvent,
 } from '@/lib/ingest/catalog';
 import * as jambase from '@/lib/providers/jambase';
 import { inferTimezone, toInstant } from '@/lib/timezone';
@@ -224,6 +225,32 @@ export async function createManualEvent(input: {
 
   const startsAt = resolveManualStart(input.startsAt, timezone);
   if (!startsAt) return { ok: false as const, error: 'That date is not valid' };
+
+  /*
+   * Does the catalog already have this show?
+   *
+   * Without this every manual add — and every "Add it anyway" from the Inbox,
+   * which routes through here — created a brand-new row, even when the same gig
+   * was already present from a provider or from another user. Two real pairs:
+   *
+   *   Parcels, Regency Ballroom, 26 Sep   (email)  +  (Ticketmaster)
+   *   Lightning in a Bottle 2027          (email)  +  (the other user's email)
+   *
+   * Two rows for one night means "what your friends are going to" cannot link
+   * the people at it, which is most of the point of the friends tab. Reusing the
+   * existing row also inherits whatever a provider knew that an email did not —
+   * artwork, a real timezone, a ticket URL.
+   */
+  const existingId = await reconcileEvent(
+    admin,
+    { startsAt, venueId, headlinerId: artistId, name: artistName },
+    null,
+  );
+  if (existingId) {
+    await recordAttendance(admin, { userId: user.id, eventId: existingId, source: 'manual' });
+    revalidatePath('/upcoming');
+    return { ok: true as const, eventId: existingId };
+  }
 
   const { data: event, error } = await admin
     .from('events')

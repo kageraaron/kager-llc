@@ -68,6 +68,10 @@ import { pickHeadlinerName, normName } from '@/lib/ingest/catalog';
  * answer. Deduplication stops new ones arising; this clears the ones that
  * predate it.
  *
+ * **9. Duplicate events.** Two people at the same gig must point at ONE event
+ * row or the friends tab cannot connect them. Manual adds used to skip
+ * reconciliation entirely, so the same night exists twice.
+ *
  * Every pass only fills a null, subtracts known noise, or rewrites a title that
  * is demonstrably a lineup join. Nothing a human typed is touched.
  */
@@ -128,6 +132,7 @@ export async function GET(request: NextRequest) {
     eventNamesCleaned: 0,
     headlinersFixed: 0,
     supersededCards: 0,
+    eventsMerged: 0,
     identityResolved: 0,
     identityTried: 0,
     imagesFromId: 0,
@@ -572,7 +577,118 @@ export async function GET(request: NextRequest) {
     fixed.supersededCards++;
   }
 
+  /*
+   * ---- 9. Duplicate events for the same show.
+   *
+   * The pair that prompted this differed by SEVEN HOURS in stored value —
+   * `2026-09-26 22:00` and `2026-09-27 05:00` are the same instant, one written
+   * as naive local time from an email and one as a real UTC instant from
+   * Ticketmaster. Same venue, same night, two rows, and neither user could see
+   * the other was going.
+   *
+   * Same conservative rule as `reconcileEvent`: same venue AND within 12 hours.
+   * The survivor is the row a PROVIDER wrote, which carries artwork, a real
+   * timezone and a ticket URL that a hand-made row does not.
+   */
+  const { data: dupCandidates } = await admin
+    .from('events')
+    .select('id, name, venue_id, starts_at, headliner_id, tm_id, jambase_id, spotify_concert_id, bandsintown_id, eventbrite_id, image_url, url, timezone')
+    .not('venue_id', 'is', null)
+    .order('starts_at', { ascending: true });
+
+  const seen: typeof dupCandidates = [];
+  for (const ev of dupCandidates ?? []) {
+    const twin = (seen ?? []).find(
+      (s2) =>
+        s2.venue_id === ev.venue_id &&
+        Math.abs(new Date(s2.starts_at).getTime() - new Date(ev.starts_at).getTime()) <=
+          12 * 3_600_000 &&
+        // Same guard as `reconcileEvent`: a disagreeing headliner means two
+        // different bands at one club on one night, not a duplicate.
+        (!s2.headliner_id || !ev.headliner_id || s2.headliner_id === ev.headliner_id),
+    );
+
+    if (!twin) {
+      seen!.push(ev);
+      continue;
+    }
+
+    const hasProvider = (e: typeof ev) =>
+      !!(e.tm_id || e.jambase_id || e.spotify_concert_id || e.bandsintown_id || e.eventbrite_id);
+    const [winner, loser] = hasProvider(ev) && !hasProvider(twin) ? [ev, twin] : [twin, ev];
+
+    const merged = await mergeEvents(admin, winner.id, loser.id);
+    if (merged) {
+      fixed.eventsMerged++;
+      if (winner === ev) {
+        seen!.splice(seen!.indexOf(twin), 1, ev);
+      }
+    }
+  }
+
   return NextResponse.json({ ok: true, ...fixed });
+}
+
+/**
+ * Fold one event row into another, repointing everything that references it.
+ *
+ * Seven tables point at `events`, and five of them CASCADE on delete — so the
+ * order matters absolutely: repoint first, delete last. Getting it backwards
+ * silently destroys attendances, which are the only record that someone went.
+ *
+ * `attendances`, `notes` and `sent_reminders` all carry a unique key including
+ * `event_id`, so a repoint can collide with a row the winner already has. Those
+ * use insert-then-delete rather than update, the same shape as `0021`.
+ */
+async function mergeEvents(
+  db: ReturnType<typeof createAdminClient>,
+  winnerId: string,
+  loserId: string,
+): Promise<boolean> {
+  // Attendances: keep the winner's if both users have one, else move it over.
+  const { data: losing } = await db.from('attendances').select('*').eq('event_id', loserId);
+  for (const att of losing ?? []) {
+    const { data: already } = await db
+      .from('attendances')
+      .select('id')
+      .eq('event_id', winnerId)
+      .eq('user_id', att.user_id)
+      .limit(1)
+      .maybeSingle();
+
+    if (already) continue;
+    const { id: _drop, event_id: _drop2, ...rest } = att;
+    await db.from('attendances').insert({ ...rest, event_id: winnerId });
+  }
+  await db.from('attendances').delete().eq('event_id', loserId);
+
+  for (const table of ['notes', 'sent_reminders', 'event_invites'] as const) {
+    const { data: rows } = await db.from(table).select('*').eq('event_id', loserId);
+    for (const r of rows ?? []) {
+      const { id: _drop, event_id: _drop2, ...rest } = r as Record<string, unknown> & { id?: string };
+      await db.from(table).insert({ ...rest, event_id: winnerId });
+    }
+    await db.from(table).delete().eq('event_id', loserId);
+  }
+
+  const { data: lineup } = await db.from('event_artists').select('artist_id, billing').eq('event_id', loserId);
+  for (const l of lineup ?? []) {
+    await db
+      .from('event_artists')
+      .upsert({ event_id: winnerId, artist_id: l.artist_id, billing: l.billing }, {
+        onConflict: 'event_id,artist_id',
+        ignoreDuplicates: true,
+      });
+  }
+
+  await db.from('ingest_candidates').update({ matched_event_id: winnerId }).eq('matched_event_id', loserId);
+
+  const { error } = await db.from('events').delete().eq('id', loserId);
+  if (error) {
+    console.error('event merge failed', { winnerId, loserId, error: error.message });
+    return false;
+  }
+  return true;
 }
 
 /** Find an artist by name, or create one. Mirrors the catalog's name path. */
