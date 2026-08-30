@@ -12,6 +12,9 @@ name: Stub scheduled jobs
 #   STUB_BASE_URL  e.g. https://stub.vercel.app   (no trailing slash)
 #   CRON_SECRET    must match the value in Vercel's environment variables
 
+# NOTE on the `if:` blocks below: every continuation line must sit at the SAME
+# indentation. A folded scalar (`>-`) keeps a MORE-indented line literal instead
+# of folding it, which injects a real newline into the middle of the expression.
 on:
   schedule:
     # Gmail scan every 30 minutes. GitHub may delay scheduled runs under load;
@@ -54,7 +57,7 @@ jobs:
         if: >-
           github.event_name == 'schedule' && github.event.schedule == '*/30 * * * *' ||
           github.event_name == 'workflow_dispatch' &&
-            (inputs.job == 'both' || inputs.job == 'gmail-sync')
+          (inputs.job == 'both' || inputs.job == 'gmail-sync')
         env:
           BASE: ${{ secrets.STUB_BASE_URL }}
           SECRET: ${{ secrets.CRON_SECRET }}
@@ -63,23 +66,23 @@ jobs:
             -H "Authorization: Bearer $SECRET" "$BASE/api/cron/gmail-sync")
           echo "HTTP $code"
           # Never print the body unredacted — it contains connected email addresses.
-          python3 -c "
-import json,sys
-try:
-    d = json.load(open('/tmp/out.json'))
-except Exception:
-    print('non-JSON response'); sys.exit(0)
-for a in d.get('summary', []):
-    a.pop('email', None)
-print(json.dumps({'ok': d.get('ok'), 'accounts': d.get('accounts'), 'summary': d.get('summary')}))
-"
+          #
+          # This MUST stay a one-liner. It was a multi-line `python3 -c "..."`
+          # heredoc written at column 0, which dedents out of this `run: |` block
+          # scalar and makes the whole file unparseable — "can not read a block
+          # mapping entry" at the first `try:`. GitHub then reported the workflow
+          # by its PATH instead of its name, never registered `schedule` or
+          # `workflow_dispatch`, and logged a 0s "invalid workflow file" run on
+          # every push. Nothing had ever run.
+          jq -c '{ok, accounts, summary: [.summary[]? | del(.email)]}' /tmp/out.json \
+            || echo 'non-JSON response'
           [ "$code" = "200" ] || { echo "::error::gmail-sync returned $code"; exit 1; }
 
       - name: Send reminders
         if: >-
           github.event_name == 'schedule' && github.event.schedule == '0 * * * *' ||
           github.event_name == 'workflow_dispatch' &&
-            (inputs.job == 'both' || inputs.job == 'reminders')
+          (inputs.job == 'both' || inputs.job == 'reminders')
         env:
           BASE: ${{ secrets.STUB_BASE_URL }}
           SECRET: ${{ secrets.CRON_SECRET }}
@@ -97,7 +100,7 @@ print(json.dumps({'ok': d.get('ok'), 'accounts': d.get('accounts'), 'summary': d
         if: >-
           github.event_name == 'schedule' && github.event.schedule == '17 6 * * *' ||
           github.event_name == 'workflow_dispatch' &&
-            (inputs.job == 'both' || inputs.job == 'keepalive')
+          (inputs.job == 'both' || inputs.job == 'keepalive')
         env:
           BASE: ${{ secrets.STUB_BASE_URL }}
           SECRET: ${{ secrets.CRON_SECRET }}
