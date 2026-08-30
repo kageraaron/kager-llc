@@ -1,5 +1,13 @@
 import Link from 'next/link';
-import { displayEventName, eventDateParts, eventZone, formatEventTime, initials, venueLine } from '@/lib/format';
+import {
+  displayEventName,
+  displayStatus,
+  eventDateParts,
+  eventZone,
+  formatEventTime,
+  initials,
+  venueLine,
+} from '@/lib/format';
 import { Stars } from '@/components/RatingControl';
 import type { EventRow } from '@/lib/queries';
 
@@ -35,6 +43,8 @@ export function EventCard({ event, friends, badge, state, rating, hasSetlist }: 
   const image = event.image_url ?? event.headliner?.image_url;
   const title = displayEventName(event);
   const attending = ATTENDANCE_LABELS[state ?? ''];
+  const isPast = new Date(event.starts_at).getTime() < Date.now();
+  const status = displayStatus(event.status, isPast);
 
   return (
     <Link href={`/event/${event.id}`} className="card">
@@ -55,7 +65,7 @@ export function EventCard({ event, friends, badge, state, rating, hasSetlist }: 
         <div className="meta">{venueLine(event.venue)}</div>
         <div className="meta">
           {formatEventTime(event.starts_at, zone)}
-          {event.status && event.status !== 'onsale' && ` · ${event.status}`}
+          {status && ` · ${status}`}
         </div>
 
         {rating != null && (

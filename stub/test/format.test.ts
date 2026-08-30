@@ -1,5 +1,12 @@
 import { describe, it, expect } from 'vitest';
-import { eventZone, displayEventName, initials, formatEventTime, formatQuantity } from '@/lib/format';
+import {
+  eventZone,
+  displayEventName,
+  displayStatus,
+  initials,
+  formatEventTime,
+  formatQuantity,
+} from '@/lib/format';
 import { inferTimezone, toInstant } from '@/lib/timezone';
 
 /**
@@ -133,5 +140,45 @@ describe('formatQuantity', () => {
     expect(formatQuantity(null)).toBeNull();
     expect(formatQuantity(undefined)).toBeNull();
     expect(formatQuantity(0)).toBeNull();
+  });
+});
+
+/**
+ * `events.status` is provider data about TICKET AVAILABILITY, written once when
+ * the event is first seen and never revisited. So a show from last spring still
+ * claims to be "scheduled", which reads as a bug on an Archive card.
+ *
+ * Rewriting the column would be wrong — it is a faithful record of what the
+ * provider said — so it is rendered conditionally instead.
+ */
+describe('displayStatus', () => {
+  it('says nothing about availability once the show has happened', () => {
+    // 11 past events in production said "scheduled". None of them were.
+    expect(displayStatus('scheduled', true)).toBeNull();
+    expect(displayStatus('onsale', true)).toBeNull();
+    // "completed" is already implied by the card being in the Archive.
+    expect(displayStatus('completed', true)).toBeNull();
+  });
+
+  it('keeps what still changes the meaning of the memory', () => {
+    // Cancelled or postponed is the reason you did not go.
+    expect(displayStatus('cancelled', true)).toBe('cancelled');
+    expect(displayStatus('postponed', true)).toBe('postponed');
+    expect(displayStatus('rescheduled', true)).toBe('rescheduled');
+  });
+
+  it('hides the unremarkable on upcoming shows too', () => {
+    expect(displayStatus('onsale', false)).toBeNull();
+    expect(displayStatus('scheduled', false)).toBeNull();
+  });
+
+  it('shows an unusual upcoming status rather than swallowing it', () => {
+    expect(displayStatus('offsale', false)).toBe('offsale');
+    expect(displayStatus('cancelled', false)).toBe('cancelled');
+  });
+
+  it('handles a missing status', () => {
+    expect(displayStatus(null, true)).toBeNull();
+    expect(displayStatus(undefined, false)).toBeNull();
   });
 });

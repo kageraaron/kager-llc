@@ -169,3 +169,33 @@ export function ticketVendorName(url?: string | null): string | null {
   }
   return host.replace(/^www\./, '');
 }
+
+/**
+ * Whether an event's status is worth showing, and as what.
+ *
+ * `events.status` is provider data about TICKET AVAILABILITY — "onsale",
+ * "scheduled", "offsale" — and it is written once, when the event is first
+ * seen. Nothing revisits it, so a show that happened last spring still claims
+ * to be "scheduled", which reads as a bug on an Archive card.
+ *
+ * Rewriting the column would be the wrong fix: it is a faithful record of what
+ * the provider said, and re-fetching every past event to update a label nobody
+ * needs is not worth a request. So it is rendered conditionally instead.
+ *
+ * Two things survive the show happening, because they change what the memory
+ * MEANS: a cancelled or postponed date is the reason you did not go.
+ * Everything else is noise once the night is over — and "completed" is already
+ * implied by the card being in the Archive.
+ */
+const STATUS_ALWAYS_MEANINGFUL = /^(?:cancell?ed|postponed|rescheduled)$/i;
+
+/** Statuses that mean "normal" and are never worth the pixels. */
+const STATUS_UNREMARKABLE = /^(?:onsale|scheduled|completed|live|ok)$/i;
+
+export function displayStatus(status: string | null | undefined, isPast: boolean): string | null {
+  if (!status) return null;
+  if (STATUS_ALWAYS_MEANINGFUL.test(status)) return status;
+  // Once the show is over, availability says nothing at all.
+  if (isPast) return null;
+  return STATUS_UNREMARKABLE.test(status) ? null : status;
+}

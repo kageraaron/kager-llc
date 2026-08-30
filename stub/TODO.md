@@ -14,7 +14,7 @@ Ordered by what blocks what. **§1 is the only section that blocks sharing it.**
 | **Prod DB** | `biichwtrfmrdgiqtvxme`, all **22** migrations applied |
 | **Prod keys** | `RAPID_API_KEY` and `PARSE_API_KEY` both set. Bandsintown is live on the next deploy |
 | **Dev DB** | `syrsjdreydgblrwpalyw`, seeded, all **22** migrations |
-| **Tests** | **266** offline passing; live suites for queries, geocode, Spotify concerts, Spotify Web API, Eventbrite |
+| **Tests** | **271** offline passing; live suites for queries, geocode, Spotify concerts, Spotify Web API, Eventbrite |
 | **Providers wired** | **Eventbrite**, Ticketmaster, JamBase, Spotify/RapidAPI, Bandsintown/Parse, setlist.fm, MusicBrainz, Nominatim |
 | **Email vendors parsed** | Ticketmaster, AXS, DICE, Eventbrite, See Tickets/Eventim, Frontgate, **TicketWeb**, **SeatGeek**, **Tixr**, Etix |
 
@@ -2557,6 +2557,53 @@ so an event with missing lineup rows cannot hit the same trap.
 Pass 7 re-decides from stored data — the event name plus the artist on the
 matched candidate — so it fixes rows without re-ingesting, which matters because
 a confirmed candidate is deliberately never reprocessed.
+
+---
+
+## 5.34 Stale review cards, and "Scheduled" on a show from last spring — 2026-08-30
+
+### Coachella came back, but the fix had not broken
+
+Reported as a regression; the timestamps say otherwise.
+
+| created | state | matched to |
+|---|---|---|
+| **19:42** (after §5.20) | confirmed | **Kaskade @ Pier 48** ✅ |
+| 01:33 (before) | pending | Coachella |
+| 01:33 (before) | pending | Coachella |
+
+The ranking fix works — the 19:42 candidate proves it. The two Coachella cards
+are **stale rows from before it**, from two other emails about the same night,
+and nothing existed to clear them.
+
+Two more things the data showed:
+
+- **They belong to a different user** than the confirmed one. Pass 8 keys on
+  `(user_id, dedupe_key)` for exactly this reason: one person adding a gig says
+  nothing about whether the other went.
+- **The two Coachella cards are duplicates of each other**, same user, same key.
+  Deduplication stops new ones arising but these predate it.
+
+So pass 8 drops a pending card on either ground — the show is already confirmed
+*for that user*, or another pending card already asks the same question. The
+best duplicate is kept: highest confidence, then most recent, which is the one
+read by the newest extractors.
+
+### "Scheduled" on a past show
+
+11 past events in production claimed to be `scheduled`, 9 `onsale`.
+
+`events.status` is provider data about **ticket availability**, written once
+when the event is first seen and never revisited. It is not wrong, it is stale —
+and rewriting the column would be the wrong fix twice over: it is a faithful
+record of what the provider said, and re-fetching every past event to update a
+label nobody needs is not worth the requests.
+
+So `displayStatus` renders it conditionally. Two statuses survive the show
+happening, because they change what the memory MEANS — `cancelled` and
+`postponed` are the reason you did not go. Everything else is noise once the
+night is over, and `completed` is already implied by the card sitting in the
+Archive.
 
 ---
 

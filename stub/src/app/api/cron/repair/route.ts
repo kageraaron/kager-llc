@@ -63,6 +63,11 @@ import { pickHeadlinerName, normName } from '@/lib/ingest/catalog';
  * show a SUPPORT act on the card. The artist parsed from the user's own ticket
  * is the corrective, and it is already stored on the candidate.
  *
+ * **8. Review cards for shows already added.** A pending candidate whose show
+ * has since been confirmed from another email is a question with a known
+ * answer. Deduplication stops new ones arising; this clears the ones that
+ * predate it.
+ *
  * Every pass only fills a null, subtracts known noise, or rewrites a title that
  * is demonstrably a lineup join. Nothing a human typed is touched.
  */
@@ -121,6 +126,7 @@ export async function GET(request: NextRequest) {
     namesCleaned: 0,
     namesMerged: 0,
     headlinersFixed: 0,
+    supersededCards: 0,
     identityResolved: 0,
     identityTried: 0,
     imagesFromId: 0,
@@ -478,6 +484,71 @@ export async function GET(request: NextRequest) {
         { onConflict: 'event_id,artist_id', ignoreDuplicates: true },
       );
     fixed.headlinersFixed++;
+  }
+
+  /*
+   * ---- 8. Pending review cards for a show already added.
+   *
+   * One gig produces several emails, and before deduplication existed each one
+   * became its own card. A real inbox kept two "Kaskade -> Coachella" cards
+   * from 01:33 alongside the correct "Kaskade -> Pier 48" the user had already
+   * confirmed at 19:42 — the same show, asked three times, twice wrongly.
+   *
+   * `ingestEmail` now merges on `dedupe_key` before inserting, so no new ones
+   * arise. This clears the backlog.
+   */
+  const { data: confirmed } = await admin
+    .from('ingest_candidates')
+    .select('user_id, dedupe_key')
+    .eq('state', 'confirmed')
+    .not('dedupe_key', 'is', null);
+
+  /*
+   * Keyed by USER as well as show. One person adding a gig says nothing about
+   * whether the other went — a real pair of accounts had the same Kaskade
+   * night confirmed on one and still pending on the other, correctly.
+   */
+  const settled = new Set((confirmed ?? []).map((c) => `${c.user_id}::${c.dedupe_key}`));
+
+  const { data: stillPending } = await admin
+    .from('ingest_candidates')
+    .select('id, message_id, user_id, dedupe_key, confidence, created_at')
+    .eq('state', 'pending')
+    .not('dedupe_key', 'is', null)
+    .order('confidence', { ascending: false })
+    .order('created_at', { ascending: false });
+
+  /*
+   * Two reasons to drop a pending card, both from the era before
+   * deduplication: the show has since been confirmed from another email, or
+   * another PENDING card already asks the same question. The best of the
+   * duplicates is kept — highest confidence, then most recent, which is the one
+   * read by the newest extractors.
+   */
+  const keptPending = new Set<string>();
+
+  for (const card of stillPending ?? []) {
+    const key = `${card.user_id}::${card.dedupe_key}`;
+
+    if (!settled.has(key)) {
+      if (!keptPending.has(key)) {
+        keptPending.add(key);
+        continue;
+      }
+    }
+
+    // Drop the card, but keep the message as the record of what was read —
+    // flagged so the Inbox's "read but yielded nothing" list stays honest.
+    const { error } = await admin.from('ingest_candidates').delete().eq('id', card.id);
+    if (error) continue;
+
+    if (card.message_id) {
+      await admin
+        .from('ingest_messages')
+        .update({ status: 'duplicate_event' })
+        .eq('id', card.message_id);
+    }
+    fixed.supersededCards++;
   }
 
   return NextResponse.json({ ok: true, ...fixed });
