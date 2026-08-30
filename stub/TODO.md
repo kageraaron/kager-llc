@@ -14,7 +14,7 @@ Ordered by what blocks what. **§1 is the only section that blocks sharing it.**
 | **Prod DB** | `biichwtrfmrdgiqtvxme`, all **22** migrations applied |
 | **Prod keys** | `RAPID_API_KEY` and `PARSE_API_KEY` both set. Bandsintown is live on the next deploy |
 | **Dev DB** | `syrsjdreydgblrwpalyw`, seeded, all **22** migrations |
-| **Tests** | **250** offline passing; live suites for queries, geocode, Spotify concerts, Spotify Web API, Eventbrite |
+| **Tests** | **266** offline passing; live suites for queries, geocode, Spotify concerts, Spotify Web API, Eventbrite |
 | **Providers wired** | **Eventbrite**, Ticketmaster, JamBase, Spotify/RapidAPI, Bandsintown/Parse, setlist.fm, MusicBrainz, Nominatim |
 | **Email vendors parsed** | Ticketmaster, AXS, DICE, Eventbrite, See Tickets/Eventim, Frontgate, **TicketWeb**, **SeatGeek**, **Tixr**, Etix |
 
@@ -2465,6 +2465,98 @@ all), the forward path now carries the original sender, subject AND date.
 
 All four correct, and the earlier 19 re-checked with **zero changes**.
 `EXTRACTOR_VERSION` bumped to 2, so a re-scan picks these up.
+
+---
+
+## 5.32 The two vendors bill in opposite directions — 2026-08-30
+
+Two more Tixr confirmations. Both parsed with a date and an order number, and
+both were unmatchable.
+
+### Tixr puts the act AFTER the colon
+
+```
+Ticketmaster   Weezer: Voyage To The Blue Planet Tour   ->  Weezer      (before)
+Tixr           Fresh Start Afters: Odd Mob              ->  Odd Mob     (after)
+Tixr           The Lineup: Calvin Harris, Diplo, …      ->  Calvin Harris
+```
+
+Tixr names an event "<PARTY>: <LINEUP>", which is exactly inverted from
+Ticketmaster's "<ACT>: <PRODUCTION>". Both conventions are unambiguous *within
+their own vendor* and irreconcilable across them, which is why `billedAct` sits
+beside `leadingAct` rather than replacing it. A comma-separated bill takes the
+first name.
+
+Without this the matcher searched "The Lineup: Calvin Harris, Diplo, Sonny
+Fodera" and found nothing anywhere.
+
+### The venue guard rejected "The Midway"
+
+The Tixr venue line was skipped if it matched `^[A-Z][a-z]{2}\s`, meant to catch
+the date line "Thu Jan 1". It also caught **"The Midway"** — and would have
+caught "The Independent" and "The Regency Ballroom", two venues already in the
+catalog. Requiring weekday + month + DAY is what actually separates a date from
+a venue.
+
+### Result
+
+| | artist | venue | date |
+|---|---|---|---|
+| Fresh Start Afters: Odd Mob | Odd Mob | The Midway | 2026-01-01 |
+| The Lineup: Calvin Harris… | Calvin Harris | The Midway | 2026-02-06 |
+
+All 19 earlier emails re-checked with **zero changes**.
+
+---
+
+## 5.33 The support act was on the card — 2026-08-30
+
+Two shows displayed the wrong artist:
+
+```
+card said   event name                                 attractions
+---------   ----------------------------------------   -------------------
+Velvet Trip  Parcels with Velvet Trip - Ages 21+        [Velvet Trip]
+DRAMA        SOFI TUKKER Presents: ANIMAL TALK (18+)    [DRAMA, Kito]
+```
+
+`upsertEvent` took `attractions[0]`. The real problem is worse than ordering:
+**neither Parcels nor SOFI TUKKER is in the attraction list at all.** Ticketmaster
+frequently lists only the support acts, so no amount of re-sorting would have
+found the headliner.
+
+### The ticket knows better than the listing
+
+`persistCandidate` already threads a `searched` name — the artist parsed from
+the confirmation the user actually bought — to the Spotify and Bandsintown
+paths. Ticketmaster ignored it. `pickHeadlinerName` now decides in three steps:
+
+1. an attraction matching `searched` wins outright — it carries a provider id
+   and artwork that a bare name does not;
+2. otherwise `searched` becomes the headliner, **but only when the event name
+   corroborates it**. That guard is what stops a festival ticket ("Outside
+   Lands") from being installed as the headliner of one of its own sets;
+3. only then fall back to the first attraction.
+
+When the headliner is not among the attractions it gets its own artist row and
+is added to `event_artists` as the headliner, so the lineup is right too.
+
+### A false positive the dry run caught
+
+A crude SQL preview of the repair flagged a third row: `"Fred again.."` →
+`"Fred Again"`. Ticketmaster styles the act with the trailing dots; our email
+parse does not. Same artist, and **the provider's spelling is the better one** —
+"fixing" it would have been a downgrade.
+
+The real logic already handled it (the attraction is listed, and step 1 matches
+on normalization), but the repair pass now compares normalized names explicitly
+so an event with missing lineup rows cannot hit the same trap.
+
+### Repair
+
+Pass 7 re-decides from stored data — the event name plus the artist on the
+matched candidate — so it fixes rows without re-ingesting, which matters because
+a confirmed candidate is deliberately never reprocessed.
 
 ---
 

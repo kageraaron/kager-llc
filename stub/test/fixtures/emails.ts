@@ -690,3 +690,48 @@ Order Date: 11/12/24
 Order ID: AA0AAAA0AA
 Total Including Fees: $ 135.20`,
 };
+
+/**
+ * Tixr bills the act AFTER the colon — "<PARTY>: <LINEUP>" — which is the
+ * opposite of Ticketmaster's "<ACT>: <PRODUCTION>". Both stored the whole title
+ * as the name and matched nothing.
+ *
+ * The venue is also the case that broke the first guard: "The Midway" starts
+ * with a three-letter capitalised word, exactly like the date line "Thu Jan 1".
+ */
+export const tixrPartyBilling: RawEmailInput = {
+  from: 'Pat Rivera <pat@example.com>',
+  subject: 'Fwd: Order Confirmation: Fresh Start Afters: Odd Mob',
+  receivedAt: '2026-08-30T12:00:00Z',
+  text: `---------- Forwarded message ---------
+From: Tixr <no-reply@tixr.com>
+Date: Sun, Dec 7, 2025 at 4:58 PM
+Subject: Order Confirmation: Fresh Start Afters: Odd Mob
+To: <pat@example.com>
+
+Order Confirmation
+Fresh Start Afters: Odd Mob
+The Midway
+Thu Jan 1, 11:00 PM
+4 Items
+Order ID: AA0AAAA0AA`,
+};
+
+/** A comma-separated bill: the first name is the headliner. */
+export const tixrMultiActBilling: RawEmailInput = {
+  from: 'Pat Rivera <pat@example.com>',
+  subject: 'Fwd: Order Confirmation: The Lineup: Calvin Harris, Diplo, Sonny Fodera',
+  receivedAt: '2026-08-30T12:00:00Z',
+  text: `---------- Forwarded message ---------
+From: Tixr <no-reply@tixr.com>
+Date: Fri, Dec 26, 2025 at 11:10 AM
+Subject: Order Confirmation: The Lineup: Calvin Harris, Diplo, Sonny Fodera
+To: <pat@example.com>
+
+Order Confirmation
+The Lineup: Calvin Harris, Diplo, Sonny Fodera
+The Midway
+Fri Feb 6, 5:00 PM
+5 Items
+Order ID: AA0AAAA0AB`,
+};

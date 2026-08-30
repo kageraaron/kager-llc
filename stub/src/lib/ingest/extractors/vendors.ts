@@ -136,6 +136,35 @@ export function leadingAct(title: string): string {
   return withoutPresents.length >= 2 ? withoutPresents : lead;
 }
 
+/**
+ * The act billed in a Tixr event title.
+ *
+ * Tixr names an event "<PARTY>: <LINEUP>" — the act comes AFTER the colon,
+ * which is the opposite of Ticketmaster's "<ACT>: <PRODUCTION>". Both are real
+ * and both are unambiguous within their own vendor, which is why this is not
+ * shared with `leadingAct`:
+ *
+ *     Fresh Start Afters: Odd Mob                     -> Odd Mob
+ *     The Lineup: Calvin Harris, Diplo, Sonny Fodera  -> Calvin Harris
+ *
+ * A comma-separated bill takes the first name, which is the headliner. Without
+ * this the matcher searches the whole title and finds nothing anywhere.
+ *
+ * Returns undefined when there is no colon — "Cash Cash" and "Lightning in a
+ * Bottle 2027" are already the best name available, and the matcher falls back
+ * to `eventName` on its own.
+ */
+export function billedAct(title: string): string | undefined {
+  const after = title.split(/\s*:\s+/).slice(1).join(': ').trim();
+  if (!after) return undefined;
+
+  const headliner = after.split(/\s*,\s*/)[0]?.trim();
+  if (!headliner || headliner.length < 2) return undefined;
+
+  const cleaned = cleanArtistName(headliner);
+  return cleaned.length >= 2 ? cleaned : undefined;
+}
+
 /** Non-empty, whitespace-trimmed lines. Both text and HTML views pad heavily. */
 function lines(text: string): string[] {
   return text.split('\n').map((l) => l.trim()).filter(Boolean);
@@ -715,7 +744,10 @@ const SPECS: VendorSpec[] = [
       const out: Partial<ParsedTicket> = {};
 
       const name = artistFromSubject(email.subject, /^order confirmation:?\s*/i);
-      if (name) out.eventName = name;
+      if (name) {
+        out.eventName = name;
+        out.artistName = billedAct(name);
+      }
 
       const haystack = text || htmlToText(email.html);
       const all = lines(haystack);
@@ -736,8 +768,16 @@ const SPECS: VendorSpec[] = [
       const at = all.findIndex((l) => name && l.trim() === name.trim());
       const block = at !== -1 ? all.slice(at + 1, at + 5) : [];
 
+      /*
+       * Reject the venue line only if it actually parses as a DATE.
+       *
+       * The first guard was `^[A-Z][a-z]{2}\s`, meant to catch "Thu Jan 1" —
+       * and it also caught "The Midway", "The Independent", "The Regency
+       * Ballroom". Requiring weekday + month + DAY is what separates them.
+       */
+      const TIXR_DATE_LINE = /^[A-Z][a-z]{2}\s+[A-Z][a-z]{2}\s+\d{1,2}\b/;
       const venueLine = block[0];
-      if (venueLine && !/^\d|^[A-Z][a-z]{2}\s/.test(venueLine)) {
+      if (venueLine && !/^\d/.test(venueLine) && !TIXR_DATE_LINE.test(venueLine)) {
         // "Lightning In A Bottle, Buena Vista Lake" -> the location half.
         const parts = venueLine.split(/\s*,\s*/).filter(Boolean);
         out.venueName = (parts.length > 1 ? parts[parts.length - 1] : parts[0])?.trim();
@@ -761,7 +801,7 @@ const SPECS: VendorSpec[] = [
           ? findDate(`${firstDay} ${titleYear}`)
           : findDate(firstDay, { yearlessReference: email.receivedAt });
       } else {
-        const single = block.find((l) => /^[A-Z][a-z]{2}\s+[A-Z][a-z]{2}\s+\d{1,2}\b/.test(l));
+        const single = block.find((l) => TIXR_DATE_LINE.test(l));
         if (single) {
           out.startsAt = titleYear
             ? findDate(`${single} ${titleYear}`)

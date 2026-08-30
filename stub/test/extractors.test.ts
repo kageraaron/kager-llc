@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { runExtractors } from '@/lib/ingest/extractors';
-import { leadingAct } from '@/lib/ingest/extractors/vendors';
+import { leadingAct, billedAct } from '@/lib/ingest/extractors/vendors';
 import { cleanArtistName } from '@/lib/ingest/extractors/heuristics';
 import { normalizeEmail, contentHash, stripForwardHeaders } from '@/lib/ingest/normalize';
 import {
@@ -28,6 +28,8 @@ import {
   ticketmasterColonTitle,
   ticketmasterPresentsTitle,
   tixrSingleNight,
+  tixrPartyBilling,
+  tixrMultiActBilling,
 } from './fixtures/emails';
 
 const run = (raw: Parameters<typeof normalizeEmail>[0]) => runExtractors(normalizeEmail(raw));
@@ -573,5 +575,45 @@ describe('Tixr single-night booking', () => {
      * reference, and `unwrapForward` now adopts it.
      */
     expect(t().startsAt).toBe('2024-11-16T22:00:00');
+  });
+});
+
+describe('Tixr bills the act after the colon', () => {
+  it('takes the act, not the party name', () => {
+    // "Fresh Start Afters" is the night; "Odd Mob" is who is playing.
+    const t = runExtractors(normalizeEmail(tixrPartyBilling))!.ticket;
+    expect(t.artistName).toBe('Odd Mob');
+    expect(t.eventName).toBe('Fresh Start Afters: Odd Mob');
+  });
+
+  it('takes the headliner from a comma-separated bill', () => {
+    const t = runExtractors(normalizeEmail(tixrMultiActBilling))!.ticket;
+    expect(t.artistName).toBe('Calvin Harris');
+    expect(t.eventName).toBe('The Lineup: Calvin Harris, Diplo, Sonny Fodera');
+  });
+
+  it('reads a venue that starts like a date line', () => {
+    /*
+     * "The Midway" begins with a three-letter capitalised word followed by a
+     * space — exactly like "Thu Jan 1". The first guard rejected it, and would
+     * have rejected "The Independent" and "The Regency Ballroom" too. Requiring
+     * weekday + month + DAY is what separates a date from a venue.
+     */
+    expect(runExtractors(normalizeEmail(tixrPartyBilling))!.ticket.venueName).toBe('The Midway');
+    expect(runExtractors(normalizeEmail(tixrMultiActBilling))!.ticket.venueName).toBe('The Midway');
+  });
+
+  it('resolves the year-less date against the original send date', () => {
+    // Sent 7 Dec 2025, show "Thu Jan 1" -> 1 January 2026.
+    expect(runExtractors(normalizeEmail(tixrPartyBilling))!.ticket.startsAt)
+      .toBe('2026-01-01T23:00:00');
+  });
+
+  it('leaves a title with no colon alone, in both directions', () => {
+    // The vendors bill oppositely, so the two helpers must not be interchanged.
+    expect(billedAct('Cash Cash')).toBeUndefined();
+    expect(billedAct('Lightning in a Bottle 2027')).toBeUndefined();
+    expect(billedAct('Fresh Start Afters: Odd Mob')).toBe('Odd Mob');
+    expect(leadingAct('Weezer: Voyage To The Blue Planet Tour')).toBe('Weezer');
   });
 });

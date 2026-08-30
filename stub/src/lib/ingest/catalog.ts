@@ -84,8 +84,58 @@ export async function upsertVenue(db: SupabaseClient, venue: TMVenue): Promise<s
   return data.id;
 }
 
+/** Casefold and strip punctuation, for comparing names across sources. */
+export function normName(s: string): string {
+  return s.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]/g, '');
+}
+
+/**
+ * Which act headlines a Ticketmaster event.
+ *
+ * NOT `attractions[0]`. Ticketmaster's attraction list is ordered arbitrarily
+ * and — the part that actually bites — frequently omits the headliner
+ * altogether. Two real events:
+ *
+ *   "Parcels with Velvet Trip - Ages 21+"      attractions: [Velvet Trip]
+ *   "SOFI TUKKER Presents: ANIMAL TALK (18+)"  attractions: [DRAMA, Kito]
+ *
+ * Neither Parcels nor SOFI TUKKER appears at all, so taking the first
+ * attraction put the SUPPORT act on the card as the headliner.
+ *
+ * The ticket knows better. `searched` is the artist parsed from the
+ * confirmation the user actually bought, so:
+ *
+ *  1. an attraction matching `searched` wins outright;
+ *  2. otherwise `searched` itself becomes the headliner — but only when the
+ *     event NAME corroborates it, which stops a festival ticket ("Outside
+ *     Lands") from being installed as the headliner of one of its own sets;
+ *  3. only then fall back to the first attraction.
+ */
+export function pickHeadlinerName(
+  eventName: string,
+  attractionNames: string[],
+  searched?: string,
+): string | null {
+  const want = searched ? normName(searched) : '';
+
+  if (want) {
+    const match = attractionNames.find((n) => normName(n) === want);
+    if (match) return match;
+
+    // The name is the corroboration: "Parcels with Velvet Trip" really is
+    // headlined by Parcels, and Ticketmaster simply did not list them.
+    if (want.length >= 3 && normName(eventName).includes(want)) return searched!;
+  }
+
+  return attractionNames[0] ?? null;
+}
+
 /** Resolve a Ticketmaster event into a local `events` row id, creating the graph as needed. */
-export async function upsertEvent(db: SupabaseClient, ev: TMEvent): Promise<string | null> {
+export async function upsertEvent(
+  db: SupabaseClient,
+  ev: TMEvent,
+  opts: { searched?: string } = {},
+): Promise<string | null> {
   const attractions = ev._embedded?.attractions ?? [];
   const tmVenue = ev._embedded?.venues?.[0];
 
@@ -93,6 +143,23 @@ export async function upsertEvent(db: SupabaseClient, ev: TMEvent): Promise<stri
   for (const a of attractions) {
     const id = await upsertArtist(db, a);
     if (id) artistIds.push(id);
+  }
+
+  const headlinerName = pickHeadlinerName(
+    ev.name ?? '',
+    attractions.map((a) => a.name),
+    opts.searched,
+  );
+
+  /*
+   * The headliner may not be among the attractions at all, in which case it is
+   * a bare name off the ticket and needs its own row.
+   */
+  let headlinerId: string | null = null;
+  if (headlinerName) {
+    const known = attractions.findIndex((a) => a.name === headlinerName);
+    headlinerId =
+      known >= 0 ? artistIds[known] ?? null : await upsertArtistByName(db, headlinerName);
   }
 
   const venueId = tmVenue ? await upsertVenue(db, tmVenue) : null;
@@ -113,7 +180,7 @@ export async function upsertEvent(db: SupabaseClient, ev: TMEvent): Promise<stri
       {
         tm_id: ev.id,
         name: ev.name,
-        headliner_id: artistIds[0] ?? null,
+        headliner_id: headlinerId ?? artistIds[0] ?? null,
         venue_id: venueId,
         starts_at: startsAt,
         timezone: ev.dates?.timezone ?? tmVenue?.timezone ?? null,
@@ -131,12 +198,16 @@ export async function upsertEvent(db: SupabaseClient, ev: TMEvent): Promise<stri
     return null;
   }
 
-  if (artistIds.length) {
+  const lineup = headlinerId && !artistIds.includes(headlinerId)
+    ? [headlinerId, ...artistIds]
+    : artistIds;
+
+  if (lineup.length) {
     await db.from('event_artists').upsert(
-      artistIds.map((artist_id, i) => ({
+      lineup.map((artist_id) => ({
         event_id: data.id,
         artist_id,
-        billing: i === 0 ? 'headliner' : 'support',
+        billing: artist_id === headlinerId ? 'headliner' : 'support',
       })),
       { onConflict: 'event_id,artist_id' },
     );
@@ -331,6 +402,17 @@ export async function upsertJamBaseEvent(db: SupabaseClient, ev: JBEvent): Promi
  * Name matching is `ilike` rather than `eq` so "the fratellis" finds "The
  * Fratellis" instead of inserting a duplicate beside it.
  */
+/**
+ * Find or create an artist by bare name.
+ *
+ * An alias for the name path of `upsertSpotifyArtist`, which stopped being
+ * Spotify-specific some time ago — the setlist.fm and Ticketmaster paths both
+ * reach it with nothing but a name.
+ */
+async function upsertArtistByName(db: SupabaseClient, name: string): Promise<string | null> {
+  return upsertSpotifyArtist(db, name);
+}
+
 async function upsertSpotifyArtist(
   db: SupabaseClient,
   name: string,
@@ -640,7 +722,7 @@ export async function persistCandidate(
 ): Promise<string | null> {
   switch (candidate.source) {
     case 'ticketmaster':
-      return upsertEvent(db, candidate.raw as TMEvent);
+      return upsertEvent(db, candidate.raw as TMEvent, { searched: opts.searched });
     case 'jambase':
       return upsertJamBaseEvent(db, candidate.raw as JBEvent);
     case 'spotify':

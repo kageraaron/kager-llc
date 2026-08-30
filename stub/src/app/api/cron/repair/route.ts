@@ -5,6 +5,7 @@ import { getArtistMetadata, isAppConfigured } from '@/lib/providers/spotify';
 import { findArtistImage } from '@/lib/providers/artistImages';
 import { getArtistLinks, resolveMbid } from '@/lib/providers/musicbrainz';
 import { proposeCleanName } from '@/lib/ingest/cleanupNames';
+import { pickHeadlinerName, normName } from '@/lib/ingest/catalog';
 
 /**
  * One-off repairs for catalog rows written before a provider bug was fixed.
@@ -56,6 +57,11 @@ import { proposeCleanName } from '@/lib/ingest/cleanupNames';
  * email's parsed name for both the event and the artist — so a poor parse lands
  * twice. These have no provider to ask (that is why they exist), so the repair
  * only ever subtracts recognised noise. See `ingest/cleanupNames`.
+ *
+ * **7. Wrong headliners.** Ticketmaster's attraction list is ordered arbitrarily
+ * and often omits the headliner, so events written before `pickHeadlinerName`
+ * show a SUPPORT act on the card. The artist parsed from the user's own ticket
+ * is the corrective, and it is already stored on the candidate.
  *
  * Every pass only fills a null, subtracts known noise, or rewrites a title that
  * is demonstrably a lineup join. Nothing a human typed is touched.
@@ -114,6 +120,7 @@ export async function GET(request: NextRequest) {
     imagesTried: 0,
     namesCleaned: 0,
     namesMerged: 0,
+    headlinersFixed: 0,
     identityResolved: 0,
     identityTried: 0,
     imagesFromId: 0,
@@ -397,5 +404,98 @@ export async function GET(request: NextRequest) {
     fixed.namesCleaned++;
   }
 
+  /*
+   * ---- 7. Headliners that are actually the support act.
+   *
+   * Re-decides using exactly the inputs `upsertEvent` now uses — the event name
+   * and the artist off the ticket — but from stored data, so it repairs rows
+   * without re-ingesting the email (which is skipped anyway once the user has
+   * acted on it).
+   */
+  const { data: matched } = await admin
+    .from('ingest_candidates')
+    .select('matched_event_id, parsed')
+    .not('matched_event_id', 'is', null)
+    .in('state', ['pending', 'confirmed']);
+
+  // Several candidates can point at one event; the shortest artist name is the
+  // least likely to still carry a production suffix.
+  const ticketArtist = new Map<string, string>();
+  for (const c of matched ?? []) {
+    const parsed = c.parsed as { artistName?: string };
+    const name = parsed?.artistName?.trim();
+    if (!name) continue;
+    const key = c.matched_event_id as string;
+    const prior = ticketArtist.get(key);
+    if (!prior || name.length < prior.length) ticketArtist.set(key, name);
+  }
+
+  for (const [eventId, artistName] of ticketArtist) {
+    const { data: event } = await admin
+      .from('events')
+      .select('id, name, headliner_id, artists!events_headliner_id_fkey ( name )')
+      .eq('id', eventId)
+      .maybeSingle();
+    if (!event) continue;
+
+    const current = (event.artists as { name?: string } | null)?.name ?? null;
+    const { data: lineup } = await admin
+      .from('event_artists')
+      .select('artists ( name )')
+      .eq('event_id', eventId);
+
+    const attractionNames = (lineup ?? [])
+      .map((l) => (l.artists as { name?: string } | null)?.name)
+      .filter((n): n is string => !!n);
+
+    const shouldBe = pickHeadlinerName(event.name ?? '', attractionNames, artistName);
+    if (!shouldBe) continue;
+
+    /*
+     * Compare NORMALIZED, not exact.
+     *
+     * Ticketmaster styles an act "Fred again..", our email parse gives
+     * "Fred Again". Same artist, and the provider's spelling is the better one
+     * — an exact comparison would "fix" it into the worse version. This only
+     * matters when the lineup rows are missing, since a present attraction
+     * already wins on the same normalization inside `pickHeadlinerName`.
+     */
+    if (normName(shouldBe) === normName(current ?? '')) continue;
+
+    const artistId = await ensureArtist(admin, shouldBe);
+    if (!artistId || artistId === event.headliner_id) continue;
+
+    const { error } = await admin
+      .from('events')
+      .update({ headliner_id: artistId })
+      .eq('id', eventId);
+    if (error) continue;
+
+    await admin
+      .from('event_artists')
+      .upsert(
+        { event_id: eventId, artist_id: artistId, billing: 'headliner' },
+        { onConflict: 'event_id,artist_id', ignoreDuplicates: true },
+      );
+    fixed.headlinersFixed++;
+  }
+
   return NextResponse.json({ ok: true, ...fixed });
+}
+
+/** Find an artist by name, or create one. Mirrors the catalog's name path. */
+async function ensureArtist(
+  db: ReturnType<typeof createAdminClient>,
+  name: string,
+): Promise<string | null> {
+  const { data: existing } = await db
+    .from('artists')
+    .select('id')
+    .ilike('name', name)
+    .limit(1)
+    .maybeSingle();
+  if (existing) return existing.id;
+
+  const { data, error } = await db.from('artists').insert({ name }).select('id').single();
+  return error ? null : data.id;
 }
