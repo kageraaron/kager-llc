@@ -57,7 +57,43 @@ export function unwrapForward(email: NormalizedEmail): NormalizedEmail {
     ? `${(fromMatch[1] ?? '').trim()} <${fromMatch[2].trim()}>`.trim()
     : email.from;
 
-  return { ...email, from: originalFrom, subject };
+  return { ...email, from: originalFrom, subject, text: stripForwardHeaders(email.text) };
+}
+
+/**
+ * Remove the forward's own header block from the body.
+ *
+ * Rewriting `from` and `subject` is not enough: the block stays in the text,
+ * and it contains a `Date:` line that every date heuristic can see.
+ *
+ *     ---------- Forwarded message ---------
+ *     From: Ticketmaster <customer_support@email.ticketmaster.com>
+ *     Date: Mon, Feb 17, 2025 at 7:51 AM        <- not the show
+ *     Subject: You Got Tickets To GARETH EMERY
+ *     To: <someone@example.com>
+ *
+ * A real Ticketmaster confirmation forwarded 18 months later was filed under
+ * **17 February** — the day it was originally sent — instead of the 21 March
+ * show, because `findDate` prefers the earliest-appearing date once no
+ * candidate is in the future, and the header sits above the event block.
+ *
+ * Only the recognised header lines are dropped, and only immediately after the
+ * marker, so a body that happens to contain "Date:" further down is untouched.
+ */
+const FORWARD_HEADER_LINE = /^\s*(?:From|Date|Subject|To|Cc|Bcc|Reply-To|Sent)\s*:/i;
+
+export function stripForwardHeaders(text: string): string {
+  const lines = text.split('\n');
+  const start = lines.findIndex((l) => /-+\s*Forwarded message\s*-+/i.test(l));
+  if (start === -1) return text;
+
+  let end = start + 1;
+  // Header lines, plus the blank lines that separate them from the body.
+  while (end < lines.length && (FORWARD_HEADER_LINE.test(lines[end]) || lines[end].trim() === '')) {
+    end++;
+  }
+
+  return [...lines.slice(0, start), ...lines.slice(end)].join('\n');
 }
 
 export function normalizeEmail(raw: RawEmailInput): NormalizedEmail {

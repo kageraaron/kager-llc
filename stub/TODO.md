@@ -11,12 +11,12 @@ Ordered by what blocks what. **§1 is the only section that blocks sharing it.**
 | | |
 |---|---|
 | **Deployed** | `stub-two.vercel.app`, commit `8d497ee`, READY. Every route 200, no 5xx. Per-deployment URLs are SSO-walled, see §1.6 |
-| **Prod DB** | `biichwtrfmrdgiqtvxme`, all **21** migrations applied |
+| **Prod DB** | `biichwtrfmrdgiqtvxme`, all **22** migrations applied |
 | **Prod keys** | `RAPID_API_KEY` and `PARSE_API_KEY` both set. Bandsintown is live on the next deploy |
-| **Dev DB** | `syrsjdreydgblrwpalyw`, seeded, all **21** migrations |
-| **Tests** | **210** offline passing; live suites for queries, geocode, Spotify concerts, Spotify Web API, Eventbrite |
+| **Dev DB** | `syrsjdreydgblrwpalyw`, seeded, all **22** migrations |
+| **Tests** | **234** offline passing; live suites for queries, geocode, Spotify concerts, Spotify Web API, Eventbrite |
 | **Providers wired** | **Eventbrite**, Ticketmaster, JamBase, Spotify/RapidAPI, Bandsintown/Parse, setlist.fm, MusicBrainz, Nominatim |
-| **Email vendors parsed** | Ticketmaster, AXS, DICE, Eventbrite, See Tickets/Eventim, Frontgate, TicketWeb, Etix |
+| **Email vendors parsed** | Ticketmaster, AXS, DICE, Eventbrite, See Tickets/Eventim, Frontgate, **TicketWeb**, **SeatGeek**, **Tixr**, Etix |
 
 **Blocking a wider share:** Google OAuth test-user list (§1.2) · a domain (§1.4,
 which also gates a proper `VAPID_SUBJECT`) · security review (§6). *(Deployment Protection and
@@ -2089,6 +2089,215 @@ after Eventbrite, Ticketmaster, JamBase and setlist.fm have each had a turn.
   writing before the venue table grows.
 - **`upsertSpotifyArtist` is misnamed.** It is the generic artist upsert now —
   the setlist.fm path calls it with a bare name. Rename to `upsertArtistByName`.
+
+---
+
+## 5.26 Seven real emails that failed — 2026-08-30
+
+Run against a second real mailbox. The copies shared with the maintainer were
+forwarded, so the first pass read this as a forwarding problem; in the mailbox
+itself they arrived **direct from the vendors**. `unwrapForward` handled the
+forwarded copies correctly either way, and the five faults below are what
+actually broke — none of them in the forward path.
+
+| Email | Was | Now |
+|---|---|---|
+| Ben Böhmer (TicketWeb) | dropped entirely | parsed, correct date |
+| Fred Again purchase (SeatGeek) | dropped entirely | parsed, £/$ total read |
+| Fred Again delivery (SeatGeek) | dropped entirely | parsed, sale date rejected |
+| Lightning in a Bottle (Tixr) | dropped entirely | parsed, 2027 not 2026 |
+| Eric Prydz / Hamdi / Parcels (AXS) | parsed, unmatchable name | clean artist name |
+
+### 1. TicketWeb had a spec with no `specific`
+
+It matched the sender, produced no name, and was rejected by the "needs a name"
+guard — every TicketWeb confirmation was silently lost. Its body has a labelled
+`*Event Details:*` block, which is now the anchor.
+
+Reading that block at **fixed offsets does not work**: a Google Maps link sits
+between the address and the date, so the date was missed and the generic scan
+fell back to the *forwarding header's* timestamp — filing an August show under
+the July day it was forwarded. It scans a window and skips URLs instead.
+
+### 2 & 3. SeatGeek — two templates, and the sale date looks like the show
+
+A purchase mail and a delivery notice, with different layouts. The delivery
+notice names no artist in its subject at all ("Your tickets are ready! Action
+required") and puts the **sale date above the event date in the identical
+format**. Anchoring on the first date-shaped line recorded the purchase date as
+the show and the literal word "Event" as the venue.
+
+Now: prefer the labelled `Event` block, take the artist from its first line, and
+never accept a date sitting under a sale/purchase label.
+
+Also `findPrice` could not see `Total *$608.10*` — SeatGeek wraps every total in
+emphasis markers, which the label pattern did not allow past.
+
+### 4. Tixr — the title knows the year and the date does not
+
+`Wed May 26 - Sun May 30`, with no year anywhere near it, in a mail received in
+**June 2026** for a festival in **May 2027**. Resolving against the received
+date picks 2026: both wrong and in the past. A festival title ending in a year
+is the better authority, so it is used when present.
+
+### 5. AXS presale tags carry a qualifier
+
+"Eric Prydz - Artist Presale", "Hamdi - Loyalty Presale", "Parcels - PORTOLA
+PURCHASER PRESALE". The suffix rule only stripped a bare "- Presale", so the
+rest was stored as part of the artist name and then searched for verbatim —
+which matches nothing anywhere, on any provider. These three parsed the whole
+time and could never have matched.
+
+Broadened to any qualifier ending in presale/onsale, still anchored at the end
+and limited to one dash-separated segment so "Nine Inch Nails - Trent Reznor"
+survives. Tested both ways.
+
+### Coverage
+
+`TICKET_SENDER_DOMAINS` now drives the Gmail query for all three new vendors, so
+these are fetched rather than merely parseable once found. Fixtures are
+sanitized — names, order numbers and addresses changed — but the STRUCTURE is
+verbatim, because the structure is what every one of these regressions was
+about.
+
+---
+
+## 5.27 Re-scanning, deduplication, and a generic reader — 2026-08-30
+
+Three requests from one report, all downstream of the same thing: heuristics
+improve, and the mail already read has to benefit without pestering the user.
+
+### Re-scan without re-asking — `extractor_version`
+
+`ingest_messages` is unique on (user_id, content_hash), so a message read once
+was skipped forever and an extractor fix could never reach old mail. The only
+remedy was deleting the ingest history, which also discards the record of what
+the user confirmed or rejected and re-surfaces all of it.
+
+`0022` adds `ingest_messages.extractor_version`, and `EXTRACTOR_VERSION` is
+bumped whenever the extractors change in a way that could read an email
+differently. A scan now:
+
+- **skips** anything read by the current version — unchanged behaviour;
+- **reprocesses** anything read by an older version, replacing its pending
+  candidate rather than adding a second;
+- **never reopens** a message whose candidate was confirmed or rejected,
+  regardless of version. A decision is a decision; improving a regex does not
+  reopen it. Those get stamped current so they are not reconsidered again.
+
+No new endpoint or button: pressing **Scan** is the re-scan, and the copy now
+says so. Pick a longer window to reach mail older than 30 days.
+
+### One show, several emails — `dedupe_key`
+
+A purchase receipt, a delivery notice and a reminder are three messages with
+three content hashes, so each became its own review card. A real inbox showed
+Fred Again twice.
+
+Content hashing cannot help — the emails genuinely differ. What is stable is the
+SHOW, so `dedupe.ts` fingerprints **normalized act + calendar date**.
+
+Date, not time, deliberately: a receipt and a delivery notice routinely disagree
+about the hour (doors versus stage time, or one has only a date) while agreeing
+on the night. Including the time would defeat the whole mechanism.
+
+On a hit the pipeline **merges and stops** — folding in whatever the later email
+knows that the first did not (a delivery notice often carries the seat and
+quantity a receipt lacked), without a second card and without a second trip
+through the matcher, which is where the metered providers live. Existing values
+win, because the first email is normally the purchase and its price is the one
+actually paid.
+
+Backfilled over the existing queue: of 41 candidates, **11 were duplicates**.
+
+### A generic reader for vendors with no spec
+
+Ticketing is a long tail, and the failure mode for a missing spec is silence —
+TicketWeb had one with no name extraction and every confirmation was dropped
+with no error and no review card. `extractors/generic.ts` runs last, for any
+sender no vendor spec claims, and turns "lost" into "queued for review".
+
+Four guards keep it honest, and the third was learned the hard way:
+
+1. the **subject** must be transactional;
+2. the **body** must corroborate with an order number or a total;
+3. the body must show **positive evidence of an event** — a venue, doors, a
+   section, an age restriction;
+4. and must show **no retail signal** — shipping, tracking, sizes, returns.
+
+Guard 3 exists because a real Gap receipt ("Order Confirmation #1P1S0X6",
+"Total: $84.50", "Ships by Friday, November 14, 2026") is indistinguishable from
+a ticket on transactional language alone, and sailed straight through the first
+version. A denylist of retailers is unwinnable; requiring a venue is not.
+
+Verified against the whole real mailbox: **17 of 17 ticket emails parse
+correctly, and both non-tickets — a personal email and the Gap receipt — are
+rejected.**
+
+### Fetching more vendors
+
+`EXTRA_FETCH_DOMAINS` adds ~20 platforms (StubHub, Vivid Seats, Universe,
+Showclix, Shotgun, RA, Skiddle, Dice-adjacent, Posh, Partiful, Luma…) to the
+Gmail query only. They get no spec, because a spec without name extraction is
+worse than none — the generic reader and JSON-LD handle them. An email never
+fetched can never be parsed, so widening the net is the cheap half.
+
+---
+
+## 5.28 A forward's own header is a date the matcher can see — 2026-08-30
+
+One more real email: a Ticketmaster confirmation for **GARETH EMERY - LSR/CITY:
+CYBERPUNK**, forwarded eighteen months after it was sent. Three faults, and the
+first generalises to every forwarded message.
+
+### The forward header stayed in the body
+
+`unwrapForward` rewrote `from` and `subject` — and left this in the text:
+
+```
+---------- Forwarded message ---------
+From: Ticketmaster <customer_support@email.ticketmaster.com>
+Date: Mon, Feb 17, 2025 at 7:51 AM        <- not the show
+Subject: You Got Tickets To GARETH EMERY - LSR/CITY: CYBERPUNK
+```
+
+Every date heuristic can see that `Date:` line, and it sits *above* the event
+block. Both dates were in the past, so `preferFuture` found no candidate and
+fell back to the earliest-appearing one: the show was filed under **17
+February** instead of **21 March**.
+
+`stripForwardHeaders` now removes the block — only the recognised header lines,
+only immediately after the marker, so a "Date:" further down in real body text
+survives. This is also the root cause of the TicketWeb misfile in §5.26, which
+had been patched at the symptom.
+
+### No venue, because Ticketmaster uses no label
+
+`findVenue` needs a "Venue:"-style label. Ticketmaster's confirmation instead
+has a clean three-line block:
+
+```
+GARETH EMERY - LSR/CITY: CYBERPUNK
+Fri · Mar 21, 2025 · 8:00 PM
+Bill Graham Civic Auditorium — San Francisco, California
+```
+
+Anchored on the middle line — the interpunct format appears nowhere else in the
+message — with the name above and the venue below.
+
+### "<ARTIST> - <PRODUCTION>" is not searchable
+
+"GARETH EMERY - LSR/CITY: CYBERPUNK" matches no artist on any provider. The full
+string is now kept as `eventName` for display, and the leading segment becomes
+`artistName` for matching. Splitting stays safe when both halves are acts
+("Nine Inch Nails - Trent Reznor"), because the leading half is still the right
+thing to search for.
+
+### Verified against the whole mailbox
+
+All 19 messages re-checked after the change: **17 of 17 ticket emails parse
+correctly with no regressions**, and the two non-tickets — a personal email and
+a Gap receipt — are still rejected.
 
 ---
 

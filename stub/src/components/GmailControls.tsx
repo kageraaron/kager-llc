@@ -148,6 +148,14 @@ export function GmailControls({ email, status }: { email: string; status: string
         </button>
       )}
 
+      {!syncing && (
+        <p className="muted" style={{ margin: 0, lineHeight: 1.5, fontSize: 13 }}>
+          Scanning again is safe. Stub re-reads mail it filed before its
+          extractors improved, and never re-asks about anything you have already
+          added or dismissed.
+        </p>
+      )}
+
       {days > 30 && !syncing && (
         <p className="muted" style={{ margin: 0, lineHeight: 1.5, fontSize: 13 }}>
           A long scan reads years of mail a page at a time and can take a few minutes.

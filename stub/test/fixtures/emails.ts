@@ -441,3 +441,190 @@ export const eventbriteClubShow: RawEmailInput = {
 }
 </script></head><body><p>Order #15000000000 - August 21, 2026</p></body></html>`,
 };
+
+/*
+ * ---------------------------------------------------------------------------
+ * Four vendors found by running a real mailbox through the pipeline, 2026-08-30.
+ *
+ * All arrived FORWARDED with no "Fwd:" prefix, which `unwrapForward` handled
+ * correctly — the failures were all downstream. Names, order numbers and
+ * addresses are sanitized; the STRUCTURE is verbatim, because the structure is
+ * what each of these regressions was about.
+ * ---------------------------------------------------------------------------
+ */
+
+/**
+ * TicketWeb. Had a spec with no `specific`, so it matched the sender, produced
+ * no name, and was dropped by the "needs a name" guard — every TicketWeb
+ * confirmation was silently lost.
+ *
+ * Note the Google Maps link BETWEEN the address and the date. Reading the block
+ * at fixed offsets lands on the URL, and the generic date scan then picks up the
+ * forwarding header's timestamp instead of the show.
+ */
+export const ticketWebForwarded: RawEmailInput = {
+  from: 'Pat Rivera <pat@example.com>',
+  subject: "Your tickets are here! You're going to Ben Böhmer!",
+  receivedAt: '2026-07-26T22:04:00Z',
+  text: `---------- Forwarded message ---------
+From: TicketWeb Orders <info@ticketweb.com>
+Date: Sun, Jul 26, 2026 at 10:04 PM
+Subject: Your tickets are here! You're going to Ben Böhmer!
+To: <pat@example.com>
+
+*YOU HAVE 4 TICKET(S)*
+*ATTACHED TO THIS EMAIL*
+
+Thank you for purchasing your tickets from TicketWeb!
+*Order Confirmation Number:* AA00000A
+*Event Details:*
+
+Ben Böhmer
+The Independent
+628 Divisadero St, San Francisco, CA
+<https://www.google.com/maps/search/628+Divisadero+St,+San+Francisco,+CA>
+Sun Aug 9, 2026 at 10:00 PM
+*View Tickets*`,
+};
+
+/**
+ * SeatGeek purchase. A resale marketplace, so the mail says the tickets are not
+ * in hand yet — still a show the buyer is going to.
+ *
+ * "Total *$608.10*" is the emphasis-wrapped total that `findPrice` used to miss.
+ */
+export const seatGeekPurchase: RawEmailInput = {
+  from: 'Pat Rivera <pat@example.com>',
+  subject: 'Thanks for your Fred Again (21+) purchase!',
+  receivedAt: '2025-12-19T17:22:00Z',
+  text: `---------- Forwarded message ---------
+From: SeatGeek <transactions@seatgeek.com>
+Subject: Thanks for your Fred Again (21+) purchase!
+
+We got your order for 2 tickets
+*This email is not your ticket.* We're in touch with the seller.
+Fred Again (21+)
+Sat, Jan 31, 2026 at 7:00PM
+East End Studios - Woodside, Woodside, NY
+Order
+2 tickets, Section General Admission, Row GA
+Order number AA0-B0CD00E
+Purchase date December 19, 2025 05:22 PM
+Price
+2 tickets x $270.00 $540.00
+Fees $93.10
+Total *$608.10*`,
+};
+
+/**
+ * SeatGeek delivery notice — a different template, and the one that exposed the
+ * bug worth keeping a fixture for.
+ *
+ * Its subject names no artist, and the SALE date appears above the event date in
+ * the identical format. Anchoring on the first date-shaped line recorded the
+ * purchase date as the show and the literal word "Event" as the venue.
+ */
+export const seatGeekDelivery: RawEmailInput = {
+  from: 'Pat Rivera <pat@example.com>',
+  subject: 'Your tickets are ready! Action required',
+  receivedAt: '2025-12-23T13:41:00Z',
+  text: `---------- Forwarded message ---------
+From: SeatGeek <transactions@seatgeek.com>
+Subject: Your tickets are ready! Action required
+
+Your tickets are ready!
+The moment has arrived to accept your tickets for *Fred Again (21+)*.
+Order Details
+Order number
+AA0-B0CD00E
+Sale date
+Fri, Dec 19, 2025 at 5:22pm
+Event
+Fred Again (21+)
+East End Studios - Woodside, Woodside, NY
+Sat, Jan 31, 2026 at 7:00PM
+Quantity
+2 tickets`,
+};
+
+/**
+ * Tixr festival order. The date range carries NO YEAR while the title does, and
+ * they disagree: this arrived in June 2026, so resolving "May 26" against the
+ * received date picks 2026 — but the festival is 2027. The title wins.
+ */
+export const tixrFestival: RawEmailInput = {
+  from: 'Pat Rivera <pat@example.com>',
+  subject: 'Order Confirmation: Lightning in a Bottle 2027',
+  receivedAt: '2026-06-04T09:51:00Z',
+  text: `---------- Forwarded message ---------
+From: Tixr <no-reply@tixr.com>
+Subject: Order Confirmation: Lightning in a Bottle 2027
+
+Order Confirmation
+Lightning in a Bottle 2027
+Lightning In A Bottle, Buena Vista Lake
+Wed May 26 - Sun May 30
+3 Items
+Order #AA000AA0AA
+Ticket Info
+$ 699.38
+2x
+3-Day GA Pass (Tier 1)`,
+};
+
+/**
+ * AXS presale, with a QUALIFIED presale tag. Real subjects use several —
+ * "Artist Presale", "Loyalty Presale", "PORTOLA PURCHASER PRESALE" — and the
+ * old suffix rule only stripped a bare "- Presale", so the rest was stored as
+ * part of the artist and then searched for verbatim, matching nothing.
+ */
+export const axsQualifiedPresale: RawEmailInput = {
+  from: 'Pat Rivera <pat@example.com>',
+  subject: 'Thank you for your order for Eric Prydz - Artist Presale',
+  receivedAt: '2026-08-01T12:00:00Z',
+  text: `---------- Forwarded message ---------
+From: AXS Guest Services <guestservices@axs.com>
+Subject: Thank you for your order for Eric Prydz - Artist Presale
+
+Thank you for your order. Your confirmation number is *40000001*.
+Grand Total: $203.82`,
+  html: `<html><body>
+<p>Order details for Eric Prydz - Artist Presale at Shed A at Pier 48 scheduled on 10/31/2026 8:00 PM</p>
+<table><tr><td>Grand Total:</td><td>$203.82</td></tr></table>
+</body></html>`,
+};
+
+/**
+ * Ticketmaster, forwarded 18 months after it was sent — the case that exposed
+ * `unwrapForward` leaving its own header block in the body.
+ *
+ * The block carries `Date: Mon, Feb 17, 2025 at 7:51 AM`, which every date
+ * heuristic can see and which sits ABOVE the event block. With no candidate in
+ * the future, `findDate` falls back to the earliest-appearing date and filed a
+ * 21 March show under 17 February.
+ *
+ * Also the shape Ticketmaster uses for a production: "<ARTIST> - <PRODUCTION>",
+ * where the production half is searchable nowhere.
+ */
+export const ticketmasterForwardedLate: RawEmailInput = {
+  from: 'Pat Rivera <pat@example.com>',
+  subject: 'Fwd: You Got Tickets To GARETH EMERY - LSR/CITY: CYBERPUNK',
+  receivedAt: '2026-08-30T19:58:10Z',
+  text: `---------- Forwarded message ---------
+From: Ticketmaster <customer_support@email.ticketmaster.com>
+Date: Mon, Feb 17, 2025 at 7:51 AM
+Subject: You Got Tickets To GARETH EMERY - LSR/CITY: CYBERPUNK
+To: <pat@example.com>
+
+The countdown to your event starts now. Save this info for your records.
+You Got the Tickets
+Order # 41-00000/NCA
+GARETH EMERY - LSR/CITY: CYBERPUNK
+Fri · Mar 21, 2025 · 8:00 PM
+Bill Graham Civic Auditorium — San Francisco, California
+Get Directions
+View Mobile Ticket
+*Important Information *
+Please note - this show is 18+ ONLY.
+Order Total $312.60`,
+};

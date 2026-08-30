@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { runExtractors } from '@/lib/ingest/extractors';
-import { normalizeEmail, contentHash } from '@/lib/ingest/normalize';
+import { cleanArtistName } from '@/lib/ingest/extractors/heuristics';
+import { normalizeEmail, contentHash, stripForwardHeaders } from '@/lib/ingest/normalize';
 import {
   ticketmasterJsonLd,
   axsPlain,
@@ -17,6 +18,12 @@ import {
   seeTicketsNoArtistInSubject,
   diceEventTitleSubject,
   eventbriteClubShow,
+  ticketWebForwarded,
+  seatGeekPurchase,
+  seatGeekDelivery,
+  tixrFestival,
+  axsQualifiedPresale,
+  ticketmasterForwardedLate,
 } from './fixtures/emails';
 
 const run = (raw: Parameters<typeof normalizeEmail>[0]) => runExtractors(normalizeEmail(raw));
@@ -336,5 +343,161 @@ describe('sentence subjects are not artist names', () => {
       'Order details for Chris Stussy - Presale at Shed A scheduled on 2/27/2027 6:00 PM',
     );
     expect(out?.ticket.artistName).toBe('Chris Stussy');
+  });
+});
+
+/**
+ * Four vendors, all found by running a real mailbox through the pipeline.
+ *
+ * Every one arrived FORWARDED with no "Fwd:" prefix. `unwrapForward` handled
+ * that correctly in all seven cases — the failures were all downstream, which
+ * is worth knowing: the forward handling is not the fragile part.
+ */
+describe('vendors found from a real mailbox', () => {
+  it('TicketWeb: reads the labelled block, not the forwarding timestamp', () => {
+    const t = runExtractors(normalizeEmail(ticketWebForwarded))!.ticket;
+
+    expect(t.artistName).toBe('Ben Böhmer');
+    expect(t.venueName).toBe('The Independent');
+    expect(t.city).toBe('San Francisco');
+    /*
+     * The show, not the forward. A Google Maps link sits between the address
+     * and the date, so reading at fixed offsets missed the date entirely and
+     * the generic scan fell back to the forwarding header — 26 July, the day it
+     * was sent, rather than 9 August.
+     */
+    expect(t.startsAt).toBe('2026-08-09T22:00:00');
+    expect(t.ticketRef).toBe('AA00000A');
+    expect(t.ticketQuantity).toBe(4);
+  });
+
+  it('SeatGeek purchase: reads an emphasis-wrapped total', () => {
+    const t = runExtractors(normalizeEmail(seatGeekPurchase))!.ticket;
+
+    expect(t.artistName).toBe('Fred Again');
+    expect(t.startsAt).toBe('2026-01-31T19:00:00');
+    expect(t.venueName).toBe('East End Studios - Woodside');
+    expect(t.ticketQuantity).toBe(2);
+    // "Total *$608.10*" — the marker is why this used to come back undefined.
+    expect(t.priceCents).toBe(60810);
+  });
+
+  it('SeatGeek delivery: does not mistake the sale date for the show', () => {
+    const t = runExtractors(normalizeEmail(seatGeekDelivery))!.ticket;
+
+    // The subject names no artist at all; the labelled block is the only source.
+    expect(t.artistName).toBe('Fred Again');
+    // Sale date is 19 Dec in the identical format and appears FIRST.
+    expect(t.startsAt).toBe('2026-01-31T19:00:00');
+    expect(t.venueName).toBe('East End Studios - Woodside');
+    expect(t.region).toBe('NY');
+  });
+
+  it('Tixr: trusts the year in the title over the received date', () => {
+    const t = runExtractors(normalizeEmail(tixrFestival))!.ticket;
+
+    expect(t.eventName).toBe('Lightning in a Bottle 2027');
+    /*
+     * The range says "Wed May 26" with no year. Resolving that against the
+     * received date (June 2026) picks May 2026, which is both in the past and
+     * wrong — the title says 2027 and the title is the authority.
+     */
+    expect(t.startsAt).toBe('2027-05-26T00:00:00');
+    expect(t.venueName).toBe('Buena Vista Lake');
+  });
+
+  it('AXS: strips a qualified presale tag from the artist', () => {
+    const t = runExtractors(normalizeEmail(axsQualifiedPresale))!.ticket;
+
+    // Not "Eric Prydz - Artist Presale", which matches nothing anywhere.
+    expect(t.artistName).toBe('Eric Prydz');
+    expect(t.venueName).toBe('Shed A at Pier 48');
+    expect(t.startsAt).toBe('2026-10-31T20:00:00');
+    expect(t.priceCents).toBe(20382);
+  });
+
+  it('strips the other qualified presale forms seen in the wild', () => {
+    for (const [raw, expected] of [
+      ['Hamdi - Loyalty Presale', 'Hamdi'],
+      ['Parcels - PORTOLA PURCHASER PRESALE', 'Parcels'],
+      ['Chris Stussy -  Presale', 'Chris Stussy'],
+      ['Eric Prydz - Artist Presale', 'Eric Prydz'],
+    ] as const) {
+      expect(cleanArtistName(raw), raw).toBe(expected);
+    }
+  });
+
+  it('does not strip a hyphenated name that merely ends in a word', () => {
+    // The rule is anchored on presale/onsale, not on "anything after a dash".
+    expect(cleanArtistName('Nine Inch Nails - Trent Reznor')).toBe('Nine Inch Nails - Trent Reznor');
+    expect(cleanArtistName('Godspeed You! Black Emperor')).toBe('Godspeed You! Black Emperor');
+  });
+});
+
+/**
+ * A Ticketmaster confirmation forwarded 18 months after it was sent.
+ *
+ * Three faults in one email, and the first is the one worth remembering:
+ * rewriting a forward's `from` and `subject` is not enough, because the header
+ * block stays in the body and its `Date:` line is visible to every date
+ * heuristic.
+ */
+describe('Ticketmaster forwarded long after the show was booked', () => {
+  const t = () => runExtractors(normalizeEmail(ticketmasterForwardedLate))!.ticket;
+
+  it('reads the event date, not the day the email was originally sent', () => {
+    /*
+     * The forward header says 17 February; the show is 21 March. Both are in
+     * the past, so `preferFuture` finds nothing and falls back to the
+     * earliest-appearing date — which was the header's, sitting above the
+     * event block. `stripForwardHeaders` removes it.
+     */
+    expect(t().startsAt).toBe('2025-03-21T20:00:00');
+  });
+
+  it('pulls the venue out of the event block', () => {
+    // "Bill Graham Civic Auditorium — San Francisco, California". `findVenue`
+    // cannot help: it needs a "Venue:" label and Ticketmaster uses none.
+    expect(t().venueName).toBe('Bill Graham Civic Auditorium');
+    expect(t().city).toBe('San Francisco');
+  });
+
+  it('separates the act from the production it is touring', () => {
+    /*
+     * "GARETH EMERY - LSR/CITY: CYBERPUNK" matches no artist on any provider.
+     * The full string stays as the event name for display; the leading segment
+     * becomes the artist, which is what the matcher searches on.
+     */
+    expect(t().eventName).toBe('GARETH EMERY - LSR/CITY: CYBERPUNK');
+    expect(t().artistName).toBe('GARETH EMERY');
+  });
+
+  it('still reads the order number and total', () => {
+    expect(t().ticketRef).toBe('41-00000/NCA');
+    expect(t().priceCents).toBe(31260);
+  });
+});
+
+describe('stripForwardHeaders', () => {
+  it('drops the header block and nothing else', () => {
+    const out = stripForwardHeaders(
+      `---------- Forwarded message ---------
+From: A <a@example.com>
+Date: Mon, Feb 17, 2025 at 7:51 AM
+Subject: Hello
+To: <b@example.com>
+
+Real body line
+Date: this one is body text, not a header`,
+    );
+    expect(out).not.toContain('Feb 17, 2025');
+    expect(out).toContain('Real body line');
+    // A "Date:" further down is body content and must survive.
+    expect(out).toContain('this one is body text');
+  });
+
+  it('leaves a message with no forward marker untouched', () => {
+    const plain = 'From: someone\nDate: whenever\nHello';
+    expect(stripForwardHeaders(plain)).toBe(plain);
   });
 });

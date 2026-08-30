@@ -1,6 +1,8 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
+import type { ParsedTicket } from '@/lib/types';
 import { normalizeEmail, contentHash, type RawEmailInput } from '@/lib/ingest/normalize';
-import { runExtractors } from '@/lib/ingest/extractors';
+import { runExtractors, EXTRACTOR_VERSION } from '@/lib/ingest/extractors';
+import { dedupeKey, mergeTickets } from '@/lib/ingest/dedupe';
 import { matchTicket } from '@/lib/ingest/match';
 import { persistCandidate, recordAttendance } from '@/lib/ingest/catalog';
 
@@ -31,14 +33,49 @@ export async function ingestEmail(
   const email = normalizeEmail(raw);
   const hash = contentHash(email);
 
-  // Dedupe first: the same confirmation often arrives twice (polled and forwarded).
+  /*
+   * Dedupe first: the same confirmation often arrives twice (polled and
+   * forwarded).
+   *
+   * A message already read by the CURRENT extractor version is a duplicate. One
+   * read by an older version is reprocessed — that is what makes a re-scan
+   * apply a heuristics fix to old mail — unless the user has already acted on
+   * it, because a confirmed or rejected candidate is a decision and improving a
+   * regex does not reopen it.
+   */
   const { data: seen } = await db
     .from('ingest_messages')
-    .select('id')
+    .select('id, extractor_version')
     .eq('user_id', userId)
     .eq('content_hash', hash)
+    .limit(1)
     .maybeSingle();
-  if (seen) return { status: 'duplicate' };
+
+  if (seen) {
+    if ((seen.extractor_version ?? 0) >= EXTRACTOR_VERSION) return { status: 'duplicate' };
+
+    const { count: decided } = await db
+      .from('ingest_candidates')
+      .select('id', { count: 'exact', head: true })
+      .eq('message_id', seen.id)
+      .in('state', ['confirmed', 'rejected']);
+
+    if ((decided ?? 0) > 0) {
+      // Already handled by a person. Mark it current so it is not reconsidered.
+      await db
+        .from('ingest_messages')
+        .update({ extractor_version: EXTRACTOR_VERSION })
+        .eq('id', seen.id);
+      return { status: 'duplicate' };
+    }
+
+    /*
+     * Reprocessable. Clear any stale PENDING candidate for this message so the
+     * re-read replaces it rather than adding a second card for the same email.
+     */
+    await db.from('ingest_candidates').delete().eq('message_id', seen.id).eq('state', 'pending');
+    await db.from('ingest_messages').delete().eq('id', seen.id);
+  }
 
   const extraction = runExtractors(email);
 
@@ -52,6 +89,7 @@ export async function ingestEmail(
       subject: email.subject.slice(0, 500),
       received_at: email.receivedAt,
       content_hash: hash,
+      extractor_version: EXTRACTOR_VERSION,
       extractor: extraction?.extractor ?? null,
       status: extraction ? 'parsed' : 'ignored',
     })
@@ -60,6 +98,42 @@ export async function ingestEmail(
 
   if (msgErr) return { status: 'error', message: msgErr.message };
   if (!extraction) return { status: 'not_a_ticket' };
+
+  /*
+   * Is this show already in the queue, or already added?
+   *
+   * One gig routinely produces several emails — a purchase receipt, then a
+   * delivery notice, then a reminder — each with its own content hash, so each
+   * became its own review card. A real inbox showed Fred Again twice for
+   * exactly that reason.
+   *
+   * The fingerprint is the SHOW (act + calendar date), not the message, which
+   * is the only thing stable across those emails. See `dedupe.ts`.
+   */
+  const key = dedupeKey(extraction.ticket);
+  if (key) {
+    const { data: sibling } = await db
+      .from('ingest_candidates')
+      .select('id, parsed, state')
+      .eq('user_id', userId)
+      .eq('dedupe_key', key)
+      .in('state', ['pending', 'confirmed'])
+      .limit(1)
+      .maybeSingle();
+
+    if (sibling) {
+      /*
+       * Fold in whatever this email knows that the first one did not — a
+       * delivery notice often carries the seat and quantity a receipt lacked —
+       * then stop. No second card, and no second trip through the matcher,
+       * which is where the metered providers are.
+       */
+      const merged = mergeTickets(sibling.parsed as ParsedTicket, extraction.ticket);
+      await db.from('ingest_candidates').update({ parsed: merged }).eq('id', sibling.id);
+      await db.from('ingest_messages').update({ status: 'duplicate_event' }).eq('id', message.id);
+      return { status: 'duplicate' };
+    }
+  }
 
   let match;
   try {
@@ -81,6 +155,7 @@ export async function ingestEmail(
         message_id: message.id,
         user_id: userId,
         parsed: extraction.ticket,
+        dedupe_key: key,
         confidence: 0,
         state: 'pending',
       })
@@ -114,6 +189,7 @@ export async function ingestEmail(
         message_id: message.id,
         user_id: userId,
         parsed: extraction.ticket,
+        dedupe_key: key,
         confidence: match.best.confidence,
         matched_event_id: eventId,
         state: 'confirmed',
@@ -128,6 +204,7 @@ export async function ingestEmail(
       message_id: message.id,
       user_id: userId,
       parsed: extraction.ticket,
+      dedupe_key: key,
       confidence: match.best.confidence,
       matched_event_id: eventId,
       state: 'pending',

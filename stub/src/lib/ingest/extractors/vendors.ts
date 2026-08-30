@@ -283,14 +283,65 @@ const SPECS: VendorSpec[] = [
     // "You Got Tickets To X" is Ticketmaster's most common phrasing and was
     // missing, so real confirmations were skipped entirely.
     subject: /(?:your (?:tickets?|order)|order confirmation|you're going|you got tickets)/i,
-    specific: (email, text) => ({
-      tmEventId: ticketmasterEventId(email.html),
-      artistName: artistFromSubject(
+    specific: (email, text) => {
+      const title = artistFromSubject(
         email.subject,
         /^(?:your tickets? (?:for|to)|order confirmation(?: for)?|you're going to|you got tickets to)\s*/i,
-      ),
-      ...findVenue(text),
-    }),
+      );
+
+      const out: Partial<ParsedTicket> = {
+        tmEventId: ticketmasterEventId(email.html),
+        ...findVenue(text),
+      };
+
+      /*
+       * The confirmation carries a clean three-line event block:
+       *
+       *     GARETH EMERY - LSR/CITY: CYBERPUNK
+       *     Fri · Mar 21, 2025 · 8:00 PM
+       *     Bill Graham Civic Auditorium — San Francisco, California
+       *
+       * Anchored on the middle line, whose interpunct format is distinctive
+       * enough not to appear anywhere else. `findVenue` cannot help here: it
+       * needs a "Venue:"-style label, and Ticketmaster does not use one.
+       */
+      const TM_DATE_LINE = /^\w{3}\s*·\s*\w{3}\s+\d{1,2},\s*\d{4}\s*·/;
+      for (const haystack of [text, htmlToText(email.html)]) {
+        const all = lines(haystack);
+        const at = all.findIndex((l) => TM_DATE_LINE.test(l));
+        if (at === -1) continue;
+
+        out.startsAt ??= findDate(all[at]);
+
+        const venueLine = all[at + 1];
+        if (venueLine && !out.venueName) {
+          // "Bill Graham Civic Auditorium — San Francisco, California"
+          const [venue, where] = venueLine.split(/\s*[—–]\s*/);
+          if (venue) out.venueName = venue.trim();
+          const city = where?.split(/\s*,\s*/)[0];
+          if (city) out.city = city.trim();
+        }
+        if (out.venueName) break;
+      }
+
+      /*
+       * Ticketmaster titles an event "<ARTIST> - <PRODUCTION>", and the
+       * production half is not searchable anywhere — "GARETH EMERY -
+       * LSR/CITY: CYBERPUNK" matches no artist on any provider.
+       *
+       * So the full string is kept as the event name, for display, and the
+       * leading segment becomes the artist, for matching. Splitting is safe
+       * even when both halves are acts ("Nine Inch Nails - Trent Reznor"),
+       * because the leading half is still the right thing to search for.
+       */
+      if (title) {
+        out.eventName = title;
+        const lead = title.split(/\s+[-–—]\s+/)[0]?.trim();
+        out.artistName = lead && lead.length >= 2 ? cleanArtistName(lead) : title;
+      }
+
+      return out;
+    },
   },
   {
     name: 'axs',
@@ -480,9 +531,195 @@ const SPECS: VendorSpec[] = [
     },
   },
   {
+    /*
+     * TicketWeb had a spec with no `specific`, so it matched the sender, found
+     * no name, and was rejected by the "needs a name" guard in `buildExtractor`
+     * — every TicketWeb confirmation was silently dropped.
+     *
+     * Its body carries a labelled block, which is the reliable anchor:
+     *
+     *     *Event Details:*
+     *     Ben Böhmer
+     *     The Independent
+     *     628 Divisadero St, San Francisco, CA
+     *     Sun Aug 9, 2026 at 10:00 PM
+     */
     name: 'ticketweb',
-    domains: ['ticketweb.com', 'email.ticketweb.com'],
-    subject: /(?:order confirmation|your tickets?)/i,
+    domains: ['ticketweb.com', 'email.ticketweb.com', 't.ticketweb.com'],
+    subject: /(?:order confirmation|your tickets?|you're going)/i,
+    specific: (email, text) => {
+      const out: Partial<ParsedTicket> = {};
+
+      for (const haystack of [text, htmlToText(email.html)]) {
+        const all = lines(haystack);
+        const at = all.findIndex((l) => /^\*?Event Details:?\*?$/i.test(l));
+        if (at === -1) continue;
+
+        /*
+         * A WINDOW, not fixed offsets. The real block interleaves a Google Maps
+         * link between the address and the date, so `slice(at+1, at+5)` landed
+         * on the URL and the generic date scan then picked up the forwarding
+         * header's own timestamp instead of the show.
+         */
+        const block = all.slice(at + 1, at + 9).filter((l) => !/^<?https?:\/\//.test(l));
+        const [artist, venue] = block;
+        if (artist) out.artistName ??= cleanArtistName(artist);
+        if (venue) out.venueName ??= venue;
+
+        for (const line of block) {
+          // "628 Divisadero St, San Francisco, CA"
+          const geo = /,\s*([A-Za-z .'-]{2,40}),\s*([A-Z]{2})\b/.exec(line);
+          if (geo && !out.city) {
+            out.city = geo[1].trim();
+            out.region = geo[2];
+          }
+          if (!out.startsAt) out.startsAt = findDate(line);
+        }
+        if (out.artistName) break;
+      }
+
+      // Fall back to the subject: "You're going to Ben Böhmer!"
+      out.artistName ??= artistFromSubject(
+        email.subject,
+        /^(?:your tickets? are here!?\s*)?(?:you're going to)\s*/i,
+      )?.replace(/!+$/, '');
+
+      return out;
+    },
+  },
+  {
+    /*
+     * SeatGeek is a resale marketplace, so its confirmation says the order is
+     * placed and the tickets are not in hand yet ("This email is not your
+     * ticket"). That is still a show the buyer is going to, and the event block
+     * is unambiguous:
+     *
+     *     Fred Again (21+)
+     *     Sat, Jan 31, 2026 at 7:00PM
+     *     East End Studios - Woodside, Woodside, NY
+     *
+     * The block repeats verbatim further down; taking the first is correct.
+     */
+    name: 'seatgeek',
+    domains: ['seatgeek.com', 'links.seatgeek.com', 'email.seatgeek.com'],
+    subject: /(?:purchase|order|your tickets?|thanks for your)/i,
+    specific: (email, text) => {
+      const out: Partial<ParsedTicket> = {};
+
+      // "Thanks for your Fred Again (21+) purchase!" — the cleanest name here.
+      out.artistName = artistFromSubject(
+        email.subject,
+        /^thanks for your\s*/i,
+      )?.replace(/\s*purchase!?\s*$/i, '');
+
+      /*
+       * Two templates, and both put the SALE date in the same shape as the
+       * event date:
+       *
+       *   purchase mail        delivery mail
+       *   ------------------   -----------------------------------
+       *   Fred Again (21+)     Sale date
+       *   Sat, Jan 31 … 7PM    Fri, Dec 19, 2025 at 5:22pm   <- not the show
+       *   East End Studios…    Event
+       *                        Fred Again (21+)
+       *                        East End Studios - Woodside, Woodside, NY
+       *                        Sat, Jan 31, 2026 at 7:00PM
+       *
+       * Taking the first date-shaped line recorded the PURCHASE date as the
+       * show and "Event" as the venue. So: prefer the labelled block, and
+       * otherwise skip any date sitting under a sale/purchase label.
+       */
+      const DATE_LINE = /^[A-Z][a-z]{2},\s+[A-Z][a-z]{2}\s+\d{1,2},\s+\d{4}\s+at\s+\d/;
+      const SALE_LABEL = /^\*?(?:sale|purchase|order)\s+date\*?:?$/i;
+
+      for (const haystack of [text, htmlToText(email.html)]) {
+        const all = lines(haystack);
+
+        const labelled = all.findIndex((l) => /^\*?Event\*?:?$/i.test(l));
+        const block =
+          labelled !== -1
+            ? all.slice(labelled + 1, labelled + 5)
+            : all.filter((l, i) => !(DATE_LINE.test(l) && SALE_LABEL.test(all[i - 1] ?? '')));
+
+        /*
+         * The labelled block leads with the act, which is the only name in a
+         * delivery notice — its subject is "Your tickets are ready! Action
+         * required" and says nothing about who is playing.
+         */
+        if (labelled !== -1 && block[0] && !DATE_LINE.test(block[0])) {
+          out.artistName ??= cleanArtistName(block[0]);
+        }
+
+        for (const [i, line] of block.entries()) {
+          if (!out.startsAt && DATE_LINE.test(line) && !SALE_LABEL.test(block[i - 1] ?? '')) {
+            out.startsAt = findDate(line);
+          }
+          // "East End Studios - Woodside, Woodside, NY"
+          if (!out.venueName && /,\s*[A-Z]{2}$/.test(line)) {
+            const parts = line.split(/\s*,\s*/).filter(Boolean);
+            const region = parts.pop();
+            const city = parts.length > 1 ? parts.pop() : undefined;
+            out.venueName = parts.join(', ') || undefined;
+            out.city = city;
+            out.region = region;
+          }
+        }
+        if (out.startsAt && out.venueName) break;
+      }
+
+      return out;
+    },
+  },
+  {
+    /*
+     * Tixr sells festivals, and its confirmation names the event in the subject
+     * and repeats it above the venue:
+     *
+     *     Order Confirmation
+     *     Lightning in a Bottle 2027
+     *     Lightning In A Bottle, Buena Vista Lake
+     *     Wed May 26 - Sun May 30
+     *
+     * Note the date carries NO YEAR while the title does. Resolving it against
+     * the received date picks the wrong one — this arrived in June 2026, so the
+     * nearest "May 26" is 2026, but the festival is 2027. The title is the
+     * authority, so the year is taken from there when it has one.
+     */
+    name: 'tixr',
+    domains: ['tixr.com', 'mail.tixr.com'],
+    subject: /(?:order confirmation|your tickets?|purchase)/i,
+    specific: (email, text) => {
+      const out: Partial<ParsedTicket> = {};
+
+      const name = artistFromSubject(email.subject, /^order confirmation:?\s*/i);
+      if (name) out.eventName = name;
+
+      const haystack = text || htmlToText(email.html);
+      const all = lines(haystack);
+
+      // "Lightning In A Bottle, Buena Vista Lake" — venue, then location.
+      const at = all.findIndex((l) => name && l.trim() === name.trim());
+      const venueLine = at !== -1 ? all[at + 1] : undefined;
+      if (venueLine?.includes(',')) {
+        const parts = venueLine.split(/\s*,\s*/).filter(Boolean);
+        out.venueName = parts[parts.length - 1] ?? undefined;
+      }
+
+      /*
+       * A festival title ending in a year is the most reliable date signal in
+       * the message, and the only one that disambiguates a year-less range.
+       */
+      const titleYear = /\b(20\d{2})\b/.exec(name ?? '')?.[1];
+      const range = all.find((l) => /^[A-Z][a-z]{2}\s+[A-Z][a-z]{2}\s+\d{1,2}\s*[-–—]/.test(l));
+      if (range) {
+        const firstDay = range.split(/\s*[-–—]\s*/)[0];
+        out.startsAt = titleYear
+          ? findDate(`${firstDay} ${titleYear}`)
+          : findDate(firstDay, { yearlessReference: email.receivedAt });
+      }
+
+      return out;
+    },
   },
   {
     name: 'etix',
@@ -554,7 +791,47 @@ function buildExtractor(spec: VendorSpec): Extractor {
 
 export const vendorExtractors: Extractor[] = SPECS.map(buildExtractor);
 
+/**
+ * Ticketing platforms with no extractor of their own.
+ *
+ * Listed purely so the Gmail query FETCHES their mail — an email that is never
+ * pulled can never be parsed, and the generic extractor plus JSON-LD handle a
+ * surprising number of these without a bespoke spec. Adding a domain here is
+ * cheap; adding a wrong one only costs a few messages read and skipped.
+ *
+ * `match()` deliberately does NOT consult this list, so a domain here does not
+ * claim an email away from the generic reader.
+ */
+const EXTRA_FETCH_DOMAINS = [
+  'stubhub.com',
+  'vividseats.com',
+  'gametime.co',
+  'universe.com',
+  'showclix.com',
+  'ticketleap.com',
+  'brownpapertickets.com',
+  'wl.seetickets.us',
+  'residentadvisor.net',
+  'ra.co',
+  'shotgun.live',
+  'fatsoma.com',
+  'skiddle.com',
+  'eventix.io',
+  'humanitix.com',
+  'moshtix.com.au',
+  'ticketek.com',
+  'ents24.com',
+  'songkick.com',
+  'posh.vip',
+  'partiful.com',
+  'luma.com',
+  'lu.ma',
+];
+
 /** Sender domains worth pulling from Gmail at all — used to build the search query. */
 export const TICKET_SENDER_DOMAINS = [
-  ...new Set(SPECS.flatMap((s) => s.domains.map((d) => d.split('.').slice(-2).join('.')))),
+  ...new Set([
+    ...SPECS.flatMap((s) => s.domains.map((d) => d.split('.').slice(-2).join('.'))),
+    ...EXTRA_FETCH_DOMAINS.map((d) => d.split('.').slice(-2).join('.')),
+  ]),
 ];

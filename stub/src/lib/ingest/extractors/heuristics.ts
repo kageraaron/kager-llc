@@ -205,7 +205,10 @@ const PRICE_LABELS: { re: RegExp; score: number }[] = [
 
 export function findPrice(text: string): { cents?: number; currency?: string } {
   // `\b` before the label is what keeps "Subtotal" from matching "total".
-  const AMOUNT = /\b([A-Za-z][A-Za-z ]{0,24}?total|amount\s+(?:charged|paid)[^:\n$]{0,24}|total)\s*:?\s*([$£€])\s?([\d,]+\.\d{2})/gi;
+  // `[*_~]*` after the label: a multipart TEXT alternative renders bold as
+  // "Total *$608.10*", and without allowing the marker the total is missed
+  // entirely — SeatGeek formats every one of its receipts this way.
+  const AMOUNT = /\b([A-Za-z][A-Za-z ]{0,24}?total|amount\s+(?:charged|paid)[^:\n$]{0,24}|total)\s*:?\s*[*_~]*\s*([$£€])\s?([\d,]+\.\d{2})/gi;
 
   let best: { cents: number; currency?: string; score: number } | null = null;
 
@@ -338,9 +341,20 @@ export function cleanArtistName(raw: string): string {
     // a blanket "drop everything after a dash", which would maul names like
     // "Nine Inch Nails - Trent Reznor" or any legitimately hyphenated act.
     .replace(
-      /\s*[-–—]\s*(?:pre-?sale|on-?sale|admissions?|general\s+admission|ga|vip|presented\s+by.*|early\s+entry)\s*$/i,
+      /\s*[-–—]\s*(?:admissions?|general\s+admission|ga|vip|presented\s+by.*|early\s+entry)\s*$/i,
       '',
     )
+    /*
+     * Presale tags carry a QUALIFIER, and real AXS subjects use several:
+     * "Eric Prydz - Artist Presale", "Hamdi - Loyalty Presale",
+     * "Parcels - PORTOLA PURCHASER PRESALE". The old pattern only matched a
+     * bare "- Presale", so the rest were stored as part of the artist name and
+     * then searched for verbatim, which matches nothing anywhere.
+     *
+     * Anchored at the end and limited to one dash-separated segment, so a
+     * hyphenated act keeps its name.
+     */
+    .replace(/\s*[-–—]\s*[^-–—]{0,40}?\b(?:pre-?sale|on-?sale)\s*$/i, '')
     .replace(/^\s*(?:your tickets? (?:for|to)|you're going to|tickets? for)\s*/i, '')
     // Vendors join the prefix to the artist with a separator ("Order Confirmation: Turnstile").
     .replace(/^\s*[:\-–—|]\s*/, '')
