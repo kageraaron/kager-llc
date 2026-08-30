@@ -11,10 +11,10 @@ Ordered by what blocks what. **§1 is the only section that blocks sharing it.**
 | | |
 |---|---|
 | **Deployed** | `stub-two.vercel.app`, commit `8d497ee`, READY. Every route 200, no 5xx. Per-deployment URLs are SSO-walled, see §1.6 |
-| **Prod DB** | `biichwtrfmrdgiqtvxme`, all **19** migrations applied |
+| **Prod DB** | `biichwtrfmrdgiqtvxme`, all **21** migrations applied |
 | **Prod keys** | `RAPID_API_KEY` and `PARSE_API_KEY` both set. Bandsintown is live on the next deploy |
-| **Dev DB** | `syrsjdreydgblrwpalyw`, seeded, all **19** migrations |
-| **Tests** | **203** offline passing; live suites for queries, geocode, Spotify concerts, Spotify Web API, Eventbrite |
+| **Dev DB** | `syrsjdreydgblrwpalyw`, seeded, all **21** migrations |
+| **Tests** | **210** offline passing; live suites for queries, geocode, Spotify concerts, Spotify Web API, Eventbrite |
 | **Providers wired** | **Eventbrite**, Ticketmaster, JamBase, Spotify/RapidAPI, Bandsintown/Parse, setlist.fm, MusicBrainz, Nominatim |
 | **Email vendors parsed** | Ticketmaster, AXS, DICE, Eventbrite, See Tickets/Eventim, Frontgate, TicketWeb, Etix |
 
@@ -1931,6 +1931,45 @@ cacheable enrichment is the priority; metered search is not. That makes the
 JamBase lapse (§5.22) much less threatening — its value was location search,
 which is the thing we just deprioritised.
 
+### MusicBrainz: identity, not metadata — **BUILT 2026-08-30**
+
+The question was "is there anything free here worth having". The answer turned
+out not to be the obvious one. MusicBrainz's genres, tags and aliases are sparse
+(Chris Stussy has none of the three). What it *does* have, curated by humans, is
+the artist's real accounts everywhere else:
+
+```
+free streaming   https://open.spotify.com/artist/3BxjasMelf9pKaE4f7Y0So
+free streaming   https://www.deezer.com/artist/5359276
+other databases  https://ra.co/dj/chrisstussy
+bandcamp · soundcloud · official homepage · discogs · apple music · tidal
+```
+
+**That is the fix for fuzzy matching at its root.** Every other provider resolves
+an artist by name search, independently — which is exactly how "CHRIS STASSY"
+became a question at all. One free MusicBrainz lookup replaces a name search on
+every platform after it.
+
+Verified end to end on 2026-08-30: name → MBID → external ids → exact Deezer
+image, for both Chris Stussy and Silva Bumpa. Silva Bumpa's resolved Spotify id
+matched, independently, the one the concerts payload had already given us.
+
+Stored by `0020` on `artists`: `deezer_artist_id`, `links` (jsonb), and
+`identity_checked_at`.
+
+That last column is load-bearing. Without it the cron cannot distinguish "no
+MusicBrainz entry exists" from "not looked at yet", and would re-query the same
+unresolvable names every run — at one request per second, forever. It is set on
+every attempt, successful or not, and rechecked after 90 days because
+MusicBrainz is a wiki and an artist absent today may be added next month.
+
+Pass 5 of `api/cron/repair`, capped at 15 artists per run (resolution costs two
+requests, so that is ~30 seconds of the function budget) and resumable.
+
+**Not yet surfaced in the UI.** The links are stored but nothing renders them. A
+"where to listen" row on the artist or event page is the obvious next step and
+costs no further calls.
+
 ### Artist photos — the most visible gap in a memory app
 
 A card with no picture is the failure you notice, and the event providers are
@@ -1942,8 +1981,13 @@ JamBase have it only for what they sell, the Spotify concerts proxy only in its
 
 | Source | Cost | Notes |
 |---|---|---|
-| **Deezer** | **no API key at all** | 50 req/5s. Measured 5/5 exact hits |
+| **Deezer by ID** | **no API key at all** | Exact. Used whenever MusicBrainz has resolved the artist — no name matching, no risk |
+| **Deezer search** | **no API key at all** | 50 req/5s. Measured 5/5 exact hits |
 | **Spotify search** | free | Needs app credentials; `limit` caps at 10 in dev mode |
+
+The by-ID path is the one to prefer and the reason the MusicBrainz pass exists:
+`namesMatch` is only needed because a *search* can return the wrong person, and
+an id cannot.
 
 Backfilled by pass 4 of `api/cron/repair`, bounded at 60 artists per run and
 resumable — the filter is simply "still has no image", so the next run continues.
@@ -1960,6 +2004,91 @@ the ticket email said, which is usually the oldest of the three. All are correct
 equality would reject whichever source happened to be current. `namesMatch`
 therefore allows one character of difference on names of 8+ characters — enough
 for a rename, not enough to merge "Kiss" and "Kish".
+
+---
+
+## 5.25 Artist resolution audit — 2026-08-30
+
+Audited the whole artist path for accuracy and API cost. It turned up a data
+corruption bug that had been running the whole time.
+
+### The finding: 182 artists, 80 of them real
+
+Silva Bumpa existed **six times**. Dozens of artists existed four times each —
+identical names, no provider id, no case or punctuation variance. Pure
+duplicates.
+
+**Cause: `maybeSingle()` errors on multiple matches.**
+
+```ts
+const { data: existing } = await db.from('artists')
+  .select('id').ilike('name', name).maybeSingle();   // <- errors on 2+ rows
+if (existing) return existing.id;
+// ...otherwise INSERT another one
+```
+
+The error was discarded, so the moment two rows shared a name the lookup
+returned nothing and the code inserted a third. Then a fourth. Self-accelerating:
+the row count grew from 172 to 182 during the audit session itself.
+
+**Fix:** `.limit(1)` before `.maybeSingle()`. Taking the first match is correct
+behaviour anyway — duplicates are the thing being avoided, and any of them beats
+another insert. The same pattern existed in **four venue lookups**; those had not
+detonated yet only because the venue table is still small (12 rows). All fixed.
+
+**Cleanup:** `0021` merges duplicates — most informative row wins (provider id,
+then image, then mbid, then oldest), folding across any image or mbid only a
+loser had, then repointing `events.headliner_id`, `event_artists` and
+`user_artists` before deleting.
+
+Result on prod: **182 → 82 artists, 0 remaining duplicates, 0 orphaned links, 0
+events left without a headliner.**
+
+The migration itself needed a second pass, and prod caught it: deleting
+colliding losers *before* repointing is not enough, because when two losers map
+to the same winner the first update creates the row the second then collides
+with. Replaced with insert-then-delete (`on conflict do nothing` plus
+`distinct on`), which is collision-proof and idempotent.
+
+### Why this mattered beyond tidiness
+
+Four rows per artist meant `headliner_id` pointed at an arbitrary one, images
+were inconsistent between them, and — critically — the new MusicBrainz identity
+pass would have spent **4× its 1-request-per-second budget** re-resolving the
+same act. Deduplicating first is what makes that pass affordable.
+
+### Cron ordering was backwards
+
+Identity resolution ran *after* the image lookup, so a new artist got a fuzzy
+name search on one pass and its exact Deezer id on the next — never using the id
+it had just earned. Swapped: identity (pass 4) now precedes photos (pass 5), so
+the exact-fetch path is available the first time it matters.
+
+### The cost profile after all this
+
+Artist enrichment is now **entirely free**. Nothing in this path touches a
+metered provider:
+
+| Step | Source | Cost |
+|---|---|---|
+| Identity | MusicBrainz | free, 1 req/s |
+| Photo by id | Deezer | free, no key |
+| Photo by name | Deezer, then Spotify search | free |
+| Genres | Ticketmaster / JamBase only | free |
+
+Metered credits (Bandsintown, Spotify via RapidAPI) are spent **only** in the
+match cascade, only on a ticket the free providers could not place, and only
+after Eventbrite, Ticketmaster, JamBase and setlist.fm have each had a turn.
+
+### Still open
+
+- **15 artists have no image.** They are the backfill queue for pass 5; nothing
+  runs until the workflow fix is deployed.
+- **Venue duplication is latent, not fixed data.** The code bug is fixed, but no
+  merge migration exists for venues because none were duplicated yet. Worth
+  writing before the venue table grows.
+- **`upsertSpotifyArtist` is misnamed.** It is the generic artist upsert now —
+  the setlist.fm path calls it with a bare name. Rename to `upsertArtistByName`.
 
 ---
 

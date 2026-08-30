@@ -113,6 +113,40 @@ export function namesMatch(query: string, candidate: string): boolean {
   return false;
 }
 
+/**
+ * Deezer by EXACT artist id. No search, no name matching, no risk.
+ *
+ * This is the path to prefer whenever `artists.deezer_artist_id` is set — which
+ * it is for any artist MusicBrainz has resolved. Everything below it is
+ * guesswork by comparison: `namesMatch` exists only because a name search can
+ * return the wrong person, and an id cannot.
+ */
+export async function fromDeezerId(deezerArtistId: string): Promise<ArtistImage | null> {
+  try {
+    const res = await fetch(`https://api.deezer.com/artist/${encodeURIComponent(deezerArtistId)}`, {
+      headers: { Accept: 'application/json' },
+      next: { revalidate: 604_800 },
+    });
+    if (!res.ok) return null;
+
+    const a = (await res.json()) as {
+      name?: string;
+      error?: unknown;
+      picture_xl?: string;
+      picture_big?: string;
+      picture_medium?: string;
+    };
+    // Deezer answers 200 with an `error` object for an unknown id.
+    if (a.error) return null;
+
+    const picture = a.picture_xl || a.picture_big || a.picture_medium;
+    return picture ? { url: picture, source: 'deezer', matchedName: a.name ?? '' } : null;
+  } catch (err) {
+    console.error('Deezer artist image by id failed', { deezerArtistId, err });
+    return null;
+  }
+}
+
 /** Deezer's artist search. No credentials of any kind. */
 async function fromDeezer(name: string): Promise<ArtistImage | null> {
   const url = `https://api.deezer.com/search/artist?limit=3&q=${encodeURIComponent(name)}`;
@@ -179,7 +213,20 @@ async function fromSpotify(name: string): Promise<ArtistImage | null> {
  * Returns null rather than throwing: this decorates a row that already exists,
  * and a missing photo falls back to initials, which is a perfectly good outcome.
  */
-export async function findArtistImage(name: string): Promise<ArtistImage | null> {
+export async function findArtistImage(
+  name: string,
+  ids: { deezerArtistId?: string | null; spotifyArtistId?: string | null } = {},
+): Promise<ArtistImage | null> {
+  /*
+   * An id beats a name every time. When MusicBrainz has resolved this artist we
+   * fetch the exact account and skip `namesMatch` entirely — there is nothing
+   * to be uncertain about.
+   */
+  if (ids.deezerArtistId) {
+    const exact = await fromDeezerId(ids.deezerArtistId);
+    if (exact) return exact;
+  }
+
   const trimmed = name.trim();
   if (trimmed.length < 2) return null;
 

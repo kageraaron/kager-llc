@@ -3,6 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { inferTimezone } from '@/lib/timezone';
 import { getArtistMetadata, isAppConfigured } from '@/lib/providers/spotify';
 import { findArtistImage } from '@/lib/providers/artistImages';
+import { getArtistLinks, resolveMbid } from '@/lib/providers/musicbrainz';
 
 /**
  * One-off repairs for catalog rows written before a provider bug was fixed.
@@ -41,6 +42,15 @@ import { findArtistImage } from '@/lib/providers/artistImages';
  * NAME against free sources (Deezer, then Spotify search), which is the only
  * way a club-circuit act ever gets a face. See `providers/artistImages`.
  *
+ * **4. Artist identity, from MusicBrainz.** Resolves an artist to their real
+ * accounts on other platforms and stores the ids, so later lookups are exact
+ * instead of fuzzy name searches.
+ *
+ * **5. Artist photos**, using those ids where they exist and a name search
+ * where they do not. Deliberately ordered after identity: a Deezer id turns the
+ * photo lookup from a guess into an exact fetch, and it only exists once pass 4
+ * has run.
+ *
  * Every pass only fills a null or rewrites a title that is demonstrably a
  * lineup join, so nothing a human entered is touched.
  */
@@ -54,6 +64,17 @@ export const maxDuration = 60;
  * "still has no image".
  */
 const MAX_IMAGE_LOOKUPS = 60;
+
+/**
+ * Artists to resolve against MusicBrainz per run.
+ *
+ * MusicBrainz allows **one request per second** and resolution costs two (a
+ * name search, then a relations fetch), so this is the hard ceiling on how long
+ * the pass can take: 15 artists is roughly 30 seconds, which fits inside the
+ * function budget alongside everything else. `identity_checked_at` makes it
+ * resumable — the next run takes the next fifteen.
+ */
+const MAX_IDENTITY_LOOKUPS = 15;
 
 /** Same separator set as the provider's `titleFor`, for the same reason. */
 const TITLE_SEPARATORS =
@@ -85,6 +106,9 @@ export async function GET(request: NextRequest) {
     artistsSkipped: false,
     imagesByName: 0,
     imagesTried: 0,
+    identityResolved: 0,
+    identityTried: 0,
+    imagesFromId: 0,
   };
 
   // ---- 1a. Venue zones, derived from the region we already store.
@@ -202,16 +226,73 @@ export async function GET(request: NextRequest) {
   }
 
   /*
-   * ---- 4. Artist photos by NAME, from free sources.
+   * ---- 4. Artist identity, from MusicBrainz.
    *
-   * Runs after pass 3, so anything the Spotify id path already resolved is
-   * skipped. Bounded per run: this is a memory app's cosmetic layer, not
-   * something worth spending the whole function budget on, and the next run
-   * picks up where this one stopped because the filter is "still has no image".
+   * `identity_checked_at` is set on every attempt, successful or not. Without
+   * that the pass cannot distinguish "MusicBrainz has no entry for this artist"
+   * from "not looked at yet", and would re-query the same unresolvable names
+   * every run — at one request per second, forever.
+   */
+  /*
+   * Never checked, or checked long enough ago to be worth revisiting —
+   * MusicBrainz is a wiki, so an artist absent today may be added next month.
+   * The index on `identity_checked_at nulls first` serves this ordering.
+   */
+  const recheckBefore = new Date(Date.now() - 90 * 86_400_000).toISOString();
+  const { data: unresolved } = await admin
+    .from('artists')
+    .select('id, name, mbid, spotify_artist_id, deezer_artist_id')
+    .or(`identity_checked_at.is.null,identity_checked_at.lt.${recheckBefore}`)
+    .order('identity_checked_at', { ascending: true, nullsFirst: true })
+    .limit(MAX_IDENTITY_LOOKUPS);
+
+  for (const artist of unresolved ?? []) {
+    if (!artist.name) continue;
+    fixed.identityTried++;
+
+    // Ticketmaster hands us an MBID directly for some artists; only pay for a
+    // name search when we do not already have one.
+    const mbid = artist.mbid ?? (await resolveMbid(artist.name));
+    const links = mbid ? await getArtistLinks(mbid) : null;
+
+    const patch: Record<string, unknown> = { identity_checked_at: new Date().toISOString() };
+    if (mbid && !artist.mbid) patch.mbid = mbid;
+    if (links) {
+      patch.links = links;
+      /*
+       * Only ever FILL these, never overwrite. Both columns carry a partial
+       * unique index, so writing an id another artist already holds fails the
+       * whole update — and a provider that set one directly had better evidence
+       * than a name search does.
+       */
+      if (links.deezerArtistId && !artist.deezer_artist_id) {
+        patch.deezer_artist_id = links.deezerArtistId;
+      }
+      if (links.spotifyArtistId && !artist.spotify_artist_id) {
+        patch.spotify_artist_id = links.spotifyArtistId;
+      }
+      fixed.identityResolved++;
+    }
+
+    const { error } = await admin.from('artists').update(patch).eq('id', artist.id);
+    if (error) console.error('identity update failed', { id: artist.id, error: error.message });
+  }
+
+  /*
+   * ---- 5. Artist photos, from free sources.
+   *
+   * Runs AFTER identity resolution on purpose. Pass 4 may have just stored a
+   * Deezer id for these very artists, and with one the lookup below becomes an
+   * exact fetch instead of a name search — no `namesMatch`, no chance of the
+   * wrong face. Running images first would waste that on every new artist,
+   * since the id only lands a pass later.
+   *
+   * Bounded per run, and resumable: the filter is "still has no image", so the
+   * next run continues where this one stopped.
    */
   const { data: faceless } = await admin
     .from('artists')
-    .select('id, name')
+    .select('id, name, deezer_artist_id, spotify_artist_id')
     .is('image_url', null)
     .limit(MAX_IMAGE_LOOKUPS);
 
@@ -219,8 +300,13 @@ export async function GET(request: NextRequest) {
     if (!artist.name) continue;
     fixed.imagesTried++;
 
-    const found = await findArtistImage(artist.name);
+    // A stored Deezer id makes this an exact fetch with no name matching at all.
+    const found = await findArtistImage(artist.name, {
+      deezerArtistId: artist.deezer_artist_id,
+      spotifyArtistId: artist.spotify_artist_id,
+    });
     if (!found) continue;
+    if (artist.deezer_artist_id) fixed.imagesFromId++;
 
     const { error } = await admin
       .from('artists')

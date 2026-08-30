@@ -108,7 +108,23 @@ anything in `lib/providers/` or `.github/workflows/`.
 - **`api/cron/keepalive`** writes one row daily. Supabase pauses a free project
   after ~7 days idle. Scheduled from GitHub Actions, not `vercel.json` — Hobby
   caps crons at two and both slots are taken.
-- **Artist photos come from free sources, by name.** `providers/artistImages` —
+- **`maybeSingle()` errors on multiple matches — always `.limit(1)` first.**
+  A name-fallback lookup without it returns nothing once two rows share a name,
+  so the caller inserts a third. Then a fourth. This ran away to six rows for one
+  artist and four apiece for dozens more before anyone noticed, because the error
+  was discarded and the symptom was just "more rows". TODO §5.25.
+- **MusicBrainz resolves artist IDENTITY, and that is what it is for here.**
+  Not metadata — identity. Every other provider resolves an artist by fuzzy name
+  search, independently, which is how one service says "Chris Stussy" and
+  another says "CHRIS STASSY". MusicBrainz holds the artist's actual accounts,
+  curated by humans, so one free lookup (`getArtistLinks`) yields their real
+  Spotify id, Deezer id, Resident Advisor page, Bandcamp, SoundCloud and
+  official site. Stored on `artists` (`0020`), resolved by `api/cron/repair`,
+  and every later fetch becomes exact instead of a guess. It allows **1
+  request/second** and needs an honest User-Agent, which is why it is a
+  background pass and never on a request path.
+- **Artist photos come from free sources — by ID when we have one, by name
+  otherwise.** `providers/artistImages` —
   Deezer first (no API key at all, 50 req/5s), then Spotify search (free, but
   needs credentials). Backfilled by `api/cron/repair`. This exists because the
   *event* providers are unreliable about artwork for exactly the club-circuit

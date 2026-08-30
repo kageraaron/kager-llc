@@ -367,10 +367,23 @@ async function upsertSpotifyArtist(
     return data.id;
   }
 
+  /*
+   * `.limit(1)` is load-bearing, not tidiness.
+   *
+   * `maybeSingle()` ERRORS when more than one row matches, and the error is
+   * discarded here — so the moment two rows share a name, this lookup starts
+   * returning nothing and the insert below adds a third. Then a fourth. In
+   * production this ran away to six rows for "Silva Bumpa" and four apiece for
+   * dozens of others, all with identical names and no provider id.
+   *
+   * Taking the first match is the correct behaviour anyway: duplicates are the
+   * thing to avoid, and any of them is a better answer than another insert.
+   */
   const { data: existing } = await db
     .from('artists')
     .select('id, image_url')
     .ilike('name', name)
+    .limit(1)
     .maybeSingle();
   if (existing) {
     // Fill a gap on a row another provider created; never overwrite what it set.
@@ -438,7 +451,8 @@ async function upsertSpotifyVenue(
 
   let lookup = db.from('venues').select('id, timezone').ilike('name', c.venueName);
   lookup = c.city ? lookup.ilike('city', c.city) : lookup.is('city', null);
-  const { data: existing } = await lookup.maybeSingle();
+  // `.limit(1)`: same runaway-duplicate hazard as the artist lookups above.
+  const { data: existing } = await lookup.limit(1).maybeSingle();
   if (existing) return { id: existing.id, timezone: existing.timezone ?? null };
 
   const { data, error } = await db.from('venues').insert(row).select('id').single();
@@ -739,7 +753,8 @@ async function upsertSetlistFmVenue(
 ): Promise<string | null> {
   let lookup = db.from('venues').select('id, timezone').ilike('name', v.name);
   lookup = v.city ? lookup.ilike('city', v.city) : lookup.is('city', null);
-  const { data: existing } = await lookup.maybeSingle();
+  // `.limit(1)`: same runaway-duplicate hazard as the artist lookups above.
+  const { data: existing } = await lookup.limit(1).maybeSingle();
 
   if (existing) {
     if (!existing.timezone && v.timezone) {
@@ -868,7 +883,8 @@ async function upsertEventbriteVenue(db: SupabaseClient, ev: EBEvent): Promise<s
 
   let lookup = db.from('venues').select('id, timezone').ilike('name', ev.venueName);
   lookup = ev.city ? lookup.ilike('city', ev.city) : lookup.is('city', null);
-  const { data: existing } = await lookup.maybeSingle();
+  // `.limit(1)`: same runaway-duplicate hazard as the artist lookups above.
+  const { data: existing } = await lookup.limit(1).maybeSingle();
 
   if (existing) {
     if (!existing.timezone && ev.timezone) {
@@ -924,7 +940,14 @@ async function upsertBitArtist(
     return data.id;
   }
 
-  const { data: existing } = await db.from('artists').select('id').ilike('name', name).maybeSingle();
+  // `.limit(1)`: see the note in `upsertSpotifyArtist` — without it a second
+  // row with the same name makes this lookup fail and insert a third.
+  const { data: existing } = await db
+    .from('artists')
+    .select('id')
+    .ilike('name', name)
+    .limit(1)
+    .maybeSingle();
   if (existing) return existing.id;
 
   const { data, error } = await db.from('artists').insert({ name }).select('id').single();
@@ -949,7 +972,8 @@ async function upsertBitVenue(db: SupabaseClient, ev: BITEvent): Promise<string 
 
   let lookup = db.from('venues').select('id').ilike('name', ev.venueName);
   lookup = ev.city ? lookup.ilike('city', ev.city) : lookup.is('city', null);
-  const { data: existing } = await lookup.maybeSingle();
+  // `.limit(1)`: same runaway-duplicate hazard as the artist lookups above.
+  const { data: existing } = await lookup.limit(1).maybeSingle();
   if (existing) return existing.id;
 
   const { data, error } = await db
