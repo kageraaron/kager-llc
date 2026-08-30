@@ -13,15 +13,22 @@ Next.js PWA, installable to the iOS home screen. Runs on free tiers end to end.
 |---|---|
 | Google sign-in + email magic link | Built |
 | Profiles, avatars, bio, friends | Built |
-| Artist & event search (4 providers, cost-ordered) | Built |
+| Artist & event search (5 providers, first-party then cost-ordered) | Built |
 | Upcoming / Archive tabs, manual add | Built |
+| Going / Interested shown on the Upcoming list | Built |
+| Ticket count and price per order, parsed and editable | Built |
 | Private notes (owner-only, enforced in RLS) | Built |
 | Friends-going on events | Built |
+| Friend invite links, and sending an event to a friend | Built |
 | Gmail scanning + review Inbox | Built |
+| Multi-year mailbox backfill (30d – 10y, resumable) | Built |
+| Eventbrite event resolution (first-party) | Built — needs an Eventbrite key |
 | Forward-to-inbox address | Built, **switched off** — needs a domain |
 | Bandsintown deep search + detail enrichment | Built — needs a Parse key |
 | setlist.fm archive import | Built |
 | Spotify favorites import | Built, capped at 5 users by Spotify |
+| Spotify artist artwork (client credentials, no user cap) | Built — fallback only |
+| Supabase keep-alive (free tier pauses after 7 days idle) | Built — GitHub Actions cron |
 | Web push day-before reminders | Built — add VAPID keys to send |
 | Sign in with Apple, Apple Music import | **Not built** — needs paid Apple Developer |
 
@@ -133,19 +140,39 @@ database with real data.**
 
 ## The provider architecture
 
-Four event providers, none of them complete, all of them metered differently.
+Five event providers, none of them complete, all of them metered differently.
 This section is the reasoning behind which one gets asked what, and in what
 order — it is the part of the codebase most likely to be changed by someone who
 hasn't measured the trade-offs, so the measurements are written down.
 
+### The ordering principle: first-party beats accurate beats cheap
+
+Providers are ranked on **how close they are to the ticket**, then on cost.
+
+1. **First-party** — the company that actually sold the ticket. It is not
+   guessing which show the email refers to; it *knows*, because the email
+   carries its event id. Confidence 1, no scoring involved.
+2. **Third-party listings** — everyone else, describing shows they hope to sell.
+   These get scored on name, date, venue and city, and can be wrong.
+
+Eventbrite is the only first-party source wired in so far, and it moved to the
+front of the cascade the day it landed. That ordering is worth defending: it is
+both the most accurate answer available *and* the cheapest, which is unusual and
+makes it a free win rather than a trade-off.
+
 ### What each one costs, and what it is actually good at
 
-| Provider | Free allowance | Cost of one artist query | Wins at | Cannot do |
+| Provider | Free allowance | Cost of one query | Wins at | Cannot do |
 |---|---|---|---|---|
+| **Eventbrite** (first-party) | **2,000/hour** | ~free | The exact event, by id, from the vendor that sold the ticket; **real IANA timezone**; venue coordinates; event artwork | Public event *search* was withdrawn — `/v3/events/search/` is a 404. Id lookup only |
 | **Ticketmaster** | 5,000/day, 5/sec | ~free | US arena shows it sells tickets to; canonical event ids in emails | Whole-word matching only; blind to anything it doesn't sell |
 | **JamBase** | 14-day trial quota | metered | **Location search**; festival lineups | Trial, not a free tier — expires |
-| **Spotify** (spotify81 via RapidAPI) | **1,000/month** (~33/day) | 1 request | Partial names (`Chris L` → Chris Lake); canonical artist id; club circuit; every row has lat/lng | No location-only search at all |
-| **Bandsintown** (via Parse) | **200 credits/month** (~6.6/day) | **1 credit** | Most accurate on club shows; **real IANA timezone**; **past tour dates** | No coordinates; no usable location search (see below) |
+| **Spotify** (spotify81 via RapidAPI) | **1,000/month** (~33/day) | 1 request | Partial names (`Chris L` → Chris Lake); canonical artist id; club circuit; every row has lat/lng | No location-only search at all. Answers in **Spanish** and cannot be asked not to (see below) |
+| **Bandsintown** (via Parse) | **200 credits/month** (~6.6/day) | **1 credit** | Most accurate on club shows; **real IANA timezone**; **past tour dates** — the only source for a show that has already happened | No coordinates; no usable location search (see below) |
+
+A sixth, **Spotify's official Web API**, is wired in but is not an event
+provider at all — it supplies artist artwork as a fallback via the
+client-credentials flow. See "What the Web API is and isn't for" below.
 
 Two supporting providers are metered too: **setlist.fm** (~1/sec, answers `403`
 rather than `429` when throttled) and **Nominatim** geocoding (a hard 1/sec).
@@ -183,9 +210,10 @@ Gmail poller ─┐
               ├─> normalize ─> dedupe ─> extract ─> match ─> auto-add (>=0.80)
 Email Worker ─┘                                        └─> review Inbox (<0.80)
 
-  match cascade, cheapest first, STOPS at the first confident answer:
-  Ticketmaster ──> JamBase ──> Spotify ──> Bandsintown
-    ~free           trial      1 req/mo     1 credit
+  match cascade, first-party then cheapest, STOPS at the first confident answer:
+  Eventbrite ──> Ticketmaster ──> JamBase ──> Spotify ──> Bandsintown
+   ~free, and       ~free          trial     1 req/mo     1 credit
+   DEFINITIVE                                            (+1 for past shows)
 ```
 
 ```
@@ -195,7 +223,14 @@ BROWSE — interactive, fires on typing, volume is high
   "Search harder" button ──────────────> Bandsintown   (explicit, 1 credit)
 ```
 
-**Why ingestion goes cheapest-first.** Every provider below the one that answers
+**Why Eventbrite goes first.** It only runs when the email actually carried an
+Eventbrite link, so it costs nothing on every other vendor's mail. When it does
+run it returns confidence 1 and the cascade stops immediately — so an Eventbrite
+ticket now resolves without spending a single metered request anywhere else.
+Before this it fell all the way through to Spotify, which is both the most
+expensive answer and the least accurate one.
+
+**Why ingestion goes cheapest-first below that.** Every provider below the one that answers
 is a call not made. Ticketmaster is effectively free and handles the common case
 (a Ticketmaster confirmation email carrying its own event id, which scores 1.0
 immediately). The scarce providers are reached only when the cheap ones have
@@ -390,7 +425,7 @@ Measured against the four providers as wired today.
    replacement — Spotify has no location endpoint and Bandsintown's is unusable
    (below). Ticketmaster is the only fallback and it is much thinner.
 
-### Two Bandsintown endpoints that do not work as documented
+### Three things about Bandsintown that do not work as documented
 
 Both verified live on 2026-08-29, both worth knowing before someone tries to
 "fix" the architecture by using them:
@@ -410,7 +445,80 @@ Both verified live on 2026-08-29, both worth knowing before someone tries to
    looked useful for, so it is deliberately not wired in. **Bandsintown is an
    artist-query and event-detail provider here, nothing else.**
 
-### The case that justifies a fourth provider
+3. **Two different response envelopes, and the wrong one is silent.** The Parse
+   **MCP tool** answers with the documented contract, `{ ok, result: { data } }`.
+   The **REST endpoint** this module actually calls answers with the scraper's
+   own shape, `{ status: "success", data }`, with no `result` wrapper.
+
+   The provider was written against the first and wired to the second, so every
+   call threw `!body.result` → `"unknown error"`. Because `matchTicket` catches a
+   provider failure and moves on, there was **no error anywhere** — Bandsintown
+   simply never contributed a candidate, which is indistinguishable from "that
+   artist had no dates". The most accurate club-show provider in the app was
+   inert from the day it was added until 2026-08-29.
+
+   Nothing caught it because `call()` was the one function in the module with no
+   test — every pure helper around it was covered. `unwrap()` now accepts both
+   shapes and is pinned by tests. **The lesson generalises: a provider that fails
+   silently into a cascade needs a test on its transport, not just its parsers.**
+
+### Past shows: the one thing only Bandsintown can answer
+
+Every other provider lists what is **on sale**. Ticketmaster, JamBase, Spotify
+and Bandsintown's own upcoming endpoint all drop an event once it has happened.
+So a confirmation for last spring's gig matches nothing anywhere and lands in the
+review queue — which is why a multi-year mailbox backfill produces a pile of
+manual work rather than an archive.
+
+`get_artist_past_events` is the only fix available, and it works: KETTAMA at The
+Regency Ballroom on 2026-05-06 is in it, and was sitting unmatched in a real
+inbox. It costs a second credit, so `bandsintownCandidates` spends it only when
+the ticket is for a past date *and* the upcoming list has already failed to cover
+it. Past tours never change, so the result caches for 30 days.
+
+### What the Spotify Web API is and isn't for
+
+Not events. The public Web API has **no concerts, live-events or tour-date
+endpoints at all** — that data exists only behind Spotify's internal partner API,
+which is what the `spotify81` proxy wraps. The Web API cannot replace it.
+
+What it does supply is artist artwork, through the **client-credentials** flow:
+no user, no consent, no redirect URI, and the five-user development-mode cap does
+not apply because it authorizes no users. Two measured limits shape the
+integration:
+
+- **February 2026 removed every "Get Several" endpoint** for development-mode
+  apps. `GET /artists/{id}` is 200; `GET /artists?ids=…` is **403**. So it is one
+  request per artist, not one per lineup.
+- **The image is the same URL the concerts proxy already returns**, and `genres`
+  is absent from the response entirely (as are `followers` and `popularity`).
+
+So it is a **fallback, not an upgrade**: worth calling only for an act the proxy
+gave no picture for, which happens because the proxy's `detailsLimit` caps how
+many concerts in a response get the enriched view. Both filters are applied
+before any request, so in the steady state it makes none.
+
+### Localization: the proxy answers in Spanish, and cannot be asked not to
+
+Spotify builds a multi-act concert title server-side and localizes it from
+`Accept-Language`. The same concert page proves it — `en-US` gives
+"Silva Bumpa, Dean Turnley", `es-ES` gives "Silva Bumpa y Dean Turnley". The
+proxy sends a Spanish one upstream and there is **no way to override it**:
+verified against a plain request, an `Accept-Language: en-US` header (not
+forwarded), and `locale`/`market`/`language` query parameters (ignored). The
+endpoint has no locale parameter to pass.
+
+This is a *different axis* from the proxy's geo default, which resolves to
+Montreal — a Montreal server would give French "et", not Spanish "y".
+
+Only the generated event **title** is affected; artist names, venues, dates, ids
+and coordinates all come back clean. So the title is rebuilt from the `artists`
+array, and only when it is demonstrably nothing but the lineup joined together —
+a promoter's real title ("Goldrush: Midnight Riders") fails that test and passes
+through untouched. The separator list covers more than Spanish on purpose: the
+locale this proxy is pinned to can change under us.
+
+### The case that justifies the scarce providers
 
 `Overmono @ Public Works, San Francisco, 2026-09-27` — a club show absent from
 both Ticketmaster and JamBase, and the reason manual entry exists. Bandsintown
@@ -419,8 +527,33 @@ what makes the pair worth having: they agree on the club circuit that the two
 cheap providers are blind to, and Bandsintown adds the timezone and the past
 dates that Spotify cannot supply.
 
-None of the four is complete, which is why **manual entry is always offered** and
+None of them is complete, which is why **manual entry is always offered** and
 not just when a search comes back empty.
+
+### Timezones: an event without a zone renders in the server's zone
+
+The bug this pattern exists to prevent: a 10pm show at Monarch in San Francisco
+displayed as **"Mon, Sep 28 · 5:00 AM"**. The stored instant was correct the
+whole time — 22:00 PDT on the 27th *is* 05:00 UTC on the 28th. What was missing
+was a zone to render it in.
+
+Every formatter in `lib/format.ts` passes no `timeZone` option when it has none,
+so `toLocaleString` falls back to the **runtime's** zone — and every page here is
+server-rendered, on Vercel, in UTC. A null `events.timezone` is therefore not a
+cosmetic gap; it is a wrong time on the card, the calendar feed and the push
+reminder.
+
+Defence in depth, because any one layer alone leaves a hole:
+
+| Layer | Rule |
+|---|---|
+| **Provider** | Take the vendor's IANA zone whenever there is one. Eventbrite and Ticketmaster always have it; Bandsintown has it on detail rows only |
+| **Write** | `upsertSpotifyEvent` resolves from the venue row another provider already placed, then from the region (`lib/timezone.ts`), and backfills the venue row so the next provider inherits it |
+| **Render** | `format.eventZone()` walks event → venue → region. **Nothing reads `event.timezone` directly** — including the push reminders, which were announcing the wrong showtime for exactly this reason |
+
+`lib/timezone.ts` maps US states and Canadian provinces, disambiguating `"CA"` by
+country. It is deliberately coarse: being an hour wrong in western Kansas beats
+being seven hours wrong everywhere.
 
 ## How the ingestion pipeline works
 

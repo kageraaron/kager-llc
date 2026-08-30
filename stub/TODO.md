@@ -11,10 +11,10 @@ Ordered by what blocks what. **§1 is the only section that blocks sharing it.**
 | | |
 |---|---|
 | **Deployed** | `stub-two.vercel.app`, commit `8d497ee`, READY. Every route 200, no 5xx. Per-deployment URLs are SSO-walled, see §1.6 |
-| **Prod DB** | `biichwtrfmrdgiqtvxme`, **16** migrations applied — `0017`, `0018`, `0019` PENDING |
+| **Prod DB** | `biichwtrfmrdgiqtvxme`, all **19** migrations applied |
 | **Prod keys** | `RAPID_API_KEY` and `PARSE_API_KEY` both set. Bandsintown is live on the next deploy |
 | **Dev DB** | `syrsjdreydgblrwpalyw`, seeded, all **19** migrations |
-| **Tests** | **151** offline passing; live suites for queries, geocode, Spotify concerts, Spotify Web API, Eventbrite |
+| **Tests** | **159** offline passing; live suites for queries, geocode, Spotify concerts, Spotify Web API, Eventbrite |
 | **Providers wired** | **Eventbrite**, Ticketmaster, JamBase, Spotify/RapidAPI, Bandsintown/Parse, setlist.fm, MusicBrainz, Nominatim |
 | **Email vendors parsed** | Ticketmaster, AXS, DICE, Eventbrite, See Tickets/Eventim, Frontgate, TicketWeb, Etix |
 
@@ -1519,6 +1519,101 @@ Genuine archive backfill wants `bandsintown.getArtistPastEvents`, which is
 already wrapped and is the only source here that answers "what did they play
 near me in 2024". Not wired into ingestion yet — it costs a credit per artist
 off a ~200-credit balance, so it needs a budget story first.
+
+---
+
+## 5.17 Prod outage: a layout-level query gated the deploy — 2026-08-29
+
+`7a5ff5c` shipped with `0017`–`0019` unapplied. Every authenticated page returned
+`Application error: a server-side exception has occurred` (digest 2979175705).
+
+The fatal one was `0018`. `getPendingCount` had been widened to count pending
+event invites alongside ticket candidates, so the Inbox badge would not disagree
+with the page — and that function is called from `(app)/layout.tsx`, the layout
+wrapping *every* authenticated route. A missing `event_invites` table therefore
+took down the whole app rather than the Inbox. `0017` would independently have
+broken `/upcoming`, `/archive` and the event page through `ticket_quantity` in
+`ATTENDANCE_SELECT`.
+
+Resolved by applying all three to prod and verifying against the exact query
+shapes that were throwing.
+
+**The generalisable lesson:** a new table behind a layout-level query turns an
+additive migration into an all-or-nothing deploy gate. Either apply migrations
+before pushing, or make `getPendingCount` fall back to the candidate count when
+the invites query errors, so schema lag degrades a badge instead of blanking the
+app. The second is worth doing and is not yet done.
+
+---
+
+## 5.18 Why past-dated tickets all land in the Inbox — 2026-08-29
+
+Reported from a real inbox: 11 unmatched candidates after a backfill, nearly all
+for shows that had already happened.
+
+**The diagnosis was right — and it hid two real bugs underneath it.**
+
+### 1. Nothing lists a show that is over (working as designed, badly explained)
+
+Ticketmaster, JamBase, Spotify and Bandsintown's upcoming endpoint all answer
+"what is ON SALE". A past-dated ticket returns zero candidates everywhere, so
+`match.best` is null and the message goes to review. Not a code bug — a real gap,
+and the reason a 10-year scan mostly produces manual work.
+
+Now partly fixed: `bandsintownCandidates` falls back to `get_artist_past_events`
+when the ticket is past-dated *and* the upcoming list did not cover it. Verified
+live — KETTAMA at The Regency Ballroom, 2026-05-06, one of the unmatched
+candidates, is in that response.
+
+The Inbox copy was also lying twice: it named only three providers (missing
+Eventbrite and Bandsintown), and it told users "no listing service has this
+show" about gigs they had already attended. It now distinguishes the past case.
+
+### 2. **Bandsintown had never worked at all** — the real find
+
+Every call threw. `providers/bandsintown.ts` was written against the Parse **MCP**
+envelope (`{ ok, result: { data } }`) and wired to the **REST** endpoint, which
+returns `{ status: "success", data }` with no `result` wrapper. So `!body.result`
+was always true → `"unknown error"`.
+
+`matchTicket` catches a provider failure and continues, so **there was no error
+anywhere.** Bandsintown simply never contributed a candidate — indistinguishable
+from "that artist had no dates". The provider added specifically because it is
+the most accurate source for club shows was inert from the day it landed.
+
+Nothing caught it because `call()` was the only function in the module without a
+test; every pure helper around it was covered. `unwrap()` now accepts both
+envelopes and is pinned by tests.
+
+**This is the one to generalise from: a provider that fails silently into a
+cascade needs a test on its transport, not just its parsers.** The same shape of
+bug would be invisible in JamBase or Spotify today.
+
+### 3. Boilerplate subjects stored as artist names
+
+`artistName: "Your tickets were delivered to your account!"` — verbatim, from a
+real AXS delivery notice. `BOILERPLATE_SUBJECT` is anchored at both ends, so it
+rejected only subjects that were *exactly* boilerplate; anything that began with
+boilerplate and continued sailed through.
+
+Three costs, all real: the matcher searched every provider for an artist by that
+sentence (spending metered quota to find nothing), the candidate could never
+match, and "Add it anyway" would have created a junk artist row that then
+degrades name matching for every ticket after it.
+
+Fixed with a `SENTENCE_SUBJECT` guard on verb-led constructions plus a word-count
+ceiling. The delivery notice now yields nothing at all and is filed "not a
+ticket" — which is correct: the order confirmation for the same show carries the
+artist and venue, so the notice is a duplicate with no unique information.
+
+### Still open
+
+- **Duplicate candidates.** One show can produce several review entries from
+  different emails (order confirmation + delivery notice + reminder). Dedupe
+  pending candidates on (user, name, date within 12h) before insert.
+- **setlist.fm as a second past-show source.** Already integrated for setlists;
+  it is also a database of shows that definitely happened, and it is free. Worth
+  trying before spending a Bandsintown credit.
 
 ---
 

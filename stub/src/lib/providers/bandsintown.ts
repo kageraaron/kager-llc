@@ -199,12 +199,72 @@ export interface ArtistEvents {
 
 // ---------------------------------------------------------------- the call
 
-/** Parse wraps every response in an envelope; the payload is `result.data`. */
+/**
+ * Parse returns TWO different envelopes depending on how you reach it, and
+ * getting this wrong is silent.
+ *
+ * The **MCP tool** answers with the documented contract:
+ *
+ *     { contract_version, ok, result: { data }, error, notices, meta }
+ *
+ * The **REST endpoint** this module actually calls answers with the scraper's
+ * own shape, with no `result` wrapper at all:
+ *
+ *     { status: "success", data: { name, events: [...] } }
+ *
+ * This module was written against the first and wired to the second, so every
+ * call threw `!body.result` -> "unknown error". `matchTicket` catches a provider
+ * failure and moves on, so the symptom was not an error anywhere — it was
+ * Bandsintown silently never contributing a single candidate, which is
+ * indistinguishable from "the artist had no dates". The whole reason this
+ * provider exists (club shows nothing else lists) was therefore inert.
+ *
+ * Both shapes are accepted now, and `unwrap` is exported so a test can pin them.
+ */
 interface ParseEnvelope<T> {
+  /** MCP contract. */
   ok?: boolean;
   result?: { data?: T } | null;
-  error?: { code?: string; message?: string; retry_after?: number } | null;
+  /** REST shape. */
+  status?: string;
+  data?: T | null;
+
+  error?: { code?: string; message?: string; retry_after?: number } | string | null;
   meta?: { credits_remaining?: number; credits_charged?: number } | null;
+}
+
+export interface Unwrapped<T> {
+  data: T;
+  creditsRemaining: number | null;
+}
+
+/** Normalize either envelope, or throw with whatever the body said went wrong. */
+export function unwrap<T>(body: ParseEnvelope<T>, endpoint: string): Unwrapped<T> {
+  const creditsRemaining = body.meta?.credits_remaining ?? null;
+
+  const failed =
+    body.ok === false ||
+    (typeof body.status === 'string' && body.status !== 'success') ||
+    // A populated `error` is a failure even when the status says otherwise.
+    (!!body.error && (typeof body.error === 'string' || !!body.error.message));
+
+  // `result` distinguishes the MCP envelope; `data` alone is the REST one.
+  const payload = body.result ? body.result.data : body.data;
+
+  if (failed || payload === undefined || payload === null) {
+    const message =
+      (typeof body.error === 'string' ? body.error : body.error?.message) ??
+      (body.status && body.status !== 'success' ? body.status : undefined) ??
+      'unknown error';
+    const code = (typeof body.error === 'object' ? body.error?.code : undefined) ?? '';
+
+    if (code.includes('quota') || code.includes('credit') || /quota|credit/i.test(message)) {
+      throw new BandsintownQuotaError(`Bandsintown credits exhausted: ${message}`);
+    }
+    throw new Error(`Bandsintown ${endpoint} failed: ${message}`);
+  }
+
+  return { data: payload, creditsRemaining };
 }
 
 export class BandsintownQuotaError extends Error {
@@ -245,25 +305,18 @@ async function call<T>(
     throw new Error(`Bandsintown ${res.status}: ${(await res.text()).slice(0, 200)}`);
   }
 
-  const body = (await res.json()) as ParseEnvelope<T>;
-  const creditsRemaining = body.meta?.credits_remaining ?? null;
-
   // Parse reports tool-level failure in the body with a 200, so check both.
-  if (body.ok === false || !body.result) {
-    const code = body.error?.code ?? '';
-    const message = body.error?.message ?? 'unknown error';
-    if (code.includes('quota') || code.includes('credit')) {
-      throw new BandsintownQuotaError(`Bandsintown credits exhausted: ${message}`);
-    }
-    throw new Error(`Bandsintown ${endpoint} failed: ${message}`);
-  }
+  const { data, creditsRemaining } = unwrap<T>(
+    (await res.json()) as ParseEnvelope<T>,
+    endpoint,
+  );
 
   if (creditsRemaining !== null && creditsRemaining < 25) {
     // The failure mode is a silent degrade, so this wants to be noisy early.
     console.warn(`Bandsintown credits low: ${creditsRemaining} left`);
   }
 
-  return { data: (body.result.data ?? {}) as T, creditsRemaining };
+  return { data, creditsRemaining };
 }
 
 // ---------------------------------------------------------------- normalizing

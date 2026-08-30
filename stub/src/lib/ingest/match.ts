@@ -8,7 +8,11 @@ import * as bandsintown from '@/lib/providers/bandsintown';
 import type { BITEvent } from '@/lib/providers/bandsintown';
 import * as eventbrite from '@/lib/providers/eventbrite';
 import type { EBEvent } from '@/lib/providers/eventbrite';
-import { cachedArtistConcerts, cachedBandsintownArtist } from '@/lib/cache';
+import {
+  cachedArtistConcerts,
+  cachedBandsintownArtist,
+  cachedBandsintownPastEvents,
+} from '@/lib/cache';
 
 /**
  * Turn a parsed ticket into a specific real-world event.
@@ -395,11 +399,52 @@ async function bandsintownCandidates(ticket: ParsedTicket): Promise<CatalogCandi
   const result = await cachedBandsintownArtist(keyword);
   if (!result?.artist) return [];
 
+  let events = result.events;
+
+  /*
+   * A show that has already happened is invisible to every other source here.
+   *
+   * Ticketmaster, JamBase, Spotify and Bandsintown's own upcoming endpoint all
+   * answer "what is ON SALE". So a confirmation for last spring's gig matches
+   * nothing anywhere and lands in the review queue — which is why a multi-year
+   * mailbox backfill produces a pile of manual work rather than an archive.
+   *
+   * Bandsintown's past-events endpoint is the only fix available, and it works:
+   * KETTAMA at The Regency Ballroom on 2026-05-06 is in it, and was sitting
+   * unmatched in a real inbox. Verified live 2026-08-29.
+   *
+   * It costs a second credit, so it is spent only when the ticket is actually
+   * for a past date and the upcoming list has already failed to cover it. The
+   * result caches for 30 days, and a past tour never changes.
+   */
+  if (isPastTicket(ticket) && !coversTicket(events, ticket)) {
+    const past = await cachedBandsintownPastEvents(result.artist.slug);
+    if (past?.length) events = [...events, ...past];
+  }
+
   const inWindow = ticket.startsAt
-    ? bandsintown.withinDays(result.events, ticket.startsAt, 2)
-    : result.events;
+    ? bandsintown.withinDays(events, ticket.startsAt, 2)
+    : events;
 
   return inWindow.map((e) => fromBandsintown(e, keyword));
+}
+
+/**
+ * Is the ticket for a date that has already passed?
+ *
+ * A day of slack, because `ticket.startsAt` is usually local wall time with no
+ * zone — a show tonight must not be classified as past just because the server
+ * is in UTC.
+ */
+function isPastTicket(ticket: ParsedTicket): boolean {
+  const want = msOrNull(ticket.startsAt ?? null);
+  return want !== null && want < Date.now() - 86_400_000;
+}
+
+/** Does the list already contain something on the ticket's date? */
+function coversTicket(events: BITEvent[], ticket: ParsedTicket): boolean {
+  if (!ticket.startsAt) return false;
+  return bandsintown.withinDays(events, ticket.startsAt, 2).length > 0;
 }
 
 /**

@@ -66,6 +66,13 @@ export function CandidateCard({ candidate }: Props) {
   // Creating the show by hand needs at minimum something to call it and a date.
   const canAddManually = Boolean((parsed.artistName ?? parsed.eventName) && parsed.startsAt);
   const eventTitle = event ? displayEventName(event) : null;
+  /*
+   * A past-dated ticket that matched nothing is a different situation from a
+   * club night nothing lists, and telling the user "no service has this show"
+   * about a gig they already went to reads as a bug. Ticket sites simply drop
+   * an event once it is over.
+   */
+  const isPast = parsed.startsAt ? new Date(parsed.startsAt).getTime() < Date.now() : false;
 
   return (
     <div className="card" style={{ flexDirection: 'column', gap: 10 }}>
@@ -114,9 +121,12 @@ export function CandidateCard({ candidate }: Props) {
         </div>
       ) : (
         <p className="muted" style={{ margin: 0 }}>
-          No listing service has this show — not Ticketmaster, JamBase or Spotify.
-          That is common for club nights and afterparties. Everything below was
-          read from the email, so it can be added as-is.
+          {isPast
+            ? `No listing service still has this show. Ticket sites drop an event once
+               it has happened, so older confirmations usually need adding by hand.`
+            : `No listing service has this show — not Eventbrite, Ticketmaster, JamBase,
+               Spotify or Bandsintown. That is common for club nights and afterparties.`}{' '}
+          Everything below was read from the email, so it can be added as-is.
         </p>
       )}
 

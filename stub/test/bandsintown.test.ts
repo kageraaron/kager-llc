@@ -1,5 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
+  unwrap,
+  BandsintownQuotaError,
   eventIdFromUrl,
   artistSlug,
   normalizeEvent,
@@ -208,5 +210,51 @@ describe('withinDays', () => {
   it('keeps a row whose date is unparseable rather than silently dropping it', () => {
     const broken = [ev({ startsAtLocal: 'not a date' })];
     expect(withinDays(broken, '2026-09-27T00:00:00Z', 2)).toHaveLength(1);
+  });
+});
+
+/**
+ * The envelope bug that made this provider inert.
+ *
+ * `lib/providers/bandsintown.ts` was written against the MCP tool contract
+ * (`{ ok, result: { data } }`) and wired to the REST endpoint, which answers
+ * `{ status, data }` with no `result` wrapper. So every call threw, and because
+ * `matchTicket` catches a provider failure and continues, the symptom was not an
+ * error — it was Bandsintown never contributing a candidate, which looks exactly
+ * like "the artist had no dates". Nothing caught it because `call()` was the one
+ * function in the module with no test.
+ */
+describe('unwrap — both Parse envelopes', () => {
+  it('reads the REST shape the endpoint actually returns', () => {
+    const body = { status: 'success', data: { name: 'Kettama', events: [] } };
+    expect(unwrap(body, 'get_artist_events_by_name').data).toEqual({
+      name: 'Kettama',
+      events: [],
+    });
+  });
+
+  it('still reads the documented MCP shape', () => {
+    const body = { ok: true, result: { data: { name: 'Kettama' } }, meta: { credits_remaining: 42 } };
+    const out = unwrap(body, 'get_artist_events_by_name');
+    expect(out.data).toEqual({ name: 'Kettama' });
+    expect(out.creditsRemaining).toBe(42);
+  });
+
+  it('reports credits as null when the envelope carries no meta', () => {
+    const body = { status: 'success', data: { name: 'Kettama' } };
+    expect(unwrap(body, 'x').creditsRemaining).toBeNull();
+  });
+
+  it('throws on a failure in either envelope', () => {
+    expect(() => unwrap({ ok: false, error: { message: 'nope' } }, 'x')).toThrow(/nope/);
+    expect(() => unwrap({ status: 'error', data: null }, 'x')).toThrow(/error/);
+    expect(() => unwrap({ status: 'success' }, 'x')).toThrow(/unknown error/);
+  });
+
+  it('raises a quota error rather than a generic one when credits are gone', () => {
+    expect(() => unwrap({ ok: false, error: { code: 'quota_exceeded', message: 'out' } }, 'x'))
+      .toThrow(BandsintownQuotaError);
+    expect(() => unwrap({ status: 'error', error: 'insufficient credits' }, 'x'))
+      .toThrow(BandsintownQuotaError);
   });
 });

@@ -73,13 +73,43 @@ function ticketmasterEventId(html: string): string | undefined {
 const BOILERPLATE_SUBJECT =
   /^(?:here are |)?(?:your |you received |)(?:e-?)?tickets?!?$|^(?:order|purchase|ticket|booking)\s+confirm(?:ation|ed)$|^your order$|^purchase confirmation$/i;
 
+/**
+ * Subjects that are a whole SENTENCE about tickets rather than a name.
+ *
+ * `BOILERPLATE_SUBJECT` is anchored at both ends, so it only rejects a subject
+ * that is *exactly* boilerplate. A real AXS delivery notice — "Your tickets were
+ * delivered to your account!" — has boilerplate at the front and then keeps
+ * going, so it sailed through and was stored as
+ * `artistName: "Your tickets were delivered to your account!"`.
+ *
+ * That is worse than storing nothing three times over: the matcher searches
+ * every provider for an artist by that name (burning metered quota to find
+ * nothing), the candidate can never match, and "Add it anyway" would create a
+ * junk artist row that then poisons name matching for everything after it.
+ *
+ * A name is a noun phrase. These are the verb-led constructions that say the
+ * subject is prose, and no act is called any of them.
+ */
+const SENTENCE_SUBJECT =
+  /\b(?:were|was|have been|has been|is|are)\s+(?:delivered|transferred|sent|ready|available|confirmed|updated|received|issued)\b|\bthank you\b|\bdon'?t forget\b|\bcoming up\b|\breminder\b|\bstarts? (?:soon|today|tomorrow)\b/i;
+
 /** The subject is usually the cleanest artist signal we get — when it has one. */
 function artistFromSubject(subject: string, strip: RegExp): string | undefined {
   const stripped = subject.replace(strip, '').trim();
-  if (BOILERPLATE_SUBJECT.test(stripped)) return undefined;
+  if (BOILERPLATE_SUBJECT.test(stripped) || SENTENCE_SUBJECT.test(stripped)) return undefined;
+
   const cleaned = cleanArtistName(stripped);
   if (cleaned.length < 2) return undefined;
-  return BOILERPLATE_SUBJECT.test(cleaned) ? undefined : cleaned;
+
+  /*
+   * A last guard on length. Even after the patterns above, a subject running to
+   * a dozen words is a sentence we failed to recognise rather than a band with
+   * a very long name — and the cost of being wrong is asymmetric: nothing is
+   * lost by falling through to the body, while a junk name is persisted.
+   */
+  if (cleaned.split(/\s+/).length > 10) return undefined;
+
+  return BOILERPLATE_SUBJECT.test(cleaned) || SENTENCE_SUBJECT.test(cleaned) ? undefined : cleaned;
 }
 
 /** Non-empty, whitespace-trimmed lines. Both text and HTML views pad heavily. */

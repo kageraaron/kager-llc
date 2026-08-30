@@ -277,3 +277,64 @@ describe('the club show that no aggregator lists', () => {
     expect(t.startsAt).toBeTruthy();
   });
 });
+
+/**
+ * Subjects that are prose about tickets, not the name of an act.
+ *
+ * A real AXS delivery notice — "Your tickets were delivered to your account!" —
+ * was being stored as `artistName`, verbatim. The old guard was anchored at both
+ * ends, so it only rejected a subject that was EXACTLY boilerplate; anything
+ * that started with boilerplate and kept going sailed through.
+ *
+ * The cost was threefold: the matcher searched every provider for an artist by
+ * that sentence (spending metered quota to find nothing), the candidate could
+ * never match, and "Add it anyway" would have created a junk artist row that
+ * then degrades name matching for every ticket after it.
+ */
+describe('sentence subjects are not artist names', () => {
+  const axs = (subject: string, body: string) =>
+    runExtractors(
+      normalizeEmail({
+        from: 'AXS Guest Services <guestservices@axs.com>',
+        subject,
+        receivedAt: '2026-04-10T12:00:00Z',
+        text: body,
+        html: `<html><body><p>${subject}</p></body></html>`,
+      }),
+    );
+
+  it('rejects a delivery notice rather than storing the sentence as an artist', () => {
+    const out = axs(
+      'Your tickets were delivered to your account!',
+      'Your tickets were delivered to your account!\n\nFri Apr 17, 2026 - 9:00 PM\n\nSign in to the AXS app.',
+    );
+    /*
+     * Nothing at all is the right answer here, not a nameless candidate: the
+     * ORDER confirmation for the same show carries the artist and venue, so
+     * this notice adds no information and would only duplicate the review queue.
+     */
+    expect(out).toBeNull();
+  });
+
+  it('rejects the other prose shapes vendors use', () => {
+    for (const subject of [
+      'Your tickets have been transferred',
+      'Your order is confirmed',
+      'Reminder: your event is coming up',
+      'Thank you for your purchase',
+      "Don't forget — your show starts tomorrow",
+    ]) {
+      const out = axs(subject, 'Fri Apr 17, 2026 - 9:00 PM');
+      expect(out?.ticket.artistName, subject).toBeUndefined();
+    }
+  });
+
+  it('still reads a real artist out of a real subject', () => {
+    // The guard must not cost us the case it exists to serve.
+    const out = axs(
+      'Thank you for your order for Chris Stussy -  Presale',
+      'Order details for Chris Stussy - Presale at Shed A scheduled on 2/27/2027 6:00 PM',
+    );
+    expect(out?.ticket.artistName).toBe('Chris Stussy');
+  });
+});
