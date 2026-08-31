@@ -1,0 +1,52 @@
+{% comment %}
+  Full view — 800x480.
+
+  Everything the feed sends, as a list. `data-list-limit` lets the framework
+  drop rows that would overflow the panel and report how many it hid, which
+  matters because the feed's own 2KB budget is a byte count, not a pixel one:
+  eight short show names fit in both, eight long ones fit in neither.
+{% endcomment %}
+
+<div class="layout">
+  {% if shows.size == 0 %}
+    <div class="grid">
+      <div class="col col--center">
+        <span class="value value--large">No shows booked</span>
+        <span class="description">Add one in Stub and it lands here.</span>
+      </div>
+    </div>
+  {% else %}
+    <div class="flex flex--col gap--small" data-list-limit="true" data-list-max-height="380" data-list-hidden-count="true">
+      {% for show in shows %}
+        <div class="item">
+          <div class="meta">
+            <span class="index">{{ show.date }}</span>
+          </div>
+          <div class="content">
+            {% comment %} `soon` is the feed's within-a-week flag — the only
+            thing on this screen worth extra weight from across a room. {% endcomment %}
+            <span class="title {% if show.soon %}text--black{% endif %}">
+              {{ show.name }}{% if show.maybe %} *{% endif %}
+            </span>
+            <span class="description">
+              {{ show.time }}{% if show.venue != '' %} · {{ show.venue }}{% endif %}{% if show.city != '' %} · {{ show.city }}{% endif %}
+            </span>
+          </div>
+          <div class="meta">
+            <span class="label label--small">{{ show.when }}</span>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+
+<div class="title_bar">
+  <img class="image" src="https://trmnl.com/images/plugins/trmnl--render.svg">
+  <span class="title">Upcoming shows</span>
+  {% assign more = count | minus: shown %}
+  <span class="instance">
+    {% if more > 0 %}{{ shown }} of {{ count }}{% else %}{{ count }} booked{% endif %}
+    {%- if shows.size > 0 %} · * = interested{% endif -%}
+  </span>
+</div>

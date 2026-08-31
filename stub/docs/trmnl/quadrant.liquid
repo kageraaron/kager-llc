@@ -1,0 +1,34 @@
+{% comment %}
+  Quadrant — 400x240. Room for exactly one thing, so it shows the next show
+  only, sized to be read from across a room. `data-value-fit` shrinks a long
+  artist name to fit rather than letting it clip.
+{% endcomment %}
+
+{% assign next = shows | first %}
+
+<div class="layout">
+  {% if next == nil %}
+    <div class="grid">
+      <div class="col col--center">
+        <span class="value">No shows</span>
+      </div>
+    </div>
+  {% else %}
+    <div class="grid">
+      <div class="col">
+        <span class="label label--small">{{ next.when }}{% if next.maybe %} · interested{% endif %}</span>
+        <span class="value value--large" data-value-fit="true" data-value-fit-max-height="90">
+          {{ next.name }}
+        </span>
+        <span class="description">{{ next.date }} · {{ next.time }}</span>
+        <span class="description">{{ next.venue }}</span>
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+<div class="title_bar">
+  <img class="image" src="https://trmnl.com/images/plugins/trmnl--render.svg">
+  <span class="title">Next show</span>
+  <span class="instance">{{ count }} booked</span>
+</div>

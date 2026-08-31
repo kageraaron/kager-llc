@@ -229,6 +229,26 @@ in **Inbox**.
 
 ---
 
+## 9. TRMNL display (optional)
+
+Nothing to configure here — no API key, no cron. The plugin polls
+`/api/trmnl/<token>`, and the per-user token in that URL is the whole of the
+auth, exactly like the calendar feed.
+
+Apply migration `0023_trmnl_token.sql`, then follow
+[`docs/trmnl/README.md`](docs/trmnl/README.md): copy the link from
+**Settings → TRMNL display**, create a TRMNL Private Plugin with the `Polling`
+strategy, and paste in the four Liquid templates from `docs/trmnl/`.
+
+To check the feed without a device:
+
+```bash
+curl -s "$NEXT_PUBLIC_SITE_URL/api/trmnl/<token>" | jq
+```
+
+A bad or unknown token returns `404` with no body, so a typo is indistinguishable
+from a revoked link — which is the point.
+
 ## Verifying the privacy model
 
 Two levels. The fast one runs the app's real query functions against the seeded

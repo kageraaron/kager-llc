@@ -871,6 +871,52 @@ export async function rotateCalendarToken() {
   return { ok: true as const, url: `${base}/api/calendar/${token}` };
 }
 
+// ---------------------------------------------------------------- trmnl
+
+/**
+ * Returns the caller's TRMNL polling URL — the one pasted into a private
+ * plugin's "Polling URL" field. Same handling as the calendar token: revoked
+ * from the `authenticated` grant, so it is read server-side through the admin
+ * client once we know who is asking.
+ */
+export async function getTrmnlUrl() {
+  const { user } = await requireUser();
+  const admin = createAdminClient();
+
+  const { data } = await admin
+    .from('profiles')
+    .select('trmnl_token')
+    .eq('id', user.id)
+    .maybeSingle();
+
+  if (!data?.trmnl_token) return { ok: false as const, error: 'No TRMNL token' };
+
+  const base = process.env.NEXT_PUBLIC_SITE_URL ?? '';
+  return { ok: true as const, url: `${base}/api/trmnl/${data.trmnl_token}` };
+}
+
+/**
+ * Invalidates the old polling URL. The plugin keeps polling the dead one and
+ * TRMNL renders its error state, so the display has to be repointed by hand —
+ * which is the intended outcome of a rotation, not a bug.
+ */
+export async function rotateTrmnlToken() {
+  const { user } = await requireUser();
+  const admin = createAdminClient();
+
+  const token = randomBytes(24).toString('hex');
+  const { error } = await admin
+    .from('profiles')
+    .update({ trmnl_token: token })
+    .eq('id', user.id);
+
+  if (error) return { ok: false as const, error: error.message };
+
+  const base = process.env.NEXT_PUBLIC_SITE_URL ?? '';
+  revalidatePath('/settings');
+  return { ok: true as const, url: `${base}/api/trmnl/${token}` };
+}
+
 // ---------------------------------------------------------------- inbox review
 
 /** Confirm a low-confidence ingest candidate, creating the attendance for real. */

@@ -1,0 +1,34 @@
+{% comment %}
+  Half vertical — 400x480. Tall and narrow: four rows, and the venue drops to
+  its own line rather than sharing one with the time.
+{% endcomment %}
+
+<div class="layout">
+  {% if shows.size == 0 %}
+    <div class="grid">
+      <div class="col col--center">
+        <span class="value">No shows booked</span>
+      </div>
+    </div>
+  {% else %}
+    <div class="flex flex--col gap--small">
+      {% for show in shows limit: 4 %}
+        <div class="item">
+          <div class="content">
+            <span class="title title--small {% if show.soon %}text--black{% endif %}">
+              {{ show.name }}{% if show.maybe %} *{% endif %}
+            </span>
+            <span class="description">{{ show.date }} · {{ show.time }}</span>
+            <span class="label label--small">{{ show.venue }}</span>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+
+<div class="title_bar">
+  <img class="image" src="https://trmnl.com/images/plugins/trmnl--render.svg">
+  <span class="title">Upcoming shows</span>
+  <span class="instance">{{ count }} booked</span>
+</div>

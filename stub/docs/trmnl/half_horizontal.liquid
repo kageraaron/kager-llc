@@ -1,0 +1,35 @@
+{% comment %}
+  Half horizontal — 800x240. Wide and short, so: three rows, no date column.
+{% endcomment %}
+
+<div class="layout">
+  {% if shows.size == 0 %}
+    <div class="grid">
+      <div class="col col--center">
+        <span class="value">No shows booked</span>
+      </div>
+    </div>
+  {% else %}
+    <div class="flex flex--col gap--small">
+      {% for show in shows limit: 3 %}
+        <div class="item">
+          <div class="content">
+            <span class="title title--small {% if show.soon %}text--black{% endif %}">
+              {{ show.name }}{% if show.maybe %} *{% endif %}
+            </span>
+            <span class="description">{{ show.date }} · {{ show.venue }}</span>
+          </div>
+          <div class="meta">
+            <span class="label label--small">{{ show.when }}</span>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+
+<div class="title_bar">
+  <img class="image" src="https://trmnl.com/images/plugins/trmnl--render.svg">
+  <span class="title">Upcoming shows</span>
+  <span class="instance">{{ count }} booked</span>
+</div>

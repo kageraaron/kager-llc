@@ -5,6 +5,7 @@ import { SignOutButton } from '@/components/SignOutButton';
 import { DeleteAccountButton } from '@/components/DeleteAccountButton';
 import { PushToggle } from '@/components/PushToggle';
 import { CalendarSubscribe } from '@/components/CalendarSubscribe';
+import { TrmnlConnect } from '@/components/TrmnlConnect';
 
 export const dynamic = 'force-dynamic';
 
@@ -26,6 +27,7 @@ export default async function SettingsPage() {
 
       <PushToggle vapidPublicKey={process.env.VAPID_PUBLIC_KEY ?? null} />
       <CalendarSubscribe />
+      <TrmnlConnect />
 
       <div className="stack">
         {profile?.handle && (
