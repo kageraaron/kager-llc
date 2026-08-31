@@ -8,7 +8,19 @@
   --text: #f2f2f7;
   --text-dim: #9a9aab;
   --accent: #ff4d6d;
+  /*
+   * The accent is a mid-pink: white on it measures 3.21:1, below the 4.5:1 AA
+   * floor for normal text. Every filled control needs a darker variant, while
+   * `--accent` stays as-is for text and icons on the dark ground, where it
+   * measures 6.11:1. Do not use `--accent` as a fill behind white text.
+   */
+  --accent-strong: #e02852;   /* white on this: 4.57:1 */
   --accent-dim: #7a2438;
+  /* Errors were rendered in --accent, i.e. identical to "Going" and to every
+   * date chip. A failure state needs to not be the brand colour. */
+  --danger: #ff6b52;
+  /* Reads on --accent-dim at 4.48:1; --accent on it is only 3.06:1. */
+  --accent-on-dim: #ff8da2;
   --good: #3ddc97;
   --warn: #ffb84d;
   --radius: 14px;
@@ -23,7 +35,16 @@
     --border: #e2e2ea;
     --text: #12121a;
     --text-dim: #6b6b7b;
+    /*
+     * Light mode previously inherited the dark-mode accent, so accent-as-text
+     * (date chips, monograms, stars, the active tab) sat at 3.21:1 on the near
+     * white ground. This darker pink measures 5.0:1 there.
+     */
+    --accent: #d81e4a;
+    --accent-strong: #c9143f;
+    --danger: #c2321a;
     --accent-dim: #ffd9e0;
+    --accent-on-dim: #a30f33;
   }
 }
 
@@ -120,7 +141,7 @@ button { font: inherit; color: inherit; cursor: pointer; background: none; borde
   height: 16px;
   padding: 0 4px;
   border-radius: 8px;
-  background: var(--accent);
+  background: var(--accent-strong);
   color: #fff;
   font-size: 10px;
   font-weight: 700;
@@ -225,7 +246,7 @@ button { font: inherit; color: inherit; cursor: pointer; background: none; borde
   font-weight: 550;
 }
 
-.btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn-primary { background: var(--accent-strong); border-color: var(--accent-strong); color: #fff; }
 .btn-block { width: 100%; }
 .btn:disabled { opacity: 0.5; cursor: default; }
 
@@ -252,10 +273,10 @@ textarea.input { resize: vertical; min-height: 120px; line-height: 1.5; }
   border: 1px solid var(--border);
   color: var(--text-dim);
 }
-.pill-going { background: var(--accent-dim); color: var(--accent); border-color: transparent; }
+.pill-going { background: var(--accent-dim); color: var(--accent-on-dim); border-color: transparent; }
 .pill-review { background: color-mix(in srgb, var(--warn) 18%, transparent); color: var(--warn); border-color: transparent; }
 /* Interested is the weaker commitment of the two, so it reads quieter than Going. */
-.pill-interested { background: var(--surface-2); color: var(--muted); }
+.pill-interested { background: var(--surface-2); color: var(--text-dim); }
 
 /* Year in review. auto-fit keeps it two-up on a phone and wider on a tablet
    without a media query. */
@@ -272,8 +293,8 @@ textarea.input { resize: vertical; min-height: 120px; line-height: 1.5; }
   padding: 14px;
 }
 .stat-value { font-size: 26px; font-weight: 750; letter-spacing: -0.03em; line-height: 1.1; }
-.stat-label { font-size: 13px; color: var(--muted); margin-top: 3px; }
-.stat-note { font-size: 11px; color: var(--muted); opacity: 0.8; margin-top: 4px; line-height: 1.35; }
+.stat-label { font-size: 13px; color: var(--text-dim); margin-top: 3px; }
+.stat-note { font-size: 11px; color: var(--text-dim); opacity: 0.8; margin-top: 4px; line-height: 1.35; }
 
 .avatar {
   width: 36px;
@@ -291,7 +312,7 @@ textarea.input { resize: vertical; min-height: 120px; line-height: 1.5; }
 .spread { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .stack { display: flex; flex-direction: column; gap: 10px; }
 .muted { color: var(--text-dim); font-size: 13px; }
-.error { color: var(--accent); font-size: 13px; }
+.error { color: var(--danger); font-size: 13px; }
 
 /* ---------------------------------------------------------- add sheet */
 
@@ -388,4 +409,167 @@ textarea.input { resize: vertical; min-height: 120px; line-height: 1.5; }
   /* Keeps the button on the h1's optical baseline. */
   margin-top: 6px;
   flex-shrink: 0;
+  /* The padding alone gives ~31px; iOS asks for 44. Grow the hit area without
+   * growing the visual weight of what is a secondary-looking control. */
+  min-height: 44px;
+}
+
+/* ---------------------------------------------------------- a11y */
+
+/*
+ * A visible focus ring everywhere, not just on inputs. `:where()` keeps the
+ * specificity at zero so any component style still wins on colour, and
+ * `focus-visible` means pointer users never see it.
+ */
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: inherit;
+}
+
+/* For text that only screen readers should reach — badge counts, icon labels. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/*
+ * Bare-text buttons (`className="muted"`) are ~17px tall. This grows the hit
+ * area by the same amount it pulls the margin back, so nothing moves visually.
+ */
+.btn-link {
+  padding: 10px 4px;
+  margin: -10px -4px;
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+}
+
+/* ---------------------------------------------------------- skeletons */
+
+.skeleton {
+  background: var(--surface-2);
+  border-radius: 8px;
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes skeleton-pulse {
+  50% { opacity: 0.45; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none; }
+}
+
+/* The proximity token on an upcoming card. Same size as the rest of the meta
+ * line so the row keeps two weights, not three — it earns emphasis from
+ * colour and weight, not from another step in the type scale. */
+.card .meta-lead {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------- dense rows */
+
+/*
+ * Archive geometry. ~52px per row against the default card's ~90px, which is
+ * what makes a several-hundred-show history readable as a ledger rather than an
+ * endless scroll.
+ */
+.card-dense { padding: 8px 12px; gap: 10px; margin-bottom: 6px; }
+.card-dense .thumb { width: 36px; height: 36px; border-radius: 7px; }
+.card-dense .date-chip { min-width: 38px; }
+.card-dense .date-chip .day { font-size: 17px; }
+.card-dense .title { font-size: 15px; }
+.card-dense .meta { font-size: 12px; }
+
+/* A card with an interactive strip joined beneath it. The strip must sit
+ * outside the card's own <Link>, so the two are welded visually instead. */
+.card-shell { margin-bottom: 10px; }
+.card-shell .card {
+  margin-bottom: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.card-footer {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+  padding: 8px 12px;
+}
+
+.quick-star {
+  font-size: 20px;
+  line-height: 1;
+  /* Visually a 20px glyph, but a 44px target — see the touch-target note on
+   * .btn-sm. The negative margin keeps the row from growing to match. */
+  min-width: 44px;
+  min-height: 44px;
+  margin: -12px 0;
+  background: none;
+  border: none;
+  transition: color 0.12s;
+}
+
+/* ------------------------------------------------- year jump bar */
+
+/*
+ * Horizontally scrollable so a long history does not wrap into a wall of
+ * years. `-webkit-overflow-scrolling` is default on modern iOS; the mask hints
+ * that there is more to the right without adding a control.
+ */
+.year-jump {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 2px 0 8px;
+  scrollbar-width: none;
+}
+.year-jump::-webkit-scrollbar { display: none; }
+.year-jump a {
+  flex-shrink: 0;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-dim);
+  font-size: 13px;
+  font-weight: 550;
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ------------------------------------------------- archive stat strip */
+
+.stat-strip {
+  display: flex;
+  gap: 18px;
+  padding: 12px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 4px;
+}
+.stat-strip .n {
+  font-size: 20px;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+.stat-strip .l {
+  font-size: 11px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 2px;
 }

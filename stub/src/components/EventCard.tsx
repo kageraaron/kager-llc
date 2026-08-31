@@ -6,6 +6,7 @@ import {
   eventZone,
   formatEventTime,
   initials,
+  relativeDay,
   venueLine,
 } from '@/lib/format';
 import { Stars } from '@/components/RatingControl';
@@ -33,9 +34,36 @@ interface Props {
   rating?: number | null;
   /** A setlist is already cached for this show — see `getSetlistFlags`. */
   hasSetlist?: boolean;
+  /**
+   * Ledger geometry: a smaller thumb and one metadata line instead of two,
+   * roughly halving the row height.
+   *
+   * Upcoming and Archive are different jobs wearing the same card today. Upcoming
+   * is a short to-do list where a 64px thumb aids recognition; Archive is a
+   * ledger that can run to hundreds of rows, where that same thumb is what makes
+   * the history unscannable. Same component, because the two must stay visually
+   * related — a separate one would drift.
+   */
+  dense?: boolean;
+  /**
+   * Rendered in a strip joined to the bottom of the card, OUTSIDE the link.
+   *
+   * The card is a `<Link>`, so anything interactive has to live outside it —
+   * a button nested in an anchor is invalid and behaves unpredictably on touch.
+   */
+  footer?: React.ReactNode;
 }
 
-export function EventCard({ event, friends, badge, state, rating, hasSetlist }: Props) {
+export function EventCard({
+  event,
+  friends,
+  badge,
+  state,
+  rating,
+  hasSetlist,
+  dense = false,
+  footer,
+}: Props) {
   // Not `event.timezone` directly: a provider that gave us no zone would render
   // this card in the server's zone, which is UTC. See `eventZone`.
   const zone = eventZone(event);
@@ -46,8 +74,8 @@ export function EventCard({ event, friends, badge, state, rating, hasSetlist }: 
   const isPast = new Date(event.starts_at).getTime() < Date.now();
   const status = displayStatus(event.status, isPast);
 
-  return (
-    <Link href={`/event/${event.id}`} className="card">
+  const card = (
+    <Link href={`/event/${event.id}`} className={`card${dense ? ' card-dense' : ''}`}>
       <div className="date-chip">
         <div className="mon">{month}</div>
         <div className="day">{day}</div>
@@ -62,11 +90,29 @@ export function EventCard({ event, friends, badge, state, rating, hasSetlist }: 
 
       <div className="body">
         <div className="title">{title}</div>
+        {dense ? (
+          <div className="meta">
+            {[venueLine(event.venue), formatEventTime(event.starts_at, zone), status]
+              .filter(Boolean)
+              .join(' · ')}
+          </div>
+        ) : (
+          <>
         <div className="meta">{venueLine(event.venue)}</div>
         <div className="meta">
+          {/*
+            * Proximity leads on an upcoming row. "Tomorrow" is what the eye is
+            * actually scanning a to-do list for, and it is the one fact the
+            * date chip beside it cannot convey — SEP 2 means nothing without
+            * today's date to subtract it from. Past rows say nothing: the
+            * archive is read by date, and "2 years ago" on every line is noise.
+            */}
+          {!isPast && <span className="meta-lead">{relativeDay(event.starts_at)} · </span>}
           {formatEventTime(event.starts_at, zone)}
           {status && ` · ${status}`}
         </div>
+          </>
+        )}
 
         {rating != null && (
           <div style={{ marginTop: 5 }}><Stars rating={rating} /></div>
@@ -100,5 +146,14 @@ export function EventCard({ event, friends, badge, state, rating, hasSetlist }: 
         )}
       </div>
     </Link>
+  );
+
+  if (!footer) return card;
+
+  return (
+    <div className="card-shell">
+      {card}
+      <div className="card-footer">{footer}</div>
+    </div>
   );
 }

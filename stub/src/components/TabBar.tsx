@@ -35,6 +35,7 @@ function Icon({ name }: { name: string }) {
     strokeLinecap: 'round' as const,
     strokeLinejoin: 'round' as const,
     viewBox: '0 0 24 24',
+    'aria-hidden': true,
   };
   switch (name) {
     case 'calendar':
@@ -88,16 +89,31 @@ export function TabBar({ inboxCount = 0 }: { inboxCount?: number }) {
   const pathname = usePathname();
 
   return (
-    <nav className="tabbar">
-      {TABS.map((tab) => (
-        <Link key={tab.href} href={tab.href} data-active={pathname.startsWith(tab.href)}>
-          <Icon name={tab.icon} />
-          {tab.href === '/inbox' && inboxCount > 0 && (
-            <span className="badge">{inboxCount > 9 ? '9+' : inboxCount}</span>
-          )}
-          {tab.label}
-        </Link>
-      ))}
+    <nav className="tabbar" aria-label="Main">
+      {TABS.map((tab) => {
+        const active = pathname.startsWith(tab.href);
+        return (
+          <Link
+            key={tab.href}
+            href={tab.href}
+            // `data-active` drives the styling; `aria-current` is what actually
+            // tells a screen reader which of the five you are on.
+            data-active={active}
+            aria-current={active ? 'page' : undefined}
+          >
+            <Icon name={tab.icon} />
+            {tab.href === '/inbox' && inboxCount > 0 && (
+              <span className="badge">
+                <span aria-hidden="true">{inboxCount > 9 ? '9+' : inboxCount}</span>
+                {/* Without this the badge reads as a bare number glued to the
+                    label — "3 Inbox" — with no clue what the 3 counts. */}
+                <span className="sr-only">{inboxCount} to review</span>
+              </span>
+            )}
+            {tab.label}
+          </Link>
+        );
+      })}
     </nav>
   );
 }

@@ -28,7 +28,7 @@ export default async function ConnectionsPage({
   return (
     <main className="page">
       <header className="page-header">
-        <Link href="/friends" className="muted" style={{ fontSize: 14 }}>&larr; Settings</Link>
+        <Link href="/settings" className="muted btn-link" style={{ fontSize: 14 }}>&larr; Settings</Link>
         <h1 style={{ marginTop: 8 }}>Connections</h1>
       </header>
 
