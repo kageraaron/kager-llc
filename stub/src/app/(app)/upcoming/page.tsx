@@ -4,6 +4,7 @@ import { getUpcoming, getFriendsAtEvents } from '@/lib/queries';
 import { yearOf } from '@/lib/yearInReview';
 import { EventCard } from '@/components/EventCard';
 import Link from 'next/link';
+import { AddShowButton } from '@/components/AddShow';
 
 export const dynamic = 'force-dynamic';
 
@@ -44,9 +45,14 @@ export default async function UpcomingPage() {
   return (
     <main className="page">
       <header className="page-header">
-        <h1>Upcoming</h1>
-        <div className="sub">
-          {rows.length === 0 ? 'Nothing on the calendar' : `${rows.length} show${rows.length === 1 ? '' : 's'} ahead`}
+        <div className="head-row">
+          <div>
+            <h1>Upcoming</h1>
+            <div className="sub">
+              {rows.length === 0 ? 'Nothing on the calendar' : `${rows.length} show${rows.length === 1 ? '' : 's'} ahead`}
+            </div>
+          </div>
+          <AddShowButton />
         </div>
       </header>
 
@@ -68,7 +74,7 @@ export default async function UpcomingPage() {
             {!gmail && (
               <Link className="btn btn-primary btn-block" href="/settings/connections">Connect Gmail</Link>
             )}
-            <Link className={`btn btn-block ${gmail ? 'btn-primary' : ''}`} href="/add">Add a show</Link>
+            <AddShowButton className={`btn btn-block ${gmail ? 'btn-primary' : ''}`} label="Add a show" />
           </div>
         </div>
       ) : (

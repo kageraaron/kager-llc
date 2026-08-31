@@ -11,7 +11,25 @@ import { createManualEvent } from '@/app/actions';
  * Ticketmaster. Afterparties and late-announced club nights are the weak spot
  * of every aggregator, so this needs to be a first-class path, not buried.
  */
-export function ManualEventForm({ onDone }: { onDone?: () => void }) {
+export function ManualEventForm({
+  onDone,
+  afterAdd = 'open-event',
+}: {
+  /** Called after a successful add, for the caller to collapse or close itself. */
+  onDone?: () => void;
+  /**
+   * Where the user ends up once the show exists.
+   *
+   * `open-event` (default) navigates to the new show's page. That is the right
+   * answer wherever there is no list behind the form — Browse, or a direct link
+   * — because the event page IS the confirmation that the add worked.
+   *
+   * `stay` leaves the user where they are, for the Add sheet: it sits over
+   * Upcoming or Archive, which refresh to show the new row, so navigating as
+   * well would throw away the place the sheet exists to preserve.
+   */
+  afterAdd?: 'open-event' | 'stay';
+}) {
   const router = useRouter();
   const [form, setForm] = useState({
     artistName: '',
@@ -36,7 +54,7 @@ export function ManualEventForm({ onDone }: { onDone?: () => void }) {
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       });
       if (res.ok) {
-        router.push(`/event/${res.eventId}`);
+        if (afterAdd === 'open-event') router.push(`/event/${res.eventId}`);
         onDone?.();
       } else {
         setError(res.error);

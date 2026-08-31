@@ -118,7 +118,6 @@ export default async function FriendsPage() {
       )}
 
       <div style={{ marginTop: 32 }}>
-        <Link className="btn btn-block" href="/settings">Settings</Link>
       </div>
     </main>
   );

@@ -4,6 +4,7 @@ import { getArchive, getSetlistFlags } from '@/lib/queries';
 import { yearOf } from '@/lib/yearInReview';
 import { EventCard } from '@/components/EventCard';
 import Link from 'next/link';
+import { AddShowButton } from '@/components/AddShow';
 
 export const dynamic = 'force-dynamic';
 
@@ -32,9 +33,14 @@ export default async function ArchivePage() {
   return (
     <main className="page">
       <header className="page-header">
-        <h1>Archive</h1>
-        <div className="sub">
-          {rows.length === 0 ? 'No past shows yet' : `${rows.length} show${rows.length === 1 ? '' : 's'}`}
+        <div className="head-row">
+          <div>
+            <h1>Archive</h1>
+            <div className="sub">
+              {rows.length === 0 ? 'No past shows yet' : `${rows.length} show${rows.length === 1 ? '' : 's'}`}
+            </div>
+          </div>
+          <AddShowButton />
         </div>
       </header>
 
@@ -42,9 +48,15 @@ export default async function ArchivePage() {
         <div className="empty">
           <h2>Your history is empty</h2>
           <p>
-            Shows move here automatically once the date passes.
-            You can also import everything you have logged on setlist.fm.
+            Shows move here automatically once the date passes. You can also add
+            one you already saw, or import everything you have logged on setlist.fm.
           </p>
+          <div className="stack" style={{ marginTop: 20, maxWidth: 260, marginInline: 'auto' }}>
+            <AddShowButton className="btn btn-primary btn-block" label="Add a past show" />
+            <Link className="btn btn-block" href="/settings/connections">
+              Import from setlist.fm
+            </Link>
+          </div>
         </div>
       ) : (
         [...byYear.entries()].map(([year, yearRows]) => (

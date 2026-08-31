@@ -9,18 +9,22 @@ import { usePathname } from 'next/navigation';
  * Stub is a memory app: the job is recording the shows you went to, and search
  * and purchase are things other apps already do well. The `/browse` route still
  * exists and still works — links and bookmarks to it are not broken, and it is
- * reachable from `/add` — it is just no longer one of the five things the app
+ * reachable from the Add sheet — it is just not one of the five things the app
  * puts in front of you.
  *
- * `/add` takes the slot because manual entry IS the memory-app primitive: the
- * shows worth recording are often the ones no listing service ever had.
+ * Add is not here either, and that is a change: manual entry is still the
+ * memory-app primitive, but it is an ACTION, not a destination. It now opens as
+ * a sheet from the Upcoming and Archive headers, which keeps you in the list
+ * you were reading. The freed slot goes to Settings, which was previously
+ * reachable only through a button at the bottom of Friends — the app's own
+ * settings should not be the hardest screen in it to find.
  */
 const TABS = [
   { href: '/upcoming', label: 'Upcoming', icon: 'calendar' },
-  { href: '/add', label: 'Add', icon: 'plus' },
   { href: '/inbox', label: 'Inbox', icon: 'inbox' },
   { href: '/friends', label: 'Friends', icon: 'friends' },
   { href: '/archive', label: 'Archive', icon: 'archive' },
+  { href: '/settings', label: 'Settings', icon: 'settings' },
 ] as const;
 
 function Icon({ name }: { name: string }) {
@@ -48,11 +52,11 @@ function Icon({ name }: { name: string }) {
           <path d="m20 20-3.5-3.5" />
         </svg>
       );
-    case 'plus':
+    case 'settings':
       return (
         <svg {...common}>
-          <circle cx="12" cy="12" r="9" />
-          <path d="M12 8v8M8 12h8" />
+          <circle cx="12" cy="12" r="3.2" />
+          <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.03 1.56V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 8.9 19.3a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.7 15a1.7 1.7 0 0 0-1.56-1.03H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.7 8.9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.7a1.7 1.7 0 0 0 1.03-1.56V3a2 2 0 1 1 4 0v.09A1.7 1.7 0 0 0 15.1 4.7a1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.3 9c.2.62.77 1.03 1.42 1.03H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1Z" />
         </svg>
       );
     case 'inbox':
