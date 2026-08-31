@@ -35,7 +35,12 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith('/api/ingest') ||
     // Calendar clients cannot carry a session; the feed's token IS its
     // credential, and the route validates it with the service role.
-    pathname.startsWith('/api/calendar');
+    pathname.startsWith('/api/calendar') ||
+    // Same for the TRMNL display feed, which TRMNL's servers poll. Without this
+    // the gate 307s them to /login and the plugin renders the login page's HTML
+    // instead of the feed — a failure that looks like a broken template rather
+    // than an auth redirect.
+    pathname.startsWith('/api/trmnl');
 
   if (!user && !isPublic) {
     const url = request.nextUrl.clone();
