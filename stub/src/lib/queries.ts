@@ -23,7 +23,7 @@ function byEventDate<T extends { event: { starts_at: string } }>(rows: T[], dir:
 
 /** Columns every event card needs. Kept in one place so the shapes stay aligned. */
 const EVENT_SELECT = `
-  id, tm_id, name, starts_at, timezone, image_url, url, status,
+  id, tm_id, name, starts_at, timezone, time_known, image_url, url, status,
   venue:venues ( id, name, city, region, country, timezone ),
   headliner:artists!events_headliner_id_fkey ( id, name, image_url )
 `;
@@ -34,6 +34,12 @@ export interface EventRow {
   name: string;
   starts_at: string;
   timezone: string | null;
+  /**
+   * False when only the DATE is known — `starts_at` then carries 20:00 venue-
+   * local as a placeholder. Anything that renders or exports a clock time has
+   * to check this, or it prints a time the user never gave us. See 0024.
+   */
+  time_known: boolean;
   image_url: string | null;
   url: string | null;
   status: string;

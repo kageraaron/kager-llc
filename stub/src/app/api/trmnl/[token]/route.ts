@@ -38,7 +38,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ token: 
     .select(`
       state,
       event:events!inner (
-        name, starts_at, timezone,
+        name, starts_at, timezone, time_known,
         venue:venues ( name, city, region, country, timezone ),
         headliner:artists!events_headliner_id_fkey ( name )
       )

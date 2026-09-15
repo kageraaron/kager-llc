@@ -4,7 +4,7 @@ import {
   displayStatus,
   eventDateParts,
   eventZone,
-  formatEventTime,
+  eventTimeOrNull,
   initials,
   relativeDay,
   venueLine,
@@ -68,6 +68,8 @@ export function EventCard({
   // this card in the server's zone, which is UTC. See `eventZone`.
   const zone = eventZone(event);
   const { month, day } = eventDateParts(event.starts_at, zone);
+  // Null when only the date is known — see migration 0024.
+  const time = eventTimeOrNull(event);
   const image = event.image_url ?? event.headliner?.image_url;
   const title = displayEventName(event);
   const attending = ATTENDANCE_LABELS[state ?? ''];
@@ -92,7 +94,7 @@ export function EventCard({
         <div className="title">{title}</div>
         {dense ? (
           <div className="meta">
-            {[venueLine(event.venue), formatEventTime(event.starts_at, zone), status]
+            {[venueLine(event.venue), time, status]
               .filter(Boolean)
               .join(' · ')}
           </div>
@@ -108,8 +110,8 @@ export function EventCard({
             * archive is read by date, and "2 years ago" on every line is noise.
             */}
           {!isPast && <span className="meta-lead">{relativeDay(event.starts_at)} · </span>}
-          {formatEventTime(event.starts_at, zone)}
-          {status && ` · ${status}`}
+          {time}
+          {status && `${time ? ' · ' : ''}${status}`}
         </div>
           </>
         )}

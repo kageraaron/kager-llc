@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import webpush from 'web-push';
 import { createAdminClient } from '@/lib/supabase/admin';
-import { eventZone, formatEventTime } from '@/lib/format';
+import { eventTimeOrNull } from '@/lib/format';
 
 /**
  * Day-before show reminders.
@@ -53,7 +53,7 @@ export async function GET(request: NextRequest) {
     .select(`
       user_id,
       event:events!inner (
-        id, name, starts_at, timezone,
+        id, name, starts_at, timezone, time_known,
         venue:venues ( name, city, region, country, timezone ),
         headliner:artists!events_headliner_id_fkey ( name )
       )
@@ -71,6 +71,7 @@ export async function GET(request: NextRequest) {
       name: string;
       starts_at: string;
       timezone: string | null;
+      time_known: boolean;
       venue: {
         name: string;
         city: string | null;
@@ -102,9 +103,10 @@ export async function GET(request: NextRequest) {
     const payload = JSON.stringify({
       title: `${title} is tomorrow`,
       body: [
-        // `eventZone`, not `event.timezone`: a zone-less row would otherwise be
-        // announced in the server's zone and tell the user the wrong showtime.
-        formatEventTime(row.event.starts_at, eventZone(row.event)),
+        // `eventTimeOrNull` handles both hazards: a zone-less row would be
+        // announced in the SERVER's zone (wrong showtime), and a date-only show
+        // would be announced at its 20:00 placeholder (a time nobody gave us).
+        eventTimeOrNull(row.event),
         row.event.venue?.name,
       ].filter(Boolean).join(' · '),
       url: `/event/${row.event.id}`,

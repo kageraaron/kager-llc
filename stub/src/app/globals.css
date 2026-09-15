@@ -504,17 +504,24 @@ textarea.input { resize: vertical; min-height: 120px; line-height: 1.5; }
   border: 1px solid var(--border);
   border-top: none;
   border-radius: 0 0 var(--radius) var(--radius);
-  padding: 8px 12px;
+  /* Tight, because the 44px star targets inside set the real height. */
+  padding: 2px 12px;
 }
 
 .quick-star {
   font-size: 20px;
   line-height: 1;
-  /* Visually a 20px glyph, but a 44px target — see the touch-target note on
-   * .btn-sm. The negative margin keeps the row from growing to match. */
+  /*
+   * Visually a 20px glyph, but a 44px target — see the note on .btn-sm.
+   *
+   * Pulling the extra height back with a negative margin (the obvious way to
+   * stop the strip growing) makes the target overlap the card ABOVE by 4px and
+   * steal its bottom edge from the tap that was aimed at it. Let the strip be
+   * as tall as its targets instead; it only appears on recently-seen unrated
+   * shows, so a slightly taller row is cheap and a stolen tap is not.
+   */
   min-width: 44px;
   min-height: 44px;
-  margin: -12px 0;
   background: none;
   border: none;
   transition: color 0.12s;

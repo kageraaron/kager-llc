@@ -49,11 +49,19 @@ export function AddShowProvider({ children }: { children: React.ReactNode }) {
 
   const close = useCallback(() => ref.current?.close(), []);
 
-  function done() {
+  function done({ isPast }: { isPast: boolean }) {
     close();
     // The list behind the sheet is a server component, so it needs re-fetching
     // for the show just added to appear in it.
     router.refresh();
+
+    /*
+     * A past show joins Archive, not Upcoming. Closing and staying put is right
+     * when the new row appears behind the sheet — and silently does nothing
+     * when it does not, which reads as the add having failed. Go to the list
+     * the show actually landed in.
+     */
+    if (isPast) router.push('/archive');
   }
 
   return (

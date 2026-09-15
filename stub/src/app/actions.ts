@@ -15,6 +15,9 @@ import {
   reconcileEvent,
 } from '@/lib/ingest/catalog';
 import * as jambase from '@/lib/providers/jambase';
+import * as setlistfm from '@/lib/providers/setlistfm';
+import { findCandidatesForTicket } from '@/lib/providers/ticketmaster';
+import { fromTicketmaster, fromSetlistFm, scoreCandidate } from '@/lib/ingest/match';
 import { inferTimezone, toInstant } from '@/lib/timezone';
 import { getCurrentUser } from '@/lib/auth';
 import type { ParsedTicket } from '@/lib/types';
@@ -163,8 +166,16 @@ export async function createManualEvent(input: {
   region?: string;
   /** ISO-3166 alpha-2, when the form knows it. Disambiguates "CA". */
   country?: string;
-  /** Local wall time, "2026-09-27T22:00" from a datetime-local input. */
+  /**
+   * Local wall time, "2026-09-27T22:00". When `timeKnown` is false the time
+   * half is a placeholder the form supplied, not something the user typed.
+   */
   startsAt: string;
+  /**
+   * False when the user gave a date but no time — only offered for past shows,
+   * where remembering the date but not the doors time is the normal case.
+   */
+  timeKnown?: boolean;
   timezone?: string;
   url?: string;
 }) {
@@ -194,8 +205,19 @@ export async function createManualEvent(input: {
     artistId = data?.id ?? null;
   }
 
+  /*
+   * Where the show IS decides its zone, not where the user is typing from.
+   *
+   * `input.timezone` is the browser's zone, which the form passes as a guess.
+   * It used to win over everything, so an LA user logging an 8pm London show
+   * stored 8pm Los Angeles: the card still read "8:00 PM" (it was labelled with
+   * the same wrong zone), but the instant was 8 hours late — wrong in the
+   * calendar feed and the reminder, and far enough outside `reconcileEvent`'s
+   * ±12h window at larger offsets to duplicate a provider row instead of
+   * joining it. The venue's own zone, then the region, and only then the guess.
+   */
   let venueId: string | null = null;
-  let timezone = input.timezone || inferTimezone(input.region, input.country);
+  let placeZone = inferTimezone(input.region, input.country);
   if (input.venueName?.trim()) {
     const { data: existingVenue } = await admin
       .from('venues')
@@ -206,7 +228,7 @@ export async function createManualEvent(input: {
       .maybeSingle();
 
     venueId = existingVenue?.id ?? null;
-    timezone = input.timezone || existingVenue?.timezone || inferTimezone(input.region, input.country);
+    placeZone = existingVenue?.timezone || placeZone;
     if (!venueId) {
       const { data } = await admin
         .from('venues')
@@ -215,13 +237,16 @@ export async function createManualEvent(input: {
           city: input.city?.trim() || null,
           region: input.region?.trim() || null,
           country: input.country?.trim() || null,
-          timezone,
+          // Only a zone derived from the place. A venue row outlives this one
+          // show, and the browser's guess would be wrong for every later reader.
+          timezone: placeZone,
         })
         .select('id')
         .single();
       venueId = data?.id ?? null;
     }
   }
+  const timezone = placeZone || input.timezone || null;
 
   const startsAt = resolveManualStart(input.startsAt, timezone);
   if (!startsAt) return { ok: false as const, error: 'That date is not valid' };
@@ -246,10 +271,13 @@ export async function createManualEvent(input: {
     { startsAt, venueId, headlinerId: artistId, name: artistName },
     null,
   );
+  const isPast = new Date(startsAt).getTime() < Date.now();
+
   if (existingId) {
     await recordAttendance(admin, { userId: user.id, eventId: existingId, source: 'manual' });
     revalidatePath('/upcoming');
-    return { ok: true as const, eventId: existingId };
+    revalidatePath('/archive');
+    return { ok: true as const, eventId: existingId, isPast };
   }
 
   const { data: event, error } = await admin
@@ -260,6 +288,7 @@ export async function createManualEvent(input: {
       venue_id: venueId,
       starts_at: startsAt,
       timezone,
+      time_known: input.timeKnown !== false,
       status: 'onsale',
       url: input.url?.trim() || null,
     })
@@ -280,7 +309,13 @@ export async function createManualEvent(input: {
 
   revalidatePath('/upcoming');
   revalidatePath('/archive');
-  return { ok: true as const, eventId: event.id };
+  /*
+   * `isPast` tells the caller which list the show actually joined. The Add
+   * sheet closes and refreshes in place, which silently does nothing when a
+   * past show is added from Upcoming — the row lands in Archive, so from the
+   * user's side the form just vanished.
+   */
+  return { ok: true as const, eventId: event.id, isPast };
 }
 
 /**
@@ -869,6 +904,119 @@ export async function rotateCalendarToken() {
   const base = process.env.NEXT_PUBLIC_SITE_URL ?? '';
   revalidatePath('/settings');
   return { ok: true as const, url: `${base}/api/calendar/${token}` };
+}
+
+// ---------------------------------------------------------------- manual match
+
+/**
+ * A listing that might be the show the user is typing in by hand.
+ *
+ * Trimmed from `CatalogCandidate` on purpose: that carries the provider's whole
+ * raw payload, which has no business crossing to the client.
+ */
+export interface ManualMatch {
+  source: 'ticketmaster' | 'setlistfm';
+  id: string;
+  name: string;
+  startsAt: string | null;
+  /**
+   * The show's date exactly as the listing states it, "2026-05-10". Render and
+   * record THIS, never a date derived from `startsAt`: Ticketmaster's date-only
+   * listings arrive as midnight UTC, which reads as the previous day anywhere
+   * in the Americas.
+   */
+  localDate: string | null;
+  venueName: string | null;
+  city: string | null;
+  confidence: number;
+}
+
+/** Below this a candidate is noise, and offering it costs the user a decision. */
+const MANUAL_MATCH_FLOOR = 0.5;
+
+/**
+ * Look for the show the user is adding by hand, in ONE provider.
+ *
+ * The full `matchTicket` cascade is deliberately not reused here. Its own
+ * documentation says the ordering is affordable "ONLY on the ingestion path":
+ * Bandsintown is ~200 credits a month behind a 99/day cap and Spotify is 1,000
+ * a month, and manual entry is by definition the case those two are least
+ * likely to answer — `ManualEventForm` exists for "club nights, afterparties,
+ * DIY bills". Spending the scarcest quota there would be backwards.
+ *
+ * So one provider, chosen by direction, and both are effectively free:
+ *
+ * - **Past** → setlist.fm. Purpose-built for shows that already happened, and
+ *   free for non-commercial use.
+ * - **Future** → Ticketmaster. 5,000 requests a day.
+ *
+ * Never applied automatically. The caller shows what came back and the user
+ * decides — the matcher's own comments record a Kaskade ticket confidently
+ * resolving to Coachella, and a wrong row propagates into Archive, the friend
+ * feed and the artist catalog.
+ */
+export async function lookupManualShow(input: {
+  artistName: string;
+  venueName?: string;
+  city?: string;
+  region?: string;
+  /** Local wall time, as the form has it. */
+  startsAt: string;
+  timezone?: string;
+}) {
+  await requireUser();
+
+  const artistName = input.artistName.trim();
+  if (!artistName || !input.startsAt) return { ok: true as const, matches: [] };
+
+  // Same precedence as `createManualEvent`: the place first, the browser last.
+  const zone = inferTimezone(input.region, null) ?? input.timezone ?? null;
+  const startsAt = resolveManualStart(input.startsAt, zone);
+  if (!startsAt) return { ok: true as const, matches: [] };
+
+  const ticket: ParsedTicket = {
+    artistName,
+    venueName: input.venueName?.trim() || undefined,
+    city: input.city?.trim() || undefined,
+    region: input.region?.trim() || undefined,
+    startsAt,
+  };
+
+  const isPast = new Date(startsAt).getTime() < Date.now();
+
+  try {
+    const candidates = isPast
+      ? (await setlistfm.searchSetlists(artistName, startsAt, zone))
+          .slice(0, 5)
+          .map((sl) => fromSetlistFm(sl, artistName))
+      : (await findCandidatesForTicket(ticket)).map(fromTicketmaster);
+
+    const matches: ManualMatch[] = candidates
+      .map((c) => ({ c, scored: scoreCandidate(ticket, c) }))
+      .filter(({ scored }) => scored.confidence >= MANUAL_MATCH_FLOOR)
+      .sort((a, b) => b.scored.confidence - a.scored.confidence)
+      .slice(0, 3)
+      .map(({ c, scored }) => ({
+        source: c.source as 'ticketmaster' | 'setlistfm',
+        id: c.id,
+        name: c.artistName ?? c.name,
+        startsAt: c.startsAt,
+        localDate:
+          c.source === 'ticketmaster'
+            ? ((c.raw as { dates?: { start?: { localDate?: string } } }).dates?.start?.localDate ?? null)
+            : // setlist.fm candidates are zone-less wall times, so the prefix IS the date.
+              (c.startsAt?.slice(0, 10) ?? null),
+        venueName: c.venueName,
+        city: c.city,
+        confidence: scored.confidence,
+      }));
+
+    return { ok: true as const, matches };
+  } catch (err) {
+    // A provider being down must never block adding a show by hand.
+    console.error('lookupManualShow failed', err);
+    return { ok: true as const, matches: [] };
+  }
 }
 
 // ---------------------------------------------------------------- trmnl

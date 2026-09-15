@@ -21,7 +21,7 @@ import {
   displayEventName,
   eventZone,
   formatEventDate,
-  formatEventTime,
+  eventTimeOrNull,
   relativeDay,
 } from '@/lib/format';
 
@@ -38,6 +38,7 @@ export interface TrmnlSourceRow {
     name: string;
     starts_at: string;
     timezone?: string | null;
+    time_known?: boolean;
     headliner?: { name: string | null } | null;
     venue?: {
       name?: string | null;
@@ -74,7 +75,7 @@ export interface TrmnlShow {
   name: string;
   /** "Fri, Sep 4" — year appended only when it isn't the current one. */
   date: string;
-  /** "9:00 PM", in the venue's zone. */
+  /** "9:00 PM" in the venue's zone, or "" when only the date is known. */
   time: string;
   venue: string;
   /** "San Francisco, CA". Empty when the venue row has no place on it. */
@@ -128,7 +129,9 @@ function toShow(row: TrmnlSourceRow): TrmnlShow {
   return {
     name: clip(displayEventName(row.event), 40),
     date: formatEventDate(row.event.starts_at, zone),
-    time: formatEventTime(row.event.starts_at, zone),
+    // Empty rather than a placeholder: the panel's template skips a blank time,
+    // and a fabricated 8:00 PM on a wall display is a lie you cannot correct.
+    time: eventTimeOrNull(row.event) ?? '',
     venue: clip(venue?.name ?? '', 30),
     // Region is dropped before the city when space runs short: "San Francisco"
     // alone still locates a show for the person who bought the ticket.

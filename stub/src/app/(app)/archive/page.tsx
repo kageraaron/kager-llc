@@ -4,6 +4,7 @@ import { getArchive, getSetlistFlags } from '@/lib/queries';
 import { yearOf, summarizeYear } from '@/lib/yearInReview';
 import { EventCard } from '@/components/EventCard';
 import { QuickRate } from '@/components/QuickRate';
+import { ArchiveList, type ArchiveSection } from '@/components/ArchiveList';
 import { AddShowButton } from '@/components/AddShow';
 import Link from 'next/link';
 
@@ -16,7 +17,7 @@ export const dynamic = 'force-dynamic';
  * enough that the prompt does not become permanent furniture on every unrated
  * row in a ten-year history — an ask that never goes away stops being an ask.
  */
-const RATE_PROMPT_DAYS = 200;
+const RATE_PROMPT_DAYS = 14;
 
 export default async function ArchivePage() {
   const supabase = await createClient();
@@ -56,6 +57,42 @@ export default async function ArchivePage() {
   const stats = currentRows ? summarizeYear(rows, thisYear) : null;
 
   const rateCutoff = Date.now() - RATE_PROMPT_DAYS * 86_400_000;
+
+  /*
+   * Rows are pre-rendered here so `EventCard` and `QuickRate` keep their normal
+   * server/client split — the list component only decides which of them to show.
+   * `haystack` is lowercased once, at render, rather than on every keystroke.
+   */
+  const sections: ArchiveSection[] = years.map((year) => ({
+    year,
+    items: byYear.get(year)!.map((row) => {
+      const askToRate =
+        row.rating == null && new Date(row.event.starts_at).getTime() > rateCutoff;
+
+      return {
+        id: row.id,
+        haystack: [
+          row.event.headliner?.name,
+          row.event.name,
+          row.event.venue?.name,
+          row.event.venue?.city,
+          row.event.venue?.region,
+        ]
+          .filter(Boolean)
+          .join(' ')
+          .toLowerCase(),
+        node: (
+          <EventCard
+            dense
+            event={row.event}
+            rating={row.rating}
+            hasSetlist={withSetlist.has(row.event.id)}
+            footer={askToRate ? <QuickRate eventId={row.event.id} /> : undefined}
+          />
+        ),
+      };
+    }),
+  }));
 
   return (
     <main className="page">
@@ -107,46 +144,7 @@ export default async function ArchivePage() {
             </Link>
           )}
 
-          {/* Only worth the row when there is more than one year to jump between. */}
-          {years.length > 1 && (
-            <nav className="year-jump" aria-label="Jump to year">
-              {years.map((y) => (
-                <a key={y} href={`#year-${y}`}>{y}</a>
-              ))}
-            </nav>
-          )}
-
-          {years.map((year) => {
-            const yearRows = byYear.get(year)!;
-            return (
-              <section key={year} id={`year-${year}`}>
-                <div className="row" style={{ justifyContent: 'space-between', alignItems: 'baseline' }}>
-                  <div className="section-label">{year} · {yearRows.length}</div>
-                  <Link className="pill" href={`/year/${year}`}>Year in review &rarr;</Link>
-                </div>
-                {yearRows.map((row) => {
-                  /*
-                   * Ask about a show only while it is still fresh, and only once
-                   * — an existing rating means the question is answered.
-                   */
-                  const askToRate =
-                    row.rating == null &&
-                    new Date(row.event.starts_at).getTime() > rateCutoff;
-
-                  return (
-                    <EventCard
-                      key={row.id}
-                      dense
-                      event={row.event}
-                      rating={row.rating}
-                      hasSetlist={withSetlist.has(row.event.id)}
-                      footer={askToRate ? <QuickRate eventId={row.event.id} /> : undefined}
-                    />
-                  );
-                })}
-              </section>
-            );
-          })}
+          <ArchiveList total={rows.length} sections={sections} />
         </>
       )}
     </main>

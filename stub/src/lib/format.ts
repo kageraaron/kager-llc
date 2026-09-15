@@ -26,6 +26,23 @@ export function eventDateParts(iso: string, timeZone?: string | null) {
   };
 }
 
+/**
+ * The clock time to show, or null when only the date is known.
+ *
+ * Prefer this over calling `formatEventTime` directly on anything that came out
+ * of the database: a time-unknown show carries a 20:00 placeholder that is not
+ * a fact about the show, and printing it invents history. See migration 0024.
+ */
+export function eventTimeOrNull(event: {
+  starts_at: string;
+  time_known?: boolean;
+  timezone?: string | null;
+  venue?: { timezone?: string | null; region?: string | null; country?: string | null } | null;
+}): string | null {
+  if (event.time_known === false) return null;
+  return formatEventTime(event.starts_at, eventZone(event));
+}
+
 export function formatEventTime(iso: string, timeZone?: string | null): string {
   const d = new Date(iso);
   const opts: Intl.DateTimeFormatOptions = timeZone ? { timeZone } : {};

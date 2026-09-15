@@ -14,7 +14,7 @@ import {
   displayEventName,
   eventZone,
   formatEventDate,
-  formatEventTime,
+  eventTimeOrNull,
   initials,
   ticketVendorName,
   venueLine,
@@ -92,7 +92,12 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
       )}
 
       <div className="stack" style={{ gap: 4, marginTop: 12 }}>
-        <div>{formatEventDate(event.starts_at, zone)} · {formatEventTime(event.starts_at, zone)}</div>
+        {/* A time-unknown show shows its date alone rather than a 20:00 that
+            nobody ever told us — see migration 0024. */}
+        <div>
+          {formatEventDate(event.starts_at, zone)}
+          {eventTimeOrNull(event) && ` · ${eventTimeOrNull(event)}`}
+        </div>
         <div className="muted">{venueLine(event.venue)}</div>
       </div>
 

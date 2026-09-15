@@ -34,7 +34,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ token: 
     .select(`
       state,
       event:events!inner (
-        id, name, starts_at, timezone, url,
+        id, name, starts_at, timezone, time_known, url,
         venue:venues ( name, city, region ),
         headliner:artists!events_headliner_id_fkey ( name )
       )
@@ -51,6 +51,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ token: 
       name: string;
       starts_at: string;
       timezone: string | null;
+      time_known: boolean;
       url: string | null;
       venue: { name: string; city: string | null; region: string | null } | null;
       headliner: { name: string } | null;
@@ -64,6 +65,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ token: 
       (r.state === 'interested' ? ' (interested)' : ''),
     startsAt: r.event.starts_at,
     timezone: r.event.timezone,
+    allDay: r.event.time_known === false,
     venueName: r.event.venue?.name,
     city: r.event.venue?.city,
     region: r.event.venue?.region,

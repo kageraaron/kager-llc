@@ -65,6 +65,12 @@ export interface IcsEvent {
   description?: string | null;
   /** Defaults to 3 hours, which is about right for a gig with support. */
   durationMinutes?: number;
+  /**
+   * Only the date is known. Emitted as a VALUE=DATE all-day entry rather than a
+   * timed one, because a calendar showing "8:00 PM" for a show whose time we
+   * never had is a fabrication that then syncs to every device the user owns.
+   */
+  allDay?: boolean;
 }
 
 export function eventToIcs(event: EventRow, opts: { note?: string } = {}): IcsEvent {
@@ -73,12 +79,30 @@ export function eventToIcs(event: EventRow, opts: { note?: string } = {}): IcsEv
     title: event.headliner?.name ?? event.name,
     startsAt: event.starts_at,
     timezone: event.timezone,
+    allDay: event.time_known === false,
     venueName: event.venue?.name,
     city: event.venue?.city,
     region: event.venue?.region,
     url: event.url,
     description: opts.note,
   };
+}
+
+/** Local-date form for an all-day entry: 20260418 */
+function localDate(date: Date, timeZone?: string | null): string {
+  /*
+   * Formatted in the VENUE's zone, not UTC. The placeholder instant behind a
+   * date-only show is 20:00 local, which in UTC has already rolled to the next
+   * day for anywhere west of Greenwich — so `toISOString().slice(0,10)` would
+   * file a San Francisco show on the wrong date. Same class of fault as the
+   * one `format.ts` documents.
+   */
+  const opts: Intl.DateTimeFormatOptions = {
+    year: 'numeric', month: '2-digit', day: '2-digit',
+    ...(timeZone ? { timeZone } : {}),
+  };
+  const parts = new Intl.DateTimeFormat('en-CA', opts).format(date); // YYYY-MM-DD
+  return parts.replace(/-/g, '');
 }
 
 function vevent(e: IcsEvent, now: Date): string[] {
@@ -91,10 +115,20 @@ function vevent(e: IcsEvent, now: Date): string[] {
     // Stable UID so re-importing updates the same entry instead of duplicating.
     `UID:${e.id}@stub.kager.llc`,
     `DTSTAMP:${utc(now)}`,
-    `DTSTART:${utc(start)}`,
-    `DTEND:${utc(end)}`,
-    `SUMMARY:${esc(e.title)}`,
   ];
+
+  if (e.allDay) {
+    // DTEND is exclusive for VALUE=DATE, so a one-day entry ends the next day.
+    const dayAfter = new Date(start.getTime() + 86_400_000);
+    lines.push(
+      `DTSTART;VALUE=DATE:${localDate(start, e.timezone)}`,
+      `DTEND;VALUE=DATE:${localDate(dayAfter, e.timezone)}`,
+    );
+  } else {
+    lines.push(`DTSTART:${utc(start)}`, `DTEND:${utc(end)}`);
+  }
+
+  lines.push(`SUMMARY:${esc(e.title)}`);
 
   if (location) lines.push(`LOCATION:${esc(location)}`);
   if (e.url) lines.push(`URL:${esc(e.url)}`);
