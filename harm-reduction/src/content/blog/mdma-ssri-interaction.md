@@ -2,7 +2,7 @@
 title: "MDMA and Antidepressants: What Happens"
 description: "Can you roll on antidepressants? SSRIs and SNRIs blunt MDMA badly, MAOIs can kill you, and quitting your meds to roll is its own risk."
 date: 2026-05-12
-lastmod: 2026-08-17
+lastmod: 2026-09-18
 tags: ["MDMA", "SSRIs", "drug interactions", "harm reduction", "serotonin syndrome"]
 author: "Jordan Mercer"
 ---
@@ -69,6 +69,8 @@ If you are seriously weighing this, it is a conversation with a prescriber, not 
 Antidepressants are not the only reason a pill disappoints. Fentanyl, methamphetamine, cathinones and PMA/PMMA all turn up in things sold as ecstasy, and PMA has killed people at doses a recreational user would think of as ordinary.
 
 A [DanceSafe MDMA testing kit](/mdma-kit) carries Marquis (MDMA goes purple to black), the two-part Simon's, and Froehde, which together separate MDMA from MDA and from the usual substitutes. No reagent detects fentanyl, so [fentanyl test strips](/fentanyl-strips) are separate. Read them carefully: **one line is POSITIVE, two lines is NEGATIVE.**
+
+MDA (sass) is not a way around this either, for the same transporter reason: see our [MDA and SSRIs guide](/blog/mda-and-ssris.html).
 
 For dosing, risks and the full protocol, see our [MDMA harm reduction guide](/mdma.html).
 

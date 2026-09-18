@@ -2,7 +2,7 @@
 title: "MDA vs MDMA: The Difference Between Sally and Molly"
 description: "MDA (Sally) vs MDMA (Molly): longer-lasting, more psychedelic, and more neurotoxic in animal studies. How Simon's reagent tells them apart."
 date: 2026-05-20
-lastmod: 2026-08-17
+lastmod: 2026-09-18
 tags: ["mdma", "mda", "harm reduction", "drug checking", "pharmacology"]
 author: "Jordan Mercer"
 ---
@@ -70,6 +70,8 @@ A 25-year analysis of samples submitted to EcstasyData found only **48 percent c
 Read that number carefully, though. People submit samples to EcstasyData when they already suspect something is off, so the adulteration rate in that dataset almost certainly overstates the supply at large. What it does establish is that "sold as MDMA" is not an identification, and that Simon's settles the question in about a minute.
 
 If you find you have MDA, treat it more like a psychedelic than an empathogen when you plan: longer, more visual, less predictable if you were expecting a roll. Thermoregulation needs attention for the whole duration, not just the first few hours.
+
+If you take an antidepressant, MDA is not the workaround it is sometimes said to be: our [MDA and SSRIs guide](/blog/mda-and-ssris.html) explains why the same blockade applies.
 
 For dosing, risks and the supplement protocol, see our [MDMA harm reduction guide](/mdma.html). For specific combinations, the [interaction checker](/interactions.html).
 

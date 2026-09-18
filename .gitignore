@@ -9,3 +9,6 @@ build/
 .idea/
 .vscode/
 *.log
+
+# networth (household finance) — never commit aggregator tokens
+networth/.env*
