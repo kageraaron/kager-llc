@@ -99,6 +99,14 @@ const schemaJson  = `{
           },
           {
             "@type": "Question",
+            "name": "Can you take MDMA if you have been taking DayQuil?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "DayQuil's cough suppressant, dextromethorphan, inhibits serotonin reuptake at concentrations close to those seen in patients (PMID 29210063), so there is a real interaction. Taking them on the same day adds a serotonin load and may also blunt the MDMA slightly, since both need the serotonin transporter. Taking DayQuil for a week and then stopping is the lower-risk direction: dextromethorphan is cleared quickly and leaves no lasting blockade the way an SSRI does, so about 24 hours of separation is enough for most people. The order people get wrong is the reverse. MDMA disables the liver enzyme CYP2D6 that clears dextromethorphan, raising its levels roughly tenfold and taking about 10 days to recover (PMID 18794647), so cold medicine taken in the days after a roll behaves like a much bigger dose. Avoid DXM-containing products for about 10 days after MDMA, count your acetaminophen across products, and skip MDMA entirely while you are feverish, because heat is the bigger problem. Reported serotonin syndrome from dextromethorphan involved far larger doses than a label dose, usually with an antidepressant (PMID 19238739)."
+            }
+          },
+          {
+            "@type": "Question",
             "name": "Does MDA (sass) work if you are on an SSRI?",
             "acceptedAnswer": {
               "@type": "Answer",
@@ -1241,6 +1249,26 @@ const schemaJson  = `{
                 </ul>
                 <p>You cannot tell them apart by appearance, and <strong>Marquis is useless here</strong> because both turn purple to black. a <strong><a href="/simons-kit">DanceSafe Simon's reagent</a> is the differentiator</strong>: it turns blue with MDMA (a secondary amine) and produces no blue colour change with MDA (a primary amine). This matters because MDA turns up in a meaningful subset of alleged MDMA samples, in an analysis of 4,719 submissions where only 48% contained pure MDMA (PMID 39437494).</p>
                 <p>Full guide: <a href="/blog/mda-vs-mdma.html">MDA vs MDMA: what's the difference between Sally and Molly? →</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              Can you take MDMA if you have been taking DayQuil?
+              <div class="faq-icon"></div>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                <p><strong>There is a real interaction, and the order matters more than people expect.</strong> DayQuil's cough suppressant, dextromethorphan, inhibits serotonin reuptake at concentrations close to those seen in patients (PMID 29210063).</p>
+                <ul>
+                  <li><strong>A week of DayQuil, then MDMA:</strong> the lower-risk direction. DXM clears quickly and leaves no lasting blockade like an SSRI, so about <strong>24 hours of separation</strong> covers most people.</li>
+                  <li><strong>DayQuil after MDMA is the trap.</strong> MDMA disables CYP2D6, the enzyme that clears DXM, raising its levels roughly <strong>tenfold for about 10 days</strong> (PMID 18794647).</li>
+                  <li><strong>Same day:</strong> adds serotonin load and may blunt the roll, since both need the serotonin transporter.</li>
+                  <li><strong>Serotonin syndrome</strong> from DXM has needed far larger doses than a label dose, usually with an antidepressant (PMID 19238739).</li>
+                </ul>
+                <p>Count acetaminophen across products, and skip MDMA while feverish: heat is the bigger problem.</p>
+                <p>Full guide: <a href="/blog/dayquil-and-mdma.html">DayQuil and MDMA: the interaction explained →</a></p>
               </div>
             </div>
           </div>
