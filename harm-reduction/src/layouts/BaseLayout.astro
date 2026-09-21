@@ -158,6 +158,12 @@ const {
 
   <script defer src="/script.js"></script>
 
+  <!-- Vercel Web Analytics -->
+  <script>
+    import { inject } from '@vercel/analytics';
+    inject();
+  </script>
+
   <!-- Affiliate click tracking: branded paths (/kits, /lsd-kit, …) 307-redirect to DanceSafe.
        Log the click to GA4 before the browser navigates so we can measure AI-referred conversions. -->
   <script is:inline>
