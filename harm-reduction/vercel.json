@@ -135,6 +135,19 @@
       "permanent": false
     }
   ],
+  "rewrites": [
+    {
+      "source": "/blog/:slug.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "(.*)text/markdown(.*)"
+        }
+      ],
+      "destination": "/blog/:slug.md"
+    }
+  ],
   "headers": [
     {
       "source": "/",
@@ -151,6 +164,32 @@
         {
           "key": "Link",
           "value": "</llms.txt>; rel=\"describedby\"; type=\"text/plain\", </rss.xml>; rel=\"alternate\"; type=\"application/rss+xml\", </sitemap-index.xml>; rel=\"sitemap\"; type=\"application/xml\""
+        }
+      ]
+    },
+    {
+      "source": "/blog/:slug.html",
+      "headers": [
+        {
+          "key": "Vary",
+          "value": "Accept"
+        },
+        {
+          "key": "Link",
+          "value": "</blog/:slug.md>; rel=\"alternate\"; type=\"text/markdown\""
+        }
+      ]
+    },
+    {
+      "source": "/blog/:slug.md",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/markdown; charset=utf-8"
+        },
+        {
+          "key": "Vary",
+          "value": "Accept"
         }
       ]
     }
