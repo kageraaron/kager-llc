@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { getHouseholdId } from '@/lib/household';
 import { buildIcs, type IcsEvent } from '@/lib/ics';
 
 /**
@@ -7,10 +8,9 @@ import { buildIcs, type IcsEvent } from '@/lib/ics';
  *
  * No session — calendar clients can't hold one — so the token IS the
  * credential. It's looked up with the service role, which is why this route
- * must scope every query by the resolved user id and nothing else.
+ * must scope every query by the resolved user's household and nothing else.
  *
- * Private notes are NOT included: a feed URL can be pasted into shared
- * calendars, and notes are owner-only by design.
+ * Notes are NOT included: a feed URL can be pasted into shared calendars.
  */
 export async function GET(_req: Request, { params }: { params: Promise<{ token: string }> }) {
   const { token } = await params;
@@ -29,6 +29,9 @@ export async function GET(_req: Request, { params }: { params: Promise<{ token: 
 
   if (!profile) return new NextResponse('Not found', { status: 404 });
 
+  // The token is personal, but the shows are the household's.
+  const householdId = await getHouseholdId(admin, profile.id);
+
   const { data, error } = await admin
     .from('attendances')
     .select(`
@@ -39,7 +42,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ token: 
         headliner:artists!events_headliner_id_fkey ( name )
       )
     `)
-    .eq('user_id', profile.id)
+    .eq('household_id', householdId)
     .in('state', ['going', 'interested', 'went']);
 
   if (error) return new NextResponse('Error', { status: 500 });

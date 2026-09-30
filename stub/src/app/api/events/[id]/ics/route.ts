@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth';
 import { getEvent, getNote } from '@/lib/queries';
+import { getHouseholdId } from '@/lib/household';
 import { buildIcs, eventToIcs, icsFilename } from '@/lib/ics';
 
 /** Single-event .ics download for "add to calendar". */
@@ -14,10 +15,10 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
   const event = await getEvent(supabase, id);
   if (!event) return NextResponse.json({ error: 'not found' }, { status: 404 });
 
-  // The owner's private note is included here on purpose: this file is being
+  // The household's note is included here on purpose: this file is being
   // handed to the user's own calendar, not published. The subscribable feed
   // deliberately does NOT include it.
-  const note = await getNote(supabase, id, user.id);
+  const note = await getNote(supabase, id, await getHouseholdId(supabase, user.id));
   const ics = buildIcs([eventToIcs(event, { note: note?.body })]);
 
   return new NextResponse(ics, {

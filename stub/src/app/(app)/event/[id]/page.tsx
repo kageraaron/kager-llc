@@ -2,14 +2,8 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth';
-import {
-  getEvent,
-  getMyAttendance,
-  getNote,
-  getFriendsAtEvent,
-  getFriends,
-  getSentEventInvites,
-} from '@/lib/queries';
+import { getEvent, getAttendance, getNote } from '@/lib/queries';
+import { getHouseholdId } from '@/lib/household';
 import {
   displayEventName,
   eventZone,
@@ -21,10 +15,9 @@ import {
 } from '@/lib/format';
 import { NoteEditor } from '@/components/NoteEditor';
 import { TicketDetails } from '@/components/TicketDetails';
-import { SendToFriend } from '@/components/SendToFriend';
 import { AttendanceControls } from '@/components/AttendanceControls';
 import { Setlist } from '@/components/Setlist';
-import { RatingControl, Stars } from '@/components/RatingControl';
+import { RatingControl } from '@/components/RatingControl';
 import { getCachedSetlist } from '@/lib/cache';
 
 export const dynamic = 'force-dynamic';
@@ -37,12 +30,10 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
   const event = await getEvent(supabase, id);
   if (!event) notFound();
 
-  const [attendance, note, friends, myFriends, alreadySent] = await Promise.all([
-    getMyAttendance(supabase, id, user!.id),
-    getNote(supabase, id, user!.id),
-    getFriendsAtEvent(supabase, id, user!.id),
-    getFriends(supabase, user!.id),
-    getSentEventInvites(supabase, id, user!.id),
+  const householdId = await getHouseholdId(supabase, user!.id);
+  const [attendance, note] = await Promise.all([
+    getAttendance(supabase, id, householdId),
+    getNote(supabase, id, householdId),
   ]);
 
   const isPast = new Date(event.starts_at).getTime() < Date.now();
@@ -115,46 +106,15 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
         <AttendanceControls
           eventId={event.id}
           isPast={isPast}
-          attendance={attendance ? { state: attendance.state, visibility: attendance.visibility } : null}
+          attendance={attendance ? { state: attendance.state } : null}
         />
       </div>
-
-      {friends.length > 0 && (
-        <section style={{ marginTop: 24 }}>
-          <div className="section-label">
-            {friends.length} friend{friends.length === 1 ? '' : 's'} {isPast ? 'went' : 'going'}
-          </div>
-          <div className="stack" style={{ gap: 8 }}>
-            {friends.map((f) => (
-              <Link key={f.id} href={`/profile/${f.profile.handle}`} className="row">
-                {f.profile.avatar_url ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img className="avatar" src={f.profile.avatar_url} alt="" />
-                ) : (
-                  <div className="avatar" />
-                )}
-                <div style={{ minWidth: 0 }}>
-                  <div className="row" style={{ gap: 8 }}>
-                    <span style={{ fontWeight: 550 }}>{f.profile.display_name || f.profile.handle}</span>
-                    {f.rating != null && <Stars rating={f.rating} size={12} />}
-                  </div>
-                  <div className="muted">@{f.profile.handle} · {f.state}</div>
-                  {f.review && (
-                    <div style={{ fontSize: 13, lineHeight: 1.45, marginTop: 3 }}>{f.review}</div>
-                  )}
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
 
       {isPast && attendance && (
         <RatingControl
           eventId={event.id}
           initialRating={attendance.rating ?? null}
           initialReview={attendance.review ?? null}
-          sharedWithFriends={attendance.visibility === 'friends'}
         />
       )}
 
@@ -163,7 +123,6 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
       <NoteEditor eventId={event.id} initial={note?.body ?? ''} />
 
       <div className="stack" style={{ marginTop: 20 }}>
-        <SendToFriend eventId={event.id} friends={myFriends} invited={alreadySent} />
         <a className="btn btn-block" href={`/api/events/${event.id}/ics`}>
           Add to calendar
         </a>

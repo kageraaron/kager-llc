@@ -11,6 +11,7 @@ import type { EBEvent } from '@/lib/providers/eventbrite';
 import type { SFMSetlist } from '@/lib/providers/setlistfm';
 import { toInstant } from '@/lib/providers/bandsintown';
 import type { CatalogCandidate } from '@/lib/ingest/match';
+import { getHouseholdId } from '@/lib/household';
 
 /**
  * Writes into the shared catalog tables (artists / venues / events).
@@ -217,9 +218,11 @@ export async function upsertEvent(
 }
 
 /**
- * Record that a user is going to an event. Idempotent on (user_id, event_id):
- * a re-scan of the same confirmation must not create a duplicate, and must not
- * clobber a state the user has since set by hand.
+ * Put a show on the list of `userId`'s household. Idempotent on
+ * (household_id, event_id): a re-scan of the same confirmation — or the same
+ * gig arriving through the other person's inbox — must not create a duplicate,
+ * and must not clobber a state someone has since set by hand. `userId` is
+ * recorded as who added it.
  */
 export async function recordAttendance(
   db: SupabaseClient,
@@ -234,10 +237,12 @@ export async function recordAttendance(
     purchasedAt?: string;
   },
 ): Promise<void> {
+  const householdId = await getHouseholdId(db, params.userId);
+
   const { data: existing } = await db
     .from('attendances')
     .select('id')
-    .eq('user_id', params.userId)
+    .eq('household_id', householdId)
     .eq('event_id', params.eventId)
     .maybeSingle();
 
@@ -258,9 +263,9 @@ export async function recordAttendance(
 
   await db.from('attendances').insert({
     user_id: params.userId,
+    household_id: householdId,
     event_id: params.eventId,
     state: 'going',
-    visibility: 'friends',
     source: params.source,
     ticket_ref: params.ticketRef ?? null,
     seat_info: params.seatInfo ?? null,
@@ -1195,9 +1200,9 @@ export async function upsertBandsintownEvent(
  * Find an existing catalog row describing the same show, from any provider —
  * or from another user's manual add.
  *
- * This is what makes the social features work at all. Two people at the same
- * gig must point at ONE event row, or "what your friends are going to" cannot
- * connect them. A real pair:
+ * Two emails about the same gig — or the same gig in both household members'
+ * inboxes — must point at ONE event row, or the household's list shows it
+ * twice. A real pair:
  *
  *   Parcels - PORTOLA PURCHASER PRESALE   Regency Ballroom   2026-09-26 22:00
  *   Parcels with Velvet Trip - Ages 21+   Regency Ballroom   2026-09-27 05:00

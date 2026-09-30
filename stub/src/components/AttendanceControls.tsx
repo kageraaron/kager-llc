@@ -4,7 +4,6 @@ import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   setAttendanceState,
-  setAttendanceVisibility,
   removeAttendance,
   addExistingEvent,
 } from '@/app/actions';
@@ -12,7 +11,7 @@ import {
 interface Props {
   eventId: string;
   isPast: boolean;
-  attendance: { state: string; visibility: string } | null;
+  attendance: { state: string } | null;
 }
 
 export function AttendanceControls({ eventId, isPast, attendance }: Props) {
@@ -64,23 +63,6 @@ export function AttendanceControls({ eventId, isPast, attendance }: Props) {
           </button>
         ))}
       </div>
-
-      <label className="spread" style={{ padding: '10px 2px' }}>
-        <span>
-          Visible to friends
-          <span className="muted" style={{ display: 'block', fontSize: 12 }}>
-            Your note stays private either way
-          </span>
-        </span>
-        <input
-          type="checkbox"
-          checked={attendance.visibility === 'friends'}
-          disabled={pending}
-          onChange={(e) =>
-            run(() => setAttendanceVisibility(eventId, e.target.checked ? 'friends' : 'private'))
-          }
-        />
-      </label>
 
       <button
         className="btn btn-block"

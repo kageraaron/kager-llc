@@ -5,6 +5,7 @@ import { runExtractors, EXTRACTOR_VERSION } from '@/lib/ingest/extractors';
 import { dedupeKey, mergeTickets } from '@/lib/ingest/dedupe';
 import { matchTicket } from '@/lib/ingest/match';
 import { persistCandidate, recordAttendance } from '@/lib/ingest/catalog';
+import { getHouseholdId } from '@/lib/household';
 
 /**
  * The one path every ingested email takes, whether it arrived via the Gmail
@@ -34,6 +35,14 @@ export async function ingestEmail(
   const hash = contentHash(email);
 
   /*
+   * The Inbox is shared by the household, so dedupe is too: the same
+   * confirmation reaching both people's Gmail is one message and one card.
+   * Rows are still written with `user_id` (whose inbox it came from); the
+   * insert trigger files them under the household.
+   */
+  const householdId = await getHouseholdId(db, userId);
+
+  /*
    * Dedupe first: the same confirmation often arrives twice (polled and
    * forwarded).
    *
@@ -46,7 +55,7 @@ export async function ingestEmail(
   const { data: seen } = await db
     .from('ingest_messages')
     .select('id, extractor_version')
-    .eq('user_id', userId)
+    .eq('household_id', householdId)
     .eq('content_hash', hash)
     .limit(1)
     .maybeSingle();
@@ -115,7 +124,7 @@ export async function ingestEmail(
     const { data: sibling } = await db
       .from('ingest_candidates')
       .select('id, parsed, state')
-      .eq('user_id', userId)
+      .eq('household_id', householdId)
       .eq('dedupe_key', key)
       .in('state', ['pending', 'confirmed'])
       .limit(1)

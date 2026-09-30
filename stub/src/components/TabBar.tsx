@@ -15,14 +15,13 @@ import { usePathname } from 'next/navigation';
  * Add is not here either, and that is a change: manual entry is still the
  * memory-app primitive, but it is an ACTION, not a destination. It now opens as
  * a sheet from the Upcoming and Archive headers, which keeps you in the list
- * you were reading. The freed slot goes to Settings, which was previously
- * reachable only through a button at the bottom of Friends — the app's own
- * settings should not be the hardest screen in it to find.
+ * you were reading. The freed slot goes to Settings — the app's own settings
+ * should not be the hardest screen in it to find. (Friends used to sit here too;
+ * households replaced it, and they live in Settings.)
  */
 const TABS = [
   { href: '/upcoming', label: 'Upcoming', icon: 'calendar' },
   { href: '/inbox', label: 'Inbox', icon: 'inbox' },
-  { href: '/friends', label: 'Friends', icon: 'friends' },
   { href: '/archive', label: 'Archive', icon: 'archive' },
   { href: '/settings', label: 'Settings', icon: 'settings' },
 ] as const;
@@ -65,14 +64,6 @@ function Icon({ name }: { name: string }) {
         <svg {...common}>
           <path d="M3 13h5l1.5 3h5L16 13h5" />
           <path d="M4.5 6h15l1.5 7v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Z" />
-        </svg>
-      );
-    case 'friends':
-      return (
-        <svg {...common}>
-          <circle cx="9" cy="8" r="3.2" />
-          <path d="M2.5 20a6.5 6.5 0 0 1 13 0" />
-          <path d="M16.5 5.5a3.2 3.2 0 0 1 0 6M17 14.5a6.5 6.5 0 0 1 4.5 5.5" />
         </svg>
       );
     default:

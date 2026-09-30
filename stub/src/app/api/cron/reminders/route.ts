@@ -2,12 +2,14 @@ import { NextResponse, type NextRequest } from 'next/server';
 import webpush from 'web-push';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { eventTimeOrNull } from '@/lib/format';
+import { getHouseholdUserIds } from '@/lib/household';
 
 /**
  * Day-before show reminders.
  *
- * Runs hourly. Finds attendances whose event starts in the next 24-48 hours,
- * skips anyone already reminded (via `sent_reminders`), and pushes once.
+ * Runs hourly. Finds attendances whose event starts in the next 24-48 hours
+ * and pushes once to each member of the household that has the show, skipping
+ * anyone already reminded (`sent_reminders` stays per person, per device set).
  *
  * On iOS, web push only reaches users who added Stub to their home screen
  * (iOS 16.4+); browser-tab visitors will simply have no subscription stored.
@@ -51,7 +53,7 @@ export async function GET(request: NextRequest) {
   const { data: rows, error } = await admin
     .from('attendances')
     .select(`
-      user_id,
+      household_id,
       event:events!inner (
         id, name, starts_at, timezone, time_known,
         venue:venues ( name, city, region, country, timezone ),
@@ -65,7 +67,7 @@ export async function GET(request: NextRequest) {
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
   type Row = {
-    user_id: string;
+    household_id: string;
     event: {
       id: string;
       name: string;
@@ -87,17 +89,15 @@ export async function GET(request: NextRequest) {
   let skipped = 0;
   let pruned = 0;
 
-  for (const row of (rows ?? []) as unknown as Row[]) {
-    // Idempotency: the insert fails if this reminder already went out.
-    const { error: dupe } = await admin
-      .from('sent_reminders')
-      .insert({ user_id: row.user_id, event_id: row.event.id, kind: 'day_before' });
-    if (dupe) { skipped++; continue; }
+  // Members per household, looked up once however many shows it has tomorrow.
+  const membersOf = new Map<string, string[]>();
 
-    const { data: subs } = await admin
-      .from('push_subscriptions')
-      .select('id, endpoint, p256dh, auth')
-      .eq('user_id', row.user_id);
+  for (const row of (rows ?? []) as unknown as Row[]) {
+    let members = membersOf.get(row.household_id);
+    if (!members) {
+      members = await getHouseholdUserIds(admin, row.household_id);
+      membersOf.set(row.household_id, members);
+    }
 
     const title = row.event.headliner?.name ?? row.event.name;
     const payload = JSON.stringify({
@@ -112,19 +112,32 @@ export async function GET(request: NextRequest) {
       url: `/event/${row.event.id}`,
     });
 
-    for (const sub of subs ?? []) {
-      try {
-        await webpush.sendNotification(
-          { endpoint: sub.endpoint, keys: { p256dh: sub.p256dh, auth: sub.auth } },
-          payload,
-        );
-        sent++;
-      } catch (err) {
-        // 404/410 means the subscription is dead — drop it rather than retrying forever.
-        const status = (err as { statusCode?: number }).statusCode;
-        if (status === 404 || status === 410) {
-          await admin.from('push_subscriptions').delete().eq('id', sub.id);
-          pruned++;
+    for (const userId of members) {
+      // Idempotency: the insert fails if this reminder already went out.
+      const { error: dupe } = await admin
+        .from('sent_reminders')
+        .insert({ user_id: userId, event_id: row.event.id, kind: 'day_before' });
+      if (dupe) { skipped++; continue; }
+
+      const { data: subs } = await admin
+        .from('push_subscriptions')
+        .select('id, endpoint, p256dh, auth')
+        .eq('user_id', userId);
+
+      for (const sub of subs ?? []) {
+        try {
+          await webpush.sendNotification(
+            { endpoint: sub.endpoint, keys: { p256dh: sub.p256dh, auth: sub.auth } },
+            payload,
+          );
+          sent++;
+        } catch (err) {
+          // 404/410 means the subscription is dead — drop it rather than retrying forever.
+          const status = (err as { statusCode?: number }).statusCode;
+          if (status === 404 || status === 410) {
+            await admin.from('push_subscriptions').delete().eq('id', sub.id);
+            pruned++;
+          }
         }
       }
     }

@@ -50,7 +50,22 @@ const WINDOWS = [
  */
 const MAX_PAGES = 200;
 
-export function GmailControls({ email, status }: { email: string; status: string }) {
+/**
+ * `own` is false for another household member's mailbox: it feeds the same
+ * Inbox and either of you can disconnect it, but only its owner can scan or
+ * reconnect it, because the sync route reads the caller's own token.
+ */
+export function GmailControls({
+  accountId,
+  email,
+  status,
+  own = true,
+}: {
+  accountId: string;
+  email: string;
+  status: string;
+  own?: boolean;
+}) {
   const router = useRouter();
   const [syncing, setSyncing] = useState(false);
   const [totals, setTotals] = useState<Totals | null>(null);
@@ -113,15 +128,23 @@ export function GmailControls({ email, status }: { email: string; status: string
   }
 
   function disconnect() {
-    if (!confirm('Disconnect Gmail? Stub will stop scanning for tickets.')) return;
+    if (!confirm(`Disconnect ${email}? Stub will stop scanning it for tickets.`)) return;
     startTransition(async () => {
-      await disconnectGmail();
+      await disconnectGmail(accountId);
       router.refresh();
     });
   }
 
   const busy = syncing || pending;
   const windowLabel = WINDOWS.find((w) => w.days === totals?.days)?.label.toLowerCase();
+
+  if (!own) {
+    return (
+      <button className="btn btn-block" disabled={busy} onClick={disconnect}>
+        Disconnect {email}
+      </button>
+    );
+  }
 
   return (
     <>

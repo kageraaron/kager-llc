@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { getFriendInviteUrl } from '@/app/actions';
+import { getHouseholdInviteUrl } from '@/app/actions';
 
 /**
- * "Add me as a friend" link, generated on demand.
+ * "Join our household" link, generated on demand.
  *
  * Generated on click rather than rendered on every page load, so a user who
  * never shares one never has a live token sitting in the database.
@@ -19,7 +19,7 @@ export function InviteLink() {
     setError(null);
     setCopied(false);
     startTransition(async () => {
-      const res = await getFriendInviteUrl(rotate);
+      const res = await getHouseholdInviteUrl(rotate);
       if (res.ok) setUrl(res.url);
       else setError(res.error);
     });
@@ -31,7 +31,7 @@ export function InviteLink() {
     // PWA. It is absent on desktop, so the clipboard is the fallback.
     if (navigator.share) {
       try {
-        await navigator.share({ title: 'Add me on Stub', url });
+        await navigator.share({ title: 'Join our household on Stub', url });
         return;
       } catch {
         // Cancelled, or unavailable in this context — fall through to copying.
@@ -65,7 +65,7 @@ export function InviteLink() {
         </button>
       </div>
       <p className="muted" style={{ margin: 0, fontSize: 12, lineHeight: 1.5 }}>
-        Anyone who opens this becomes your friend. Good for 30 days.{' '}
+        Whoever opens this joins your household and sees all its shows, notes and Inbox. Works once, for 14 days.{' '}
         <button
           style={{ textDecoration: 'underline', padding: 0, font: 'inherit' }}
           disabled={pending}

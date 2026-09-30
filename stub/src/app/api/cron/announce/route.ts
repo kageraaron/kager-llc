@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import webpush from 'web-push';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { getHouseholdId } from '@/lib/household';
 import { eventZone, formatEventDate } from '@/lib/format';
 
 /**
@@ -128,6 +129,18 @@ export async function GET(request: NextRequest) {
 
   const counts = { candidates: 0, sent: 0, skipped: 0, pruned: 0, errors: 0 };
 
+  // Followed artists are personal, but shows are the household's: a show the
+  // other person already added is not news to you either.
+  const householdOf = new Map<string, string>();
+  const householdFor = async (userId: string) => {
+    let h = householdOf.get(userId);
+    if (!h) {
+      h = await getHouseholdId(admin, userId);
+      householdOf.set(userId, h);
+    }
+    return h;
+  };
+
   for (const event of (events ?? []) as unknown as EventRow[]) {
     const followers = event.headliner_id ? followersOf.get(event.headliner_id) ?? [] : [];
     if (followers.length === 0) continue;
@@ -141,7 +154,7 @@ export async function GET(request: NextRequest) {
         admin
           .from('attendances')
           .select('id')
-          .eq('user_id', userId)
+          .eq('household_id', await householdFor(userId))
           .eq('event_id', event.id)
           .maybeSingle(),
         admin

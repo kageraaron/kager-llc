@@ -24,7 +24,6 @@ function row(over: {
   return {
     id: `a${seq}`,
     state: 'went',
-    visibility: 'friends',
     source: 'gmail',
     ticket_ref: null,
     seat_info: null,

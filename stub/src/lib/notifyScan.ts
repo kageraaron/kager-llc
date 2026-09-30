@@ -1,6 +1,7 @@
 import 'server-only';
 import webpush from 'web-push';
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { getHouseholdId, getHouseholdUserIds } from '@/lib/household';
 
 /**
  * "Your inbox scan found something."
@@ -74,6 +75,9 @@ function configured(): boolean {
  * Best-effort. A push failure must never fail the scan that produced it — the
  * tickets are already recorded, and losing them to a notification error would
  * be a far worse outcome than a missed notification.
+ *
+ * Goes to everyone in the scanned mailbox owner's household: the shows and the
+ * Inbox it filled are shared, so either person may be the one to review them.
  */
 export async function notifyScanResults(
   db: SupabaseClient,
@@ -82,10 +86,11 @@ export async function notifyScanResults(
 ): Promise<number> {
   if (!shouldNotify(counts) || !configured()) return 0;
 
+  const members = await getHouseholdUserIds(db, await getHouseholdId(db, userId));
   const { data: subs } = await db
     .from('push_subscriptions')
     .select('id, endpoint, p256dh, auth')
-    .eq('user_id', userId);
+    .in('user_id', members);
   if (!subs?.length) return 0;
 
   const payload = JSON.stringify(scanMessage(counts));

@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth';
 import { getArchive, getSetlistFlags } from '@/lib/queries';
+import { getHouseholdId } from '@/lib/household';
 import { yearOf, summarizeYear } from '@/lib/yearInReview';
 import { EventCard } from '@/components/EventCard';
 import { QuickRate } from '@/components/QuickRate';
@@ -22,7 +23,7 @@ const RATE_PROMPT_DAYS = 14;
 export default async function ArchivePage() {
   const supabase = await createClient();
   const user = await getCurrentUser(supabase);
-  const rows = await getArchive(supabase, user!.id);
+  const rows = await getArchive(supabase, await getHouseholdId(supabase, user!.id));
 
   // One query for the whole page, and no setlist.fm traffic at all.
   const withSetlist = await getSetlistFlags(supabase, rows.map((r) => r.event.id));

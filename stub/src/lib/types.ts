@@ -1,7 +1,5 @@
 export type AttendanceState = 'going' | 'interested' | 'went' | 'missed';
-export type AttendanceVisibility = 'friends' | 'private';
 export type AttendanceSource = 'manual' | 'gmail' | 'forward' | 'setlistfm' | 'friend';
-export type FriendshipStatus = 'pending' | 'accepted' | 'blocked';
 export type ArtistSource = 'manual' | 'spotify' | 'applemusic' | 'setlistfm';
 export type CandidateState = 'pending' | 'confirmed' | 'rejected';
 
@@ -42,10 +40,11 @@ export interface StubEvent {
 
 export interface Attendance {
   id: string;
-  user_id: string;
+  household_id: string;
+  /** Who added it; null once that person's account is gone. */
+  user_id: string | null;
   event_id: string;
   state: AttendanceState;
-  visibility: AttendanceVisibility;
   source: AttendanceSource;
   ticket_ref: string | null;
   seat_info: string | null;

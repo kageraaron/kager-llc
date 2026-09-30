@@ -34,9 +34,7 @@ export function ProfileEditor({ profile }: { profile: Profile }) {
       const res = await updateProfile(form);
       if (res.ok) {
         setOpen(false);
-        // The handle is in the URL, so a rename has to navigate, not just refresh.
-        if (form.handle !== profile.handle) router.replace(`/profile/${form.handle}`);
-        else router.refresh();
+        router.refresh();
       } else {
         setError(res.error);
       }

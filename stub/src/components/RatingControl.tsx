@@ -7,20 +7,17 @@ import { rateShow } from '@/app/actions';
 /**
  * Rate a past show, with an optional short review.
  *
- * The review is NOT private — it rides on the attendance row, so accepted
- * friends see it. The copy says so, because the private note sitting directly
- * below this on the same page behaves the opposite way.
+ * The rating and review ride on the attendance row, which belongs to the
+ * household, so everyone in it sees and can change them.
  */
 export function RatingControl({
   eventId,
   initialRating,
   initialReview,
-  sharedWithFriends,
 }: {
   eventId: string;
   initialRating: number | null;
   initialReview: string | null;
-  sharedWithFriends: boolean;
 }) {
   const router = useRouter();
   const [rating, setRating] = useState<number | null>(initialRating);
@@ -120,9 +117,7 @@ export function RatingControl({
               />
               <div className="row" style={{ marginTop: 8, justifyContent: 'flex-end' }}>
                 <span className="muted" style={{ marginRight: 'auto', fontSize: 11 }}>
-                  {sharedWithFriends
-                    ? 'Friends can see this. Your private note below stays yours.'
-                    : 'This show is private, so only you can see this.'}
+                  Shared with your household
                 </span>
                 <button
                   className="btn btn-primary"
@@ -142,7 +137,7 @@ export function RatingControl({
   );
 }
 
-/** Read-only star row, for cards and friends' profiles. */
+/** Read-only star row, for cards. */
 export function Stars({ rating, size = 13 }: { rating: number; size?: number }) {
   return (
     <span style={{ color: 'var(--accent)', fontSize: size, letterSpacing: '1px' }}>

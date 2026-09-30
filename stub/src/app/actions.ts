@@ -20,6 +20,7 @@ import { findCandidatesForTicket } from '@/lib/providers/ticketmaster';
 import { fromTicketmaster, fromSetlistFm, scoreCandidate } from '@/lib/ingest/match';
 import { inferTimezone, toInstant } from '@/lib/timezone';
 import { getCurrentUser } from '@/lib/auth';
+import { getHouseholdId } from '@/lib/household';
 import type { ParsedTicket } from '@/lib/types';
 import {
   geocodePlace,
@@ -45,6 +46,17 @@ async function requireUser() {
 }
 
 /**
+ * The signed-in user plus their household. Shows, notes and the Inbox belong
+ * to the household (see `0025_household.sql`), so every action on them filters
+ * by it; RLS enforces the same boundary underneath.
+ */
+async function requireHousehold() {
+  const { supabase, user } = await requireUser();
+  const householdId = await getHouseholdId(supabase, user.id);
+  return { supabase, user, householdId };
+}
+
+/**
  * Turn what the manual entry form gave us into a real instant.
  *
  * The form collects wall time — "8:00 PM at Monarch" — which is not an instant
@@ -62,9 +74,9 @@ function resolveManualStart(startsAt: string, timezone: string | null): string |
 }
 
 
-/** Add a Ticketmaster event to the user's calendar, creating the catalog rows if needed. */
+/** Add a Ticketmaster event to the household's list, creating the catalog rows if needed. */
 export async function addEventByTmId(tmId: string, state: 'going' | 'interested' = 'going') {
-  const { user } = await requireUser();
+  const { user, householdId } = await requireHousehold();
 
   const tmEvent = await tmGetEvent(tmId);
   if (!tmEvent) return { ok: false as const, error: 'Event not found' };
@@ -75,7 +87,7 @@ export async function addEventByTmId(tmId: string, state: 'going' | 'interested'
 
   await recordAttendance(admin, { userId: user.id, eventId, source: 'manual' });
   if (state !== 'going') {
-    await admin.from('attendances').update({ state }).eq('user_id', user.id).eq('event_id', eventId);
+    await admin.from('attendances').update({ state }).eq('household_id', householdId).eq('event_id', eventId);
   }
 
   revalidatePath('/upcoming');
@@ -261,9 +273,9 @@ export async function createManualEvent(input: {
    *   Parcels, Regency Ballroom, 26 Sep   (email)  +  (Ticketmaster)
    *   Lightning in a Bottle 2027          (email)  +  (the other user's email)
    *
-   * Two rows for one night means "what your friends are going to" cannot link
-   * the people at it, which is most of the point of the friends tab. Reusing the
-   * existing row also inherits whatever a provider knew that an email did not —
+   * Two rows for one night means the household's list shows it twice, and a
+   * show added from each person's inbox never joins up. Reusing the existing
+   * row also inherits whatever a provider knew that an email did not —
    * artwork, a real timezone, a ticket URL.
    */
   const existingId = await reconcileEvent(
@@ -345,44 +357,30 @@ export async function setAttendanceState(
   eventId: string,
   state: 'going' | 'interested' | 'went' | 'missed',
 ) {
-  const { supabase, user } = await requireUser();
+  const { supabase, householdId } = await requireHousehold();
   const { error } = await supabase
     .from('attendances')
     .update({ state })
-    .eq('user_id', user.id)
+    .eq('household_id', householdId)
     .eq('event_id', eventId);
 
   if (error) return { ok: false as const, error: error.message };
   revalidatePath(`/event/${eventId}`);
   revalidatePath('/upcoming');
   revalidatePath('/archive');
-  return { ok: true as const };
-}
-
-export async function setAttendanceVisibility(eventId: string, visibility: 'friends' | 'private') {
-  const { supabase, user } = await requireUser();
-  const { error } = await supabase
-    .from('attendances')
-    .update({ visibility })
-    .eq('user_id', user.id)
-    .eq('event_id', eventId);
-
-  if (error) return { ok: false as const, error: error.message };
-  revalidatePath(`/event/${eventId}`);
   return { ok: true as const };
 }
 
 export async function removeAttendance(eventId: string) {
-  const { supabase, user } = await requireUser();
-  await supabase.from('attendances').delete().eq('user_id', user.id).eq('event_id', eventId);
+  const { supabase, householdId } = await requireHousehold();
+  await supabase.from('attendances').delete().eq('household_id', householdId).eq('event_id', eventId);
   revalidatePath('/upcoming');
   revalidatePath('/archive');
   return { ok: true as const };
 }
 
-/** Private note. RLS on `notes` is owner-only, with no friend read path. */
 /**
- * Correct the ticket details on a show you are already attending.
+ * Correct the ticket details on a show already on the household's list.
  *
  * Quantity and price are read out of a confirmation email when the receipt
  * exposes them, but plenty do not — a guest-list add has no price at all, and a
@@ -395,7 +393,7 @@ export async function setTicketDetails(
   eventId: string,
   input: { ticketQuantity?: number | null; priceCents?: number | null },
 ) {
-  const { supabase, user } = await requireUser();
+  const { supabase, householdId } = await requireHousehold();
 
   const patch: Record<string, number | null> = {};
 
@@ -423,7 +421,7 @@ export async function setTicketDetails(
     .from('attendances')
     .update(patch)
     .eq('event_id', eventId)
-    .eq('user_id', user.id);
+    .eq('household_id', householdId);
 
   if (error) return { ok: false as const, error: error.message };
 
@@ -433,15 +431,19 @@ export async function setTicketDetails(
   return { ok: true as const };
 }
 
+/** The household's shared note on a show. `user_id` records who last wrote it. */
 export async function saveNote(eventId: string, body: string) {
-  const { supabase, user } = await requireUser();
+  const { supabase, user, householdId } = await requireHousehold();
 
   if (body.trim() === '') {
-    await supabase.from('notes').delete().eq('user_id', user.id).eq('event_id', eventId);
+    await supabase.from('notes').delete().eq('household_id', householdId).eq('event_id', eventId);
   } else {
     const { error } = await supabase
       .from('notes')
-      .upsert({ user_id: user.id, event_id: eventId, body }, { onConflict: 'user_id,event_id' });
+      .upsert(
+        { user_id: user.id, household_id: householdId, event_id: eventId, body },
+        { onConflict: 'household_id,event_id' },
+      );
     if (error) return { ok: false as const, error: error.message };
   }
 
@@ -450,16 +452,13 @@ export async function saveNote(eventId: string, body: string) {
 }
 
 /**
- * Rate a show, with an optional short review.
- *
- * Unlike `notes`, the review rides on the attendance row, so accepted friends
- * see it whenever visibility = 'friends'. That distinction is deliberate: notes
- * are for you, reviews are for the people you went with.
+ * Rate a show, with an optional short review. One rating per show for the
+ * household; it rides on the attendance row.
  *
  * Passing `null` as the rating clears both.
  */
 export async function rateShow(eventId: string, rating: number | null, review?: string) {
-  const { supabase, user } = await requireUser();
+  const { supabase, householdId } = await requireHousehold();
 
   if (rating !== null && (!Number.isInteger(rating) || rating < 1 || rating > 5)) {
     return { ok: false as const, error: 'Rating must be 1-5' };
@@ -475,7 +474,7 @@ export async function rateShow(eventId: string, rating: number | null, review?: 
       review: rating === null ? null : (review?.trim() || null),
       rated_at: rating === null ? null : new Date().toISOString(),
     })
-    .eq('user_id', user.id)
+    .eq('household_id', householdId)
     .eq('event_id', eventId);
 
   if (error) return { ok: false as const, error: error.message };
@@ -485,262 +484,91 @@ export async function rateShow(eventId: string, rating: number | null, review?: 
   return { ok: true as const };
 }
 
-// ---------------------------------------------------------------- friends
-
-/** Friendships are stored as one canonical row with user_low < user_high. */
-function pair(a: string, b: string) {
-  return a < b ? { user_low: a, user_high: b } : { user_low: b, user_high: a };
-}
-
-export async function sendFriendRequest(handle: string) {
-  const { supabase, user } = await requireUser();
-
-  const { data: target } = await supabase
-    .from('profiles')
-    .select('id, handle')
-    .eq('handle', handle.toLowerCase().replace(/^@/, ''))
-    .maybeSingle();
-
-  if (!target) return { ok: false as const, error: 'No one with that handle' };
-  if (target.id === user.id) return { ok: false as const, error: 'That is you' };
-
-  const { error } = await supabase
-    .from('friendships')
-    .insert({ ...pair(user.id, target.id), status: 'pending', requested_by: user.id });
-
-  if (error) {
-    // Unique violation: a row already exists in some state.
-    if (error.code === '23505') return { ok: false as const, error: 'Already requested or connected' };
-    return { ok: false as const, error: error.message };
-  }
-
-  revalidatePath('/friends');
-  return { ok: true as const };
-}
-
-export async function respondToFriendRequest(otherUserId: string, accept: boolean) {
-  const { supabase, user } = await requireUser();
-  const p = pair(user.id, otherUserId);
-
-  if (accept) {
-    await supabase.from('friendships').update({ status: 'accepted' }).match(p);
-  } else {
-    await supabase.from('friendships').delete().match(p);
-  }
-
-  revalidatePath('/friends');
-  return { ok: true as const };
-}
-
-export async function removeFriend(otherUserId: string) {
-  const { supabase, user } = await requireUser();
-  await supabase.from('friendships').delete().match(pair(user.id, otherUserId));
-  revalidatePath('/friends');
-  return { ok: true as const };
-}
-
-// ------------------------------------------------------- friend invite links
+// ---------------------------------------------------------------- household
 
 /**
- * A shareable link that adds the sender as a friend.
+ * A link that brings someone into this household.
  *
- * Adding by handle requires the handle to travel out of band first, which is a
- * chicken-and-egg problem for a brand-new user: they land on an empty app with
- * nobody to see. A link removes the step — open it, sign in, done.
- *
- * The existing link is reused rather than minting a new one per click, so a URL
- * already pasted into a group chat keeps working. `rotate` is the escape hatch
- * when a link has travelled somewhere it should not have.
+ * Single-use and good for 14 days (`household_invites`). The existing unused
+ * link is reused rather than minting one per click, so a URL already sent in a
+ * text keeps working; `rotate` revokes it and makes a fresh one.
  */
-export async function getFriendInviteUrl(rotate = false) {
-  const { supabase, user } = await requireUser();
-
+export async function getHouseholdInviteUrl(rotate = false) {
+  const { supabase, user, householdId } = await requireHousehold();
   const base = process.env.NEXT_PUBLIC_SITE_URL ?? '';
 
   if (rotate) {
-    await supabase.from('friend_invites').delete().eq('user_id', user.id);
+    await supabase.from('household_invites').delete().eq('household_id', householdId).is('used_at', null);
   } else {
     const { data: existing } = await supabase
-      .from('friend_invites')
-      .select('token, expires_at, uses, max_uses, revoked_at')
-      .eq('user_id', user.id)
-      .is('revoked_at', null)
+      .from('household_invites')
+      .select('token')
+      .eq('household_id', householdId)
+      .is('used_at', null)
       .gt('expires_at', new Date().toISOString())
       .order('created_at', { ascending: false })
       .limit(1)
       .maybeSingle();
 
-    if (existing && existing.uses < existing.max_uses) {
-      return { ok: true as const, url: `${base}/invite/${existing.token}` };
-    }
+    if (existing) return { ok: true as const, url: `${base}/join/${existing.token}` };
   }
 
-  // 24 bytes of randomness, hex-encoded: the same shape as the calendar token,
-  // and far beyond guessing for something that grants a friend request.
+  // 24 bytes of randomness, hex-encoded: the same shape as the calendar token.
   const token = randomBytes(24).toString('hex');
-  const { error } = await supabase.from('friend_invites').insert({ token, user_id: user.id });
-  if (error) return { ok: false as const, error: error.message };
-
-  revalidatePath('/friends');
-  return { ok: true as const, url: `${base}/invite/${token}` };
-}
-
-/**
- * Redeem an invite link.
- *
- * Runs through the service role on purpose: the redeemer holds the token but
- * cannot see the row it names, and expiry, revocation and the use count all
- * have to be checked in one place before anything is written.
- *
- * The friendship is created ACCEPTED rather than pending. The link is a
- * deliberate act by its owner — that is the consent — and leaving the new user
- * staring at "request sent" would reproduce the empty first run this exists to
- * avoid. Either side can still remove it afterwards.
- */
-export async function redeemFriendInvite(token: string) {
-  const { user } = await requireUser();
-  const admin = createAdminClient();
-
-  const { data: invite } = await admin
-    .from('friend_invites')
-    .select('token, user_id, expires_at, uses, max_uses, revoked_at')
-    .eq('token', token)
-    .maybeSingle();
-
-  if (!invite) return { ok: false as const, error: 'That invite link is not valid' };
-  if (invite.revoked_at) return { ok: false as const, error: 'That invite link was revoked' };
-  if (new Date(invite.expires_at).getTime() < Date.now()) {
-    return { ok: false as const, error: 'That invite link has expired' };
-  }
-  if (invite.uses >= invite.max_uses) {
-    return { ok: false as const, error: 'That invite link has been used too many times' };
-  }
-  if (invite.user_id === user.id) {
-    return { ok: false as const, error: 'That is your own invite link' };
-  }
-
-  const { data: profile } = await admin
-    .from('profiles')
-    .select('handle, display_name')
-    .eq('id', invite.user_id)
-    .maybeSingle();
-
-  const p = pair(user.id, invite.user_id);
-  const { data: existing } = await admin
-    .from('friendships')
-    .select('status')
-    .match(p)
-    .maybeSingle();
-
-  if (existing?.status === 'accepted') {
-    return { ok: true as const, alreadyFriends: true, profile };
-  }
-
-  const { error } = await admin.from('friendships').upsert(
-    { ...p, status: 'accepted', requested_by: invite.user_id },
-    { onConflict: 'user_low,user_high' },
-  );
-  if (error) return { ok: false as const, error: error.message };
-
-  // Best-effort: a lost increment costs one extra use of the link, which is a
-  // far better failure than refusing a friendship that was already created.
-  await admin
-    .from('friend_invites')
-    .update({ uses: invite.uses + 1 })
-    .eq('token', token);
-
-  revalidatePath('/friends');
-  return { ok: true as const, alreadyFriends: false, profile };
-}
-
-// ------------------------------------------------------------- event invites
-
-/**
- * Send a show to a friend. "You should come to this."
- *
- * Not an attendance — the recipient has not agreed to anything yet — so it
- * lands in their Inbox as something to accept or decline. Idempotent on
- * (event, sender, recipient): sending twice re-opens the same invite rather
- * than stacking duplicates in their list.
- *
- * RLS enforces that the recipient is an accepted friend; this only has to
- * produce a good error when they are not.
- */
-export async function inviteFriendToEvent(eventId: string, toUserId: string, message = '') {
-  const { supabase, user } = await requireUser();
-
-  if (toUserId === user.id) return { ok: false as const, error: 'That is you' };
-
-  const { error } = await supabase.from('event_invites').upsert(
-    {
-      event_id: eventId,
-      from_user_id: user.id,
-      to_user_id: toUserId,
-      message: message.trim().slice(0, 280),
-      state: 'pending',
-      responded_at: null,
-    },
-    { onConflict: 'event_id,from_user_id,to_user_id' },
-  );
-
-  if (error) {
-    // The insert policy requires an accepted friendship, so a rejection here is
-    // nearly always that rather than anything the user can act on directly.
-    if (error.code === '42501') {
-      return { ok: false as const, error: 'You can only send shows to friends' };
-    }
-    return { ok: false as const, error: error.message };
-  }
-
-  revalidatePath(`/event/${eventId}`);
-  return { ok: true as const };
-}
-
-/**
- * Accept or decline an invite someone sent you.
- *
- * Accepting records the attendance as `interested` rather than `going`: being
- * invited is not the same as having a ticket, and `going` is what the Upcoming
- * list treats as "this is happening". The user can promote it from the event
- * page once they have actually bought.
- */
-export async function respondToEventInvite(inviteId: string, accept: boolean) {
-  const { supabase, user } = await requireUser();
-
-  const { data: invite } = await supabase
-    .from('event_invites')
-    .select('id, event_id, to_user_id, state')
-    .eq('id', inviteId)
-    .maybeSingle();
-
-  if (!invite || invite.to_user_id !== user.id) {
-    return { ok: false as const, error: 'That invite is not yours' };
-  }
-
   const { error } = await supabase
-    .from('event_invites')
-    .update({ state: accept ? 'accepted' : 'declined', responded_at: new Date().toISOString() })
-    .eq('id', inviteId);
-
+    .from('household_invites')
+    .insert({ token, household_id: householdId, created_by: user.id });
   if (error) return { ok: false as const, error: error.message };
 
-  if (accept) {
-    const { error: attendanceError } = await supabase.from('attendances').upsert(
-      {
-        user_id: user.id,
-        event_id: invite.event_id,
-        state: 'interested',
-        visibility: 'friends',
-        source: 'manual',
-      },
-      { onConflict: 'user_id,event_id', ignoreDuplicates: true },
-    );
-    if (attendanceError) return { ok: false as const, error: attendanceError.message };
+  revalidatePath('/settings');
+  return { ok: true as const, url: `${base}/join/${token}` };
+}
+
+/**
+ * Join the household an invite link names. The database does the checking and
+ * the merge in one transaction (`redeem_household_invite`): anything already in
+ * the joiner's own household — shows, notes, Inbox — is folded in, with
+ * duplicate shows merged rather than doubled.
+ */
+export async function joinHousehold(token: string) {
+  const { supabase, user } = await requireUser();
+
+  const { error } = await supabase.rpc('redeem_household_invite', { invite_token: token });
+  if (error) {
+    const reason = /already used/.test(error.message)
+      ? 'That invite link has already been used'
+      : /expired/.test(error.message)
+        ? 'That invite link has expired'
+        : /not found/.test(error.message)
+          ? 'That invite link is not valid'
+          : 'Could not join that household';
+    return { ok: false as const, error: reason };
   }
 
-  revalidatePath('/inbox');
-  revalidatePath('/upcoming');
-  revalidatePath(`/event/${invite.event_id}`);
+  const householdId = await getHouseholdId(supabase, user.id);
+  const { data: members } = await supabase
+    .from('household_members')
+    .select('user_id, profile:profiles ( display_name, handle )')
+    .eq('household_id', householdId);
+
+  const others = ((members ?? []) as unknown as { user_id: string; profile: { display_name: string; handle: string } | null }[])
+    .filter((m) => m.user_id !== user.id)
+    .map((m) => m.profile?.display_name || m.profile?.handle || 'someone');
+
+  revalidatePath('/', 'layout');
+  return { ok: true as const, others };
+}
+
+/** Rename the household ("Home" by default). */
+export async function renameHousehold(name: string) {
+  const { supabase, householdId } = await requireHousehold();
+  const trimmed = name.trim().slice(0, 80);
+  if (!trimmed) return { ok: false as const, error: 'Give it a name' };
+
+  const { error } = await supabase.from('households').update({ name: trimmed }).eq('id', householdId);
+  if (error) return { ok: false as const, error: error.message };
+
+  revalidatePath('/settings');
   return { ok: true as const };
 }
 
@@ -784,7 +612,7 @@ export async function updateProfile(input: {
       .eq('id', user.id);
   }
 
-  revalidatePath('/friends');
+  revalidatePath('/settings');
   return { ok: true as const };
 }
 
@@ -842,20 +670,20 @@ export async function resolveHomeLocation(): Promise<HomeLocation | null> {
 }
 
 /**
- * Disconnect Gmail in one step.
+ * Disconnect a Gmail inbox in one step — yours by default, or, with
+ * `accountId`, either household member's (both are admins; RLS limits it to
+ * the household).
  *
  * Deletes the stored tokens outright rather than flagging the row inactive —
- * there is no reason to keep an encrypted refresh token for a connection the
- * user has just revoked.
+ * there is no reason to keep an encrypted refresh token for a connection that
+ * has just been revoked.
  */
-export async function disconnectGmail() {
+export async function disconnectGmail(accountId?: string) {
   const { supabase, user } = await requireUser();
 
-  const { error } = await supabase
-    .from('email_accounts')
-    .delete()
-    .eq('user_id', user.id)
-    .eq('provider', 'gmail');
+  let query = supabase.from('email_accounts').delete().eq('provider', 'gmail');
+  query = accountId ? query.eq('id', accountId) : query.eq('user_id', user.id);
+  const { error } = await query;
 
   if (error) return { ok: false as const, error: error.message };
 
@@ -1069,13 +897,13 @@ export async function rotateTrmnlToken() {
 
 /** Confirm a low-confidence ingest candidate, creating the attendance for real. */
 export async function confirmCandidate(candidateId: string) {
-  const { supabase, user } = await requireUser();
+  const { supabase, user, householdId } = await requireHousehold();
 
   const { data: candidate } = await supabase
     .from('ingest_candidates')
     .select('id, matched_event_id, parsed')
     .eq('id', candidateId)
-    .eq('user_id', user.id)
+    .eq('household_id', householdId)
     .maybeSingle();
 
   if (!candidate) return { ok: false as const, error: 'Candidate not found' };
@@ -1115,13 +943,13 @@ export async function confirmCandidate(candidateId: string) {
  * Everything is taken from the parsed ticket, so this is one click.
  */
 export async function createEventFromCandidate(candidateId: string) {
-  const { supabase, user } = await requireUser();
+  const { supabase, user, householdId } = await requireHousehold();
 
   const { data: candidate } = await supabase
     .from('ingest_candidates')
     .select('id, parsed, matched_event_id')
     .eq('id', candidateId)
-    .eq('user_id', user.id)
+    .eq('household_id', householdId)
     .maybeSingle();
 
   if (!candidate) return { ok: false as const, error: 'Candidate not found' };
@@ -1167,12 +995,12 @@ export async function createEventFromCandidate(candidateId: string) {
 }
 
 export async function rejectCandidate(candidateId: string) {
-  const { supabase, user } = await requireUser();
+  const { supabase, householdId } = await requireHousehold();
   await supabase
     .from('ingest_candidates')
     .update({ state: 'rejected' })
     .eq('id', candidateId)
-    .eq('user_id', user.id);
+    .eq('household_id', householdId);
 
   revalidatePath('/inbox');
   return { ok: true as const };
@@ -1256,12 +1084,12 @@ export async function enrichEventDetails(eventId: string) {
  *
  * Four things have to happen, and only the first is automatic:
  *
- * 1. **Database rows.** `auth.users` → `profiles` → every user-owned table is a
- *    chain of `ON DELETE CASCADE`, so deleting the auth user removes
- *    attendances, notes, email accounts, ingest messages and candidates,
- *    friendships (from both sides), push subscriptions, sent reminders,
- *    inbound addresses and user_artists. Verified against the live constraint
- *    graph rather than assumed.
+ * 1. **Database rows.** `auth.users` → `profiles` cascades to the rows that
+ *    are personal: email accounts, push subscriptions, sent reminders,
+ *    inbound addresses, user_artists and household membership. Household rows
+ *    (shows, notes, the shared Inbox) stay with the household — their
+ *    `user_id` "added by" is nulled — and a household whose last member
+ *    leaves is deleted with everything in it (`0025_household.sql`).
  *
  * 2. **The Google grant.** Cascading the row deletes our copy of the refresh
  *    token but leaves Stub listed in the user's Google account with

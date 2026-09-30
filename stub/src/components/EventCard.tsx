@@ -20,11 +20,9 @@ const ATTENDANCE_LABELS: Record<string, { label: string; tone: string }> = {
 
 interface Props {
   event: EventRow;
-  /** Small avatar stack of friends also attending. */
-  friends?: { id: string; handle: string; display_name: string; avatar_url: string | null }[];
   badge?: { label: string; tone?: 'going' | 'review' | 'interested' };
   /**
-   * The viewer's own attendance state, shown as the first pill. Surfacing this
+   * The household's attendance state, shown as the first pill. Surfacing this
    * on the list is the point: "Going" means the tickets are already bought,
    * "Interested" means they are not, and that is the distinction you want
    * without opening every show.
@@ -56,7 +54,6 @@ interface Props {
 
 export function EventCard({
   event,
-  friends,
   badge,
   state,
   rating,
@@ -120,30 +117,11 @@ export function EventCard({
           <div style={{ marginTop: 5 }}><Stars rating={rating} /></div>
         )}
 
-        {(friends?.length || badge || attending || hasSetlist) && (
+        {(badge || attending || hasSetlist) && (
           <div className="row" style={{ marginTop: 7 }}>
             {attending && <span className={`pill pill-${attending.tone}`}>{attending.label}</span>}
             {hasSetlist && <span className="pill">Setlist</span>}
             {badge && <span className={`pill ${badge.tone ? `pill-${badge.tone}` : ''}`}>{badge.label}</span>}
-            {friends && friends.length > 0 && (
-              <div className="row" style={{ gap: 6 }}>
-                <div className="avatar-stack">
-                  {friends.slice(0, 4).map((f) =>
-                    f.avatar_url ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img key={f.id} className="avatar" src={f.avatar_url} alt={f.display_name || f.handle} />
-                    ) : (
-                      <div key={f.id} className="avatar" />
-                    ),
-                  )}
-                </div>
-                <span className="muted" style={{ fontSize: 12 }}>
-                  {friends.length === 1
-                    ? (friends[0].display_name || friends[0].handle)
-                    : `${friends.length} friends`}
-                </span>
-              </div>
-            )}
           </div>
         )}
       </div>

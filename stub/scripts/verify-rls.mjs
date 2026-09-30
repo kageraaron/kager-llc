@@ -2,12 +2,12 @@
 /**
  * Proves the privacy guarantees hold against a real database.
  *
- * Creates two users, makes them friends, and asserts:
- *   1. B cannot read A's private notes (the core promise).
- *   2. B CAN see A's attendance when visibility = 'friends'.
- *   3. B CANNOT see A's attendance when visibility = 'private'.
- *   4. A stranger (no friendship) sees neither.
- *   5. B cannot read A's stored OAuth tokens.
+ * Creates three users, puts A and B in one household (via a real invite
+ * redemption, as the app does), and asserts:
+ *   1. B CAN read A's shows and notes: they belong to the household.
+ *   2. A stranger sees none of them, nor the household's members.
+ *   3. An invite link works once, and only once.
+ *   4. B can see A's connected mailbox, but nobody can select token columns.
  *
  * Run against a local Supabase or a throwaway project - it creates and deletes
  * users. Never point it at anything with real data.
@@ -71,54 +71,63 @@ async function main() {
     .single();
   if (evErr) throw evErr;
 
-  // A and B become friends. Stranger stays unconnected.
-  const [low, high] = a.id < b.id ? [a.id, b.id] : [b.id, a.id];
-  await admin.from('friendships').insert({
-    user_low: low,
-    user_high: high,
-    status: 'accepted',
-    requested_by: a.id,
-  });
-
-  // A records an attendance visible to friends, plus a private note.
-  await admin.from('attendances').insert({
-    user_id: a.id,
-    event_id: event.id,
-    state: 'going',
-    visibility: 'friends',
-  });
-  await admin.from('notes').insert({
-    user_id: a.id,
-    event_id: event.id,
-    body: 'SECRET-NOTE-CONTENT',
-  });
-
-  console.log('\nNotes must never be readable by anyone but the owner:');
+  // A invites B into A's household. Stranger stays in a household of one.
+  const token = `rlstest${Date.now()}`;
+  const { data: aMember } = await admin
+    .from('household_members')
+    .select('household_id')
+    .eq('user_id', a.id)
+    .single();
+  const householdId = aMember.household_id;
   {
-    const { data } = await b.client.from('notes').select('body').eq('user_id', a.id);
-    check('friend B cannot read A\'s note', (data ?? []).length === 0);
+    const { error } = await a.client
+      .from('household_invites')
+      .insert({ token, household_id: householdId, created_by: a.id });
+    check('A can create an invite for their household', !error);
 
-    const { data: own } = await a.client.from('notes').select('body').eq('user_id', a.id);
-    check('owner A can read their own note', (own ?? []).length === 1);
+    const { error: redeemErr } = await b.client.rpc('redeem_household_invite', { invite_token: token });
+    check('B can redeem it', !redeemErr);
 
-    const { data: str } = await stranger.client.from('notes').select('body').eq('user_id', a.id);
-    check('stranger cannot read A\'s note', (str ?? []).length === 0);
+    const { error: again } = await stranger.client.rpc('redeem_household_invite', { invite_token: token });
+    check('a used invite is refused', again !== null);
   }
 
-  console.log('\nAttendance visibility:');
-  {
-    const { data } = await b.client.from('attendances').select('id').eq('user_id', a.id);
-    check('friend B sees A\'s friends-visible attendance', (data ?? []).length === 1);
+  // A records a show and a note, inserting "as a person" like the app does;
+  // set_household_id() puts them in the household.
+  await a.client.from('attendances').insert({ user_id: a.id, event_id: event.id, state: 'going' });
+  await a.client.from('notes').insert({ user_id: a.id, event_id: event.id, body: 'HOUSEHOLD-NOTE' });
 
-    const { data: str } = await stranger.client.from('attendances').select('id').eq('user_id', a.id);
-    check('stranger sees nothing', (str ?? []).length === 0);
+  console.log('\nShows and notes are the household\'s:');
+  {
+    const { data } = await b.client.from('attendances').select('id').eq('event_id', event.id);
+    check('member B sees A\'s show', (data ?? []).length === 1);
+
+    const { data: note } = await b.client.from('notes').select('body').eq('event_id', event.id);
+    check('member B reads the shared note', note?.[0]?.body === 'HOUSEHOLD-NOTE');
+
+    const { error: editErr } = await b.client
+      .from('notes')
+      .update({ body: 'EDITED-BY-B' })
+      .eq('event_id', event.id);
+    check('member B can edit it', !editErr);
   }
 
-  // Flip it to private and re-check.
-  await admin.from('attendances').update({ visibility: 'private' }).eq('user_id', a.id);
+  console.log('\nOutsiders see nothing:');
   {
-    const { data } = await b.client.from('attendances').select('id').eq('user_id', a.id);
-    check('friend B cannot see A\'s private attendance', (data ?? []).length === 0);
+    const { data } = await stranger.client.from('attendances').select('id').eq('event_id', event.id);
+    check('stranger cannot see the show', (data ?? []).length === 0);
+
+    const { data: note } = await stranger.client.from('notes').select('body').eq('event_id', event.id);
+    check('stranger cannot read the note', (note ?? []).length === 0);
+
+    const { data: members } = await stranger.client
+      .from('household_members')
+      .select('user_id')
+      .eq('household_id', householdId);
+    check('stranger cannot list the household\'s members', (members ?? []).length === 0);
+
+    const { data: profiles } = await stranger.client.from('profiles').select('id').eq('id', a.id);
+    check('stranger cannot read A\'s profile', (profiles ?? []).length === 0);
   }
 
   console.log('\nToken columns must not be selectable by the client:');
@@ -136,6 +145,15 @@ async function main() {
 
     const { data: safe } = await a.client.from('email_accounts').select('id, email');
     check('owner A can still list their connected accounts', (safe ?? []).length === 1);
+
+    const { data: shared } = await b.client.from('email_accounts').select('id, email');
+    check('member B sees A\'s connected account', (shared ?? []).length === 1);
+
+    const { error: bTok } = await b.client.from('email_accounts').select('refresh_token');
+    check('member B cannot select refresh_token', bTok !== null);
+
+    const { data: str } = await stranger.client.from('email_accounts').select('id');
+    check('stranger sees no connected accounts', (str ?? []).length === 0);
   }
 
   console.log('\nCleaning up...');

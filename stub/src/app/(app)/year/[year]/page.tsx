@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth';
 import { getArchive, type AttendanceWithEvent } from '@/lib/queries';
+import { getHouseholdId } from '@/lib/household';
 import { summarizeYear, yearsWithShows } from '@/lib/yearInReview';
 import { displayEventName, formatEventDate, formatPrice, eventZone } from '@/lib/format';
 import { Stars } from '@/components/RatingControl';
@@ -24,7 +25,7 @@ export default async function YearPage({ params }: { params: Promise<{ year: str
 
   const supabase = await createClient();
   const user = await getCurrentUser(supabase);
-  const rows = await getArchive(supabase, user!.id);
+  const rows = await getArchive(supabase, await getHouseholdId(supabase, user!.id));
 
   const stats = summarizeYear(rows, year);
   const years = yearsWithShows(rows);

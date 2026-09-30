@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth';
-import { getUpcoming, getFriendsAtEvents } from '@/lib/queries';
+import { getUpcoming } from '@/lib/queries';
+import { getHouseholdId } from '@/lib/household';
 import { yearOf } from '@/lib/yearInReview';
 import { EventCard } from '@/components/EventCard';
 import Link from 'next/link';
@@ -11,23 +12,15 @@ export const dynamic = 'force-dynamic';
 export default async function UpcomingPage() {
   const supabase = await createClient();
   const user = await getCurrentUser(supabase);
-  const rows = await getUpcoming(supabase, user!.id);
+  const householdId = await getHouseholdId(supabase, user!.id);
+  const rows = await getUpcoming(supabase, householdId);
 
-  // Only offer to connect Gmail if it isn't already connected — Settings and
-  // Inbox both check this, and the empty state here used to prompt regardless.
+  // Only offer to connect Gmail if no inbox in the household is connected yet —
+  // either person's feeds the same list. RLS returns the household's accounts.
   const { data: emailAccounts } = await supabase
     .from('email_accounts')
-    .select('id, provider, status')
-    .eq('user_id', user!.id);
+    .select('id, provider, status');
   const gmail = (emailAccounts ?? []).find((a) => a.provider === 'gmail');
-
-  // Friends-per-event for the avatar stacks, in one query rather than one per
-  // row. RLS still decides what comes back; batching only changes the round trips.
-  const friendsByEvent = await getFriendsAtEvents(
-    supabase,
-    rows.map((r) => r.event.id),
-    user!.id,
-  );
 
   /*
    * Grouped in the VENUE's zone, not the server's. A 9pm New Year's Eve show in
@@ -92,7 +85,6 @@ export default async function UpcomingPage() {
                 key={row.id}
                 event={row.event}
                 state={row.state}
-                friends={friendsByEvent.get(row.event.id)?.map((f) => f.profile)}
                 // Deliberately untoned. The attendance pill beside it is the one
                 // worth the accent colour; two accented pills read as noise.
                 badge={

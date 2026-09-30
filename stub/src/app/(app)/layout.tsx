@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth';
 import { getPendingCount } from '@/lib/queries';
+import { getHouseholdId } from '@/lib/household';
 import { TabBar } from '@/components/TabBar';
 import { AddShowProvider } from '@/components/AddShow';
 
@@ -10,7 +11,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const user = await getCurrentUser(supabase);
   if (!user) redirect('/login');
 
-  const pending = await getPendingCount(supabase, user.id);
+  const pending = await getPendingCount(supabase, await getHouseholdId(supabase, user.id));
 
   return (
     <div className="app-shell">

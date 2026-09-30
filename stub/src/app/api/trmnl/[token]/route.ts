@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { getHouseholdId } from '@/lib/household';
 import { buildTrmnlPayload, type TrmnlSourceRow } from '@/lib/trmnl';
 
 /**
@@ -33,6 +34,9 @@ export async function GET(_req: Request, { params }: { params: Promise<{ token: 
 
   if (!profile) return new NextResponse('Not found', { status: 404 });
 
+  // The token is personal, but the shows are the household's.
+  const householdId = await getHouseholdId(admin, profile.id);
+
   const { data, error } = await admin
     .from('attendances')
     .select(`
@@ -43,7 +47,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ token: 
         headliner:artists!events_headliner_id_fkey ( name )
       )
     `)
-    .eq('user_id', profile.id)
+    .eq('household_id', householdId)
     .in('state', ['going', 'interested'])
     .gte('events.starts_at', new Date().toISOString());
 

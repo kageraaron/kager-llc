@@ -5,6 +5,7 @@ import { GOOGLE_TESTING_USER_CAP } from '@/lib/providers/gmail';
 import { SPOTIFY_DEV_USER_CAP } from '@/lib/providers/spotify';
 import { SetlistImport } from '@/components/SetlistImport';
 import { GmailControls } from '@/components/GmailControls';
+import { getHouseholdId, getHouseholdMembers } from '@/lib/household';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,12 +18,19 @@ export default async function ConnectionsPage({
   const supabase = await createClient();
   const user = await getCurrentUser(supabase);
 
-  const { data: accounts } = await supabase
-    .from('email_accounts')
-    .select('id, provider, email, last_synced_at, status')
-    .eq('user_id', user!.id);
+  // RLS returns every mailbox in the household: both feed the shared Inbox.
+  const [{ data: accounts }, members] = await Promise.all([
+    supabase.from('email_accounts').select('id, user_id, provider, email, last_synced_at, status'),
+    getHouseholdId(supabase, user!.id).then((id) => getHouseholdMembers(supabase, id)),
+  ]);
 
-  const gmail = (accounts ?? []).find((a) => a.provider === 'gmail');
+  const gmailAccounts = (accounts ?? []).filter((a) => a.provider === 'gmail');
+  const gmail = gmailAccounts.find((a) => a.user_id === user!.id);
+  const othersGmail = gmailAccounts.filter((a) => a.user_id !== user!.id);
+  const nameOf = (userId: string) => {
+    const p = members.find((m) => m.user_id === userId)?.profile;
+    return p?.display_name || p?.handle || 'Household member';
+  };
   const forwardEnabled = process.env.FEATURE_FORWARD_INBOX === 'true';
 
   return (
@@ -64,12 +72,31 @@ export default async function ConnectionsPage({
                 {gmail.last_synced_at &&
                   ` · last checked ${new Date(gmail.last_synced_at).toLocaleString()}`}
               </div>
-              <GmailControls email={gmail.email} status={gmail.status} />
+              <GmailControls accountId={gmail.id} email={gmail.email} status={gmail.status} />
             </>
           ) : (
             <a className="btn btn-primary btn-block" href="/api/connect/gmail/start">Connect Gmail</a>
           )}
         </div>
+
+        {othersGmail.map((a) => (
+          <div key={a.id} className="card" style={{ flexDirection: 'column', gap: 8 }}>
+            <div className="spread">
+              <strong>{nameOf(a.user_id)}&rsquo;s Gmail</strong>
+              <span className={`pill ${a.status === 'active' ? 'pill-going' : 'pill-review'}`}>
+                {a.status === 'active' ? 'Connected' : 'Needs reconnect'}
+              </span>
+            </div>
+            <div className="muted">
+              {a.email}
+              {a.last_synced_at && ` · last checked ${new Date(a.last_synced_at).toLocaleString()}`}
+            </div>
+            <p className="muted" style={{ margin: 0, lineHeight: 1.5 }}>
+              Feeds the same Inbox as yours. Only {nameOf(a.user_id)} can scan or reconnect it.
+            </p>
+            <GmailControls accountId={a.id} email={a.email} status={a.status} own={false} />
+          </div>
+        ))}
 
         {/* ---------------------------------------------------- forward address */}
         <div className="card" style={{ flexDirection: 'column', gap: 8 }}>

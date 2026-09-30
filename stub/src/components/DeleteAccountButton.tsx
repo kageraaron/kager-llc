@@ -64,9 +64,10 @@ export function DeleteAccountButton() {
       <div className="section-label" style={{ margin: '0 0 6px' }}>Delete account</div>
 
       <p className="muted" style={{ margin: '0 0 10px', lineHeight: 1.6, fontSize: 12 }}>
-        This removes your profile, the shows you&rsquo;re going to, your private notes,
-        your friendships, and any connected mailbox &mdash; permanently, with no
-        undo. Stub&rsquo;s access to your Google account is revoked at the same time.
+        This removes your profile and your connected mailbox &mdash; permanently, with
+        no undo. Stub&rsquo;s access to your Google account is revoked at the same time.
+        If anyone else is in your household, its shows and notes stay with them;
+        if you&rsquo;re the only one, they are deleted too.
       </p>
       <p className="muted" style={{ margin: '0 0 12px', lineHeight: 1.6, fontSize: 12 }}>
         Artists, venues and events stay &mdash; those are shared listings, not your

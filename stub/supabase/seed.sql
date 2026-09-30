@@ -1,19 +1,24 @@
--- Stub — seed data: four test accounts, all friends with each other.
+-- Stub — seed data: one two-person household, plus three outsiders.
 --
---   demo@stub.local     / stubdemo123   @you       <- sign in as this one
---   marisol@stub.local  / stubdemo123   @marisol
---   dev@stub.local      / stubdemo123   @dev_okafor
---   quinn@stub.local    / stubdemo123   @quinn
+--   demo@stub.local     / stubdemo123   @you        <- sign in as this one
+--   marisol@stub.local  / stubdemo123   @marisol    same household as @you
+--   dev@stub.local      / stubdemo123   @dev_okafor outsider
+--   quinn@stub.local    / stubdemo123   @quinn      outsider
+--   sasha@stub.local    / stubdemo123   @sasha_lin  outsider
 --
--- Plus one NON-friend (@sasha_lin) with a pending request to @you, so the
--- friend-request flow and the stranger case both have real data behind them.
+-- Marisol starts in a household of her own with shows and a note, and is then
+-- folded into yours with merge_household() — the same function an invite link
+-- runs — so the seed exercises the merge rather than faking its result.
+--
+-- The outsiders' shows and notes overlap yours on purpose. None of them may
+-- ever appear when signed in as @you; they are RLS tripwires.
 --
 -- Everything here runs the real code paths: the PostgREST embedded joins in
--- src/lib/queries.ts, the RLS policies, and the are_friends() function. If a
--- page renders correctly against this, it genuinely works.
+-- src/lib/queries.ts, the household RLS policies, and the set_household_id()
+-- insert trigger. If a page renders correctly against this, it genuinely works.
 --
 -- Apply with `supabase db reset` (runs migrations then this file), or paste
--- into the SQL editor of a throwaway cloud project.
+-- into the SQL editor of a throwaway project.
 --
 -- SAFE TO RE-RUN: idempotent on fixed UUIDs.
 -- NEVER run against a database with real data.
@@ -29,11 +34,8 @@ declare
   u_sasha   uuid := '00000000-0000-4000-8000-000000000005';
 
   acct record;
-  a uuid;
-  b uuid;
-  friend_ids uuid[];
 begin
-  -- The handle_new_user trigger creates each profile row for us.
+  -- The handle_new_user trigger creates each profile and a household of one.
   for acct in
     select * from (values
       (u_you,     'demo@stub.local',    'Demo Listener'),
@@ -72,24 +74,10 @@ begin
   update profiles set handle='sasha_lin',  display_name='Sasha Lin',     home_city='Los Angeles, CA',
     bio='New here.' where id=u_sasha;
 
-  -- Every pair among the four is an accepted friendship (6 pairs), stored
-  -- canonically so user_low < user_high always holds.
-  friend_ids := array[u_you, u_marisol, u_dev, u_quinn];
-  for i in 1..array_length(friend_ids, 1) loop
-    for j in (i + 1)..array_length(friend_ids, 1) loop
-      a := least(friend_ids[i], friend_ids[j]);
-      b := greatest(friend_ids[i], friend_ids[j]);
-      insert into friendships (user_low, user_high, status, requested_by)
-      values (a, b, 'accepted', friend_ids[i])
-      on conflict (user_low, user_high) do update set status = 'accepted';
-    end loop;
-  end loop;
-
-  -- Sasha has a PENDING request out to you, so the Requests section is populated.
-  insert into friendships (user_low, user_high, status, requested_by)
-  values (least(u_you, u_sasha), greatest(u_you, u_sasha), 'pending', u_sasha)
-  on conflict (user_low, user_high) do update set status = 'pending';
+  update households set name = 'Demo & Marisol'
+  where id = (select household_id from household_members where user_id = u_you);
 end $$;
+
 
 -- ============================================================ catalog
 
@@ -177,57 +165,64 @@ declare
   e_wednesday uuid := '30000000-0000-4000-8000-000000000007';
   e_slowdive  uuid := '30000000-0000-4000-8000-000000000008';
   e_sunset    uuid := '30000000-0000-4000-8000-000000000009';
+
+  h_you     uuid;
+  h_marisol uuid;
 begin
-  -- YOU. Mixed sources so the Upcoming source badges are exercised. Big Thief
-  -- is deliberately private, to prove friends cannot see it on your profile.
-  insert into attendances (user_id, event_id, state, visibility, source, ticket_ref, seat_info, price_cents, purchased_at) values
-    (u_you, e_jbrekkie,  'going', 'friends', 'gmail',     '38-41225/SF3', 'GA', 12850, now() - interval '30 days'),
-    (u_you, e_turnstile, 'going', 'friends', 'gmail',     'AXS-99120B',   null,  9400, now() - interval '12 days'),
-    (u_you, e_fontaines, 'going', 'friends', 'manual',    null,           null,  null, null),
-    (u_you, e_bigthief,  'going', 'private', 'manual',    null,           null,  null, null),
-    (u_you, e_mitski,    'went',  'friends', 'setlistfm', null,           null,  null, null),
-    (u_you, e_alvvays,   'went',  'friends', 'manual',    null,           null,  null, null),
+  -- Rows are inserted "as a person": set_household_id() fills household_id
+  -- from user_id, exactly as the app's own insert paths rely on.
+
+  -- YOU. Mixed sources so the Upcoming source badges are exercised.
+  insert into attendances (user_id, event_id, state, source, ticket_ref, seat_info, price_cents, purchased_at) values
+    (u_you, e_jbrekkie,  'going', 'gmail',     '38-41225/SF3', 'GA', 12850, now() - interval '30 days'),
+    (u_you, e_turnstile, 'going', 'gmail',     'AXS-99120B',   null,  9400, now() - interval '12 days'),
+    (u_you, e_fontaines, 'going', 'manual',    null,           null,  null, null),
+    (u_you, e_mitski,    'went',  'setlistfm', null,           null,  null, null),
+    (u_you, e_alvvays,   'went',  'manual',    null,           null,  null, null),
     -- The pinned Tokyo show, so /event/... renders a real 28-song setlist.
-    (u_you, '30000000-0000-4000-8000-000000000010', 'went', 'friends', 'setlistfm', null, null, null, null)
-  on conflict (user_id, event_id) do nothing;
+    (u_you, '30000000-0000-4000-8000-000000000010', 'went', 'setlistfm', null, null, null, null)
+  on conflict (household_id, event_id) do nothing;
 
-  -- MARISOL overlaps on two of your shows, and has one of her own.
-  insert into attendances (user_id, event_id, state, visibility, source) values
-    (u_marisol, e_jbrekkie,  'going', 'friends', 'manual'),
-    (u_marisol, e_mitski,    'went',  'friends', 'manual'),
-    (u_marisol, e_wednesday, 'going', 'friends', 'manual')
-  on conflict (user_id, event_id) do nothing;
-
-  -- DEV overlaps on Japanese Breakfast too, so that card shows a 2-avatar stack.
-  insert into attendances (user_id, event_id, state, visibility, source) values
-    (u_dev, e_jbrekkie,  'going',      'friends', 'manual'),
-    (u_dev, e_wednesday, 'going',      'friends', 'manual'),
-    (u_dev, e_sunset,    'interested', 'friends', 'manual'),
-    (u_dev, e_slowdive,  'went',       'friends', 'manual')
-  on conflict (user_id, event_id) do nothing;
-
-  -- QUINN shares the Turnstile date, and has a private one of her own.
-  insert into attendances (user_id, event_id, state, visibility, source) values
-    (u_quinn, e_turnstile, 'going', 'friends', 'manual'),
-    (u_quinn, e_slowdive,  'went',  'friends', 'manual'),
-    (u_quinn, e_bigthief,  'going', 'private', 'manual')
-  on conflict (user_id, event_id) do nothing;
-
-  -- SASHA is NOT your friend. None of this may ever appear in your UI.
-  insert into attendances (user_id, event_id, state, visibility, source) values
-    (u_sasha, e_jbrekkie, 'going', 'friends', 'manual')
-  on conflict (user_id, event_id) do nothing;
-
-  -- ---------------------------------------------------------- private notes
-  -- Notes exist for several users on shows you also attend. Only your own may
-  -- ever render; the others are tripwires.
   insert into notes (user_id, event_id, body) values
-    (u_you,     e_jbrekkie, 'Marisol has the tickets. Meet at 7 at the taqueria on Fillmore first.'),
-    (u_you,     e_mitski,   'Opened with Bug Like an Angel and the whole room went quiet. Best show of the year.'),
-    (u_marisol, e_jbrekkie, 'IF YOU CAN READ THIS, RLS IS BROKEN.'),
-    (u_dev,     e_jbrekkie, 'IF YOU CAN READ THIS, RLS IS BROKEN.'),
-    (u_quinn,   e_turnstile,'IF YOU CAN READ THIS, RLS IS BROKEN.')
-  on conflict (user_id, event_id) do nothing;
+    (u_you, e_jbrekkie, 'Marisol has the tickets. Meet at 7 at the taqueria on Fillmore first.'),
+    (u_you, e_mitski,   'Opened with Bug Like an Angel and the whole room went quiet. Best show of the year.')
+  on conflict (household_id, event_id) do nothing;
+
+  -- MARISOL, before joining: overlaps you on Japanese Breakfast (with a seat
+  -- you did not have) and has Wednesday of her own, with a note.
+  select household_id into h_you     from household_members where user_id = u_you;
+  select household_id into h_marisol from household_members where user_id = u_marisol;
+
+  if h_marisol <> h_you then
+    insert into attendances (user_id, event_id, state, source, ticket_quantity) values
+      (u_marisol, e_jbrekkie,  'going', 'manual', 2),
+      (u_marisol, e_wednesday, 'going', 'manual', null)
+    on conflict (household_id, event_id) do nothing;
+
+    insert into notes (user_id, event_id, body) values
+      (u_marisol, e_wednesday, 'Bring earplugs, it is loud in there.')
+    on conflict (household_id, event_id) do nothing;
+
+    -- ...and joins. Japanese Breakfast merges into one row (keeping her
+    -- ticket_quantity); Wednesday and its note move across.
+    perform merge_household(h_marisol, h_you);
+  end if;
+
+  -- OUTSIDERS. Every one of these overlaps a show of yours, so a leak shows
+  -- up as a second row or a foreign note on a page you actually look at.
+  insert into attendances (user_id, event_id, state, source) values
+    (u_dev,   e_jbrekkie,  'going',      'manual'),
+    (u_dev,   e_sunset,    'interested', 'manual'),
+    (u_dev,   e_slowdive,  'went',       'manual'),
+    (u_quinn, e_turnstile, 'going',      'manual'),
+    (u_quinn, e_bigthief,  'going',      'manual'),
+    (u_sasha, e_jbrekkie,  'going',      'manual')
+  on conflict (household_id, event_id) do nothing;
+
+  insert into notes (user_id, event_id, body) values
+    (u_dev,   e_jbrekkie,  'IF YOU CAN READ THIS, RLS IS BROKEN.'),
+    (u_quinn, e_turnstile, 'IF YOU CAN READ THIS, RLS IS BROKEN.')
+  on conflict (household_id, event_id) do nothing;
 
   -- ---------------------------------------------------------- inbox queue
   -- Both review cases: an uncertain match, and a parsed email with no match.
@@ -262,17 +257,14 @@ end $$;
 
 -- ============================================================ what to expect
 --
--- Signed in as demo@stub.local you should see:
+-- Signed in as demo@stub.local (or marisol@stub.local — same view) you see:
 --
---   Upcoming  4 shows. Japanese Breakfast and Turnstile badged "From Gmail".
---             Japanese Breakfast shows a 2-avatar stack (Marisol + Dev) —
---             NOT 3, because Sasha is not your friend.
---   Archive   2 shows, grouped by year.
+--   Upcoming  4 shows: Japanese Breakfast, Turnstile, Fontaines D.C. and
+--             Wednesday. JB and Turnstile badged "From Gmail". No Big Thief
+--             or Sunset Rollercoaster (outsiders' shows).
+--   Archive   3 shows (Mitski, Alvvays, Mitski in Tokyo).
 --   Inbox     badge "2"; one 62% match, one "No match found".
---   Friends   3 friends, 1 pending request from Sasha, and "what your friends
---             are going to" listing Wednesday (Marisol + Dev) and Sunset
---             Rollercoaster (Dev).
---   Event     Japanese Breakfast shows YOUR note about the taqueria and
---             nothing else. Any "RLS IS BROKEN" text means the policy failed.
---   Profile   /profile/quinn shows her Slowdive show but NOT her private
---             Big Thief one.
+--   Event     Japanese Breakfast shows the taqueria note, 2 tickets, and
+--             nothing else. Wednesday shows Marisol's earplugs note. Any
+--             "RLS IS BROKEN" text means the policy failed.
+--   Settings  Household "Demo & Marisol" with both of you as admins.

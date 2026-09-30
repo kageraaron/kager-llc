@@ -31,8 +31,8 @@ export default function LoginPage() {
    * Carry the page the user was actually trying to reach through sign-in.
    *
    * Without this an invite link is a dead end for the person it is aimed at:
-   * middleware redirects a signed-out visitor here with `?next=/invite/<token>`,
-   * and dropping it lands them on an empty Upcoming with no friendship made.
+   * middleware redirects a signed-out visitor here with `?next=/join/<token>`,
+   * and dropping it lands them on an empty Upcoming, never having joined.
    *
    * Read from `window.location` rather than `useSearchParams` so this stays a
    * plain client component with no Suspense boundary. Same single-slash guard as

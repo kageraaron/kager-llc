@@ -4,8 +4,9 @@ import { useState, useTransition } from 'react';
 import { saveNote } from '@/app/actions';
 
 /**
- * Private note for one event. The "only you" line is not decoration - `notes`
- * has an owner-only RLS policy with no friend path, so this is literally true.
+ * The household's note for one event. There is one per show per household
+ * (`0025_household.sql`), so both people read and edit the same text; saving
+ * overwrites whatever the other last wrote.
  */
 export function NoteEditor({ eventId, initial }: { eventId: string; initial: string }) {
   const [body, setBody] = useState(initial);
@@ -31,8 +32,8 @@ export function NoteEditor({ eventId, initial }: { eventId: string; initial: str
   return (
     <section style={{ marginTop: 24 }}>
       <div className="spread">
-        <div className="section-label" style={{ margin: 0 }}>Private note</div>
-        <span className="muted" style={{ fontSize: 11 }}>Only you can see this</span>
+        <div className="section-label" style={{ margin: 0 }}>Note</div>
+        <span className="muted" style={{ fontSize: 11 }}>Shared with your household</span>
       </div>
 
       <textarea

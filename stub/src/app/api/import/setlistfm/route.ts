@@ -4,6 +4,7 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { getAllAttended, parseSetlistDate } from '@/lib/providers/setlistfm';
 import { searchEvents } from '@/lib/providers/ticketmaster';
 import { upsertEvent, recordAttendance } from '@/lib/ingest/catalog';
+import { getHouseholdId } from '@/lib/household';
 
 export const maxDuration = 60;
 
@@ -33,6 +34,7 @@ export async function POST(request: NextRequest) {
   }
 
   const admin = createAdminClient();
+  const householdId = await getHouseholdId(admin, user.id);
   let imported = 0;
   let skipped = 0;
 
@@ -105,11 +107,12 @@ export async function POST(request: NextRequest) {
       if (!eventId) { skipped++; continue; }
 
       await recordAttendance(admin, { userId: user.id, eventId, source: 'setlistfm' });
-      // Past shows import as attended, not as "going".
+      // Past shows import as attended, not as "going". By household, because
+      // recordAttendance dedupes onto the other member's row if they had it.
       await admin
         .from('attendances')
         .update({ state: 'went' })
-        .eq('user_id', user.id)
+        .eq('household_id', householdId)
         .eq('event_id', eventId);
 
       imported++;

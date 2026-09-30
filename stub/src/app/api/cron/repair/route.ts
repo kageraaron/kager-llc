@@ -68,8 +68,8 @@ import { pickHeadlinerName, normName } from '@/lib/ingest/catalog';
  * answer. Deduplication stops new ones arising; this clears the ones that
  * predate it.
  *
- * **9. Duplicate events.** Two people at the same gig must point at ONE event
- * row or the friends tab cannot connect them. Manual adds used to skip
+ * **9. Duplicate events.** The same gig must be ONE event row, or two emails
+ * about it become two shows on the household's list. Manual adds used to skip
  * reconciliation entirely, so the same night exists twice.
  *
  * Every pass only fills a null, subtracts known noise, or rewrites a title that
@@ -525,20 +525,20 @@ export async function GET(request: NextRequest) {
    */
   const { data: confirmed } = await admin
     .from('ingest_candidates')
-    .select('user_id, dedupe_key')
+    .select('household_id, dedupe_key')
     .eq('state', 'confirmed')
     .not('dedupe_key', 'is', null);
 
   /*
-   * Keyed by USER as well as show. One person adding a gig says nothing about
-   * whether the other went — a real pair of accounts had the same Kaskade
-   * night confirmed on one and still pending on the other, correctly.
+   * Keyed by HOUSEHOLD as well as show. The Inbox is shared (0025), so one
+   * person confirming a gig settles it for both; a different household
+   * confirming the same night settles nothing here.
    */
-  const settled = new Set((confirmed ?? []).map((c) => `${c.user_id}::${c.dedupe_key}`));
+  const settled = new Set((confirmed ?? []).map((c) => `${c.household_id}::${c.dedupe_key}`));
 
   const { data: stillPending } = await admin
     .from('ingest_candidates')
-    .select('id, message_id, user_id, dedupe_key, confidence, created_at')
+    .select('id, message_id, household_id, dedupe_key, confidence, created_at')
     .eq('state', 'pending')
     .not('dedupe_key', 'is', null)
     .order('confidence', { ascending: false })
@@ -554,7 +554,7 @@ export async function GET(request: NextRequest) {
   const keptPending = new Set<string>();
 
   for (const card of stillPending ?? []) {
-    const key = `${card.user_id}::${card.dedupe_key}`;
+    const key = `${card.household_id}::${card.dedupe_key}`;
 
     if (!settled.has(key)) {
       if (!keptPending.has(key)) {
@@ -636,23 +636,24 @@ export async function GET(request: NextRequest) {
  * order matters absolutely: repoint first, delete last. Getting it backwards
  * silently destroys attendances, which are the only record that someone went.
  *
- * `attendances`, `notes` and `sent_reminders` all carry a unique key including
- * `event_id`, so a repoint can collide with a row the winner already has. Those
- * use insert-then-delete rather than update, the same shape as `0021`.
+ * `attendances`, `notes` (per household) and `sent_reminders` (per person) all
+ * carry a unique key including `event_id`, so a repoint can collide with a row
+ * the winner already has. Those use insert-then-delete rather than update, the
+ * same shape as `0021`.
  */
 async function mergeEvents(
   db: ReturnType<typeof createAdminClient>,
   winnerId: string,
   loserId: string,
 ): Promise<boolean> {
-  // Attendances: keep the winner's if both users have one, else move it over.
+  // Attendances: keep the winner's if the household has both, else move it over.
   const { data: losing } = await db.from('attendances').select('*').eq('event_id', loserId);
   for (const att of losing ?? []) {
     const { data: already } = await db
       .from('attendances')
       .select('id')
       .eq('event_id', winnerId)
-      .eq('user_id', att.user_id)
+      .eq('household_id', att.household_id)
       .limit(1)
       .maybeSingle();
 
@@ -662,14 +663,36 @@ async function mergeEvents(
   }
   await db.from('attendances').delete().eq('event_id', loserId);
 
-  for (const table of ['notes', 'sent_reminders', 'event_invites'] as const) {
-    const { data: rows } = await db.from(table).select('*').eq('event_id', loserId);
-    for (const r of rows ?? []) {
-      const { id: _drop, event_id: _drop2, ...rest } = r as Record<string, unknown> & { id?: string };
-      await db.from(table).insert({ ...rest, event_id: winnerId });
+  // Notes: one per household per show. Where both events had one, keep both
+  // texts, as merge_household() does — a failed insert followed by the delete
+  // below would otherwise silently lose what someone wrote.
+  const { data: losingNotes } = await db.from('notes').select('*').eq('event_id', loserId);
+  for (const n of losingNotes ?? []) {
+    const { data: kept } = await db
+      .from('notes')
+      .select('id, body')
+      .eq('event_id', winnerId)
+      .eq('household_id', n.household_id)
+      .maybeSingle();
+
+    if (kept) {
+      if (n.body && n.body !== kept.body) {
+        await db.from('notes').update({ body: `${kept.body}\n\n${n.body}` }).eq('id', kept.id);
+      }
+    } else {
+      const { id: _drop, event_id: _drop2, ...rest } = n;
+      await db.from('notes').insert({ ...rest, event_id: winnerId });
     }
-    await db.from(table).delete().eq('event_id', loserId);
   }
+  await db.from('notes').delete().eq('event_id', loserId);
+
+  // Sent reminders are per person; a collision just means already reminded.
+  const { data: reminders } = await db.from('sent_reminders').select('*').eq('event_id', loserId);
+  for (const r of reminders ?? []) {
+    const { event_id: _drop, ...rest } = r as Record<string, unknown>;
+    await db.from('sent_reminders').insert({ ...rest, event_id: winnerId });
+  }
+  await db.from('sent_reminders').delete().eq('event_id', loserId);
 
   const { data: lineup } = await db.from('event_artists').select('artist_id, billing').eq('event_id', loserId);
   for (const l of lineup ?? []) {
