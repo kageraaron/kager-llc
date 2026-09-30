@@ -17,7 +17,10 @@ function safeNext(raw: string | null): string {
 
 /** Exchanges the OAuth / magic-link code for a session cookie. */
 export async function GET(request: NextRequest) {
-  const { searchParams, origin } = request.nextUrl;
+  const { searchParams } = request.nextUrl;
+  // Not `nextUrl.origin`: behind the home server's reverse proxy that is the
+  // container's own https://localhost:3001. See `publicUrl` in middleware.
+  const origin = process.env.NEXT_PUBLIC_SITE_URL ?? request.nextUrl.origin;
   const code = searchParams.get('code');
   const next = safeNext(searchParams.get('next'));
 

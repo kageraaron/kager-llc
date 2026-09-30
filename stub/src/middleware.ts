@@ -43,20 +43,39 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith('/api/trmnl');
 
   if (!user && !isPublic) {
-    const url = request.nextUrl.clone();
+    const url = publicUrl(request);
     url.pathname = '/login';
     url.searchParams.set('next', pathname);
     return NextResponse.redirect(url);
   }
 
   if (user && (pathname === '/' || pathname.startsWith('/login'))) {
-    const url = request.nextUrl.clone();
+    const url = publicUrl(request);
     url.pathname = '/upcoming';
     url.search = '';
     return NextResponse.redirect(url);
   }
 
   return response;
+}
+
+/**
+ * `request.nextUrl` rebased onto the public site URL.
+ *
+ * Behind a reverse proxy (Caddy on the home server) the standalone server sees
+ * its own bind address, so `nextUrl` comes out as https://localhost:3001 and a
+ * redirect built from it sends the browser nowhere. NEXT_PUBLIC_SITE_URL is the
+ * address people actually use.
+ */
+function publicUrl(request: NextRequest) {
+  const url = request.nextUrl.clone();
+  const site = process.env.NEXT_PUBLIC_SITE_URL;
+  if (site) {
+    const base = new URL(site);
+    url.protocol = base.protocol;
+    url.host = base.host;
+  }
+  return url;
 }
 
 export const config = {
