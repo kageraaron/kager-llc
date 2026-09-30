@@ -3,19 +3,23 @@
 A private Monarch Money replacement for two people. Net worth at a glance, recent
 transactions, nothing else.
 
-**Current plan:** start on **PikaPods** (~$3–6/mo, no hardware) to try the app, with the
-option to move to self-hosted later — see §10, and note the day-one step there that makes
-migration possible at all.
+**Plan: self-hosted.** `we-promise/sure` + SimpleFIN Bridge on a Lenovo ThinkCentre M720q
+at home, behind Tailscale. No public internet exposure. Opens at `https://money.example.org`
+through the shared Caddy front door (§5.2).
 
-**Longer-term option:** self-host [`we-promise/sure`](https://github.com/we-promise/sure) +
-[SimpleFIN Bridge](https://beta-bridge.simplefin.org/) on a mini PC at home, behind
-Tailscale. No public internet exposure.
+**Shared box.** The M720q also hosts Stub and Fare (see the Fare plan doc) in a separate
+Docker network with their own Postgres. Sure's database is never shared with them.
 
-**Cost:** ~$160 one-time (hardware) + ~$25/year (SimpleFIN + electricity).
-**Effort:** one evening, after a $15 / 30-minute go-no-go test.
+**Status: hardware ordered.** Currently running on PikaPods; migrating when the box
+arrives. Migration runbook is §10 — **§10.1 has things to do while you wait.**
 
-**Status:** planning. Nothing bought or built yet.
-**Last updated:** 2026-09-18
+**Hardware ordered:** Lenovo ThinkCentre M720q Tiny, i3-8100T (4C, 35 W), 8 GB DDR4,
+256 GB NVMe, Wi-Fi card + antennas, No OS. $150 from 2ndboot, 65 W adapter included,
+TPM 2.0 confirmed in the listing's Security spec.
+
+**Running cost once migrated:** ~$15/yr SimpleFIN + ~$14/yr electricity.
+
+**Last updated:** 2026-09-23
 
 ---
 
@@ -72,45 +76,24 @@ spending $160 on a mini PC.
 
 ---
 
-## 3. Shopping list
+## 3. The hardware
 
-| Item | Cost | Notes |
+**Ordered:** Lenovo ThinkCentre M720q Tiny from 2ndboot, **$150**.
+
+| Option | Chosen | Why |
 |---|---|---|
-| **N100/N150 mini PC**, 16 GB RAM, 500 GB SSD | ~$150–180 | Beelink S12 Pro / EQ14, Minisforum UN100, GMKtec G3. Includes case, PSU, storage. |
-| SimpleFIN Bridge | $15/year | |
-| Electricity (~7 W × 24/7) | ~$10/year | |
-| UPS (optional) | ~$60 | Nice-to-have, not required — see §4.3. |
-| Backup storage (Backblaze B2, <1 GB) | ~$0 | |
+| CPU | i3-8100T (4C/4T, 35 W) | 8th gen → **TPM 2.0 confirmed**. Sure needs almost no CPU. |
+| SSD | 256 GB NVMe | You'll use ~25 GB. |
+| Memory | 8 GB DDR4 (1×8) | ~1.5 GB for Sure; ~4–5 GB once Stub, Fare and Supabase join it. Second SODIMM slot free — add 8 GB when they do. |
+| OS | **No OS** | LUKS can only be configured during installation; a pre-installed image can't have your passphrase. |
+| Networking | Wi-Fi card + antennas (+$10) | Fallback, since the Ethernet situation is unknown. Antennas included — the fiddly part. |
+| 2.5" bay | Empty | A spinning disk in a silent always-on box adds noise, watts and a failure point, and a same-machine backup protects against nothing that matters. |
 
-**Total: ~$160 one-time, ~$25/year.**
+Included: 65 W Lenovo adapter, QA checklist, 30-day money-back guarantee.
 
-### Why an N100 mini PC
-
-You said you don't have a spare machine, so this is a purchase decision. The N100 box wins
-on a specific technical point, not just price:
-
-**It has TPM 2.0, which means full-disk encryption that auto-unlocks at boot.** You get an
-encrypted disk *and* unattended restart after a power cut. A Mac mini can't do both —
-FileVault there requires someone to physically type a password after every reboot. That
-single capability is why this is the right buy (§4.3).
-
-It's also 16 GB for less than an 8 GB Mac mini, draws ~7 W, runs Docker natively with no
-VM overhead, and is silent.
-
-**Alternatives:**
-- **Refurb Lenovo ThinkCentre Tiny / Dell OptiPlex Micro** (i5-8500T, 16 GB), ~$100–130 on
-  eBay. Real TPM 2.0, extremely reliable, idles ~10 W. Best value if you don't mind used.
-- **Raspberry Pi 5 8 GB**, ~$130 all-in once you add PSU, case, and an SSD. No TPM, more
-  fiddly, and you must **boot from SSD — Postgres writes destroy SD cards.** No longer
-  cheaper than an N100. Skip it.
-
-**Verified:** `ghcr.io/we-promise/sure` publishes both `linux/amd64` and `linux/arm64`, so
-either architecture runs natively.
-
-**Requirements:** Sure uses ~352 MB steady-state, plus Postgres and Redis. 4 GB is
-comfortable; 16 GB is generous headroom. ~20 GB disk.
-
----
+**Prefer Ethernet when it arrives.** The Wi-Fi card is insurance. These are 7×7×1.5 in and
+silent — if the box can sit near the router on a short cable, do that. An always-on server
+on Wi-Fi can drop while you're travelling, with nobody home to fix it.
 
 ## 4. Setup
 
@@ -122,13 +105,20 @@ equally fine.
 During install, enable **LUKS full-disk encryption**. Then:
 
 ```bash
-# Auto-unlock the disk at boot using the TPM
+# Auto-unlock the disk at boot using the TPM. Debian's default initramfs-tools can't
+# unlock via TPM2, so switch to dracut first (done 2026-09-30 on the M720q):
+sudo apt install dracut tpm2-tools
+echo 'add_dracutmodules+=" crypt tpm2-tss systemd "' | sudo tee /etc/dracut.conf.d/10-tpm2.conf
+sudo sed -i 's/x-initrd.attach/x-initrd.attach,tpm2-device=auto/' /etc/crypttab
+sudo dracut --regenerate-all -f      # reboot once and confirm it still prompts, then:
 sudo systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=7 /dev/nvme0n1p3
+# Update the BIOS and apply fwupd Secure Boot db/dbx updates BEFORE enrolling:
+# they change PCR 7. After any later one, type the passphrase once and re-enroll.
 
 # Unattended security patches
 sudo apt install unattended-upgrades && sudo dpkg-reconfigure -plow unattended-upgrades
 
-sudo apt install docker.io docker-compose-v2
+sudo apt install docker.io docker-compose   # Debian 13 package name; it is Compose v2
 ```
 
 Enable TPM (often listed as "Intel PTT") in the BIOS first if it isn't already.
@@ -166,11 +156,11 @@ Set these:
 | `ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY` | from `db:encryption:init` |
 | `ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT` | from `db:encryption:init` |
 | `SELF_HOSTED` | `true` |
-| `RAILS_ASSUME_SSL` | `true` — required behind Tailscale Serve |
+| `RAILS_ASSUME_SSL` | `true` — required behind Caddy, which terminates TLS |
 | `ONBOARDING_STATE` | `open` at first, then **`closed`** (§4.4) |
 | `AUTH_PASSKEY_LOGIN_ENABLED` | `true` |
-| `WEBAUTHN_RP_ID` | `<host>.<tailnet>.ts.net` |
-| `WEBAUTHN_ALLOWED_ORIGINS` | `https://<host>.<tailnet>.ts.net` |
+| `WEBAUTHN_RP_ID` | `money.example.org` |
+| `WEBAUTHN_ALLOWED_ORIGINS` | `https://money.example.org` |
 
 Two things to get right in the compose file:
 
@@ -195,12 +185,11 @@ shutdowns, not a requirement.
 
 ```bash
 docker compose up -d
-tailscale serve --bg 3000
-tailscale serve status
+curl -sI https://money.example.org    # from a laptop on the tailnet; Caddy routes it (§5.2)
 ```
 
-> ⚠️ **`tailscale serve`, never `tailscale funnel`.** Funnel publishes to the public
-> internet and undoes the most important control in this plan.
+> ⚠️ **Never `tailscale funnel`.** Funnel publishes to the public internet and undoes the
+> most important control in this plan. Caddy answers only on the Tailscale interface.
 
 Then, in order:
 
@@ -217,8 +206,8 @@ Then, in order:
 > from scratch. **One person registers; the other is invited.** An earlier draft of this
 > plan got this wrong.
 
-`WEBAUTHN_RP_ID` is pinned to the hostname, so **pick the tailnet hostname once**;
-changing it later breaks passkeys.
+`WEBAUTHN_RP_ID` is pinned to the hostname, so **pick the domain once** and use
+`money.example.org` from day one; changing it later breaks passkeys.
 
 ### 4.5 Connect
 
@@ -271,9 +260,13 @@ both in, but `invite_only` is already safe, since only an admin can generate an 
 
 Four independent layers.
 
-**1. Tailscale.** No port forwarding, no public DNS, nothing changed on your router. The
-box is not on the internet.
-- The free Personal plan covers **3 users, 100 devices**.
+**1. Tailscale.** No port forwarding, nothing changed on your router. The box is not on
+the internet. The public DNS record `*.example.org` points at the box's Tailscale address
+(`100.x.y.z`), which nobody outside the tailnet can reach.
+- The free Personal plan covers **up to 6 users, unlimited devices**.
+- **Turn off key expiry for the box only**, so it never drops off the tailnet.
+- DNS settings: MagicDNS on, `1.1.1.1` as global nameserver, **Override local DNS** on, so
+  names resolve the same on any Wi-Fi.
 - Invite your spouse as a **separate user**, not a shared login — separately revocable,
   and you can see which device connected.
 - Install on: the mini PC, both laptops, both phones.
@@ -286,25 +279,29 @@ Tighten it:
   "acls": [
     { "action": "accept",
       "src": ["you@example.com", "spouse@example.com"],
-      "dst": ["tag:finance:3000"] }
+      "dst": ["tag:home:443"] }
   ]
 }
 ```
 
-Tag the mini PC `tag:finance`. Enable **device approval**, and keep **key expiry on** so a
+Tag the mini PC `tag:home` (it now serves Stub and Fare too, all through Caddy on 443). Enable **device approval**, and keep **key expiry on** so a
 lost phone ages out of the tailnet by itself.
 
-**3. HTTPS via Tailscale Serve.** Real Let's Encrypt cert at
-`https://<host>.<tailnet>.ts.net`, reachable only from the tailnet. No self-signed cert
-warnings, no domain to buy.
+**3. HTTPS via Caddy on your own domain.** One wildcard Let's Encrypt cert for
+`*.example.org`, issued by DNS challenge through Cloudflare, so Let's Encrypt never needs to
+reach the box. `ufw` allows inbound only on `tailscale0`, so Caddy isn't reachable even
+from the home Wi-Fi. Sure is `money.example.org`; the launcher at `home.example.org` links every
+app. Full setup (DNS record, API token, Caddyfile) is in the Fare plan doc's *Tailscale,
+your own domain, and opening the apps* section.
 
 **4. Sure's own auth.** Two accounts, registration closed, passkeys. Even someone already
 on your tailnet still needs a passkey.
 
 ### 5.3 What it feels like to use
 
-- Open the URL on any device with Tailscale connected — home, coffee shop, another
-  country. Add to home screen for an app icon.
+- Open `money.example.org` on any device with Tailscale connected — home, coffee shop,
+  another country. Add to home screen for an app icon (Mac: Safari → File → Add to Dock).
+  If it won't load, Tailscale is off.
 - **Clients (correcting an earlier draft — there *are* native clients).** Sure ships a
   **Flutter mobile app for iOS and Android**, a **macOS desktop app** (Tauri 2 shell around
   the web app, asks for your server URL at launch), a Go CLI, and an MCP endpoint for
@@ -412,7 +409,8 @@ Further reading: [Sure discussion #157](https://github.com/we-promise/sure/discu
 - [ ] Strong account password — it's the last barrier if the box is stolen
 - [ ] `unattended-upgrades` enabled
 - [ ] App port bound to `127.0.0.1`; Postgres/Redis ports not published at all
-- [ ] Tailscale only — no port forwarding, `serve` not `funnel`
+- [ ] Tailscale only — no port forwarding, Caddy reachable on `tailscale0` only, never `funnel`
+- [ ] Cloudflare DNS record is **DNS only (grey cloud)**; API token scoped to DNS edit on the one zone
 - [ ] Tailnet ACLs scoped to two users, device approval on, key expiry on
 - [ ] `ONBOARDING_STATE=closed` after both accounts exist
 - [ ] Passkeys enrolled for both of you
@@ -462,15 +460,15 @@ Transactions can be re-pulled for 90 days; balance history is gone forever.
 
 ---
 
-## 9. Phases
+## 9. Phases (original build — see §10 for the migration)
 
 | Phase | Work | Gate |
 |---|---|---|
 | **0. Spike** | $15 SimpleFIN account. Link BofA, Fidelity, Schwab. Read the raw JSON. (§2) | **Do all three return balances and holdings?** Answer before buying hardware. |
 | **1. Buy** | N100 mini PC (§3). | Delivered. |
 | **2. OS** | Debian + LUKS + TPM auto-unlock + unattended-upgrades + Docker. BIOS: restore on AC power loss. (§4.1, §4.3) | Survives an unplugging test, comes back on its own. |
-| **3. Network** | Tailscale on the box and all four devices. MagicDNS + HTTPS certs. ACLs, device approval. (§5) | Both of you reach it; nothing outside can. |
-| **4. App** | Secrets, compose, `tailscale serve --bg 3000`. (§4.2) | Loads over HTTPS on a phone, valid cert. |
+| **3. Network** | Tailscale on the box and all four devices. Domain + wildcard DNS record → Tailscale IP, Caddy, `ufw`. ACLs, device approval. (§5) | Both of you reach it; nothing outside can. |
+| **4. App** | Secrets, compose, Caddy route `money.example.org` → `127.0.0.1:3000`. (§4.2) | Loads over HTTPS on a phone, valid cert. |
 | **5. Lock down** | **You** register → `ONBOARDING_STATE=invite_only` → **invite** spouse as admin, hand them the link → passkeys for both. Secrets to password manager. (§4.4, §5.1) | Both of you in **one** household seeing the same accounts; passkey login works for both. |
 | **6. Connect** | SimpleFIN token, link institutions, let a sync run. (§4.5) | Net worth matches a hand-tallied figure. |
 | **7. Backups** | Nightly encrypted dump offsite. **Test the restore.** (§8) | Restore verified. |
@@ -481,60 +479,99 @@ Phase 0 is half an hour. Phases 2–7 are one evening. Don't skip Phase 7.
 
 ---
 
-## 10. Starting on PikaPods, and moving off later
+## 10. Migration runbook: PikaPods → M720q
 
-### 10.1 Do this on day one or migration gets much harder
+### 10.1 While you wait — do these now
 
-**Record the pod's `ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY`, `..._DETERMINISTIC_KEY`,
-`..._KEY_DERIVATION_SALT` and `SECRET_KEY_BASE` into your password manager as soon as the
-pod is running.** PikaPods exposes environment variables in its control panel.
+**1. Find out whether encryption is on at PikaPods.** Check the pod logs for
+`[SECURITY] ActiveRecord Encryption is NOT configured`. This decides the migration path:
 
-Those keys encrypt the SimpleFIN credential in the database. Migrate the database without
-them and the encrypted columns won't decrypt on the new host. This is the one genuine
-landmine, and it costs two minutes to defuse.
+- **Warning present (encryption off).** The database holds plaintext. Migration is
+  *simpler* — there are no keys to carry. Set keys properly on the new box and the data
+  re-encrypts as it's written.
+- **Warning absent (encryption on).** You **must** carry the three
+  `ACTIVE_RECORD_ENCRYPTION_*` values to the new box, or the encrypted columns won't
+  decrypt. Pull them from `.env` over SFTP and put them in the password manager now.
 
-Also point PikaPods' **daily backup at your own S3 bucket** (Backblaze B2) at setup. Then
-a portable copy exists continuously and the migration is already half done.
+**2. Enable SFTP** on the pod (Pod Settings → SFTP) and confirm you can connect.
 
-### 10.2 Route 1 — Postgres dump (full fidelity, recommended)
+**3. Take a practice `pg_dump` now.** Do it once while nothing depends on it, so the real
+one isn't your first attempt.
 
-PikaPods gives SFTP access to the pod plus daily backups to your own storage. `pg_dump`,
-then restore into your own Docker Postgres with the same env vars.
+**4. Domain: done — `example.org` (Namecheap, 2026-09-23).** Sure is `money.example.org`.
+`WEBAUTHN_RP_ID` is pinned to it and changing it later breaks both passkeys. Move its DNS
+to Cloudflare's free plan (nameservers at Namecheap → Custom DNS) and create a DNS-edit API
+token for that zone — Caddy's certificate challenge needs Cloudflare DNS.
 
-Everything comes across: accounts, transactions, **balance history**, settings, users.
-Sure is a stock Rails + Postgres app — there's nothing proprietary in the way.
+**5. Prep the install media.** Debian 13 netinst ISO on an 8 GB+ USB stick.
 
-### 10.3 Route 2 — Sure's built-in export (portable)
+**6. Install Tailscale** on both laptops and both phones, and invite your spouse to the
+tailnet as a separate user. All of this works before the box exists.
 
-**Settings → Exports** (admin only) queues a background job and produces a ZIP:
+### 10.2 Day one with the box (~2 hours)
 
+**A. BIOS first.** Enable **Intel PTT** (TPM 2.0). Set **"After Power Loss → Power On."**
+Update the BIOS while you're in there.
+
+**B. Install Debian 13 with encrypted LVM (LUKS).** Choose a strong account password — with
+TPM auto-unlock it becomes the last barrier if the box is stolen.
+
+**C. Post-install:**
+```bash
+# BIOS update + fwupd Secure Boot updates first, then dracut, then enroll (see §4.1)
+sudo systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=7 /dev/nvme0n1p3
+sudo apt install unattended-upgrades && sudo dpkg-reconfigure -plow unattended-upgrades
+sudo apt install docker.io docker-compose   # Debian 13 package name; it is Compose v2
 ```
-version.txt   accounts.csv   transactions.csv   trades.csv
-categories.csv   merchants.csv   rules.csv   attachments.json   all.ndjson
-```
 
-Good for portability, inspection, or moving to a different app entirely. One caveat:
-`accounts.csv` carries each account's **current** balance, not the daily history — so for
-preserving the net worth chart, prefer Route 1. (`all.ndjson` is a fuller dump; verify it
-covers valuations before relying on it alone.)
+**D. Test the power-cut behaviour before going further.** Pull the plug, plug it back in.
+It must come back to a login prompt with nobody typing anything. If it doesn't, fix that
+now — it's the property the whole unattended design rests on.
 
-### 10.4 What breaks on the move — both minor
+**E. Tailscale + front door:** join the tailnet, tag the box `tag:home`, turn off its key
+expiry, scope the ACL to your two users on port 443. Add the `*` DNS record pointing at
+`tailscale ip -4` (grey cloud), install Caddy with the Cloudflare plugin, `ufw allow in on
+tailscale0`. See the Fare plan doc for the Caddyfile.
 
-- **Passkeys.** `WEBAUTHN_RP_ID` is pinned to the hostname, so moving from
-  `*.pikapod.net` to a tailnet hostname invalidates them. Re-enrol; two minutes.
-- **Worst case on SimpleFIN:** if the encryption keys were lost, generate a fresh setup
-  token from SimpleFIN Bridge and reconnect. Free. Your history stays — only the
-  connection is re-established.
+**F. Bring up Sure** with the §4 env vars — **including the three encryption keys from the
+start this time**, plus `ACTIVE_RECORD_ENCRYPTION_SUPPORT_UNENCRYPTED_DATA=true` so rows
+that arrive as plaintext stay readable during the backfill. Port bound to
+`127.0.0.1:3000:3000`. Caddy's `money.example.org` route picks it up.
 
-### 10.5 No lock-in, in either direction
+### 10.3 The cutover (~30 minutes)
 
-AGPL app, stock Postgres, documented export. PikaPods markets this explicitly. The same
-path works in reverse if you ever want to move *back* to managed hosting.
+1. **Stop syncing on the pod** so the data stops moving under you.
+2. **`pg_dump` from the pod** — this is the full-fidelity route. Use it, not the CSV
+   export: `accounts.csv` carries current balances only, and **balance history is the one
+   thing that cannot be rebuilt.**
+3. **Restore into the new Postgres.**
+4. **Start Sure and verify, in this order:** net worth figure matches the pod; transactions
+   are present; the net worth chart still shows its full history.
+5. **Re-enrol passkeys** for both of you — `WEBAUTHN_RP_ID` changed, so the old ones are
+   dead. Two minutes.
+6. **SimpleFIN:** if the connection works, you're done. If the `access_url` won't decrypt,
+   generate a fresh setup token at the Bridge and reconnect — free, and your history stays.
+7. **Run a sync end to end** and confirm new transactions land.
 
-**So starting on PikaPods is low-risk.** The only irreversible mistake would be losing the
-encryption keys and the balance history together — which §10.1 and §8 prevent.
+### 10.4 Don't burn the bridge
 
----
+- **Keep the pod running for a week.** It's $3–6/month; that's cheap insurance.
+- **Only one instance syncs.** Two instances against the same SimpleFIN connection will
+  diverge. The new box is canonical from the moment you restore.
+- **Set up backups on the new box before you cancel the pod** (§8) — nightly encrypted
+  `pg_dump` offsite, plus the encryption keys stored separately, and a **tested restore**.
+- Take a **final archived dump** of the pod before cancelling, and keep it.
+- Then cancel.
+
+### 10.5 What will break — all expected, all minor
+
+| | Fix |
+|---|---|
+| Passkeys stop working | Re-enrol. `WEBAUTHN_RP_ID` is hostname-pinned. 2 min. |
+| SimpleFIN may need reconnecting | Fresh setup token. Free. History is unaffected. |
+| The URL changes | `*.pikapod.net` → `money.example.org`. Re-add to home screens. |
+
+Nothing else should move. Sure is stock Rails + Postgres and the data is yours.
 
 ## Appendix A: alternatives considered
 
