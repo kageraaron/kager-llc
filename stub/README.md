@@ -30,7 +30,6 @@ Next.js PWA, installable to the iOS home screen. Runs on free tiers end to end.
 | Gmail scanning + review Inbox | Built |
 | Multi-year mailbox backfill (30d – 10y, resumable) | Built |
 | Eventbrite event resolution (first-party) | Built — needs an Eventbrite key |
-| Forward-to-inbox address | Built, **switched off** — needs a domain |
 | Bandsintown deep search + detail enrichment | Built — needs a Parse key |
 | setlist.fm archive import | Built |
 | setlist.fm matching for past-dated tickets | Built |
@@ -40,7 +39,6 @@ Next.js PWA, installable to the iOS home screen. Runs on free tiers end to end.
 | Supabase keep-alive (free tier pauses after 7 days idle) | Built — GitHub Actions cron |
 | Web push day-before reminders | Built |
 | "Artist you follow announced a show" push | Built |
-| Sign in with Apple, Apple Music import | **Not built** — needs paid Apple Developer |
 
 ## Five constraints worth knowing before you start
 
@@ -52,14 +50,12 @@ Next.js PWA, installable to the iOS home screen. Runs on free tiers end to end.
    Spotify app is capped at **5 authorized users** and requires the developer to
    hold Premium. Using it for auth would cap the whole app at five people, so it's
    an optional import connection only.
-3. **Apple needs $99/yr.** Sign in with Apple and MusicKit both require an active
-   Apple Developer Program membership. Both are stubbed with TODOs.
-4. **Nothing *lists* a show that already happened.** Every listing provider drops
+3. **Nothing *lists* a show that already happened.** Every listing provider drops
    an event once it is over, so a years-back mailbox scan mostly fills the review
    Inbox rather than the Archive. Two sources answer the past — **setlist.fm**
    (free, tried first) and Bandsintown's past-events endpoint (a credit, tried
    second). Good coverage for touring acts, patchy for small club nights.
-5. **JamBase is a 14-day trial, not a free tier.** When it lapses the specific
+4. **JamBase is a 14-day trial, not a free tier.** When it lapses the specific
    gap is Browse's *location* search. The past is covered by setlist.fm,
    purchases by Eventbrite, arena shows by Ticketmaster — but nothing free
    answers "what is on near me" except Ticketmaster, which is blind to the club
@@ -223,8 +219,6 @@ database with real data.**
   `BANDSINTOWN_DAILY_CREDITS` at 25 unless you know yours refills.
 - **Spotify**: create an app, add `<site>/api/connect/spotify/callback` as a
   redirect URI. Remember the 5-user ceiling.
-- **Forward address**: see `workers/email-router/README.md`. Needs a domain on
-  Cloudflare; until then leave `FEATURE_FORWARD_INBOX=false`.
 - **Push reminders**: `npx web-push generate-vapid-keys`, then set
   `VAPID_PUBLIC_KEY` / `VAPID_PRIVATE_KEY` / `VAPID_SUBJECT`. On iOS these only
   reach users who added Stub to their home screen (16.4+).

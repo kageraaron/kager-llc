@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { exchangeCode, getFollowedArtists, getTopArtists } from '@/lib/providers/spotify';
 import { resolveMbid } from '@/lib/providers/musicbrainz';
+import { upsertSpotifyArtist } from '@/lib/ingest/catalog';
 
 export const maxDuration = 60;
 
@@ -53,24 +54,17 @@ export async function GET(request: NextRequest) {
     // MusicBrainz is rate limited to 1 req/s, so cap how many we resolve per run.
     const mbid = imported < 40 ? await resolveMbid(artist.name) : null;
 
-    const { data: row } = await admin
-      .from('artists')
-      .upsert(
-        {
-          ...(mbid ? { mbid } : {}),
-          name: artist.name,
-          image_url: artist.images?.[0]?.url ?? null,
-          genres: artist.genres ?? [],
-        },
-        { onConflict: mbid ? 'mbid' : 'tm_id', ignoreDuplicates: false },
-      )
-      .select('id')
-      .single();
+    // The shared catalog path: matches on the Spotify id, then the name. This
+    // used to upsert on mbid/tm_id itself, which are null for most Spotify
+    // artists, so every import inserted duplicates (see 0027).
+    const artistId = await upsertSpotifyArtist(admin, artist.name, artist.id, artist.images?.[0]?.url);
+    if (!artistId) continue;
 
-    if (!row) continue;
+    // mbid is unique; if another row already holds it this update fails, which is fine.
+    if (mbid) await admin.from('artists').update({ mbid }).eq('id', artistId).is('mbid', null);
 
     await admin.from('user_artists').upsert(
-      { user_id: user.id, artist_id: row.id, source: 'spotify', weight: 1 },
+      { user_id: user.id, artist_id: artistId, source: 'spotify', weight: 1 },
       { onConflict: 'user_id,artist_id,source' },
     );
     imported++;

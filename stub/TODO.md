@@ -123,13 +123,10 @@ Environment Variables**, scoped per environment.
 
 ### 1.4 Buy a domain (~$10/yr)
 
-Unblocks five things at once:
+Unblocks:
 
-- **Forward-to-inbox** (`FEATURE_FORWARD_INBOX`) — needs DNS on Cloudflare for
-  Email Routing. See `workers/email-router/README.md`.
 - A stable OAuth redirect URI that doesn't change per deploy.
 - A real PWA install identity (icon + name on the home screen).
-- Somewhere to point `INBOUND_EMAIL_DOMAIN`.
 - **A role address for `VAPID_SUBJECT`** — see below.
 
 #### `VAPID_SUBJECT` wants a role address, not a personal one — **BLOCKED on the domain**
@@ -552,9 +549,9 @@ Free API, **no user cap**, no Premium requirement. Scrobble history is a richer
 favourites signal than Spotify follows. Strictly better than Spotify for this use
 case. **Recommend building this instead of relying on Spotify.**
 
-### 5.3 Apple Music — blocked on $99/yr
-MusicKit needs an active Apple Developer membership. Sign in with Apple, same.
-Both have documented stubs. Only worth it if you go to the App Store.
+### 5.3 Apple Music — dropped
+Removed from the app (2026-09-30): it needed a paid Apple Developer membership,
+and Spotify plus the ticket inbox cover the household.
 
 ### 5.4 setlist.fm — **working**
 Key is in `.env.local`. Powers both the archive backfill and the setlist display.

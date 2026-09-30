@@ -1086,7 +1086,7 @@ export async function enrichEventDetails(eventId: string) {
  *
  * 1. **Database rows.** `auth.users` → `profiles` cascades to the rows that
  *    are personal: email accounts, push subscriptions, sent reminders,
- *    inbound addresses, user_artists and household membership. Household rows
+ *    user_artists and household membership. Household rows
  *    (shows, notes, the shared Inbox) stay with the household — their
  *    `user_id` "added by" is nulled — and a household whose last member
  *    leaves is deleted with everything in it (`0025_household.sql`).

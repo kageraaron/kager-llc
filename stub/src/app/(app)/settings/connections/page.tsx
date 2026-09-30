@@ -12,7 +12,7 @@ export const dynamic = 'force-dynamic';
 export default async function ConnectionsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ connected?: string; error?: string }>;
+  searchParams: Promise<{ connected?: string; error?: string; artists?: string }>;
 }) {
   const params = await searchParams;
   const supabase = await createClient();
@@ -31,7 +31,6 @@ export default async function ConnectionsPage({
     const p = members.find((m) => m.user_id === userId)?.profile;
     return p?.display_name || p?.handle || 'Household member';
   };
-  const forwardEnabled = process.env.FEATURE_FORWARD_INBOX === 'true';
 
   return (
     <main className="page">
@@ -41,7 +40,13 @@ export default async function ConnectionsPage({
       </header>
 
       {params.error && <p className="error">Could not connect: {params.error}</p>}
-      {params.connected && <p className="muted">Gmail connected. First scan runs within 30 minutes.</p>}
+      {params.connected === 'spotify' ? (
+        <p className="muted">
+          Spotify imported: {params.artists ?? 0} artist{params.artists === '1' ? '' : 's'} added to your favourites.
+        </p>
+      ) : params.connected ? (
+        <p className="muted">Gmail connected. Scan below to pull in recent tickets.</p>
+      ) : null}
 
       {/* ---------------------------------------------------- Gmail */}
       <section>
@@ -98,18 +103,6 @@ export default async function ConnectionsPage({
           </div>
         ))}
 
-        {/* ---------------------------------------------------- forward address */}
-        <div className="card" style={{ flexDirection: 'column', gap: 8 }}>
-          <div className="spread">
-            <strong>Forwarding address</strong>
-            <span className="pill">{forwardEnabled ? 'Available' : 'Not set up'}</span>
-          </div>
-          <p className="muted" style={{ margin: 0, lineHeight: 1.5 }}>
-            {forwardEnabled
-              ? 'Forward any ticket confirmation to your private Stub address and it will be added.'
-              : 'Works with any mail provider, no account access needed. Requires a domain on Cloudflare — see workers/email-router/README.md to switch it on.'}
-          </p>
-        </div>
       </section>
 
       {/* ---------------------------------------------------- imports */}
@@ -130,16 +123,6 @@ export default async function ConnectionsPage({
           <a className="btn btn-block" href="/api/connect/spotify/start">Connect Spotify</a>
         </div>
 
-        <div className="card" style={{ flexDirection: 'column', gap: 8 }}>
-          <div className="spread">
-            <strong>Apple Music</strong>
-            <span className="pill">Unavailable</span>
-          </div>
-          <p className="muted" style={{ margin: 0, lineHeight: 1.5 }}>
-            Apple Music import and Sign in with Apple both require a paid Apple Developer
-            Program membership. Not enabled on this build.
-          </p>
-        </div>
       </section>
 
       <p className="muted" style={{ fontSize: 11, lineHeight: 1.5, marginTop: 24 }}>

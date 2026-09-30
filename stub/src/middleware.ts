@@ -32,7 +32,6 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith('/login') ||
     pathname.startsWith('/auth') ||
     pathname.startsWith('/api/cron') ||
-    pathname.startsWith('/api/ingest') ||
     // Calendar clients cannot carry a session; the feed's token IS its
     // credential, and the route validates it with the service role.
     pathname.startsWith('/api/calendar') ||
@@ -73,7 +72,9 @@ function publicUrl(request: NextRequest) {
   if (site) {
     const base = new URL(site);
     url.protocol = base.protocol;
-    url.host = base.host;
+    url.hostname = base.hostname;
+    // NextURL keeps the port apart from the host, so it must be reset too.
+    url.port = base.port;
   }
   return url;
 }

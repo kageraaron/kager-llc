@@ -229,7 +229,7 @@ export async function recordAttendance(
   params: {
     userId: string;
     eventId: string;
-    source: 'manual' | 'gmail' | 'forward' | 'setlistfm';
+    source: 'manual' | 'gmail' | 'setlistfm';
     ticketRef?: string;
     seatInfo?: string;
     priceCents?: number;
@@ -418,7 +418,7 @@ async function upsertArtistByName(db: SupabaseClient, name: string): Promise<str
   return upsertSpotifyArtist(db, name);
 }
 
-async function upsertSpotifyArtist(
+export async function upsertSpotifyArtist(
   db: SupabaseClient,
   name: string,
   spotifyArtistId?: string | null,

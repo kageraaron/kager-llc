@@ -29,7 +29,7 @@ export async function ingestEmail(
   db: SupabaseClient,
   userId: string,
   raw: RawEmailInput,
-  opts: { accountId?: string; source: 'gmail' | 'forward' } = { source: 'forward' },
+  opts: { accountId?: string; source: 'gmail' } = { source: 'gmail' },
 ): Promise<IngestOutcome> {
   const email = normalizeEmail(raw);
   const hash = contentHash(email);
