@@ -1,0 +1,163 @@
+import { describe, it, expect } from 'vitest';
+
+import { extractPurchase, totalFromText, orderRefFromText, toCents } from '@/lib/ingest/extract';
+import { deadlineFor, fareClaimable, policyFor, policyForSender, worthAlerting, DEFAULT_SETTINGS } from '@/lib/policies';
+import { splitLegs } from '@/lib/pricing/serpapi';
+import type { NormalizedEmail } from '@/lib/types';
+
+const email = (over: Partial<NormalizedEmail>): NormalizedEmail => ({
+  from: 'x@example.com', subject: 'Your order', html: '', text: '', receivedAt: '2026-09-01T12:00:00Z', ...over,
+});
+const ld = (obj: unknown) => `<html><script type="application/ld+json">${JSON.stringify(obj)}</script></html>`;
+
+describe('merchant detection', () => {
+  it('matches sender domains and subdomains', () => {
+    expect(policyForSender('Best Buy <BestBuyInfo@emailinfo.bestbuy.com>')?.id).toBe('bestbuy');
+    expect(policyForSender('Delta Air Lines <DeltaAirLines@t.delta.com>')?.id).toBe('delta');
+    expect(policyForSender('orders@walmart.com')).toBeUndefined();
+  });
+});
+
+describe('schema.org extraction', () => {
+  it('reads a retail Order with items, SKUs and total', () => {
+    const p = extractPurchase(
+      email({
+        from: 'BestBuyInfo@emailinfo.bestbuy.com',
+        html: ld({
+          '@context': 'http://schema.org', '@type': 'Order', merchant: { name: 'Best Buy' },
+          orderNumber: 'BBY01-806123', orderDate: '2026-09-01T10:00:00-07:00', price: '1,099.98', priceCurrency: 'USD',
+          acceptedOffer: [
+            { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'Sony WH-1000XM6', sku: '6505727' }, price: '399.99', eligibleQuantity: { value: 1 } },
+            { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'iPad Air', url: 'https://www.bestbuy.com/site/x?skuId=6565838' }, price: '699.99' },
+          ],
+        }),
+      }),
+      policyFor('bestbuy')!,
+    )!;
+    expect(p.confidence).toBe('high');
+    expect(p.orderRef).toBe('BBY01-806123');
+    expect(p.totalCents).toBe(109998);
+    expect(p.items.map((i) => i.sku)).toEqual(['6505727', '6565838']);
+    expect(p.items[0].unitPriceCents).toBe(39999);
+  });
+
+  it('reads FlightReservations: one segment per flight, passengers counted once', () => {
+    const seg = (n: string, from: string, to: string, t: string, who: string) => ({
+      '@type': 'FlightReservation', reservationNumber: 'ABC123', underName: { name: who },
+      reservationFor: { '@type': 'Flight', flightNumber: n, airline: { iataCode: 'DL' }, departureAirport: { iataCode: from }, arrivalAirport: { iataCode: to }, departureTime: t },
+    });
+    const p = extractPurchase(
+      email({
+        from: 'DeltaAirLines@t.delta.com',
+        html: ld([
+          seg('123', 'SFO', 'JFK', '2026-11-20T08:00:00-08:00', 'Passenger A'),
+          seg('123', 'SFO', 'JFK', '2026-11-20T08:00:00-08:00', 'Passenger B'),
+          seg('456', 'JFK', 'SFO', '2026-11-27T18:00:00-05:00', 'Passenger A'),
+          seg('456', 'JFK', 'SFO', '2026-11-27T18:00:00-05:00', 'Passenger B'),
+        ]),
+        text: 'Main Cabin\nTrip Total\n$812.40',
+      }),
+      policyFor('delta')!,
+    )!;
+    expect(p.kind).toBe('flight');
+    expect(p.orderRef).toBe('ABC123');
+    expect(p.details.passengers).toBe(2);
+    expect((p.details.segments as unknown[]).length).toBe(2);
+    expect(p.details.fare_brand).toBe('Main Cabin');
+    expect(p.totalCents).toBe(81240);
+  });
+
+  it('reads a LodgingReservation and whether it is refundable', () => {
+    const p = extractPurchase(
+      email({
+        from: 'reservations@marriott.com',
+        html: ld({
+          '@type': 'LodgingReservation', reservationNumber: '7781', totalPrice: '642.10',
+          reservationFor: { '@type': 'LodgingBusiness', name: 'Hotel Zephyr', address: { addressLocality: 'San Francisco' } },
+          checkinTime: '2026-12-01T15:00:00', checkoutTime: '2026-12-03T11:00:00',
+        }),
+        text: 'Free cancellation until Nov 29',
+      }),
+      policyFor('hotel')!,
+    )!;
+    expect(p.details).toMatchObject({ property: 'Hotel Zephyr', city: 'San Francisco', refundable: true });
+    expect(p.totalCents).toBe(64210);
+  });
+});
+
+describe('text fallback', () => {
+  it('prefers order totals over a bare Total, ignores subtotals', () => {
+    expect(totalFromText('Subtotal $90.00\nTotal $95.00\nOrder Total\n$97.42')).toBe(9742);
+  });
+  it('finds order numbers', () => {
+    expect(orderRefFromText('Thanks! Order #: 102-4433-9981', 'retail')).toBe('102-4433-9981');
+  });
+  it('is always low confidence', () => {
+    const p = extractPurchase(email({ from: 'orders@oe.target.com', subject: 'Thanks for your order!', text: 'Order #102000111\nOrder total $54.10' }), policyFor('target')!)!;
+    expect(p.confidence).toBe('low');
+    expect(p.totalCents).toBe(5410);
+  });
+  it('ignores marketing', () => {
+    expect(extractPurchase(email({ from: 'deals@target.com', subject: 'Deals of the week: 30% off', text: 'Order total $10.00' }), policyFor('target')!)).toBeNull();
+  });
+  it('parses money', () => {
+    expect(toCents('$1,234.5')).toBe(123450);
+    expect(toCents('free')).toBeUndefined();
+  });
+});
+
+describe('policies', () => {
+  const bought = new Date('2026-09-01T12:00:00Z');
+  it('sets store windows', () => {
+    const days = (id: string, tier?: 'plus') =>
+      (deadlineFor(policyFor(id)!, bought, {}, { bestbuyTier: tier })!.getTime() - bought.getTime()) / 86_400_000;
+    expect(days('target')).toBe(14);
+    expect(days('costco')).toBe(30);
+    expect(days('bestbuy')).toBe(15);
+    expect(days('bestbuy', 'plus')).toBe(60);
+  });
+  it('flights close at departure; Southwest 10 minutes before', () => {
+    const d = { segments: [{ departs: '2026-11-20T16:00:00Z' }] };
+    expect(deadlineFor(policyFor('delta')!, bought, d)!.toISOString()).toBe('2026-11-20T16:00:00.000Z');
+    expect(deadlineFor(policyFor('southwest')!, bought, d)!.toISOString()).toBe('2026-11-20T15:50:00.000Z');
+  });
+  it('Basic Economy is claimable only inside the 24-hour window', () => {
+    const d = { fare_brand: 'Basic Economy', segments: [{ departs: '2026-11-20T16:00:00Z' }] };
+    expect(fareClaimable(policyFor('delta')!, d, bought, new Date('2026-09-01T20:00:00Z')).ok).toBe(true);
+    expect(fareClaimable(policyFor('delta')!, d, bought, new Date('2026-09-03T12:00:00Z')).ok).toBe(false);
+    expect(fareClaimable(policyFor('delta')!, { ...d, fare_brand: 'Main Cabin' }, bought, new Date('2026-09-03T12:00:00Z')).ok).toBe(true);
+  });
+  it('alerts only when both floors clear', () => {
+    expect(worthAlerting('retail', 4000, 2800, DEFAULT_SETTINGS)).toBe(true);    // $12, 30%
+    expect(worthAlerting('retail', 90000, 88800, DEFAULT_SETTINGS)).toBe(false); // $12, but only 1.3%
+    expect(worthAlerting('retail', 4000, 3500, DEFAULT_SETTINGS)).toBe(false);   // $5 < $10
+    expect(worthAlerting('flight', 80000, 76000, DEFAULT_SETTINGS)).toBe(true);  // $40, 5%
+  });
+});
+
+describe('round trips', () => {
+  it('splits at the longest gap', () => {
+    const { out, back } = splitLegs([
+      { from: 'SFO', to: 'DEN', departs: '2026-11-20T08:00:00Z' },
+      { from: 'DEN', to: 'JFK', departs: '2026-11-20T12:00:00Z' },
+      { from: 'JFK', to: 'SFO', departs: '2026-11-27T18:00:00Z' },
+    ]);
+    expect(out.map((s) => s.to)).toEqual(['DEN', 'JFK']);
+    expect(back.map((s) => s.to)).toEqual(['SFO']);
+  });
+});
+
+import { emailRole } from '@/lib/ingest/extract';
+
+describe('email roles (from real subjects)', () => {
+  it('only confirmations and receipts create purchases', () => {
+    expect(emailRole('Your United Airlines booking confirmation – K54FEG')).toBe('purchase');
+    expect(emailRole('Your trip confirmation (MCO - PHL)')).toBe('purchase');
+    expect(emailRole('Thanks for your order!')).toBe('purchase');
+    expect(emailRole('What to know about your trip to San Francisco')).toBe('update');
+    expect(emailRole('Quick reminders about your upcoming trip to San Diego')).toBe('update');
+    expect(emailRole('Trip on hold - GHZXBP')).toBe('update');
+    expect(emailRole('AAdvantage® login verification')).toBe('other');
+    expect(emailRole('Your Account Summary—Stay Near the Action')).toBe('other');
+  });
+});

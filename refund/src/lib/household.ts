@@ -1,4 +1,4 @@
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { Db as SupabaseClient } from '@/lib/db';
 
 /**
  * Households are Stub's (0025_household.sql, in the shared `public` schema):

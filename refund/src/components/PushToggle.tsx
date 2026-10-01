@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react';
 
 /**
- * Enables day-before show reminders.
+ * Enables price-drop alerts and deadline reminders.
  *
- * On iOS this only works once Stub has been added to the home screen
+ * On iOS this only works once Refund has been added to the home screen
  * (iOS 16.4+), and Notification.requestPermission must be called from a user
  * gesture — hence a button rather than an automatic prompt.
  */
@@ -102,14 +102,14 @@ export function PushToggle({ vapidPublicKey }: { vapidPublicKey: string | null }
   const message = {
     unsupported: 'This browser does not support push notifications.',
     denied: 'Notifications are blocked. Enable them in your browser or iOS settings.',
-    on: 'You will get a reminder the day before each show.',
-    off: 'Get a reminder the day before each show you are going to.',
+    on: 'You’ll get a push when a price drops and before a claim window closes.',
+    off: 'Get a push when a price drops and before a claim window closes.',
   }[state];
 
   return (
     <div className="panel">
       <div className="spread">
-        <strong>Show reminders</strong>
+        <strong>Alerts</strong>
         <span className={`pill ${state === 'on' ? 'pill-going' : ''}`}>
           {state === 'on' ? 'On' : 'Off'}
         </span>
@@ -124,7 +124,7 @@ export function PushToggle({ vapidPublicKey }: { vapidPublicKey: string | null }
 
       {state === 'off' && (
         <button className="btn btn-primary btn-block" disabled={busy || !vapidPublicKey} onClick={enable}>
-          {busy ? 'Enabling...' : 'Turn on reminders'}
+          {busy ? 'Enabling...' : 'Turn on alerts'}
         </button>
       )}
       {state === 'on' && (

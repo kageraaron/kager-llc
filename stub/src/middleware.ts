@@ -1,5 +1,6 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
+import { cookieOptions } from '@/lib/supabase/cookies';
 
 /**
  * Refreshes the Supabase session cookie on every navigation and gates the app
@@ -13,6 +14,7 @@ export async function middleware(request: NextRequest) {
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
+      cookieOptions,
       cookies: {
         getAll: () => request.cookies.getAll(),
         setAll: (toSet) => {
