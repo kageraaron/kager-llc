@@ -24,13 +24,13 @@ export default function Loading() {
         <div className="card" key={i} aria-hidden="true">
           <div className="date-chip">
             <div className="skeleton" style={{ width: 26, height: 10, borderRadius: 4 }} />
-            <div className="skeleton" style={{ width: 22, height: 20, borderRadius: 5, marginTop: 5 }} />
+            <div className="skeleton" style={{ width: 22, height: 20, borderRadius: 5, marginTop: 4 }} />
           </div>
           <div className="skeleton thumb" />
           <div className="body">
             <div className="skeleton" style={{ width: '55%', height: 15, borderRadius: 6 }} />
             <div className="skeleton" style={{ width: '75%', height: 12, borderRadius: 6, marginTop: 8 }} />
-            <div className="skeleton" style={{ width: '35%', height: 12, borderRadius: 6, marginTop: 6 }} />
+            <div className="skeleton" style={{ width: '35%', height: 12, borderRadius: 6, marginTop: 8 }} />
           </div>
         </div>
       ))}

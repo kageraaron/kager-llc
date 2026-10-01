@@ -33,7 +33,7 @@ export function NoteEditor({ eventId, initial }: { eventId: string; initial: str
     <section style={{ marginTop: 24 }}>
       <div className="spread">
         <div className="section-label" style={{ margin: 0 }}>Note</div>
-        <span className="muted" style={{ fontSize: 11 }}>Shared with your household</span>
+        <span className="fine">Shared with your household</span>
       </div>
 
       <textarea

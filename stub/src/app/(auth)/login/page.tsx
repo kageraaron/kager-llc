@@ -89,7 +89,7 @@ export default function LoginPage() {
       <div style={{ width: '100%', maxWidth: 380 }}>
         <div style={{ textAlign: 'center', marginBottom: 32 }}>
           <div style={{ fontSize: 44, fontWeight: 800, letterSpacing: '-0.04em' }}>Stub</div>
-          <p className="muted" style={{ marginTop: 6 }}>
+          <p className="muted" style={{ marginTop: 8 }}>
             Every show you&rsquo;re going to, and every show you went to.
           </p>
         </div>
@@ -101,7 +101,7 @@ export default function LoginPage() {
 
           <div className="row" style={{ margin: '6px 0' }}>
             <hr style={{ flex: 1, border: 0, borderTop: '1px solid var(--border)' }} />
-            <span className="muted" style={{ fontSize: 12 }}>or</span>
+            <span className="fine">or</span>
             <hr style={{ flex: 1, border: 0, borderTop: '1px solid var(--border)' }} />
           </div>
 
@@ -142,7 +142,7 @@ export default function LoginPage() {
           )}
 
           {passwordLogin && (
-            <p className="muted" style={{ fontSize: 11, textAlign: 'center' }}>
+            <p className="muted" style={{ fontSize: 12, textAlign: 'center' }}>
               Test accounts: <code>demo@stub.local</code> / <code>stubdemo123</code>
             </p>
           )}
@@ -150,7 +150,7 @@ export default function LoginPage() {
           {error && <p className="error">{error}</p>}
         </div>
 
-        <p className="muted" style={{ fontSize: 11, textAlign: 'center', marginTop: 28, lineHeight: 1.5 }}>
+        <p className="muted" style={{ fontSize: 12, textAlign: 'center', marginTop: 32, lineHeight: 1.5 }}>
           Connecting Gmail is optional and happens later, from Settings.
           Stub reads only ticket confirmations and never stores the emails themselves.
         </p>

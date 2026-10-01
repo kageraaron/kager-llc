@@ -56,7 +56,7 @@ export function DeleteAccountButton() {
     <section
       style={{
         marginTop: 24,
-        padding: 14,
+        padding: 16,
         border: '1px solid var(--accent)',
         borderRadius: 8,
       }}
@@ -89,7 +89,7 @@ export function DeleteAccountButton() {
 
       {error && <p className="error" style={{ marginTop: 8 }}>{error}</p>}
 
-      <div className="spread" style={{ marginTop: 12, gap: 8 }}>
+      <div className="spread" style={{ marginTop: 12 }}>
         <button
           className="btn"
           disabled={pending}

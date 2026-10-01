@@ -89,6 +89,8 @@ export function TabBar({ inboxCount = 0 }: { inboxCount?: number }) {
 
   return (
     <nav className="tabbar" aria-label="Main">
+      {/* Desktop rail only; hidden under the bottom-bar layout. */}
+      <div className="rail-brand" aria-hidden="true">Stub</div>
       {TABS.map((tab) => {
         const active = pathname.startsWith(tab.href);
         return (

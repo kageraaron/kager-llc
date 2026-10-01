@@ -114,11 +114,11 @@ export function EventCard({
         )}
 
         {rating != null && (
-          <div style={{ marginTop: 5 }}><Stars rating={rating} /></div>
+          <div style={{ marginTop: 4 }}><Stars rating={rating} /></div>
         )}
 
         {(badge || attending || hasSetlist) && (
-          <div className="row" style={{ marginTop: 7 }}>
+          <div className="row" style={{ marginTop: 8 }}>
             {attending && <span className={`pill pill-${attending.tone}`}>{attending.label}</span>}
             {hasSetlist && <span className="pill">Setlist</span>}
             {badge && <span className={`pill ${badge.tone ? `pill-${badge.tone}` : ''}`}>{badge.label}</span>}

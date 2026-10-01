@@ -47,7 +47,7 @@ export function InviteLink() {
 
   if (!url) {
     return (
-      <div className="stack" style={{ gap: 6, marginBottom: 12 }}>
+      <div className="stack">
         <button className="btn btn-block" disabled={pending} onClick={() => load()}>
           {pending ? 'Creating…' : 'Get an invite link'}
         </button>
@@ -57,14 +57,14 @@ export function InviteLink() {
   }
 
   return (
-    <div className="stack" style={{ gap: 6, marginBottom: 12 }}>
-      <div className="row" style={{ gap: 8 }}>
+    <div className="stack">
+      <div className="row">
         <input className="input" style={{ flex: 1 }} readOnly value={url} onFocus={(e) => e.target.select()} />
         <button className="btn btn-primary" onClick={share}>
           {copied ? 'Copied' : 'Share'}
         </button>
       </div>
-      <p className="muted" style={{ margin: 0, fontSize: 12, lineHeight: 1.5 }}>
+      <p className="fine">
         Whoever opens this joins your household and sees all its shows, notes and Inbox. Works once, for 14 days.{' '}
         <button
           style={{ textDecoration: 'underline', padding: 0, font: 'inherit' }}

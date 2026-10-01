@@ -59,12 +59,12 @@ export function RatingControl({
     <section style={{ marginTop: 24 }}>
       <div className="spread">
         <div className="section-label" style={{ margin: 0 }}>How was it?</div>
-        {saved && <span className="muted" style={{ fontSize: 11 }}>Saved</span>}
+        {saved && <span className="fine">Saved</span>}
       </div>
 
       <div
         className="row"
-        style={{ gap: 4, marginTop: 6 }}
+        style={{ gap: 4, marginTop: 8 }}
         onMouseLeave={() => setHover(null)}
       >
         {[1, 2, 3, 4, 5].map((n) => (
@@ -102,7 +102,7 @@ export function RatingControl({
       </div>
 
       {rating !== null && (
-        <div style={{ marginTop: 10 }}>
+        <div style={{ marginTop: 12 }}>
           {!open && !review ? (
             <button className="btn" onClick={() => setOpen(true)}>Add a few words</button>
           ) : (
@@ -116,7 +116,7 @@ export function RatingControl({
                 onChange={(e) => setReview(e.target.value)}
               />
               <div className="row" style={{ marginTop: 8, justifyContent: 'flex-end' }}>
-                <span className="muted" style={{ marginRight: 'auto', fontSize: 11 }}>
+                <span className="muted" style={{ marginRight: 'auto', fontSize: 12 }}>
                   Shared with your household
                 </span>
                 <button

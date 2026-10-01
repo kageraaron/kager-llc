@@ -11,10 +11,10 @@ export function ExploreAddButton({ eventId }: { eventId: string }) {
   const [error, setError] = useState<string | null>(null);
 
   return (
-    <div className="row" style={{ gap: 8, justifyContent: 'flex-end' }}>
-      {error && <span className="error" style={{ marginRight: 'auto', fontSize: 12 }}>{error}</span>}
+    <div className="footer-actions">
+      {error && <span className="error" style={{ marginRight: 'auto' }}>{error}</span>}
       <button
-        className="btn"
+        className="btn btn-sm"
         disabled={pending}
         onClick={() =>
           startTransition(async () => {
@@ -37,9 +37,9 @@ export function ExploreRefreshButton() {
   const [note, setNote] = useState<string | null>(null);
 
   return (
-    <div className="stack" style={{ gap: 4, alignItems: 'flex-end' }}>
+    <div className="head-actions">
       <button
-        className="btn"
+        className="btn btn-sm"
         disabled={pending}
         onClick={() =>
           startTransition(async () => {
@@ -54,7 +54,7 @@ export function ExploreRefreshButton() {
       >
         {pending ? 'Checking…' : 'Refresh'}
       </button>
-      {note && <span className="muted" style={{ fontSize: 11 }}>{note}</span>}
+      {note && <span className="fine">{note}</span>}
     </div>
   );
 }

@@ -312,7 +312,7 @@ export default function BrowsePage() {
         aria-label="City"
       />
 
-      <div className="row" style={{ marginTop: 10, flexWrap: 'wrap', gap: 8 }}>
+      <div className="row" style={{ marginTop: 12, flexWrap: 'wrap' }}>
         {!nearMe && (
           <button className="btn" disabled={locating} onClick={useMyLocation}>
             {locating ? 'Locating…' : 'Near me'}
@@ -323,7 +323,7 @@ export default function BrowsePage() {
           <>
             <select
               className="input"
-              style={{ width: 'auto', padding: '6px 10px', fontSize: 14 }}
+              style={{ width: 'auto', padding: '6px 10px', fontSize: 13 }}
               value={radius}
               onChange={(e) => setRadius(Number(e.target.value))}
               aria-label="Search radius"
@@ -350,7 +350,7 @@ export default function BrowsePage() {
       {locError && <p className="error" style={{ marginTop: 8 }}>{locError}</p>}
       {loading && <p className="muted" style={{ marginTop: 12 }}>Searching…</p>}
 
-      <div style={{ marginTop: 14 }}>
+      <div style={{ marginTop: 16 }}>
         {events.map((ev) => {
           const isAdded = added.has(ev.id);
           return (
@@ -370,7 +370,7 @@ export default function BrowsePage() {
                   {[ev.venue, ev.city, ev.region].filter(Boolean).join(' · ')}
                 </div>
                 {ev.isFestival && (
-                  <div style={{ marginTop: 5 }}>
+                  <div style={{ marginTop: 4 }}>
                     <span className="pill">Festival · {ev.name}</span>
                   </div>
                 )}
@@ -408,7 +408,7 @@ export default function BrowsePage() {
         off a ~200-credit balance is worth spending. Never fires on typing.
       */}
       {q.length >= 2 && resultsAreCurrent && !loading && deepFor !== q && (
-        <section style={{ marginTop: 20 }}>
+        <section style={{ marginTop: 24 }}>
           <button
             className="btn btn-block"
             disabled={deepSearching}
@@ -419,7 +419,7 @@ export default function BrowsePage() {
           >
             {deepSearching ? 'Searching Bandsintown…' : 'Search harder (Bandsintown)'}
           </button>
-          <p className="muted" style={{ margin: '6px 0 0', fontSize: 11, lineHeight: 1.5 }}>
+          <p className="muted" style={{ margin: '6px 0 0', fontSize: 12, lineHeight: 1.5 }}>
             {events.length === 0
               ? 'Bandsintown lists club shows the others miss.'
               : 'Missing a date? Bandsintown often has small-venue shows the others don’t.'}
@@ -430,7 +430,7 @@ export default function BrowsePage() {
       {/* No listings service is complete — club nights and afterparties are
           routinely absent from all of them — so manual entry is always offered,
           not just when a search comes back empty. */}
-      <section style={{ marginTop: 28 }}>
+      <section style={{ marginTop: 32 }}>
         {!manual ? (
           <button className="btn btn-block" onClick={() => setManual(true)}>
             Can&rsquo;t find it? Add a show manually
@@ -464,7 +464,7 @@ export default function BrowsePage() {
       )}
 
       {results?.source && events.length > 0 && (
-        <p className="muted" style={{ fontSize: 11, textAlign: 'center', marginTop: 16 }}>
+        <p className="muted" style={{ fontSize: 12, textAlign: 'center', marginTop: 16 }}>
           {events.length} shown{results.hasMore ? '' : ' · that’s everything'} · via{' '}
           {SOURCE_LABELS[results.source] ?? results.source}
         </p>

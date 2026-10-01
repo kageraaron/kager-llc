@@ -69,10 +69,10 @@ export function TicketDetails({ eventId, quantity, priceCents, seatInfo, ticketR
 
   if (editing) {
     return (
-      <div className="stack" style={{ gap: 8, marginTop: 12 }}>
-        <div className="row" style={{ gap: 8 }}>
+      <div className="stack" style={{ marginTop: 12 }}>
+        <div className="row">
           <label className="stack" style={{ gap: 4, flex: 1 }}>
-            <span className="muted" style={{ fontSize: 12 }}>Tickets</span>
+            <span className="fine">Tickets</span>
             <input
               className="input"
               type="number"
@@ -85,7 +85,7 @@ export function TicketDetails({ eventId, quantity, priceCents, seatInfo, ticketR
             />
           </label>
           <label className="stack" style={{ gap: 4, flex: 1 }}>
-            <span className="muted" style={{ fontSize: 12 }}>Total paid</span>
+            <span className="fine">Total paid</span>
             <input
               className="input"
               type="number"
@@ -98,7 +98,7 @@ export function TicketDetails({ eventId, quantity, priceCents, seatInfo, ticketR
           </label>
         </div>
         {error && <p className="error" style={{ margin: 0 }}>{error}</p>}
-        <div className="row" style={{ gap: 8 }}>
+        <div className="row">
           <button className="btn btn-primary" disabled={pending} onClick={save}>
             {pending ? 'Saving…' : 'Save'}
           </button>

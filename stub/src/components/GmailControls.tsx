@@ -148,7 +148,7 @@ export function GmailControls({
 
   return (
     <>
-      <div className="row" style={{ gap: 8 }}>
+      <div className="row">
         <select
           className="input"
           style={{ flex: 1 }}
@@ -188,7 +188,7 @@ export function GmailControls({
         </p>
       )}
 
-      <div className="row" style={{ gap: 8 }}>
+      <div className="row">
         <button className="btn" style={{ flex: 1 }} disabled={busy} onClick={disconnect}>
           Disconnect {email}
         </button>

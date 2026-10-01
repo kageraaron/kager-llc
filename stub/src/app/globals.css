@@ -25,6 +25,23 @@
   --warn: #ffb84d;
   --radius: 14px;
   --tabbar-h: 56px;
+  --rail-w: 200px;
+
+  /*
+   * One spacing scale and one type scale. Components use these (or the
+   * utilities below) instead of picking numbers inline: the inline values had
+   * drifted to eleven different top margins and four "small" font sizes.
+   */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+
+  --text-xs: 12px;   /* fine print, captions, pills */
+  --text-sm: 13px;   /* secondary text, meta lines */
+  --text-md: 15px;   /* body and controls */
 }
 
 @media (prefers-color-scheme: light) {
@@ -77,8 +94,13 @@ button { font: inherit; color: inherit; cursor: pointer; background: none; borde
 .page {
   max-width: 720px;
   margin: 0 auto;
-  padding: 0 16px 24px;
+  padding: 0 var(--space-4) var(--space-6);
 }
+
+/* Every section after the first gets the same breathing room. */
+.page > section + section,
+.page > section + .panel,
+.page > .panel + section { margin-top: var(--space-5); }
 
 .page-header {
   position: sticky;
@@ -131,6 +153,7 @@ button { font: inherit; color: inherit; cursor: pointer; background: none; borde
 }
 
 .tabbar a[data-active='true'] { color: var(--accent); }
+.rail-brand { display: none; }
 .tabbar a svg { width: 22px; height: 22px; }
 
 .tabbar .badge {
@@ -160,7 +183,7 @@ button { font: inherit; color: inherit; cursor: pointer; background: none; borde
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 12px;
-  margin-bottom: 10px;
+  margin-bottom: var(--space-3);
 }
 
 .card:active { background: var(--surface-2); }
@@ -216,21 +239,24 @@ button { font: inherit; color: inherit; cursor: pointer; background: none; borde
 /* ---------------------------------------------------------- misc */
 
 .section-label {
-  font-size: 12px;
+  font-size: var(--text-xs);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--text-dim);
-  margin: 20px 0 8px;
+  margin: var(--space-5) 0 var(--space-2);
   font-weight: 600;
 }
+/* Directly under the sticky header the page already has its gap. */
+.page-header + section > .section-label:first-child,
+.page > section:first-of-type > .section-label:first-child { margin-top: var(--space-2); }
 
 .empty {
   text-align: center;
-  padding: 56px 20px;
+  padding: 56px var(--space-5);
   color: var(--text-dim);
 }
-.empty h2 { color: var(--text); font-size: 18px; margin: 0 0 6px; }
-.empty p { margin: 0 auto; max-width: 34ch; font-size: 14px; line-height: 1.5; }
+.empty h2 { color: var(--text); font-size: 18px; margin: 0 0 var(--space-2); }
+.empty p { margin: 0 auto; max-width: 38ch; font-size: var(--text-md); line-height: 1.5; }
 
 .btn {
   display: inline-flex;
@@ -308,11 +334,46 @@ textarea.input { resize: vertical; min-height: 120px; line-height: 1.5; }
 .avatar-stack .avatar { width: 24px; height: 24px; margin-left: -7px; }
 .avatar-stack .avatar:first-child { margin-left: 0; }
 
-.row { display: flex; align-items: center; gap: 10px; }
-.spread { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.stack { display: flex; flex-direction: column; gap: 10px; }
-.muted { color: var(--text-dim); font-size: 13px; }
-.error { color: var(--danger); font-size: 13px; }
+.row { display: flex; align-items: center; gap: var(--space-2); }
+.spread { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
+.stack { display: flex; flex-direction: column; gap: var(--space-2); }
+.muted { color: var(--text-dim); font-size: var(--text-sm); }
+.error { color: var(--danger); font-size: var(--text-sm); }
+/* Captions and explanatory small print: one size, one line height. */
+.fine { color: var(--text-dim); font-size: var(--text-xs); line-height: 1.5; margin: 0; }
+
+/* A settings-style block: a card that stacks its contents. */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+.panel > p { margin: 0; line-height: 1.5; }
+
+/* Spacing utilities, on the scale above. */
+.mt-0 { margin-top: 0; }
+.mt-1 { margin-top: var(--space-1); }
+.mt-2 { margin-top: var(--space-2); }
+.mt-3 { margin-top: var(--space-3); }
+.mt-4 { margin-top: var(--space-4); }
+.mt-5 { margin-top: var(--space-5); }
+.mt-6 { margin-top: var(--space-6); }
+.mb-0 { margin-bottom: 0; }
+.mb-3 { margin-bottom: var(--space-3); }
+
+/* A centred column of actions under an empty state or a message. */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-width: 280px;
+  margin: var(--space-5) auto 0;
+}
 
 /* ---------------------------------------------------------- add sheet */
 
@@ -399,15 +460,17 @@ textarea.input { resize: vertical; min-height: 120px; line-height: 1.5; }
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 12px;
+  gap: var(--space-3);
 }
+/* Keeps a header action on the h1's optical baseline. */
+.head-row > .btn-sm,
+.head-row > .head-actions { margin-top: 2px; }
+.head-actions { display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-1); }
 
 .btn-sm {
   padding: 7px 12px;
-  font-size: 13px;
+  font-size: var(--text-sm);
   border-radius: 9px;
-  /* Keeps the button on the h1's optical baseline. */
-  margin-top: 6px;
   flex-shrink: 0;
   /* The padding alone gives ~31px; iOS asks for 44. Grow the hit area without
    * growing the visual weight of what is a secondary-looking control. */
@@ -493,7 +556,7 @@ textarea.input { resize: vertical; min-height: 120px; line-height: 1.5; }
 
 /* A card with an interactive strip joined beneath it. The strip must sit
  * outside the card's own <Link>, so the two are welded visually instead. */
-.card-shell { margin-bottom: 10px; }
+.card-shell { margin-bottom: var(--space-3); }
 .card-shell .card {
   margin-bottom: 0;
   border-bottom-left-radius: 0;
@@ -504,9 +567,21 @@ textarea.input { resize: vertical; min-height: 120px; line-height: 1.5; }
   border: 1px solid var(--border);
   border-top: none;
   border-radius: 0 0 var(--radius) var(--radius);
-  /* Tight, because the 44px star targets inside set the real height. */
-  padding: 2px 12px;
+  /* Tight, because the 44px targets inside set the real height. */
+  padding: 0 var(--space-3);
 }
+
+/* A right-aligned action in a card footer (Explore's "Interested"). Padded so
+ * the button sits inside the strip instead of filling it; 36px keeps a fair
+ * target without doubling the card's height. */
+.footer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  padding: var(--space-2) 0;
+}
+.footer-actions .btn-sm { min-height: 36px; }
 
 .quick-star {
   font-size: 20px;
@@ -579,4 +654,61 @@ textarea.input { resize: vertical; min-height: 120px; line-height: 1.5; }
   text-transform: uppercase;
   letter-spacing: 0.06em;
   margin-top: 2px;
+}
+
+/* ---------------------------------------------------------- desktop */
+
+/*
+ * Past tablet width a bottom tab bar is a phone idiom stretched across a
+ * monitor: five icons 280px apart under a 720px column. It becomes a left rail
+ * instead, and the content centres in what remains.
+ */
+@media (min-width: 900px) {
+  .app-shell {
+    padding-bottom: 0;
+    padding-left: var(--rail-w);
+  }
+
+  .tabbar {
+    top: 0;
+    right: auto;
+    width: var(--rail-w);
+    height: 100dvh;
+    padding: var(--space-6) var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    border-top: none;
+    border-right: 1px solid var(--border);
+  }
+
+  .tabbar a {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-2) var(--space-3);
+    border-radius: 10px;
+    font-size: var(--text-md);
+    font-weight: 550;
+  }
+  .tabbar a:hover { background: var(--surface-2); color: var(--text); }
+
+  .rail-brand {
+    display: block;
+    font-size: 22px;
+    font-weight: 750;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+    padding: 0 var(--space-3) var(--space-5);
+  }
+  .tabbar a[data-active='true'] { background: var(--surface-2); }
+
+  .tabbar .badge {
+    position: static;
+    order: 2;
+    margin-left: auto;
+  }
+
+  .page { padding: 0 var(--space-6) var(--space-6); }
+  .page-header { padding-top: var(--space-6); }
 }

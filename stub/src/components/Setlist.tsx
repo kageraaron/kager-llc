@@ -18,7 +18,7 @@ export function Setlist({ setlist }: { setlist: SFMFullSetlist }) {
     <section style={{ marginTop: 24 }}>
       <div className="spread">
         <div className="section-label" style={{ margin: 0 }}>Setlist</div>
-        <span className="muted" style={{ fontSize: 11 }}>
+        <span className="fine">
           {total} song{total === 1 ? '' : 's'} · setlist.fm
         </span>
       </div>
@@ -38,11 +38,11 @@ export function Setlist({ setlist }: { setlist: SFMFullSetlist }) {
               <div
                 className="muted"
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   textTransform: 'uppercase',
                   letterSpacing: '0.08em',
                   fontWeight: 600,
-                  marginBottom: 6,
+                  marginBottom: 8,
                 }}
               >
                 {set.encore ? `Encore${set.encore > 1 ? ` ${set.encore}` : ''}` : set.name}
@@ -57,9 +57,9 @@ export function Setlist({ setlist }: { setlist: SFMFullSetlist }) {
                     key={i}
                     style={{
                       display: 'flex',
-                      gap: 10,
+                      gap: 12,
                       padding: '4px 0',
-                      fontSize: 14,
+                      fontSize: 13,
                       lineHeight: 1.4,
                     }}
                   >
@@ -72,17 +72,17 @@ export function Setlist({ setlist }: { setlist: SFMFullSetlist }) {
                     <span style={{ minWidth: 0 }}>
                       {song.name || <span className="muted">(unknown)</span>}
                       {song.cover && (
-                        <span className="muted" style={{ fontSize: 12 }}>
+                        <span className="fine">
                           {' '}· {song.cover.name} cover
                         </span>
                       )}
                       {song.with && (
-                        <span className="muted" style={{ fontSize: 12 }}>
+                        <span className="fine">
                           {' '}· with {song.with.name}
                         </span>
                       )}
                       {song.tape && (
-                        <span className="muted" style={{ fontSize: 12 }}> · tape</span>
+                        <span className="fine"> · tape</span>
                       )}
                       {song.info && (
                         <span className="muted" style={{ fontSize: 12, display: 'block' }}>
@@ -100,7 +100,7 @@ export function Setlist({ setlist }: { setlist: SFMFullSetlist }) {
         {setlist.url && (
           <a
             className="muted"
-            style={{ fontSize: 11, display: 'block', marginTop: 12, textDecoration: 'underline' }}
+            style={{ fontSize: 12, display: 'block', marginTop: 12, textDecoration: 'underline' }}
             href={setlist.url}
             target="_blank"
             rel="noreferrer noopener"

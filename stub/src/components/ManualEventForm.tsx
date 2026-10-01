@@ -206,7 +206,7 @@ export function ManualEventForm({
     <form onSubmit={submit} className="stack" style={{ marginTop: 8 }}>
       {field('artistName', 'Artist *', { placeholder: 'Overmono', required: true })}
 
-      <div className="row" style={{ gap: 8, alignItems: 'flex-end' }}>
+      <div className="row" style={{ alignItems: 'flex-end' }}>
         <div style={{ flex: 3 }}>{field('date', 'Date *', { type: 'date', required: true })}</div>
         <div style={{ flex: 2 }}>
           {field('time', timeRequired ? 'Time *' : 'Time', {
@@ -223,7 +223,7 @@ export function ManualEventForm({
 
       {field('venueName', 'Venue', { placeholder: 'The Midway' })}
 
-      <div className="row" style={{ gap: 8, alignItems: 'flex-end' }}>
+      <div className="row" style={{ alignItems: 'flex-end' }}>
         <div style={{ flex: 2 }}>{field('city', 'City', { placeholder: 'San Francisco' })}</div>
         <div style={{ flex: 1 }}>{field('region', 'State', { placeholder: 'CA', maxLength: 4 })}</div>
       </div>
@@ -231,7 +231,7 @@ export function ManualEventForm({
       {field('url', 'Ticket link', { type: 'url', placeholder: 'https://axs.com/events/...' })}
 
       {matches && matches.length > 0 && (
-        <div className="stack" style={{ gap: 6 }}>
+        <div className="stack">
           <span className="muted">Is it one of these? A listing brings the real venue and date.</span>
           {matches.map((m) => (
             <button

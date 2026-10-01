@@ -75,13 +75,13 @@ export function CandidateCard({ candidate }: Props) {
   const isPast = parsed.startsAt ? new Date(parsed.startsAt).getTime() < Date.now() : false;
 
   return (
-    <div className="card" style={{ flexDirection: 'column', gap: 10 }}>
+    <div className="panel">
       <div className="spread">
         <span className="pill pill-review">
           {candidate.matched_event_id ? `${pct}% match` : 'No match found'}
         </span>
         {candidate.message?.from_addr && (
-          <span className="muted" style={{ fontSize: 11 }}>
+          <span className="fine">
             {candidate.message.from_addr.replace(/.*<|>.*/g, '')}
           </span>
         )}
@@ -144,7 +144,7 @@ export function CandidateCard({ candidate }: Props) {
         * the only path here that cannot be wrong about which show it is, since
         * it invents nothing — every field came off the confirmation.
         */}
-      <div className="stack" style={{ gap: 8 }}>
+      <div className="stack">
         {candidate.matched_event_id && (
           <button
             className="btn btn-primary btn-block"
@@ -155,7 +155,7 @@ export function CandidateCard({ candidate }: Props) {
           </button>
         )}
 
-        <div className="row" style={{ gap: 8 }}>
+        <div className="row">
           <button
             className="btn"
             style={{ flex: 1 }}

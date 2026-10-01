@@ -13,7 +13,7 @@ export default function AppNotFound() {
       <div className="empty">
         <h2>Nothing here</h2>
         <p>This show or profile may have been removed, or the link was mistyped.</p>
-        <div className="stack" style={{ marginTop: 20, maxWidth: 260, marginInline: 'auto' }}>
+        <div className="actions">
           <Link className="btn btn-primary btn-block" href="/upcoming">Back to Upcoming</Link>
         </div>
       </div>

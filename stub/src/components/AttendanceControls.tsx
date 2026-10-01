@@ -50,7 +50,7 @@ export function AttendanceControls({ eventId, isPast, attendance }: Props) {
 
   return (
     <div className="stack">
-      <div className="row" style={{ gap: 8 }}>
+      <div className="row">
         {states.map(([value, label]) => (
           <button
             key={value}

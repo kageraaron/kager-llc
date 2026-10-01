@@ -39,8 +39,8 @@ export function QuickRate({ eventId }: { eventId: string }) {
   const shown = hover ?? picked ?? 0;
 
   return (
-    <div className="row" style={{ gap: 8 }}>
-      <span className="muted" style={{ fontSize: 12 }}>How was it?</span>
+    <div className="row">
+      <span className="fine">How was it?</span>
 
       <div
         className="row"

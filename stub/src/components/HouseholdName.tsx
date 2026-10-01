@@ -23,8 +23,8 @@ export function HouseholdName({ initial }: { initial: string }) {
   }
 
   return (
-    <div className="stack" style={{ gap: 6, marginBottom: 12 }}>
-      <div className="row" style={{ gap: 8 }}>
+    <div className="stack">
+      <div className="row">
         <input
           className="input"
           style={{ flex: 1 }}

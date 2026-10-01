@@ -32,7 +32,7 @@ export function SetlistImport() {
   }
 
   return (
-    <div className="card" style={{ flexDirection: 'column', gap: 8 }}>
+    <div className="panel">
       <div className="spread">
         <strong>setlist.fm</strong>
         <span className="pill">Archive</span>

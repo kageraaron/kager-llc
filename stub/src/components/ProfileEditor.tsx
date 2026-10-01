@@ -75,14 +75,14 @@ export function ProfileEditor({ profile }: { profile: Profile }) {
 
   if (!open) {
     return (
-      <button className="btn btn-block" style={{ marginTop: 14 }} onClick={() => setOpen(true)}>
+      <button className="btn btn-block" style={{ marginTop: 16 }} onClick={() => setOpen(true)}>
         Edit profile
       </button>
     );
   }
 
   return (
-    <div className="stack" style={{ marginTop: 14 }}>
+    <div className="stack" style={{ marginTop: 16 }}>
       <input
         ref={fileRef}
         type="file"
@@ -139,7 +139,7 @@ export function ProfileEditor({ profile }: { profile: Profile }) {
 
       {error && <p className="error">{error}</p>}
 
-      <div className="row" style={{ gap: 8 }}>
+      <div className="row">
         <button className="btn" style={{ flex: 1 }} onClick={() => setOpen(false)}>Cancel</button>
         <button className="btn btn-primary" style={{ flex: 1 }} disabled={pending} onClick={save}>
           {pending ? 'Saving...' : 'Save'}

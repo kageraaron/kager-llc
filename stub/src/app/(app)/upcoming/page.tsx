@@ -63,7 +63,7 @@ export default async function UpcomingPage() {
               Or add one by hand.
             </p>
           )}
-          <div className="stack" style={{ marginTop: 20, maxWidth: 260, marginInline: 'auto' }}>
+          <div className="actions">
             {!gmail && (
               <Link className="btn btn-primary btn-block" href="/settings/connections">Connect Gmail</Link>
             )}

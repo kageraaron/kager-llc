@@ -33,7 +33,7 @@ export default async function YearPage({ params }: { params: Promise<{ year: str
   return (
     <main className="page">
       <header className="page-header">
-        <Link href="/archive" className="muted" style={{ fontSize: 14 }}>&larr; Archive</Link>
+        <Link href="/archive" className="muted" style={{ fontSize: 13 }}>&larr; Archive</Link>
         <h1 style={{ marginTop: 8 }}>{year}</h1>
         <div className="sub">
           {stats.shows === 0
@@ -85,7 +85,7 @@ export default async function YearPage({ params }: { params: Promise<{ year: str
 
           <section>
             <div className="section-label">Most seen</div>
-            <div className="stack" style={{ gap: 10 }}>
+            <div className="stack" style={{ gap: 12 }}>
               {stats.topArtist && (
                 <Highlight
                   label="Artist"
@@ -112,7 +112,7 @@ export default async function YearPage({ params }: { params: Promise<{ year: str
 
           <section>
             <div className="section-label">Bookends</div>
-            <div className="stack" style={{ gap: 10 }}>
+            <div className="stack" style={{ gap: 12 }}>
               {stats.first && <Bookend label="First" row={stats.first} />}
               {stats.last && stats.last.id !== stats.first?.id && (
                 <Bookend label="Last" row={stats.last} />
@@ -125,7 +125,7 @@ export default async function YearPage({ params }: { params: Promise<{ year: str
       {years.length > 1 && (
         <section>
           <div className="section-label">Other years</div>
-          <div className="row" style={{ gap: 8, flexWrap: 'wrap' }}>
+          <div className="row" style={{ flexWrap: 'wrap' }}>
             {years
               .filter((y) => y !== year)
               .map((y) => (
@@ -152,7 +152,7 @@ function Highlight({ label, value, note }: { label: string; value: string; note:
   return (
     <div className="row" style={{ justifyContent: 'space-between', gap: 12 }}>
       <div style={{ minWidth: 0 }}>
-        <div className="muted" style={{ fontSize: 12 }}>{label}</div>
+        <div className="fine">{label}</div>
         <div style={{ fontWeight: 600 }}>{value}</div>
       </div>
       <div className="muted" style={{ fontSize: 13, whiteSpace: 'nowrap' }}>{note}</div>
@@ -164,7 +164,7 @@ function Bookend({ label, row }: { label: string; row: AttendanceWithEvent }) {
   return (
     <Link href={`/event/${row.event.id}`} className="row" style={{ justifyContent: 'space-between', gap: 12 }}>
       <div style={{ minWidth: 0 }}>
-        <div className="muted" style={{ fontSize: 12 }}>{label}</div>
+        <div className="fine">{label}</div>
         <div style={{ fontWeight: 600 }}>{displayEventName(row.event)}</div>
         <div className="muted" style={{ fontSize: 13 }}>
           {formatEventDate(row.event.starts_at, eventZone(row.event))}

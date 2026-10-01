@@ -19,7 +19,7 @@ export default function AppError({ reset }: { error: Error; reset: () => void })
           Usually a dropped connection rather than anything lost — your shows are
           safe. Try again, or switch tabs and come back.
         </p>
-        <div className="stack" style={{ marginTop: 20, maxWidth: 260, marginInline: 'auto' }}>
+        <div className="actions">
           <button className="btn btn-primary btn-block" onClick={reset}>Try again</button>
         </div>
       </div>

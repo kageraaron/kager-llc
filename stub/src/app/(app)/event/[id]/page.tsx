@@ -54,7 +54,7 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
   return (
     <main className="page">
       <header className="page-header">
-        <Link href={isPast ? '/archive' : '/upcoming'} className="muted" style={{ fontSize: 14 }}>
+        <Link href={isPast ? '/archive' : '/upcoming'} className="muted" style={{ fontSize: 13 }}>
           &larr; Back
         </Link>
       </header>
@@ -102,7 +102,7 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
         />
       )}
 
-      <div style={{ marginTop: 20 }}>
+      <div style={{ marginTop: 24 }}>
         <AttendanceControls
           eventId={event.id}
           isPast={isPast}
@@ -122,7 +122,7 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
 
       <NoteEditor eventId={event.id} initial={note?.body ?? ''} />
 
-      <div className="stack" style={{ marginTop: 20 }}>
+      <div className="stack" style={{ marginTop: 24 }}>
         <a className="btn btn-block" href={`/api/events/${event.id}/ics`}>
           Add to calendar
         </a>

@@ -24,7 +24,7 @@ export function JoinHousehold({ token }: { token: string }) {
       <div className="empty">
         <h2>You&rsquo;re in</h2>
         <p>You now share shows, notes and the Inbox with {names}.</p>
-        <div className="stack" style={{ marginTop: 20, maxWidth: 260, marginInline: 'auto' }}>
+        <div className="actions">
           <Link className="btn btn-primary btn-block" href="/upcoming">Go to Upcoming</Link>
         </div>
       </div>
@@ -39,7 +39,7 @@ export function JoinHousehold({ token }: { token: string }) {
         already in your Stub moves across, and shows you both had are merged.
       </p>
       {error && <p className="error">{error}</p>}
-      <div className="stack" style={{ marginTop: 20, maxWidth: 260, marginInline: 'auto' }}>
+      <div className="actions">
         <button className="btn btn-primary btn-block" disabled={pending} onClick={join}>
           {pending ? 'Joining…' : 'Join household'}
         </button>

@@ -116,7 +116,7 @@ export default async function ArchivePage() {
             Shows move here automatically once the date passes. You can also add
             one you already saw, or import everything you have logged on setlist.fm.
           </p>
-          <div className="stack" style={{ marginTop: 20, maxWidth: 260, marginInline: 'auto' }}>
+          <div className="actions">
             <AddShowButton className="btn btn-primary btn-block" label="Add a past show" />
             <Link className="btn btn-block" href="/settings/connections">
               Import from setlist.fm

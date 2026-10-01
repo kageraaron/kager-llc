@@ -35,7 +35,7 @@ export default async function ConnectionsPage({
   return (
     <main className="page">
       <header className="page-header">
-        <Link href="/settings" className="muted btn-link" style={{ fontSize: 14 }}>&larr; Settings</Link>
+        <Link href="/settings" className="muted btn-link" style={{ fontSize: 13 }}>&larr; Settings</Link>
         <h1 style={{ marginTop: 8 }}>Connections</h1>
       </header>
 
@@ -52,7 +52,7 @@ export default async function ConnectionsPage({
       <section>
         <div className="section-label">Ticket sources</div>
 
-        <div className="card" style={{ flexDirection: 'column', gap: 8 }}>
+        <div className="panel">
           <div className="spread">
             <strong>Gmail</strong>
             {gmail ? (
@@ -85,7 +85,7 @@ export default async function ConnectionsPage({
         </div>
 
         {othersGmail.map((a) => (
-          <div key={a.id} className="card" style={{ flexDirection: 'column', gap: 8 }}>
+          <div key={a.id} className="panel">
             <div className="spread">
               <strong>{nameOf(a.user_id)}&rsquo;s Gmail</strong>
               <span className={`pill ${a.status === 'active' ? 'pill-going' : 'pill-review'}`}>
@@ -110,7 +110,7 @@ export default async function ConnectionsPage({
         <div className="section-label">Import your history</div>
         <SetlistImport />
 
-        <div className="card" style={{ flexDirection: 'column', gap: 8 }}>
+        <div className="panel">
           <div className="spread">
             <strong>Spotify</strong>
             <span className="pill">Limited</span>
@@ -125,7 +125,7 @@ export default async function ConnectionsPage({
 
       </section>
 
-      <p className="muted" style={{ fontSize: 11, lineHeight: 1.5, marginTop: 24 }}>
+      <p className="fine mt-5">
         Stub runs with Google OAuth in testing mode, which supports up to{' '}
         {GOOGLE_TESTING_USER_CAP} approved accounts. Your Google account must be on the
         test-user list before Gmail can be connected.

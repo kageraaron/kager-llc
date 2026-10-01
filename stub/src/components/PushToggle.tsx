@@ -107,7 +107,7 @@ export function PushToggle({ vapidPublicKey }: { vapidPublicKey: string | null }
   }[state];
 
   return (
-    <div className="card" style={{ flexDirection: 'column', gap: 8 }}>
+    <div className="panel">
       <div className="spread">
         <strong>Show reminders</strong>
         <span className={`pill ${state === 'on' ? 'pill-going' : ''}`}>
@@ -117,7 +117,7 @@ export function PushToggle({ vapidPublicKey }: { vapidPublicKey: string | null }
       <p className="muted" style={{ margin: 0, lineHeight: 1.5 }}>{message}</p>
 
       {!vapidPublicKey && state === 'off' && (
-        <p className="muted" style={{ margin: 0, fontSize: 11 }}>
+        <p className="muted" style={{ margin: 0, fontSize: 12 }}>
           Server is missing VAPID keys — see the README.
         </p>
       )}

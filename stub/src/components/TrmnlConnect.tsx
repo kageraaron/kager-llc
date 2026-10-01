@@ -52,7 +52,7 @@ export function TrmnlConnect() {
   }
 
   return (
-    <div className="card" style={{ flexDirection: 'column', gap: 8 }}>
+    <div className="panel">
       <div className="spread">
         <strong>TRMNL display</strong>
         <span className="pill">E-ink</span>
@@ -71,7 +71,7 @@ export function TrmnlConnect() {
           <code
             style={{
               display: 'block',
-              fontSize: 11,
+              fontSize: 12,
               wordBreak: 'break-all',
               background: 'var(--surface-2)',
               border: '1px solid var(--border)',
@@ -83,7 +83,7 @@ export function TrmnlConnect() {
             {url}
           </code>
 
-          <div className="row" style={{ gap: 8 }}>
+          <div className="row">
             <button className="btn" style={{ flex: 1 }} onClick={copy}>
               {copied ? 'Copied' : 'Copy link'}
             </button>
@@ -98,7 +98,7 @@ export function TrmnlConnect() {
             </a>
           </div>
 
-          <p className="muted" style={{ margin: 0, fontSize: 11, lineHeight: 1.5 }}>
+          <p className="fine">
             Anyone with this link can see the shows you are going to. Rotate it if
             you share it by accident.
           </p>

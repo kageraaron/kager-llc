@@ -45,7 +45,7 @@ export function ArchiveList({ sections, total }: { sections: ArchiveSection[]; t
   return (
     <>
       {showFilter && (
-        <div style={{ marginBottom: 10 }}>
+        <div style={{ marginBottom: 12 }}>
           <input
             className="input"
             type="search"

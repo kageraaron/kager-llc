@@ -75,7 +75,7 @@ export default async function InboxPage() {
               </p>
               <Link
                 className="btn btn-primary"
-                style={{ marginTop: 18 }}
+                style={{ marginTop: 16 }}
                 href="/settings/connections"
               >
                 Connect Gmail

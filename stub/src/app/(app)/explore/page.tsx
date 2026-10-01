@@ -10,7 +10,8 @@ import { ExploreAddButton, ExploreRefreshButton } from '@/components/ExploreCont
 export const dynamic = 'force-dynamic';
 
 /** Within this of the centre counts as "near": a drive you'd make for a show. */
-const NEAR_KM = 160;
+const NEAR_MILES = 100;
+const NEAR_KM = NEAR_MILES * 1.609;
 
 function distanceKm(a: { lat: number; lng: number }, b: { lat: number; lng: number }): number {
   const rad = (d: number) => (d * Math.PI) / 180;
@@ -92,11 +93,18 @@ export default async function ExplorePage({
       const shown = artist && artist !== event.headliner?.name ? artist : null;
       return [{ event, reason: m.reason, artist: shown, km }];
     })
-    .sort((a, b) => new Date(a.event.starts_at).getTime() - new Date(b.event.starts_at).getTime());
+    .sort((a, b) => new Date(a.event.starts_at).getTime() - new Date(b.event.starts_at).getTime())
+    // Ticketmaster often lists one show several times (sessions, ticket tiers):
+    // same act, same venue, same day. Keep the earliest; the event page has the rest.
+    .filter((r, i, all) => {
+      const key = (x: Row) =>
+        `${x.event.headliner?.id ?? x.event.name}|${x.event.venue?.id ?? ''}|${x.event.starts_at.slice(0, 10)}`;
+      return all.findIndex((y) => key(y) === key(r)) === i;
+    });
 
   const near = center ? rows.filter((r) => r.km != null && r.km <= NEAR_KM) : [];
   const elsewhere = center ? rows.filter((r) => !(r.km != null && r.km <= NEAR_KM)) : rows;
-  const miles = Math.round(NEAR_KM / 1.609);
+  const miles = NEAR_MILES;
 
   const list = (items: Row[]) =>
     items.map((r) => (
@@ -127,20 +135,20 @@ export default async function ExplorePage({
 
         {/* A plain GET form: the place lives in the URL, so it survives a
             refresh and can be shared, and needs no client code. */}
-        <form action="/explore" className="row" style={{ gap: 8, marginTop: 12 }}>
+        <form action="/explore" className="row mt-3">
           <input
             className="input"
             style={{ flex: 1 }}
             name="near"
             defaultValue={typed ? nearQuery ?? '' : ''}
-            placeholder={home ? `Near ${home.city}. Travelling? Type a city` : 'City or town'}
+            placeholder={home ? 'Travelling? Type a city' : 'City or town'}
             aria-label="Show concerts near"
           />
           {showAll && <input type="hidden" name="all" value="1" />}
           <button className="btn" type="submit">Go</button>
         </form>
         {(typed || notFound) && (
-          <div className="muted" style={{ fontSize: 12, marginTop: 6 }}>
+          <div className="fine mt-2">
             {notFound && <>Couldn&rsquo;t find &ldquo;{notFound}&rdquo;. </>}
             {typed && home && <Link href={href({ near: null })}>Back to {home.city}</Link>}
             {typed && !home && <Link href={href({ near: null })}>Clear</Link>}
@@ -155,7 +163,7 @@ export default async function ExplorePage({
             Explore shows upcoming concerts near you by artists you follow or have seen. Set a home
             city in Settings (either of you is enough), or type a place above.
           </p>
-          <div className="stack" style={{ marginTop: 20, maxWidth: 260, marginInline: 'auto' }}>
+          <div className="actions">
             <Link className="btn btn-primary btn-block" href="/settings">Set home city</Link>
             {rows.length > 0 && !showAll && (
               <Link className="btn btn-block" href={href({ all: true })}>Show all {rows.length} anyway</Link>
@@ -170,7 +178,7 @@ export default async function ExplorePage({
             Explore lists upcoming shows by artists you follow on Spotify or have been to see.
             Tap Refresh to check Ticketmaster for them now; it also runs every night.
           </p>
-          <div className="stack" style={{ marginTop: 20, maxWidth: 260, marginInline: 'auto' }}>
+          <div className="actions">
             <Link className="btn btn-block" href="/settings/connections">Import from Spotify</Link>
           </div>
         </div>
@@ -191,14 +199,14 @@ export default async function ExplorePage({
               <section>
                 <div className="section-label">Further away</div>
                 {list(elsewhere)}
-                <p className="muted" style={{ fontSize: 12 }}>
+                <p className="fine">
                   <Link href={href({ all: false })}>Only near {center.city}</Link>
                 </p>
               </section>
             )
           ) : (
             elsewhere.length > 0 && (
-              <p className="muted" style={{ fontSize: 12 }}>
+              <p className="fine">
                 {elsewhere.length} more further away. <Link href={href({ all: true })}>Show everywhere</Link>
               </p>
             )
