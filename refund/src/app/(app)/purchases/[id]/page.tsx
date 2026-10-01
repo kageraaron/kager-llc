@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { fareClaimable, policyFor } from '@/lib/policies';
+import { DISRUPTION_STEPS, fareClaimable, policyFor } from '@/lib/policies';
 import { daysUntil, formatMoney, shortDate } from '@/lib/format';
 import { purchaseTitle } from '@/lib/view';
 import type { Segment } from '@/lib/pricing/serpapi';
@@ -25,6 +25,9 @@ export default async function PurchasePage({ params }: { params: Promise<{ id: s
   const segments = (p.details.segments as Segment[] | undefined) ?? [];
   const claimable = policy ? fareClaimable(policy, p.details, new Date(p.purchased_at)) : { ok: true };
   const title = purchaseTitle(p, items?.[0]?.title);
+  const disrupted = Object.entries(
+    (p.flight_status ?? {}) as Record<string, { status: string; delay_min: number | null; owed: boolean }>,
+  ).filter(([, st]) => st.owed);
 
   return (
     <main className="page">
@@ -61,6 +64,25 @@ export default async function PurchasePage({ params }: { params: Promise<{ id: s
         {policy && <p className="fine">{policy.window}. Comes back as: {policy.comesBackAs}.</p>}
         {!claimable.ok && <p className="error" style={{ margin: 0 }}>{claimable.why}</p>}
       </section>
+
+      {disrupted.length > 0 && (
+        <section>
+          <div className="section-label">You may be owed a refund</div>
+          <div className="panel">
+            {disrupted.map(([key, st]) => (
+              <div key={key} className="spread">
+                <strong>{key.replace('@', ' on ')}</strong>
+                <span className="pill pill-review">
+                  {/cancel/i.test(st.status) ? 'Cancelled' : `${Math.floor((st.delay_min ?? 0) / 60)}h late`}
+                </span>
+              </div>
+            ))}
+            <ol style={{ margin: 0, paddingLeft: 20, lineHeight: 1.6 }}>
+              {DISRUPTION_STEPS.map((s) => <li key={s}>{s}</li>)}
+            </ol>
+          </div>
+        </section>
+      )}
 
       {p.status === 'review' && (
         <p className="muted">

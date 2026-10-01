@@ -19,12 +19,17 @@ function configured(): boolean {
  */
 export async function notifyOnce(
   admin: SupabaseClient,
-  target: { purchaseId: string; householdId: string; key: string },
+  target: { purchaseId?: string; creditId?: string; householdId: string; key: string },
   message: { title: string; body: string; url: string },
 ): Promise<boolean> {
   const { error: claimed } = await admin
     .from('notifications')
-    .insert({ purchase_id: target.purchaseId, household_id: target.householdId, key: target.key });
+    .insert({
+      purchase_id: target.purchaseId ?? null,
+      credit_id: target.creditId ?? null,
+      household_id: target.householdId,
+      key: target.key,
+    });
   if (claimed) return false;
   if (!configured()) return false;
 

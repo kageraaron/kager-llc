@@ -243,3 +243,69 @@ export const DEFAULT_SETTINGS = {
   flight_min_cents: 3000,
   min_pct: 5,
 };
+
+// ------------------------------------------------------------------ credits
+
+export interface CreditRule {
+  label: string;
+  /** Months until it lapses, counted from `basis`. */
+  months: number;
+  basis: 'purchase' | 'issue';
+  rule: 'book_by' | 'travel_by';
+}
+
+/**
+ * How long an airline credit lasts, for prefilling its expiry when a fare drop
+ * is claimed. The airline's own email is the authority; this is the default
+ * until the person corrects it.
+ * Source: https://withautopilot.com/blog/airline-flight-credits-compared
+ */
+export function creditRuleFor(policyId: string, fareBrand?: string): CreditRule | null {
+  switch (policyId) {
+    case 'delta':
+      // One year from the ORIGINAL ticket purchase, not from the change.
+      return { label: 'Delta eCredit', months: 12, basis: 'purchase', rule: 'book_by' };
+    case 'united':
+      return { label: 'United Future Flight Credit', months: 12, basis: 'issue', rule: 'travel_by' };
+    case 'american':
+      return { label: 'American Trip Credit', months: 12, basis: 'issue', rule: 'book_by' };
+    case 'alaska':
+      return { label: 'Alaska credit', months: 12, basis: 'purchase', rule: 'book_by' };
+    case 'southwest':
+      // Choice Preferred and Extra come back to the original payment: no credit.
+      if (/preferred|extra/i.test(fareBrand ?? '')) return null;
+      return { label: 'Southwest flight credit', months: /basic/i.test(fareBrand ?? '') ? 6 : 12, basis: 'purchase', rule: 'book_by' };
+    default:
+      return null;
+  }
+}
+
+export function creditExpiry(rule: CreditRule, purchasedAt: Date, issuedAt = new Date()): Date {
+  const from = new Date(rule.basis === 'purchase' ? purchasedAt : issuedAt);
+  from.setMonth(from.getMonth() + rule.months);
+  return from;
+}
+
+// ------------------------------------------------------------------ disruptions
+
+/**
+ * US DOT automatic refund rule, in effect since 2024-10-28: a cancelled flight,
+ * or a "significant change" (3+ hours domestic, 6+ hours international), is
+ * owed a refund to the original payment if the passenger doesn't accept the
+ * rebooking or other compensation. It covers flights to, from and within the US.
+ * Source: https://www.transportation.gov/individuals/aviation-consumer-protection/refunds
+ */
+export const DOT_DELAY_MIN = { domestic: 180, international: 360 } as const;
+
+export const DISRUPTION_STEPS = [
+  'If the airline rebooks you and you take the new flight, there is no refund: decide first.',
+  'To get cash back, decline the rebooking and any credit offered, and ask for a refund to your original payment.',
+  'Airlines must pay within 7 business days for card purchases. If they refuse, file at transportation.gov/airconsumer.',
+  'Paid for a bag that arrived 12+ hours late (domestic), seats or Wi-Fi you didn’t get? Those fees are refundable too.',
+];
+
+export function owedRefund(status: { cancelled: boolean; delayMin: number | null; international: boolean }): boolean {
+  if (status.cancelled) return true;
+  const floor = status.international ? DOT_DELAY_MIN.international : DOT_DELAY_MIN.domestic;
+  return status.delayMin != null && status.delayMin >= floor;
+}

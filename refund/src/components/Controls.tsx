@@ -8,8 +8,11 @@ import {
   confirmPurchase,
   dismissPurchase,
   editPurchase,
+  addCredit,
   markClaimed,
   scanNow,
+  setCreditStatus,
+  updateCreditExpiry,
   updateSettings,
 } from '@/app/actions';
 import type { BestBuyTier } from '@/lib/policies';
@@ -67,6 +70,7 @@ export function PurchaseActions(props: {
   const [fareBrand, setFareBrand] = useState(props.fareBrand);
   const [refundable, setRefundable] = useState(props.refundable);
   const [claimed, setClaimed] = useState('');
+  const [asCredit, setAsCredit] = useState(props.kind === 'flight');
   const editing = props.status === 'review';
   const dirty = total !== props.total || fareBrand !== props.fareBrand || refundable !== props.refundable;
 
@@ -122,10 +126,16 @@ export function PurchaseActions(props: {
             value={claimed}
             onChange={(e) => setClaimed(e.target.value)}
           />
-          <button className="btn" disabled={pending || !claimed} onClick={() => run(() => markClaimed(props.id, claimed), () => 'Recorded')}>
+          <button className="btn" disabled={pending || !claimed} onClick={() => run(() => markClaimed(props.id, claimed, props.kind === 'flight' && asCredit), () => 'Recorded')}>
             I claimed it
           </button>
         </div>
+      )}
+      {props.status === 'watching' && props.kind === 'flight' && (
+        <label className="spread">
+          <span className="fine">It came back as a travel credit (track it, with an expiry reminder)</span>
+          <input type="checkbox" checked={asCredit} onChange={(e) => setAsCredit(e.target.checked)} />
+        </label>
       )}
       {note && <p className={/recorded|checked/i.test(note) ? 'fine' : 'error'} style={{ margin: 0 }}>{note}</p>}
     </section>
@@ -264,6 +274,72 @@ export function SettingsForm(props: { bestbuyTier: BestBuyTier; storeMin: number
         {pending ? 'Saving…' : 'Save'}
       </button>
       {note && <p className={note === 'Saved' ? 'fine' : 'error'} style={{ margin: 0 }}>{note}</p>}
+    </div>
+  );
+}
+
+/** A credit Refund didn't record itself. */
+export function AddCreditForm() {
+  const { pending, note, run } = useAction();
+  const [f, setF] = useState<Record<string, string>>({ rule: 'book_by' });
+  const set = (k: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => setF({ ...f, [k]: e.target.value });
+  return (
+    <form
+      className="panel"
+      onSubmit={(e) => {
+        e.preventDefault();
+        run(
+          () => addCredit({ label: f.label ?? '', amount: f.amount, expiresAt: f.expiresAt, rule: f.rule as 'book_by' | 'travel_by', code: f.code }),
+          () => { setF({ rule: 'book_by' }); return 'Added'; },
+        );
+      }}
+    >
+      <label className="stack">
+        <span className="muted">What is it</span>
+        <input className="input" placeholder="Delta eCredit" value={f.label ?? ''} onChange={set('label')} required />
+      </label>
+      <div className="row">
+        <label className="stack" style={{ flex: 1 }}>
+          <span className="muted">Amount ($)</span>
+          <input className="input" inputMode="decimal" value={f.amount ?? ''} onChange={set('amount')} />
+        </label>
+        <label className="stack" style={{ flex: 1 }}>
+          <span className="muted">Expires</span>
+          <input className="input" type="date" value={f.expiresAt ?? ''} onChange={set('expiresAt')} />
+        </label>
+      </div>
+      <label className="stack">
+        <span className="muted">By that date you must</span>
+        <select className="input" value={f.rule} onChange={set('rule')}>
+          <option value="book_by">Book a trip (fly later)</option>
+          <option value="travel_by">Have flown</option>
+        </select>
+      </label>
+      <label className="stack">
+        <span className="muted">Credit or certificate number (optional)</span>
+        <input className="input" value={f.code ?? ''} onChange={set('code')} autoComplete="off" />
+      </label>
+      <button className="btn btn-primary btn-block" disabled={pending}>{pending ? 'Saving…' : 'Track this credit'}</button>
+      {note && <p className={note === 'Added' ? 'fine' : 'error'} style={{ margin: 0 }}>{note}</p>}
+    </form>
+  );
+}
+
+export function CreditActions({ id, status, expiresAt }: { id: string; status: string; expiresAt: string | null }) {
+  const { pending, note, run } = useAction();
+  const [date, setDate] = useState(expiresAt ?? '');
+  return (
+    <div className="stack">
+      <div className="row">
+        <input className="input" style={{ flex: 1 }} type="date" value={date} aria-label="Expiry date" onChange={(e) => setDate(e.target.value)} />
+        {date !== (expiresAt ?? '') && (
+          <button className="btn" disabled={pending} onClick={() => run(() => updateCreditExpiry(id, date))}>Save date</button>
+        )}
+        <button className="btn" disabled={pending} onClick={() => run(() => setCreditStatus(id, status === 'used' ? 'active' : 'used'))}>
+          {status === 'used' ? 'Not used yet' : 'Mark used'}
+        </button>
+      </div>
+      {note && <p className="error" style={{ margin: 0 }}>{note}</p>}
     </div>
   );
 }

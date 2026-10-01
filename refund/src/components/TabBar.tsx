@@ -3,10 +3,11 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-/** Stub's tab bar (bottom on phones, a left rail on desktop), with Refund's four tabs. */
+/** Stub's tab bar (bottom on phones, a left rail on desktop), with Refund's five tabs. */
 const TABS = [
   { href: '/', label: 'Watching', icon: 'eye' },
   { href: '/review', label: 'Review', icon: 'inbox' },
+  { href: '/credits', label: 'Credits', icon: 'ticket' },
   { href: '/add', label: 'Add', icon: 'plus' },
   { href: '/settings', label: 'Settings', icon: 'settings' },
 ] as const;
@@ -18,6 +19,8 @@ function Icon({ name }: { name: string }) {
       return <svg {...c}><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" /><circle cx="12" cy="12" r="3" /></svg>;
     case 'inbox':
       return <svg {...c}><path d="M3 13h5l1.5 3h5L16 13h5" /><path d="M4.5 6h15l1.5 7v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Z" /></svg>;
+    case 'ticket':
+      return <svg {...c}><path d="M3 9V6.5A1.5 1.5 0 0 1 4.5 5h15A1.5 1.5 0 0 1 21 6.5V9a3 3 0 0 0 0 6v2.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5V15a3 3 0 0 0 0-6Z" /><path d="M14 5v14" strokeDasharray="2 2.5" /></svg>;
     case 'plus':
       return <svg {...c}><circle cx="12" cy="12" r="9" /><path d="M12 8v8M8 12h8" /></svg>;
     default:

@@ -1,6 +1,8 @@
 import 'server-only';
 import type { Db as SupabaseClient } from '@/lib/db';
-import { fareClaimable, policyFor, worthAlerting } from '@/lib/policies';
+import { DOT_DELAY_MIN, fareClaimable, owedRefund, policyFor, worthAlerting } from '@/lib/policies';
+import { flightStatus } from '@/lib/providers/aerodatabox';
+import { cheapestCachedFare } from '@/lib/pricing/travelpayouts';
 import { getSettings, nextCheckAt } from '@/lib/schedule';
 import { bestBuyPrices } from '@/lib/pricing/bestbuy';
 import { quoteFlights, quoteHotel, splitLegs, type Segment } from '@/lib/pricing/serpapi';
@@ -32,6 +34,8 @@ interface PurchaseRow {
 }
 
 export interface CheckResult {
+  disruptions?: number;
+  creditReminders?: number;
   paceDays?: number | null;
   budgetExhausted?: boolean;
   checked: number;
@@ -102,6 +106,15 @@ export async function runChecks(admin: SupabaseClient, opts: { limit?: number } 
 
   // 4. Reminders for windows Refund can't price-check, and "closing soon" for all.
   result.reminders = await sendReminders(admin, now);
+
+  // 5. Flights that just flew: cancelled or late enough to be owed a refund?
+  result.disruptions = await checkDisruptions(admin, now).catch((err) => {
+    console.error('refund disruption check failed', err instanceof Error ? err.message : err);
+    return 0;
+  });
+
+  // 6. Travel credits about to lapse.
+  result.creditReminders = await remindCredits(admin, now);
   return result;
 }
 
@@ -144,6 +157,45 @@ async function checkOne(admin: SupabaseClient, p: PurchaseRow): Promise<boolean>
   if (policy.priceSource === 'serpapi_flights') {
     const d = p.details as { segments?: Segment[]; passengers?: number; fare_brand?: string };
     const claimable = fareClaimable(policy, d, new Date(p.purchased_at));
+
+    // Free pre-check: if the cheapest fare anyone has seen on this route is
+    // still above what was paid, the same flights can't be cheaper, so the
+    // metered search can wait. The cache can be stale or thin, so a real
+    // search still runs at least every 4 days.
+    const { legs } = splitLegs(d.segments ?? []);
+    const simple = legs.length === 1 || (legs.length === 2 && legs[0][0]?.from === legs[1][legs[1].length - 1]?.to);
+    if (simple && process.env.TRAVELPAYOUTS_TOKEN) {
+      const { data: lastReal } = await admin
+        .from('price_checks')
+        .select('checked_at')
+        .eq('purchase_id', p.id)
+        .eq('source', 'serpapi_flights')
+        .order('checked_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      const realIsFresh = lastReal && Date.now() - new Date(lastReal.checked_at).getTime() < 4 * DAY;
+      if (realIsFresh) {
+        const cached = await cheapestCachedFare({
+          from: legs[0][0].from!,
+          to: legs[0][legs[0].length - 1].to!,
+          departs: legs[0][0].departs!.slice(0, 10),
+          returns: legs[1]?.[0]?.departs?.slice(0, 10),
+        });
+        const cachedTotal = cached != null ? cached * (d.passengers ?? 1) : null;
+        if (cachedTotal != null && cachedTotal >= p.total_cents) {
+          await admin.from('price_checks').insert({
+            purchase_id: p.id,
+            household_id: p.household_id,
+            source: 'travelpayouts',
+            price_cents: cachedTotal,
+            matched: false,
+            note: 'Cheapest fare seen on this route is above what you paid; skipped the full search',
+          });
+          return false;
+        }
+      }
+    }
+
     const quote = await quoteFlights(admin, d.segments ?? [], { passengers: d.passengers ?? 1, fareBrand: d.fare_brand, paidCents: p.total_cents });
     await log({ price_cents: quote.totalCents, matched: quote.matched, note: quote.note });
     if (!quote.matched || quote.totalCents == null || !claimable.ok) return false;
@@ -226,6 +278,91 @@ async function sendReminders(admin: SupabaseClient, now: Date): Promise<number> 
         url: `/purchases/${p.id}`,
       })) sent++;
     }
+  }
+  return sent;
+}
+
+// ------------------------------------------------------------------ disruptions
+
+interface FlightRow extends PurchaseRow {
+  flight_status: Record<string, { status: string; delay_min: number | null; owed: boolean; checked_at: string }>;
+}
+
+/**
+ * Ask about each flight once, about five hours after it was due to leave: late
+ * enough that a cancellation or a 3-hour delay is on record, early enough that
+ * a refund request is still easy. A purchase past its price-drop deadline is
+ * still checked here, since the return leg can fly weeks after the outbound.
+ */
+async function checkDisruptions(admin: SupabaseClient, now: Date): Promise<number> {
+  if (!process.env.AERODATABOX_API_KEY) return 0;
+  const since = new Date(now.getTime() - 400 * DAY).toISOString();
+  const { data: flights } = await admin
+    .from('purchases')
+    .select('id, household_id, kind, merchant, merchant_name, purchased_at, deadline_at, total_cents, details, flight_status')
+    .eq('kind', 'flight')
+    .neq('status', 'dismissed')
+    .gt('purchased_at', since);
+
+  let alerts = 0;
+  for (const p of (flights ?? []) as FlightRow[]) {
+    const segments = ((p.details.segments as Segment[]) ?? []).filter((s) => s.departs && (s.flight || s.carrier));
+    for (const s of segments) {
+      const since = now.getTime() - new Date(s.departs!).getTime();
+      if (since < 5 * 3_600_000 || since > 36 * 3_600_000) continue;
+
+      const number = `${s.carrier ?? ''}${s.flight ?? ''}`.replace(/\s+/g, '').toUpperCase().replace(/^([A-Z0-9]{2})\1/, '$1');
+      const date = s.departs!.slice(0, 10);
+      const key = `${number}@${date}`;
+      if (p.flight_status?.[key]) continue;
+
+      const st = await flightStatus(admin, number, date, s.from);
+      if (!st) continue;
+      const owed = owedRefund(st);
+      const next = { ...(p.flight_status ?? {}), [key]: { status: st.status, delay_min: st.delayMin, owed, checked_at: now.toISOString() } };
+      p.flight_status = next;
+      await admin.from('purchases').update({ flight_status: next }).eq('id', p.id);
+      if (!owed) continue;
+
+      const hours = st.delayMin != null ? Math.floor(st.delayMin / 60) : null;
+      const floor = (st.international ? DOT_DELAY_MIN.international : DOT_DELAY_MIN.domestic) / 60;
+      const sent = await notifyOnce(admin, { purchaseId: p.id, householdId: p.household_id, key: `disrupt:${key}` }, {
+        title: st.cancelled ? `${number} was cancelled: you may be owed a refund` : `${number} ran ${hours}h late: you may be owed a refund`,
+        body: st.cancelled
+          ? 'If you didn’t take the rebooking, the airline owes cash back to your original payment.'
+          : `Delays of ${floor}+ hours qualify for a cash refund if you chose not to travel.`,
+        url: `/purchases/${p.id}`,
+      });
+      if (sent) alerts++;
+    }
+  }
+  return alerts;
+}
+
+// ------------------------------------------------------------------ credits
+
+/** Expire lapsed credits; remind at 30 and 7 days out. */
+async function remindCredits(admin: SupabaseClient, now: Date): Promise<number> {
+  const today = now.toISOString().slice(0, 10);
+  await admin.from('credits').update({ status: 'expired', updated_at: now.toISOString() }).eq('status', 'active').lt('expires_at', today);
+
+  const { data: credits } = await admin
+    .from('credits')
+    .select('id, household_id, label, amount_cents, expires_at, rule')
+    .eq('status', 'active')
+    .not('expires_at', 'is', null);
+
+  let sent = 0;
+  for (const c of credits ?? []) {
+    const left = Math.ceil((new Date(c.expires_at).getTime() - now.getTime()) / DAY);
+    const stage = left <= 7 ? '7' : left <= 30 ? '30' : null;
+    if (!stage || left < 0) continue;
+    const what = `${c.amount_cents ? `${formatMoney(c.amount_cents)} ` : ''}${c.label}`;
+    if (await notifyOnce(admin, { creditId: c.id, householdId: c.household_id, key: `expires:${stage}` }, {
+      title: `${what} expires in ${left} day${left === 1 ? '' : 's'}`,
+      body: c.rule === 'travel_by' ? 'You have to fly by that date, not just book.' : 'Book a trip with it before then; the flight itself can be later.',
+      url: '/credits',
+    })) sent++;
   }
   return sent;
 }

@@ -197,3 +197,43 @@ describe('SerpApi pacing', () => {
     expect(nextCheckAt(policyFor('hotel')!, { ...basic, details: { refundable: false } }, now)).toBeNull();
   });
 });
+
+import { creditExpiry, creditRuleFor, owedRefund } from '@/lib/policies';
+import { parseStatus } from '@/lib/providers/aerodatabox';
+
+describe('travel credits', () => {
+  const bought = new Date('2026-03-10T12:00:00Z');
+  it('Delta counts a year from the ORIGINAL purchase, not the claim', () => {
+    const rule = creditRuleFor('delta')!;
+    expect(rule.rule).toBe('book_by');
+    expect(creditExpiry(rule, bought, new Date('2026-09-01T00:00:00Z')).toISOString().slice(0, 10)).toBe('2027-03-10');
+  });
+  it('United counts from issue and is travel-by', () => {
+    const rule = creditRuleFor('united')!;
+    expect(rule.rule).toBe('travel_by');
+    expect(creditExpiry(rule, bought, new Date('2026-09-01T00:00:00Z')).toISOString().slice(0, 10)).toBe('2027-09-01');
+  });
+  it('Southwest: Basic is 6 months, Choice 12, Preferred pays cash (no credit)', () => {
+    expect(creditRuleFor('southwest', 'Basic')!.months).toBe(6);
+    expect(creditRuleFor('southwest', 'Choice')!.months).toBe(12);
+    expect(creditRuleFor('southwest', 'Choice Preferred')).toBeNull();
+  });
+});
+
+describe('flight disruptions (DOT rule)', () => {
+  it('cancellations always qualify; delays at 3h domestic, 6h international', () => {
+    expect(owedRefund({ cancelled: true, delayMin: null, international: false })).toBe(true);
+    expect(owedRefund({ cancelled: false, delayMin: 179, international: false })).toBe(false);
+    expect(owedRefund({ cancelled: false, delayMin: 180, international: false })).toBe(true);
+    expect(owedRefund({ cancelled: false, delayMin: 300, international: true })).toBe(false);
+    expect(owedRefund({ cancelled: false, delayMin: 360, international: true })).toBe(true);
+  });
+  it('reads status, arrival delay and whether the flight crossed a border', () => {
+    const st = parseStatus([
+      { status: 'Arrived', departure: { airport: { iata: 'AAA', countryCode: 'US' }, scheduledTime: { utc: '2026-11-24 15:00Z' } },
+        arrival: { airport: { iata: 'BBB', countryCode: 'US' }, scheduledTime: { utc: '2026-11-24 17:30Z' }, runwayTime: { utc: '2026-11-24 21:00Z' } } },
+    ], 'AAA')!;
+    expect(st).toMatchObject({ cancelled: false, delayMin: 210, international: false });
+    expect(parseStatus([{ status: 'Canceled' }])!.cancelled).toBe(true);
+  });
+});

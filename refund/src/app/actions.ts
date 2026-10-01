@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { getCurrentUser } from '@/lib/auth';
 import { getHouseholdId } from '@/lib/household';
-import { deadlineFor, policyFor, type BestBuyTier } from '@/lib/policies';
+import { creditExpiry, creditRuleFor, deadlineFor, policyFor, type BestBuyTier } from '@/lib/policies';
 import { getSettings, nextCheckAt } from '@/lib/schedule';
 import { savePurchase, scanAll } from '@/lib/scan';
 import { runChecks } from '@/lib/checks';
@@ -71,12 +71,33 @@ export async function dismissPurchase(id: string) {
  * policies allow another adjustment if the price drops again, so the purchase
  * keeps being watched against the new, lower price.
  */
-export async function markClaimed(id: string, savedDollars: string) {
-  const { supabase } = await requireHousehold();
+export async function markClaimed(id: string, savedDollars: string, asCredit = false) {
+  const { supabase, user, householdId } = await requireHousehold();
   const saved = toCents(savedDollars);
   if (!saved) return { ok: false as const, error: 'Enter how much came back' };
-  const { data: p } = await supabase.from('purchases').select('saved_cents, total_cents').eq('id', id).single();
+  const { data: p } = await supabase
+    .from('purchases')
+    .select('saved_cents, total_cents, merchant, purchased_at, details')
+    .eq('id', id)
+    .single();
   if (!p) return { ok: false as const, error: 'Not found' };
+
+  // Airline money usually comes back as a credit with an expiry. Track it so
+  // it gets used: the expiry is that airline's usual rule, editable afterwards.
+  if (asCredit) {
+    const rule = creditRuleFor(p.merchant, (p.details as { fare_brand?: string }).fare_brand);
+    await supabase.from('credits').insert({
+      household_id: householdId,
+      user_id: user.id,
+      issuer: p.merchant,
+      label: rule?.label ?? `${policyFor(p.merchant)?.name ?? 'Travel'} credit`,
+      amount_cents: saved,
+      expires_at: rule ? creditExpiry(rule, new Date(p.purchased_at)).toISOString().slice(0, 10) : null,
+      rule: rule?.rule ?? 'book_by',
+      purchase_id: id,
+    });
+    revalidatePath('/credits');
+  }
 
   const { error } = await supabase
     .from('purchases')
@@ -235,4 +256,42 @@ export async function checkNow(id: string) {
   const result = await runChecks(createAdminClient(), { limit: 5 });
   done(`/purchases/${id}`);
   return { ok: true as const, ...result };
+}
+
+// ------------------------------------------------------------------ credits
+
+/** A credit Refund didn't create: a voucher from a cancelled trip, a gift, a goodwill credit. */
+export async function addCredit(input: { label: string; amount?: string; expiresAt?: string; rule?: 'book_by' | 'travel_by'; code?: string; notes?: string }) {
+  const { supabase, user, householdId } = await requireHousehold();
+  if (!input.label?.trim()) return { ok: false as const, error: 'What is the credit?' };
+  const { error } = await supabase.from('credits').insert({
+    household_id: householdId,
+    user_id: user.id,
+    issuer: input.label.trim().split(/\s+/)[0].toLowerCase(),
+    label: input.label.trim().slice(0, 120),
+    amount_cents: toCents(input.amount) ?? null,
+    expires_at: input.expiresAt || null,
+    rule: input.rule ?? 'book_by',
+    code: input.code?.trim() || null,
+    notes: input.notes?.trim() || null,
+  });
+  if (error) return { ok: false as const, error: error.message };
+  revalidatePath('/credits');
+  return { ok: true as const };
+}
+
+export async function setCreditStatus(id: string, status: 'active' | 'used') {
+  const { supabase } = await requireHousehold();
+  const { error } = await supabase.from('credits').update({ status, updated_at: new Date().toISOString() }).eq('id', id);
+  if (error) return { ok: false as const, error: error.message };
+  revalidatePath('/credits');
+  return { ok: true as const };
+}
+
+export async function updateCreditExpiry(id: string, expiresAt: string) {
+  const { supabase } = await requireHousehold();
+  const { error } = await supabase.from('credits').update({ expires_at: expiresAt || null, updated_at: new Date().toISOString() }).eq('id', id);
+  if (error) return { ok: false as const, error: error.message };
+  revalidatePath('/credits');
+  return { ok: true as const };
 }
