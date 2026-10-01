@@ -29,7 +29,11 @@ export interface ScanResult {
   errors: number;
 }
 
-export async function scanAll(admin: SupabaseClient, opts: { maxPerAccount?: number } = {}): Promise<ScanResult> {
+export async function scanAll(
+  admin: SupabaseClient,
+  /** `rereadDays`: read that many days again, including mail already seen, after a reader improves. */
+  opts: { maxPerAccount?: number; rereadDays?: number } = {},
+): Promise<ScanResult> {
   const result: ScanResult = { accounts: 0, read: 0, purchases: 0, review: 0, errors: 0 };
 
   const { data: accounts, error } = await admin
@@ -55,7 +59,7 @@ export async function scanAll(admin: SupabaseClient, opts: { maxPerAccount?: num
 
       const ids = await listMessageIds(
         access_token,
-        buildPurchaseQuery(firstScan ? BACKFILL_DAYS : RECENT_DAYS),
+        buildPurchaseQuery(opts.rereadDays ?? (firstScan ? BACKFILL_DAYS : RECENT_DAYS)),
         opts.maxPerAccount ?? (firstScan ? 400 : 100),
       );
 
@@ -70,7 +74,7 @@ export async function scanAll(admin: SupabaseClient, opts: { maxPerAccount?: num
         for (const r of data ?? []) seen.add(r.gmail_id);
       }
 
-      for (const id of ids.filter((x) => !seen.has(x))) {
+      for (const id of ids.filter((x) => opts.rereadDays || !seen.has(x))) {
         result.read++;
         const outcome = await ingestOne(admin, { accountId: account.id, userId: account.user_id, householdId }, access_token, id);
         if (outcome === 'purchase') result.purchases++;
@@ -139,6 +143,29 @@ async function ingestOne(
  * same order number; it may add items or a total the first email lacked, but
  * never resets what the person has already decided (claimed / dismissed).
  */
+/**
+ * What is known stays; what was missing is filled in. "Missing" includes an
+ * empty list: a purchase first read with `segments: []` must be able to gain
+ * its flights from a later email, or from a better reader on a re-read.
+ */
+export function fillGaps(known: Record<string, unknown>, incoming: Record<string, unknown>): Record<string, unknown> {
+  const out: Record<string, unknown> = { ...incoming, ...known };
+  for (const [k, v] of Object.entries(known)) {
+    const empty = v == null || v === '' || (Array.isArray(v) && v.length === 0);
+    if (empty && incoming[k] != null) out[k] = incoming[k];
+  }
+  // A fuller itinerary replaces a partial one, but only when it contains every
+  // flight already known: one email of a booking can list fewer legs than another.
+  type Seg = { carrier?: string; flight?: string };
+  const have = known.segments as Seg[] | undefined;
+  const more = incoming.segments as Seg[] | undefined;
+  const id = (x: Seg) => `${x.carrier ?? ''}${x.flight ?? ''}`;
+  if (Array.isArray(have) && Array.isArray(more) && more.length > have.length && have.every((h) => more.some((m) => id(m) === id(h)))) {
+    out.segments = more;
+  }
+  return out;
+}
+
 export async function savePurchase(
   admin: SupabaseClient,
   policy: Policy,
@@ -190,7 +217,7 @@ export async function savePurchase(
       .from('purchases')
       .update({
         total_cents: existing.total_cents ?? row.total_cents,
-        details: { ...row.details, ...(existing.details as object) },
+        details: fillGaps(existing.details as Record<string, unknown>, row.details),
         deadline_at: row.deadline_at,
         return_by: row.return_by,
         ...(decided || existing.status === 'watching' ? {} : { status }),

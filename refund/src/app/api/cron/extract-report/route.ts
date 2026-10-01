@@ -87,7 +87,11 @@ export async function GET(request: NextRequest) {
           flightNumbers: policy.kind === 'flight' ? flights : undefined,
           airportPairs: policy.kind === 'flight' ? airports : undefined,
           stayLabels: policy.kind === 'hotel' ? /check[- ]?in/i.test(text) && /check[- ]?out/i.test(text) : undefined,
-          sawTotal: /\btotal\b[^\n]{0,40}\$\s?\d/i.test(text),
+          total: parsed?.totalCents != null,
+          award: (parsed?.details as { award?: boolean } | undefined)?.award === true,
+          segments: ((parsed?.details as { segments?: { carrier?: string; flight?: string; from?: string; to?: string; departs?: string }[] } | undefined)?.segments ?? []).map(
+            (s) => `${s.carrier ?? ''}${s.flight ?? ''} ${s.from ?? '?'}-${s.to ?? '?'} ${s.departs?.slice(0, 16) ?? '?'}`,
+          ),
         });
       } catch (err) {
         errors++;

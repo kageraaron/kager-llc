@@ -3,7 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { scanAll } from '@/lib/scan';
 
 /** Read new order and booking emails (every 30 minutes). */
-export const maxDuration = 300;
+export const maxDuration = 3000;
 
 export async function GET(request: NextRequest) {
   // Fails closed: an unset secret locks the endpoint.
@@ -12,6 +12,12 @@ export async function GET(request: NextRequest) {
   if (request.headers.get('authorization') !== `Bearer ${secret}`) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   }
-  const result = await scanAll(createAdminClient());
+  // `?reread=330`: read that many days again with the current readers. Known
+  // purchases only gain what they were missing; decisions are never reset.
+  const reread = Number(request.nextUrl.searchParams.get('reread'));
+  const result = await scanAll(
+    createAdminClient(),
+    Number.isInteger(reread) && reread > 0 && reread <= 2000 ? { rereadDays: reread, maxPerAccount: 600 } : {},
+  );
   return NextResponse.json({ ok: true, ...result });
 }

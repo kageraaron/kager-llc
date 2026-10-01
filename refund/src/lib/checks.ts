@@ -164,7 +164,10 @@ async function checkOne(admin: SupabaseClient, p: PurchaseRow): Promise<boolean>
 
   // ---- Flights: same flights, same fare type.
   if (policy.priceSource === 'serpapi_flights') {
-    const d = p.details as { segments?: Segment[]; passengers?: number; fare_brand?: string };
+    const d = p.details as { segments?: Segment[]; passengers?: number; fare_brand?: string; award?: boolean };
+    // Paid in miles: the "total" is taxes, so no cash fare can undercut it and a
+    // metered search would be wasted. The flight is still watched for delays.
+    if (d.award) return false;
     const claimable = fareClaimable(policy, d, new Date(p.purchased_at));
 
     // Free pre-check: if the cheapest fare anyone has seen on this route is

@@ -1,6 +1,7 @@
 import type { NormalizedEmail } from '@/lib/types';
 import type { Kind, Policy } from '@/lib/policies';
-import { extractJsonLdBlocks, extractLinks } from '@/lib/ingest/html';
+import { extractJsonLdBlocks, extractLinks, htmlToText } from '@/lib/ingest/html';
+import { looseItinerary } from '@/lib/ingest/itinerary';
 
 /**
  * Turn one order or booking email into a purchase.
@@ -286,7 +287,13 @@ export function extractPurchase(email: NormalizedEmail, policy: Policy): ParsedP
   // ---- text fallback: always low confidence, always reviewed.
   if (!looksLikeOrder(email.subject)) return null;
   // Most mail has no plain-text part worth reading; the HTML, flattened, does.
-  const body = `${email.html ? htmlToText(email.html) : ''}\n${text}`;
+  // Blank lines dropped: "Total:" and its amount sit on consecutive ROWS of a
+  // table, which flatten to lines with a gap between them.
+  const body = `${email.html ? htmlToText(email.html) : ''}\n${text}`
+    .split('\n')
+    .map((l) => l.trim())
+    .filter(Boolean)
+    .join('\n');
   const segments = policy.kind === 'flight' ? looseItinerary(body) : [];
   const orderRef = orderRefFromText(body, policy.kind) ?? orderRefFromText(email.subject, policy.kind);
   const totalCents = totalFromText(body);
