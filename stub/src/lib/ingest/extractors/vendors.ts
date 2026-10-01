@@ -190,7 +190,7 @@ const AXS_ORDER_LINE =
   /Order details for\s+(.{2,120}?)\s+at\s+(.{2,80}?)\s+scheduled on\s+(\d{1,2}\/\d{1,2}\/\d{4}[^\n]{0,20})/i;
 
 /**
- * AXS transfer notices ("Ben transferred 3 tickets to you") are a different
+ * AXS transfer notices ("Sam transferred 3 tickets to you") are a different
  * shape entirely — no order number, no price, and the event laid out as three
  * consecutive lines:
  *

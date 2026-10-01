@@ -1,6 +1,6 @@
 -- Households replace friends.
 --
--- Stub is now a two-person household app (two adults sharing everything), modelled on Sure's
+-- Stub is now a household app (two adults sharing everything), modelled on Sure's
 -- "family": everyone in a household is an admin and sees the same things.
 --
 --   * Shows (attendances) belong to the HOUSEHOLD. There is no per-person

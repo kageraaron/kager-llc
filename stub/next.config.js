@@ -1,3 +1,12 @@
+// Avatars are served by whichever Supabase this build points at.
+const supabaseHost = (() => {
+  try {
+    return new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).hostname;
+  } catch {
+    return null;
+  }
+})();
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -9,7 +18,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'media.ticketmaster.com' },
       { protocol: 'https', hostname: 'i.scdn.co' },
       { protocol: 'https', hostname: '**.supabase.co' },
-      { protocol: 'https', hostname: 'db.example.org' },
+      ...(supabaseHost ? [{ protocol: 'https', hostname: supabaseHost }] : []),
     ],
   },
 };
