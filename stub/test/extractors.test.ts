@@ -40,6 +40,7 @@ import {
   axsDelivered,
   axsDeliveredRaw,
   retailOrderUnknownShop,
+  stubhubOrder2025,
   ferryBookingJsonLd,
 } from './fixtures/emails';
 
@@ -749,6 +750,19 @@ describe('things that are not shows', () => {
     expect(runExtractors(normalizeEmail(concert))?.ticket).toMatchObject({
       eventName: 'North Atlas Sound',
       startsAt: '2026-06-26T08:15:00',
+    });
+  });
+});
+
+describe('StubHub 2025 layout', () => {
+  it('reads the date-first block, 24-hour time and ticket count', () => {
+    const t = runExtractors(normalizeEmail(stubhubOrder2025))!.ticket;
+    expect(t).toMatchObject({
+      artistName: 'North Atlas Sound',
+      venueName: 'Lantern Theater Oakland',
+      startsAt: '2025-04-27T20:00:00',
+      ticketQuantity: 2,
+      ticketRef: '500600700',
     });
   });
 });

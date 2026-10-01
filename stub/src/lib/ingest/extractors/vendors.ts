@@ -227,7 +227,34 @@ function valueAfter(all: string[], label: string): string | undefined {
  * StubHub's event block, anchored on its date line — the one line with an
  * unmistakable shape. The title sits directly above it and the venue below.
  */
-function stubhubBlock(all: string[]): { title: string; startsAt?: string; venueLine: string } | null {
+function stubhubBlock(
+  all: string[],
+): { title: string; startsAt?: string; venueLine: string; quantity?: number } | null {
+  /*
+   * The 2025 layout puts the date FIRST, on a 24-hour clock with a pipe, and
+   * the venue with no comma before the city:
+   *
+   *   Sunday, April 27, 2025 | 20:00
+   *   (Event time subject to change)
+   *   <ACT>
+   *   <VENUE> <CITY>
+   *   2 Ticket(s)
+   */
+  const DATE_FIRST = /^[A-Z][a-z]+day,\s+([A-Z][a-z]+)\s+(\d{1,2}),\s*(\d{4})\s*\|\s*(\d{1,2}):(\d{2})$/;
+  const first = all.findIndex((l) => DATE_FIRST.test(l));
+  if (first !== -1) {
+    const m = DATE_FIRST.exec(all[first])!;
+    const rest = all.slice(first + 1, first + 6).filter((l) => !/^\(.*\)$/.test(l));
+    if (!rest[0]) return null;
+    const qty = Number(/^(\d{1,2}) Ticket\(s\)$/i.exec(rest[2] ?? '')?.[1]);
+    return {
+      title: rest[0],
+      startsAt: wallTime(m[1], m[2], m[3], Number(m[4]), m[5]),
+      venueLine: rest[1] ?? '',
+      quantity: Number.isInteger(qty) && qty > 0 ? qty : undefined,
+    };
+  }
+
   const DATE = /^[A-Z][a-z]+day,\s+([A-Z][a-z]+)\s+(\d{1,2}),\s*(\d{4})\s+-\s+(\d{1,2}):(\d{2})\s*([ap]m)$/i;
   const at = all.findIndex((l) => DATE.test(l));
   if (at < 1) return null;
@@ -1034,7 +1061,7 @@ const SPECS: VendorSpec[] = [
         const i = all.findIndex((l) => l.toLowerCase() === label);
         return i !== -1 ? all[i + 1] : undefined;
       };
-      const qty = Number(after('qty'));
+      const qty = block.quantity ?? Number(after('qty'));
       if (Number.isInteger(qty) && qty > 0 && qty < 50) out.ticketQuantity = qty;
       const section = after('section');
       const row = after('row');

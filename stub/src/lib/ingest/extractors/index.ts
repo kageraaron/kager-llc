@@ -39,8 +39,9 @@ export const extractors: Extractor[] = [jsonLdExtractor, ...vendorExtractors, ge
  *       no longer dated by its order timestamp.
  *   7 — AXS "tickets delivered" as it really arrives: blank lines between its
  *       three lines, and the single-night form ("*Sat* Sep 26, 2026 - 10:00 PM").
+ *   8 — StubHub's 2025 layout (date first, 24-hour, "2 Ticket(s)").
  */
-export const EXTRACTOR_VERSION = 7;
+export const EXTRACTOR_VERSION = 8;
 
 export interface ExtractionResult {
   extractor: string;

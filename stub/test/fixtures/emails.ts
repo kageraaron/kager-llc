@@ -908,3 +908,15 @@ export const ferryBookingJsonLd: RawEmailInput = {
     },
   })}</script></head><body>Your booking is confirmed.</body></html>`,
 };
+
+/** StubHub's 2025 confirmation: date first, 24-hour clock. Made-up show and order. */
+export const stubhubOrder2025: RawEmailInput = {
+  from: 'StubHub <noreply@stubhub.com>',
+  subject: 'Thanks for your order - Order #500600700',
+  receivedAt: '2025-04-25T17:00:00Z',
+  html: `<p>StubHub</p><p>Sports</p><p>Concerts</p><p>Dear Customer,</p><p>Thanks for your order!</p>
+<p>We notified the seller and you'll have your tickets by Sunday, 27 April 2025 .</p>
+<p>Order # 500600700</p><p>Sunday, April 27, 2025 | 20:00</p><p>(Event time subject to change)</p>
+<p>North Atlas Sound</p><p>Lantern Theater Oakland</p><p>2 Ticket(s)</p><p>$ 120.00</p>
+<p>Section: Floor General Admission</p><p>Row:</p><p>Seat(s): -</p>`,
+};
