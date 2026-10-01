@@ -920,3 +920,33 @@ export const stubhubOrder2025: RawEmailInput = {
 <p>North Atlas Sound</p><p>Lantern Theater Oakland</p><p>2 Ticket(s)</p><p>$ 120.00</p>
 <p>Section: Floor General Admission</p><p>Row:</p><p>Seat(s): -</p>`,
 };
+
+/**
+ * AXS festival order, HTML part: the date as table cells, with no year.
+ * (The text part of the same email has no event date: see `axsFestivalOrder`.)
+ */
+export const axsFestivalOrderCells: RawEmailInput = {
+  from: 'AXS Guest Services <guestservices@axs.com>',
+  subject: 'Thank you for your Order for Harborlight',
+  receivedAt: '2026-06-02T20:54:00Z',
+  text: axsFestivalOrder.text,
+  html: `<table><tr><td>Order</td><td>Confirmed</td></tr><tr><td>Thanks,</td><td>Pat Example!</td></tr>
+<tr><td>Order</td><td>#100200300</td></tr><tr><td>6/2/2026 3:54 PM</td></tr>
+<tr><td>2-Day GA Passes</td></tr><tr><td>Sat</td></tr><tr><td>September 26 -</td></tr><tr><td>1:00 PM</td></tr>
+<tr><td>2-Day GA -</td></tr><tr><td>2-Day GA ($200.00 x2)</td></tr><tr><td>$400.00</td></tr>
+<tr><td>Sec 2-Day GA, Seats</td></tr><tr><td>AXS Mobile ID (Harborlight)</td></tr><tr><td>Subtotal</td></tr><tr><td>$400.00</td></tr></table>`,
+};
+
+/** The other shape of the same email: an "Included Event(s)" row with the full date. */
+export const axsFestivalOrderIncluded: RawEmailInput = {
+  from: 'AXS Guest Services <guestservices@axs.com>',
+  subject: 'Thank you for your Order for Harborlight',
+  receivedAt: '2026-04-13T06:14:00Z',
+  text: axsFestivalOrder.text,
+  html: `<p>Order Confirmed</p><p>Thanks, Pat Example!</p><p>Order #100200301</p><p>4/12/2026 11:14 PM</p>
+<p>2-Day GA w/ Shuttle</p><p>Sat</p><p>October 10 - 3:00 PM</p>
+<p>2-Day GA w/ Shuttle Tier 3 - 2-DAY GA W/ SHUTTLE ($559.00 x1)</p><p>$559.00</p>
+<p>Delivery Information</p><p>AXS Mobile ID (Harborlight)</p>
+<p>Included Event(s)</p><p>&bull; Harborlight 2026 2-Day GA w/ Shuttle, 10/10/2026 3:00:00 PM</p>
+<p>ETicketScheduleDate: Monday, October 5, 2026 12:00 AM</p>`,
+};

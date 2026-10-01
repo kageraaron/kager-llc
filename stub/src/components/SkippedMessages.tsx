@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { formatEventDate } from '@/lib/format';
 
 export interface SkippedMessage {
@@ -7,6 +8,45 @@ export interface SkippedMessage {
   received_at: string | null;
   status: string;
   error: string | null;
+}
+
+/**
+ * Confirmations Stub could not read.
+ *
+ * A seller's mail with an order-shaped subject that no reader made sense of is
+ * almost certainly a real ticket in a layout Stub has not seen. Left in the
+ * collapsed list below it sits among newsletters and nobody looks. Here it is
+ * in plain sight, with a way to add the show by hand: a new layout then costs
+ * one tap rather than a missing show.
+ */
+export function UnreadTickets({ messages }: { messages: (SkippedMessage & { name?: string })[] }) {
+  if (messages.length === 0) return null;
+
+  return (
+    <section style={{ marginTop: 24 }}>
+      <div className="section-label">Couldn’t read {messages.length === 1 ? 'this ticket' : `these ${messages.length} tickets`}</div>
+      <p className="muted" style={{ margin: '6px 0 12px' }}>
+        These look like ticket confirmations, but Stub couldn’t find the show in them. Add it
+        yourself, and the email is worth reporting as a parser gap.
+      </p>
+      {messages.map((m) => (
+        <div key={m.id} className="card">
+          <div className="body">
+            <div className="title">{m.subject || '(no subject)'}</div>
+            <div className="meta">{m.from_addr || 'unknown sender'}</div>
+            <div className="meta">{m.received_at ? formatEventDate(m.received_at) : 'no date'}</div>
+            <Link
+              className="btn"
+              style={{ marginTop: 10, display: 'inline-block' }}
+              href={m.name ? `/browse?q=${encodeURIComponent(m.name)}` : '/browse'}
+            >
+              Find the show
+            </Link>
+          </div>
+        </div>
+      ))}
+    </section>
+  );
 }
 
 /**

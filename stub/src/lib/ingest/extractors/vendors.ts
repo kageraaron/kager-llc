@@ -55,6 +55,10 @@ interface VendorSpec {
  */
 export function isSportsTitle(title: string): boolean {
   const sport = /\b(football|basketball|baseball|hockey|soccer|softball|volleyball|lacrosse|rugby|wrestling|golf|tennis|nfl|nba|wnba|mlb|nhl|mls|ncaa|ufc|preseason|playoffs?)\b/i;
+  // "Philadelphia Phillies at San Francisco Giants" names no sport and has no
+  // "vs": a real card came from exactly that. Two team nicknames is a fixture.
+  const team = /\b(?:giants|warriors|49ers|niners|phillies|dodgers|yankees|mets|cubs|red sox|padres|athletics|sharks|lakers|clippers|kings|raiders|rams|chargers|earthquakes|valkyries|wizards|panthers|stars|celtics|knicks|eagles|cowboys|seahawks)\b/gi;
+  if ((title.match(team)?.length ?? 0) >= 2) return true;
   return sport.test(title) || /\s(?:vs\.?|v\.)\s/i.test(title);
 }
 
@@ -277,6 +281,67 @@ const AXS_DELIVERED =
   /^\W*[A-Z][a-z]{2}\W* ([A-Z][a-z]{2}) (\d{1,2}), (\d{4}) - (\d{1,2}):(\d{2})\s*([AP]M)(?:\s*[^\w\n]{1,3}\s*[A-Z][a-z]{2} [A-Z][a-z]{2} \d{1,2}, \d{4} - \d{1,2}:\d{2}\s*[AP]M)?(?:[, \t]*[A-Z]{2,4})?[ \t]*\n[ \t]*([^\n]{2,120})\n[ \t]*([^,\n]{2,80}),\s*([^,\n]{2,40}),\s*([A-Z]{2})[ \t]*$/m;
 
 const MONTHS3 = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+const WEEKDAYS3 = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+
+/**
+ * An AXS FESTIVAL order ("Thank you for your Order for <FESTIVAL>").
+ *
+ * The plain-text part of this email has no event date at all; the only dates
+ * in it are the order's timestamp and a ticket-delivery date, and each has
+ * been mistaken for the show (a September festival on June 2, an October one
+ * on October 5). The HTML part does say when it is, in one of two places:
+ *
+ *   Included Event(s)
+ *   • <FESTIVAL> 2026 2-Day GA w/ Shuttle, 10/10/2026 3:00:00 PM
+ *
+ * or, with no year, as table cells that arrive on separate lines:
+ *
+ *   Sat
+ *   September 26 -
+ *   1:00 PM
+ *
+ * The weekday settles the year. Only the HTML view is read: it is the one that
+ * has these rows.
+ */
+function parseAxsFestivalOrder(html: string, email: NormalizedEmail): Partial<ParsedTicket> | null {
+  const all = lines(html.replace(/&bull;|&#8226;/gi, '•'));
+  const pad = (n: number | string) => String(n).padStart(2, '0');
+  const clock = (h: string, m: string, ap: string) => `${pad((Number(h) % 12) + (/p/i.test(ap) ? 12 : 0))}:${m}:00`;
+  let startsAt: string | undefined;
+
+  const at = all.findIndex((l) => /^included event\(s\)$/i.test(l));
+  const included = at !== -1 ? /,\s*(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{2})(?::\d{2})?\s*([AP]M)\s*$/i.exec(all[at + 1] ?? '') : null;
+  if (included) {
+    startsAt = `${included[3]}-${pad(included[1])}-${pad(included[2])}T${clock(included[4], included[5], included[6])}`;
+  } else {
+    const row = all.findIndex(
+      (l, i) => /^(?:mon|tue|wed|thu|fri|sat|sun)[a-z]*$/i.test(l) && /^[A-Z][a-z]+ \d{1,2}\b/.test(all[i + 1] ?? ''),
+    );
+    if (row === -1) return null;
+    const md = /^([A-Z][a-z]+) (\d{1,2})\b/.exec(all[row + 1])!;
+    const month = MONTHS3.indexOf(md[1].toLowerCase().slice(0, 3));
+    const weekday = WEEKDAYS3.indexOf(all[row].toLowerCase().slice(0, 3));
+    const time = /(\d{1,2}):(\d{2})\s*([AP]M)/i.exec(`${all[row + 1]} ${all[row + 2] ?? ''}`);
+    const ref = new Date(email.receivedAt);
+    if (month === -1 || Number.isNaN(ref.getTime())) return null;
+    // The first year, from the order's onward, in which that date falls on that weekday.
+    const year = [0, 1, 2]
+      .map((d) => ref.getUTCFullYear() + d)
+      .find((y) => new Date(Date.UTC(y, month, Number(md[2]))).getUTCDay() === weekday && Date.UTC(y, month, Number(md[2])) >= ref.getTime() - 86_400_000);
+    if (year === undefined) return null;
+    startsAt = `${year}-${pad(month + 1)}-${pad(md[2])}T${time ? clock(time[1], time[2], time[3]) : '00:00:00'}`;
+  }
+
+  const name = artistFromSubject(email.subject, /^(?:thank you for your order for)\s*/i);
+  if (!name) return null;
+  // "2-Day GA ($200.00 x2)": how many passes.
+  const qty = Number(/\(\s*[$€£]?\s*[\d.,#]*\s*x\s*(\d{1,2})\s*\)/i.exec(all.join('\n'))?.[1]);
+  return {
+    eventName: name,
+    startsAt,
+    ticketQuantity: Number.isInteger(qty) && qty > 0 ? qty : undefined,
+  };
+}
 
 /** "Portola 2026 - 2-Day GA" -> "Portola 2026": the ticket type is not the event. */
 const AXS_TICKET_TYPE = /\s+-\s+(?:\d[- ]day\b.*|ga\b.*|vip\b.*|general admission\b.*|admissions?\b.*)$/i;
@@ -557,12 +622,18 @@ const SPECS: VendorSpec[] = [
      * as the show. Two real cards put a late-September festival on June 1 and
      * June 2. A wrong date is worse than no card, and the "tickets delivered"
      * email that follows has the real one, so an order with no event line is
-     * left alone.
+     * left alone. (The HTML part of the same email often does carry the date:
+     * see `parseAxsFestivalOrder`, which is tried before giving up.)
      */
     reject: (email, text) => {
       if (!/thank you for your order/i.test(email.subject)) return false;
       const both = `${htmlToText(email.html)}\n${text}`;
-      return !AXS_ORDER_LINE.test(both) && !AXS_SEEING_LINE.test(both) && !parseAxsDelivered(both);
+      return (
+        !AXS_ORDER_LINE.test(both) &&
+        !AXS_SEEING_LINE.test(both) &&
+        !parseAxsDelivered(both) &&
+        !parseAxsFestivalOrder(htmlToText(email.html), email)
+      );
     },
     subject:
       /(?:order confirmation|your tickets?|purchase confirmation|thank you for your order|thank you for purchasing tickets|you received tickets|tickets? transferred)/i,
@@ -626,6 +697,9 @@ const SPECS: VendorSpec[] = [
         const transfer = parseAxsTransfer(haystack);
         if (transfer) return transfer;
       }
+
+      const festival = parseAxsFestivalOrder(htmlText, email);
+      if (festival) return festival;
 
       return {
         artistName: artistFromSubject(

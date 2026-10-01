@@ -285,9 +285,12 @@ export function extractPurchase(email: NormalizedEmail, policy: Policy): ParsedP
 
   // ---- text fallback: always low confidence, always reviewed.
   if (!looksLikeOrder(email.subject)) return null;
-  const orderRef = orderRefFromText(text, policy.kind);
-  const totalCents = totalFromText(text);
-  if (!orderRef && !totalCents) return null;
+  // Most mail has no plain-text part worth reading; the HTML, flattened, does.
+  const body = `${email.html ? htmlToText(email.html) : ''}\n${text}`;
+  const segments = policy.kind === 'flight' ? looseItinerary(body) : [];
+  const orderRef = orderRefFromText(body, policy.kind) ?? orderRefFromText(email.subject, policy.kind);
+  const totalCents = totalFromText(body);
+  if (!orderRef && !totalCents && segments.length === 0) return null;
 
   const skus = policy.id === 'bestbuy'
     ? [...new Set(extractLinks(email.html).map(skuFromUrl).filter(Boolean))] as string[]
@@ -304,9 +307,15 @@ export function extractPurchase(email: NormalizedEmail, policy: Policy): ParsedP
     items: skus.map((sku) => ({ title: `SKU ${sku}`, sku, quantity: 1 })),
     details:
       policy.kind === 'flight'
-        ? { segments: [], passengers: 1, fare_brand: fareBrandFromText(text) }
+        ? {
+            segments,
+            passengers: 1,
+            fare_brand: fareBrandFromText(body),
+            // Paid in miles: the cash total is taxes, and a fare drop means nothing.
+            ...(/\b[\d,]{4,}\s+miles\b/i.test(body) ? { award: true } : {}),
+          }
         : policy.kind === 'hotel'
-          ? { refundable: refundableFromText(text) }
+          ? { refundable: refundableFromText(body) }
           : {},
     confidence: 'low',
   };

@@ -37,6 +37,8 @@ import {
   viagogoOrder,
   axsResale,
   axsFestivalOrder,
+  axsFestivalOrderCells,
+  axsFestivalOrderIncluded,
   axsDelivered,
   axsDeliveredRaw,
   retailOrderUnknownShop,
@@ -764,5 +766,27 @@ describe('StubHub 2025 layout', () => {
       ticketQuantity: 2,
       ticketRef: '500600700',
     });
+  });
+});
+
+describe('sports fixtures', () => {
+  it('recognises two team names with no sport and no "vs"', () => {
+    expect(isSportsTitle('Philadelphia Phillies at San Francisco Giants')).toBe(true);
+    expect(isSportsTitle('Kings of Leon')).toBe(false);
+    expect(isSportsTitle('Giant Rooks')).toBe(false);
+  });
+});
+
+describe('AXS festival order, HTML part', () => {
+  it('reads a date laid out as table cells, taking the year from the weekday', () => {
+    const t = runExtractors(normalizeEmail(axsFestivalOrderCells))!.ticket;
+    // Not the order timestamp (June 2), which is the only date with a year.
+    expect(t).toMatchObject({ eventName: 'Harborlight', startsAt: '2026-09-26T13:00:00', ticketQuantity: 2 });
+  });
+
+  it('reads the "Included Event(s)" row, not the ticket delivery date', () => {
+    const t = runExtractors(normalizeEmail(axsFestivalOrderIncluded))!.ticket;
+    // Not October 5, the e-ticket schedule date, which once became the show.
+    expect(t).toMatchObject({ eventName: 'Harborlight', startsAt: '2026-10-10T15:00:00', ticketQuantity: 1 });
   });
 });

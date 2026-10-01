@@ -40,8 +40,13 @@ export const extractors: Extractor[] = [jsonLdExtractor, ...vendorExtractors, ge
  *   7 — AXS "tickets delivered" as it really arrives: blank lines between its
  *       three lines, and the single-night form ("*Sat* Sep 26, 2026 - 10:00 PM").
  *   8 — StubHub's 2025 layout (date first, 24-hour, "2 Ticket(s)").
+ *   9 — every read gets a second pass from the loose reader (extractors/read.ts):
+ *       sentence titles and order-date mistakes repaired; mail no parser reads
+ *       becomes a review card.
+ *  10 — AXS festival orders: the event date read from the HTML part (table
+ *       cells with no year, or the "Included Event(s)" row).
  */
-export const EXTRACTOR_VERSION = 8;
+export const EXTRACTOR_VERSION = 10;
 
 export interface ExtractionResult {
   extractor: string;

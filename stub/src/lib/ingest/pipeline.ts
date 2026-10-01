@@ -1,7 +1,13 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { ParsedTicket } from '@/lib/types';
 import { normalizeEmail, contentHash, type RawEmailInput } from '@/lib/ingest/normalize';
-import { runExtractors, EXTRACTOR_VERSION } from '@/lib/ingest/extractors';
+import { EXTRACTOR_VERSION } from '@/lib/ingest/extractors';
+import { eligible } from '@/lib/ingest/extractors/loose';
+import { isBoilerplateTitle, readTicket } from '@/lib/ingest/extractors/read';
+import { isSportsTitle } from '@/lib/ingest/extractors/vendors';
+import { llmConfigured, llmJudge } from '@/lib/ingest/llm';
+import { findShowByName, namedShow } from '@/lib/ingest/nameOnly';
+import { htmlToText } from '@/lib/ingest/html';
 import { dedupeKey, mergeTickets } from '@/lib/ingest/dedupe';
 import { matchTicket } from '@/lib/ingest/match';
 import { persistCandidate, recordAttendance } from '@/lib/ingest/catalog';
@@ -88,7 +94,35 @@ export async function ingestEmail(
     await db.from('ingest_messages').delete().eq('id', seen.id);
   }
 
-  const extraction = runExtractors(email);
+  /*
+   * Three readers. The layout parsers know a seller's email exactly; the
+   * loose reader checks their work and stands in where none of them applies
+   * (`readTicket`); and when both come up empty on mail that still reads like
+   * a confirmation, a model reads the one email, if a key is configured.
+   * Whatever they produce still has to be borne out by the catalog below, and
+   * a read that only the loose reader or the model vouches for is never added
+   * to the list without a person confirming it.
+   */
+  let extraction: { extractor: string; ticket: ParsedTicket; reviewOnly?: boolean } | null = readTicket(email);
+  /*
+   * The model reads only what nothing else could. It does NOT overrule the
+   * loose reader: tried as a judge of "is this ticket held?" on 36 real
+   * emails, it dismissed three and all three were real purchases, while the
+   * mail that deserved dismissing had already been caught by plain rules.
+   */
+  let notHeld = false;
+  if (!extraction && llmConfigured()) {
+    const body = `${email.html ? htmlToText(email.html) : ''}\n${email.text}`;
+    if (eligible(email, body)) {
+      const verdict = await llmJudge(email);
+      const act = verdict?.ticket?.artistName;
+      if (verdict?.ticket && act && !isSportsTitle(act) && !isBoilerplateTitle(act)) {
+        extraction = { extractor: 'llm', ticket: verdict.ticket, reviewOnly: true };
+      }
+      // Only stops the name-only lookup below; never removes a card.
+      if (verdict && !verdict.held) notHeld = true;
+    }
+  }
 
   /*
    * What is kept about a message that was read. Never the body. The sender and
@@ -121,7 +155,62 @@ export async function ingestEmail(
     .single();
 
   if (msgErr) return { status: 'error', message: msgErr.message };
-  if (!extraction) return { status: 'not_a_ticket' };
+
+  /*
+   * Nobody could read it, but it names a show: ask the catalog whether there
+   * is exactly one by that name after the purchase (see nameOnly.ts). A card
+   * to review, with the catalog's date; skipped when the show is already on
+   * the list, or a model has said the ticket is not held.
+   */
+  if (!extraction) {
+    const name = notHeld ? null : namedShow(email);
+    if (!name) return { status: 'not_a_ticket' };
+    try {
+      const found = await findShowByName(db, name, email, userId);
+      if (!found) return { status: 'not_a_ticket' };
+
+      const { count: already } = await db
+        .from('attendances')
+        .select('id', { count: 'exact', head: true })
+        .eq('household_id', householdId)
+        .eq('event_id', found.eventId);
+      const { count: queued } = await db
+        .from('ingest_candidates')
+        .select('id', { count: 'exact', head: true })
+        .eq('household_id', householdId)
+        .eq('matched_event_id', found.eventId)
+        .in('state', ['pending', 'confirmed', 'rejected']);
+      if ((already ?? 0) > 0 || (queued ?? 0) > 0) {
+        await db.from('ingest_messages').update({ status: 'duplicate_event' }).eq('id', message.id);
+        return { status: 'duplicate' };
+      }
+
+      const parsed: ParsedTicket = {
+        eventName: name,
+        venueName: found.venueName,
+        startsAt: found.startsAt ?? undefined,
+      };
+      const { data: candidate } = await db
+        .from('ingest_candidates')
+        .insert({
+          message_id: message.id,
+          user_id: userId,
+          parsed,
+          dedupe_key: dedupeKey(parsed),
+          // The name matched and the catalog had one answer; the email gave no date to confirm it.
+          confidence: 0.6,
+          matched_event_id: found.eventId,
+          state: 'pending',
+        })
+        .select('id')
+        .single();
+      await db.from('ingest_messages').update({ status: 'unmatched', extractor: 'name-only' }).eq('id', message.id);
+      return { status: 'needs_review', candidateId: candidate?.id ?? '', confidence: 0.6 };
+    } catch (err) {
+      console.error('name-only lookup failed', err instanceof Error ? err.message.slice(0, 160) : err);
+      return { status: 'not_a_ticket' };
+    }
+  }
 
   /*
    * Is this show already in the queue, or already added?
@@ -162,6 +251,21 @@ export async function ingestEmail(
   let match;
   try {
     match = await matchTicket(extraction.ticket);
+    /*
+     * A loose read can be unsure WHICH line is the act ("Party: Act" and
+     * "Act: Production" look the same), so it carries its other readings. If
+     * the first is not borne out by a listing, try the next two. The catalog
+     * settles what the text cannot.
+     */
+    const alternates = (extraction.ticket as { alternates?: string[] }).alternates ?? [];
+    for (const name of alternates.slice(0, 2)) {
+      if (match.autoAdd || (match.best && match.best.confidence >= 0.7)) break;
+      const second = await matchTicket({ ...extraction.ticket, artistName: name });
+      if (second.best && (!match.best || second.best.confidence > match.best.confidence)) {
+        match = second;
+        extraction.ticket = { ...extraction.ticket, artistName: name };
+      }
+    }
   } catch (err) {
     await db
       .from('ingest_messages')
@@ -195,7 +299,7 @@ export async function ingestEmail(
   });
   if (!eventId) return { status: 'error', message: 'could not persist matched event' };
 
-  if (match.autoAdd) {
+  if (match.autoAdd && !extraction.reviewOnly) {
     await recordAttendance(db, {
       userId,
       eventId,

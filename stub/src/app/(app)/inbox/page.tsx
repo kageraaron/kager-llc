@@ -2,7 +2,8 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth';
 import { CandidateCard } from '@/components/CandidateCard';
-import { SkippedMessages, type SkippedMessage } from '@/components/SkippedMessages';
+import { SkippedMessages, UnreadTickets, type SkippedMessage } from '@/components/SkippedMessages';
+import { looksLikeTicketMail, nameFromSubject } from '@/lib/ingest/extractors/loose';
 import { getHouseholdId } from '@/lib/household';
 
 export const dynamic = 'force-dynamic';
@@ -49,7 +50,12 @@ export default async function InboxPage() {
     .limit(50);
 
   const rows = (candidates ?? []) as unknown as React.ComponentProps<typeof CandidateCard>['candidate'][];
-  const skippedRows = (skipped ?? []) as SkippedMessage[];
+  const allSkipped = (skipped ?? []) as SkippedMessage[];
+  // A seller's confirmation nothing could read is a miss, not noise: show it.
+  const isUnread = (m: SkippedMessage) =>
+    m.status === 'ignored' && !!m.subject && looksLikeTicketMail({ from: m.from_addr ?? '', subject: m.subject });
+  const unread = allSkipped.filter(isUnread).map((m) => ({ ...m, name: nameFromSubject(m.subject ?? '') }));
+  const skippedRows = allSkipped.filter((m) => !isUnread(m));
 
   return (
     <main className="page">
@@ -89,6 +95,7 @@ export default async function InboxPage() {
         rows.map((c) => <CandidateCard key={c.id} candidate={c} />)
       )}
 
+      <UnreadTickets messages={unread} />
       <SkippedMessages messages={skippedRows} />
     </main>
   );

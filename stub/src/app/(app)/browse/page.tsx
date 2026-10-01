@@ -38,6 +38,12 @@ const SOURCE_LABELS: Record<string, string> = {
 export default function BrowsePage() {
   const router = useRouter();
   const [query, setQuery] = useState('');
+
+  // `/browse?q=Act`: the Inbox links here for a ticket it could not read.
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get('q');
+    if (q) setQuery(q);
+  }, []);
   const [results, setResults] = useState<{
     key: string;
     /** The artist query these results came from — not the current box contents. */
