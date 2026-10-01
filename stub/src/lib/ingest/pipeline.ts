@@ -6,6 +6,8 @@ import { dedupeKey, mergeTickets } from '@/lib/ingest/dedupe';
 import { matchTicket } from '@/lib/ingest/match';
 import { persistCandidate, recordAttendance } from '@/lib/ingest/catalog';
 import { getHouseholdId } from '@/lib/household';
+import { isTicketSender } from '@/lib/retention';
+
 
 /**
  * The one path every ingested email takes, whether it arrived via the Gmail
@@ -88,14 +90,27 @@ export async function ingestEmail(
 
   const extraction = runExtractors(email);
 
+  /*
+   * What is kept about a message that was read. Never the body. The sender and
+   * subject are kept only when the mail IS a ticket, or comes from a known
+   * ticket seller (so a confirmation the extractors missed can still be found
+   * in the Inbox's "scanned, nothing found" list, for 30 days: lib/retention).
+   *
+   * Everything else leaves no readable trace. The Gmail search also matches on
+   * subject phrases like "your order", which catches pharmacy receipts and the
+   * like: none of Stub's business, and exactly what should not sit in a
+   * database. The id and content hash stay so a rescan skips the message.
+   */
+  const keepHeaders = !!extraction || isTicketSender(email.from);
+
   const { data: message, error: msgErr } = await db
     .from('ingest_messages')
     .insert({
       user_id: userId,
       account_id: opts.accountId ?? null,
       provider_msg_id: email.providerMsgId ?? null,
-      from_addr: email.from.slice(0, 320),
-      subject: email.subject.slice(0, 500),
+      from_addr: keepHeaders ? email.from.slice(0, 320) : null,
+      subject: keepHeaders ? email.subject.slice(0, 500) : null,
       received_at: email.receivedAt,
       content_hash: hash,
       extractor_version: EXTRACTOR_VERSION,

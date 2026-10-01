@@ -106,6 +106,7 @@ export async function runChecks(admin: SupabaseClient, opts: { limit?: number } 
 
   // 4. Reminders for windows Refund can't price-check, and "closing soon" for all.
   result.reminders = await sendReminders(admin, now);
+  result.reminders += await remindReturns(admin, now);
 
   // 5. Flights that just flew: cancelled or late enough to be owed a refund?
   result.disruptions = await checkDisruptions(admin, now).catch((err) => {
@@ -115,6 +116,14 @@ export async function runChecks(admin: SupabaseClient, opts: { limit?: number } 
 
   // 6. Travel credits about to lapse.
   result.creditReminders = await remindCredits(admin, now);
+
+  // 7. Belt and braces: mail that wasn't a purchase must carry no sender or
+  // subject (the scan no longer writes them; this clears anything older).
+  await admin
+    .from('messages')
+    .update({ subject: null, from_addr: null })
+    .in('status', ['ignored', 'error'])
+    .not('subject', 'is', null);
   return result;
 }
 
@@ -362,6 +371,35 @@ async function remindCredits(admin: SupabaseClient, now: Date): Promise<number> 
       title: `${what} expires in ${left} day${left === 1 ? '' : 's'}`,
       body: c.rule === 'travel_by' ? 'You have to fly by that date, not just book.' : 'Book a trip with it before then; the flight itself can be later.',
       url: '/credits',
+    })) sent++;
+  }
+  return sent;
+}
+
+// ------------------------------------------------------------------ returns
+
+/**
+ * One nudge in the last week a store purchase can be returned. Runs for
+ * purchases whose price-match window has already closed too (status expired):
+ * Target's return window outlasts its price match by 76 days.
+ */
+async function remindReturns(admin: SupabaseClient, now: Date): Promise<number> {
+  const { data: rows } = await admin
+    .from('purchases')
+    .select('id, household_id, merchant, merchant_name, return_by')
+    .eq('kind', 'retail')
+    .in('status', ['watching', 'expired'])
+    .gt('return_by', now.toISOString())
+    .lt('return_by', new Date(now.getTime() + 7 * DAY).toISOString());
+
+  let sent = 0;
+  for (const p of rows ?? []) {
+    const name = p.merchant_name ?? policyFor(p.merchant)?.name ?? 'the store';
+    const left = Math.ceil((new Date(p.return_by).getTime() - now.getTime()) / DAY);
+    if (await notifyOnce(admin, { purchaseId: p.id, householdId: p.household_id, key: 'remind:return' }, {
+      title: `Last week to return your ${name} order`,
+      body: `Returns close in ${left} day${left === 1 ? '' : 's'}. Check the price first: a return and rebuy still works if it dropped.`,
+      url: `/purchases/${p.id}`,
     })) sent++;
   }
   return sent;

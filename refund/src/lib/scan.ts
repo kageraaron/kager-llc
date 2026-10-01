@@ -4,7 +4,7 @@ import { decryptToken } from '@/lib/crypto';
 import { buildPurchaseQuery, getMessage, listMessageIds, parseGmailMessage, refreshAccessToken } from '@/lib/providers/gmail';
 import { normalizeEmail } from '@/lib/ingest/normalize';
 import { emailRole, extractPurchase, type ParsedPurchase } from '@/lib/ingest/extract';
-import { deadlineFor, policyForSender, type Policy } from '@/lib/policies';
+import { deadlineFor, policyForSender, returnBy, type Policy } from '@/lib/policies';
 import { getSettings, nextCheckAt } from '@/lib/schedule';
 import { getHouseholdId } from '@/lib/household';
 
@@ -109,14 +109,16 @@ async function ingestOne(
     const role = emailRole(email.subject);
     const parsed = policy && role !== 'other' ? extractPurchase(email, policy) : null;
     if (!policy || !parsed) {
-      await record('ignored', meta);
+      // Not a purchase: keep only the Gmail id (so it isn't read again), never
+      // the sender or subject. Bodies are never stored for any message.
+      await record('ignored', { received_at: email.receivedAt });
       return 'ignored';
     }
 
     // Only a confirmation or receipt creates a purchase; reminders and
     // shipping mail just fill gaps on one that already exists.
     const status = parsed.confidence === 'high' ? 'purchase' : 'review';
-    const { data: msg } = await record(role === 'purchase' ? status : 'ignored', meta);
+    const { data: msg } = await record(role === 'purchase' ? status : 'ignored', role === 'purchase' ? meta : { received_at: email.receivedAt });
     const saved = await savePurchase(admin, policy, parsed, {
       ...who,
       messageId: msg?.id ?? null,
@@ -172,6 +174,7 @@ export async function savePurchase(
     total_cents: parsed.totalCents ?? null,
     currency: parsed.currency,
     deadline_at: deadline?.toISOString() ?? null,
+    return_by: returnBy(policy, purchasedAt, { bestbuyTier: settings.bestbuy_tier })?.toISOString() ?? null,
     details: parsed.details,
     source: who.source,
     message_id: who.messageId,
@@ -189,6 +192,7 @@ export async function savePurchase(
         total_cents: existing.total_cents ?? row.total_cents,
         details: { ...row.details, ...(existing.details as object) },
         deadline_at: row.deadline_at,
+        return_by: row.return_by,
         ...(decided || existing.status === 'watching' ? {} : { status }),
         updated_at: new Date().toISOString(),
       })

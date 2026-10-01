@@ -12,6 +12,7 @@ import {
 } from '@/lib/providers/gmail';
 import { ingestEmail } from '@/lib/ingest/pipeline';
 import { notifyScanResults } from '@/lib/notifyScan';
+import { eraseOldSkippedMail } from '@/lib/retention';
 
 /**
  * Scheduled Gmail scan. Runs every 30 minutes (see vercel.json crons).
@@ -135,6 +136,13 @@ export async function GET(request: NextRequest) {
       summary.push({ email: account.email, error: message });
     }
   }
+
+  // Retention: forget the sender and subject of old mail that wasn't a ticket.
+  const erased = await eraseOldSkippedMail(admin).catch((err) => {
+    console.error('retention failed', err instanceof Error ? err.message : err);
+    return 0;
+  });
+  if (erased) console.log(`retention: erased sender/subject on ${erased} old skipped messages`);
 
   return NextResponse.json({ ok: true, accounts: summary.length, summary });
 }

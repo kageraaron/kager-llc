@@ -920,9 +920,23 @@ const EXTRA_FETCH_DOMAINS = [
 ];
 
 /** Sender domains worth pulling from Gmail at all — used to build the search query. */
+/**
+ * The registrable domain: `mail.dice.fm` -> `dice.fm`, but
+ * `moshtix.com.au` stays whole. Taking the last two labels blindly turned that
+ * one into `com.au`, which made every Australian sender look like a ticket
+ * seller, both in the Gmail search and in what Stub keeps about a message.
+ */
+export function registrableDomain(d: string): string {
+  const labels = d.toLowerCase().split('.');
+  const secondLevel = ['com', 'co', 'net', 'org', 'gov', 'edu', 'ac'];
+  const countryCode = labels[labels.length - 1]?.length === 2;
+  const take = countryCode && secondLevel.includes(labels[labels.length - 2]) ? 3 : 2;
+  return labels.slice(-take).join('.');
+}
+
 export const TICKET_SENDER_DOMAINS = [
   ...new Set([
-    ...SPECS.flatMap((s) => s.domains.map((d) => d.split('.').slice(-2).join('.'))),
-    ...EXTRA_FETCH_DOMAINS.map((d) => d.split('.').slice(-2).join('.')),
+    ...SPECS.flatMap((s) => s.domains.map(registrableDomain)),
+    ...EXTRA_FETCH_DOMAINS.map(registrableDomain),
   ]),
 ];

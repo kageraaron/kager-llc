@@ -43,6 +43,8 @@ export default async function InboxPage() {
     .select('id, subject, from_addr, received_at, status, error')
     .eq('household_id', householdId)
     .in('status', ['ignored', 'error'])
+    // Older rows have had their sender and subject erased (lib/retention.ts).
+    .not('subject', 'is', null)
     .order('received_at', { ascending: false, nullsFirst: false })
     .limit(50);
 

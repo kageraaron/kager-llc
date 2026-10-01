@@ -30,6 +30,16 @@ export interface Policy {
   claimUrl?: string;
   /** For merchants Refund can't price-check: day after purchase to nudge. */
   remindOnDay?: number;
+  /** The store's return window, when it has one worth tracking. */
+  returns?: ReturnRule;
+  source: string;
+}
+
+export interface ReturnRule {
+  /** Days for most items; null when the store sets no limit. */
+  days: number | null;
+  /** Shown beside the date: the shorter windows some categories get. */
+  note: string;
   source: string;
 }
 
@@ -49,6 +59,11 @@ export const POLICIES: Policy[] = [
     ],
     claimUrl: 'https://www.costco.com/',
     remindOnDay: 21,
+    returns: {
+      days: null,
+      note: 'No time limit on most items. Electronics (TVs, computers, tablets, phones, cameras, major appliances): 90 days.',
+      source: 'https://customerservice.costco.com/app/answers/answer_view/a_id/1191',
+    },
     source: 'Costco price adjustment form (no public policy page); see research doc',
   },
   {
@@ -66,6 +81,12 @@ export const POLICIES: Policy[] = [
     ],
     claimUrl: 'https://www.bestbuy.com/site/help-topics/price-match-guarantee/pcmcat290300050002.c?id=pcmcat290300050002',
     remindOnDay: 10,
+    returns: {
+      // Same period as the price match: set from the membership tier in returnBy().
+      days: 15,
+      note: '15 days; 60 for My Best Buy Plus and Total. Holiday decorations are always 15.',
+      source: 'https://www.bestbuy.com/site/help-topics/return-exchange-policy/pcmcat260800050014.c?id=pcmcat260800050014',
+    },
     source: 'https://www.bestbuy.com/site/help-topics/price-match-guarantee/pcmcat290300050002.c?id=pcmcat290300050002',
   },
   {
@@ -83,6 +104,11 @@ export const POLICIES: Policy[] = [
     ],
     claimUrl: 'https://www.target.com/help/articles/policies-guidelines/price-match-guarantee',
     remindOnDay: 10,
+    returns: {
+      days: 90,
+      note: '90 days for most items; electronics 30 and Apple products 15. Check the receipt: Target’s own page could not be read when this was written.',
+      source: 'Secondary sources; verify at target.com/returns',
+    },
     source: 'https://www.target.com/help/articles/policies-guidelines/price-match-guarantee',
   },
   {
@@ -195,6 +221,13 @@ export function deadlineFor(
     return cancelBy ? new Date(cancelBy) : checkIn ? new Date(checkIn) : null;
   }
   return null;
+}
+
+/** When a store purchase can still be returned, or null for no limit / not a store. */
+export function returnBy(policy: Policy, purchasedAt: Date, opts: { bestbuyTier?: BestBuyTier } = {}): Date | null {
+  if (!policy.returns?.days) return null;
+  const days = policy.id === 'bestbuy' && opts.bestbuyTier && opts.bestbuyTier !== 'standard' ? 60 : policy.returns.days;
+  return new Date(purchasedAt.getTime() + days * DAY);
 }
 
 /**

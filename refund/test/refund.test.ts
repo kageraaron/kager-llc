@@ -237,3 +237,19 @@ describe('flight disruptions (DOT rule)', () => {
     expect(parseStatus([{ status: 'Canceled' }])!.cancelled).toBe(true);
   });
 });
+
+import { returnBy } from '@/lib/policies';
+
+describe('return windows', () => {
+  const bought = new Date('2026-09-01T12:00:00Z');
+  const days = (d: Date | null) => (d ? (d.getTime() - bought.getTime()) / 86_400_000 : null);
+  it('uses each store’s window, and the Best Buy tier', () => {
+    expect(days(returnBy(policyFor('target')!, bought))).toBe(90);
+    expect(days(returnBy(policyFor('bestbuy')!, bought))).toBe(15);
+    expect(days(returnBy(policyFor('bestbuy')!, bought, { bestbuyTier: 'total' }))).toBe(60);
+  });
+  it('has no date where the store sets no limit, or for flights', () => {
+    expect(returnBy(policyFor('costco')!, bought)).toBeNull();
+    expect(returnBy(policyFor('delta')!, bought)).toBeNull();
+  });
+});

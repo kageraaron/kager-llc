@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { getCurrentUser } from '@/lib/auth';
 import { getHouseholdId } from '@/lib/household';
-import { creditExpiry, creditRuleFor, deadlineFor, policyFor, type BestBuyTier } from '@/lib/policies';
+import { creditExpiry, creditRuleFor, deadlineFor, policyFor, returnBy, type BestBuyTier } from '@/lib/policies';
 import { getSettings, nextCheckAt } from '@/lib/schedule';
 import { savePurchase, scanAll } from '@/lib/scan';
 import { runChecks } from '@/lib/checks';
@@ -46,6 +46,7 @@ export async function confirmPurchase(id: string) {
     .update({
       status: expired ? 'expired' : 'watching',
       deadline_at: deadline?.toISOString() ?? null,
+      return_by: returnBy(policy, new Date(p.purchased_at), { bestbuyTier: settings.bestbuy_tier })?.toISOString() ?? null,
       next_check_at: expired ? null : nextCheckAt(policy, { ...p, deadline_at: deadline?.toISOString() ?? null })?.toISOString() ?? null,
       updated_at: new Date().toISOString(),
     })

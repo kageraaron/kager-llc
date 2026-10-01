@@ -55,6 +55,12 @@ export default async function PurchasePage({ params }: { params: Promise<{ id: s
               : 'No deadline found'}
           </strong>
         </div>
+        {policy?.returns && (
+          <div className="spread">
+            <span className="muted">Return by</span>
+            <strong>{p.return_by ? shortDate(p.return_by) : 'No time limit'}</strong>
+          </div>
+        )}
         {p.saved_cents > 0 && (
           <div className="spread">
             <span className="muted">Got back</span>
@@ -62,6 +68,12 @@ export default async function PurchasePage({ params }: { params: Promise<{ id: s
           </div>
         )}
         {policy && <p className="fine">{policy.window}. Comes back as: {policy.comesBackAs}.</p>}
+        {policy?.returns && (
+          <p className="fine">
+            Returns: {policy.returns.note} If the price drops after the price-match window closes, returning and
+            rebuying is the fallback.
+          </p>
+        )}
         {!claimable.ok && <p className="error" style={{ margin: 0 }}>{claimable.why}</p>}
       </section>
 
