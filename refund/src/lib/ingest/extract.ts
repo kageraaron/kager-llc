@@ -1,7 +1,7 @@
 import type { NormalizedEmail } from '@/lib/types';
 import type { Kind, Policy } from '@/lib/policies';
 import { extractJsonLdBlocks, extractLinks, htmlToText } from '@/lib/ingest/html';
-import { looseItinerary } from '@/lib/ingest/itinerary';
+import { readFlightReceipt } from '@/lib/ingest/itinerary';
 
 /**
  * Turn one order or booking email into a purchase.
@@ -28,6 +28,10 @@ export interface ParsedSegment {
   from?: string;
   to?: string;
   departs?: string;
+  /** "United Economy", "United First": the cabin printed beside the flight. */
+  cabin?: string;
+  /** The fare bucket letter(s) beside it: Q, N, XN. */
+  bookingClass?: string;
 }
 
 export interface ParsedPurchase {
@@ -126,7 +130,8 @@ function fromFlights(ns: Node[], policy: Policy, email: NormalizedEmail, text: s
     if (who) passengers.add(who.toLowerCase());
 
     const carrier = str((f.airline as Node)?.iataCode);
-    const flight = str(f.flightNumber);
+    // Some airlines repeat their code in the number ("AA 2529"): keep the digits.
+    const flight = str(f.flightNumber)?.replace(/^[A-Z0-9]{2}\s+(?=\d)/, '');
     const departs = isoish(str(f.departureTime));
     const key = `${carrier}${flight}${departs}`;
     // One reservation node per passenger per segment: keep each segment once.
@@ -195,15 +200,16 @@ function fromLodging(n: Node, policy: Policy, email: NormalizedEmail, text: stri
 export function totalFromText(text: string): number | undefined {
   const lines = text.split('\n');
   const ranked: [number, number][] = [];
-  const money = /\$\s?([\d,]+\.\d{2})/;
+  // "$342.20", or an airline's "342.20 USD" with no dollar sign.
+  const money = /\$\s?([\d,]+\.\d{2})|\b([\d,]+\.\d{2})\s*USD\b/;
   lines.forEach((line, i) => {
     const label = line.match(/\b(grand total|order total|total charged|amount charged|total paid|trip total|total)\b/i)?.[1]?.toLowerCase();
-    if (!label || /subtotal|savings|points|miles/i.test(line)) return;
+    if (!label || /subtotal|savings|points|miles|per passenger|per person|per traveler/i.test(line)) return;
     // The amount is on the label's line, or the next one in table-soup email.
     const m = line.match(money) ?? lines[i + 1]?.match(money);
     if (!m) return;
     const rank = label === 'total' ? 1 : 2;
-    ranked.push([rank, toCents(m[1])!]);
+    ranked.push([rank, toCents(m[1] ?? m[2])!]);
   });
   ranked.sort((a, b) => b[0] - a[0]);
   return ranked[0]?.[1];
@@ -243,8 +249,16 @@ function skuFromUrl(url?: string): string | undefined {
  * "What to know about your trip to…" emails per trip, each carrying the
  * confirmation number, and every one became a bogus purchase.
  */
-export function emailRole(subject: string): 'purchase' | 'update' | 'other' {
+export type EmailRole = 'purchase' | 'update' | 'schedule' | 'cancelled' | 'other';
+
+export function emailRole(subject: string): EmailRole {
   const s = subject.toLowerCase();
+  // The trip no longer exists: nothing left to watch.
+  if (/\b(cancellation is complete|(flight|trip|reservation|booking) (has been |was |is )?cancel+ed|received a future flight credit)\b/.test(s)) return 'cancelled';
+  // The airline moved the flights: what is on the purchase is now wrong.
+  if (/\b(schedule .{0,40}changed|schedule change|itinerary (has )?changed|flight change)\b/.test(s)) return 'schedule';
+  // Bought something ON a trip, not the trip: its total is not the fare.
+  if (/\b(seat purchase|seat (change|assignment)|upgrade (confirmation|request)|bag(gage)? purchase)\b/.test(s)) return 'update';
   if (/\b(sale|deals?|% off|offer|save up to|sign up|survey|review your|account summary|login|verification|verify|password|terms|update to|newsletter)\b/.test(s)) return 'other';
   if (/\b(what to know|reminder|check[- ]?in|upcoming|get ready|on hold|shipped|on its way|out for delivery|delivered|ready for pickup|plan for your|before you go)\b/.test(s)) return 'update';
   if (/\b(order (confirmation|confirmed|received|#|number)|thanks? (you )?for (your )?(order|purchase|booking)|receipt|booking (confirmation|confirmed|is confirmed)|reservation (confirmation|confirmed)|trip confirmation|e-?ticket|itinerary and receipt|you'?re booked|your order|purchase confirmation|confirmation (#|number))\b/.test(s)) return 'purchase';
@@ -289,15 +303,24 @@ export function extractPurchase(email: NormalizedEmail, policy: Policy): ParsedP
   // Most mail has no plain-text part worth reading; the HTML, flattened, does.
   // Blank lines dropped: "Total:" and its amount sit on consecutive ROWS of a
   // table, which flatten to lines with a gap between them.
-  const body = `${email.html ? htmlToText(email.html) : ''}\n${text}`
+  // ONE copy of the message. The text part is usually the HTML again, and
+  // reading both counted every traveller, and so every fare, twice.
+  const fromHtml = email.html ? htmlToText(email.html) : '';
+  const body = (fromHtml.length >= text.length ? fromHtml : text)
     .split('\n')
     .map((l) => l.trim())
     .filter(Boolean)
     .join('\n');
-  const segments = policy.kind === 'flight' ? looseItinerary(body) : [];
+  const flight = policy.kind === 'flight' ? readFlightReceipt(body) : null;
+  const segments = flight?.segments ?? [];
   const orderRef = orderRefFromText(body, policy.kind) ?? orderRefFromText(email.subject, policy.kind);
-  const totalCents = totalFromText(body);
+  const totalCents = flight?.totalCents ?? totalFromText(body);
   if (!orderRef && !totalCents && segments.length === 0) return null;
+
+  // "Date of purchase" beats the email's own date: a receipt re-sent after a
+  // seat change or an upgrade is dated weeks after the ticket was bought.
+  const purchasedAt =
+    flight?.purchasedOn && flight.purchasedOn !== email.receivedAt.slice(0, 10) ? `${flight.purchasedOn}T20:00:00.000Z` : email.receivedAt;
 
   const skus = policy.id === 'bestbuy'
     ? [...new Set(extractLinks(email.html).map(skuFromUrl).filter(Boolean))] as string[]
@@ -308,7 +331,7 @@ export function extractPurchase(email: NormalizedEmail, policy: Policy): ParsedP
     merchant: policy.id,
     merchantName: policy.name,
     orderRef,
-    purchasedAt: email.receivedAt,
+    purchasedAt,
     totalCents,
     currency: 'USD',
     items: skus.map((sku) => ({ title: `SKU ${sku}`, sku, quantity: 1 })),
@@ -316,10 +339,12 @@ export function extractPurchase(email: NormalizedEmail, policy: Policy): ParsedP
       policy.kind === 'flight'
         ? {
             segments,
-            passengers: 1,
-            fare_brand: fareBrandFromText(body),
+            passengers: flight!.passengers,
+            // The cabin beside the flight; the fine-print scan only as a last resort.
+            fare_brand: flight!.fareBrand ?? (segments.length ? undefined : fareBrandFromText(body)),
             // Paid in miles: the cash total is taxes, and a fare drop means nothing.
-            ...(/\b[\d,]{4,}\s+miles\b/i.test(body) ? { award: true } : {}),
+            ...(flight!.award ? { award: true } : {}),
+            ...(flight!.miles ? { miles: flight!.miles } : {}),
           }
         : policy.kind === 'hotel'
           ? { refundable: refundableFromText(body) }

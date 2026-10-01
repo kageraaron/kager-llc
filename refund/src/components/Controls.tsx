@@ -193,7 +193,7 @@ export function AddForm() {
       {kind === 'retail' && (
         <>
           {field('itemTitle', 'Item', { required: true })}
-          {f.merchant === 'bestbuy' && field('sku', 'Best Buy SKU (on the product page; lets Refund check the price)', { inputMode: 'numeric' })}
+          {f.merchant === 'bestbuy' && field('sku', 'Best Buy SKU (optional; on the product page)', { inputMode: 'numeric' })}
         </>
       )}
 

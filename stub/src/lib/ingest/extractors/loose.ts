@@ -480,7 +480,9 @@ export function looseExtract(email: NormalizedEmail): LooseTicket | null {
 
 /** "2 Ticket(s)", "3 x General Admission": counts the shared finder misses. */
 function quantityNearby(text: string): number | undefined {
-  const m = /\b(\d{1,2})\s*(?:ticket\(s\)|x\s+[A-Za-z])/i.exec(text);
+  // "N x <anything>" is too loose: a real card showed 20 tickets from an
+  // unrelated "20 x …" in the fine print. The thing counted must be a ticket.
+  const m = /\b(\d{1,2})\s*(?:ticket\(s\)|x\s+(?:general admission|ga\b|admission|tickets?\b|pass(?:es)?\b))/i.exec(text);
   const n = m ? Number(m[1]) : NaN;
   return Number.isInteger(n) && n > 0 && n < 50 ? n : undefined;
 }

@@ -74,7 +74,10 @@ export async function scanAll(
         for (const r of data ?? []) seen.add(r.gmail_id);
       }
 
-      for (const id of ids.filter((x) => opts.rereadDays || !seen.has(x))) {
+      // Oldest first, so a booking is created by its ticket and then amended by
+      // what came later (a seat purchase, a schedule change, a cancellation),
+      // never the other way round. Gmail lists newest first.
+      for (const id of ids.filter((x) => opts.rereadDays || !seen.has(x)).reverse()) {
         result.read++;
         const outcome = await ingestOne(admin, { accountId: account.id, userId: account.user_id, householdId }, access_token, id);
         if (outcome === 'purchase') result.purchases++;
@@ -112,6 +115,14 @@ async function ingestOne(
     const policy = policyForSender(email.from);
     const role = emailRole(email.subject);
     const parsed = policy && role !== 'other' ? extractPurchase(email, policy) : null;
+
+    // A cancelled trip: close the purchase it belongs to. Nothing is created.
+    if (policy && role === 'cancelled') {
+      const ref = parsed?.orderRef;
+      if (ref) await closeCancelled(admin, who.householdId, policy.id, ref);
+      await record('ignored', { received_at: email.receivedAt });
+      return 'ignored';
+    }
     if (!policy || !parsed) {
       // Not a purchase: keep only the Gmail id (so it isn't read again), never
       // the sender or subject. Bodies are never stored for any message.
@@ -128,6 +139,9 @@ async function ingestOne(
       messageId: msg?.id ?? null,
       source: 'gmail',
       createIfMissing: role === 'purchase',
+      // A confirmation restates the booking; a schedule change restates the
+      // flights; anything else only fills gaps.
+      amend: role === 'purchase' ? 'restate' : role === 'schedule' ? 'flights' : 'fill',
     });
     return saved && role === 'purchase' ? status : 'ignored';
   } catch (err) {
@@ -166,11 +180,64 @@ export function fillGaps(known: Record<string, unknown>, incoming: Record<string
   return out;
 }
 
+/**
+ * A newer confirmation of a booking nobody has confirmed yet. What it states
+ * replaces what was read before; what it leaves out is kept. One exception:
+ * a shorter list of flights that is part of the known one is a layout that
+ * shows fewer legs, not a change of plan.
+ */
+export function restate(known: Record<string, unknown>, incoming: Record<string, unknown>): Record<string, unknown> {
+  const out: Record<string, unknown> = { ...known };
+  for (const [k, v] of Object.entries(incoming)) {
+    if (v == null || v === '' || (Array.isArray(v) && v.length === 0)) continue;
+    out[k] = v;
+  }
+  type Seg = { carrier?: string; flight?: string };
+  const id = (x: Seg) => `${x.carrier ?? ''}${x.flight ?? ''}`;
+  const had = known.segments as Seg[] | undefined;
+  const now = incoming.segments as Seg[] | undefined;
+  if (Array.isArray(had) && Array.isArray(now) && now.length < had.length && now.every((n) => had.some((h) => id(h) === id(n)))) {
+    out.segments = had;
+  }
+  // An award flag is a fact about the ticket; a later email that omits it does not undo it.
+  if (known.award && !('award' in incoming)) out.award = known.award;
+  return out;
+}
+
+/** The trip was cancelled: stop watching it, and say why. A claimed purchase is left alone. */
+export async function closeCancelled(admin: SupabaseClient, householdId: string, merchant: string, orderRef: string): Promise<boolean> {
+  const { data } = await admin
+    .from('purchases')
+    .select('id, status, details')
+    .eq('household_id', householdId)
+    .eq('merchant', merchant)
+    .eq('order_ref', orderRef)
+    .maybeSingle();
+  if (!data || data.status === 'claimed') return false;
+  await admin
+    .from('purchases')
+    .update({
+      status: 'dismissed',
+      next_check_at: null,
+      details: { ...(data.details as object), cancelled: true },
+      updated_at: new Date().toISOString(),
+    })
+    .eq('id', data.id);
+  return true;
+}
+
 export async function savePurchase(
   admin: SupabaseClient,
   policy: Policy,
   parsed: ParsedPurchase,
-  who: { userId: string; householdId: string; messageId: string | null; source: 'gmail' | 'manual'; createIfMissing?: boolean },
+  who: {
+    userId: string;
+    householdId: string;
+    messageId: string | null;
+    source: 'gmail' | 'manual';
+    createIfMissing?: boolean;
+    amend?: 'fill' | 'restate' | 'flights';
+  },
 ): Promise<string | null> {
   const settings = await getSettings(admin, who.householdId);
   const purchasedAt = new Date(parsed.purchasedAt);
@@ -181,7 +248,7 @@ export async function savePurchase(
     ? (
         await admin
           .from('purchases')
-          .select('id, status, total_cents, details')
+          .select('id, status, total_cents, details, purchased_at')
           .eq('household_id', who.householdId)
           .eq('merchant', policy.id)
           .eq('order_ref', parsed.orderRef)
@@ -212,15 +279,45 @@ export async function savePurchase(
   if (existing) {
     purchaseId = existing.id;
     const decided = ['claimed', 'dismissed'].includes(existing.status);
-    // Fill gaps only: a later email never overwrites a known total.
+    const known = existing.details as Record<string, unknown>;
+    const complete = (segs: unknown) =>
+      Array.isArray(segs) && segs.length > 0 && (segs as { from?: string; to?: string; departs?: string }[]).every((x) => x.from && x.to && x.departs);
+
+    /*
+     * How much a later email may change depends on what it is and on whether
+     * a person has looked yet.
+     *  - Not yet confirmed by anyone (in Review, or expired there): a confirmation RESTATES
+     *    the booking, so a better read replaces a worse one.
+     *  - Once someone has confirmed it, later mail only fills gaps...
+     *  - ...except a schedule change, which replaces the flights whenever it
+     *    reads a complete set: the old ones no longer exist.
+     */
+    let details = fillGaps(known, row.details);
+    let total = existing.total_cents ?? row.total_cents;
+    let purchasedAt = existing.purchased_at as string;
+    // "Nobody has confirmed it" includes a booking that expired unreviewed:
+    // a trip already flown still deserves the right flights on its record.
+    if (who.amend === 'restate' && !decided && existing.status !== 'watching') {
+      details = restate(known, row.details);
+      total = row.total_cents ?? existing.total_cents;
+      // The earliest date any confirmation gives is when it was bought.
+      if (new Date(row.purchased_at) < new Date(purchasedAt)) purchasedAt = row.purchased_at;
+    }
+    if (who.amend === 'flights' && !decided && complete(row.details.segments)) {
+      details = { ...details, segments: row.details.segments };
+    }
+    const amended = deadlineFor(policy, new Date(purchasedAt), details, { bestbuyTier: settings.bestbuy_tier });
+    const amendedExpired = amended ? amended <= new Date() : false;
+
     await admin
       .from('purchases')
       .update({
-        total_cents: existing.total_cents ?? row.total_cents,
-        details: fillGaps(existing.details as Record<string, unknown>, row.details),
-        deadline_at: row.deadline_at,
+        total_cents: total,
+        details,
+        purchased_at: purchasedAt,
+        deadline_at: amended?.toISOString() ?? null,
         return_by: row.return_by,
-        ...(decided || existing.status === 'watching' ? {} : { status }),
+        ...(decided || existing.status === 'watching' ? {} : { status: amendedExpired ? 'expired' : status }),
         updated_at: new Date().toISOString(),
       })
       .eq('id', existing.id);

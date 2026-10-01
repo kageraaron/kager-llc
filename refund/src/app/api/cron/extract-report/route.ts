@@ -62,7 +62,7 @@ export async function GET(request: NextRequest) {
         t.mail++;
         const role = emailRole(email.subject);
         if (role !== 'purchase') {
-          t[role]++;
+          t[role === 'other' ? 'other' : 'update']++;
           continue;
         }
         t.confirmations++;

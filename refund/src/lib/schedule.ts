@@ -53,8 +53,7 @@ export function nextCheckAt(
     // Never schedule past the deadline: one last look the day before.
     return new Date(Math.min(now.getTime() + days * DAY, departs - DAY / 2));
   }
-  const days = policy.priceSource === 'bestbuy' ? 1 : paceDays;
-  return new Date(now.getTime() + days * DAY);
+  return new Date(now.getTime() + paceDays * DAY);
 }
 
 function startOfNextMonth(now: Date): Date {

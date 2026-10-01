@@ -21,7 +21,6 @@ export default async function SettingsPage() {
 
   const sources = [
     ['Flights and hotels (SerpApi)', !!process.env.SERPAPI_KEY],
-    ['Best Buy prices', !!process.env.BESTBUY_API_KEY],
   ] as const;
 
   return (

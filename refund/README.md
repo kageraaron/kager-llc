@@ -13,7 +13,7 @@ one domain, behind a private network.
 
 | Merchant | Window | Price check |
 | --- | --- | --- |
-| Best Buy | 15 days (60 for Plus/Total) | Best Buy Products API, by SKU |
+| Best Buy | 15 days (60 for Plus/Total) | none: a reminder to check |
 | Target | 14 days | none: a reminder to check |
 | Costco | 30 days | none: a reminder to check |
 | US airlines | until departure (Basic fares: 24 hours) | SerpApi Google Flights, same flights and fare type |
@@ -35,8 +35,8 @@ You need, all yours:
    Gmail is connected once, in Stub; Refund reads the same tokens, so
    `TOKEN_ENCRYPTION_KEY` must match Stub's.
 3. **Keys**: SerpApi (250 free searches a month; Refund paces itself to fit,
-   see `src/lib/budget.ts`) and a free Best Buy developer key. Both optional:
-   without them those merchants get deadline reminders only.
+   see `src/lib/budget.ts`). Optional: without it, flights and hotels get
+   deadline reminders only, as the stores always do.
 4. **VAPID keys** for web push (`npx web-push generate-vapid-keys`) and a real
    `mailto:` subject. iOS delivers web push only to apps added to the home
    screen, and rejects placeholder subjects.

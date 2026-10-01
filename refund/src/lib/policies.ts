@@ -14,7 +14,7 @@ export type Kind = 'retail' | 'flight' | 'hotel';
 export type BestBuyTier = 'standard' | 'plus' | 'total';
 
 /** How Refund learns today's price, if it can at all. */
-export type PriceSource = 'bestbuy' | 'serpapi_flights' | 'serpapi_hotels' | null;
+export type PriceSource = 'serpapi_flights' | 'serpapi_hotels' | null;
 
 export interface Policy {
   id: string;
@@ -71,7 +71,10 @@ export const POLICIES: Policy[] = [
     name: 'Best Buy',
     kind: 'retail',
     senderDomains: ['bestbuy.com', 'emailinfo.bestbuy.com'],
-    priceSource: 'bestbuy',
+    // Best Buy's Products API needs a developer key that is no longer issued to
+    // individuals, so its prices can't be checked: a deadline reminder instead,
+    // like Target and Costco.
+    priceSource: null,
     window: 'Return period: 15 days, or 60 for My Best Buy Plus and Total',
     comesBackAs: 'Refund to your original payment',
     claimSteps: [

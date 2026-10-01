@@ -1,4 +1,18 @@
 /** 12345 → "$123.45"; whole dollars drop the cents. */
+/**
+ * What a purchase cost, as the person would say it. A ticket bought with
+ * miles shows the miles: "$5.60" alone reads as a five-dollar flight, when it
+ * is only the tax on an award.
+ */
+export function formatPaid(cents: number | null | undefined, details?: { miles?: number; award?: boolean } | null): string {
+  if (details?.miles) {
+    const miles = `${new Intl.NumberFormat('en-US').format(details.miles)} miles`;
+    return cents ? `${miles} + ${formatMoney(cents)}` : miles;
+  }
+  if (details?.award && cents != null) return `${formatMoney(cents)} in taxes (award ticket)`;
+  return formatMoney(cents);
+}
+
 export function formatMoney(cents: number | null | undefined, currency = 'USD'): string {
   if (cents == null) return '—';
   const whole = cents % 100 === 0;

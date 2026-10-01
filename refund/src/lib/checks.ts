@@ -4,7 +4,6 @@ import { DOT_DELAY_MIN, fareClaimable, owedRefund, policyFor, worthAlerting } fr
 import { flightStatus } from '@/lib/providers/aerodatabox';
 import { cheapestCachedFare } from '@/lib/pricing/travelpayouts';
 import { getSettings, nextCheckAt } from '@/lib/schedule';
-import { bestBuyPrices } from '@/lib/pricing/bestbuy';
 import { quoteFlights, quoteHotel, splitLegs, type Segment } from '@/lib/pricing/serpapi';
 import { notifyOnce } from '@/lib/push';
 import { formatMoney } from '@/lib/format';
@@ -131,34 +130,10 @@ async function checkOne(admin: SupabaseClient, p: PurchaseRow): Promise<boolean>
   const policy = policyFor(p.merchant);
   if (!policy?.priceSource) return false;
   // No key yet: skip quietly rather than log a "not found" that isn't true.
-  const keyed = policy.priceSource === 'bestbuy' ? !!process.env.BESTBUY_API_KEY : !!process.env.SERPAPI_KEY;
-  if (!keyed) return false;
+  if (!process.env.SERPAPI_KEY) return false;
   const settings = await getSettings(admin, p.household_id);
   const log = (row: { item_id?: string; price_cents?: number; matched: boolean; note?: string }) =>
     admin.from('price_checks').insert({ purchase_id: p.id, household_id: p.household_id, source: policy.priceSource, ...row });
-
-  // ---- Best Buy: per item, by SKU.
-  if (policy.priceSource === 'bestbuy') {
-    const { data: items } = await admin.from('items').select('id, title, sku, unit_price_cents, quantity').eq('purchase_id', p.id);
-    const withSku = (items ?? []).filter((i) => i.sku && i.unit_price_cents);
-    if (!withSku.length) return false;
-    const prices = await bestBuyPrices(withSku.map((i) => i.sku!));
-    let alerted = false;
-    for (const item of withSku) {
-      const now = prices.get(item.sku!);
-      await log({ item_id: item.id, price_cents: now?.salePriceCents, matched: !!now, note: now ? undefined : 'SKU not found' });
-      if (!now) continue;
-      await admin.from('items').update({ last_price_cents: now.salePriceCents, last_checked_at: new Date().toISOString() }).eq('id', item.id);
-      if (!worthAlerting('retail', item.unit_price_cents!, now.salePriceCents, settings)) continue;
-      const saved = (item.unit_price_cents! - now.salePriceCents) * (item.quantity ?? 1);
-      alerted =
-        (await alertDrop(admin, p, now.salePriceCents, saved, 500, {
-          title: `${item.title.slice(0, 40)} dropped ${formatMoney(saved)}`,
-          body: `Best Buy now has it for ${formatMoney(now.salePriceCents)}. Claim before ${deadlineText(p)}.`,
-        })) || alerted;
-    }
-    return alerted;
-  }
 
   if (!p.total_cents) return false;
 

@@ -32,7 +32,18 @@ import type { ParsedSegment } from '@/lib/ingest/extract';
 /** Carriers a US traveller's itinerary is likely to name. Not a whitelist of merchants. */
 const CARRIERS =
   'UA|AA|DL|WN|AS|B6|HA|NK|F9|G4|SY|AC|WS|AM|BA|VS|LH|LX|OS|SN|AF|KL|IB|TP|AY|SK|EI|TK|EK|QR|EY|SQ|CX|NH|JL|KE|OZ|QF|NZ|LA|AV|CM';
-const FLIGHT = new RegExp(String.raw`\b(${CARRIERS})\s?(\d{1,4})\b`);
+const FLIGHT = new RegExp(String.raw`\b(${CARRIERS})\s?(\d{1,4})\b`, 'g');
+
+/**
+ * The flight a line is about. A schedule-change notice prints the old flight
+ * and then the new one ("UA 1947 UA 1331 operated by…"), so the LAST number on
+ * the line is the one that stands.
+ */
+function flightOn(line: string): { carrier: string; flight: string } | null {
+  const all = [...line.matchAll(FLIGHT)];
+  const m = all[all.length - 1];
+  return m ? { carrier: m[1], flight: m[2] } : null;
+}
 
 /** Three capitals that are not airports. */
 const NOT_AIRPORT = new Set(['USD', 'CAD', 'EUR', 'GBP', 'THE', 'AND', 'FOR', 'NON', 'END', 'TSA', 'PNR', 'USA', 'AM ', 'PM ', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN', 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC', 'TAX', 'FEE', 'VIA', 'GMT', 'UTC', 'EST', 'PST', 'CST', 'MST', 'EDT', 'PDT', 'CDT', 'MDT', 'ETA', 'ETD', 'APP', 'FAQ', 'WWW', 'COM', 'INC', 'LLC', 'LTD']);
@@ -53,7 +64,9 @@ function dateOn(line: string): string | undefined {
 }
 
 function timeOn(line: string): string | undefined {
-  const m = /\b(\d{1,2}):(\d{2})\s*([ap])\.?m\b/i.exec(line);
+  // Old time then new time on one line ("5:45 pm 4:34 pm"): the last one stands.
+  const all = [...line.matchAll(/\b(\d{1,2}):(\d{2})\s*([ap])\.?m\b/gi)];
+  const m = all[all.length - 1];
   if (m) return `${pad((Number(m[1]) % 12) + (/p/i.test(m[3]) ? 12 : 0))}:${m[2]}`;
   // A 24-hour time alone on its line; a duration ("1h 36m") is not one.
   const day = /^(?:[01]?\d|2[0-3]):[0-5]\d$/.exec(line.trim());
@@ -67,6 +80,19 @@ function airportsOn(line: string): string[] {
   const pair = /\b([A-Z]{3})\s*(?:-|–|→|>|to)\s*([A-Z]{3})\b/.exec(line);
   if (pair) out.push(pair[1], pair[2]);
   return out.filter((a) => !NOT_AIRPORT.has(a));
+}
+
+/** Cabin names as airlines print them, longest first. */
+const CABIN =
+  '(?:United |American |Delta )?(?:Polaris business|Basic Economy|Economy Plus|Premium Plus|Premium Economy|Premium Select|Main Cabin|Comfort\\+|Delta One|Economy|Business|First)';
+
+/** "Class: United Economy (XN)", "United First", or "Class: / Economy / (N)" over three lines. */
+function cabinIn(block: string[]): { cabin?: string; bookingClass?: string } {
+  const joined = block.join('\n');
+  const coded = new RegExp(String.raw`(?:Class:\s*)?\b(${CABIN})\s*\(([A-Z]{1,2})\)`, 'i').exec(joined);
+  if (coded) return { cabin: coded[1].trim(), bookingClass: coded[2] };
+  const plain = block.map((l) => new RegExp(String.raw`^(?:Class:\s*)?(${CABIN})$`, 'i').exec(l)).find(Boolean);
+  return plain ? { cabin: plain[1].trim() } : {};
 }
 
 function readBlock(block: string[]): Omit<ParsedSegment, 'carrier' | 'flight'> {
@@ -83,6 +109,7 @@ function readBlock(block: string[]): Omit<ParsedSegment, 'carrier' | 'flight'> {
     from: airports[0],
     to: airports[1],
     departs: date ? `${date}T${time ?? '00:00'}:00` : undefined,
+    ...cabinIn(block),
   };
 }
 
@@ -94,28 +121,123 @@ export function looseItinerary(text: string): ParsedSegment[] {
   // One anchor per flight, at its first mention: the fare rules repeat them.
   const anchors: { at: number; carrier: string; flight: string }[] = [];
   lines.forEach((line, at) => {
-    const m = FLIGHT.exec(line);
-    if (!m || line.length > 120) return;
-    if (anchors.some((a) => a.carrier === m[1] && a.flight === m[2])) return;
-    anchors.push({ at, carrier: m[1], flight: m[2] });
+    if (line.length > 120) return;
+    const f = flightOn(line);
+    if (!f) return;
+    if (anchors.some((a) => a.carrier === f.carrier && a.flight === f.flight)) return;
+    anchors.push({ at, ...f });
   });
   if (anchors.length === 0) return [];
 
-  const read = (mode: 'after' | 'before'): ParsedSegment[] =>
+  /*
+   * Three places a layout can put a flight's details relative to its number:
+   * all after it, all before it, or the date just above and the rest below
+   * (a schedule-change notice). Whichever reads the most complete flights is
+   * the one this email uses.
+   */
+  const read = (mode: 'after' | 'before' | 'around'): ParsedSegment[] =>
     anchors.map((a, i) => {
+      const next = anchors[i + 1]?.at ?? Infinity;
+      const prev = anchors[i - 1]?.at ?? -1;
       const block =
         mode === 'after'
-          ? lines.slice(a.at, Math.min(anchors[i + 1]?.at ?? Infinity, a.at + 16))
-          : lines.slice(Math.max((anchors[i - 1]?.at ?? -1) + 1, a.at - 20), a.at + 1);
-      return { carrier: a.carrier, flight: a.flight, ...readBlock(block) };
+          ? lines.slice(a.at, Math.min(next, a.at + 16))
+          : mode === 'before'
+            ? lines.slice(Math.max(prev + 1, a.at - 20), a.at + 1)
+            : lines.slice(Math.max(prev + 1, a.at - 3), Math.min(next - 3, a.at + 14));
+      const seg = { carrier: a.carrier, flight: a.flight, ...readBlock(block) };
+      // The cabin can sit just under the flight number even when everything
+      // else is above it ("UA 552 / Boeing 737 / United Economy").
+      return seg.cabin ? seg : { ...seg, ...cabinIn(lines.slice(a.at, Math.min(next, a.at + 4))) };
     });
 
-  const after = read('after');
-  const before = read('before');
-  const best = after.filter(complete).length >= before.filter(complete).length ? after : before;
+  const best = (['after', 'before', 'around'] as const)
+    .map(read)
+    .sort((x, y) => y.filter(complete).length - x.filter(complete).length)[0];
 
   // A flight with no date is a mention, not a segment.
   return best
     .filter((s) => s.departs)
     .sort((a, b) => (a.departs ?? '').localeCompare(b.departs ?? ''));
+}
+
+// ------------------------------------------------------------------ receipt
+
+/** A booking class that means Basic Economy, per airline. A cabin line that says "Basic" wins over this. */
+const BASIC_CLASS: Record<string, string> = { UA: 'N', AA: 'B', DL: 'E' };
+
+export interface FlightReceipt {
+  segments: ParsedSegment[];
+  passengers: number;
+  /** The fare for everyone on the booking, before any credit was applied. */
+  totalCents?: number;
+  /** Paid in miles, or an exchange with no new airfare: no cash fare to undercut. */
+  award: boolean;
+  /** Miles spent on the whole booking, when it was paid that way. */
+  miles?: number;
+  fareBrand?: string;
+  /** "Date of purchase", when the email states one (YYYY-MM-DD). */
+  purchasedOn?: string;
+}
+
+const cash = (line?: string): number | undefined => {
+  const m = /\$\s?([\d,]+\.\d{2})|\b([\d,]+\.\d{2})\s*USD\b/.exec(line ?? '');
+  return m ? Math.round(Number((m[1] ?? m[2]).replace(/,/g, '')) * 100) : undefined;
+};
+
+/**
+ * Everything a fare check needs from a flight confirmation's text.
+ *
+ * Each rule here corrects a mistake found by checking twelve real bookings
+ * against their emails:
+ *
+ *  - PASSENGERS were always 1. Each traveller has exactly one "Seats:" row.
+ *  - The TOTAL was the per-passenger figure, or the total of a later seat or
+ *    upgrade purchase printed further down. The fare is "Total Per Passenger"
+ *    times the travellers when that is given (it is the price before a flight
+ *    credit is applied, which is the figure a fare drop is measured against),
+ *    else the FIRST "Total".
+ *  - The FARE TYPE was "Basic Economy" on every booking, picked up from the
+ *    fine print every airline email carries. It is now the cabin printed next
+ *    to the flight itself.
+ */
+export function readFlightReceipt(text: string): FlightReceipt {
+  const lines = text.split('\n').map((l) => l.replace(/[ \t\u00a0\u202f]+/g, ' ').trim()).filter(Boolean);
+  const segments = looseItinerary(text);
+
+  const count = (re: RegExp) => lines.filter((l) => re.test(l)).length;
+  const passengers = Math.max(count(/^Seats:/i), count(/^eTicket number\b/i), new Set(lines.filter((l) => /^Traveler \d+$/i.test(l))).size, 1);
+
+  const after = (label: RegExp) => {
+    const i = lines.findIndex((l) => label.test(l));
+    return i === -1 ? undefined : lines[i + 1];
+  };
+  const perPassengerLine = after(/^Total Per Passenger:?$/i);
+  const totalLine = after(/^Total(?: cost)?:?$/i);
+  const perPassenger = cash(perPassengerLine);
+  const totalCents = perPassenger !== undefined ? perPassenger * passengers : cash(totalLine);
+
+  const airfare = after(/^Airfare:?$/i);
+  const first = segments[0];
+  const award =
+    /\bmiles\b/i.test(`${perPassengerLine ?? ''} ${totalLine ?? ''}`) ||
+    /^0\.00$/.test(airfare ?? '') ||
+    // Award booking classes carry a trailing N on the cabin letter: XN, YN, IN.
+    segments.some((s) => /^[A-Z]N$/.test(s.bookingClass ?? ''));
+
+  // "15,000 miles + 5.60 USD": the Total is for everyone; a per-passenger line is not.
+  const milesOn = (line?: string) => {
+    const m = /([\d,]{3,})\s+miles\b/i.exec(line ?? '');
+    return m ? Number(m[1].replace(/,/g, '')) : undefined;
+  };
+  const perPassengerMiles = milesOn(perPassengerLine);
+  const miles = milesOn(totalLine) ?? (perPassengerMiles !== undefined ? perPassengerMiles * passengers : undefined);
+
+  let fareBrand = first?.cabin;
+  if (first && !/basic/i.test(fareBrand ?? '') && first.bookingClass && BASIC_CLASS[first.carrier ?? ''] === first.bookingClass) {
+    fareBrand = 'Basic Economy';
+  }
+
+  const bought = after(/^Date of purchase:?$/i);
+  return { segments, passengers, totalCents, award, miles, fareBrand, purchasedOn: bought ? dateOn(bought) : undefined };
 }
