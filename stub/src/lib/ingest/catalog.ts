@@ -53,6 +53,27 @@ export async function upsertArtist(
     .single();
 
   if (error) {
+    /*
+     * The MusicBrainz id is unique, and a row created elsewhere (a Spotify
+     * import, setlist.fm) can already hold it without a Ticketmaster id. That
+     * row IS this artist: give it the tm_id and use it, rather than dropping
+     * the artist from the event.
+     */
+    if (error.code === '23505' && mbid) {
+      const { data: same } = await db
+        .from('artists')
+        .select('id, tm_id, image_url')
+        .eq('mbid', mbid)
+        .maybeSingle();
+      if (same) {
+        const fill = {
+          ...(same.tm_id ? {} : { tm_id: attraction.id }),
+          ...(same.image_url ? {} : { image_url: pickImage(attraction.images) }),
+        };
+        if (Object.keys(fill).length) await db.from('artists').update(fill).eq('id', same.id);
+        return same.id;
+      }
+    }
     console.error('upsertArtist failed', { tm_id: attraction.id, error: error.message });
     return null;
   }
@@ -60,6 +81,10 @@ export async function upsertArtist(
 }
 
 export async function upsertVenue(db: SupabaseClient, venue: TMVenue): Promise<string | null> {
+  // Ticketmaster occasionally lists a venue with no name (usually "TBA"
+  // placeholders). `venues.name` is required, so leave the event venue-less.
+  if (!venue.name?.trim()) return null;
+
   const { data, error } = await db
     .from('venues')
     .upsert(

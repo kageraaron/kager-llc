@@ -44,7 +44,10 @@ export async function middleware(request: NextRequest) {
   if (!user && !isPublic) {
     const url = publicUrl(request);
     url.pathname = '/login';
-    url.searchParams.set('next', pathname);
+    // The query belongs to the page being guarded, not to /login: carry it
+    // inside `next` so it survives sign-in (e.g. Explore's ?near=).
+    url.search = '';
+    url.searchParams.set('next', pathname + request.nextUrl.search);
     return NextResponse.redirect(url);
   }
 

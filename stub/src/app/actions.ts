@@ -20,6 +20,7 @@ import { findCandidatesForTicket } from '@/lib/providers/ticketmaster';
 import { fromTicketmaster, fromSetlistFm, scoreCandidate } from '@/lib/ingest/match';
 import { inferTimezone, toInstant } from '@/lib/timezone';
 import { getCurrentUser } from '@/lib/auth';
+import { refreshExploreArtists } from '@/lib/explore';
 import { getHouseholdId } from '@/lib/household';
 import type { ParsedTicket } from '@/lib/types';
 import {
@@ -643,7 +644,32 @@ export async function resolveHomeLocation(): Promise<HomeLocation | null> {
 
   const city = profile?.home_city?.trim();
   if (!city) return null;
+  return geocodeHome(user.id, city);
+}
 
+/**
+ * The household's home: yours, or failing that the first other member's.
+ * Explore is about where the household goes to shows, and one person setting
+ * a home city should be enough for both.
+ */
+export async function resolveHouseholdHome(): Promise<HomeLocation | null> {
+  const own = await resolveHomeLocation();
+  if (own) return own;
+
+  const { supabase, user } = await requireUser();
+  // Household members' profiles are readable (0025), home_city included.
+  const { data: others } = await supabase
+    .from('profiles')
+    .select('id, home_city')
+    .neq('id', user.id)
+    .not('home_city', 'is', null);
+
+  const other = (others ?? []).find((p) => p.home_city?.trim());
+  return other ? geocodeHome(other.id, other.home_city!.trim()) : null;
+}
+
+/** Coordinates for a member's home city: stored ones, else geocoded once and saved. */
+async function geocodeHome(userId: string, city: string): Promise<HomeLocation | null> {
   // Coordinates are not readable through the request-scoped client: `0008`
   // narrows the `authenticated` select grant on `profiles` to a column list
   // that excludes them.
@@ -651,7 +677,7 @@ export async function resolveHomeLocation(): Promise<HomeLocation | null> {
   const { data: coords } = await admin
     .from('profiles')
     .select('home_lat, home_lng')
-    .eq('id', user.id)
+    .eq('id', userId)
     .maybeSingle();
 
   if (coords?.home_lat != null && coords?.home_lng != null) {
@@ -664,7 +690,7 @@ export async function resolveHomeLocation(): Promise<HomeLocation | null> {
   await admin
     .from('profiles')
     .update({ home_lat: place.lat, home_lng: place.lng })
-    .eq('id', user.id);
+    .eq('id', userId);
 
   return { city: place.label, lat: place.lat, lng: place.lng };
 }
@@ -1075,6 +1101,21 @@ export async function enrichEventDetails(eventId: string) {
 
   revalidatePath(`/event/${eventId}`);
   return { ok: true as const, enriched: true };
+}
+
+// ---------------------------------------------------------------- explore
+
+/**
+ * Explore's Refresh button: check the stalest few artists against Ticketmaster
+ * now rather than waiting for the nightly run. Bounded so a click stays quick.
+ */
+export async function refreshExplore() {
+  await requireUser();
+  if (!process.env.TICKETMASTER_API_KEY) return { ok: false as const, error: 'Ticketmaster is not configured' };
+
+  const result = await refreshExploreArtists(createAdminClient(), { maxArtists: 25, staleDays: 1 });
+  revalidatePath('/explore');
+  return { ok: true as const, ...result };
 }
 
 // ---------------------------------------------------------------- account

@@ -25,7 +25,7 @@ function byEventDate<T extends { event: { starts_at: string } }>(rows: T[], dir:
 /** Columns every event card needs. Kept in one place so the shapes stay aligned. */
 const EVENT_SELECT = `
   id, tm_id, name, starts_at, timezone, time_known, image_url, url, status,
-  venue:venues ( id, name, city, region, country, timezone ),
+  venue:venues ( id, name, city, region, country, timezone, lat, lng ),
   headliner:artists!events_headliner_id_fkey ( id, name, image_url )
 `;
 
@@ -52,6 +52,8 @@ export interface EventRow {
     country: string | null;
     /** Fallback render zone when the event row has none — see `format.eventZone`. */
     timezone: string | null;
+    lat?: number | null;
+    lng?: number | null;
   } | null;
   headliner: { id: string; name: string; image_url: string | null } | null;
 }
@@ -97,6 +99,20 @@ export async function getArchive(db: SupabaseClient, householdId: string) {
 
   if (error) throw error;
   return byEventDate((data ?? []) as unknown as AttendanceWithEvent[], 'desc');
+}
+
+/**
+ * Several events by id, in batches: an `.in()` list travels in the URL, and a
+ * few hundred UUIDs would overrun what the gateway accepts.
+ */
+export async function getEventsByIds(db: SupabaseClient, ids: string[]): Promise<EventRow[]> {
+  const out: EventRow[] = [];
+  for (let i = 0; i < ids.length; i += 60) {
+    const { data, error } = await db.from('events').select(EVENT_SELECT).in('id', ids.slice(i, i + 60));
+    if (error) throw error;
+    out.push(...((data ?? []) as unknown as EventRow[]));
+  }
+  return out;
 }
 
 export async function getEvent(db: SupabaseClient, eventId: string) {
