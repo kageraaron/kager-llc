@@ -456,6 +456,8 @@ beside the daily one, so each guard is one indexed query.
 |---|---|---|
 | `BANDSINTOWN_MONTHLY_CREDITS` | 180 | The real quota. 180 against a real 200 leaves ~10% headroom, because Parse resets on its own clock and our month boundary is UTC. |
 | `BANDSINTOWN_DAILY_CREDITS` | 25 | A burst limiter, not a budget — stops one runaway afternoon eating the month in an hour. Deliberately above 200/30, since real usage is lumpy. |
+| `JAMBASE_MONTHLY_CALLS` | 900 | JamBase's free plan is 1,000 requests a month and bills each one after. Counted over a rolling 31 days, because their billing month is not ours. Once reached, JamBase is skipped and the other providers answer. |
+| `JAMBASE_DAILY_CALLS` | 100 | Burst limit: one big mailbox re-read cannot spend the month in a day. |
 | `BANDSINTOWN_DEEP_PER_USER` | 5/day | One person spending the whole friend group's month via "Search harder". Cache hits don't count. |
 
 A daily cap alone was the wrong shape of guard and briefly shipped that way: 25/day

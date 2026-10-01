@@ -735,3 +735,176 @@ Fri Feb 6, 5:00 PM
 5 Items
 Order ID: AA0AAAA0AB`,
 };
+
+/**
+ * A Tixr lineup with no party name, eleven words long. Made-up acts; the shape
+ * (bracketed qualifier, B2B, "+ more", a plain-text part led by a template
+ * artefact) is from a real confirmation that was dropped as "not a ticket".
+ */
+export const tixrLongLineup: RawEmailInput = {
+  from: 'Tixr <no-reply@tixr.com>',
+  subject: 'Order Confirmation: NORTH ATLAS SOUND [DJ SET], MARLOW B2B JUNE HARTE + more',
+  receivedAt: '2026-10-01T16:18:59Z',
+  text: `{{subject}}        Order Confirmation <https://www.tixr.com>
+==  Order Confirmation  ==
+NORTH ATLAS SOUND [DJ SET], MARLOW B2B JUNE HARTE + more
+Harbor Warehouse
+Sun Jan 3, 4:00 PM
+1 Items
+Log in to your account
+General Information
+Ticket Info     $ 80.00    1x
+GA - Tier 2
+Order ID: AA0AAAA0AC`,
+};
+
+/** StubHub buyer confirmation for a concert. Made-up event; the layout is real. */
+export const stubhubConcert: RawEmailInput = {
+  from: 'StubHub <noreply@stubhub.com>',
+  subject: 'Thanks for your order - Order #600000001',
+  receivedAt: '2026-09-19T17:00:00Z',
+  text: `You’re in! Order confirmation - # 600000001
+Sports
+Concerts
+Theatre
+Pat, your order is confirmed!
+Thanks for your order. Next, you'll receive an email with a request to accept your tickets.
+North Atlas Sound
+Friday, November 13, 2026 - 8:00 pm
+Harbor Hall, San Francisco
+Order #600000001
+Qty
+2
+Section
+GA
+Row
+N/A
+Seats
+N/A
+Order total
+$ 180.00`,
+};
+
+/** The same template for a football game: a real ticket, but not a show. */
+export const stubhubFootball: RawEmailInput = {
+  ...stubhubConcert,
+  subject: 'Thanks for your order - Order #600000002',
+  text: stubhubConcert.text!
+    .replace('North Atlas Sound', 'Riverton Hawks at Bayside Bears Football')
+    .replace('Friday, November 13, 2026 - 8:00 pm', 'Saturday, September 19, 2026 - 12:30 pm')
+    .replace('Harbor Hall, San Francisco', 'Memorial Stadium, Bayside'),
+};
+
+/** Seller-side StubHub mail: same sender, must never become a ticket. */
+export const stubhubSold: RawEmailInput = {
+  from: 'StubHub <noreply@stubhub.com>',
+  subject: 'You sold 2 ticket(s) for North Atlas Sound - Order# 600000003',
+  receivedAt: '2026-09-25T17:00:00Z',
+  text: `You sold your tickets!
+North Atlas Sound
+Friday, November 13, 2026 - 8:00 pm
+Harbor Hall, San Francisco`,
+};
+
+/** viagogo order confirmation. Made-up event; the labelled layout is real. */
+export const viagogoOrder: RawEmailInput = {
+  from: 'viagogo <automated@orders.viagogo.com>',
+  subject: 'Your order with order ID 600000004 is confirmed',
+  receivedAt: '2026-09-14T17:00:00Z',
+  text: `Pat:
+Congratulations! You're on your way to see June Harte at Harbor Hall
+Event Information
+Order ID: 600000004
+Event:
+June Harte
+Ticket(s):
+Section General Admission, Row , (2 Ticket(s))
+Listing Note(s):
+Venue:
+Harbor Hall - Complex
+Date:
+Saturday, December 19, 2026 | 20:00`,
+};
+
+/** AXS resale purchase: a one-sentence layout with a numeric date. Made-up event. */
+export const axsResale: RawEmailInput = {
+  from: 'AXS <axs@axs.com>',
+  subject: 'Thank you for purchasing tickets!',
+  receivedAt: '2025-10-28T17:00:00Z',
+  html: `<p>NOTIFICATION - Ticket Purchase Successful</p><p>THANKS FOR YOUR ORDER!</p><p>Hi Pat,</p>
+<p>Get excited you're seeing North Atlas Sound - Admissions at Bayside Arena, Oakland, CA on Friday 11-14-25 at 8:00 pm PST.</p>
+<table><tr><td>Quantity</td><td>Type</td><td>Section</td><td>Row</td><td>Seats</td><td>Price</td><td>Total</td></tr>
+<tr><td>3</td><td>Resale</td><td>127</td><td>10</td><td>1-3</td><td>$ 90.00</td><td>$ 270.00</td></tr></table>`,
+};
+
+/** AXS festival order: no event date anywhere, only the order's timestamp. Made-up event. */
+export const axsFestivalOrder: RawEmailInput = {
+  from: 'AXS Guest Services <guestservices@axs.com>',
+  subject: 'Thank you for your Order for Harborlight',
+  receivedAt: '2026-06-02T20:54:00Z',
+  text: `*Order Confirmed*
+*# 100200300*
+*Thanks, Pat Example!*
+*Order #100200300* 6/2/2026 3:54 PM
+**  -
+-  ( x)  *Sec , Seats *  *Subtotal* *$400.00*       *Order Total* *$400.00* Payment Methods
+*Amount Paid* *$400.00*
+Get In With The Harborlight App
+Here’s how to use your passes:`,
+};
+
+/** AXS "tickets delivered": the email that does carry the dates and the venue. */
+export const axsDelivered: RawEmailInput = {
+  from: 'AXS Guest Services <guestservices@axs.com>',
+  subject: 'Your tickets were delivered to your account!',
+  receivedAt: '2026-09-10T17:00:00Z',
+  text: `YOUR TICKETS ARE HERE
+Hi Pat,
+YOUR TICKETS ARE HERE!
+Good news – your tickets are in your account.
+**  Sat Sep 26, 2026 - 1:00 PM – Sun Sep 27, 2026 - 11:59 PM, PDT
+Harborlight 2026 - 2-Day GA
+Dock 12, San Francisco, CA
+Here's how to use your tickets:`,
+};
+
+/** The same email as it really arrives: CRLF endings, blank lines, padding. One-day show. */
+export const axsDeliveredRaw: RawEmailInput = {
+  from: 'AXS Guest Services <guestservices@axs.com>',
+  subject: 'Your tickets were delivered to your account!',
+  receivedAt: '2026-08-21T17:00:00Z',
+  text: 'YOUR TICKETS ARE HERE\r\n\r\nHi Pat,\r\n\r\nGood news – your tickets are in your account.\r\n\r\n*Sat* Sep 26, 2026 - 10:00\u202fPM  \r\n\r\n  North Atlas Sound &amp; Guests - Admissions  \r\n\r\n  Bayside Arena, San Francisco, CA  \r\n\r\nHere\'s how to use your tickets:\r\n',
+};
+
+/** A marketplace order from an unknown retailer, with a "location:" sentence. Made up. */
+export const retailOrderUnknownShop: RawEmailInput = {
+  from: 'Bazaaro <email@news.bazaaro-mail.example>',
+  subject: 'Thanks for your order',
+  receivedAt: '2026-09-06T17:00:00Z',
+  text: `Thanks for your order!
+Order number: PO-100-200300
+Order time: Dec 20, 2023
+Total: $41.18
+1 x Standing desk mat, section B
+Security reminder
+Where: Do not click on links in suspicious emails or text messages as they may contain malware.
+`,
+};
+
+/** A ferry booking marked up as a schema.org EventReservation. Made-up operator. */
+export const ferryBookingJsonLd: RawEmailInput = {
+  from: 'Harbor Line <messages@bookings.harborline.example>',
+  subject: 'Confirmation: Your Order with Harbor Line (#ABCDEF)',
+  receivedAt: '2026-04-25T17:00:00Z',
+  html: `<html><head><script type="application/ld+json">${JSON.stringify({
+    '@context': 'http://schema.org',
+    '@type': 'EventReservation',
+    reservationNumber: 'ABCDEF',
+    reservationFor: {
+      '@type': 'Event',
+      name: 'Northport ➔ Seal Island with Harbor Line',
+      startDate: '2026-06-26T08:15:00',
+      location: { '@type': 'Place', name: 'Harbor Line' },
+    },
+  })}</script></head><body>Your booking is confirmed.</body></html>`,
+};

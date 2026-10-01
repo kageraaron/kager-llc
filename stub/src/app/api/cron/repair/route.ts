@@ -6,6 +6,7 @@ import { findArtistImage } from '@/lib/providers/artistImages';
 import { getArtistLinks, resolveMbid } from '@/lib/providers/musicbrainz';
 import { proposeCleanName } from '@/lib/ingest/cleanupNames';
 import { pickHeadlinerName, normName } from '@/lib/ingest/catalog';
+import { combineTickets } from '@/lib/tickets';
 
 /**
  * One-off repairs for catalog rows written before a provider bug was fixed.
@@ -130,6 +131,8 @@ export async function GET(request: NextRequest) {
     namesCleaned: 0,
     namesMerged: 0,
     eventNamesCleaned: 0,
+    venuesMerged: 0,
+    venuesAttached: 0,
     headlinersFixed: 0,
     supersededCards: 0,
     eventsMerged: 0,
@@ -137,6 +140,93 @@ export async function GET(request: NextRequest) {
     identityTried: 0,
     imagesFromId: 0,
   };
+
+  /*
+   * ---- 0a. One room, several venue rows.
+   *
+   * Venues are keyed on provider ids, so the same hall arrives once per source
+   * and again from every email: a real catalog held FIVE rows named "The
+   * Regency Ballroom", three of them with no timezone. An event hung on a
+   * zone-less copy renders in UTC, which is how an 8pm show read as 4:00 AM.
+   *
+   * Merged only when the names are the same once "The" and punctuation are
+   * dropped AND the cities agree or one side has none. Different names for one
+   * room ("Shed A" / "Pier 48") are not touched here; the duplicate-EVENT pass
+   * handles those through the headliner.
+   */
+  const venueKey = (name: string) => name.toLowerCase().replace(/^the\s+/, '').replace(/[^a-z0-9]/g, '');
+  const { data: allVenues } = await admin
+    .from('venues')
+    .select('id, tm_id, name, city, region, country, lat, lng, timezone');
+
+  const byName = new Map<string, NonNullable<typeof allVenues>>();
+  for (const v of allVenues ?? []) {
+    const k = venueKey(v.name);
+    if (k.length < 3) continue;
+    byName.set(k, [...(byName.get(k) ?? []), v]);
+  }
+  for (const group of byName.values()) {
+    if (group.length < 2) continue;
+    const rank = (v: (typeof group)[number]) =>
+      (v.tm_id ? 8 : 0) + (v.timezone ? 4 : 0) + (v.city ? 2 : 0) + (v.lat != null ? 1 : 0);
+    const sorted = [...group].sort((a, b) => rank(b) - rank(a));
+    const winner = sorted[0];
+    const city = (c: string | null) => (c ?? '').toLowerCase().trim();
+
+    for (const loser of sorted.slice(1)) {
+      // A different city is a different venue that happens to share a name.
+      if (city(winner.city) && city(loser.city) && city(winner.city) !== city(loser.city)) continue;
+      // Two rows each claimed by Ticketmaster are two Ticketmaster venues.
+      if (winner.tm_id && loser.tm_id) continue;
+
+      const fill = {
+        city: winner.city ?? loser.city,
+        region: winner.region ?? loser.region,
+        country: winner.country ?? loser.country,
+        lat: winner.lat ?? loser.lat,
+        lng: winner.lng ?? loser.lng,
+        timezone: winner.timezone ?? loser.timezone,
+      };
+      await admin.from('venues').update(fill).eq('id', winner.id);
+      Object.assign(winner, fill);
+      await admin.from('events').update({ venue_id: winner.id }).eq('venue_id', loser.id);
+      const { error: delErr } = await admin.from('venues').delete().eq('id', loser.id);
+      if (!delErr) fixed.venuesMerged++;
+    }
+  }
+
+  /*
+   * ---- 0b. Events with no venue, when the ticket named one.
+   *
+   * Some providers list a show with no venue at all. The confirmation email
+   * almost always names it, and that name is sitting on the candidate. Attach
+   * the matching venue row, so the event has a place and (through 1b) a zone.
+   * "Regency Ballroom at The Regency Center" is tried whole, then by the part
+   * before " at ".
+   */
+  const { data: homeless } = await admin
+    .from('events')
+    .select('id')
+    .is('venue_id', null);
+  if (homeless?.length) {
+    const { data: fresh } = await admin.from('venues').select('id, name, timezone');
+    const lookup = new Map((fresh ?? []).map((v) => [venueKey(v.name), v]));
+    for (const ev of homeless) {
+      const { data: cand } = await admin
+        .from('ingest_candidates')
+        .select('parsed')
+        .eq('matched_event_id', ev.id)
+        .not('parsed->>venueName', 'is', null)
+        .limit(1)
+        .maybeSingle();
+      const named = (cand?.parsed as { venueName?: string } | null)?.venueName;
+      if (!named) continue;
+      const venue = lookup.get(venueKey(named)) ?? lookup.get(venueKey(named.split(/\s+at\s+/i)[0]));
+      if (!venue) continue;
+      const { error: setErr } = await admin.from('events').update({ venue_id: venue.id }).eq('id', ev.id);
+      if (!setErr) fixed.venuesAttached++;
+    }
+  }
 
   // ---- 1a. Venue zones, derived from the region we already store.
   const { data: venues } = await admin
@@ -578,6 +668,28 @@ export async function GET(request: NextRequest) {
   }
 
   /*
+   * ---- 8b. Events titled with their venue's name.
+   *
+   * Some provider listings name a club night after the room ("Pier 48 - Lot
+   * #39") and carry the act only as the headliner. On a list of shows that
+   * reads as a venue where an artist should be — and it is the row that
+   * survives a merge, because provider rows win. The headliner is the title.
+   */
+  const { data: venueNamed } = await admin
+    .from('events')
+    .select('id, name, venue:venues ( name ), headliner:artists!events_headliner_id_fkey ( name )')
+    .not('headliner_id', 'is', null)
+    .not('venue_id', 'is', null);
+
+  const flat = (v: string | null | undefined) => (v ?? '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  for (const ev of (venueNamed ?? []) as unknown as { id: string; name: string; venue: { name: string } | null; headliner: { name: string } | null }[]) {
+    if (!ev.headliner?.name || !ev.venue?.name) continue;
+    if (flat(ev.name) !== flat(ev.venue.name)) continue;
+    const { error: renameErr } = await admin.from('events').update({ name: ev.headliner.name }).eq('id', ev.id);
+    if (!renameErr) fixed.eventNamesCleaned++;
+  }
+
+  /*
    * ---- 9. Duplicate events for the same show.
    *
    * The pair that prompted this differed by SEVEN HOURS in stored value —
@@ -592,20 +704,32 @@ export async function GET(request: NextRequest) {
    */
   const { data: dupCandidates } = await admin
     .from('events')
-    .select('id, name, venue_id, starts_at, headliner_id, tm_id, jambase_id, spotify_concert_id, bandsintown_id, eventbrite_id, image_url, url, timezone')
+    .select('id, name, venue_id, starts_at, headliner_id, tm_id, jambase_id, spotify_concert_id, bandsintown_id, eventbrite_id, image_url, url, timezone, headliner:artists!events_headliner_id_fkey ( name )')
     .not('venue_id', 'is', null)
     .order('starts_at', { ascending: true });
+
+  const providerRow = (e: { tm_id: string | null; jambase_id: string | null; spotify_concert_id: string | null; bandsintown_id: string | null; eventbrite_id: string | null }) =>
+    !!(e.tm_id || e.jambase_id || e.spotify_concert_id || e.bandsintown_id || e.eventbrite_id);
 
   const seen: typeof dupCandidates = [];
   for (const ev of dupCandidates ?? []) {
     const twin = (seen ?? []).find(
       (s2) =>
-        s2.venue_id === ev.venue_id &&
         Math.abs(new Date(s2.starts_at).getTime() - new Date(ev.starts_at).getTime()) <=
           12 * 3_600_000 &&
-        // Same guard as `reconcileEvent`: a disagreeing headliner means two
-        // different bands at one club on one night, not a duplicate.
-        (!s2.headliner_id || !ev.headliner_id || s2.headliner_id === ev.headliner_id),
+        // Same venue row: a disagreeing headliner means two different bands at
+        // one club on one night, not a duplicate (same guard as `reconcileEvent`).
+        ((s2.venue_id === ev.venue_id &&
+          (!s2.headliner_id || !ev.headliner_id || s2.headliner_id === ev.headliner_id)) ||
+          // Different venue rows, same headliner: one room under two names
+          // ("Shed A" / "Pier 48's Shed A"), which is how a household whose two
+          // members each logged a night ended up with it twice.
+          // Only when at least one side has no provider id: two provider rows
+          // for one act on one day (a matinee and an evening show) are distinct
+          // listings, and merging them would just be undone by the next sync.
+          (!!ev.headliner_id &&
+            s2.headliner_id === ev.headliner_id &&
+            !(providerRow(ev) && providerRow(s2)))),
     );
 
     if (!twin) {
@@ -615,7 +739,16 @@ export async function GET(request: NextRequest) {
 
     const hasProvider = (e: typeof ev) =>
       !!(e.tm_id || e.jambase_id || e.spotify_concert_id || e.bandsintown_id || e.eventbrite_id);
-    const [winner, loser] = hasProvider(ev) && !hasProvider(twin) ? [ev, twin] : [twin, ev];
+    /*
+     * The survivor is the better-described row: one a provider wrote, then one
+     * actually named after the act (a hand-made row is sometimes titled with
+     * the VENUE, "Pier 48 - Lot #39"), then one with artwork.
+     */
+    const score = (e: typeof ev) => {
+      const act = ((e.headliner as unknown as { name?: string } | null)?.name ?? '').toLowerCase();
+      return (hasProvider(e) ? 4 : 0) + (act && e.name.toLowerCase().includes(act) ? 2 : 0) + (e.image_url ? 1 : 0);
+    };
+    const [winner, loser] = score(ev) > score(twin) ? [ev, twin] : [twin, ev];
 
     const merged = await mergeEvents(admin, winner.id, loser.id);
     if (merged) {
@@ -646,18 +779,34 @@ async function mergeEvents(
   winnerId: string,
   loserId: string,
 ): Promise<boolean> {
-  // Attendances: keep the winner's if the household has both, else move it over.
+  // Attendances: where the household has both, fold the loser's details into
+  // the winner's (two people logging one night must not lose either's ticket
+  // details, nor count one order twice: `combineTickets`); else move it over.
   const { data: losing } = await db.from('attendances').select('*').eq('event_id', loserId);
   for (const att of losing ?? []) {
     const { data: already } = await db
       .from('attendances')
-      .select('id')
+      .select('id, state, rating, review, rated_at, ticket_ref, seat_info, price_cents, ticket_quantity, purchased_at')
       .eq('event_id', winnerId)
       .eq('household_id', att.household_id)
       .limit(1)
       .maybeSingle();
 
-    if (already) continue;
+    if (already) {
+      // "interested" on one side and a real ticket on the other is a real ticket.
+      const state = already.state === 'interested' && att.state !== 'interested' ? att.state : already.state;
+      await db
+        .from('attendances')
+        .update({
+          ...combineTickets(already, att),
+          state,
+          rating: already.rating ?? att.rating,
+          review: already.review ?? att.review,
+          rated_at: already.rated_at ?? att.rated_at,
+        })
+        .eq('id', already.id);
+      continue;
+    }
     const { id: _drop, event_id: _drop2, ...rest } = att;
     await db.from('attendances').insert({ ...rest, event_id: winnerId });
   }

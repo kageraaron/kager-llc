@@ -28,8 +28,19 @@ export const extractors: Extractor[] = [jsonLdExtractor, ...vendorExtractors, ge
  * History:
  *   1 — TicketWeb/SeatGeek/Tixr added; qualified presale suffixes stripped;
  *       emphasis-wrapped totals read; generic fallback extractor added.
+ *   3 — Tixr: a long lineup title ("A [DJ SET], B B2B C + more") is found by
+ *       its verbatim repeat in the body instead of being dropped by the
+ *       ten-word subject guard; the first act of a bill is the headliner.
+ *   4 — StubHub and viagogo buyer confirmations (resale marketplaces), with
+ *       sports fixtures rejected: a football game is not a show.
+ *   5 — AXS resale purchases ("you're seeing <ACT> at <VENUE> … on MM-DD-YY");
+ *       the matcher no longer suggests another date of the same tour.
+ *   6 — AXS "tickets delivered" layout; an AXS order with no event line is
+ *       no longer dated by its order timestamp.
+ *   7 — AXS "tickets delivered" as it really arrives: blank lines between its
+ *       three lines, and the single-night form ("*Sat* Sep 26, 2026 - 10:00 PM").
  */
-export const EXTRACTOR_VERSION = 2;
+export const EXTRACTOR_VERSION = 7;
 
 export interface ExtractionResult {
   extractor: string;

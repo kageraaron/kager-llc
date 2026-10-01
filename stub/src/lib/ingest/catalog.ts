@@ -12,6 +12,7 @@ import type { SFMSetlist } from '@/lib/providers/setlistfm';
 import { toInstant } from '@/lib/providers/bandsintown';
 import type { CatalogCandidate } from '@/lib/ingest/match';
 import { getHouseholdId } from '@/lib/household';
+import { combineTickets } from '@/lib/tickets';
 
 /**
  * Writes into the shared catalog tables (artists / venues / events).
@@ -266,22 +267,34 @@ export async function recordAttendance(
 
   const { data: existing } = await db
     .from('attendances')
-    .select('id')
+    .select('id, ticket_ref, seat_info, price_cents, ticket_quantity, purchased_at')
     .eq('household_id', householdId)
     .eq('event_id', params.eventId)
     .maybeSingle();
 
   if (existing) {
-    // Fill in ticket metadata we may not have had before, but leave state alone.
+    /*
+     * Already on the list: leave the state alone and fold the ticket details
+     * in. The same order seen again (a rescan, or the email in both inboxes)
+     * refreshes them; a DIFFERENT order — the other person bought their own
+     * ticket — adds to them. This used to overwrite, so two people buying one
+     * ticket each showed as one ticket at one price. See `combineTickets`.
+     */
     await db
       .from('attendances')
-      .update({
-        ticket_ref: params.ticketRef ?? undefined,
-        seat_info: params.seatInfo ?? undefined,
-        price_cents: params.priceCents ?? undefined,
-        ticket_quantity: params.ticketQuantity ?? undefined,
-        purchased_at: params.purchasedAt ?? undefined,
-      })
+      .update(
+        combineTickets(
+          existing,
+          {
+            ticket_ref: params.ticketRef ?? null,
+            seat_info: params.seatInfo ?? null,
+            price_cents: params.priceCents ?? null,
+            ticket_quantity: params.ticketQuantity ?? null,
+            purchased_at: params.purchasedAt ?? null,
+          },
+          'incoming',
+        ),
+      )
       .eq('id', existing.id);
     return;
   }
@@ -1283,15 +1296,34 @@ export async function reconcileEvent(
   else if (ev.headlinerId) query = query.eq('headliner_id', ev.headlinerId);
 
   const { data } = await query.limit(2);
-  if (!data || data.length !== 1) return null;
 
-  // Matched on venue+day alone? Require the headliner to agree, or be unknown
-  // on one side — otherwise two bands at one club on one night would merge.
-  if (ev.venueId && ev.headlinerId && data[0].headliner_id) {
-    if (data[0].headliner_id !== ev.headlinerId) return null;
+  if (data?.length === 1) {
+    // Matched on venue+day alone? Require the headliner to agree, or be unknown
+    // on one side — otherwise two bands at one club on one night would merge.
+    const clash = ev.venueId && ev.headlinerId && data[0].headliner_id && data[0].headliner_id !== ev.headlinerId;
+    if (!clash) return data[0].id;
   }
 
-  return data[0].id;
+  /*
+   * No match at this venue ROW — but venues are not deduplicated, and one room
+   * turns up under many names: a real household list had "Shed A", "Pier 48",
+   * "Shed A at Pier 48" and "Pier 48's Shed A" for the same four walls, so the
+   * same night sat on the list twice. The same headliner within the same 12
+   * hours is the same show whatever the venue row is called.
+   */
+  if (ev.venueId && ev.headlinerId && !data?.length) {
+    let byAct = db
+      .from('events')
+      .select('id')
+      .eq('headliner_id', ev.headlinerId)
+      .gte('starts_at', from)
+      .lte('starts_at', to);
+    if (ownIdColumn) byAct = byAct.is(ownIdColumn, null);
+    const { data: sameAct } = await byAct.limit(2);
+    if (sameAct?.length === 1) return sameAct[0].id;
+  }
+
+  return null;
 }
 
 /** Shared by the Bandsintown paths; mirrors the tail of the other upserts. */

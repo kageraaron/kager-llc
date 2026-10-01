@@ -54,10 +54,23 @@ export async function refreshAccessToken(refreshToken: string): Promise<{ access
   return res.json() as Promise<{ access_token: string; expires_in: number }>;
 }
 
+/**
+ * Gmail meters each user by the minute. A large re-read (hundreds of messages
+ * fetched back to back) runs past it, and Gmail answers 403 "Quota exceeded …
+ * Units per minute per user" or 429. That is "slow down", not "no": wait and
+ * ask again, rather than dropping the message as a failure.
+ */
 async function gapi<T>(token: string, path: string): Promise<T> {
-  const res = await fetch(`${API}${path}`, { headers: { Authorization: `Bearer ${token}` } });
-  if (!res.ok) throw new Error(`Gmail ${res.status} on ${path}: ${await res.text()}`);
-  return res.json() as Promise<T>;
+  for (let attempt = 0; ; attempt++) {
+    const res = await fetch(`${API}${path}`, { headers: { Authorization: `Bearer ${token}` } });
+    if (res.ok) return res.json() as Promise<T>;
+
+    const body = await res.text();
+    const throttled = res.status === 429 || (res.status === 403 && /quota exceeded|rate ?limit/i.test(body));
+    if (!throttled || attempt >= 5) throw new Error(`Gmail ${res.status} on ${path}: ${body}`);
+    // 4s, 8s, 16s, 32s, 60s: the quota window is a minute.
+    await new Promise((r) => setTimeout(r, Math.min(4000 * 2 ** attempt, 60_000)));
+  }
 }
 
 /**

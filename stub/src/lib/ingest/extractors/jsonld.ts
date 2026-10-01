@@ -1,5 +1,5 @@
 import type { Extractor, NormalizedEmail, ParsedTicket } from '@/lib/types';
-import { extractJsonLdBlocks } from '@/lib/ingest/html';
+import { extractJsonLdBlocks, senderDomain } from '@/lib/ingest/html';
 
 /**
  * The highest-leverage extractor, and the reason this pipeline isn't mostly regex.
@@ -113,6 +113,32 @@ function fromEventNode(event: JsonLdNode, reservation?: JsonLdNode): ParsedTicke
   };
 }
 
+/**
+ * Valid Event markup is not always a show.
+ *
+ * schema.org's `Event` covers anything with a start time, and activity
+ * bookers mark up every reservation as one. A real ferry booking ("Long Beach
+ * ➔ Avalon with <operator>", sent through an activity-booking platform)
+ * arrived as a well-formed EventReservation and was queued as a concert.
+ *
+ * Three independent tells, any one of which is enough:
+ *  - the sender is a platform that books activities, tables or classes;
+ *  - the node declares a subtype that is not a performance;
+ *  - the title is a route (an arrow) or names a kind of outing.
+ */
+const NOT_A_SHOW_SENDER =
+  /(?:^|\.)(?:fareharbor|peek|viator|getyourguide|tripadvisor|opentable|resy|exploretock|classpass|mindbodyonline|airbnb|booking|expedia)\.com$/i;
+
+const NOT_A_SHOW_TYPE = ['sportsevent', 'foodevent', 'educationevent', 'businessevent', 'saleevent', 'screeningevent', 'courseinstance'];
+
+const NOT_A_SHOW_TITLE =
+  /[➔→⇒➜➝]|\s->\s|\b(?:ferry|shuttle|kayak|snorkel(?:ing)?|zip ?line|whale watch(?:ing)?|walking tour|boat tour|bus tour|wine tasting|round ?trip|one[- ]way)\b/i;
+
+function isShow(event: JsonLdNode): boolean {
+  if (typesOf(event).some((t) => NOT_A_SHOW_TYPE.includes(t))) return false;
+  return !(event.name && NOT_A_SHOW_TITLE.test(event.name));
+}
+
 export const jsonLdExtractor: Extractor = {
   name: 'jsonld',
 
@@ -124,12 +150,16 @@ export const jsonLdExtractor: Extractor = {
   },
 
   parse(email: NormalizedEmail): ParsedTicket | null {
+    if (NOT_A_SHOW_SENDER.test(senderDomain(email.from))) return null;
     const nodes = extractJsonLdBlocks(email.html) as JsonLdNode[];
 
     // Prefer a reservation: it carries the ticket number and price too.
     for (const node of nodes) {
       if (!node || typeof node !== 'object') continue;
       if (typesOf(node).includes('eventreservation') && node.reservationFor) {
+        // A reservation for something that is not a show ends the search: the
+        // same event usually appears again as a bare node further down.
+        if (!isShow(node.reservationFor)) return null;
         const parsed = fromEventNode(node.reservationFor, node);
         if (parsed) return parsed;
       }
@@ -139,6 +169,7 @@ export const jsonLdExtractor: Extractor = {
     for (const node of nodes) {
       if (!node || typeof node !== 'object') continue;
       if (typesOf(node).some((t) => t === 'event' || t.endsWith('event'))) {
+        if (!isShow(node)) continue;
         const parsed = fromEventNode(node);
         if (parsed) return parsed;
       }

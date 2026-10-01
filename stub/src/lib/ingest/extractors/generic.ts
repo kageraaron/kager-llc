@@ -74,11 +74,11 @@ const EVENT_EVIDENCE =
  * matched, because "tour" and "admission" turn up in retail copy too.
  */
 const RETAIL_SIGNAL =
-  /\b(?:ship(?:s|ped|ping)?\s+(?:by|to|on)|tracking\s+number|track\s+your\s+(?:package|order|shipment)|delivery\s+address|estimated\s+delivery|return\s+policy|free\s+returns|size\s*:|colou?r\s*:|in\s+your\s+cart|restock)\b/i;
+  /\b(?:ship(?:s|ped|ping)?\s+(?:by|to|on)|shipping\s+(?:address|method|fee|time|info|details)|your\s+package|out\s+for\s+delivery|items?\s+(?:in\s+(?:your|this)\s+order|ordered|shipped)|tracking\s+number|track\s+your\s+(?:package|order|shipment)|delivery\s+address|estimated\s+delivery|return\s+policy|free\s+returns|size\s*:|colou?r\s*:|in\s+your\s+cart|restock)\b/i;
 
 /** Senders that are definitely not ticketing, however transactional they look. */
 const NEVER =
-  /(?:^|\.)(?:amazon|ebay|paypal|stripe|doordash|ubereats|instacart|gap|gapfactory|oldnavy|bananarepublic|target|walmart|etsy|shopify|apple|google|microsoft|uber|lyft|airbnb)\.(?:com|co\.uk)$/i;
+  /(?:^|\.)(?:amazon|temu|temuemail|shein|aliexpress|wayfair|ikea|costco|bestbuy|homedepot|chewy|ebay|paypal|stripe|doordash|ubereats|instacart|gap|gapfactory|oldnavy|bananarepublic|target|walmart|etsy|shopify|apple|google|microsoft|uber|lyft|airbnb)\.(?:com|co\.uk)$/i;
 
 /**
  * Subject shapes that are prose about tickets, not the name of an act. Same
@@ -146,6 +146,20 @@ export const genericExtractor: Extractor = {
       ticketQuantity: findTicketQuantity(both),
       ...findVenue(both),
     };
+
+    /*
+     * `findVenue` takes whatever follows "location:" or "where:". In a retail
+     * receipt that is a sentence, not a place: a real marketplace order produced
+     * the venue "Do not click on links in suspicious emails or text messages as
+     * they may contain…" and, with no name at all, was queued as a show. A venue
+     * is a few words long. Anything longer is dropped, which leaves that email
+     * with neither a name nor a venue, so it is rejected below.
+     */
+    if (ticket.venueName && ticket.venueName.trim().split(/\s+/).length > 7) {
+      delete ticket.venueName;
+      delete ticket.city;
+      delete ticket.region;
+    }
 
     // Same bar as every other extractor: a name and a date, or it is not a
     // ticket we can do anything useful with.

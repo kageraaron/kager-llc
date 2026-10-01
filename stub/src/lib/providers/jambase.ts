@@ -1,3 +1,5 @@
+import { createAdminClient } from '@/lib/supabase/admin';
+import { toInstant } from '@/lib/timezone';
 /**
  * JamBase Data API v3.
  *
@@ -9,8 +11,11 @@
  * Ticketmaster (8 events worldwide, none in SF) because the SF date is a Portola
  * festival appearance Ticketmaster doesn't sell. JamBase returns it.
  *
- * BILLING: JamBase is a 14-day free trial, not a free tier. `isConfigured()`
- * lets every call site degrade to Ticketmaster if the key is absent or lapses.
+ * BILLING: the Developer plan is free for 1,000 requests a month and charges
+ * for every request after that. `claimCall()` is the stop: every request is
+ * claimed against a local ledger first, and refused once the cap is reached.
+ * `isConfigured()` lets every call site degrade to the other providers if the
+ * key is absent.
  *
  * Responses are schema.org-shaped (@type / location / performer / offers).
  */
@@ -82,13 +87,64 @@ interface JBResponse<T> {
   detail?: string;
 }
 
+/** Thrown instead of making a request that could be billed. */
+export class JamBaseBudgetError extends Error {
+  constructor(reason: string) {
+    super(`JamBase call refused: ${reason}`);
+    this.name = 'JamBaseBudgetError';
+  }
+}
+
+function cap(name: string, fallback: number): number {
+  const raw = Number(process.env[name]);
+  return Number.isFinite(raw) && raw >= 0 ? Math.floor(raw) : fallback;
+}
+
+/** 900 of the 1,000 free requests: headroom for anything we failed to count. */
+export const monthlyCap = () => cap('JAMBASE_MONTHLY_CALLS', 900);
+/** A burst limit, so one large re-read cannot spend the month in a day. */
+export const dailyCap = () => cap('JAMBASE_DAILY_CALLS', 100);
+
+/**
+ * Claim one request against the ledger, or throw.
+ *
+ * Fails CLOSED: if the ledger cannot be reached the request is not made. An
+ * unreadable ledger answering "go ahead" is how a free plan becomes a bill.
+ * Counted before the request and never refunded, so failed and cached requests
+ * are over-counted rather than missed.
+ */
+async function claimCall(endpoint: string): Promise<void> {
+  const { data, error } = await createAdminClient().rpc('claim_provider_call', {
+    p_provider: 'jambase',
+    p_endpoint: endpoint,
+    p_month_cap: monthlyCap(),
+    p_day_cap: dailyCap(),
+  });
+  if (error) throw new JamBaseBudgetError(`ledger unavailable (${error.message})`);
+  if (data !== true) throw new JamBaseBudgetError(`cap reached (${monthlyCap()} per 31 days, ${dailyCap()} per day)`);
+}
+
+/**
+ * When JamBase last rejected the key. A dead key would otherwise spend the
+ * day's allowance on requests that cannot succeed, leaving none for the hour
+ * the key is replaced. A restart (which a new key needs anyway) clears it.
+ */
+let keyRejectedAt = 0;
+const KEY_RETRY_MS = 15 * 60_000;
+
 async function jb<T>(path: string, params: Record<string, string | number | undefined>): Promise<JBResponse<T>> {
+  if (Date.now() - keyRejectedAt < KEY_RETRY_MS) throw new Error('JamBase key was rejected; not retrying yet');
+  await claimCall(path.split('/')[1] ?? path);
   const url = new URL(`${BASE}${path}`);
   for (const [k, v] of Object.entries(params)) {
     if (v !== undefined && v !== '') url.searchParams.set(k, String(v));
   }
 
   const res = await fetch(url, { headers: headers(), next: { revalidate: 300 } });
+  if (res.status === 401 || res.status === 403) {
+    keyRejectedAt = Date.now();
+    throw new Error(`JamBase ${res.status}: key rejected`);
+  }
   const body = (await res.json()) as JBResponse<T>;
 
   if (!res.ok || body.success === false) {
@@ -156,9 +212,20 @@ export function jbId(identifier?: string): string | null {
 export function resolveStart(event: JBEvent): string | null {
   const raw = event.startDate;
   if (!raw) return null;
-  if (raw.includes('T')) return raw;
-
   const tz = event.location?.address?.['x-timezone'];
+
+  if (raw.includes('T')) {
+    // Already an instant (carries Z or an offset): use it as given.
+    if (/(?:Z|[+-]\d{2}:?\d{2})$/.test(raw)) return raw;
+    /*
+     * Otherwise it is WALL time at the venue — "2026-10-02T20:00:00" means 8pm
+     * there. Handing that to a timestamptz column stores it as 8pm UTC, and an
+     * 8pm San Francisco show then renders as 1:00 PM. Resolve it against the
+     * venue's zone; only fall back to UTC when the zone is unknown.
+     */
+    return toInstant(raw, tz) ?? `${raw}Z`;
+  }
+
   if (!tz) return `${raw}T20:00:00Z`;
 
   // Build 20:00 local, then convert to an absolute instant.

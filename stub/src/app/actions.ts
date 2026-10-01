@@ -142,8 +142,12 @@ export async function addEventFromSearch(
       bandsintownArtistId: result?.artist?.id ?? null,
     });
   } else if (source === 'jambase') {
-    const target = await jambase.getEventById(id);
-    if (!target) return { ok: false as const, error: 'Event not found' };
+    // Throws when the monthly JamBase call cap is reached; say so plainly.
+    const target = await jambase.getEventById(id).catch((err) => {
+      console.error('jambase lookup failed', err);
+      return null;
+    });
+    if (!target) return { ok: false as const, error: 'Could not load that event right now' };
     eventId = await upsertJamBaseEvent(admin, target);
   } else {
     const tmEvent = await tmGetEvent(id);

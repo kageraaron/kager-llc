@@ -2199,3 +2199,96 @@ $$;
 
 revoke all on function public.explore_artists() from public, anon, authenticated;
 grant execute on function public.explore_artists() to service_role;
+
+-- ============================================================================
+-- supabase/migrations/0029_fix_jambase_times.sql
+-- ============================================================================
+
+-- JamBase start times were stored in the wrong zone.
+--
+-- JamBase reports a show's time as WALL time at the venue ("2026-10-02T20:00:00",
+-- no offset). `resolveStart` passed that straight through, so it was saved as
+-- 20:00 UTC and an 8pm San Francisco show rendered as 1:00 PM. The code now
+-- resolves it against the venue's zone; this corrects the rows already written.
+--
+-- Which rows: every JamBase row with a known zone EXCEPT those sitting at
+-- exactly 20:00 local. Those came from date-only listings, which took a
+-- different (correct) path that anchors them at 8pm in the venue's zone.
+-- Everything else was a wall time saved as UTC, so it is re-read as local.
+--
+-- Run once, with the code fix: rows written after it are already correct.
+
+update events e
+set starts_at = (e.starts_at at time zone 'UTC') at time zone z.tz
+from (
+  select e2.id, coalesce(e2.timezone, v.timezone) as tz
+  from events e2
+  left join venues v on v.id = e2.venue_id
+  where e2.jambase_id is not null
+) z
+where z.id = e.id
+  and z.tz is not null
+  and to_char(e.starts_at at time zone z.tz, 'HH24:MI:SS') <> '20:00:00';
+
+-- supabase/migrations/0030_jambase_budget.sql
+-- A hard ceiling on metered provider calls.
+--
+-- JamBase's Developer plan is free for 1,000 requests a month and bills every
+-- request after that. Nothing upstream stops at the free limit, so the stop
+-- has to be here, BEFORE the request is sent.
+--
+-- `claim_provider_call` is check-and-record in one statement under an advisory
+-- lock: two requests arriving together cannot both read "999 spent" and both
+-- go. It returns false when either window is full, and the caller must not
+-- make the request.
+--
+-- The month is a ROLLING 31 days, not the calendar month. The provider bills
+-- on its own cycle, which we cannot see; a calendar-month cap would allow a
+-- full month's calls on the 30th and another on the 1st, both inside one
+-- billing period. Capping every 31-day span keeps any billing month under it.
+
+create or replace function claim_provider_call(
+  p_provider text,
+  p_endpoint text,
+  p_month_cap integer,
+  p_day_cap integer
+)
+returns boolean
+language plpgsql
+security invoker
+set search_path = ''
+as $$
+declare
+  spent_month integer;
+  spent_day integer;
+begin
+  perform pg_advisory_xact_lock(hashtext('provider_spend:' || p_provider));
+
+  select coalesce(sum(credits), 0),
+         coalesce(sum(credits) filter (where spent_at >= now() - interval '24 hours'), 0)
+    into spent_month, spent_day
+    from public.provider_spend
+   where provider = p_provider
+     and spent_at >= now() - interval '31 days';
+
+  if spent_month + 1 > p_month_cap or spent_day + 1 > p_day_cap then
+    return false;
+  end if;
+
+  insert into public.provider_spend (provider, endpoint, credits) values (p_provider, p_endpoint, 1);
+  return true;
+end;
+$$;
+
+revoke all on function claim_provider_call(text, text, integer, integer) from public, anon, authenticated;
+grant execute on function claim_provider_call(text, text, integer, integer) to service_role;
+
+-- The ledger was pruned at 30 days, one day short of the window above.
+create or replace function prune_provider_spend()
+returns void
+language sql
+security invoker
+set search_path = ''
+as $$
+  delete from public.provider_spend where spent_at < now() - interval '35 days';
+$$;

@@ -34,6 +34,38 @@ interface VendorSpec {
   trustDomain?: boolean;
   /** Vendor-specific pass, run before the shared heuristics fill the gaps. */
   specific?: (email: NormalizedEmail, text: string) => Partial<ParsedTicket>;
+  /**
+   * A confirmation this app should not keep even though it is a real ticket.
+   * Resale marketplaces sell sport as readily as music, and a football game
+   * is not a show.
+   */
+  reject?: (email: NormalizedEmail, text: string) => boolean;
+}
+
+/**
+ * Is this event title a sports fixture rather than a show?
+ *
+ *     Wagner Seahawks at California Golden Bears Football   -> yes
+ *     Warriors vs. Lakers                                   -> yes
+ *     Fred again.. with special guests                      -> no
+ *
+ * Marketplaces title fixtures "<AWAY> at <HOME> <Sport>" or "<A> vs <B>".
+ * "at" alone proves nothing ("Hamdi at The Regency Ballroom"), so it only
+ * counts beside a sport word.
+ */
+export function isSportsTitle(title: string): boolean {
+  const sport = /\b(football|basketball|baseball|hockey|soccer|softball|volleyball|lacrosse|rugby|wrestling|golf|tennis|nfl|nba|wnba|mlb|nhl|mls|ncaa|ufc|preseason|playoffs?)\b/i;
+  return sport.test(title) || /\s(?:vs\.?|v\.)\s/i.test(title);
+}
+
+const MONTHS = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+
+/** "December 19, 2026" + 20:00 -> "2026-12-19T20:00:00" (wall time, like every extractor). */
+function wallTime(month: string, day: string, year: string, hour: number, minute: string): string | undefined {
+  const m = MONTHS.indexOf(month.toLowerCase());
+  if (m === -1) return undefined;
+  const pad = (n: number | string) => String(n).padStart(2, '0');
+  return `${year}-${pad(m + 1)}-${pad(day)}T${pad(hour)}:${pad(minute)}:00`;
 }
 
 /**
@@ -164,6 +196,96 @@ export function billedAct(title: string): string | undefined {
   const cleaned = cleanArtistName(headliner);
   return cleaned.length >= 2 ? cleaned : undefined;
 }
+
+/**
+ * The first act of a bill with no party name in front:
+ *
+ *     <ACT> [DJ SET], <ACT> B2B <ACT> + more  ->  <ACT>
+ *
+ * Only when the title is unmistakably a lineup ("+ more", "b2b", or two or
+ * more commas). One comma alone is not enough: "Tyler, The Creator" is one act.
+ * A trailing bracketed qualifier ("[DJ SET]", "(Live)") is not part of the
+ * name any provider knows the act by.
+ */
+export function lineupHeadliner(title: string): string | undefined {
+  const isLineup = /\+\s*more\b/i.test(title) || /\sb2b\s/i.test(title) || (title.match(/,/g)?.length ?? 0) >= 2;
+  if (!isLineup) return undefined;
+  const first = title.split(/\s*,\s*|\s+b2b\s+|\s+\+\s+/i)[0]?.replace(/\s*[\[(][^\])]*[\])]\s*$/, '').trim();
+  if (!first || first.length < 2) return undefined;
+  const cleaned = cleanArtistName(first);
+  return cleaned.length >= 2 ? cleaned : undefined;
+}
+
+/** The line after a label line ("Venue:" -> the venue), for mail that labels its fields. */
+function valueAfter(all: string[], label: string): string | undefined {
+  const i = all.findIndex((l) => l.toLowerCase() === label);
+  const v = i !== -1 ? all[i + 1]?.trim() : undefined;
+  return v || undefined;
+}
+
+/**
+ * StubHub's event block, anchored on its date line — the one line with an
+ * unmistakable shape. The title sits directly above it and the venue below.
+ */
+function stubhubBlock(all: string[]): { title: string; startsAt?: string; venueLine: string } | null {
+  const DATE = /^[A-Z][a-z]+day,\s+([A-Z][a-z]+)\s+(\d{1,2}),\s*(\d{4})\s+-\s+(\d{1,2}):(\d{2})\s*([ap]m)$/i;
+  const at = all.findIndex((l) => DATE.test(l));
+  if (at < 1) return null;
+  const m = DATE.exec(all[at])!;
+  const hour = (Number(m[4]) % 12) + (m[6].toLowerCase() === 'pm' ? 12 : 0);
+  return { title: all[at - 1], startsAt: wallTime(m[1], m[2], m[3], hour, m[5]), venueLine: all[at + 1] ?? '' };
+}
+
+/**
+ * AXS "Your tickets were delivered to your account!": three lines, in order.
+ *
+ *   Sat Sep 26, 2026 - 1:00 PM – Sun Sep 27, 2026 - 11:59 PM, PDT
+ *   <EVENT> - 2-Day GA
+ *   <VENUE>, <CITY>, CA
+ *
+ * The second date is only there for a multi-day event. A single night reads
+ * "*Sat* Sep 26, 2026 - 10:00 PM" instead: the weekday starred, no timezone.
+ */
+const AXS_DELIVERED =
+  /^\W*[A-Z][a-z]{2}\W* ([A-Z][a-z]{2}) (\d{1,2}), (\d{4}) - (\d{1,2}):(\d{2})\s*([AP]M)(?:\s*[^\w\n]{1,3}\s*[A-Z][a-z]{2} [A-Z][a-z]{2} \d{1,2}, \d{4} - \d{1,2}:\d{2}\s*[AP]M)?(?:[, \t]*[A-Z]{2,4})?[ \t]*\n[ \t]*([^\n]{2,120})\n[ \t]*([^,\n]{2,80}),\s*([^,\n]{2,40}),\s*([A-Z]{2})[ \t]*$/m;
+
+const MONTHS3 = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+
+/** "Portola 2026 - 2-Day GA" -> "Portola 2026": the ticket type is not the event. */
+const AXS_TICKET_TYPE = /\s+-\s+(?:\d[- ]day\b.*|ga\b.*|vip\b.*|general admission\b.*|admissions?\b.*)$/i;
+
+function parseAxsDelivered(haystack: string): Partial<ParsedTicket> | null {
+  // The real message separates these lines with blank ones and CRLF endings.
+  const m = AXS_DELIVERED.exec(lines(haystack).join('\n'));
+  if (!m) return null;
+  const month = MONTHS3.indexOf(m[1].toLowerCase());
+  if (month === -1) return null;
+  const hour = (Number(m[4]) % 12) + (m[6].toUpperCase() === 'PM' ? 12 : 0);
+  const pad = (n: number) => String(n).padStart(2, '0');
+  const title = m[7].replace(/&amp;/gi, '&').replace(AXS_TICKET_TYPE, '').trim();
+  // Two dates mean a festival, which is an event; one night is named for its act.
+  const multiDay = /\d{4} - \d{1,2}:\d{2}\s*[AP]M.+\d{4} - \d{1,2}:\d{2}\s*[AP]M/.test(m[0].split('\n')[0]);
+  return {
+    ...(multiDay ? { eventName: title } : { artistName: cleanArtistName(title) }),
+    venueName: m[8].trim(),
+    city: m[9].trim(),
+    region: m[10],
+    startsAt: `${m[3]}-${pad(month + 1)}-${pad(Number(m[2]))}T${pad(hour)}:${m[5]}:00`,
+  };
+}
+
+/** "…you're seeing <ACT> at <VENUE>, <CITY>, <ST> on <Day> MM-DD-YY at H:MM pm". */
+const AXS_SEEING_LINE =
+  /you(?:'|’|&#39;)re seeing\s+(.{2,120}?)\s+at\s+([^,\n]{2,80}),\s*([^,\n]{2,40}),\s*([A-Z]{2})\s+on\s+[A-Za-z]+\s+(\d{2})-(\d{2})-(\d{2})\s+at\s+(\d{1,2}):(\d{2})\s*([ap]m)/i;
+
+/**
+ * Subjects a ticket seller sends that are never a ticket, whatever else the
+ * body contains: account security notices, login codes, waitlists. Real inbox
+ * cards came from "New Sign In Activity on Your Ticketmaster Account" and
+ * "Coachella Weekend 1 2027 Waitlist Order Confirmation".
+ */
+export const NOT_A_TICKET_SUBJECT =
+  /\b(?:sign[- ]?in activity|new sign[- ]?in|login code|verification code|reset your password|password reset|security alert|waitlist|wait list)\b/i;
 
 /** Non-empty, whitespace-trimmed lines. Both text and HTML views pad heavily. */
 function lines(text: string): string[] {
@@ -401,8 +523,22 @@ const SPECS: VendorSpec[] = [
     // AXS's actual purchase subject is "Thank you for your order for X - Presale",
     // and its transfer subject is "You Received Tickets". Neither matched the
     // original pattern, so every real AXS email was skipped before parsing.
+    /*
+     * A festival order ("Thank you for your Order for Portola") carries NO
+     * event date: the only date in it is the order's own timestamp
+     * ("Order #… 6/2/2026 3:54 PM"), which the shared date scan then reports
+     * as the show. Two real cards put a late-September festival on June 1 and
+     * June 2. A wrong date is worse than no card, and the "tickets delivered"
+     * email that follows has the real one, so an order with no event line is
+     * left alone.
+     */
+    reject: (email, text) => {
+      if (!/thank you for your order/i.test(email.subject)) return false;
+      const both = `${htmlToText(email.html)}\n${text}`;
+      return !AXS_ORDER_LINE.test(both) && !AXS_SEEING_LINE.test(both) && !parseAxsDelivered(both);
+    },
     subject:
-      /(?:order confirmation|your tickets?|purchase confirmation|thank you for your order|you received tickets|tickets? transferred)/i,
+      /(?:order confirmation|your tickets?|purchase confirmation|thank you for your order|thank you for purchasing tickets|you received tickets|tickets? transferred)/i,
     specific: (email, text) => {
       /*
        * Look in the HTML as well as the plain-text part, and in that order of
@@ -415,6 +551,38 @@ const SPECS: VendorSpec[] = [
        * relying on it alone silently produced the ORDER date as the event date.
        */
       const htmlText = htmlToText(email.html);
+
+      /*
+       * AXS RESALE purchase ("Thank you for purchasing tickets!"): one sentence
+       * carries everything, with a numeric US date:
+       *
+       *   Get excited you're seeing <ACT> - Admissions at <VENUE>, <CITY>, CA
+       *   on Friday 11-14-25 at 8:00 pm PST.
+       *
+       * The ticket count is the first value under the Quantity/Type/… header.
+       */
+      for (const haystack of [text, htmlText]) {
+        const delivered = parseAxsDelivered(haystack);
+        if (delivered) return delivered;
+      }
+
+      for (const haystack of [htmlText, text]) {
+        const seeing = AXS_SEEING_LINE.exec(haystack);
+        if (!seeing) continue;
+        const hour = (Number(seeing[8]) % 12) + (/pm/i.test(seeing[10]) ? 12 : 0);
+        const all = lines(haystack);
+        const totalAt = all.findIndex((l, i) => l === 'Total' && all[i - 1] === 'Price');
+        const qty = totalAt !== -1 ? Number(all[totalAt + 1]) : NaN;
+        return {
+          artistName: cleanArtistName(seeing[1].replace(/\s+-\s+(?:admissions?|resale|verified resale)\s*$/i, '')),
+          venueName: seeing[2].trim(),
+          city: seeing[3].trim(),
+          region: seeing[4],
+          startsAt: `20${seeing[7]}-${seeing[5]}-${seeing[6]}T${String(hour).padStart(2, '0')}:${seeing[9]}:00`,
+          ticketQuantity: Number.isInteger(qty) && qty > 0 && qty < 50 ? qty : undefined,
+        };
+      }
+
       for (const haystack of [htmlText, text]) {
         const order = AXS_ORDER_LINE.exec(haystack);
         if (order) {
@@ -743,14 +911,28 @@ const SPECS: VendorSpec[] = [
     specific: (email, text) => {
       const out: Partial<ParsedTicket> = {};
 
-      const name = artistFromSubject(email.subject, /^order confirmation:?\s*/i);
-      if (name) {
-        out.eventName = name;
-        out.artistName = billedAct(name);
-      }
-
       const haystack = text || htmlToText(email.html);
       const all = lines(haystack);
+
+      /*
+       * The title comes from the subject, and Tixr repeats it verbatim as a
+       * line of the body. That repeat is the proof it is a title: the generic
+       * subject guard rejects anything over ten words as "probably a
+       * sentence", which a lineup easily is. A real booking,
+       *
+       *     Order Confirmation: <ACT> [DJ SET], <ACT> B2B <ACT> + more
+       *
+       * ran to eleven words, so it had no name, the title line was never
+       * found, the venue and date under it were never read, and the whole
+       * confirmation was dropped as "not a ticket".
+       */
+      const rawTitle = email.subject.replace(/^(?:(?:fwd?|fw)\s*:\s*)*order confirmation:?\s*/i, '').trim();
+      const inBody = rawTitle.length >= 2 && all.some((l) => l === rawTitle);
+      const name = artistFromSubject(email.subject, /^order confirmation:?\s*/i) ?? (inBody ? rawTitle : undefined);
+      if (name) {
+        out.eventName = name;
+        out.artistName = billedAct(name) ?? lineupHeadliner(name);
+      }
 
       /*
        * Two layouts, and the single-night one is the common case:
@@ -765,7 +947,7 @@ const SPECS: VendorSpec[] = [
        * so a plain club booking produced neither venue nor date and was dropped
        * entirely. Both are now optional shapes rather than requirements.
        */
-      const at = all.findIndex((l) => name && l.trim() === name.trim());
+      const at = all.findIndex((l) => (name && l.trim() === name.trim()) || (inBody && l === rawTitle));
       const block = at !== -1 ? all.slice(at + 1, at + 5) : [];
 
       /*
@@ -813,6 +995,99 @@ const SPECS: VendorSpec[] = [
     },
   },
   {
+    /*
+     * StubHub buyer confirmation. The marketplace also mails SELLERS from the
+     * same address ("You sold 2 ticket(s) for …", "Your listing is active",
+     * "Your tickets were delivered for order# …"), so the subject is matched
+     * narrowly: only "Thanks for your order" is a purchase.
+     *
+     *     <NAME>, your order is confirmed!
+     *     Thanks for your order. Next, you'll receive …
+     *     <EVENT>
+     *     Saturday, September 19, 2026 - 12:30 pm
+     *     <VENUE>, <CITY>
+     *     Order #000000000
+     *     Qty / 1 / Section / K / Row / 11
+     */
+    name: 'stubhub',
+    domains: ['stubhub.com'],
+    subject: /^(?:(?:fwd?|fw)\s*:\s*)*thanks for your order\b/i,
+    reject: (email, text) => {
+      const title = stubhubBlock(lines(text || htmlToText(email.html)))?.title;
+      return !!title && isSportsTitle(title);
+    },
+    specific: (email, text) => {
+      const out: Partial<ParsedTicket> = {};
+      const all = lines(text || htmlToText(email.html));
+      const block = stubhubBlock(all);
+      if (!block) return out;
+
+      out.eventName = block.title;
+      out.artistName = cleanArtistName(block.title);
+      out.startsAt = block.startsAt;
+      const [venue, city] = block.venueLine.split(/\s*,\s*/);
+      out.venueName = venue?.trim() || undefined;
+      out.city = city?.trim() || undefined;
+
+      out.ticketRef = /order\s*#\s*(\d{6,})/i.exec(email.subject)?.[1];
+      const after = (label: string) => {
+        const i = all.findIndex((l) => l.toLowerCase() === label);
+        return i !== -1 ? all[i + 1] : undefined;
+      };
+      const qty = Number(after('qty'));
+      if (Number.isInteger(qty) && qty > 0 && qty < 50) out.ticketQuantity = qty;
+      const section = after('section');
+      const row = after('row');
+      if (section) out.seatInfo = [`Section ${section}`, row && row !== 'N/A' ? `Row ${row}` : null].filter(Boolean).join(', ');
+      return out;
+    },
+  },
+  {
+    /*
+     * viagogo (StubHub's sister marketplace) labels every field:
+     *
+     *     Order ID: 000000000
+     *     Event:
+     *     <EVENT>
+     *     Ticket(s):
+     *     Section General Admission, Row , (2 Ticket(s))
+     *     Venue:
+     *     <VENUE>
+     *     Date:
+     *     Saturday, December 19, 2026 | 20:00
+     */
+    name: 'viagogo',
+    domains: ['viagogo.com'],
+    subject: /order (?:with order id\s*)?\d+ is confirmed|your order .* is confirmed/i,
+    reject: (email, text) => {
+      const all = lines(text || htmlToText(email.html));
+      const title = valueAfter(all, 'event:');
+      return !!title && isSportsTitle(title);
+    },
+    specific: (email, text) => {
+      const out: Partial<ParsedTicket> = {};
+      const all = lines(text || htmlToText(email.html));
+
+      const title = valueAfter(all, 'event:');
+      if (title) {
+        out.eventName = title;
+        out.artistName = cleanArtistName(title);
+      }
+      out.venueName = valueAfter(all, 'venue:')?.replace(/\s+-\s+complex$/i, '');
+
+      // "Saturday, December 19, 2026 | 20:00": 24-hour wall time at the venue.
+      const when = /([A-Z][a-z]+)\s+(\d{1,2}),\s*(\d{4})\s*\|\s*(\d{1,2}):(\d{2})/.exec(valueAfter(all, 'date:') ?? '');
+      if (when) out.startsAt = wallTime(when[1], when[2], when[3], Number(when[4]), when[5]);
+
+      out.ticketRef = /order id:?\s*(\d{6,})/i.exec(all.join('\n'))?.[1] ?? /\b(\d{6,})\b/.exec(email.subject)?.[1];
+      const qty = Number(/\((\d+)\s*ticket\(s\)\)/i.exec(valueAfter(all, 'ticket(s):') ?? '')?.[1]);
+      if (Number.isInteger(qty) && qty > 0 && qty < 50) out.ticketQuantity = qty;
+      const section = /section\s+([^,]+)/i.exec(valueAfter(all, 'ticket(s):') ?? '')?.[1]?.trim();
+      if (section) out.seatInfo = section;
+      return out;
+    },
+  },
+  {
     name: 'etix',
     domains: ['etix.com'],
     subject: /(?:order confirmation|your tickets?)/i,
@@ -839,11 +1114,14 @@ function buildExtractor(spec: VendorSpec): Extractor {
       const domain = senderDomain(email.from);
       const domainHit = spec.domains.some((d) => domain === d || domain.endsWith(`.${d}`));
       if (!domainHit) return false;
+      // Account and queue mail from a ticket seller is still not a ticket.
+      if (NOT_A_TICKET_SUBJECT.test(email.subject)) return false;
       return spec.trustDomain || spec.subject.test(email.subject);
     },
 
     parse(email) {
       const text = email.text || htmlToText(email.html);
+      if (spec.reject?.(email, text)) return null;
       const vendor = spec.specific?.(email, text) ?? {};
       const price = findPrice(text);
 

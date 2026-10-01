@@ -296,14 +296,29 @@ describe('ranking capped candidates', () => {
     expect(scored[0].candidate.venueName).toBe('Pier 48 - Lot #39');
   });
 
-  it('caps both, so neither can be added silently', () => {
+  it('caps the same-night show, so it cannot be added silently', () => {
     // Ranking better must not mean trusting more: the venue still contradicts.
-    for (const c of [coachella, pier48]) {
-      const r = scoreCandidate(ticket, fromBandsintown(c, 'Kaskade'));
-      expect(r.confidence).toBe(0.55);
-      expect(r.confidence).toBeLessThan(AUTO_ADD_THRESHOLD);
-      expect(r.reasons).toContain('venue contradicts — capped');
-    }
+    const r = scoreCandidate(ticket, fromBandsintown(pier48, 'Kaskade'));
+    expect(r.confidence).toBe(0.55);
+    expect(r.confidence).toBeLessThan(AUTO_ADD_THRESHOLD);
+    expect(r.reasons).toContain('venue contradicts — capped');
+  });
+
+  it('drops a different venue two days away: that is another tour stop', () => {
+    /*
+     * This used to be capped at 0.55 and offered as a suggestion. Real cards
+     * showed what that looks like: a ticket for Odd Mob at The Midway on Jan 1
+     * "best matched" a Honolulu club on Jan 3. Right artist, wrong show.
+     */
+    const r = scoreCandidate(ticket, fromBandsintown(coachella, 'Kaskade'));
+    expect(r.confidence).toBe(0);
+    expect(r.reasons.join(' ')).toContain('another show');
+  });
+
+  it('drops a different venue in a different city even on the same day', () => {
+    const elsewhere = past('Some Other Hall', 'Honolulu', '2026-04-17T20:00:00');
+    const r = scoreCandidate({ ...ticket, city: 'San Francisco' }, fromBandsintown(elsewhere, 'Kaskade'));
+    expect(r.confidence).toBe(0);
   });
 
   it('keeps the uncapped scores far enough apart to be a real signal', () => {

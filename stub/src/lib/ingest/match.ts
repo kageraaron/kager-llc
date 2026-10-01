@@ -271,8 +271,12 @@ export function scoreCandidate(ticket: ParsedTicket, c: CatalogCandidate): Score
 
   const want = msOrNull(ticket.startsAt ?? null);
   const got = msOrNull(c.startsAt);
+  let differentDay = false;
   if (want !== null && got !== null) {
     const hoursApart = Math.abs(want - got) / 3_600_000;
+    // 36h, not 24: an email's zone-less local time against a provider's real
+    // instant can read as a day apart when it is the same night.
+    differentDay = hoursApart > 36;
     // Same calendar day is a full point; decays to zero across two days. The
     // slack absorbs emails that give a local date with no timezone.
     const s = hoursApart <= 24 ? 1 : Math.max(0, 1 - (hoursApart - 24) / 48);
@@ -290,11 +294,13 @@ export function scoreCandidate(ticket: ParsedTicket, c: CatalogCandidate): Score
     venueContradicts = s < VENUE_CONTRADICTION;
   }
 
+  let differentCity = false;
   if (ticket.city && c.city) {
     const s = similarity(ticket.city, c.city);
     score += s * 0.08;
     weight += 0.08;
     reasons.push(`city ${(s * 100).toFixed(0)}%`);
+    differentCity = s < 0.5;
   }
 
   // Renormalize so a ticket missing a field is not punished for it, but cap the
@@ -318,6 +324,23 @@ export function scoreCandidate(ticket: ParsedTicket, c: CatalogCandidate): Score
    * candidate still surfaces as a review suggestion; it just cannot be applied
    * silently. It also lets the cascade keep going and find the real show.
    */
+  /*
+   * A contradicting venue on a DIFFERENT day, or in a different city, is not a
+   * doubtful match — it is another date on the same tour. Providers return an
+   * artist's whole run, so a ticket for
+   *
+   *   Odd Mob, The Midway, Thu Jan 1
+   *
+   * was offered "The Republik, Honolulu, Sat Jan 3" as its best match at 55%:
+   * right artist, close date, wrong everything else. The cap above exists for
+   * the festival case (same city, same day, different room), which is worth a
+   * question. This is not, so it is no match at all.
+   */
+  if (venueContradicts && (differentDay || differentCity)) {
+    reasons.push('different venue and day or city: another show');
+    return { candidate: c, confidence: 0, rawConfidence: 0, reasons };
+  }
+
   const rawConfidence = confidence;
   if (venueContradicts && confidence > CONTRADICTION_CAP) {
     confidence = CONTRADICTION_CAP;
@@ -412,9 +435,18 @@ async function jambaseCandidates(ticket: ParsedTicket): Promise<CatalogCandidate
   const want = msOrNull(ticket.startsAt ?? null);
   const day = (ms: number) => new Date(ms).toISOString().slice(0, 10);
 
+  /*
+   * JamBase's Developer plan only answers for today onwards: a start date in
+   * the past is a 400 ("Pass expandPastEvents=true on a Pro+ plan") that still
+   * counts as a request against the monthly allowance. So a past show never
+   * asks at all, and a window that straddles today starts today.
+   */
+  const now = Date.now();
+  if (want !== null && want + DATE_SLACK_MS < now) return [];
+
   const { events } = await jambase.searchEvents({
     artistName: keyword,
-    startDate: want !== null ? day(want - DATE_SLACK_MS) : undefined,
+    startDate: want !== null ? day(Math.max(want - DATE_SLACK_MS, now)) : day(now),
     endDate: want !== null ? day(want + DATE_SLACK_MS) : undefined,
     perPage: 40,
   });
@@ -592,7 +624,12 @@ function byConfidence(a: ScoredMatch, b: ScoredMatch): number {
   return b.confidence - a.confidence || b.rawConfidence - a.rawConfidence;
 }
 
-function decide(scored: ScoredMatch[]): Omit<MatchResult, 'consulted'> {
+/** Below this a candidate is not worth showing as a suggestion at all. */
+const SUGGEST_FLOOR = 0.4;
+
+function decide(all: ScoredMatch[]): Omit<MatchResult, 'consulted'> {
+  // "No match found" is a better answer than a wrong show to dismiss.
+  const scored = all.filter((s) => s.confidence >= SUGGEST_FLOOR);
   const best = scored[0] ?? null;
   if (!best) return { best: null, autoAdd: false, alternatives: [] };
 

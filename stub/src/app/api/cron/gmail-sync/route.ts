@@ -48,6 +48,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   }
 
+  // `?days=120`: re-read that many days of mail instead of only what is new.
+  const daysParam = Number(request.nextUrl.searchParams.get('days'));
+  const backfillDays = Number.isInteger(daysParam) && daysParam > 0 && daysParam <= 3650 ? daysParam : null;
+
   const admin = createAdminClient();
   const { data: accounts, error } = await admin
     .from('email_accounts')
@@ -73,7 +77,12 @@ export async function GET(request: NextRequest) {
       let messageIds: string[] = [];
       let nextHistoryId: string | null = null;
 
-      if (account.history_id) {
+      if (backfillDays) {
+        // An explicit re-read (`?days=`): after an extractor fix, to pick up
+        // mail older than the usual 30-day window. The cursor is left alone.
+        messageIds = await listMessageIds(access_token, buildTicketQuery(backfillDays), 1500);
+        nextHistoryId = account.history_id;
+      } else if (account.history_id) {
         const history = await listHistorySince(access_token, account.history_id);
         if (history.expired) {
           // Cursor too old: fall back to a bounded full re-scan.
@@ -103,8 +112,11 @@ export async function GET(request: NextRequest) {
           else if (outcome.status === 'needs_review') counts.review++;
           else if (outcome.status === 'error') counts.errors++;
           else counts.skipped++;
-        } catch {
+          if (outcome.status === 'error') console.error('gmail-sync: ingest failed', outcome.message.slice(0, 200));
+        } catch (err) {
           counts.errors++;
+          // Counted silently before, which hid a whole class of failure.
+          console.error('gmail-sync: message failed', err instanceof Error ? err.message.slice(0, 200) : err);
         }
       }
 

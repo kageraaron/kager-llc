@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { runExtractors } from '@/lib/ingest/extractors';
-import { leadingAct, billedAct } from '@/lib/ingest/extractors/vendors';
+import { leadingAct, billedAct, lineupHeadliner, isSportsTitle } from '@/lib/ingest/extractors/vendors';
 import { cleanArtistName } from '@/lib/ingest/extractors/heuristics';
 import { normalizeEmail, contentHash, stripForwardHeaders } from '@/lib/ingest/normalize';
 import {
@@ -30,6 +30,17 @@ import {
   tixrSingleNight,
   tixrPartyBilling,
   tixrMultiActBilling,
+  tixrLongLineup,
+  stubhubConcert,
+  stubhubFootball,
+  stubhubSold,
+  viagogoOrder,
+  axsResale,
+  axsFestivalOrder,
+  axsDelivered,
+  axsDeliveredRaw,
+  retailOrderUnknownShop,
+  ferryBookingJsonLd,
 } from './fixtures/emails';
 
 const run = (raw: Parameters<typeof normalizeEmail>[0]) => runExtractors(normalizeEmail(raw));
@@ -615,5 +626,129 @@ describe('Tixr bills the act after the colon', () => {
     expect(billedAct('Lightning in a Bottle 2027')).toBeUndefined();
     expect(billedAct('Fresh Start Afters: Odd Mob')).toBe('Odd Mob');
     expect(leadingAct('Weezer: Voyage To The Blue Planet Tour')).toBe('Weezer');
+  });
+});
+
+describe('Tixr lineup title longer than the subject guard allows', () => {
+  const t = () => runExtractors(normalizeEmail(tixrLongLineup))?.ticket;
+
+  it('is recognised as a ticket at all', () => {
+    // Eleven words: the generic guard read it as a sentence, so there was no
+    // name, the title line was never found, and no date was ever read.
+    expect(t()).toBeTruthy();
+    expect(t()!.eventName).toBe('NORTH ATLAS SOUND [DJ SET], MARLOW B2B JUNE HARTE + more');
+  });
+
+  it('reads the venue and the year-less date under the title', () => {
+    expect(t()!.venueName).toBe('Harbor Warehouse');
+    // Sent 1 Oct 2026, show "Sun Jan 3" -> January 2027.
+    expect(t()!.startsAt).toBe('2027-01-03T16:00:00');
+  });
+
+  it('takes the first act as the headliner, without its qualifier', () => {
+    expect(t()!.artistName?.toLowerCase()).toBe('north atlas sound');
+    expect(lineupHeadliner('Tyler, The Creator')).toBeUndefined();
+    expect(lineupHeadliner('Cash Cash')).toBeUndefined();
+    expect(lineupHeadliner('Act One, Act Two, Act Three')).toBe('Act One');
+  });
+});
+
+describe('Resale marketplaces (StubHub, viagogo)', () => {
+  it('reads a StubHub concert order', () => {
+    const t = runExtractors(normalizeEmail(stubhubConcert))!.ticket;
+    expect(t).toMatchObject({
+      artistName: 'North Atlas Sound',
+      venueName: 'Harbor Hall',
+      city: 'San Francisco',
+      startsAt: '2026-11-13T20:00:00',
+      ticketRef: '600000001',
+      ticketQuantity: 2,
+    });
+  });
+
+  it('does not keep a football game: sport is not a show', () => {
+    expect(runExtractors(normalizeEmail(stubhubFootball))).toBeNull();
+    expect(isSportsTitle('Riverton Hawks at Bayside Bears Football')).toBe(true);
+    expect(isSportsTitle('Warriors vs. Lakers')).toBe(true);
+    expect(isSportsTitle('Hamdi at The Regency Ballroom')).toBe(false);
+    expect(isSportsTitle('Fred again.. with special guests')).toBe(false);
+  });
+
+  it('ignores seller-side StubHub mail', () => {
+    expect(runExtractors(normalizeEmail(stubhubSold))).toBeNull();
+  });
+
+  it('reads a viagogo order with its 24-hour time', () => {
+    const t = runExtractors(normalizeEmail(viagogoOrder))!.ticket;
+    expect(t).toMatchObject({
+      artistName: 'June Harte',
+      venueName: 'Harbor Hall',
+      startsAt: '2026-12-19T20:00:00',
+      ticketRef: '600000004',
+      ticketQuantity: 2,
+    });
+  });
+});
+
+describe('AXS resale purchase', () => {
+  it('reads the one-sentence layout with its MM-DD-YY date', () => {
+    const t = runExtractors(normalizeEmail(axsResale))!.ticket;
+    expect(t).toMatchObject({
+      artistName: 'North Atlas Sound',
+      venueName: 'Bayside Arena',
+      city: 'Oakland',
+      startsAt: '2025-11-14T20:00:00',
+      ticketQuantity: 3,
+    });
+  });
+});
+
+describe('AXS festival passes', () => {
+  it('does not date a festival by the day the order was placed', () => {
+    // The order email has no event date; reading "6/2/2026 3:54 PM" as the
+    // show put a September festival in June.
+    expect(runExtractors(normalizeEmail(axsFestivalOrder))).toBeNull();
+  });
+
+  it('reads the event, first day and venue from the delivered email', () => {
+    const t = runExtractors(normalizeEmail(axsDelivered))!.ticket;
+    expect(t).toMatchObject({
+      eventName: 'Harborlight 2026',
+      venueName: 'Dock 12',
+      city: 'San Francisco',
+      startsAt: '2026-09-26T13:00:00',
+    });
+  });
+
+  it('reads it with CRLF endings, blank lines and a single date', () => {
+    const t = runExtractors(normalizeEmail(axsDeliveredRaw))!.ticket;
+    expect(t).toMatchObject({
+      artistName: 'North Atlas Sound & Guests',
+      venueName: 'Bayside Arena',
+      startsAt: '2026-09-26T22:00:00',
+    });
+  });
+});
+
+describe('things that are not shows', () => {
+  it('rejects a retail order whose only "venue" is a sentence', () => {
+    expect(runExtractors(normalizeEmail(retailOrderUnknownShop))).toBeNull();
+  });
+
+  it('rejects a ferry booking marked up as an event', () => {
+    expect(runExtractors(normalizeEmail(ferryBookingJsonLd))).toBeNull();
+  });
+
+  it('still reads a real concert from the same markup', () => {
+    const concert = {
+      ...ferryBookingJsonLd,
+      html: ferryBookingJsonLd.html!
+        .replace('Northport ➔ Seal Island with Harbor Line', 'North Atlas Sound')
+        .replace('"Event"', '"MusicEvent"'),
+    };
+    expect(runExtractors(normalizeEmail(concert))?.ticket).toMatchObject({
+      eventName: 'North Atlas Sound',
+      startsAt: '2026-06-26T08:15:00',
+    });
   });
 });
