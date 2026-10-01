@@ -13,6 +13,7 @@ export function PushToggle({ vapidPublicKey }: { vapidPublicKey: string | null }
   const [state, setState] = useState<'loading' | 'unsupported' | 'off' | 'on' | 'denied'>('loading');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [tested, setTested] = useState<string | null>(null);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -78,6 +79,22 @@ export function PushToggle({ vapidPublicKey }: { vapidPublicKey: string | null }
     }
   }
 
+  /** Push to this person's own devices, to prove delivery end to end. */
+  async function sendTest() {
+    setBusy(true);
+    setTested(null);
+    try {
+      const res = await fetch('/api/push/test', { method: 'POST' });
+      const json = (await res.json()) as { sent?: number; error?: string };
+      if (!res.ok) throw new Error(json.error ?? 'Test failed');
+      setTested(json.sent ? `Sent to ${json.sent} device${json.sent === 1 ? '' : 's'}. It should arrive in a few seconds.` : 'No devices to send to.');
+    } catch (err) {
+      setTested(err instanceof Error ? err.message : 'Test failed');
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function disable() {
     setBusy(true);
     try {
@@ -128,10 +145,16 @@ export function PushToggle({ vapidPublicKey }: { vapidPublicKey: string | null }
         </button>
       )}
       {state === 'on' && (
-        <button className="btn btn-block" disabled={busy} onClick={disable}>
-          Turn off
-        </button>
+        <div className="row">
+          <button className="btn" style={{ flex: 1 }} disabled={busy} onClick={sendTest}>
+            Send a test
+          </button>
+          <button className="btn" style={{ flex: 1 }} disabled={busy} onClick={disable}>
+            Turn off
+          </button>
+        </div>
       )}
+      {tested && <p className="fine">{tested}</p>}
 
       {error && <p className="error" style={{ margin: 0 }}>{error}</p>}
     </div>

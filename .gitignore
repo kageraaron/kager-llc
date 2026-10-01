@@ -12,3 +12,6 @@ build/
 
 # networth (household finance) — never commit aggregator tokens
 networth/.env*
+
+# Private runbook: personal and infrastructure details, never pushed.
+/HANDOFF.md

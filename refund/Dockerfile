@@ -1,4 +1,4 @@
-# Refund, self-hosted. Built on the box and run behind Caddy at refund.example.org.
+# Refund, self-hosted: built on the home server and run behind a reverse proxy.
 #
 # NEXT_PUBLIC_* values are inlined into the client bundle at BUILD time, so
 # they are build args, not runtime env. Everything secret is runtime-only and
@@ -15,6 +15,8 @@ ARG NEXT_PUBLIC_SUPABASE_URL
 ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
 ARG NEXT_PUBLIC_SITE_URL
 ARG NEXT_PUBLIC_COOKIE_DOMAIN
+ARG NEXT_PUBLIC_COOKIE_NAME
+ARG NEXT_PUBLIC_STUB_URL
 ENV NEXT_TELEMETRY_DISABLED=1
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .

@@ -135,8 +135,16 @@ describe('policies', () => {
   });
 });
 
-describe('round trips', () => {
-  it('splits at the longest gap', () => {
+describe('trip legs', () => {
+  it('splits legs at gaps over 12 hours (multi-city too)', () => {
+    const { legs, back } = splitLegs([
+      { from: 'MCO', to: 'PHL', departs: '2026-11-24T12:00:00Z' },
+      { from: 'PHL', to: 'SFO', departs: '2026-11-28T15:00:00Z' },
+    ]);
+    expect(legs.length).toBe(2);
+    expect(back.map((s) => s.to)).toEqual(['SFO']);
+  });
+  it('keeps connections in one leg', () => {
     const { out, back } = splitLegs([
       { from: 'SFO', to: 'DEN', departs: '2026-11-20T08:00:00Z' },
       { from: 'DEN', to: 'JFK', departs: '2026-11-20T12:00:00Z' },
@@ -159,5 +167,33 @@ describe('email roles (from real subjects)', () => {
     expect(emailRole('Trip on hold - GHZXBP')).toBe('update');
     expect(emailRole('AAdvantage® login verification')).toBe('other');
     expect(emailRole('Your Account Summary—Stay Near the Action')).toBe('other');
+  });
+});
+
+import { pacingDays } from '@/lib/budget';
+import { nextCheckAt } from '@/lib/schedule';
+
+describe('SerpApi pacing', () => {
+  it('runs daily when the budget covers it, and stretches when it does not', () => {
+    expect(pacingDays(100, 10, 5)).toBe(1);        // 10/day available, 5 needed
+    expect(pacingDays(100, 10, 25)).toBe(2.5);     // 10/day available, 25 needed
+    expect(pacingDays(0, 10, 5)).toBe(Infinity);   // nothing left this month
+  });
+
+  it('checks flights daily until departure, stretched only by pacing', () => {
+    const now = new Date('2026-10-01T12:00:00Z');
+    const p = { purchased_at: '2026-09-01T12:00:00Z', deadline_at: '2026-10-20T16:00:00Z', details: { fare_brand: 'Main Cabin' } };
+    const day = (d: Date | null) => (d!.getTime() - now.getTime()) / 86_400_000;
+    expect(day(nextCheckAt(policyFor('delta')!, p, now, 1))).toBe(1);
+    expect(day(nextCheckAt(policyFor('delta')!, p, now, 3))).toBe(3);
+    // Far out: twice the pace.
+    expect(day(nextCheckAt(policyFor('delta')!, { ...p, deadline_at: '2027-03-01T00:00:00Z' }, now, 2))).toBe(4);
+  });
+
+  it('never spends searches on fares that cannot be claimed', () => {
+    const now = new Date('2026-10-01T12:00:00Z');
+    const basic = { purchased_at: '2026-09-01T12:00:00Z', deadline_at: '2026-10-20T16:00:00Z', details: { fare_brand: 'Basic Economy' } };
+    expect(nextCheckAt(policyFor('delta')!, basic, now)).toBeNull();
+    expect(nextCheckAt(policyFor('hotel')!, { ...basic, details: { refundable: false } }, now)).toBeNull();
   });
 });

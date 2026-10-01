@@ -1,4 +1,6 @@
 import 'server-only';
+import type { Db } from '@/lib/db';
+import { claimSerpCall } from '@/lib/budget';
 
 /**
  * SerpApi's Google Flights and Google Hotels engines: the same prices a person
@@ -11,9 +13,11 @@ import 'server-only';
 
 const BASE = 'https://serpapi.com/search.json';
 
-async function serp<T>(params: Record<string, string | number | undefined>): Promise<T> {
+async function serp<T>(db: Db, params: Record<string, string | number | undefined>): Promise<T> {
   const key = process.env.SERPAPI_KEY;
   if (!key) throw new Error('SERPAPI_KEY is not set');
+  // Every search spends the monthly budget; this throws BudgetExhausted when it's gone.
+  await claimSerpCall(db);
   const qs = new URLSearchParams({ api_key: key, hl: 'en', gl: 'us', currency: 'USD' });
   for (const [k, v] of Object.entries(params)) if (v !== undefined) qs.set(k, String(v));
   const res = await fetch(`${BASE}?${qs}`);
@@ -48,25 +52,41 @@ interface SerpBookingResponse {
 }
 
 const norm = (s?: string) => (s ?? '').replace(/\s+/g, '').toUpperCase();
-const segKey = (s: Segment) => norm(`${s.carrier ?? ''}${s.flight ?? ''}`);
+/**
+ * "AA" + "2529", "AA" + "AA 2529" and SerpApi's "AA 2529" all mean the same
+ * flight: carrier plus the digits. Real airline markup puts the carrier in
+ * `flightNumber` about half the time.
+ */
+const segKey = (s: Segment) => {
+  const carrier = norm(s.carrier);
+  const flight = norm(s.flight);
+  return flight.startsWith(carrier) ? flight : `${carrier}${flight}`;
+};
+const optionKey = (f: { flight_number?: string }) => norm(f.flight_number);
 
-/** Split a round trip at the longest gap between departures. */
-export function splitLegs(segments: Segment[]): { out: Segment[]; back: Segment[] } {
+const HOUR = 3_600_000;
+
+/**
+ * Split a booking into legs: a new leg starts wherever the gap between one
+ * departure and the next is over 12 hours (a connection is shorter). One leg is
+ * a one-way, two legs ending where they began a round trip, anything else a
+ * multi-city trip (e.g. MCO→PHL, then PHL→SFO four days later).
+ */
+export function splitLegs(segments: Segment[]): { out: Segment[]; back: Segment[]; legs: Segment[][] } {
   const segs = [...segments].sort((a, b) => (a.departs ?? '').localeCompare(b.departs ?? ''));
-  const roundTrip = segs.length > 1 && segs[0].from && segs[0].from === segs[segs.length - 1].to;
-  if (!roundTrip) return { out: segs, back: [] };
-  let cut = 1;
-  let gap = -1;
-  for (let i = 1; i < segs.length; i++) {
-    const g = new Date(segs[i].departs ?? 0).getTime() - new Date(segs[i - 1].departs ?? 0).getTime();
-    if (g > gap) { gap = g; cut = i; }
+  const legs: Segment[][] = [];
+  for (const s of segs) {
+    const prev = legs.at(-1)?.at(-1);
+    const gap = prev ? new Date(s.departs ?? 0).getTime() - new Date(prev.departs ?? 0).getTime() : Infinity;
+    if (!prev || gap > 12 * HOUR) legs.push([s]);
+    else legs.at(-1)!.push(s);
   }
-  return { out: segs.slice(0, cut), back: segs.slice(cut) };
+  return { out: legs[0] ?? [], back: legs.length === 2 ? legs[1] : [], legs };
 }
 
 function findOption(options: SerpFlightOption[], leg: Segment[]): SerpFlightOption | undefined {
   const want = leg.map(segKey).join('|');
-  return options.find((o) => o.flights.map((f) => norm(f.flight_number)).join('|') === want);
+  return options.find((o) => o.flights.map(optionKey).join('|') === want);
 }
 
 const travelClass = (brand?: string) =>
@@ -89,34 +109,48 @@ export interface FlightQuote {
  * already enough to say "no drop".
  */
 export async function quoteFlights(
+  db: Db,
   segments: Segment[],
   opts: { passengers: number; fareBrand?: string; paidCents: number },
 ): Promise<FlightQuote> {
-  const { out, back } = splitLegs(segments);
-  if (!out.length || !out[0].from || !out[out.length - 1].to || !out[0].departs) {
+  const { legs } = splitLegs(segments);
+  const ends = (leg: Segment[]) => ({ from: leg[0]?.from, to: leg[leg.length - 1]?.to, date: leg[0]?.departs?.slice(0, 10) });
+  if (!legs.length || legs.some((l) => { const e = ends(l); return !e.from || !e.to || !e.date; })) {
     return { matched: false, note: 'Missing airports or dates' };
   }
-  const base = {
+  const first = ends(legs[0]);
+  const last = ends(legs[legs.length - 1]);
+  const roundTrip = legs.length === 2 && first.from === last.to && first.to === last.from;
+  const base: Record<string, string | number | undefined> = {
     engine: 'google_flights',
-    departure_id: out[0].from,
-    arrival_id: out[out.length - 1].to,
-    outbound_date: out[0].departs.slice(0, 10),
-    return_date: back[0]?.departs?.slice(0, 10),
-    type: back.length ? 1 : 2,
     travel_class: travelClass(opts.fareBrand),
     adults: opts.passengers,
+    ...(legs.length === 1
+      ? { type: 2, departure_id: first.from, arrival_id: first.to, outbound_date: first.date }
+      : roundTrip
+        ? { type: 1, departure_id: first.from, arrival_id: first.to, outbound_date: first.date, return_date: last.date }
+        : {
+            type: 3,
+            multi_city_json: JSON.stringify(legs.map((l) => {
+              const e = ends(l);
+              return { departure_id: e.from, arrival_id: e.to, date: e.date };
+            })),
+          }),
   };
 
-  const first = await serp<SerpFlightsResponse>(base);
-  let option = findOption([...(first.best_flights ?? []), ...(first.other_flights ?? [])], out);
-  if (!option) return { matched: false, note: 'Outbound flights not found in today’s results' };
-
-  if (back.length) {
-    if (!option.departure_token) return { matched: false, note: 'No return options for this outbound' };
-    const returns = await serp<SerpFlightsResponse>({ ...base, departure_token: option.departure_token });
-    option = findOption([...(returns.best_flights ?? []), ...(returns.other_flights ?? [])], back);
-    if (!option) return { matched: false, note: 'Return flights not found in today’s results' };
+  // Walk the legs: each response lists options for the next leg; pick the
+  // exact flights, then follow its departure_token to the leg after.
+  let option: SerpFlightOption | undefined;
+  for (let i = 0; i < legs.length; i++) {
+    const page: SerpFlightsResponse = await serp<SerpFlightsResponse>(
+      db,
+      i === 0 ? base : { ...base, departure_token: option!.departure_token },
+    );
+    option = findOption([...(page.best_flights ?? []), ...(page.other_flights ?? [])], legs[i]);
+    if (!option) return { matched: false, note: `Leg ${i + 1} flights not found in today’s results` };
+    if (i < legs.length - 1 && !option.departure_token) return { matched: false, note: `No onward options after leg ${i + 1}` };
   }
+  if (!option) return { matched: false, note: 'No flights' };
 
   const cheapest = option.price != null ? Math.round(option.price * 100) : undefined;
   if (cheapest == null) return { matched: false, note: 'No price shown' };
@@ -124,7 +158,7 @@ export async function quoteFlights(
 
   // Looks lower. Is it the same fare type, or just Basic Economy?
   if (!option.booking_token) return { matched: false, totalCents: cheapest, note: 'Couldn’t check the fare type' };
-  const booking = await serp<SerpBookingResponse>({ ...base, booking_token: option.booking_token });
+  const booking = await serp<SerpBookingResponse>(db, { ...base, booking_token: option.booking_token });
   const owned = (opts.fareBrand ?? '').toLowerCase();
   const ownedIsBasic = /basic/.test(owned);
   const fares = (booking.booking_options ?? [])
@@ -150,14 +184,14 @@ interface SerpHotelsResponse {
 const hotelKey = (s?: string) => (s ?? '').toLowerCase().replace(/[^a-z0-9]/g, '');
 
 /** Lowest total for the same property and dates. Room type isn't matched, so alerts say "about". */
-export async function quoteHotel(stay: {
+export async function quoteHotel(db: Db, stay: {
   property: string;
   city?: string;
   check_in: string;
   check_out: string;
   adults?: number;
 }): Promise<{ matched: boolean; totalCents?: number; note?: string }> {
-  const data = await serp<SerpHotelsResponse>({
+  const data = await serp<SerpHotelsResponse>(db, {
     engine: 'google_hotels',
     q: [stay.property, stay.city].filter(Boolean).join(' '),
     check_in_date: stay.check_in.slice(0, 10),

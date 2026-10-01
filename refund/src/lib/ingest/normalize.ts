@@ -47,7 +47,7 @@ const FORWARDED_DATE = /^\s*Date:\s*(.+)$/im;
  * Without this, forwards are invisible to the pipeline: every vendor extractor
  * keys off the sender domain, and a forward arrives from a personal address.
  * A real case that failed — a Ticketmaster confirmation forwarded from a
- * spouse's Gmail — matched nothing at all.
+ * household member's Gmail — matched nothing at all.
  *
  * Only the sender and subject are rewritten; the body already contains the
  * original content.

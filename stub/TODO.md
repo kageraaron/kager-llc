@@ -11,9 +11,9 @@ Ordered by what blocks what. **§1 is the only section that blocks sharing it.**
 | | |
 |---|---|
 | **Deployed** | `stub-two.vercel.app`, commit `8d497ee`, READY. Every route 200, no 5xx. Per-deployment URLs are SSO-walled, see §1.6 |
-| **Prod DB** | `biichwtrfmrdgiqtvxme`, all **22** migrations applied |
+| **Prod DB** | `<prod-project-ref>`, all **22** migrations applied |
 | **Prod keys** | `RAPID_API_KEY` and `PARSE_API_KEY` both set. Bandsintown is live on the next deploy |
-| **Dev DB** | `syrsjdreydgblrwpalyw`, seeded, all **22** migrations |
+| **Dev DB** | `<dev-project-ref>`, seeded, all **22** migrations |
 | **Tests** | **271** offline passing; live suites for queries, geocode, Spotify concerts, Spotify Web API, Eventbrite |
 | **Providers wired** | **Eventbrite**, Ticketmaster, JamBase, Spotify/RapidAPI, Bandsintown/Parse, setlist.fm, MusicBrainz, Nominatim |
 | **Email vendors parsed** | Ticketmaster, AXS, DICE, Eventbrite, See Tickets/Eventim, Frontgate, **TicketWeb**, **SeatGeek**, **Tixr**, Etix |
@@ -34,7 +34,7 @@ left) · backfill provider dedupe over existing rows (§5.12).
 ### 1.1 ~~The test accounts are a live backdoor~~ — **RESOLVED**
 
 **Done 2026-08-28**, and **live since 2026-08-29.** Production project
-`biichwtrfmrdgiqtvxme` (`stub-prod`) was provisioned with schema only — no seed,
+`<prod-project-ref>` (`stub-prod`) was provisioned with schema only — no seed,
 so the `stubdemo123` accounts exist nowhere in production.
 
 **Current production state (2026-08-29):** 2 users · 2 events · 10 artists ·
@@ -47,13 +47,13 @@ so the `stubdemo123` accounts exist nowhere in production.
   inbound address all auto-created, then deleted. Confirms the `0006`
   `search_path` fix — without it every signup raises 42883.
 
-Dev project `syrsjdreydgblrwpalyw` keeps the seed so `npm run test:live` works.
+Dev project `<dev-project-ref>` keeps the seed so `npm run test:live` works.
 
 <details><summary>Original issue</summary>
 
 `supabase/seed.sql` creates five real accounts with the password `stubdemo123`.
-**The repo is PUBLIC** (`kageraaron/kager-llc`), so that password is readable by
-anyone on the internet, and project `syrsjdreydgblrwpalyw` currently contains
+**The repo is PUBLIC** , so that password is readable by
+anyone on the internet, and project `<dev-project-ref>` currently contains
 those accounts.
 
 The moment the app is deployed to a public URL, `demo@stub.local` /
@@ -86,7 +86,7 @@ another in Testing with `gmail.readonly`. That would need two separate projects.
 | Publishing status | **Testing** |
 | Scopes | `openid`, `email`, `profile`, `gmail.readonly` |
 | User cap | **100**, and every user must be on the test-user list |
-| Sign-in client redirect URI | `https://biichwtrfmrdgiqtvxme.supabase.co/auth/v1/callback` |
+| Sign-in client redirect URI | `https://<prod-project-ref>.supabase.co/auth/v1/callback` |
 | Gmail client redirect URI | `https://stub-two.vercel.app/api/connect/gmail/callback` |
 
 Note the two redirect URIs point at different hosts: sign-in goes through
@@ -1357,7 +1357,7 @@ row and a Spotify row added a week apart still duplicate. A backfill pass over
 ### Still to do
 
 - [x] `PARSE_API_KEY` into Vercel Production — **done 2026-08-29**.
-- [x] Migration `0014` applied to prod (`biichwtrfmrdgiqtvxme`) — **done
+- [x] Migration `0014` applied to prod (`<prod-project-ref>`) — **done
       2026-08-29**, ahead of the deploy that ships the provider. Verified: the
       three `bandsintown_id` columns exist, all three uniques are real
       `pg_constraint` rows rather than partial indexes (the `0013` trap), and

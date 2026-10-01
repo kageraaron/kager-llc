@@ -6,6 +6,7 @@ import { bestBuyPrices } from '@/lib/pricing/bestbuy';
 import { quoteFlights, quoteHotel, splitLegs, type Segment } from '@/lib/pricing/serpapi';
 import { notifyOnce } from '@/lib/push';
 import { formatMoney } from '@/lib/format';
+import { BudgetExhausted, CALLS_PER_CHECK, SERPAPI_CAP, pacingDays, serpUsage } from '@/lib/budget';
 
 /**
  * The scheduled job: price checks, drop alerts, deadline reminders, expiry.
@@ -31,6 +32,8 @@ interface PurchaseRow {
 }
 
 export interface CheckResult {
+  paceDays?: number | null;
+  budgetExhausted?: boolean;
   checked: number;
   alerts: number;
   reminders: number;
@@ -51,30 +54,53 @@ export async function runChecks(admin: SupabaseClient, opts: { limit?: number } 
     .select('id');
   result.expired = closed?.length ?? 0;
 
-  // 2. Price checks that are due.
+  // 2. Pace SerpApi: how far apart checks must be for the month's budget to last.
+  const { data: metered } = await admin
+    .from('purchases')
+    .select('kind')
+    .eq('status', 'watching')
+    .in('kind', ['flight', 'hotel'])
+    .not('next_check_at', 'is', null);
+  const weight = (metered ?? []).reduce((s, r) => s + CALLS_PER_CHECK[r.kind as 'flight' | 'hotel'], 0);
+  const { used } = await serpUsage(admin);
+  const monthEnd = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1));
+  const paceDays = pacingDays(SERPAPI_CAP - used, (monthEnd.getTime() - now.getTime()) / DAY, weight);
+  result.paceDays = Number.isFinite(paceDays) ? Math.round(paceDays * 10) / 10 : null;
+  let serpOut = false;
+
+  // 3. Price checks that are due, soonest deadline first so a short budget
+  // goes to the trips about to close.
   const { data: due } = await admin
     .from('purchases')
     .select('id, household_id, kind, merchant, merchant_name, purchased_at, deadline_at, total_cents, details')
     .eq('status', 'watching')
     .lte('next_check_at', now.toISOString())
-    .order('next_check_at', { ascending: true })
+    .order('deadline_at', { ascending: true, nullsFirst: false })
     .limit(opts.limit ?? 50);
 
   for (const p of (due ?? []) as PurchaseRow[]) {
+    const policy = policyFor(p.merchant);
+    const metered = policy?.priceSource === 'serpapi_flights' || policy?.priceSource === 'serpapi_hotels';
+    // Out of searches this month: leave the rest due; pacing pushes them to next month.
+    if (metered && serpOut) continue;
     try {
       const alerted = await checkOne(admin, p);
       result.checked++;
       if (alerted) result.alerts++;
     } catch (err) {
+      if (err instanceof BudgetExhausted) {
+        serpOut = true;
+        result.budgetExhausted = true;
+        continue;
+      }
       result.errors++;
       console.error('refund check failed', { purchase: p.id, err: err instanceof Error ? err.message : err });
     }
-    const policy = policyFor(p.merchant);
-    const next = policy ? nextCheckAt(policy, p) : null;
+    const next = policy ? nextCheckAt(policy, p, new Date(), metered ? paceDays : 1) : null;
     await admin.from('purchases').update({ next_check_at: next?.toISOString() ?? null }).eq('id', p.id);
   }
 
-  // 3. Reminders for windows Refund can't price-check, and "closing soon" for all.
+  // 4. Reminders for windows Refund can't price-check, and "closing soon" for all.
   result.reminders = await sendReminders(admin, now);
   return result;
 }
@@ -118,7 +144,7 @@ async function checkOne(admin: SupabaseClient, p: PurchaseRow): Promise<boolean>
   if (policy.priceSource === 'serpapi_flights') {
     const d = p.details as { segments?: Segment[]; passengers?: number; fare_brand?: string };
     const claimable = fareClaimable(policy, d, new Date(p.purchased_at));
-    const quote = await quoteFlights(d.segments ?? [], { passengers: d.passengers ?? 1, fareBrand: d.fare_brand, paidCents: p.total_cents });
+    const quote = await quoteFlights(admin, d.segments ?? [], { passengers: d.passengers ?? 1, fareBrand: d.fare_brand, paidCents: p.total_cents });
     await log({ price_cents: quote.totalCents, matched: quote.matched, note: quote.note });
     if (!quote.matched || quote.totalCents == null || !claimable.ok) return false;
     if (!worthAlerting('flight', p.total_cents, quote.totalCents, settings)) return false;
@@ -135,7 +161,7 @@ async function checkOne(admin: SupabaseClient, p: PurchaseRow): Promise<boolean>
   if (policy.priceSource === 'serpapi_hotels') {
     const d = p.details as { property?: string; city?: string; check_in?: string; check_out?: string; refundable?: boolean };
     if (!d.property || !d.check_in || !d.check_out || d.refundable === false) return false;
-    const quote = await quoteHotel({ property: d.property, city: d.city, check_in: d.check_in, check_out: d.check_out });
+    const quote = await quoteHotel(admin, { property: d.property, city: d.city, check_in: d.check_in, check_out: d.check_out });
     await log({ price_cents: quote.totalCents, matched: quote.matched, note: quote.note });
     if (!quote.matched || quote.totalCents == null) return false;
     if (!worthAlerting('flight', p.total_cents, quote.totalCents, settings)) return false;
