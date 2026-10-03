@@ -2,7 +2,7 @@
 title: "Mixing Cocaine and MDMA: The Cardiovascular Risk"
 description: "Combining cocaine and MDMA stacks two stimulants, multiplying heart strain and overheating risk. The mechanism, and how to reduce the danger."
 date: 2026-06-04
-lastmod: 2026-08-18
+lastmod: 2026-10-03
 tags: ["cocaine", "mdma", "combinations", "cardiovascular", "harm reduction"]
 author: "Jordan Mercer"
 ---
@@ -19,7 +19,7 @@ Cocaine brings risks MDMA does not. Alongside the rate and pressure increases, i
 
 ## The overheating trap
 
-Hyperthermia is the most common cause of MDMA-related death. MDMA generates extra metabolic heat while impairing the body's ability to radiate it, and cocaine independently raises body temperature and drives physical activity. In a hot, crowded venue, hours into dancing, **two stimulants push core temperature into dangerous territory faster than one**, and the stimulation hides how overheated and exhausted you already are.
+Hyperthermia is the most common cause of MDMA-related death. MDMA generates extra metabolic heat while impairing the body's ability to radiate it, and cocaine independently raises body temperature and drives physical activity. In a hot, crowded venue, hours into dancing, **two stimulants push core temperature into dangerous territory faster than one**, and the stimulation hides how overheated and exhausted you already are. Cocaine also delays sweating and blunts how hot you feel, which we cover in [does sweating make your high last longer](/blog/does-sweating-make-your-high-last-longer.html).
 
 The signs are specific: you stop sweating despite being hot, confusion, a pounding heart, feeling faint. Those are emergencies. Our [MDMA and alcohol guide](/blog/mdma-and-alcohol.html) covers the hyperthermia and hydration detail, which applies here too.
 

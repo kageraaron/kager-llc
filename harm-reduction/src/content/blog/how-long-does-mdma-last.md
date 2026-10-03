@@ -2,7 +2,7 @@
 title: "How Long Does a Molly High Last?"
 description: "Main effects run 3 to 5 hours, peaking at 1.5 to 2.5. The full onset-to-comedown timeline, and what actually changes the duration."
 date: 2026-05-15
-lastmod: 2026-08-17
+lastmod: 2026-10-03
 tags: ["mdma", "molly", "ecstasy", "harm reduction", "duration", "timeline"]
 author: "Jordan Mercer"
 ---
@@ -33,7 +33,7 @@ Sleep is its own problem. Most people cannot sleep for 4 to 8 hours after effect
 
 ## Redosing does not do what people think
 
-A second dose taken 90 minutes or more into the experience adds roughly **1.5 to 2 hours of effects, not another 4 to 5**. Serotonin stores are already depleted, so there is not enough substrate left to reproduce the first wave.
+A second dose adds **about an hour, not another 4 to 5**. A 2026 randomized trial in Basel gave 120 mg followed by a 60 mg booster at two hours: effects lasted 5.6 hours on average against 4.6 for the single dose, with no higher peak, while blood levels ended the night above the single dose's peak. The brain builds tolerance within hours, so there is not enough left to reproduce the first wave. The full evidence is in [why redosing stops working](/blog/why-mdma-redosing-stops-working.html).
 
 Each redose also worsens the next day roughly in proportion to how much extra you took.
 

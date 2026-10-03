@@ -2,7 +2,7 @@
 title: "MDMA Dosage Guide: What Is a Safe Dose of Molly?"
 description: "Clinical trial doses, the weight-based rule and its real limits, and why non-linear pharmacokinetics make a higher dose riskier than the number suggests."
 date: 2026-05-14
-lastmod: 2026-08-17
+lastmod: 2026-10-03
 tags: ["mdma", "harm reduction", "dosing", "ecstasy", "drug safety"]
 author: "Jordan Mercer"
 ---
@@ -78,7 +78,7 @@ All four of these, not a selection:
 3. **Not before 90 minutes.** Peak plasma concentration lands around 1.5 to 2 hours after an oral dose. Redosing earlier stacks on top of a first dose that is still rising.
 4. **Remember MDA.** MDMA partly metabolises into MDA, which has a longer half-life and peaks later. When you redose, MDA from the first dose is still building, so the true pharmacological load is higher than the milligram total says.
 
-Evidence tier: harm reduction consensus, though it lines up with the trial design, where the supplemental dose was half the first and came 1.5 to 2.5 hours later.
+Evidence tier: harm reduction consensus, though it lines up with the trial design, where the supplemental dose was half the first and came 1.5 to 2.5 hours later. A 2026 trial tested that exact pattern and found it added about an hour, not a stronger peak. More in [why redosing stops working](/blog/why-mdma-redosing-stops-working.html).
 
 ## Why the same dose lands differently
 

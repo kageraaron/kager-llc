@@ -2,7 +2,7 @@
 title: "Why Didn't My Molly Work? MDMA Not Kicking In"
 description: "Molly not working? SSRIs, recent use, fake pills, and dosing all stop a roll landing. Why you didn't come up, and why redosing is dangerous."
 date: 2026-08-11
-lastmod: 2026-08-17
+lastmod: 2026-10-03
 tags: ["MDMA", "molly", "harm reduction", "redosing", "drug interactions", "drug checking"]
 author: "Jordan Mercer"
 ---
@@ -23,7 +23,7 @@ So if you feel nothing:
 
 1. Wait a full two hours before concluding anything.
 2. If you redose at all, do it once, before that two hour mark, at half the original amount or less.
-3. Still nothing after that? The night is a loss. Do not take a third dose.
+3. Still nothing after that? The night is a loss. Do not take a third dose. Tolerance builds within hours, so more MDMA adds strain faster than effect; see [why redosing stops working](/blog/why-mdma-redosing-stops-working.html).
 4. Watch anyone for hot dry skin, confusion, rigidity, or a temperature above 38°C. That is an emergency. Cool them down and call emergency services.
 
 ## SSRIs and SNRIs, the most common reason by far

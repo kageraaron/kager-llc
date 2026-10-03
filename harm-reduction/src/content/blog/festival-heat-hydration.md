@@ -2,7 +2,7 @@
 title: "Festival Heat and Hydration: How to Avoid Overheating"
 description: "Overheating is the leading cause of acute MDMA deaths. Here's the hydration guide, cooling strategies, and gear that actually helps at festivals."
 date: 2026-05-19
-lastmod: 2026-08-17
+lastmod: 2026-10-03
 tags: ["harm reduction", "mdma", "festival safety", "hydration", "overheating"]
 author: "Jordan Mercer"
 ---
@@ -63,7 +63,7 @@ If someone looks like this:
 
 How fast they are cooled is the main thing that determines how this ends.
 
-For MDMA's pharmacology and the wider risk picture, see our [MDMA harm reduction guide](/mdma.html), and for what to expect hour by hour across a night, the [MDMA timeline guide](/blog/how-long-does-mdma-last.html). Other combination questions are covered in the [FAQ](/faq.html).
+If you've heard that staying in the heat makes a roll last longer, it doesn't; we looked at the evidence in [does sweating make your high last longer](/blog/does-sweating-make-your-high-last-longer.html). For MDMA's pharmacology and the wider risk picture, see our [MDMA harm reduction guide](/mdma.html), and for what to expect hour by hour across a night, the [MDMA timeline guide](/blog/how-long-does-mdma-last.html). Other combination questions are covered in the [FAQ](/faq.html).
 
 ## Sources
 
