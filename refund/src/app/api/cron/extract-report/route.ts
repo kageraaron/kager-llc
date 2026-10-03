@@ -88,6 +88,10 @@ export async function GET(request: NextRequest) {
           airportPairs: policy.kind === 'flight' ? airports : undefined,
           stayLabels: policy.kind === 'hotel' ? /check[- ]?in/i.test(text) && /check[- ]?out/i.test(text) : undefined,
           total: parsed?.totalCents != null,
+          stay:
+            policy.kind === 'hotel' && parsed
+              ? `${parsed.merchantName} | ${parsed.details.check_in ?? '?'} to ${parsed.details.check_out ?? '?'} | ${parsed.totalCents != null ? `${(parsed.totalCents / 100).toFixed(2)} ${parsed.currency}` : 'no total'} | refundable=${parsed.details.refundable ?? '?'} | cancel by ${parsed.details.cancel_by ?? '?'} | ref=${parsed.orderRef ? 'yes' : 'no'}`
+              : undefined,
           award: (parsed?.details as { award?: boolean } | undefined)?.award === true,
           segments: ((parsed?.details as { segments?: { carrier?: string; flight?: string; from?: string; to?: string; departs?: string }[] } | undefined)?.segments ?? []).map(
             (s) => `${s.carrier ?? ''}${s.flight ?? ''} ${s.from ?? '?'}-${s.to ?? '?'} ${s.departs?.slice(0, 16) ?? '?'}`,

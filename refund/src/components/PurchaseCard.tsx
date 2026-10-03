@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { daysUntil, formatMoney } from '@/lib/format';
+import { daysUntil, formatMoney, formatPaid } from '@/lib/format';
 import type { PurchaseView } from '@/lib/view';
 
 /**
@@ -32,7 +32,7 @@ export function PurchaseCard({ p }: { p: PurchaseView }) {
           {p.order_ref && ` · ${p.order_ref}`}
         </div>
         <div className="meta">
-          Paid {formatMoney(p.total_cents)}
+          Paid {formatPaid(p.total_cents, p.details)}
           {p.nowCents != null && <> · now <span className="meta-lead">{formatMoney(p.nowCents)}</span></>}
         </div>
         {(drop > 0 || p.status === 'review' || p.saved_cents > 0) && (

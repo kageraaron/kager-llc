@@ -2,9 +2,11 @@ import { describe, expect, it } from 'vitest';
 import { looseItinerary } from '@/lib/ingest/itinerary';
 import { extractPurchase } from '@/lib/ingest/extract';
 import { policyFor } from '@/lib/policies';
-import { fillGaps, restate } from '@/lib/scan';
+import { fillGaps, restate, sameBooking } from '@/lib/scan';
 import { readFlightReceipt } from '@/lib/ingest/itinerary';
 import { emailRole } from '@/lib/ingest/extract';
+import { formatPaid } from '@/lib/format';
+import { findOption, pickFare, type SerpFlightOption } from '@/lib/pricing/serpapi';
 
 /**
  * Two layouts of one airline's itinerary, rebuilt with made-up flights. The
@@ -313,5 +315,89 @@ Traveler 1`;
 
   it('keeps the full itinerary when a later layout shows fewer legs', () => {
     expect(restate({ segments: want }, { segments: [want[1]] }).segments).toEqual(want);
+  });
+});
+
+describe('a ticket bought with miles', () => {
+  const award = receipt.replace('Total:\n$342.20 USD', 'Total Per Passenger:\n15,000 miles + 5.60 USD\nTotal:\n30,000 miles + 11.20 USD');
+
+  it('records the miles for the whole booking, and the tax as the cash part', () => {
+    const r = readFlightReceipt(award);
+    expect(r).toMatchObject({ award: true, miles: 30000 });
+  });
+
+  it('is shown as miles plus tax, not as a five-dollar flight', () => {
+    expect(formatPaid(560, { miles: 15000, award: true })).toBe('15,000 miles + $5.60');
+    expect(formatPaid(560, { award: true })).toBe('$5.60 in taxes (award ticket)');
+    expect(formatPaid(34220, {})).toBe('$342.20');
+  });
+});
+
+describe('an email with no booking reference', () => {
+  const seg = { carrier: 'UA', flight: '2416', from: 'SFO', to: 'EWR', departs: '2026-09-10T23:59:00' };
+
+  it('belongs to the booking that has the same flight on the same day', () => {
+    // Without this, every re-read of a reference-less receipt made another purchase.
+    expect(sameBooking({ segments: [seg, { ...seg, flight: '1960', departs: '2026-09-14T07:00:00' }] }, { segments: [seg] })).toBe(true);
+    expect(sameBooking({ segments: [seg] }, { segments: [{ ...seg, departs: '2026-10-10T23:59:00' }] })).toBe(false);
+    expect(sameBooking({ segments: [] }, { segments: [] })).toBe(false);
+  });
+
+  it('matches a hotel by property and first night', () => {
+    expect(sameBooking({ property: 'Harbor Suites', check_in: '2027-03-24' }, { property: 'Harbor Suites', check_in: '2027-03-24' })).toBe(true);
+    expect(sameBooking({ property: 'Harbor Suites', check_in: '2027-03-24' }, { property: 'Harbor Suites', check_in: '2027-04-01' })).toBe(false);
+  });
+});
+
+describe('finding the ticketed flight in today\'s search', () => {
+  const opt = (number: string, from: string, time: string, price = 397): SerpFlightOption => ({
+    flights: [{ flight_number: number, departure_airport: { id: from, time } }],
+    price,
+  });
+  const ticket = [{ carrier: 'UA', flight: '1331', from: 'SFO', to: 'MCO', departs: '2026-11-21T22:35:00' }];
+  const today = [opt('AS 1474', 'SFO', '2026-11-21 23:03', 374), opt('UA 2799', 'SFO', '2026-11-21 22:35'), opt('UA 743', 'SFO', '2026-11-21 12:35', 817)];
+
+  it('matches by flight number when it is there', () => {
+    expect(findOption([...today, opt('UA 1331', 'SFO', '2026-11-21 22:35', 401)], ticket)?.price).toBe(401);
+  });
+
+  it('follows a renumbered flight: same airline, same airport, same time', () => {
+    // The airline changed UA1331 to UA2799; it is still the 10:35 pm departure.
+    expect(findOption(today, ticket)?.flights[0].flight_number).toBe('UA 2799');
+  });
+
+  it('does not settle for another airline at that hour, or the same airline at another', () => {
+    expect(findOption([today[0], today[2]], ticket)).toBeUndefined();
+  });
+});
+
+describe('comparing like with like on fare type', () => {
+  // What one real itinerary listed on one day (labels as Google Flights gives them).
+  const offered = [
+    { option_title: 'Economy', price: 1039, extensions: ['Free change, possible fare difference', 'No refunds'] },
+    { option_title: 'Economy Fully Refundable', price: 1209, extensions: ['Full refunds'] },
+    { option_title: 'Economy Plus', price: 1555, extensions: ['No refunds'] },
+    { option_title: 'First Fully Refundable', price: 2433, extensions: ['Full refunds'] },
+  ];
+
+  it('prices a refundable ticket against the refundable fare', () => {
+    // Paid $1,119 refundable: this is a $90 rise, not an $80 drop.
+    expect(pickFare(offered, { basic: false, refundable: true })?.price).toBe(1209);
+  });
+
+  it('prices an ordinary ticket against the ordinary fare', () => {
+    expect(pickFare(offered, { basic: false })?.price).toBe(1039);
+    expect(pickFare(offered, { basic: false, refundable: false })?.option_title).toBe('Economy');
+  });
+
+  it('has no answer when no refundable fare is listed', () => {
+    expect(pickFare([offered[0], offered[2]], { basic: false, refundable: true })).toBeUndefined();
+  });
+
+  it('knows a refundable fare from the receipt and from the fare\'s name', () => {
+    expect(readFlightReceipt(`${receipt}\nFare Rules\nAdditional charges may apply for changes.\nREFUNDABLE\nMileagePlus Accrual Details`).refundable).toBe(true);
+    expect(readFlightReceipt(`${receipt}\nFare Rules\nNONREF/0VALUAFTDPT/CHGFEE`).refundable).toBe(false);
+    expect(readFlightReceipt(booking.replace('Fare\n$310.00', 'Break from business fare\n$310.00')).refundable).toBe(true);
+    expect(readFlightReceipt(receipt).refundable).toBeUndefined();
   });
 });

@@ -4,7 +4,7 @@ import { DOT_DELAY_MIN, fareClaimable, owedRefund, policyFor, worthAlerting } fr
 import { flightStatus } from '@/lib/providers/aerodatabox';
 import { cheapestCachedFare } from '@/lib/pricing/travelpayouts';
 import { getSettings, nextCheckAt } from '@/lib/schedule';
-import { quoteFlights, quoteHotel, splitLegs, type Segment } from '@/lib/pricing/serpapi';
+import { quoteFlights, quoteHotel, splitLegs, type Segment, amazonPrice } from '@/lib/pricing/serpapi';
 import { notifyOnce } from '@/lib/push';
 import { formatMoney } from '@/lib/format';
 import { BudgetExhausted, CALLS_PER_CHECK, SERPAPI_CAP, pacingDays, serpUsage } from '@/lib/budget';
@@ -60,11 +60,13 @@ export async function runChecks(admin: SupabaseClient, opts: { limit?: number } 
   // 2. Pace SerpApi: how far apart checks must be for the month's budget to last.
   const { data: metered } = await admin
     .from('purchases')
-    .select('kind')
+    .select('kind, merchant')
     .eq('status', 'watching')
-    .in('kind', ['flight', 'hotel'])
     .not('next_check_at', 'is', null);
-  const weight = (metered ?? []).reduce((s, r) => s + CALLS_PER_CHECK[r.kind as 'flight' | 'hotel'], 0);
+  // Only purchases with a metered price source draw on the budget (among stores, Amazon).
+  const weight = (metered ?? [])
+    .filter((r) => policyFor(r.merchant)?.priceSource)
+    .reduce((s, r) => s + CALLS_PER_CHECK[r.kind as 'flight' | 'hotel' | 'retail'], 0);
   const { used } = await serpUsage(admin);
   const monthEnd = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1));
   const paceDays = pacingDays(SERPAPI_CAP - used, (monthEnd.getTime() - now.getTime()) / DAY, weight);
@@ -83,7 +85,7 @@ export async function runChecks(admin: SupabaseClient, opts: { limit?: number } 
 
   for (const p of (due ?? []) as PurchaseRow[]) {
     const policy = policyFor(p.merchant);
-    const metered = policy?.priceSource === 'serpapi_flights' || policy?.priceSource === 'serpapi_hotels';
+    const metered = !!policy?.priceSource;
     // Out of searches this month: leave the rest due; pacing pushes them to next month.
     if (metered && serpOut) continue;
     try {
@@ -135,11 +137,31 @@ async function checkOne(admin: SupabaseClient, p: PurchaseRow): Promise<boolean>
   const log = (row: { item_id?: string; price_cents?: number; matched: boolean; note?: string }) =>
     admin.from('price_checks').insert({ purchase_id: p.id, household_id: p.household_id, source: policy.priceSource, ...row });
 
+  // ---- Amazon: each item by its ASIN, against what was paid for it.
+  if (policy.priceSource === 'serpapi_amazon') {
+    const { data: items } = await admin.from('items').select('id, title, sku, unit_price_cents, quantity').eq('purchase_id', p.id);
+    let alerted = false;
+    for (const item of (items ?? []).filter((i) => i.sku && i.unit_price_cents)) {
+      const now = await amazonPrice(admin, item.sku!);
+      await log({ item_id: item.id, price_cents: now ?? undefined, matched: now != null, note: now != null ? undefined : 'Not listed with a price on Amazon' });
+      if (now == null) continue;
+      await admin.from('items').update({ last_price_cents: now, last_checked_at: new Date().toISOString() }).eq('id', item.id);
+      if (!worthAlerting('retail', item.unit_price_cents!, now, settings)) continue;
+      const saved = (item.unit_price_cents! - now) * (item.quantity ?? 1);
+      alerted =
+        (await alertDrop(admin, p, now, saved, 500, {
+          title: `${item.title.slice(0, 40)} dropped ${formatMoney(saved)}`,
+          body: `Amazon now has it for ${formatMoney(now)}. No price adjustment there: rebuy and return the first one before ${deadlineText(p)}.`,
+        })) || alerted;
+    }
+    return alerted;
+  }
+
   if (!p.total_cents) return false;
 
   // ---- Flights: same flights, same fare type.
   if (policy.priceSource === 'serpapi_flights') {
-    const d = p.details as { segments?: Segment[]; passengers?: number; fare_brand?: string; award?: boolean };
+    const d = p.details as { segments?: Segment[]; passengers?: number; fare_brand?: string; award?: boolean; refundable?: boolean };
     // Paid in miles: the "total" is taxes, so no cash fare can undercut it and a
     // metered search would be wasted. The flight is still watched for delays.
     if (d.award) return false;
@@ -183,7 +205,7 @@ async function checkOne(admin: SupabaseClient, p: PurchaseRow): Promise<boolean>
       }
     }
 
-    const quote = await quoteFlights(admin, d.segments ?? [], { passengers: d.passengers ?? 1, fareBrand: d.fare_brand, paidCents: p.total_cents });
+    const quote = await quoteFlights(admin, d.segments ?? [], { passengers: d.passengers ?? 1, fareBrand: d.fare_brand, paidCents: p.total_cents, refundable: d.refundable });
     await log({ price_cents: quote.totalCents, matched: quote.matched, note: quote.note });
     if (!quote.matched || quote.totalCents == null || !claimable.ok) return false;
     if (!worthAlerting('flight', p.total_cents, quote.totalCents, settings)) return false;
@@ -198,9 +220,9 @@ async function checkOne(admin: SupabaseClient, p: PurchaseRow): Promise<boolean>
 
   // ---- Hotels: same property and dates, refundable only.
   if (policy.priceSource === 'serpapi_hotels') {
-    const d = p.details as { property?: string; city?: string; check_in?: string; check_out?: string; refundable?: boolean };
+    const d = p.details as { property?: string; city?: string; check_in?: string; check_out?: string; refundable?: boolean; room?: string };
     if (!d.property || !d.check_in || !d.check_out || d.refundable === false) return false;
-    const quote = await quoteHotel(admin, { property: d.property, city: d.city, check_in: d.check_in, check_out: d.check_out });
+    const quote = await quoteHotel(admin, { property: d.property, city: d.city, check_in: d.check_in, check_out: d.check_out, room: d.room });
     await log({ price_cents: quote.totalCents, matched: quote.matched, note: quote.note });
     if (!quote.matched || quote.totalCents == null) return false;
     if (!worthAlerting('flight', p.total_cents, quote.totalCents, settings)) return false;

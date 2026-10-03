@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { DISRUPTION_STEPS, fareClaimable, policyFor } from '@/lib/policies';
-import { daysUntil, formatMoney, shortDate } from '@/lib/format';
+import { daysUntil, formatMoney, formatPaid, shortDate } from '@/lib/format';
 import { purchaseTitle } from '@/lib/view';
 import type { Segment } from '@/lib/pricing/serpapi';
 import { PurchaseActions } from '@/components/Controls';
@@ -43,8 +43,14 @@ export default async function PurchasePage({ params }: { params: Promise<{ id: s
       <section className="panel">
         <div className="spread">
           <span className="muted">Paid</span>
-          <strong>{formatMoney(p.total_cents)}</strong>
+          <strong>{formatPaid(p.total_cents, p.details)}</strong>
         </div>
+        {(p.details as { award?: boolean }).award && (
+          <p className="muted" style={{ margin: '6px 0 0' }}>
+            Award ticket: there is no cash fare to drop, so prices aren’t checked. The flight is still
+            watched for delays and cancellations.
+          </p>
+        )}
         <div className="spread">
           <span className="muted">Claim window</span>
           <strong>

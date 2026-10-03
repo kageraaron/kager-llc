@@ -143,12 +143,12 @@ export function PurchaseActions(props: {
 }
 
 const MERCHANTS: [string, string][] = [
-  ['bestbuy', 'Best Buy'], ['target', 'Target'], ['costco', 'Costco'],
+  ['amazon', 'Amazon'], ['bestbuy', 'Best Buy'], ['target', 'Target'], ['costco', 'Costco'],
   ['delta', 'Delta'], ['united', 'United'], ['american', 'American'], ['alaska', 'Alaska'], ['southwest', 'Southwest'],
   ['hotel', 'Hotel'],
 ];
 const KIND: Record<string, 'retail' | 'flight' | 'hotel'> = {
-  bestbuy: 'retail', target: 'retail', costco: 'retail', hotel: 'hotel',
+  amazon: 'retail', bestbuy: 'retail', target: 'retail', costco: 'retail', hotel: 'hotel',
   delta: 'flight', united: 'flight', american: 'flight', alaska: 'flight', southwest: 'flight',
 };
 
@@ -187,13 +187,14 @@ export function AddForm() {
         </select>
       </label>
       {field('purchasedAt', 'Bought on', { type: 'date', required: true })}
-      {field('total', 'Total paid ($)', { inputMode: 'decimal', required: true })}
+      {field('total', f.merchant === 'amazon' ? 'Item price before tax ($)' : 'Total paid ($)', { inputMode: 'decimal', required: true })}
       {field('orderRef', kind === 'flight' ? 'Confirmation code' : 'Order or confirmation number')}
 
       {kind === 'retail' && (
         <>
           {field('itemTitle', 'Item', { required: true })}
           {f.merchant === 'bestbuy' && field('sku', 'Best Buy SKU (optional; on the product page)', { inputMode: 'numeric' })}
+          {f.merchant === 'amazon' && field('sku', 'Amazon product link or ASIN (lets Refund check the price)')}
         </>
       )}
 

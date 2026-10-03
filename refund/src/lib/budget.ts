@@ -8,7 +8,7 @@ import type { Db } from '@/lib/db';
 export const SERPAPI_CAP = Number(process.env.SERPAPI_MONTHLY_CAP) || 240;
 
 /** Rough searches per check: a round trip is 2 (outbound + return), plus 1 for the fare-type lookup when a drop shows. */
-export const CALLS_PER_CHECK = { flight: 2.5, hotel: 1 } as const;
+export const CALLS_PER_CHECK = { flight: 2.5, hotel: 1, retail: 1 } as const;
 
 export class BudgetExhausted extends Error {
   constructor() {

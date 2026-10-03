@@ -6,10 +6,11 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { getCurrentUser } from '@/lib/auth';
 import { getHouseholdId } from '@/lib/household';
 import { creditExpiry, creditRuleFor, deadlineFor, policyFor, returnBy, type BestBuyTier } from '@/lib/policies';
-import { getSettings, nextCheckAt } from '@/lib/schedule';
+import { getSettings } from '@/lib/schedule';
 import { savePurchase, scanAll } from '@/lib/scan';
 import { runChecks } from '@/lib/checks';
 import { toCents, type ParsedPurchase } from '@/lib/ingest/extract';
+import { asinFrom } from '@/lib/asin';
 
 /**
  * Everything the person does by hand. Writes go through the request client so
@@ -47,7 +48,9 @@ export async function confirmPurchase(id: string) {
       status: expired ? 'expired' : 'watching',
       deadline_at: deadline?.toISOString() ?? null,
       return_by: returnBy(policy, new Date(p.purchased_at), { bestbuyTier: settings.bestbuy_tier })?.toISOString() ?? null,
-      next_check_at: expired ? null : nextCheckAt(policy, { ...p, deadline_at: deadline?.toISOString() ?? null })?.toISOString() ?? null,
+      // Due now: the first price should show within the hour, not after a
+      // full pacing interval (which left newly confirmed flights blank for a day).
+      next_check_at: expired ? null : new Date().toISOString(),
       updated_at: new Date().toISOString(),
     })
     .eq('id', id);
@@ -201,7 +204,7 @@ export async function addPurchase(input: {
     totalCents: toCents(input.total),
     currency: 'USD',
     items: input.itemTitle
-      ? [{ title: input.itemTitle, sku: input.sku?.trim() || undefined, quantity: 1, unitPriceCents: toCents(input.total) }]
+      ? [{ title: input.itemTitle, sku: (policy.id === 'amazon' ? asinFrom(input.sku) : input.sku?.trim()) || undefined, quantity: 1, unitPriceCents: toCents(input.total) }]
       : [],
     details,
     confidence: 'high',

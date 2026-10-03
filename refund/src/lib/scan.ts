@@ -226,6 +226,16 @@ export async function closeCancelled(admin: SupabaseClient, householdId: string,
   return true;
 }
 
+/** Two reads describe one booking: they share a flight on a day, or a hotel's nights. */
+export function sameBooking(a: Record<string, unknown>, b: Record<string, unknown>): boolean {
+  type Seg = { carrier?: string; flight?: string; departs?: string };
+  const key = (x: Seg) => (x.carrier && x.flight && x.departs ? `${x.carrier}${x.flight}@${x.departs.slice(0, 10)}` : null);
+  const flightsA = ((a.segments as Seg[] | undefined) ?? []).map(key).filter(Boolean);
+  const flightsB = ((b.segments as Seg[] | undefined) ?? []).map(key).filter(Boolean);
+  if (flightsA.length && flightsB.some((k) => flightsA.includes(k))) return true;
+  return !!a.property && a.property === b.property && !!a.check_in && a.check_in === b.check_in;
+}
+
 export async function savePurchase(
   admin: SupabaseClient,
   policy: Policy,
@@ -244,7 +254,7 @@ export async function savePurchase(
   const deadline = deadlineFor(policy, purchasedAt, parsed.details, { bestbuyTier: settings.bestbuy_tier });
   const expired = deadline ? deadline <= new Date() : false;
 
-  const existing = parsed.orderRef
+  let existing = parsed.orderRef
     ? (
         await admin
           .from('purchases')
@@ -255,6 +265,23 @@ export async function savePurchase(
           .maybeSingle()
       ).data
     : null;
+
+  /*
+   * No reference in the email (an airline's "Thanks for your purchase" for a
+   * seat or an upgrade has none). Without one, every re-read of that email
+   * made another purchase. So find the booking it belongs to another way:
+   * the same flight on the same day, or the same hotel on the same nights.
+   */
+  if (!existing && !parsed.orderRef) {
+    const { data: candidates } = await admin
+      .from('purchases')
+      .select('id, status, total_cents, details, purchased_at')
+      .eq('household_id', who.householdId)
+      .eq('merchant', policy.id)
+      .eq('kind', parsed.kind)
+      .order('order_ref', { ascending: true, nullsFirst: false });
+    existing = (candidates ?? []).find((c) => sameBooking(c.details as Record<string, unknown>, parsed.details)) ?? null;
+  }
 
   const status = expired ? 'expired' : parsed.confidence === 'high' ? 'watching' : 'review';
   const row = {

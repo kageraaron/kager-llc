@@ -15,6 +15,7 @@ one domain, behind a private network.
 | --- | --- | --- |
 | Best Buy | 15 days (60 for Plus/Total) | none: a reminder to check |
 | Target | 14 days | none: a reminder to check |
+| Amazon | 30 days (the return window; no price adjustment) | SerpApi Amazon search, by ASIN |
 | Costco | 30 days | none: a reminder to check |
 | US airlines | until departure (Basic fares: 24 hours) | SerpApi Google Flights, same flights and fare type |
 | Refundable hotels | until free cancellation ends | SerpApi Google Hotels |

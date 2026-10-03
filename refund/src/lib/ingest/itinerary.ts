@@ -51,7 +51,10 @@ const NOT_AIRPORT = new Set(['USD', 'CAD', 'EUR', 'GBP', 'THE', 'AND', 'FOR', 'N
 const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 const pad = (n: number | string) => String(n).padStart(2, '0');
 
-function dateOn(line: string): string | undefined {
+export function dateOn(line: string): string | undefined {
+  // "15-Jan-2026", as some hotel chains print it.
+  const dashed = /\b(\d{1,2})-(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*-(\d{4})\b/i.exec(line);
+  if (dashed) return `${dashed[3]}-${pad(MONTHS.indexOf(dashed[2].toLowerCase().slice(0, 3)) + 1)}-${pad(dashed[1])}`;
   const named = /\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+(\d{1,2})(?:st|nd|rd|th)?,?\s+(\d{4})\b/i.exec(line);
   if (named) return `${named[3]}-${pad(MONTHS.indexOf(named[1].toLowerCase().slice(0, 3)) + 1)}-${pad(named[2])}`;
   const dayFirst = /\b(\d{1,2})\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?,?\s+(\d{4})\b/i.exec(line);
@@ -178,6 +181,11 @@ export interface FlightReceipt {
   fareBrand?: string;
   /** "Date of purchase", when the email states one (YYYY-MM-DD). */
   purchasedOn?: string;
+  /**
+   * A fully refundable fare. It costs more than the same seat sold
+   * non-refundable, so today's price has to be the refundable one too.
+   */
+  refundable?: boolean;
 }
 
 const cash = (line?: string): number | undefined => {
@@ -238,6 +246,20 @@ export function readFlightReceipt(text: string): FlightReceipt {
     fareBrand = 'Basic Economy';
   }
 
+  /*
+   * Refundable or not. A receipt states it outright under "Fare Rules"
+   * ("REFUNDABLE", or a NONREF code). A booking confirmation only names the
+   * fare; "Break from business" is a corporate fare this household books as
+   * fully refundable, and it was being compared with the cheapest
+   * non-refundable Economy, which reported a drop on a trip that had gone up.
+   */
+  const rulesAt = lines.findIndex((l) => /^Fare Rules:?$/i.test(l));
+  const rules = rulesAt === -1 ? [] : lines.slice(rulesAt + 1, rulesAt + 5);
+  let refundable: boolean | undefined;
+  if (rules.some((l) => /^REFUNDABLE\b/.test(l))) refundable = true;
+  else if (rules.some((l) => /\bNON-?REF/i.test(l))) refundable = false;
+  else if (lines.some((l) => /^break from business fare$/i.test(l))) refundable = true;
+
   const bought = after(/^Date of purchase:?$/i);
-  return { segments, passengers, totalCents, award, miles, fareBrand, purchasedOn: bought ? dateOn(bought) : undefined };
+  return { segments, passengers, totalCents, award, miles, fareBrand, refundable, purchasedOn: bought ? dateOn(bought) : undefined };
 }

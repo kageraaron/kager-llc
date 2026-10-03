@@ -2,6 +2,8 @@ import type { NormalizedEmail } from '@/lib/types';
 import type { Kind, Policy } from '@/lib/policies';
 import { extractJsonLdBlocks, extractLinks, htmlToText } from '@/lib/ingest/html';
 import { readFlightReceipt } from '@/lib/ingest/itinerary';
+import { readStay } from '@/lib/ingest/stay';
+import { asinFrom } from '@/lib/asin';
 
 /**
  * Turn one order or booking email into a purchase.
@@ -216,10 +218,18 @@ export function totalFromText(text: string): number | undefined {
 }
 
 export function orderRefFromText(text: string, kind: Kind): string | undefined {
-  const m =
-    text.match(/\b(?:order|confirmation|reservation|booking)\s*(?:number|no\.?|#|code)?\s*[:#]?\s*([A-Z0-9][A-Z0-9-]{4,})\b/i) ??
-    (kind === 'flight' ? text.match(/\b(?:record locator|PNR)\s*[:#]?\s*([A-Z0-9]{6})\b/i) : null);
-  return m?.[1]?.toUpperCase();
+  /*
+   * The label may be any case; the reference itself must be WRITTEN as one:
+   * capitals and digits, and either a digit in it or six characters or more.
+   * Without that, "your Order of The Stay … Early check-in" produced the
+   * order number "EARLY".
+   */
+  const all = [
+    ...text.matchAll(/\b(?:order|confirmation|reservation|booking)\s*(?:number|no\.?|n°|#|code|id)?\s*(?:is)?\s*[:#]?\s*([A-Za-z0-9][A-Za-z0-9_-]{4,})\b/gi),
+    ...(kind === 'flight' ? text.matchAll(/\b(?:record locator|PNR)\s*[:#]?\s*([A-Za-z0-9]{6})\b/gi) : []),
+  ];
+  const ref = all.map((m) => m[1]).find((r) => r === r.toUpperCase() && (/\d/.test(r) || r.length >= 6));
+  return ref;
 }
 
 export function fareBrandFromText(text: string): string | undefined {
@@ -249,19 +259,24 @@ function skuFromUrl(url?: string): string | undefined {
  * "What to know about your trip to…" emails per trip, each carrying the
  * confirmation number, and every one became a bogus purchase.
  */
+/** Amazon orders under this total are not tracked. */
+export const AMAZON_MIN_CENTS = 5000;
+
 export type EmailRole = 'purchase' | 'update' | 'schedule' | 'cancelled' | 'other';
 
 export function emailRole(subject: string): EmailRole {
   const s = subject.toLowerCase();
   // The trip no longer exists: nothing left to watch.
-  if (/\b(cancellation is complete|(flight|trip|reservation|booking) (has been |was |is )?cancel+ed|received a future flight credit)\b/.test(s)) return 'cancelled';
+  if (/\b(cancellation is complete|(flight|trip|reservation|booking) (has been |was |is )?cancel+ed|reservation cancel+ation|cancel+ed booking|received a future flight credit)\b/.test(s)) return 'cancelled';
+  // A hotel confirming, or re-confirming after a change: "Your reservation at X is confirmed."
+  if (/\breservation (at|for) .{2,80} (is confirmed|has been (modified|updated|changed))|\bconfirmation of your reservation\b|\byour reservation number is\b/.test(s)) return 'purchase';
   // The airline moved the flights: what is on the purchase is now wrong.
   if (/\b(schedule .{0,40}changed|schedule change|itinerary (has )?changed|flight change)\b/.test(s)) return 'schedule';
   // Bought something ON a trip, not the trip: its total is not the fare.
   if (/\b(seat purchase|seat (change|assignment)|upgrade (confirmation|request)|bag(gage)? purchase)\b/.test(s)) return 'update';
   if (/\b(sale|deals?|% off|offer|save up to|sign up|survey|review your|account summary|login|verification|verify|password|terms|update to|newsletter)\b/.test(s)) return 'other';
   if (/\b(what to know|reminder|check[- ]?in|upcoming|get ready|on hold|shipped|on its way|out for delivery|delivered|ready for pickup|plan for your|before you go)\b/.test(s)) return 'update';
-  if (/\b(order (confirmation|confirmed|received|#|number)|thanks? (you )?for (your )?(order|purchase|booking)|receipt|booking (confirmation|confirmed|is confirmed)|reservation (confirmation|confirmed)|trip confirmation|e-?ticket|itinerary and receipt|you'?re booked|your order|purchase confirmation|confirmation (#|number))\b/.test(s)) return 'purchase';
+  if (/\b(order (confirmation|confirmed|received|#|number)|thanks? (you )?for (your )?(order|purchase|booking)|receipt|booking (confirmation|confirmed|is confirmed)|reservation (confirmation|confirmed)|trip confirmation|e-?ticket|itinerary and receipt|you'?re booked|your order|purchase confirmation|confirmation (#|number))\b/.test(s) || /^\s*ordered:/.test(s)) return 'purchase';
   return 'other';
 }
 
@@ -312,29 +327,45 @@ export function extractPurchase(email: NormalizedEmail, policy: Policy): ParsedP
     .filter(Boolean)
     .join('\n');
   const flight = policy.kind === 'flight' ? readFlightReceipt(body) : null;
+  const stay = policy.kind === 'hotel' ? readStay(body, email.subject, email.receivedAt) : null;
   const segments = flight?.segments ?? [];
   const orderRef = orderRefFromText(body, policy.kind) ?? orderRefFromText(email.subject, policy.kind);
-  const totalCents = flight?.totalCents ?? totalFromText(body);
-  if (!orderRef && !totalCents && segments.length === 0) return null;
+  const totalCents = flight?.totalCents ?? stay?.totalCents ?? totalFromText(body);
+  if (!orderRef && !totalCents && segments.length === 0 && !stay?.checkIn) return null;
+  // A hotel "purchase" with no property and no nights is not a booking.
+  if (stay && !stay.property && !stay.checkIn) return null;
 
   // "Date of purchase" beats the email's own date: a receipt re-sent after a
   // seat change or an upgrade is dated weeks after the ticket was bought.
   const purchasedAt =
     flight?.purchasedOn && flight.purchasedOn !== email.receivedAt.slice(0, 10) ? `${flight.purchasedOn}T20:00:00.000Z` : email.receivedAt;
 
-  const skus = policy.id === 'bestbuy'
-    ? [...new Set(extractLinks(email.html).map(skuFromUrl).filter(Boolean))] as string[]
-    : [];
+  const skus = (
+    policy.id === 'bestbuy'
+      ? [...new Set(extractLinks(email.html).map(skuFromUrl).filter(Boolean))]
+      : policy.id === 'amazon'
+        ? [...new Set(extractLinks(email.html).map((u) => asinFrom(u)).filter(Boolean))].slice(0, 6)
+        : []
+  ) as string[];
+
+  // Amazon sends a confirmation for every bar of soap. Only an order big
+  // enough that a price drop would matter is worth a card and a reminder.
+  if (policy.id === 'amazon' && (!totalCents || totalCents < AMAZON_MIN_CENTS)) return null;
 
   return {
     kind: policy.kind,
     merchant: policy.id,
-    merchantName: policy.name,
+    merchantName: stay?.property ?? policy.name,
     orderRef,
     purchasedAt,
     totalCents,
-    currency: 'USD',
-    items: skus.map((sku) => ({ title: `SKU ${sku}`, sku, quantity: 1 })),
+    currency: stay?.currency ?? 'USD',
+    // Amazon's subject quotes the item: Ordered: "<item name>…"
+    items: skus.map((sku, i) => ({
+      title: (policy.id === 'amazon' && i === 0 && /["“](.{3,120}?)["”]/.exec(email.subject)?.[1]) || `SKU ${sku}`,
+      sku,
+      quantity: 1,
+    })),
     details:
       policy.kind === 'flight'
         ? {
@@ -345,9 +376,18 @@ export function extractPurchase(email: NormalizedEmail, policy: Policy): ParsedP
             // Paid in miles: the cash total is taxes, and a fare drop means nothing.
             ...(flight!.award ? { award: true } : {}),
             ...(flight!.miles ? { miles: flight!.miles } : {}),
+            ...(flight!.refundable !== undefined ? { refundable: flight!.refundable } : {}),
           }
         : policy.kind === 'hotel'
-          ? { refundable: refundableFromText(body) }
+          ? {
+              property: stay!.property,
+              city: stay!.city,
+              room: stay!.room,
+              check_in: stay!.checkIn,
+              check_out: stay!.checkOut,
+              refundable: stay!.refundable ?? refundableFromText(body),
+              cancel_by: stay!.cancelBy,
+            }
           : {},
     confidence: 'low',
   };

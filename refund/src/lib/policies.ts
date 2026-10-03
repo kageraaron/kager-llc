@@ -14,7 +14,7 @@ export type Kind = 'retail' | 'flight' | 'hotel';
 export type BestBuyTier = 'standard' | 'plus' | 'total';
 
 /** How Refund learns today's price, if it can at all. */
-export type PriceSource = 'serpapi_flights' | 'serpapi_hotels' | null;
+export type PriceSource = 'serpapi_flights' | 'serpapi_hotels' | 'serpapi_amazon' | null;
 
 export interface Policy {
   id: string;
@@ -93,6 +93,33 @@ export const POLICIES: Policy[] = [
     source: 'https://www.bestbuy.com/site/help-topics/price-match-guarantee/pcmcat290300050002.c?id=pcmcat290300050002',
   },
   {
+    /*
+     * Amazon gives nothing back when its price drops. What it does have is a
+     * return window, so the "claim" is to buy again at the lower price and
+     * send the first one back. The window watched here is that return window.
+     */
+    id: 'amazon',
+    name: 'Amazon',
+    kind: 'retail',
+    senderDomains: ['amazon.com'],
+    priceSource: 'serpapi_amazon',
+    window: '30 days (Amazon’s return window; there is no price adjustment)',
+    comesBackAs: 'Nothing automatically: you rebuy at the lower price and return the first one',
+    claimSteps: [
+      'Amazon does not refund the difference when its own price drops.',
+      'If the drop is worth the trouble: order it again at the new price, then return the first one from Your Orders → Return or replace items.',
+      'Check that the return is free before you do: it usually is for items sold by Amazon, not always for other sellers or very large items.',
+      'Or ask Amazon’s chat for a courtesy credit of the difference. It is at their discretion.',
+    ],
+    claimUrl: 'https://www.amazon.com/returns',
+    returns: {
+      days: 30,
+      note: '30 days from delivery for most items. Holiday purchases have had a longer window in past years. Verify on the order itself.',
+      source: 'Secondary sources; verify at amazon.com/returns',
+    },
+    source: 'Amazon has no price-adjustment policy; verify at amazon.com/returns',
+  },
+  {
     id: 'target',
     name: 'Target',
     kind: 'retail',
@@ -160,6 +187,8 @@ export const POLICIES: Policy[] = [
     senderDomains: [
       'marriott.com', 'hilton.com', 'hyatt.com', 'ihg.com', 'email.ihg.com',
       'booking.com', 'hotels.com', 'expedia.com', 'wyndhamhotels.com', 'choicehotels.com',
+      // Chains send reservations from domains that are not their website's.
+      'res-marriott.com', 'email-marriott.com', 'all.com', 'accor.com', 'radissonhotels.com', 'super.com',
     ],
     priceSource: 'serpapi_hotels',
     window: 'Until the free-cancellation deadline (refundable rates only)',
@@ -208,6 +237,9 @@ export function deadlineFor(
       return new Date(purchasedAt.getTime() + 30 * DAY);
     case 'target':
       return new Date(purchasedAt.getTime() + 14 * DAY);
+    case 'amazon':
+      // The return window runs from delivery; from purchase is the safe side of that.
+      return new Date(purchasedAt.getTime() + 30 * DAY);
     case 'bestbuy':
       return new Date(purchasedAt.getTime() + (opts.bestbuyTier && opts.bestbuyTier !== 'standard' ? 60 : 15) * DAY);
   }
