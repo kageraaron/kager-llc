@@ -2,6 +2,7 @@
 title: "Nitazenes: Dangers, Testing, and Naloxone Facts"
 description: "Nitazenes are potent synthetic opioids in fake pills and powders. Fentanyl strips miss them, nitazene strips are imperfect, and naloxone still works."
 date: 2026-09-14
+lastmod: 2026-10-08
 tags: ["nitazenes", "synthetic opioids", "counterfeit pills", "naloxone", "drug checking", "harm reduction"]
 author: "Jordan Mercer"
 ---
@@ -28,7 +29,7 @@ They spread because they are cheap to make and easy to ship. Most reach buyers t
 
 ## What the death data actually shows
 
-**United States.** Confirmed nitazene deaths in CDC's State Unintentional Drug Overdose Reporting System went from 27 in 2020 to 409 in 2024, with more than 1,100 confirmed since 2019 and researchers estimating the true total nearer 2,000. Ohio accounts for over a third of all positive nitazene lab reports, with Florida second.
+**United States.** Confirmed nitazene deaths in CDC's State Unintentional Drug Overdose Reporting System went from 27 in 2020 to 409 in 2024, with more than 1,100 confirmed since 2019 and researchers estimating the true total nearer 2,000. Ohio accounts for over a third of all positive nitazene lab reports, with Florida second. Seized-drug data tell a similar story: nitazene reports to the DEA's national forensic lab system rose from 43 in 2019 to 1,905 in 2024, though the count levelled off after 2021. The mix also shifted from isotonitazene toward metonitazene and protonitazene, and 98% of nitazene-positive biological samples contained at least one other drug, most often fentanyl ([PMID 41785913](https://pubmed.ncbi.nlm.nih.gov/41785913/)).
 
 **United Kingdom.** The Office for National Statistics recorded **195 deaths involving nitazenes in England and Wales in 2024**, up from 52 in 2023. A King's College London analysis found coroners judged nitazenes to be a cause in 90 percent of 285 reported deaths, and that the real count is probably higher: nitazenes break down in post-mortem blood samples, so some deaths get missed entirely ([PMID 41655595](https://pubmed.ncbi.nlm.nih.gov/41655595/)).
 
@@ -86,4 +87,4 @@ Nitazenes are a moving family of potent opioids that mostly kill people who did 
 
 ## Sources
 
-[PMID 40422647](https://pubmed.ncbi.nlm.nih.gov/40422647/) | [PMID 37658878](https://pubmed.ncbi.nlm.nih.gov/37658878/) | [PMID 35149665](https://pubmed.ncbi.nlm.nih.gov/35149665/) | [PMID 41655595](https://pubmed.ncbi.nlm.nih.gov/41655595/) | [PMID 41477999](https://pubmed.ncbi.nlm.nih.gov/41477999/) | [PMID 39437833](https://pubmed.ncbi.nlm.nih.gov/39437833/) | [PMID 40810707](https://pubmed.ncbi.nlm.nih.gov/40810707/) | [PMID 42392847](https://pubmed.ncbi.nlm.nih.gov/42392847/) | [PMID 39198843](https://pubmed.ncbi.nlm.nih.gov/39198843/) | [PMID 40783738](https://pubmed.ncbi.nlm.nih.gov/40783738/) | [PMID 38057832](https://pubmed.ncbi.nlm.nih.gov/38057832/) | [PMID 40694369](https://pubmed.ncbi.nlm.nih.gov/40694369/) | [STAT News on CDC SUDORS nitazene data, June 2026](https://www.statnews.com/2026/06/18/nitazenes-deadly-synthetic-opioids-rapid-spread-united-states/) | [ONS drug poisoning deaths, 2024 registrations](https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/bulletins/deathsrelatedtodrugpoisoninginenglandandwales/2024registrations)
+[PMID 40422647](https://pubmed.ncbi.nlm.nih.gov/40422647/) | [PMID 41785913](https://pubmed.ncbi.nlm.nih.gov/41785913/) | [PMID 37658878](https://pubmed.ncbi.nlm.nih.gov/37658878/) | [PMID 35149665](https://pubmed.ncbi.nlm.nih.gov/35149665/) | [PMID 41655595](https://pubmed.ncbi.nlm.nih.gov/41655595/) | [PMID 41477999](https://pubmed.ncbi.nlm.nih.gov/41477999/) | [PMID 39437833](https://pubmed.ncbi.nlm.nih.gov/39437833/) | [PMID 40810707](https://pubmed.ncbi.nlm.nih.gov/40810707/) | [PMID 42392847](https://pubmed.ncbi.nlm.nih.gov/42392847/) | [PMID 39198843](https://pubmed.ncbi.nlm.nih.gov/39198843/) | [PMID 40783738](https://pubmed.ncbi.nlm.nih.gov/40783738/) | [PMID 38057832](https://pubmed.ncbi.nlm.nih.gov/38057832/) | [PMID 40694369](https://pubmed.ncbi.nlm.nih.gov/40694369/) | [STAT News on CDC SUDORS nitazene data, June 2026](https://www.statnews.com/2026/06/18/nitazenes-deadly-synthetic-opioids-rapid-spread-united-states/) | [ONS drug poisoning deaths, 2024 registrations](https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/bulletins/deathsrelatedtodrugpoisoninginenglandandwales/2024registrations)

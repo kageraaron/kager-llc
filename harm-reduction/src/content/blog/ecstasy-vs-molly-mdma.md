@@ -2,7 +2,7 @@
 title: "Ecstasy vs Molly: What's Actually in Pressed Pills"
 description: "Ecstasy is pressed tablets, molly is powder, and neither word is a purity claim. What drug checking finds in both, and how to test before you take it."
 date: 2026-05-15
-lastmod: 2026-08-17
+lastmod: 2026-10-08
 tags: ["mdma", "ecstasy", "harm reduction", "drug testing", "adulterants"]
 author: "Jordan Mercer"
 ---
@@ -58,7 +58,7 @@ The useful part: N-ethyl pentylone does not give MDMA's reagent results. A Marqu
 
 Morefield and colleagues, publishing in *Addiction* in 2011, analysed pill content alongside the plasma concentrations that resulted and confirmed that appearance predicts nothing. Same logo, same colour, same size, dramatically different MDMA content.
 
-European pill monitoring shows average content climbing, with some tablets over 300 mg. **A 300 mg pill is two to three times a moderate recreational dose.** Swallowing a whole one on the assumption it holds a normal dose, then redosing at 45 minutes because nothing has happened yet, is the standard route into an emergency department.
+European pill monitoring shows average content climbing, with some tablets over 300 mg. **A 300 mg pill is well above even the higher doses given in clinical trials (120 mg plus a 60 mg booster).** Swallowing a whole one on the assumption it holds a normal dose, then redosing at 45 minutes because nothing has happened yet, is the standard route into an emergency department.
 
 **Half a pill, then wait 90 minutes** is the minimum precaution with any tablet you have not had lab tested.
 

@@ -2,7 +2,7 @@
 title: "Rave Packing List: Festival Harm Reduction"
 description: "What to pack for a rave, what to test before you leave the house, and which of the most important items are free. Built around what actually goes wrong."
 date: 2026-05-12
-lastmod: 2026-08-18
+lastmod: 2026-10-08
 tags: ["harm reduction", "festivals", "drug checking", "safety", "packing list"]
 author: "Jordan Mercer"
 ---
@@ -39,7 +39,7 @@ Hearing damage belongs on the list too, though it never sends anyone to the medi
 
 On-site checking exists at some festivals, but coverage is patchy and lines are long. Testing at home leaves you time to act on a bad result instead of standing in a field deciding whether to throw something away.
 
-[Fentanyl test strips](/fentanyl-strips) come first, for any powder or pill regardless of what it was sold as. Fentanyl has been confirmed in MDMA, cocaine, ketamine and pressed pills. **One line is POSITIVE, fentanyl detected. Two lines is NEGATIVE, none detected.** That reads backwards to most people, so check it twice. A positive is a reason not to use, never a reason to use less. Strips are single use, one per sample, so buy more than you think you need.
+[Fentanyl test strips](/fentanyl-strips) come first, for any powder or pill regardless of what it was sold as. Fentanyl has been confirmed in MDMA, cocaine, ketamine and pressed pills. Three years of wastewater sampling around a major Las Vegas EDM festival found MDMA at nearly 100 times its non-festival level at the downstream treatment plant, with fentanyl's metabolite also turning up in some samples from the festival site itself ([PMID 42710006](https://pubmed.ncbi.nlm.nih.gov/42710006/)). **One line is POSITIVE, fentanyl detected. Two lines is NEGATIVE, none detected.** That reads backwards to most people, so check it twice. A positive is a reason not to use, never a reason to use less. Strips are single use, one per sample, so buy more than you think you need.
 
 Then a reagent kit matched to what you have. The [MDMA kit](/mdma-kit) carries Marquis, the two-part Simon's and Froehde, and Simon's earns its place because it separates MDMA from MDA. The [cocaine](/cocaine-kit), [LSD](/lsd-kit) and [ketamine](/ketamine-kit) kits each ship with a starter fentanyl strip, single use like any other. Several different substances is what the [complete set](/kits) is for.
 
@@ -106,3 +106,4 @@ For substance-specific guidance, see our [MDMA guide](/mdma.html), [cocaine guid
 ## Sources
 
 - Effectiveness of earplugs in preventing recreational noise-induced hearing loss: a randomized clinical trial. *JAMA Otolaryngology Head and Neck Surgery*, 2016. [PMID 27054284](https://pubmed.ncbi.nlm.nih.gov/27054284/)
+- Multiyear wastewater monitoring of high-risk substances surrounding an annual electronic dance music festival, Las Vegas, Nevada, 2023-2025. *JMIR Public Health and Surveillance*, 2026. [PMID 42710006](https://pubmed.ncbi.nlm.nih.gov/42710006/)

@@ -1,6 +1,6 @@
 ---
-title: "Do Party Drugs Hurt Your Gut? MDMA, Psychedelics and Ketamine"
-description: "Most of your serotonin lives in your gut, so MDMA and psychedelics hit it during the night. Ketamine's gut damage is slower, comes from regular use, and has nothing to do with serotonin."
+title: "Do Party Drugs Hurt Your Gut? MDMA, Shrooms, Ketamine"
+description: "Most of your serotonin lives in your gut, so MDMA and psychedelics hit it during the night. Ketamine's gut damage is slower and comes from regular use."
 date: 2026-10-05
 tags: ["harm reduction", "mdma", "psilocybin", "lsd", "ketamine", "gut health", "nausea"]
 author: "Jordan Mercer"

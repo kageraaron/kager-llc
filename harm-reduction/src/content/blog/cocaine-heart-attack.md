@@ -2,7 +2,7 @@
 title: "Cocaine Heart Attack Risk in Young, Healthy People"
 description: "Cocaine can trigger a heart attack in the first hour after use, even with clean arteries. The mechanisms, and what to do about chest pain."
 date: 2026-08-11
-lastmod: 2026-08-18
+lastmod: 2026-10-08
 tags: ["cocaine", "cardiovascular", "harm reduction", "chest pain", "emergency"]
 author: "Jordan Mercer"
 ---
@@ -29,6 +29,8 @@ The American Heart Association's scientific statement on cocaine-associated ches
 You do not have to settle that argument. You have to hand the team the facts so they can, because they cannot weigh a risk they do not know is there.
 
 Most US states have Good Samaritan laws protecting you from possession charges when you seek emergency help, though coverage varies. More to the point: hospitals are not law enforcement. Clinicians ask because the answer changes the treatment, and what you tell them is protected health information.
+
+Scale matters here. In a European emergency network covering 59,571 drug-related presentations, cocaine was the drug most strongly tied to cardiovascular symptoms (odds ratio 3.19), and patients who had them faced roughly 16 times the odds of dying ([PMID 42334445](https://pubmed.ncbi.nlm.nih.gov/42334445/)). Chest pain is the signal worth acting on.
 
 ## Clean arteries, closing anyway
 
@@ -76,4 +78,4 @@ For more, see the [cocaine harm reduction guide](/cocaine.html) and our post on 
 
 ## Sources
 
-[PMID 10351966](https://pubmed.ncbi.nlm.nih.gov/10351966/) | [PMID 11157713](https://pubmed.ncbi.nlm.nih.gov/11157713/) | [PMID 7614278](https://pubmed.ncbi.nlm.nih.gov/7614278/) | [PMID 2573838](https://pubmed.ncbi.nlm.nih.gov/2573838/) | [PMID 2358608](https://pubmed.ncbi.nlm.nih.gov/2358608/) | [PMID 10814631](https://pubmed.ncbi.nlm.nih.gov/10814631/) | [PMID 1832090](https://pubmed.ncbi.nlm.nih.gov/1832090/) | [PMID 24717541](https://pubmed.ncbi.nlm.nih.gov/24717541/) | [PMID 24758161](https://pubmed.ncbi.nlm.nih.gov/24758161/) | [PMID 15795348](https://pubmed.ncbi.nlm.nih.gov/15795348/) | [PMID 18815938](https://pubmed.ncbi.nlm.nih.gov/18815938/) | [PMID 11927528](https://pubmed.ncbi.nlm.nih.gov/11927528/) | [PMID 24835037](https://pubmed.ncbi.nlm.nih.gov/24835037/) | [PMID 36000306](https://pubmed.ncbi.nlm.nih.gov/36000306/) | [PMID 33298746](https://pubmed.ncbi.nlm.nih.gov/33298746/) | [PMID 37826988](https://pubmed.ncbi.nlm.nih.gov/37826988/) | [PMID 18347214](https://pubmed.ncbi.nlm.nih.gov/18347214/) | [PMID 12563578](https://pubmed.ncbi.nlm.nih.gov/12563578/) | [PMID 1971166](https://pubmed.ncbi.nlm.nih.gov/1971166/) | [PMID 17583376](https://pubmed.ncbi.nlm.nih.gov/17583376/) | [PMID 20498415](https://pubmed.ncbi.nlm.nih.gov/20498415/) | [PMID 28399647](https://pubmed.ncbi.nlm.nih.gov/28399647/)
+[PMID 10351966](https://pubmed.ncbi.nlm.nih.gov/10351966/) | [PMID 11157713](https://pubmed.ncbi.nlm.nih.gov/11157713/) | [PMID 7614278](https://pubmed.ncbi.nlm.nih.gov/7614278/) | [PMID 2573838](https://pubmed.ncbi.nlm.nih.gov/2573838/) | [PMID 2358608](https://pubmed.ncbi.nlm.nih.gov/2358608/) | [PMID 10814631](https://pubmed.ncbi.nlm.nih.gov/10814631/) | [PMID 1832090](https://pubmed.ncbi.nlm.nih.gov/1832090/) | [PMID 24717541](https://pubmed.ncbi.nlm.nih.gov/24717541/) | [PMID 24758161](https://pubmed.ncbi.nlm.nih.gov/24758161/) | [PMID 15795348](https://pubmed.ncbi.nlm.nih.gov/15795348/) | [PMID 18815938](https://pubmed.ncbi.nlm.nih.gov/18815938/) | [PMID 11927528](https://pubmed.ncbi.nlm.nih.gov/11927528/) | [PMID 24835037](https://pubmed.ncbi.nlm.nih.gov/24835037/) | [PMID 36000306](https://pubmed.ncbi.nlm.nih.gov/36000306/) | [PMID 33298746](https://pubmed.ncbi.nlm.nih.gov/33298746/) | [PMID 37826988](https://pubmed.ncbi.nlm.nih.gov/37826988/) | [PMID 18347214](https://pubmed.ncbi.nlm.nih.gov/18347214/) | [PMID 12563578](https://pubmed.ncbi.nlm.nih.gov/12563578/) | [PMID 1971166](https://pubmed.ncbi.nlm.nih.gov/1971166/) | [PMID 17583376](https://pubmed.ncbi.nlm.nih.gov/17583376/) | [PMID 20498415](https://pubmed.ncbi.nlm.nih.gov/20498415/) | [PMID 28399647](https://pubmed.ncbi.nlm.nih.gov/28399647/) | [PMID 42334445](https://pubmed.ncbi.nlm.nih.gov/42334445/)

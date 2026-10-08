@@ -2,6 +2,7 @@
 title: "Cychlorphine: Dangers and How to Protect Yourself"
 description: "Cychlorphine is a new synthetic opioid in fake pills and powders that fentanyl strips miss. What it does, why it kills, and how to protect yourself."
 date: 2026-09-14
+lastmod: 2026-10-08
 tags: ["cychlorphine", "synthetic opioids", "counterfeit pills", "naloxone", "drug checking", "harm reduction"]
 author: "Jordan Mercer"
 ---
@@ -31,6 +32,8 @@ By May 2026, the UN Office on Drugs and Crime counted **10 countries reporting i
 ## Why it is so dangerous
 
 **It is an opioid you did not know you were taking.** In the first published hospital case, a woman in her 20s took what she believed was alprazolam (Xanax). She was found unresponsive and not breathing adequately. Her initial urine drug screen was **negative for opiates and fentanyl**, and only advanced lab testing identified cychlorphine, alongside the designer benzodiazepine bromazolam ([PMID 42481906](https://pubmed.ncbi.nlm.nih.gov/42481906/)). That case is the pattern to worry about: a fake pill, no opioid tolerance, and a routine test that finds nothing.
+
+The first population data show the same mismatch at scale. In a 2026 urine toxicology study of 112 people who inject drugs in Estonia, a third said they had used fentanyl, nitazenes or other synthetic opioids, but lab testing rarely confirmed that. Instead, half of them had cychlorphine in their urine, and nearly one in five participants overall tested positive for it ([PMID 42785038](https://pubmed.ncbi.nlm.nih.gov/42785038/)). People believed they knew which opioid they were taking, and most of them were wrong. It is one small study in one city, but it is the clearest evidence yet that cychlorphine is replacing other opioids without the people using them knowing.
 
 **The potency is high and unpredictable.** The 10-times-fentanyl estimate comes from in vitro (cell-based) receptor work shared by the Ghent University group as a personal communication and cited in CFSRE's alert. It is not yet published, and receptor potency in a dish does not translate cleanly to a human dose. What is published is the closest relative: in a 2024 study of the orphine family, chlorphine was among the strongest activators of the mu-opioid receptor and caused some of the most pronounced breathing depression in mice ([PMID 39154855](https://pubmed.ncbi.nlm.nih.gov/39154855/)). Those mice received 15 mg/kg by injection into the abdomen, a dose chosen to measure effects, not to model street use. Cychlorphine is chlorphine with an added chemical group, so this tells us the family is dangerous. It does not give us cychlorphine's exact strength.
 
@@ -83,4 +86,4 @@ Cychlorphine is an opioid that fentanyl test strips cannot see, most often hidde
 
 ## Sources
 
-[PMID 42481906](https://pubmed.ncbi.nlm.nih.gov/42481906/) | [PMID 39154855](https://pubmed.ncbi.nlm.nih.gov/39154855/) | [PMID 38057832](https://pubmed.ncbi.nlm.nih.gov/38057832/) | [PMID 40810707](https://pubmed.ncbi.nlm.nih.gov/40810707/) | [PMID 42392847](https://pubmed.ncbi.nlm.nih.gov/42392847/) | [PMID 41507112](https://pubmed.ncbi.nlm.nih.gov/41507112/) | [CFSRE Public Alert, January 2026](https://www.cfsre.org/nps-discovery/public-alerts/increase-in-fatal-overdoses-linked-to-novel-synthetic-opioid-n-propionitrile-chlorphine-cychlorphine) | [UNODC Early Warning Advisory, May 2026](https://www.unodc.org/LSS/Announcement/Details/9403c3d1-12b9-49ac-8604-7da583d38d3b)
+[PMID 42481906](https://pubmed.ncbi.nlm.nih.gov/42481906/) | [PMID 42785038](https://pubmed.ncbi.nlm.nih.gov/42785038/) | [PMID 39154855](https://pubmed.ncbi.nlm.nih.gov/39154855/) | [PMID 38057832](https://pubmed.ncbi.nlm.nih.gov/38057832/) | [PMID 40810707](https://pubmed.ncbi.nlm.nih.gov/40810707/) | [PMID 42392847](https://pubmed.ncbi.nlm.nih.gov/42392847/) | [PMID 41507112](https://pubmed.ncbi.nlm.nih.gov/41507112/) | [CFSRE Public Alert, January 2026](https://www.cfsre.org/nps-discovery/public-alerts/increase-in-fatal-overdoses-linked-to-novel-synthetic-opioid-n-propionitrile-chlorphine-cychlorphine) | [UNODC Early Warning Advisory, May 2026](https://www.unodc.org/LSS/Announcement/Details/9403c3d1-12b9-49ac-8604-7da583d38d3b)

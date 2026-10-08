@@ -2,7 +2,7 @@
 title: "MDMA and Your Period: What Changes on Your Cycle"
 description: "Does your period change how MDMA hits? Cycle phase, hyponatremia risk in women, body temperature, cramps, iron loss and birth control, explained."
 date: 2026-08-11
-lastmod: 2026-08-18
+lastmod: 2026-10-08
 tags: ["MDMA", "menstrual cycle", "hyponatremia", "harm reduction", "women's health"]
 author: "Jordan Mercer"
 ---
@@ -55,7 +55,7 @@ If your periods are heavy and you routinely feel flattened for days afterward, a
 
 ## The protocol
 
-- **Dose by body weight,** roughly 1 to 1.5 mg/kg, and skip the redose. See our [MDMA dosing guide](/blog/mdma-dosing-guide.html).
+- **Take less, and skip the redose.** The sex difference above means the same amount tends to hit harder. See [MDMA dose safety](/blog/mdma-dosing-guide.html).
 - **Cap plain water at about 500 mL per hour** while actively dancing, and much less if you are sitting down. Thirst on MDMA is not a reliable signal.
 - **Make some of that volume a drink with real sodium in it,** not flavored water. You are replacing what you sweat out, and plain water alone is what causes the problem.
 - **Cool down instead of hydrating** when you overheat. Water is not a temperature control.

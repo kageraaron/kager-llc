@@ -2,7 +2,7 @@
 title: "How Long Does a Molly High Last?"
 description: "Main effects run 3 to 5 hours, peaking at 1.5 to 2.5. The full onset-to-comedown timeline, and what actually changes the duration."
 date: 2026-05-15
-lastmod: 2026-10-03
+lastmod: 2026-10-08
 tags: ["mdma", "molly", "ecstasy", "harm reduction", "duration", "timeline"]
 author: "Jordan Mercer"
 ---
@@ -43,7 +43,7 @@ If you are going to redose anyway: once, at half the original dose or less, befo
 
 ## What actually changes the duration
 
-**Dose is the biggest lever.** 75 mg may run 3 hours where 150 mg pushes past 5. Higher doses do not only intensify the experience, they lengthen it and speed up depletion. Our [MDMA dosing guide](/blog/mdma-dosing-guide.html) has ranges by body weight.
+**Dose is the biggest lever.** A small dose may run around 3 hours where a large one pushes past 5. Higher doses do not only intensify the experience, they lengthen it and speed up depletion. Our [MDMA dose safety guide](/blog/mdma-dosing-guide.html) explains why more MDMA carries disproportionately more risk.
 
 **Stomach contents change onset, not duration.** Empty stomach shortens onset to 20 to 30 minutes; a full meal pushes it to 75 to 90.
 

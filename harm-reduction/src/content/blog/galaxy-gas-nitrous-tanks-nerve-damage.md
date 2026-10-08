@@ -2,7 +2,7 @@
 title: "Galaxy Gas Dangers: Nitrous Tanks and Nerve Damage"
 description: "Galaxy Gas and other flavored nitrous tanks hold 580g or more versus 8g whippets. Why that dose jump drives B12 nerve damage, and how to lower the risk."
 date: 2026-08-11
-lastmod: 2026-08-18
+lastmod: 2026-10-08
 tags: ["nitrous oxide", "Galaxy Gas", "harm reduction", "B12", "nerve damage"]
 author: "Jordan Mercer"
 ---
@@ -30,6 +30,8 @@ Evidence tier: case series, and no randomized trial will ever be run on this. Th
 This is the part that gets people sent home. Serum B12 measures total circulating cobalamin, including the molecules nitrous has already oxidized into uselessness, and inactivated B12 still shows up on the test. Two functional markers tell the real story: **methylmalonic acid (MMA)**, which rises when B12-dependent metabolism stalls, and **homocysteine**, which accumulates when methionine synthase is offline.
 
 In Tshagharyan's cohort, serum B12 was normal in 95 percent of patients while homocysteine was elevated in 100 percent and MMA in 95 percent. Meißner's 2025 study of 23 patients across five German hospitals found B12 abnormal in only 35 percent, MMA in 95 percent, homocysteine in 89 percent. Hassing's 70-patient series found 91 percent of patients with normal B12 had elevated MMA.
+
+A 2026 Sydney cohort of 81 hospitalised users put numbers on the tests themselves. For spinal cord degeneration, serum B12 caught 22% of cases and "active B12" (holotranscobalamin) only 5%, while homocysteine and MMA caught 95% and 93% ([PMID 42476595](https://pubmed.ncbi.nlm.nih.gov/42476595/)). The same study found worse nerve damage with higher cumulative nitrous exposure.
 
 If your B12 comes back at 400, that is not reassurance. Ask for MMA and homocysteine by name.
 
@@ -67,7 +69,7 @@ Louisiana and Michigan restricted recreational sales in 2024; Alabama, Californi
 - **Never in a car, a closed room, a tent, or with anything over your head.** Oxygen displacement is what causes the deaths.
 - **Space sessions by weeks, not hours.** Frequency is what builds cumulative dose.
 - **Ask for MMA and homocysteine,** not just serum B12, if you use more than occasionally.
-- **Oral B12 is not armor.** Methylcobalamin maintains baseline stores and low baseline B12 is the biggest risk multiplier, so it is worth taking. It has never been shown to prevent nitrous myeloneuropathy in heavy users, and we are not going to imply otherwise.
+- **Oral B12 is not armor.** Oral B12 helps maintain baseline stores and low baseline B12 is the biggest risk multiplier, so it is worth taking. It has never been shown to prevent nitrous myeloneuropathy in heavy users, and we are not going to imply otherwise.
 - **Do not stack with alcohol, ketamine, GHB or opioids.** Sedation plus hypoxia is how people stop breathing. Check combinations with the [drug interaction checker](/interactions.html).
 
 ## If you catch it early
@@ -80,4 +82,4 @@ For dosing and the wider risk picture, see our [nitrous oxide harm reduction gui
 
 ## Sources
 
-[PMID 35460312](https://pubmed.ncbi.nlm.nih.gov/35460312/) | [PMID 40319266](https://pubmed.ncbi.nlm.nih.gov/40319266/) | [PMID 39815374](https://pubmed.ncbi.nlm.nih.gov/39815374/) | [PMID 37754673](https://pubmed.ncbi.nlm.nih.gov/37754673/) | [PMID 40137010](https://pubmed.ncbi.nlm.nih.gov/40137010/) | [PMID 40736738](https://pubmed.ncbi.nlm.nih.gov/40736738/)
+[PMID 35460312](https://pubmed.ncbi.nlm.nih.gov/35460312/) | [PMID 40319266](https://pubmed.ncbi.nlm.nih.gov/40319266/) | [PMID 39815374](https://pubmed.ncbi.nlm.nih.gov/39815374/) | [PMID 37754673](https://pubmed.ncbi.nlm.nih.gov/37754673/) | [PMID 40137010](https://pubmed.ncbi.nlm.nih.gov/40137010/) | [PMID 40736738](https://pubmed.ncbi.nlm.nih.gov/40736738/) | [PMID 42476595](https://pubmed.ncbi.nlm.nih.gov/42476595/)

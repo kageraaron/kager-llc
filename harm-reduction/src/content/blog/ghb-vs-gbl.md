@@ -2,7 +2,7 @@
 title: "GHB vs GBL: What Is the Difference?"
 description: "GBL is a prodrug that becomes GHB in your body, but it is stronger by volume and hits faster. Why that makes it easier to overdose on."
 date: 2026-05-31
-lastmod: 2026-08-17
+lastmod: 2026-10-08
 tags: ["ghb", "gbl", "harm reduction", "dosing", "overdose"]
 author: "Jordan Mercer"
 ---
@@ -20,7 +20,7 @@ If you have a clear bottle and you are not certain which one it is, treat it as 
 | Onset | About 15 to 30 minutes | Faster, often 5 to 15 minutes |
 | Potency by volume | Baseline | Higher: less liquid delivers the same active dose |
 | Dose accuracy | Hard, concentration varies by batch | Harder, smaller doses and person-to-person conversion |
-| Overdose window | Roughly 2 to 3x between effect and coma | Same window, easier to climb by accident |
+| Overdose window | Short step from effect to coma | Same window, easier to climb by accident |
 
 ## What GBL actually is
 
@@ -38,7 +38,7 @@ A third compound circulates in the same scene: 1,4-butanediol. It also converts 
 
 **Conversion varies between people.** Lactonase activity is not identical across individuals, so the same dose can produce different blood levels in different bodies. A 2014 pharmacokinetic study of a single low GBL dose documented that variability. You cannot calibrate off your friend's dose, and a first-timer has no baseline at all.
 
-Under all three sits GHB's own problem, which GBL does not create but does make easier to hit: a steep dose-response curve with as little as 2 to 3 times separating a recreational dose from a coma-inducing one.
+Under all three sits GHB's own problem, which GBL does not create but does make easier to hit: a steep dose-response curve with only a small step separating a recreational dose from a coma-inducing one.
 
 ## Concentration is the hazard you cannot see
 
@@ -48,10 +48,10 @@ Volume rules of thumb are worthless here. "One capful" means nothing without a c
 
 - **Measure with an oral syringe.** Not a cap, not a swig.
 - **Start low with every new bottle,** and wait out the full onset before considering more.
-- **Wait 3 to 4 hours between doses,** timed from the first dose, not from when the effect faded. Never redose because "it hasn't hit yet." Delayed onset plus a second dose is the classic path to an ambulance.
+- **Don't redose, or wait far longer than feels necessary,** timed from the first dose, not from when the effect faded. Never redose because "it hasn't hit yet." Delayed onset plus a second dose is the classic path to an ambulance.
 - **Never combine with alcohol or any other depressant.** This is the mistake that kills people.
 
-Our [GHB dosing guide](/blog/ghb-dosing-guide.html) has the full measurement protocol. It applies to GBL with the standing caution that the doses are smaller.
+Our [GHB safety guide](/blog/ghb-dosing-guide.html) has the measurement advice. It applies to GBL with the standing caution that GBL is stronger by volume.
 
 ## If someone goes under
 

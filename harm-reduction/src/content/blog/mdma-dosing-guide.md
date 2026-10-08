@@ -1,13 +1,13 @@
 ---
-title: "MDMA Dosage Guide: What Is a Safe Dose of Molly?"
-description: "Clinical trial doses, the weight-based rule and its real limits, and why non-linear pharmacokinetics make a higher dose riskier than the number suggests."
+title: "MDMA Dose Safety: What the Research Actually Shows"
+description: "What clinical trials gave people, why we don't recommend a dose, and why non-linear pharmacokinetics make more MDMA riskier than the number suggests."
 date: 2026-05-14
-lastmod: 2026-10-03
+lastmod: 2026-10-08
 tags: ["mdma", "harm reduction", "dosing", "ecstasy", "drug safety"]
 author: "Jordan Mercer"
 ---
 
-**Clinical trials use 80 to 120 mg. Harm reduction consensus lands on 75 to 125 mg. A first dose should be 75 mg or less.** Those are the numbers most people come here for. The rest of this page is about why the top of that range sits further from the bottom than the arithmetic suggests: MDMA saturates the enzyme that clears it, so plasma levels climb faster than the milligrams do.
+**We don't recommend an MDMA dose.** Street MDMA has no reliable strength, people respond differently, and no study has tested a safe recreational amount. What we can tell you is what controlled research actually gave people, and why more MDMA is riskier than the arithmetic suggests: MDMA saturates the enzyme that clears it, so blood levels climb faster than the milligrams do. If you use, the safest pattern is the same regardless of the number: test it, weigh it, start with a small amount, and don't redose.
 
 ## What the trials actually gave people
 
@@ -20,36 +20,27 @@ Evidence tier: clinical trial. These doses were given under medical supervision 
 
 The anchor that gives you is not "120 mg is safe." It's that 80 to 120 mg is where the effect the researchers wanted showed up without unacceptable harm, in a quiet room, with a doctor, no alcohol, no dancing, and nothing else in the drug. A recreational setting adds every variable the trial was designed to remove.
 
-## Milligrams per kilogram, and what that rule is not
+## Why we don't give a weight-based number
 
-The community standard is **1 to 1.5 mg/kg of body weight, capped at 120 mg** no matter how large you are.
+You will see weight-based formulas for MDMA elsewhere. None has been tested in a trial. They borrow the general idea that drug effect scales with body mass, but MDMA's effect also depends on liver genetics, temperature, what else you've taken and what's actually in the pill, none of which a formula can see. A precise-looking number from a formula gives false confidence, so we don't publish one.
 
-| Body weight | 1 mg/kg | 1.5 mg/kg |
-|-------------|---------|-----------|
-| 55 kg (120 lb) | 55 mg | 82 mg |
-| 70 kg (154 lb) | 70 mg | 105 mg |
-| 85 kg (187 lb) | 85 mg | 127 mg, cap at 120 mg |
-| 100 kg (220 lb) | 100 mg | 150 mg, cap at 120 mg |
-
-Evidence tier: harm reduction consensus. No randomised trial has tested a weight-based MDMA rule. It comes from the general principle that drug effect scales with body mass, plus the observation that the risk-benefit ratio deteriorates above a ceiling. It is a reasonable adaptation of the clinical range, not a validated formula, and you should treat the number it gives you as an upper bound rather than a target.
-
-For a first experience, take 75 mg or the low end of your weight-based range, whichever is lower. You can always take more. You cannot undo having taken too much.
+What the research does support is direction, not a target. Less MDMA means less cardiovascular strain, less overheating risk and a gentler adverse-effect curve. For a first experience, or any new batch, take a small amount and wait. You can always take more later. You cannot undo having taken too much.
 
 ## A weighed dose or a guessed one
 
-A milligram target is meaningless if you are eyeballing powder. Most people are much worse at estimating a 100 mg pile than they believe, and the error runs both directions.
+Any amount is meaningless if you are eyeballing powder. Most people are much worse at estimating a small pile of powder than they believe, and the error runs both directions.
 
-Look for a scale with **0.001 g (1 mg) readability and included calibration weights**, and actually calibrate it. These scales drift, and they arrive uncalibrated more often than not. A [milligram scale from DanceSafe](/mg-scale) is the difference between your intended dose and twice it.
+Look for a scale with **0.001 g (1 mg) readability and included calibration weights**, and actually calibrate it. These scales drift, and they arrive uncalibrated more often than not. A [milligram scale from DanceSafe](/mg-scale) is the difference between the amount you meant to take and twice it.
 
-Be honest about what a cheap scale can do. Readability is not accuracy. A budget 0.001 g scale is genuinely unreliable below roughly 10 to 20 mg, which makes it well suited to MDMA in the 75 to 125 mg range and badly suited to anything measured in single milligrams. **For substances active in micrograms, like LSD, a milligram scale cannot help you at all.** Those need volumetric dosing: dissolve a known quantity in a known volume of liquid, then measure the liquid.
+Be honest about what a cheap scale can do. Readability is not accuracy. A budget 0.001 g scale is genuinely unreliable below roughly 10 to 20 mg, which makes it workable for powders weighed in tens of milligrams and badly suited to anything measured in single milligrams. **For substances active in micrograms, like LSD, a milligram scale cannot help you at all.** Those need volumetric dosing: dissolve a known quantity in a known volume of liquid, then measure the liquid.
 
-Capsules are a delivery format, not a measuring tool. Capping powder makes a weighed dose easier to swallow, hides the taste, and stops you casually adding a bit more mid-session. It does not make the dose accurate. **Weigh first, then fill.** [Gelatin capsules](https://www.amazon.com/s?k=empty+gelatin+capsules+size+0&tag=ravewellness01-20) are standard; [vegetarian capsules](https://www.amazon.com/s?k=empty+vegetarian+capsules+size+0&tag=ravewellness01-20) made from cellulose behave identically once swallowed. A size 0 capsule holds 400 to 500 mg of powder, far more than any sensible dose, so capsule size is never the constraint.
+Capsules are a delivery format, not a measuring tool. Capping powder makes a weighed dose easier to swallow, hides the taste, and stops you casually adding a bit more mid-session. It does not make the dose accurate. **Weigh first, then fill.** [Gelatin capsules](https://www.amazon.com/s?k=empty+gelatin+capsules+size+0&tag=ravewellness01-20) are standard; [vegetarian capsules](https://www.amazon.com/s?k=empty+vegetarian+capsules+size+0&tag=ravewellness01-20) made from cellulose behave identically once swallowed. A standard capsule holds far more powder than anyone should take at once, so capsule size is never the constraint.
 
 One thing worth knowing: a capsule delays onset by roughly 10 to 20 minutes compared to bare powder. That delay is exactly the window in which people decide nothing is happening and redose. See [why an MDMA dose can fail to land](/blog/why-didnt-my-molly-work.html).
 
 ## Doubling the dose does not double the blood level
 
-This is the concept most dosing guides skate over, and it's the reason the numbers above have a ceiling at all.
+This is the concept most dosing guides skate over, and it's the reason more MDMA is riskier than it looks.
 
 De la Torre and colleagues showed in the *British Journal of Clinical Pharmacology* in 2000 that MDMA has **non-linear, saturable pharmacokinetics**. As the dose goes up, plasma concentration rises disproportionately. Going from 75 mg to 150 mg is not a doubling of blood levels, it's a much steeper climb, because MDMA saturates CYP2D6, the liver enzyme that metabolises it, and inhibits its own breakdown. The authors noted plainly that this makes subjects more prone to acute toxicity from what look like modest increases.
 
@@ -59,7 +50,7 @@ Hyperthermia, cardiovascular strain and serotonin toxicity all track this curve.
 
 ## You cannot tell a pill by looking at it
 
-Drug checking data compiled by Palamar and colleagues found pressed tablets ranging from no MDMA at all to more than 240 mg in a single pill. One normal-looking tablet may hold 180 mg, already past the recreational range before any redose, while another from the same batch holds 80 mg. Tablets are also often mixed unevenly, so half a pill is not reliably half the dose.
+Drug checking data compiled by Palamar and colleagues found pressed tablets ranging from no MDMA at all to more than 240 mg in a single pill. One normal-looking tablet may hold more than twice as much as another from the same batch. Tablets are also often mixed unevenly, so half a pill is not reliably half the dose.
 
 Then there is what else is in it. Drug checking regularly turns up methamphetamine, which produces similar stimulation with a much longer half-life and worse neurotoxicity; synthetic cathinones like methylone and MDPV, with unpredictable duration and a narrower margin; and fentanyl, confirmed in MDMA samples at multiple festival checking operations and lethal at microgram doses.
 
@@ -69,16 +60,16 @@ Then there is what else is in it. Drug checking regularly turns up methamphetami
 
 Use a fentanyl test strip alongside the reagents on anything pressed. Read the strip as **one line POSITIVE, two lines NEGATIVE**, which is the opposite of what nearly everyone assumes on first look. Test every batch, not just the first one. Our [drug testing guide](/test-kits.html) has the full protocol.
 
-## If you redose
+## Redosing
 
-All four of these, not a selection:
+The safest redose is none. If you do anyway:
 
 1. **Once only.** The curve for euphoria flattens with repeated doses. The curve for adverse effects does not.
-2. **Half the original dose.** 100 mg first, 50 mg second. No more.
-3. **Not before 90 minutes.** Peak plasma concentration lands around 1.5 to 2 hours after an oral dose. Redosing earlier stacks on top of a first dose that is still rising.
-4. **Remember MDA.** MDMA partly metabolises into MDA, which has a longer half-life and peaks later. When you redose, MDA from the first dose is still building, so the true pharmacological load is higher than the milligram total says.
+2. **Smaller than the first.** It lands in a body that hasn't cleared the first dose, with the clearing enzyme already partly disabled.
+3. **Not during the come-up.** Peak blood levels land around 1.5 to 2 hours after an oral dose. Redosing earlier stacks on top of a first dose that is still rising.
+4. **Remember MDA.** MDMA partly metabolises into MDA, which has a longer half-life and peaks later. When you redose, MDA from the first dose is still building, so the true load is higher than the total you took suggests.
 
-Evidence tier: harm reduction consensus, though it lines up with the trial design, where the supplemental dose was half the first and came 1.5 to 2.5 hours later. A 2026 trial tested that exact pattern and found it added about an hour, not a stronger peak. More in [why redosing stops working](/blog/why-mdma-redosing-stops-working.html).
+For context on what research has tested: the trial protocol above gave a supplemental dose of half the first, 1.5 to 2.5 hours later, under medical supervision. A 2026 trial tested that pattern and found it extended the experience by about an hour without a stronger peak. More in [why redosing stops working](/blog/why-mdma-redosing-stops-working.html).
 
 ## Why the same dose lands differently
 
@@ -92,9 +83,9 @@ Evidence tier: harm reduction consensus, though it lines up with the trial desig
 
 ## If it's your first time
 
-Test it first. Take 75 mg or less. Do not redose, because a single dose is the only way to learn what a single dose does to you. Stay cool, keep electrolytes in the water, and have someone with you who knows what you took and would call for help without hesitating.
+Test it first. Weigh it, and take a small amount. Do not redose, because a single dose is the only way to learn what a single dose does to you. Stay cool, keep electrolytes in the water, and have someone with you who knows what you took and would call for help without hesitating.
 
-Dose is the most controllable variable in this whole picture and the one most often skipped over. Tested, weighed, at the low end, taken once, in a room you can leave when it gets hot: that is the lowest-risk version of this available.
+How much you take is the most controllable variable in this whole picture and the one most often skipped over. Tested, weighed, a small amount, taken once, in a room you can leave when it gets hot: that is the lowest-risk version of this available.
 
 For the wider picture, see the [MDMA guide](/mdma.html).
 

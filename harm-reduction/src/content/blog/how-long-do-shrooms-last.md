@@ -2,7 +2,7 @@
 title: "How Long Do Shrooms Last? Full Psilocybin Timeline"
 description: "Shrooms last 4 to 6 hours. Onset 20 to 60 minutes, peak at 1 to 3 hours, then afterglow. Full psilocybin timeline with pharmacokinetic data."
 date: 2026-08-12
-lastmod: 2026-08-18
+lastmod: 2026-10-08
 tags: ["psilocybin", "mushrooms", "psychedelics", "harm reduction", "duration", "timeline"]
 author: "Jordan Mercer"
 ---
@@ -43,7 +43,7 @@ How much psilocin reaches your blood is what sets intensity. A PET study in 8 he
 
 ## What changes the timeline
 
-**Dose.** The largest variable by far. Effects scale with dose across every controlled study that has looked, and more does not only mean more intense, it means longer: a 5 g experience does not end at hour 4. Psilocin pharmacokinetics were linear across 0.3 to 0.6 mg/kg, so double the dose gives roughly double the exposure with no surprise cliff.
+**Dose.** The largest variable by far. Effects scale with dose across every controlled study that has looked, and more does not only mean more intense, it means longer: a large-dose experience does not end at hour 4. Psilocin pharmacokinetics were linear across 0.3 to 0.6 mg/kg, so double the dose gives roughly double the exposure with no surprise cliff.
 
 **Stomach contents.** A full stomach, a fatty meal especially, slows absorption and can push onset past 90 minutes. It does not change total duration much, it moves the whole curve right. Fasting 3 to 4 hours beforehand buys a predictable come-up and less nausea.
 

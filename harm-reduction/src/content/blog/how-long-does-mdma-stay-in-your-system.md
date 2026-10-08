@@ -2,7 +2,7 @@
 title: "How Long Does MDMA Stay in Your System?"
 description: "Urine 1 to 3 days, blood and saliva 1 to 2, hair up to 90. Why lab testing stretches the urine window to a week, and why 5-panel tests miss it."
 date: 2026-06-04
-lastmod: 2026-08-17
+lastmod: 2026-10-08
 tags: ["mdma", "molly", "drug testing", "detection", "harm reduction"]
 author: "Jordan Mercer"
 ---
@@ -26,7 +26,7 @@ A controlled dosing study published in the *Journal of Analytical Toxicology* in
 
 What moves your personal number:
 
-- **Dose.** 75 mg clears faster than a 200 mg pressed pill, and MDMA has nonlinear pharmacokinetics, so higher doses clear disproportionately slowly rather than proportionally.
+- **Dose.** A small dose clears faster than a heavily loaded pressed pill, and MDMA has nonlinear pharmacokinetics, so higher doses clear disproportionately slowly rather than proportionally.
 - **CYP2D6.** MDMA is broken down mostly by this liver enzyme. Roughly 5 to 10% of people are naturally slow metabolizers, and MDMA temporarily inhibits the enzyme in everyone, so a second dose clears slower than the first.
 - **Frequency.** Regular use accumulates and lengthens the window past what a one-off would give you.
 - **Hydration and urine pH** shift the timing mildly.

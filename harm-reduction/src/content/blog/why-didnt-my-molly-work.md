@@ -2,7 +2,7 @@
 title: "Why Didn't My Molly Work? MDMA Not Kicking In"
 description: "Molly not working? SSRIs, recent use, fake pills, and dosing all stop a roll landing. Why you didn't come up, and why redosing is dangerous."
 date: 2026-08-11
-lastmod: 2026-10-03
+lastmod: 2026-10-08
 tags: ["MDMA", "molly", "harm reduction", "redosing", "drug interactions", "drug checking"]
 author: "Jordan Mercer"
 ---
@@ -48,7 +48,7 @@ Reagent testing takes two minutes. Marquis turns purple to black for MDMA and st
 
 ## Dose, body weight, and a full stomach
 
-Common recreational doses land around 1 to 1.5 mg per kg of body weight. A 100 mg pill that is solid for a 55 kg person is light for a 95 kg person, and if you took a fraction of a pill to be careful, a flat night is the expected result rather than a mystery. See our [MDMA dosing guide](/blog/mdma-dosing-guide.html), and for the hour-by-hour shape, our [MDMA timeline](/blog/how-long-does-mdma-last.html).
+Body size changes how a given amount lands: the same pill that is strong for a small person can feel light for a much larger one, and if you took a fraction of a pill to be careful, a flat night is the expected result rather than a mystery. That is not a reason to take more. Redosing to chase it is the riskiest response (below). See [MDMA dose safety](/blog/mdma-dosing-guide.html), and for the hour-by-hour shape, our [MDMA timeline](/blog/how-long-does-mdma-last.html).
 
 ## Ketamine flattens the come-up
 

@@ -1,13 +1,13 @@
 ---
 title: "How to Stop a Bad Trip: What Actually Works"
-description: "To stop a bad trip: change environment and music first, then diazepam 10 to 20 mg if needed. What works, what doesn't, and when to call 911."
+description: "To stop a bad trip: change environment and music first, then a benzodiazepine if one is prescribed. What works, what doesn't, and when to call 911."
 date: 2026-05-12
-lastmod: 2026-08-17
+lastmod: 2026-10-08
 tags: ["LSD", "psilocybin", "bad trip", "harm reduction", "psychedelics", "benzodiazepines"]
 author: "Jordan Mercer"
 ---
 
-If you or someone near you is having a bad trip, **the fastest effective intervention is changing the environment.** Go outside. Change the music. Move somewhere quieter. If that is not enough and you have a benzodiazepine, diazepam 10 to 20 mg orally will blunt the experience within 30 to 60 minutes.
+If you or someone near you is having a bad trip, **the fastest effective intervention is changing the environment.** Go outside. Change the music. Move somewhere quieter. If that is not enough and a benzodiazepine has been prescribed, taken as directed it will usually blunt the experience within 30 to 60 minutes.
 
 One situation skips all of that. **If the person is on lithium and took LSD or psilocybin, call emergency services now.** That combination carries a real seizure risk and is not something to sit with.
 
@@ -54,8 +54,10 @@ Benzos are the pharmacological first choice. No formal RCT has tested benzodiaze
 
 They potentiate GABA-A receptors, enhancing the brain's main inhibitory system. Psychedelics act through 5-HT2A agonism, and benzos do not block that receptor, which is why they **blunt the experience without ending it.** The anxiolytic, sedative and muscle-relaxant effects cut the distress; the visual and perceptual changes may partly continue.
 
-- **Diazepam (Valium)** is the one most likely to be available at a party. **10 to 20 mg orally**, onset 30 to 60 minutes. Long half-life, so sedation can carry into the next day. Do not drive.
-- **Lorazepam (Ativan)** is faster, 20 to 40 minutes, at comparable effect. **1 to 2 mg** is a reasonable start.
+We don't give benzodiazepine doses. Use only as prescribed, and never on top of alcohol, GHB or opioids.
+
+- **Diazepam (Valium)** is the one most likely to be available at a party. Onset 30 to 60 minutes. Long half-life, so sedation can carry into the next day. Do not drive.
+- **Lorazepam (Ativan)** is faster, 20 to 40 minutes.
 - **Alprazolam (Xanax)** is fast but short. It works, and the shorter window means it may need redosing, which raises the over-sedation risk if anything else is on board.
 
 Start at the low end and wait the full onset before considering more. Do not combine with alcohol, GHB, ketamine or opioids; stacking CNS depressants at a festival is how people stop breathing. Keep a heavily sedated person upright or in the recovery position. The goal is calm and safety, not unconsciousness.

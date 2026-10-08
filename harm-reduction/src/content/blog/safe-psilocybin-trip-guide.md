@@ -2,7 +2,7 @@
 title: "How to Avoid a Bad Trip on Shrooms"
 description: "Dose, set and setting are the three levers you actually control on psilocybin, plus what to do when a trip turns difficult anyway."
 date: 2026-05-13
-lastmod: 2026-08-17
+lastmod: 2026-10-08
 tags: ["psilocybin", "mushrooms", "psychedelics", "harm reduction"]
 author: "Jordan Mercer"
 ---
@@ -11,19 +11,15 @@ author: "Jordan Mercer"
 
 Psilocybin's physical safety record is genuinely strong. A 2022 analysis of adverse experiences leading to emergency treatment found that seeking medical care is rare relative to how much use there is, and no deaths have been attributed to psilocybin toxicity in clinical research. Rare is not zero, and the experiences that do go wrong are mostly preventable.
 
-## Dose: the number people get wrong
+## Dose: why we don't give you a number
 
 Potency swings between species and between batches of the same species. *Psilocybe cubensis*, the common recreational species, runs about 0.5 to 1% psilocybin by dry weight, so a gram of dried mushrooms holds roughly 5 to 10 mg. *P. azurescens* and *P. semilanceata* can be 2 to 3 times stronger per gram, which is how careful people end up somewhere they did not plan to go.
 
-| Dried *P. cubensis* | Range | What to expect |
-|---|---|---|
-| 0.5 to 1 g | Threshold | Mild mood lift, subtle perceptual shift |
-| 1 to 2 g | **First-timers start here** | Clear psychedelic effects, not overwhelming |
-| 2 to 3.5 g | Moderate to strong | Strong visuals, significant thought alteration |
-| 3.5 to 5 g | Strong | Intense, needs experience and preparation |
-| 5 g and up | Very high | Experienced users, controlled settings only |
+The gram charts you'll find online are community conventions, not research, and because potency varies so much, the same weight can be a gentle afternoon from one bag and an overwhelming one from another. That's why we don't publish one.
 
-A 2022 dosing review in *Frontiers in Psychiatry* notes that 20 to 25 mg psilocybin, roughly 2.5 to 3.5 g of *P. cubensis*, produces strong therapeutic effects in supported clinical settings. At home without a sitter, that same dose carries more risk than the trial numbers suggest.
+What research does tell us is scale. A 2022 dosing review in *Frontiers in Psychiatry* notes that 20 to 25 mg of measured psilocybin produces strong therapeutic effects in supported clinical settings, with screening and a trained guide. At home without a sitter, that kind of experience carries more risk than the trial numbers suggest.
+
+What reduces risk regardless of the number: **start small with any new batch or species, weigh rather than eyeball, and treat stronger species as a different drug.**
 
 **The most common mistake is redosing at 60 to 75 minutes** because it feels like nothing is happening. Onset can be slow, especially on a full stomach. Wait 90 minutes before concluding anything, or you will meet both doses at once.
 
@@ -41,7 +37,7 @@ Familiar, calm environments produce fewer adverse reactions than public or chaot
 
 For a first experience: a private space you know well, comfortable furniture, soft lighting since harsh light gets unpleasant at the peak. Music queued in advance, instrumental or ambient, nothing with aggressive lyrics. Water, snacks, a blanket, a bucket if nausea worries you. Phones on silent. Nobody arriving unannounced.
 
-**A sober trip sitter is not required, but above 2 g it is strongly recommended.** The calm presence of another person is the most effective intervention there is when something goes sideways.
+**A sober trip sitter is not required, but for anything beyond a light experience it is strongly recommended.** The calm presence of another person is the most effective intervention there is when something goes sideways.
 
 Festivals are a poor choice for a first time. Sensory overload, unpredictability and no control over your surroundings are exactly the conditions that produce difficult trips. Anyone who does choose a festival should take considerably less than they would at home.
 

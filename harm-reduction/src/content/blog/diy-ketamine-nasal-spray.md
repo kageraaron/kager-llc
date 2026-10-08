@@ -2,7 +2,7 @@
 title: "DIY Ketamine Nasal Spray: Dose Math and Safety"
 description: "A DIY ketamine nasal spray buys dose precision, not lower risk. Actuator volume, evaporation, contamination and what the maths depends on."
 date: 2026-08-15
-lastmod: 2026-08-17
+lastmod: 2026-10-08
 tags: ["ketamine", "harm reduction", "dosing", "nasal spray"]
 author: "Jordan Mercer"
 ---
@@ -13,19 +13,19 @@ What follows is the reasoning and the arithmetic, not a preparation recipe. For 
 
 ## The one thing a spray genuinely buys you
 
-The distance between a light functional intranasal dose and a full k-hole is often only 50 to 100 mg. That is a narrow gap to be guessing at, and a line drawn by eye is a guess. The same person cutting the same powder produces different lines on different nights depending on grind, moisture and how the powder settled.
+The distance between a light intranasal amount and a full k-hole is a small amount of powder. That is a narrow gap to be guessing at, and a line drawn by eye is a guess. The same person cutting the same powder produces different lines on different nights depending on grind, moisture and how the powder settled.
 
 A solution moves the measurement upstream. You weigh once, dilute once, and every press afterwards inherits that accuracy.
 
-The maths fits in your head. 500 mg of ketamine into 5 mL of sterile saline gives **100 mg/mL**, and a pump delivering **0.1 mL** per actuation gives **10 mg per spray**. Two sprays is 20 mg, four is 40 mg, and you are counting rather than estimating. Change either input and the scale shifts: 250 mg in 5 mL is 50 mg/mL, so the same pump now gives 5 mg. Nothing is magic about a particular concentration. What matters is knowing which one you made, and writing it on the bottle instead of trusting your memory a fortnight later.
+The principle is simple: each spray delivers the solution's concentration multiplied by the pump's volume per press, so once both are known you count sprays rather than estimate lines. We don't recommend a concentration or an amount per spray. What matters is knowing which concentration you made, and writing it on the bottle instead of trusting your memory a fortnight later.
 
-None of it works without an accurate weight at the start. A [milligram scale](/mg-scale) is doing the real work here, because a spray is only as accurate as the weighing that preceded it. A jewellery scale reading to 0.1 g cannot tell 400 mg from 500 mg, which is a 25% error baked into every dose in that bottle. A [DIY nasal spray kit](/nasal-spray-kit) gets you a bottle actually intended for nasal use rather than a repurposed container. Both are from DanceSafe, a nonprofit.
+None of it works without an accurate weight at the start. A [milligram scale](/mg-scale) is doing the real work here, because a spray is only as accurate as the weighing that preceded it. A jewellery scale reading to 0.1 g is far too coarse, and its error gets baked into every spray from that bottle. A [DIY nasal spray kit](/nasal-spray-kit) gets you a bottle actually intended for nasal use rather than a repurposed container. Both are from DanceSafe, a nonprofit.
 
 ## Failure mode one: assuming your actuator volume
 
-The 0.1 mL figure quoted everywhere is typical, not universal. Pumps are built to different specifications, and a bottle from a general supplier may deliver noticeably more or less per press. If you do not know what your own pump puts out, your milligrams-per-spray number is guesswork wearing a lab coat.
+The pump volume quoted online is typical, not universal. Pumps are built to different specifications, and a bottle from a general supplier may deliver noticeably more or less per press. If you do not know what your own pump puts out, your amount-per-spray number is guesswork wearing a lab coat.
 
-Measuring it is easy. Prime the pump until it sprays consistently, actuate it a counted number of times into a small measuring container, and divide the volume collected by the number of sprays. Do it once per bottle design, with plain saline before any drug goes in, and the dose figure becomes a measurement rather than an assumption.
+Measuring it is easy. Prime the pump until it sprays consistently, actuate it a counted number of times into a small measuring container, and divide the volume collected by the number of sprays. Do it once per bottle design, with plain saline before any drug goes in, and the per-spray figure becomes a measurement rather than an assumption.
 
 ## Failure mode two: evaporation concentrates the solution
 

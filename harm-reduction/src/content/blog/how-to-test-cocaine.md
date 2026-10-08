@@ -2,7 +2,7 @@
 title: "How to Test Cocaine for Fentanyl and Cuts"
 description: "Testing cocaine catches the deadliest risk first: fentanyl. The strip method, the water ratio that prevents false positives, and what no field test sees."
 date: 2026-06-10
-lastmod: 2026-08-18
+lastmod: 2026-10-08
 tags: ["cocaine", "test kits", "drug checking", "fentanyl", "harm reduction"]
 author: "Jordan Mercer"
 ---
@@ -21,7 +21,9 @@ Fentanyl test strips were originally built to detect fentanyl in urine, and they
 4. **Read it. Two lines is NEGATIVE, no fentanyl detected. One line is POSITIVE, fentanyl detected.** No lines at all means the strip failed; run a fresh one.
 5. **A positive means do not use it.** There is no dose small enough to make detected fentanyl safe.
 
-Because contamination is uneven, a clean strip on one portion does not clear the whole bag. Testing lowers the risk, it does not remove it. If you use anyway, the things that still matter are not using alone, having naloxone within reach, and starting with less than you planned. [Fentanyl test strips](/fentanyl-strips) are sold separately from reagent kits, because they are a different kind of test entirely.
+Because contamination is uneven, a clean strip on one portion does not clear the whole bag. US drug-checking data from 2024 to 2026 found that fentanyl in cocaine and meth usually looks like low-level accidental cross-contamination rather than deliberate mixing ([PMID 42844883](https://pubmed.ncbi.nlm.nih.gov/42844883/)), which is exactly the pattern that leaves some parts of a bag clean and others not.
+
+Fentanyl is not the only thing cocaine can pick up. In a 2026 study of 1,819 people tested on their way into nightclubs, 23.7% had ketamine in their oral fluid, but fewer than half of those said they had taken any ([PMID 42321998](https://pubmed.ncbi.nlm.nih.gov/42321998/)). The authors' leading explanation is ketamine contaminating other drugs, mainly cocaine. Trace detections at a 1 ng/mL cut-off can also reflect misremembered use, so treat it as a signal, not a measured contamination rate. Neither a fentanyl strip nor the cocaine reagents below will flag ketamine. Testing lowers the risk, it does not remove it. If you use anyway, the things that still matter are not using alone, having naloxone within reach, and starting with less than you planned. [Fentanyl test strips](/fentanyl-strips) are sold separately from reagent kits, because they are a different kind of test entirely.
 
 ## Then the reagent
 
@@ -59,3 +61,5 @@ For cardiovascular risk, adulterants and safer-use practice, see our [cocaine ha
 - Fentanyl test strips as an effective harm reduction tool for drug checking. [PMC7255931](https://pmc.ncbi.nlm.nih.gov/articles/PMC7255931/)
 - Evaluation of fentanyl test strip performance on drug residue, including the effect of dilution on false positives. [PMC7941948](https://pmc.ncbi.nlm.nih.gov/articles/PMC7941948/)
 - Drug checking uptake and unexpected substance detection in the electronic dance music scene. [PMC6338488](https://pmc.ncbi.nlm.nih.gov/articles/PMC6338488/)
+- Trends in fentanyl adulteration from RaDAR drug checking samples, 2024 to 2026. *Drug Testing and Analysis*, 2026. [PMID 42844883](https://pubmed.ncbi.nlm.nih.gov/42844883/)
+- Differentiating intentional ketamine use from unintentional exposure as an adulterant using oral fluid testing. *Journal of Forensic Sciences*, 2026. [PMID 42321998](https://pubmed.ncbi.nlm.nih.gov/42321998/)

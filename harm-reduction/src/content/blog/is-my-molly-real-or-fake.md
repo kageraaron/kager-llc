@@ -2,7 +2,7 @@
 title: "Is My Molly Real or Fake? How to Actually Tell"
 description: "You cannot tell real MDMA from fake by look, taste or smell. Here is the reagent protocol that actually answers the question, plus fentanyl strips."
 date: 2026-08-15
-lastmod: 2026-08-17
+lastmod: 2026-10-08
 tags: ["mdma", "test kits", "drug checking", "adulterants", "harm reduction"]
 author: "Jordan Mercer"
 ---
@@ -79,7 +79,7 @@ A faint second line still counts as two, and still reads negative. Full walkthro
 
 ## What a colour cannot tell you
 
-**Dose or potency.** A colour is a yes or no, not a number. A pill giving textbook purple-black could hold 80 mg or 250 mg. Read the [MDMA dosing guide](/blog/mdma-dosing-guide.html) and start low regardless of how clean the test looked.
+**Dose or potency.** A colour is a yes or no, not a number. A pill giving textbook purple-black could hold 80 mg or 250 mg. Read [MDMA dose safety](/blog/mdma-dosing-guide.html) and start low regardless of how clean the test looked.
 
 **Purity.** A sample that is 30% MDMA and 70% caffeine gives the same confident purple as one that is 95% MDMA.
 

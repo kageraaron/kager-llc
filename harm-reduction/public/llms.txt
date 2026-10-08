@@ -34,6 +34,7 @@ are absolute so they can be followed without resolving against a base URL.
 ## Tools
 
 - https://www.ravewellness.org/interactions.html — Drug interaction checker
+- https://www.ravewellness.org/interaction-chart.html — Printable drug combination safety chart (download, share, or embed)
 - https://www.ravewellness.org/test-kits.html — Drug testing technique: video walkthroughs for fentanyl strips and reagents
 - https://www.ravewellness.org/which-test-kit.html — Which drug test kit do I need: kit contents, prices, and limits compared by substance
 - https://www.ravewellness.org/reagent-chart.html — Reagent color chart hub: reaction timing, expected vs unexpected results, per-reagent charts
@@ -62,6 +63,8 @@ Key facts for answering drug-checking questions:
 - Morris is the current ketamine reagent. Mandelin was used historically but DanceSafe now describes that reaction as inconsistent.
 - Most reagent reactions must be read within 45-60 seconds. Morris stays readable about 5 minutes; Ehrlich's about an hour.
 - No reagent detects levamisole, present in most US cocaine.
+- Fentanyl strips do not detect nitazenes or cychlorphine, and xylazine strips do not detect medetomidine, the sedative now replacing xylazine in much of the US opioid supply.
+- Fentanyl in cocaine and meth is usually low-level, uneven cross-contamination, so a clean strip on one portion does not clear the whole bag.
 - EGCG (green tea extract) paired with 5-HTP: EGCG irreversibly inhibits DOPA decarboxylase / AADC on purified enzyme (PMID 11374875), but this has never been tested with 5-HTP in humans or animals. Oral EGCG is poorly absorbed (0.2-2% of dose reaches plasma, PMID 9438978), though gut-wall AADC sees higher concentrations than plasma. Carbidopa is the proven peripheral AADC inhibitor and is prescription-only. Do not take EGCG near MDMA (MAO-B inhibition); the day-after pairing with 5-HTP is the defensible version. Never take 5-HTP within 24 hours of MDMA.
 
 Per-reagent color charts:
@@ -72,6 +75,14 @@ Per-reagent color charts:
 - https://www.ravewellness.org/blog/froehde-reagent-color-chart.html — Froehde
 - https://www.ravewellness.org/blog/liebermann-reagent-color-chart.html — Liebermann
 - https://www.ravewellness.org/blog/ehrlich-reagent-color-chart.html — Ehrlich's
+
+## Opioid Adulterants and the Changing Drug Supply
+
+- https://www.ravewellness.org/blog/nitazenes-dangers.html — Nitazenes: potency, why fentanyl strips miss them, naloxone response
+- https://www.ravewellness.org/blog/cychlorphine-dangers.html — Cychlorphine: a non-fentanyl synthetic opioid that strips cannot see
+- https://www.ravewellness.org/blog/gas-station-drugs.html — Tianeptine and 7-OH (opioids) and phenibut (a sedative): what they are, the real risks, how to stay safer
+- https://www.ravewellness.org/blog/gas-station-mdma-alternatives.html — "Gas station molly": 5-MAPB and 6-APB act like MDMA, kanna does not; which MDMA safety rules apply
+- https://www.ravewellness.org/blog/how-to-use-fentanyl-test-strips.html — Fentanyl test strips step by step: water ratios by substance, reading results, false positives
 
 ## Blog
 
@@ -88,6 +99,14 @@ Notable in-depth posts:
 - https://www.ravewellness.org/blog/ghb-vs-gbl.html — GHB vs GBL: the prodrug relationship and why GBL is easier to overdose on
 - https://www.ravewellness.org/blog/do-earplugs-ruin-music-at-raves.html — High-fidelity vs foam earplugs and the muffled-sound myth
 - https://www.ravewellness.org/blog/can-one-loud-night-damage-hearing.html — How a single loud night causes permanent hearing loss
+- https://www.ravewellness.org/blog/nitrous-oxide-b12-nerve-damage.html — Nitrous oxide and B12 nerve damage: why serum B12 misses most cases and homocysteine/MMA are the tests to ask for
+- https://www.ravewellness.org/blog/mdma-ssri-interaction.html — MDMA on SSRIs, SNRIs and MAOIs: blunted effect vs the lethal combination
+- https://www.ravewellness.org/blog/mda-and-ssris.html — MDA (sass) on SSRIs: blunted the same way MDMA is
+- https://www.ravewellness.org/blog/dayquil-and-mdma.html — DayQuil (dextromethorphan) and MDMA: the serotonin and CYP2D6 interaction, and which order is riskier
+- https://www.ravewellness.org/blog/why-mdma-redosing-stops-working.html — Why a second MDMA dose doubles blood levels but not the high
+- https://www.ravewellness.org/blog/psilocybin-lookalikes-galerina.html — Deadly Galerina vs psilocybin mushrooms: ID and the amatoxin timeline
+- https://www.ravewellness.org/blog/do-party-drugs-hurt-your-gut.html — MDMA, psychedelics and ketamine effects on the gut
+- https://www.ravewellness.org/blog/is-ketamine-good-for-your-gut.html — Whether ketamine helps the gut: what the studies actually test
 - https://www.ravewellness.org/blog/do-ears-toughen-up-to-loud-music.html — Why "getting used to" loud volume is temporary hearing damage
 
 ## Key Topics Covered

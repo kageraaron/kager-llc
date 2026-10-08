@@ -2,7 +2,7 @@
 title: "MDMA and Antidepressants: What Happens"
 description: "Can you roll on antidepressants? SSRIs and SNRIs blunt MDMA badly, MAOIs can kill you, and quitting your meds to roll is its own risk."
 date: 2026-05-12
-lastmod: 2026-09-18
+lastmod: 2026-10-08
 tags: ["MDMA", "SSRIs", "drug interactions", "harm reduction", "serotonin syndrome"]
 author: "Jordan Mercer"
 ---
@@ -32,6 +32,8 @@ Worse, fluoxetine and paroxetine are strong CYP2D6 inhibitors, and CYP2D6 is the
 The feared scenario is an SSRI amplifying MDMA's serotonin load into serotonin syndrome. Pharmacologically that is backwards: SSRIs occupy the transporter MDMA needs, so they are partly antagonistic, not synergistic.
 
 The data agree. An analysis of 20 MDMA-related serotonin syndrome reports in the FDA Adverse Events Reporting System found that **not one involved MDMA as the sole drug** ([PMC8820588](https://pmc.ncbi.nlm.nih.gov/articles/PMC8820588/)). Every case had at least one other serotonergic substance in it, and no serotonin syndrome occurred in the controlled trials either.
+
+The largest dataset points the same way. A 2026 UK case-control study compared 1,328 deaths where MDMA was detected against 5,312 age- and sex-matched deaths from other drugs. Antidepressants were found *less* often in the MDMA deaths (adjusted odds ratio 0.60), and an antidepressant prescription showed no significant link to MDMA death either way ([PMID 41943478](https://pubmed.ncbi.nlm.nih.gov/41943478/)). Two limits matter. The comparison group was other drug deaths, not living users, and "antidepressant" lumps every class together, so this says nothing reassuring about MAOIs.
 
 Lower risk is not no risk. The Hunter criteria:
 
@@ -80,3 +82,4 @@ For dosing, risks and the full protocol, see our [MDMA harm reduction guide](/md
 - Tancer M, Johanson CE. The effects of fluoxetine on the subjective and physiological effects of MDMA in humans. *Psychopharmacology (Berl)*, 2007. [PMID 17047932](https://pubmed.ncbi.nlm.nih.gov/17047932/)
 - Sarparast A, et al. Drug-drug interactions between psychiatric medications and MDMA or psilocybin: a systematic review. *Psychopharmacology (Berl)*, 2022. [PMID 35253070](https://pubmed.ncbi.nlm.nih.gov/35253070/)
 - Contribution of cytochrome P450 2D6 to MDMA disposition in humans: use of paroxetine as a metabolic inhibitor probe. *Clinical Pharmacokinetics*, 2005. [PMID 15910012](https://pubmed.ncbi.nlm.nih.gov/15910012/)
+- Antidepressant use and MDMA fatalities: a matched case-control study using a post-mortem database. *Journal of Psychopharmacology*, 2026. [PMID 41943478](https://pubmed.ncbi.nlm.nih.gov/41943478/)

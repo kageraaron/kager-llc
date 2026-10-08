@@ -114,7 +114,7 @@ These claim categories are frequently wrong on harm reduction sites. Prioritize 
 - **Neurotoxicity threshold:** The claim that neurotoxicity requires "heavy use" is based on heavy-user neuroimaging samples (median 50+ sessions, often 200+). Do not imply that occasional use is proven safe — absence of evidence is not evidence of safety.
 - **Ricaurte 2002:** This study claiming dopaminergic neurotoxicity was retracted — the vials were methamphetamine. If cited, must be noted as retracted.
 - **Serotonin syndrome:** Combination risk with SSRIs is real but severity is dose-dependent. "Never mix" is an overstatement; "high risk" is accurate.
-- **Dose recommendations:** Recreational doses (75–125mg) are not FDA doses from MAPS trials (80–120mg with careful screening). Do not conflate.
+- **Dose recommendations:** The site does not publish recreational doses (dosing policy, 2026-10-08). Trial doses (MAPS 80–120mg with careful screening) may appear only as "the study gave" with a PMID. Flag any community dose number as a policy violation.
 
 ### Ketamine
 - **Bladder damage threshold:** Typically associated with frequent use (daily/near-daily for months). Not a risk from occasional use. Claims should specify frequency context.
@@ -122,7 +122,7 @@ These claim categories are frequently wrong on harm reduction sites. Prioritize 
 - **Addiction potential:** Low physiological dependence; psychological dependence is real and documented in heavy users.
 
 ### GHB/GBL
-- **Lethal dose window:** GHB has a very narrow therapeutic window. The claim "just 1g more can be the difference" is approximately right but should cite the dose-response context.
+- **Lethal dose window:** GHB has a very narrow therapeutic window. Describe it qualitatively ("a short step from euphoria to coma") and cite PMID 33417072; the site publishes no GHB numbers under the dosing policy.
 - **GBL vs GHB:** GBL is a prodrug, converts to GHB. Onset is faster and dose is lower (by weight). Doses are NOT interchangeable — this is a CRITICAL harm reduction point.
 - **Alcohol interaction:** Synergistic CNS depression is well-documented. Never describe this as "additive" — it's synergistic (worse than additive).
 

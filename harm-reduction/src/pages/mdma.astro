@@ -1,12 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title       = `Molly / MDMA Safety: Testing, Dosing, Supplements | Rave Wellness`;
-const description = `Evidence-based molly guide: test for fentanyl, use magnesium for jaw clenching, time your 5-HTP correctly, and see what the research actually says about how often is really safe. Cited science throughout.`;
+const title       = `Molly / MDMA Safety: Testing, Risks, Supplements | Rave Wellness`;
+const description = `Evidence-based molly guide: test for fentanyl, the evidence on magnesium and 5-HTP, and what research says about how often is safe.`;
 const keywords    = `MDMA harm reduction, MDMA supplement protocol, how to test MDMA for fentanyl, MDMA 3 month rule, molly harm reduction, ecstasy safety guide, rave pills harm reduction, ecstasy pills testing, MDMA NAC supplement, rolling safely MDMA, MDMA dosing, MDMA fentanyl test strips, MDMA serotonin syndrome, MDMA drug interactions, reagent test MDMA, MDMA magnesium jaw clenching bruxism, MDMA magnesium jaw clenching evidence, magnesium bruxism MDMA harm reduction, green tea extract MDMA, green tea extract EGCG MDMA 5-HTP, 5-HTP MDMA, 5-HTP molly, 5 htp and molly, vitamin C MDMA, vitamin C molly, what is molly drug, MDMA test kit, dancesafe MDMA supplements magnesium NAC 5-HTP antioxidants, MDMA street names, Molly drug, Ecstasy drug, E drug, X drug, XTC drug, Mandy drug, pills rave, beans drug, rolls drug, MDM drug`;
 const canonical   = `https://www.ravewellness.org/mdma.html`;
 const ogTitle     = `Molly / MDMA Safety Guide: Test Kits, Supplements & Real Evidence | Rave Wellness`;
-const ogDesc      = `Fentanyl testing, NAC + magnesium + 5-HTP supplement protocol, safe dosing, dangerous combinations, and what peer-reviewed research says about MDMA frequency. Free guide.`;
+const ogDesc      = `Fentanyl testing, what the evidence says on NAC, magnesium and 5-HTP, dangerous combinations, and what peer-reviewed research says about MDMA frequency. Free guide.`;
 const twTitle     = ``;
 const twDesc      = ``;
 const schemaJson  = `{
@@ -50,7 +50,7 @@ const schemaJson  = `{
             "name": "What supplements should I take with MDMA?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "The evidence-based MDMA supplement protocol: 48 hours before, NAC 600mg twice daily, Vitamin C 1000mg, Alpha Lipoic Acid 100mg. 60 minutes before, NAC 1200mg, ALCAR 500mg, Magnesium Glycinate 400mg, Vitamin C 1000mg, CoQ10 200mg. During, electrolytes and optional Magnesium 200mg. 24 hours after, 5-HTP 100mg + EGCG 400mg once daily, NAC 600mg, Vitamin C, Melatonin. Never take 5-HTP during or within 24 hours of MDMA."
+              "text": "The commonly recommended MDMA supplement protocol, which is not proven in humans (protective evidence is from animal and cell studies): 48 hours before, NAC 600mg twice daily, Vitamin C 1000mg, Alpha Lipoic Acid 100mg. 60 minutes before, NAC 1200mg, ALCAR 500mg, Magnesium Glycinate 400mg, Vitamin C 1000mg, CoQ10 200mg. During, electrolytes and optional Magnesium 200mg. 24 hours after, 5-HTP 100mg + EGCG 400mg once daily, NAC 600mg, Vitamin C, Melatonin. Never take 5-HTP during or within 24 hours of MDMA. No supplement replaces testing, not redosing and staying cool."
             }
           },
           {
@@ -58,7 +58,7 @@ const schemaJson  = `{
             "name": "What is a safe dose of MDMA?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "MDMA doses: light (50–75mg), common (75–125mg), high (125–175mg). Always start low with any new batch. Neurotoxicity scales with dose, higher doses produce more serotonin release and oxidative byproducts. Without a milligram scale you cannot know your actual dose from crystals or powder. If redosing, take once at half the original dose maximum."
+              "text": "We do not recommend an MDMA dose: street MDMA has no reliable strength, pressed pills range from no MDMA to more than 240 mg, and no study has established a safe recreational amount. What research does show is that risk rises faster than dose, because MDMA saturates the liver enzyme that clears it (PMID 10671903), and neurotoxicity and overheating risk scale with dose. If you use: test it, weigh it with a milligram scale, start with a small amount, and do not redose. If you redose anyway, once only, smaller than the first, and not during the come-up."
             }
           },
           {
@@ -90,7 +90,7 @@ const schemaJson  = `{
             "name": "Does magnesium reduce jaw clenching (bruxism) on MDMA?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. Magnesium glycinate is widely used in harm reduction to reduce MDMA-induced jaw clenching (bruxism). MDMA floods dopaminergic pathways in the basal ganglia, triggering involuntary jaw muscle contractions. Magnesium acts as a natural NMDA receptor antagonist and calcium channel modulator, dampening the excitatory signaling that drives these contractions. Magnesium deficiency is also independently associated with elevated bruxism rates. The glycinate form has superior bioavailability and is gentler on the stomach. Standard protocol: 400mg taken 60 minutes before, with an optional 200mg redose if clenching is severe. This recommendation is part of the DanceSafe harm reduction supplement protocol."
+              "text": "Unproven. Magnesium glycinate is widely used in harm reduction for MDMA-induced jaw clenching (bruxism), but no controlled trial has tested it for this, so any benefit is plausible rather than demonstrated. The proposed mechanism: magnesium acts as an NMDA receptor antagonist and calcium channel modulator, which could dampen the excitatory signaling behind involuntary jaw contractions. Magnesium deficiency is also independently associated with elevated bruxism rates. The glycinate form has superior bioavailability and is gentler on the stomach. Standard protocol: 400mg taken 60 minutes before, with an optional 200mg redose if clenching is severe. This is a common harm reduction recommendation, not a trial-tested one."
             }
           },
           {
@@ -278,7 +278,11 @@ const schemaJson  = `{
         <div class="section-header">
           <div class="step-pill">Step 2</div>
           <h2 id="the-supplement-protocol">The Supplement Protocol</h2>
-          <p class="section-sub">MDMA's neurotoxic potential is primarily mediated by oxidative stress. These supplements may reduce that damage, evidence is primarily from animal studies. Core protocol supplements: <strong>NAC</strong> (glutathione precursor), <strong>Magnesium</strong> (jaw clenching / bruxism), <strong>5-HTP + EGCG</strong> (serotonin recovery). This protocol reflects recommendations from <a href="/store" target="_blank" rel="noopener">DanceSafe</a> and the broader harm reduction community. No protocol eliminates risk, and no supplement replaces testing or appropriate dosing.</p>
+          <p class="section-sub">MDMA's neurotoxic potential is primarily mediated by oxidative stress. These supplements are proposed to reduce that damage, but the evidence is from animal and cell studies, not human trials. Core protocol supplements: <strong>NAC</strong> (glutathione precursor), <strong>Magnesium</strong> (jaw clenching / bruxism), <strong>5-HTP + EGCG</strong> (serotonin recovery). This protocol reflects what is commonly recommended in the harm reduction community. No protocol eliminates risk, and no supplement replaces testing or appropriate dosing.</p>
+        </div>
+
+        <div class="during-warning" style="max-width: 760px; margin: 0 auto 32px;">
+          <strong>Not proven in humans.</strong> No controlled human trial has shown that any supplement on this page protects against MDMA harm. The protective evidence comes from animal studies (mostly injected doses in rodents), cell studies and mechanism. Magnesium for jaw clenching and the 5-HTP/EGCG pairing have never been tested in MDMA users. We link these products as affiliate links, and we earn a commission at no cost to you; buying them is optional, and none of them replaces testing, not redosing, and staying cool. Check interactions with any medication you take.
         </div>
 
         <div class="protocol-timeline">
@@ -294,7 +298,7 @@ const schemaJson  = `{
                   <span class="supp-name">NAC</span>
                   <span class="supp-dose">600mg × 2 daily</span>
                 </div>
-                <p>N-Acetyl Cysteine, direct precursor to glutathione, the brain's primary endogenous antioxidant. Supplies the cysteine needed for glutathione synthesis. Builds reserves before MDMA exposure.</p>
+                <p>N-Acetyl Cysteine, direct precursor to glutathione, the brain's primary endogenous antioxidant. Supplies the cysteine needed for glutathione synthesis. Whether pre-loading it protects people from MDMA has not been tested in humans.</p>
                 <a href="https://www.amazon.com/dp/B0013OUQ3S?tag=ravewellness01-20" target="_blank" rel="noopener" class="supp-link">Buy NAC →</a>
               </div>
               <div class="supp-item">
@@ -302,7 +306,7 @@ const schemaJson  = `{
                   <span class="supp-name">Glycine</span>
                   <span class="supp-dose">1000mg daily</span>
                 </div>
-                <p>The second rate-limiting precursor for glutathione, alongside cysteine (from NAC). Research by Sekhar et al. (Baylor) shows that the GlyNAC combination restores glutathione significantly more effectively than NAC alone, because both precursors must be present for glutathione synthase to function at full capacity. Take together with NAC.</p>
+                <p>The second rate-limiting precursor for glutathione, alongside cysteine (from NAC). Research by Sekhar et al. (Baylor) found the GlyNAC combination restored glutathione in older adults with low levels; it has not been studied in MDMA users or for MDMA harm. Usually taken with NAC.</p>
                 <a href="https://www.amazon.com/dp/B0013OVZJW?tag=ravewellness01-20" target="_blank" rel="noopener" class="supp-link">Buy Glycine →</a>
               </div>
               <div class="supp-item">
@@ -310,7 +314,7 @@ const schemaJson  = `{
                   <span class="supp-name">Vitamin C</span>
                   <span class="supp-dose">1000mg</span>
                 </div>
-                <p>Water-soluble antioxidant with demonstrated neuroprotective effects in oxidative stress models.</p>
+                <p>Water-soluble antioxidant. It prevented MDMA-related serotonin loss in rats given injected doses (Shankaran &amp; Gudelsky, 2001); not tested in humans.</p>
                 <a href="https://www.amazon.com/dp/B0013OSLKI?tag=ravewellness01-20" target="_blank" rel="noopener" class="supp-link">Buy Vitamin C →</a>
               </div>
               <div class="supp-item">
@@ -318,7 +322,7 @@ const schemaJson  = `{
                   <span class="supp-name">Alpha Lipoic Acid</span>
                   <span class="supp-dose">100mg</span>
                 </div>
-                <p>Universal antioxidant, functions in both water and fat-soluble environments, and helps regenerate Vitamins C and E.</p>
+                <p>Antioxidant that works in both water and fat-soluble environments and helps regenerate Vitamins C and E. It prevented serotonin depletion in rats given injected doses (Aguirre et al., 1999); not tested in humans.</p>
                 <a href="https://www.amazon.com/dp/B005C99OWO?tag=ravewellness01-20" target="_blank" rel="noopener" class="supp-link">Buy ALA (R-form) →</a>
               </div>
             </div>
@@ -335,7 +339,7 @@ const schemaJson  = `{
                   <span class="supp-name">NAC</span>
                   <span class="supp-dose">1200mg</span>
                 </div>
-                <p>Higher pre-dose to maximize glutathione availability during peak MDMA metabolism.</p>
+                <p>Intended to raise glutathione availability during peak MDMA metabolism. Protective effects come from animal studies only.</p>
                 <a href="https://www.amazon.com/dp/B0013OUQ3S?tag=ravewellness01-20" target="_blank" rel="noopener" class="supp-link">Buy NAC →</a>
               </div>
               <div class="supp-item">
@@ -343,7 +347,7 @@ const schemaJson  = `{
                   <span class="supp-name">ALCAR</span>
                   <span class="supp-dose">500mg</span>
                 </div>
-                <p>Acetyl-L-Carnitine, crosses the blood-brain barrier and supports mitochondrial energy production under metabolic stress.</p>
+                <p>Acetyl-L-Carnitine crosses the blood-brain barrier and supports mitochondrial energy production. Protective effects against MDMA come from rodent studies only.</p>
                 <a href="https://www.amazon.com/dp/B0027DWNHQ?tag=ravewellness01-20" target="_blank" rel="noopener" class="supp-link">Buy ALCAR →</a>
               </div>
               <div class="supp-item">
@@ -351,8 +355,8 @@ const schemaJson  = `{
                   <span class="supp-name">Magnesium Glycinate</span>
                   <span class="supp-dose">400mg</span>
                 </div>
-                <p>Reduces jaw clenching (bruxism), one of the most common and uncomfortable effects of MDMA. <strong>How it works:</strong> MDMA floods dopaminergic pathways in the basal ganglia, triggering involuntary jaw muscle contractions. Magnesium acts as a natural NMDA receptor antagonist and voltage-gated calcium channel modulator, dampening the excitatory signaling driving these contractions. Magnesium deficiency is also independently associated with elevated bruxism rates in the general population. Glycinate form has superior bioavailability and is gentler on the stomach than oxide or citrate.</p>
-                <p class="note-text">This is one of the best-documented experiential benefits of the harm reduction supplement protocol, <a href="/store" target="_blank" rel="noopener">DanceSafe</a> and other harm reduction organizations consistently recommend it.</p>
+                <p>Commonly used for jaw clenching (bruxism), one of the most common and uncomfortable effects of MDMA. <strong>No controlled trial has tested magnesium for MDMA jaw clenching</strong>, so this is plausible, not proven. <strong>The proposed mechanism:</strong> MDMA floods dopaminergic pathways in the basal ganglia, triggering involuntary jaw muscle contractions. Magnesium acts as a natural NMDA receptor antagonist and voltage-gated calcium channel modulator, which could dampen the excitatory signaling driving these contractions. Magnesium deficiency is also independently associated with elevated bruxism rates in the general population. Glycinate form has superior bioavailability and is gentler on the stomach than oxide or citrate.</p>
+                <p class="note-text">Harm reduction organizations commonly recommend it and many people report it helps, but that is community experience, not trial evidence. See our <a href="/blog/mdma-magnesium-jaw-clenching.html">magnesium evidence review</a>.</p>
                 <a href="https://www.amazon.com/dp/B000BD0RT0?tag=ravewellness01-20" target="_blank" rel="noopener" class="supp-link">Buy Magnesium →</a>
               </div>
               <div class="supp-item">
@@ -368,7 +372,7 @@ const schemaJson  = `{
                   <span class="supp-name">CoQ10</span>
                   <span class="supp-dose">200mg</span>
                 </div>
-                <p>Coenzyme Q10, essential component of the mitochondrial electron transport chain; supports cellular energy production and acts as a fat-soluble antioxidant.</p>
+                <p>Coenzyme Q10, part of the mitochondrial electron transport chain and a fat-soluble antioxidant. There is no MDMA-specific evidence for it in humans or animals that we have verified; it is included on mechanism alone.</p>
                 <a href="https://www.amazon.com/dp/B015TK6KVI?tag=ravewellness01-20" target="_blank" rel="noopener" class="supp-link">Buy CoQ10 →</a>
               </div>
             </div>
@@ -392,7 +396,7 @@ const schemaJson  = `{
                   <span class="supp-name">Electrolytes</span>
                   <span class="supp-dose">Per packet / as needed</span>
                 </div>
-                <p>Add to water when sweating. Critical for preventing hyponatremia. See hydration guide below.</p>
+                <p>Add to water when sweating to replace salt. The main protection against hyponatremia is not overdrinking plain water; see the hydration guide below.</p>
                 <a href="https://www.amazon.com/dp/B07TT8B1JJ?tag=ravewellness01-20" target="_blank" rel="noopener" class="supp-link">Buy LMNT →</a>
               </div>
             </div>
@@ -414,7 +418,7 @@ const schemaJson  = `{
                   <span class="supp-name">Water + electrolytes</span>
                   <span class="supp-dose">Sip steadily</span>
                 </div>
-                <p>Replace fluids and salts you sweated out. Electrolytes beat plain water alone for preventing headache and malaise the next day.</p>
+                <p>Replace fluids and salts you sweated out, sipping rather than chugging.</p>
                 <a href="https://www.amazon.com/dp/B07TT8B1JJ?tag=ravewellness01-20" target="_blank" rel="noopener" class="supp-link">Electrolyte packets →</a>
               </div>
               <div class="supp-item">
@@ -422,7 +426,7 @@ const schemaJson  = `{
                   <span class="supp-name">NAC</span>
                   <span class="supp-dose">600mg</span>
                 </div>
-                <p>Continue antioxidant support, glutathione production is still needed while MDMA metabolites clear your system.</p>
+                <p>Continued antioxidant support while MDMA metabolites clear. Not tested in humans.</p>
                 <a href="https://www.amazon.com/dp/B0013OUQ3S?tag=ravewellness01-20" target="_blank" rel="noopener" class="supp-link">Buy NAC →</a>
               </div>
               <div class="supp-item">
@@ -438,7 +442,7 @@ const schemaJson  = `{
                   <span class="supp-name">Melatonin</span>
                   <span class="supp-dose">3–5mg before bed</span>
                 </div>
-                <p>Helps you fall asleep when your clock is wired. Melatonin is also a direct antioxidant and free-radical scavenger, useful the night of use, separate from the "next day" serotonin stack.</p>
+                <p>Has modest human evidence for helping people fall asleep. Its antioxidant role after MDMA is unstudied in people, so take it for sleep, not protection.</p>
                 <a href="https://www.amazon.com/dp/B0149LAJTW?tag=ravewellness01-20" target="_blank" rel="noopener" class="supp-link">Melatonin options →</a>
               </div>
             </div>
@@ -455,7 +459,7 @@ const schemaJson  = `{
                   <span class="supp-name">5-HTP + EGCG (Green Tea Extract)</span>
                   <span class="supp-dose">100mg + 400mg, once daily</span>
                 </div>
-                <p>5-HTP is a direct precursor to serotonin, replenishing what MDMA depleted. It is commonly paired with EGCG (green tea extract), and that pairing is <strong>not as well supported as the protocol implies</strong>.</p>
+                <p>5-HTP is a direct precursor to serotonin, taken with the aim of replenishing what MDMA depleted; that benefit has not been tested in humans after MDMA. It is commonly paired with EGCG (green tea extract), and that pairing is <strong>not as well supported as the protocol implies</strong>.</p>
                 <p><strong>What is established:</strong> aromatic L-amino acid decarboxylase (AADC) converts much of an oral 5-HTP dose to serotonin in the gut and peripheral blood vessels before it reaches the brain. Peripheral serotonin cannot cross the blood-brain barrier and tends to cause nausea and GI distress instead. This is why clinical protocols pair 5-HTP with a decarboxylase inhibitor.</p>
                 <p><strong>What the EGCG mechanism rests on:</strong> Bertoldi et al. (2001) showed EGCG and EGC are irreversible, active-site inhibitors of DOPA decarboxylase, the same enzyme as AADC (<a href="https://pubmed.ncbi.nlm.nih.gov/11374875/" target="_blank" rel="noopener">PMID 11374875</a>). That is a real primary source, and it was done on purified enzyme. <strong>No human or animal study has tested EGCG with 5-HTP</strong>, so the effect size in a person is unknown. Carbidopa is the proven peripheral AADC inhibitor, and it is prescription-only.</p>
                 <p><strong>Timing is what actually matters here.</strong> EGCG also inhibits MAO-B, which is a reason not to take it near MDMA. Taken the day after, with MDMA largely cleared, that concern is minimal. Our <a href="/blog/mdma-green-tea-extract-egcg.html">EGCG evidence review</a> covers the full picture.</p>
@@ -545,22 +549,14 @@ const schemaJson  = `{
               <h3 id="dosing">Dosing</h3>
               <span class="badge badge-caution">Important</span>
             </div>
-            <p>MDMA neurotoxicity scales with dose. Higher doses produce more serotonin release and more oxidative byproducts.</p>
-            <div class="dose-table">
-              <div class="dose-row dose-light">
-                <span>Light</span>
-                <span>50–75mg</span>
-              </div>
-              <div class="dose-row dose-common">
-                <span>Common</span>
-                <span>75–125mg</span>
-              </div>
-              <div class="dose-row dose-high">
-                <span>High</span>
-                <span>125–175mg</span>
-              </div>
-            </div>
-            <p class="note-text"><strong>Start low with any new batch.</strong> If redosing: once maximum, at half the original dose. Each redose extends the neurotoxic window.</p>
+            <p>MDMA neurotoxicity scales with dose. Higher doses produce more serotonin release and more oxidative byproducts, and because MDMA saturates the enzyme that clears it, blood levels rise faster than the amount taken (<a href="https://pubmed.ncbi.nlm.nih.gov/10671903/" target="_blank" rel="noopener">PMID 10671903</a>).</p>
+            <p><strong>We don't recommend a dose.</strong> Pressed pills range from no MDMA to more than 240 mg, and no study has established a safe recreational amount. What reduces risk regardless of the number:</p>
+            <ul>
+              <li><strong>Test it</strong>, then <strong>weigh it</strong>: you can't judge an amount by eye</li>
+              <li><strong>Start with a small amount</strong>, especially with any new batch</li>
+              <li><strong>Don't redose.</strong> If you do: once only, smaller than the first, not during the come-up</li>
+            </ul>
+            <p class="note-text">For what clinical trials gave people under medical supervision, and why that isn't a recreational target, see <a href="/blog/mdma-dosing-guide.html">MDMA dose safety</a>.</p>
             <p class="note-text">Without a milligram scale, you cannot know your actual dose from crystals or powder.</p>
           </div>
 
@@ -926,8 +922,8 @@ const schemaJson  = `{
           </a>
           <a href="/blog/mdma-dosing-guide.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Dosing</p>
-            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="mdma-dosage-guide-what-is-a-safe-dose-of-molly-or-ecstasy">MDMA Dosage Guide: What Is a Safe Dose of Molly or Ecstasy?</h3>
-            <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Clinical trial doses, body weight rules, redosing rules, and the pressed pill problem.</p>
+            <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="mdma-dose-safety-what-the-research-actually-shows">MDMA Dose Safety: What the Research Actually Shows</h3>
+            <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">What trials gave people, why we don't recommend a dose, redosing, and the pressed pill problem.</p>
           </a>
           <a href="/blog/mdma-comedown.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Recovery</p>
@@ -977,7 +973,7 @@ const schemaJson  = `{
           <a href="/blog/5-htp-and-molly.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Supplements</p>
             <h3 style="font-size: 1rem; color: var(--text); margin-bottom: 8px; line-height: 1.4;" id="5-htp-and-molly-timing-serotonin-recovery-and-syndrome-risk">5-HTP and Molly: Timing, Serotonin Recovery, and Syndrome Risk</h3>
-            <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">5-HTP can help replenish serotonin after MDMA, but wait 24 hours. Taking it too soon raises serotonin syndrome risk.</p>
+            <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">5-HTP is used to try to replenish serotonin after MDMA, though that is untested in humans; wait 24 hours. Taking it too soon raises serotonin syndrome risk.</p>
           </a>
           <a href="/blog/mdma-magnesium-jaw-clenching.html" style="display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-decoration: none;">
             <p style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple-light); margin-bottom: 8px;">Supplements</p>
@@ -1029,7 +1025,7 @@ const schemaJson  = `{
       <div class="container">
         <div class="section-header">
           <h2 id="mdma-harm-reduction-essentials">MDMA Harm Reduction Essentials</h2>
-          <p class="section-sub">Products recommended based on their harm reduction value. <span class="affiliate-note">Affiliate disclosure: links below may earn a commission at no extra cost to you.</span></p>
+          <p class="section-sub">Products recommended based on their harm reduction value. <span class="affiliate-note">Affiliate disclosure: links below may earn a commission at no extra cost to you. Supplements below are not proven to protect against MDMA harm in humans; see the evidence notes on each.</span></p>
         </div>
 
         <!-- Testing -->
@@ -1049,7 +1045,7 @@ const schemaJson  = `{
               <h4>BTNX Fentanyl Test Strips (8-pack kit)</h4>
               <p>The same strips used by public health organizations. Kit includes micro scoop and cup for easy MDMA testing. Detects fentanyl and many analogs.</p>
               <div class="product-footer">
-                <a href="/fentanyl-strips" target="_blank" rel="noopener" class="btn btn-sm btn-danger">Buy on Amazon →</a>
+                <a href="/fentanyl-strips" target="_blank" rel="noopener" class="btn btn-sm btn-danger">Buy at DanceSafe →</a>
               </div>
             </div>
             <div class="product-card">
@@ -1064,7 +1060,7 @@ const schemaJson  = `{
               <h4>Smart Weigh Milligram Scale (0.001g)</h4>
               <p>Essential for anyone handling crystalline MDMA. Accurate to 0.001g with calibration weights included. You cannot dose safely without weighing.</p>
               <div class="product-footer">
-                <a href="/mg-scale" target="_blank" rel="noopener" class="btn btn-sm btn-secondary">Buy on Amazon →</a>
+                <a href="/mg-scale" target="_blank" rel="noopener" class="btn btn-sm btn-secondary">Buy at DanceSafe →</a>
               </div>
             </div>
           </div>
@@ -1072,12 +1068,12 @@ const schemaJson  = `{
 
         <!-- Supplements -->
         <div class="shop-category">
-          <h3 id="the-supplement-stack">💊 The Supplement Stack</h3>
+          <h3 id="the-supplement-stack">💊 The Supplement Stack <em>(not proven in humans)</em></h3>
           <div class="product-grid">
             <div class="product-card">
               <div class="product-timing-badge">Pre-load + Day-of</div>
               <h4>NOW NAC 600mg (250 caps)</h4>
-              <p>Clean label, third-party tested. The cornerstone of the harm reduction supplement protocol. Drives glutathione synthesis.</p>
+              <p>Clean label, third-party tested. The core of the commonly recommended protocol; a glutathione precursor. Protection against MDMA is shown in animals only.</p>
               <div class="product-footer">
                 <a href="https://www.amazon.com/dp/B0013OUQ3S?tag=ravewellness01-20" target="_blank" rel="noopener" class="btn btn-sm btn-primary">Buy on Amazon →</a>
               </div>
@@ -1085,7 +1081,7 @@ const schemaJson  = `{
             <div class="product-card">
               <div class="product-timing-badge">Day-of</div>
               <h4>Jarrow ALCAR 500mg</h4>
-              <p>Acetyl-L-Carnitine from a trusted brand. Brain-bioavailable mitochondrial support taken 1 hour before.</p>
+              <p>Acetyl-L-Carnitine, a mitochondrial support supplement. Protective evidence against MDMA is from rodent studies only.</p>
               <div class="product-footer">
                 <a href="https://www.amazon.com/dp/B0027DWNHQ?tag=ravewellness01-20" target="_blank" rel="noopener" class="btn btn-sm btn-primary">Buy on Amazon →</a>
               </div>
@@ -1093,7 +1089,7 @@ const schemaJson  = `{
             <div class="product-card">
               <div class="product-timing-badge">Day-of</div>
               <h4>Doctor's Best Magnesium Glycinate 200mg</h4>
-              <p>Highly bioavailable glycinate form. Dramatically reduces jaw clenching and muscle tension.</p>
+              <p>Highly bioavailable glycinate form. Commonly used for jaw clenching; no trial has tested it for MDMA, so treat any benefit as unproven.</p>
               <div class="product-footer">
                 <a href="https://www.amazon.com/dp/B000BD0RT0?tag=ravewellness01-20" target="_blank" rel="noopener" class="btn btn-sm btn-primary">Buy on Amazon →</a>
               </div>
@@ -1109,7 +1105,7 @@ const schemaJson  = `{
             <div class="product-card">
               <div class="product-timing-badge">Day-of</div>
               <h4>Thorne CoQ10 100mg (take 2 caps = 200mg)</h4>
-              <p>Clinical-grade ubiquinone from Thorne. Third-party tested. Take 2 capsules to hit the 200mg protocol dose.</p>
+              <p>Ubiquinone from Thorne, third-party tested. Included on mechanism only; no verified MDMA-specific evidence.</p>
               <div class="product-footer">
                 <a href="https://www.amazon.com/dp/B015TK6KVI?tag=ravewellness01-20" target="_blank" rel="noopener" class="btn btn-sm btn-primary">Buy on Amazon →</a>
               </div>
@@ -1117,7 +1113,7 @@ const schemaJson  = `{
             <div class="product-card">
               <div class="product-timing-badge">Pre-load</div>
               <h4>Jarrow R-Alpha Lipoic Acid 100mg</h4>
-              <p>R-ALA is the biologically active isomer, more potent than racemic ALA. Works in both water and fat-soluble environments and helps regenerate Vitamins C and E. Part of the T-48h pre-load stack.</p>
+              <p>R-ALA is the biologically active isomer, more potent than racemic ALA. Works in both water and fat-soluble environments and helps regenerate Vitamins C and E. Protective against MDMA in rats given injected doses; not tested in humans.</p>
               <div class="product-footer">
                 <a href="https://www.amazon.com/dp/B005C99OWO?tag=ravewellness01-20" target="_blank" rel="noopener" class="btn btn-sm btn-primary">Buy on Amazon →</a>
               </div>
@@ -1125,7 +1121,7 @@ const schemaJson  = `{
             <div class="product-card">
               <div class="product-timing-badge">Pre-load</div>
               <h4>NOW Glycine Powder 1kg</h4>
-              <p>Pairs with NAC, both precursors are required for glutathione synthase to run at full capacity. GlyNAC combination restores glutathione more effectively than NAC alone.</p>
+              <p>Pairs with NAC, both precursors are required for glutathione synthase to run at full capacity. GlyNAC raised glutathione in older adults with low levels; not studied for MDMA.</p>
               <div class="product-footer">
                 <a href="https://www.amazon.com/dp/B0013OVZJW?tag=ravewellness01-20" target="_blank" rel="noopener" class="btn btn-sm btn-primary">Buy on Amazon →</a>
               </div>
@@ -1133,7 +1129,7 @@ const schemaJson  = `{
             <div class="product-card product-recovery">
               <div class="product-timing-badge timing-recovery">Recovery Only, 24h+ after</div>
               <h4>Doctor's Best 5-HTP 100mg</h4>
-              <p>Take with green tea extract (EGCG) to block peripheral conversion. Start 24 hours after MDMA. Replenishes serotonin precursor supply. <strong>Never take with MDMA.</strong></p>
+              <p>Commonly paired with EGCG, though that pairing is untested. Start 24 hours after MDMA at the earliest. Intended to replenish serotonin precursor supply; not tested in humans after MDMA. <strong>Never take with MDMA.</strong></p>
               <div class="product-footer">
                 <a href="https://www.amazon.com/dp/B00FGA5RX4?tag=ravewellness01-20" target="_blank" rel="noopener" class="btn btn-sm btn-secondary">Buy on Amazon →</a>
               </div>
@@ -1149,7 +1145,7 @@ const schemaJson  = `{
             <div class="product-card product-recovery">
               <div class="product-timing-badge timing-recovery">Recovery, night of</div>
               <h4>Natrol Melatonin 3mg</h4>
-              <p>Sleep support when your circadian clock is wired. Also a direct antioxidant and free-radical scavenger, helpful as MDMA metabolites clear overnight.</p>
+              <p>Modest human evidence for helping you fall asleep when your clock is wired. Its antioxidant role after MDMA is unstudied in people.</p>
               <div class="product-footer">
                 <a href="https://www.amazon.com/dp/B0149LAJTW?tag=ravewellness01-20" target="_blank" rel="noopener" class="btn btn-sm btn-secondary">Buy on Amazon →</a>
               </div>

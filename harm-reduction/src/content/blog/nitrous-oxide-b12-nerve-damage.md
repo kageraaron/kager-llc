@@ -2,7 +2,7 @@
 title: "Nitrous Oxide and Nerve Damage: The B12 Risk"
 description: "Whippets (nitrous oxide) can permanently damage your spinal cord and nerves by depleting vitamin B12. The mechanism, who's at risk, and early symptoms."
 date: 2026-05-27
-lastmod: 2026-08-18
+lastmod: 2026-10-08
 tags: ["nitrous oxide", "harm reduction", "B12", "nerve damage", "whippets"]
 author: "Jordan Mercer"
 ---
@@ -53,9 +53,9 @@ Pre-existing low B12 is the single most important risk factor, and several group
 - People with Crohn's disease, celiac disease, or a gastric bypass
 - Older adults, since absorption falls with age
 
-Frequency and volume are the second factor. The clearest cases involve large-volume sessions, 100 or more cartridges at a time, or repeated use over weeks and months. Single or occasional moderate use has not been documented to cause clinical SCD in someone with normal baseline B12.
+Frequency and volume are the second factor. The clearest cases involve large-volume sessions, 100 or more cartridges at a time, or repeated use over weeks and months. Single or occasional moderate use has not been documented to cause clinical SCD in someone with normal baseline B12. A 2026 cohort of 81 people hospitalised across six Sydney hospitals found a real dose-response: higher cumulative nitrous exposure was associated with spinal cord degeneration and peripheral neuropathy, and correlated with how severe the neuropathy was ([PMID 42476595](https://pubmed.ncbi.nlm.nih.gov/42476595/)).
 
-Then there is the trap in the middle: **serum B12 can read normal while your functional reserve is critically low.** Active B12 (holotranscobalamin) and methylmalonic acid are the sensitive markers, and neither is checked routinely unless you ask. You can feel fine, test borderline-normal, and still be in trouble.
+Then there is the trap in the middle: **serum B12 can read normal while your functional reserve is critically low.** Nitrous inactivates B12 without removing it, so the inactivated molecules still count on a standard test. The markers that catch the problem are **homocysteine and methylmalonic acid (MMA)**, which build up when B12 stops working. In that same Sydney cohort, homocysteine and MMA picked up 95% and 93% of spinal cord cases. Serum B12 caught 22%, and "active B12" (holotranscobalamin) caught just 5% ([PMID 42476595](https://pubmed.ncbi.nlm.nih.gov/42476595/)). Neither homocysteine nor MMA is checked routinely, so ask for both by name. You can feel fine, test borderline-normal on B12, and still be in trouble.
 
 ## If you have symptoms
 
@@ -71,10 +71,10 @@ And tell your doctor about the nitrous. They cannot order the right tests or sta
 
 Occasional use and heavy repeated use are genuinely different risk profiles, and pretending otherwise makes this page easier to dismiss. The published cases almost universally involve frequent large-volume use, pre-existing B12 deficiency, or both. A few cartridges at a festival with decent B12 status is not the same category as hundreds a week.
 
-There is still no established safe threshold. What is known is which two levers actually move the risk: how often you use, and where your B12 sits before you start. If you use regularly, get the level checked rather than assuming.
+There is still no established safe threshold. What is known is which two levers actually move the risk: how often you use, and where your B12 sits before you start. If you use regularly, get homocysteine and MMA checked rather than assuming a normal B12 result means you are fine.
 
 For dosing, tank-specific injuries and the wider risk picture, see our [nitrous oxide harm reduction guide](/nitrous.html) and our post on [Galaxy Gas tanks and nerve damage](/blog/galaxy-gas-nitrous-tanks-nerve-damage.html).
 
 ## Sources
 
-[PMID 30611595](https://pubmed.ncbi.nlm.nih.gov/30611595/) | [PMID 25977272](https://pubmed.ncbi.nlm.nih.gov/25977272/)
+[PMID 30611595](https://pubmed.ncbi.nlm.nih.gov/30611595/) | [PMID 25977272](https://pubmed.ncbi.nlm.nih.gov/25977272/) | [PMID 42476595](https://pubmed.ncbi.nlm.nih.gov/42476595/)

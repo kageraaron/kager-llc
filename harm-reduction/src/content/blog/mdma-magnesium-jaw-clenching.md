@@ -2,7 +2,7 @@
 title: "MDMA Jaw Clenching and Magnesium: Evidence Review"
 description: "Does magnesium stop molly jaw? No trial has tested it. An honest evidence review of the mechanism, what is graded, best form, and dosing."
 date: 2026-05-29
-lastmod: 2026-08-17
+lastmod: 2026-10-08
 tags: ["mdma", "harm reduction", "magnesium", "bruxism", "jaw clenching", "supplements"]
 author: "Jordan Mercer"
 ---
@@ -50,7 +50,9 @@ What it is not is a block on dopamine or serotonin. Magnesium works downstream, 
 | Magnesium threonate | High (CNS-specific) | Good | Research-backed for brain Mg levels, costs more |
 | Magnesium sulfate (Epsom salt) | Low oral | N/A | Not absorbed well orally, not for this |
 
-Glycinate is the default. Chelation to glycine improves absorption, and glycine has inhibitory activity at its own receptors, which adds a small calming effect on top of the magnesium. A widely available chelated option is [Doctor's Best High Absorption Magnesium Glycinate 200mg](https://www.amazon.com/dp/B000BD0RT0?tag=ravewellness01-20).
+Glycinate is the default. Chelation to glycine improves absorption, and glycine has inhibitory activity at its own receptors, which adds a small calming effect on top of the magnesium. > **Not proven in humans.** No controlled trial has tested magnesium for MDMA jaw clenching, so any benefit is plausible rather than demonstrated. Product links on this page are affiliate links: we earn a small commission at no cost to you, buying them is optional, and none of them replaces testing, not redosing and staying cool.
+
+A widely available chelated option is [Doctor's Best High Absorption Magnesium Glycinate 200mg](https://www.amazon.com/dp/B000BD0RT0?tag=ravewellness01-20).
 
 ## Dosing, and why the timing is not arbitrary
 

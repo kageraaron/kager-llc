@@ -2,7 +2,7 @@
 title: "Shrooms and Supplements: What to Take and Skip"
 description: "The MDMA supplement stack does not transfer to psilocybin, because the problem it solves does not exist here. What actually helps before and after."
 date: 2026-08-12
-lastmod: 2026-08-17
+lastmod: 2026-10-08
 tags: ["psilocybin", "mushrooms", "supplements", "harm reduction", "stamets stack", "niacin"]
 author: "Jordan Mercer"
 ---
@@ -23,6 +23,8 @@ So the neuroprotection framing has nothing to attach to. These supplements are n
 
 **A light stomach.** This is the real nausea intervention. A meta-analysis of therapeutic psilocybin trials put nausea at a relative risk of 8.85 against placebo, higher than any other acute adverse effect it measured, with everything resolving inside 48 hours. Fasting 3 to 4 hours beforehand cuts it down and gives a cleaner come-up. A heavy meal pushes onset past 90 minutes, which is exactly where people make the redosing mistake described in the [psilocybin timeline](/blog/how-long-do-shrooms-last.html).
 
+> **Not proven in humans.** None of these supplements has been tested in people taking psilocybin. Ginger and melatonin have human evidence in other settings; lion's mane has only cell, rodent and pilot data. Product links on this page are affiliate links: we earn a small commission at no cost to you, buying them is optional, and none of them replaces testing, not redosing and staying cool.
+
 **Ginger, beforehand.** The one supplement here with a real evidence base, though the trials are for surgical and pregnancy nausea rather than mushrooms. A meta-analysis of five randomised trials in 363 patients found 1 g or more reduced postoperative nausea and vomiting at a relative risk of 0.69; a separate meta-analysis of 12 trials in 1,278 pregnant women found significant improvement in nausea, though not in vomiting episodes, with no safety signal. Extrapolating to mushroom nausea is an assumption, but a low-risk one. [Ginger capsules](https://www.amazon.com/s?k=ginger+capsules+nausea&tag=ravewellness01-20) 30 to 60 minutes before dosing sit better on an empty stomach than a large volume of tea.
 
 **Water, in ordinary amounts.** Psilocybin does not carry MDMA's hyponatremia risk, so there is nothing to force and nothing to restrict.
@@ -41,7 +43,7 @@ That is the whole list. No antioxidants, no amino acids, no nootropics. Preparat
 
 ## The Stamets Stack, honestly
 
-The stack pairs a psilocybin microdose, commonly 0.1 g of dried mushroom, with lion's mane and niacin, usually four days on and three off. The stated logic: lion's mane drives nerve growth factor, psilocybin drives neuroplasticity, and niacin's vasodilation distributes the other two.
+The stack pairs a psilocybin microdose with lion's mane and niacin, usually four days on and three off. The stated logic: lion's mane drives nerve growth factor, psilocybin drives neuroplasticity, and niacin's vasodilation distributes the other two.
 
 Lion's mane on its own has genuine preclinical data. Its hericenones and erinacines induce NGF synthesis, demonstrated in human astrocytoma cell culture and confirmed in mouse hippocampus. That is in vitro and rodent work, the bottom rungs of the evidence ladder. There is one small human trial, a double-blind placebo-controlled study in 30 adults with mild cognitive impairment, which found improved cognitive scores over 16 weeks that were gone four weeks after stopping. Thirty people is a pilot. [Lion's mane](https://www.amazon.com/s?k=lions+mane+mushroom+supplement&tag=ravewellness01-20) is low-risk if you want to try it, but **no controlled human trial has ever tested it combined with psilocybin**, and the neurogenesis claims made for the stack have not been measured in a person.
 

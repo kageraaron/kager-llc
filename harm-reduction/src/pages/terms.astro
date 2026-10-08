@@ -4,9 +4,28 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const title       = "Terms of Use | Rave Wellness";
 const description = "Terms of use for ravewellness.org. This site provides harm reduction information for educational purposes only and is not a substitute for medical advice.";
 const canonical   = "https://www.ravewellness.org/terms.html";
+const schemaJson  = `{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://www.ravewellness.org/terms.html",
+      "name": "Terms of Use",
+      "url": "https://www.ravewellness.org/terms.html",
+      "publisher": { "@type": "Organization", "name": "Rave Wellness", "url": "https://www.ravewellness.org" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.ravewellness.org/" },
+        { "@type": "ListItem", "position": 2, "name": "Terms of Use", "item": "https://www.ravewellness.org/terms.html" }
+      ]
+    }
+  ]
+}`;
 ---
 
-<BaseLayout {title} {description} {canonical} ogType="website">
+<BaseLayout {title} {description} {canonical} {schemaJson} ogType="website">
   <Fragment slot="footer-nav">
     <h4>Legal</h4>
     <a href="/privacy.html">Privacy Policy</a>

@@ -60,8 +60,16 @@ Found live: GHB redose interval stated four different ways (90 min, >2h, 2-3h, 3
 
 **Method:** grep the same figure across all files and diff. Do not audit one page in isolation.
 
-### 5. Dose figures without a visible evidence tier
-Every dose must be traceable to one of four tiers, stated in the text: **clinical trial** (name it, cite the PMID), **pharmacology** (show the derivation), **harm reduction consensus** (say "the range cited across harm reduction organisations"), **community practice** (say "no controlled trial has tested this"). Never present a tier-3 or tier-4 number in the register of a tier-1 one.
+### 5. Dose figures that break the dosing policy
+**Dosing policy (since 2026-10-08):** the site does not recommend recreational doses.
+- **Community heuristics** (weight-based formulas, light/common/strong tables, gram tiers, "start at X", combo ceilings): do not publish the number. Give relative guidance instead: test it, weigh it, start with a small amount, wait the full onset, don't redose, and take less in combinations or with a new batch.
+- **GHB/GBL:** no numbers at all, including volumes, gram ranges, potency ratios and the redose interval. Use "far less than you expect", "wait much longer than feels necessary, counted from the first dose", and "don't redose".
+- **Research doses** (trial protocols, PK study doses) may appear only framed as what a study gave, e.g. "the MAPS Phase 3 trials gave 80 mg", never as "take X". Cite the PMID.
+- **Safety limits** (redose waits derived from PK, hydration ceilings, "don't redose") stay.
+- **Prescription drugs used for harm reduction** (e.g. benzodiazepines for a bad trip): "use only as prescribed", with no amounts.
+- **Supplements** are out of scope for this policy and keep their existing figures.
+
+Flag any recreational dose number that is not a cited research dose framed as "the study gave", and any GHB/GBL number. A research dose rewritten as advice ("trials used 80–120 mg, so take that") is also a finding.
 
 ### 6. Risk framing out of proportion to actual risk
 Both directions are failures. Overstating a low risk trains readers to discount the site. Understating a high one is obvious. Check especially: fentanyl-in-everything messaging, "holes in your brain", casual-contact fentanyl exposure, and any claim that a single use causes permanent damage.
@@ -117,7 +125,7 @@ End with a summary table by severity, and an explicit list of **anything checked
 
 ## Standing constraints for any fix
 
-- Never remove a dose figure to be safe. Removing dosing guidance sends people to worse sources. Label the tier instead.
+- Follow the dosing policy in check 5: replace a non-research dose number with relative guidance (start small, weigh, wait, don't redose); never just delete it and leave nothing.
 - Never add a product link to an emergency answer.
 - Never link a product you have just reported as ineffective.
 - Prefer DanceSafe over Amazon where DanceSafe sells the equivalent, but never at the cost of accuracy. If a cheaper or different product is genuinely the right tool, say so.

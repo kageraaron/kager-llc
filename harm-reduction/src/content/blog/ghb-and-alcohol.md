@@ -2,7 +2,7 @@
 title: "GHB and Alcohol: Why This Combination Kills"
 description: "Mixing GHB and alcohol is one of the most dangerous rave combinations. The pharmacology, the real overdose risk, and what to do if someone goes under."
 date: 2026-05-14
-lastmod: 2026-08-17
+lastmod: 2026-10-08
 tags: ["ghb", "alcohol", "harm reduction", "overdose", "drug interactions"]
 author: "Jordan Mercer"
 ---
@@ -26,7 +26,7 @@ Most jurisdictions have Good Samaritan laws protecting people who call for help 
 
 ## Why the two together are worse than either
 
-GHB has one of the narrowest safety margins of any recreational drug. Roughly 1 to 2 g gives euphoria and disinhibition. Around 2.5 to 3.5 g gives sedation. As little as 3 to 4 g in someone without tolerance can produce coma and life-threatening respiratory depression. That puts unconsciousness at about two to three times a recreational dose. For alcohol the equivalent ratio is closer to ten.
+GHB has one of the narrowest safety margins of any recreational drug. The amount that gives euphoria and disinhibition is not far below the amount that causes sedation, and not far below that, in someone without tolerance, is coma and life-threatening respiratory depression. With alcohol the distance between those points is much wider.
 
 The two drugs do not compete for the same receptor, which is exactly the problem. GHB works mainly as a GABA-B agonist at recreational concentrations, inhibiting neural excitability broadly, including respiratory drive. Alcohol mainly potentiates GABA-A receptors and blocks NMDA glutamate receptors. Different doors into the same building. Both slow breathing, dull consciousness, wreck coordination, and suppress the gag reflex, so the effects stack rather than cancel, and at higher doses they stack more than additively.
 

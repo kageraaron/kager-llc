@@ -2,7 +2,7 @@
 title: "2C-B vs Tusi: Pink Cocaine Is Not 2C-B"
 description: "Tusi and 2C-B are not the same drug. Lab testing shows pink cocaine usually contains MDMA and ketamine, with very different risks than actual 2C-B."
 date: 2026-05-12
-lastmod: 2026-08-17
+lastmod: 2026-10-08
 tags: ["2C-B", "tusi", "pink cocaine", "drug checking", "ketamine", "MDMA"]
 author: "Jordan Mercer"
 ---
@@ -24,7 +24,7 @@ author: "Jordan Mercer"
 
 Then demand outran supply. Real 2C-B is hard to source in quantity, so traffickers swapped in what was cheap and available. By the time pink cocaine reached US and European clubs in volume, roughly 2017 to 2020, the ketamine-and-MDMA blend had almost entirely replaced the original. The name stuck. The contents did not.
 
-Actual 2C-B is worth knowing on its own terms, because it is the thing people think they are buying. It is a partial agonist at 5-HT2A and 5-HT2C receptors and an alpha-1 adrenergic agonist, active orally at roughly 10 to 25 mg, lasting 4 to 6 hours. Papaseit and colleagues ran the first controlled human pharmacology study in 2018, giving 10 to 20 mg to 16 experienced volunteers and documenting moderate rises in heart rate and blood pressure alongside euphoria and altered perception. A 2023 trial by Mallaroni compared it head to head with psilocybin and found it sits apart: more entactogenic, less classically psychedelic. What it has none of is stimulant activity, dopamine release, or dissociation. Our [2C-B harm reduction guide](/2cb.html) has the dosing and interaction detail.
+Actual 2C-B is worth knowing on its own terms, because it is the thing people think they are buying. It is a partial agonist at 5-HT2A and 5-HT2C receptors and an alpha-1 adrenergic agonist, active orally at very small amounts, lasting 4 to 6 hours. Papaseit and colleagues ran the first controlled human pharmacology study in 2018, giving 10 to 20 mg to 16 experienced volunteers and documenting moderate rises in heart rate and blood pressure alongside euphoria and altered perception. A 2023 trial by Mallaroni compared it head to head with psilocybin and found it sits apart: more entactogenic, less classically psychedelic. What it has none of is stimulant activity, dopamine release, or dissociation. Our [2C-B harm reduction guide](/2cb.html) has the testing and interaction detail.
 
 ## What the labs keep finding
 

@@ -4,9 +4,28 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const title       = "Privacy Policy | Rave Wellness";
 const description = "How Rave Wellness collects and uses data. We use Google Analytics for traffic measurement and have affiliate relationships with DanceSafe and Amazon.";
 const canonical   = "https://www.ravewellness.org/privacy.html";
+const schemaJson  = `{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://www.ravewellness.org/privacy.html",
+      "name": "Privacy Policy",
+      "url": "https://www.ravewellness.org/privacy.html",
+      "publisher": { "@type": "Organization", "name": "Rave Wellness", "url": "https://www.ravewellness.org" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.ravewellness.org/" },
+        { "@type": "ListItem", "position": 2, "name": "Privacy Policy", "item": "https://www.ravewellness.org/privacy.html" }
+      ]
+    }
+  ]
+}`;
 ---
 
-<BaseLayout {title} {description} {canonical} ogType="website">
+<BaseLayout {title} {description} {canonical} {schemaJson} ogType="website">
   <Fragment slot="footer-nav">
     <h4>Legal</h4>
     <a href="/privacy.html">Privacy Policy</a>
@@ -18,7 +37,7 @@ const canonical   = "https://www.ravewellness.org/privacy.html";
       <div class="container" style="max-width: 760px; margin: 0 auto;">
 
         <h1 style="font-size: 2rem; margin-bottom: 8px;">Privacy Policy</h1>
-        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 48px;">Last updated: August 13, 2026</p>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 48px;">Last updated: October 8, 2026</p>
 
         <div class="prose">
 
@@ -27,12 +46,13 @@ const canonical   = "https://www.ravewellness.org/privacy.html";
           <h2 id="what-we-collect-and-why">What we collect and why</h2>
 
           <h3 id="analytics-google-analytics-4">Analytics (Google Analytics 4)</h3>
-          <p>We use Google Analytics 4 to understand how people find and use the site, which pages are read, how long people stay, and what search terms bring them here. This helps us prioritize what content to write and improve.</p>
+          <p>We use Google Analytics 4 to understand how people find and use the site, which pages are read, and how long people stay. This helps us prioritize what content to write and improve.</p>
           <p>Google Analytics collects:</p>
           <ul>
             <li>Pages visited and time spent</li>
             <li>Approximate geographic location (country/region, not precise location)</li>
             <li>Device type and browser</li>
+            <li>Clicks on affiliate links: which product link was clicked and from which page, so we can see which recommendations are useful</li>
             <li>Referring website or search engine</li>
           </ul>
           <p>This data is associated with a randomly assigned cookie ID, not with your name or email. We do not enable Google's advertising features or demographic tracking. Google's own privacy policy governs how Google handles analytics data: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>.</p>
@@ -49,7 +69,7 @@ const canonical   = "https://www.ravewellness.org/privacy.html";
           <p>Some pages embed YouTube videos using the privacy-enhanced <code>youtube-nocookie.com</code> domain. YouTube may still set cookies when you interact with an embedded video. YouTube's privacy policy applies: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>.</p>
 
           <h3 id="what-we-do-not-collect">What we do not collect</h3>
-          <p>We do not collect names, email addresses, phone numbers, or any information you don't explicitly send us. We have no account system, no login, no forms, and no comment sections. We do not collect information about what drugs you use or any other personally sensitive information.</p>
+          <p>We do not collect names, email addresses, phone numbers, or any information you don't explicitly send us. We have no account system, no login, no forms, and no comment sections. We don't ask for or store what drugs you use, or any other personally sensitive information. Like any website analytics, page-view data shows which pages were read, for example a guide about a particular substance, but it is not linked to your name or contact details.</p>
 
           <h2 id="affiliate-links">Affiliate links</h2>
           <p>Some links on this site are affiliate links. When you click an affiliate link and make a purchase, we may earn a small commission at no extra cost to you. We have affiliate relationships with:</p>

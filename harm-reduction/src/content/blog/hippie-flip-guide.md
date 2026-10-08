@@ -2,12 +2,12 @@
 title: "Hippie Flip (MDMA + Psilocybin): Timing and Risks"
 description: "A hippie flip combines MDMA and psilocybin. The timing rationale, the real serotonin syndrome risk, dosing ceilings, and how to reduce the harm."
 date: 2026-05-18
-lastmod: 2026-08-17
+lastmod: 2026-10-08
 tags: ["mdma", "psilocybin", "mushrooms", "harm reduction", "drug combinations"]
 author: "Jordan Mercer"
 ---
 
-A hippie flip is MDMA taken with psilocybin mushrooms, usually sequenced rather than together. **The common approach is mushrooms first at 1.5 to 2 g dried, then 75 to 100 mg MDMA at 60 to 90 minutes, and both doses come down from what you would take alone.** The whole thing runs about 5 to 7 hours, meaningfully shorter than a [candy flip](/blog/candy-flip-guide.html), because psilocybin does not last as long as LSD.
+A hippie flip is MDMA taken with psilocybin mushrooms, usually sequenced rather than together. **The common approach is mushrooms first, then MDMA at 60 to 90 minutes, with less of each than you would take alone.** The whole thing runs about 5 to 7 hours, meaningfully shorter than a [candy flip](/blog/candy-flip-guide.html), because psilocybin does not last as long as LSD.
 
 This is written for someone who has already decided to try it.
 
@@ -58,8 +58,10 @@ The arithmetic: psilocybin main effects 4 to 6 hours, MDMA 3 to 5 hours. Sequenc
 
 The most common mistake is taking either substance at your normal solo amount.
 
-- **Mushrooms: 1.5 to 2 g** dried *P. cubensis*, about half a typical moderate recreational dose.
-- **MDMA: 75 to 100 mg**, at or below the low end of a standalone dose.
+- **Mushrooms:** noticeably less than you would take on their own, weighed rather than eyeballed.
+- **MDMA:** less than your usual solo amount, and from a tested batch.
+
+We don't recommend specific amounts for either: neither has a research-established recreational dose, and mushroom potency varies too much for a gram figure to mean much.
 
 Both get amplified. MDMA's warmth makes psilocybin's introspective content more emotionally available and more intense; psilocybin's perceptual effects sharpen MDMA's sensory quality. What would be moderate alone is genuinely strong at these reduced doses.
 

@@ -2,7 +2,7 @@
 title: "Weed and Psychedelics: Does Cannabis Help or Hurt?"
 description: "Cannabis can either calm a trip or tip it into overwhelming anxiety. What the evidence shows about mixing weed with LSD or mushrooms, and when it matters."
 date: 2026-06-04
-lastmod: 2026-08-18
+lastmod: 2026-10-08
 tags: ["cannabis", "lsd", "psilocybin", "combinations", "harm reduction"]
 author: "Jordan Mercer"
 ---
@@ -11,11 +11,13 @@ Mixing cannabis with a psychedelic like LSD or psilocybin is **unpredictable. It
 
 Cannabis is not a reliable trip controller. It amplifies visuals and headspace, and at higher doses it is anxiety-provoking on its own. The evidence here is thin and comes from user surveys rather than controlled trials, so individual results vary a lot. Timing and dose matter more than anything else you get to decide.
 
-## The one study, and it cuts both ways
+## The evidence, and it cuts both ways
 
 No controlled trial has ever dosed people with cannabis plus LSD or psilocybin and measured what happened. What exists is survey and observational data, which sits low on the evidence hierarchy and cannot establish cause and effect.
 
 The most relevant is a 2024 mixed-methods survey of festival and concert attendees in Colorado who had combined the two. The most common theme people reported was **tension reduction**, using cannabis to calm down or balance the psychedelic. A meaningful share of the same sample reported **increased anxiety and intensity** as an adverse reaction. The same drug that one person uses to soften a trip pushes another person into a harder one, and that split is the actual finding.
+
+Emergency department data points the same direction on the bad end. A 2026 review of 232 psychedelic-related emergency visits at UC San Diego found that people who had also used cannabis had about 11 times the odds of being admitted to psychiatric hospital (OR 10.9), alongside a history of bipolar or psychotic disorder ([PMID 41920509](https://pubmed.ncbi.nlm.nih.gov/41920509/)). Read that carefully: it is a small, single-hospital sample of people already in trouble, the confidence interval is wide, and it shows association, not that cannabis caused the admissions. It is still the clearest human signal that cannabis co-use travels with the worst psychedelic outcomes.
 
 It matches what experienced users describe. Cannabis is a wildcard alongside psychedelics, not a dial.
 
@@ -55,4 +57,4 @@ For full harm reduction on each substance, see our [LSD guide](/lsd.html) and [p
 
 ## Sources
 
-2024 Colorado survey of cannabis and psychedelic co-use [PMID 38992787](https://pubmed.ncbi.nlm.nih.gov/38992787/) | 2022 HPPD review [PMID 35426769](https://pubmed.ncbi.nlm.nih.gov/35426769/)
+2024 Colorado survey of cannabis and psychedelic co-use [PMID 38992787](https://pubmed.ncbi.nlm.nih.gov/38992787/) | 2022 HPPD review [PMID 35426769](https://pubmed.ncbi.nlm.nih.gov/35426769/) | 2026 psychedelic emergency visits [PMID 41920509](https://pubmed.ncbi.nlm.nih.gov/41920509/)

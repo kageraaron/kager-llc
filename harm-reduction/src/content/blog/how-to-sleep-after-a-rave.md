@@ -2,7 +2,7 @@
 title: "How to Sleep After a Rave: Is Taking Xanax Safe?"
 description: "Can't sleep after rolling or a rave? Here's what's actually happening in your brain, what helps, and whether taking Xanax or a benzo to sleep is safe."
 date: 2026-05-14
-lastmod: 2026-08-17
+lastmod: 2026-10-08
 tags: ["mdma", "harm reduction", "sleep", "benzos", "stimulants", "aftercare"]
 author: "Jordan Mercer"
 ---
@@ -25,9 +25,11 @@ So you are dealing with three things at once: sympathetic hyperarousal, blunted 
 
 ### Melatonin
 
-This is the best-matched tool you have, because you are replacing something you genuinely depleted rather than layering sedation on top. A 2013 systematic review and meta-analysis in *PLOS ONE* confirmed melatonin shortens sleep onset latency across a range of conditions.
+This is the best-matched tool you have, because it works on the sleep-timing signal rather than layering sedation on top. Whether MDMA depletes your own melatonin enough to matter has not been measured. A 2013 systematic review and meta-analysis in *PLOS ONE* confirmed melatonin shortens sleep onset latency across a range of conditions.
 
 **Dose: 0.5 to 3 mg, 60 to 90 minutes before you want to sleep, in a dark room.** Multiple studies show doses above 0.5 to 1 mg do not produce proportionally better sleep and do produce more next-day grogginess. More is worse here, not better. And the signal depends on low light to work at all, so taking it under bright light wastes it.
+
+> **Not proven in humans.** Melatonin and magnesium have human evidence for sleep in general, but neither has been tested for sleep after MDMA or other stimulants. Product links on this page are affiliate links: we earn a small commission at no cost to you, buying them is optional, and none of them replaces testing, not redosing and staying cool.
 
 [Low-dose melatonin on Amazon](https://www.amazon.com/s?k=melatonin+0.5mg+1mg&tag=ravewellness01-20), looking for 0.5 to 1 mg tablets or scored 3 mg tablets you can split.
 
@@ -57,7 +59,7 @@ If you are well past 18 hours, melatonin and magnesium have failed you, and you 
 
 Start with the surprising part. Benzodiazepines are the *medical treatment* for acute MDMA toxicity, the drug of choice in emergency settings for MDMA-related seizures, agitation and hyperthermia. The direct interaction, in clinical hands, is manageable. Your bedroom is not clinical hands.
 
-MDMA's half-life is roughly 7 to 8 hours and its active metabolite MDA runs 10.5 to 12.5 hours, which puts substantial clearance around **18 to 24 hours after your last dose**. Past that point, a single 0.5 to 1 mg of alprazolam or 5 to 10 mg of diazepam carries low direct interaction risk, *provided no opioids, GHB or alcohol are in you*. **That window is inferred from pharmacokinetics, not validated by any trial.** No study has tested this exact timing. Treat it as a reasonable estimate rather than a safety certificate.
+MDMA's half-life is roughly 7 to 8 hours and its active metabolite MDA runs 10.5 to 12.5 hours, which puts substantial clearance around **18 to 24 hours after your last dose**. Past that point, a prescribed benzodiazepine taken as directed carries low direct interaction risk, *provided no opioids, GHB or alcohol are in you*. **That window is inferred from pharmacokinetics, not validated by any trial.** No study has tested this exact timing. Treat it as a reasonable estimate rather than a safety certificate.
 
 The dangers that actually get people are not pharmacological. They are cognitive.
 

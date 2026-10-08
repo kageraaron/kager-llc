@@ -2,7 +2,7 @@
 title: "Does LSD Stay in Your Spine? No"
 description: "LSD does not stay in your spine, spinal fluid, or fat. What the pharmacokinetic studies actually measured, and what flashbacks really are."
 date: 2026-06-04
-lastmod: 2026-08-17
+lastmod: 2026-10-08
 tags: ["lsd", "psychedelics", "harm reduction", "pharmacology", "myths"]
 author: "Jordan Mercer"
 ---
@@ -35,7 +35,7 @@ Bioaccumulation requires a specific chemistry, and LSD has none of it.
 
 **Almost nothing leaves intact.** In the 2024 study, about 1% of the dose came out of urine as unchanged LSD within 24 hours, against roughly 16% as the inactive metabolite. A drug hoarding itself in tissue would produce a very different excretion profile.
 
-**There is barely any material to begin with.** A strong dose is 100 to 200 micrograms. Millionths of a gram. Even a hypothetical hidden fraction would be vanishingly small.
+**There is barely any material to begin with.** LSD is active in micrograms: millionths of a gram. Even a hypothetical hidden fraction would be vanishingly small.
 
 **It is the opposite of a fat-storage drug.** The compounds famous for bioaccumulating, certain pesticides and to a lesser degree THC, are highly lipophilic and resist metabolism. LSD is metabolized rapidly.
 

@@ -2,7 +2,7 @@
 title: "Milligram Scale for Drugs: Do You Need One?"
 description: "A milligram scale is accurate enough for MDMA doses and useless for LSD. What readability actually means, why calibration matters, and when to skip it."
 date: 2026-08-16
-lastmod: 2026-08-17
+lastmod: 2026-10-08
 tags: ["dosing", "harm reduction", "test kits", "mdma", "drug checking"]
 author: "Jordan Mercer"
 ---
@@ -25,13 +25,13 @@ So: **treat a consumer milligram scale as unreliable below roughly 10 to 20 mg.*
 
 ## Where a scale earns its keep
 
-**2C-B and dissociatives, most of all.** Harm reduction organisations put a common oral 2C-B dose at roughly 15 to 25 mg, with 25 mg and above described as strong. No controlled trial has established those figures. The gap between a comfortable evening and an overwhelming one can be **5 to 10 mg of powder**, which you cannot see on a spoon or a folded paper. That range sits above the noise floor and steep on the dose-response curve, which is exactly where weighing pays. More in [our 2C-B guide](/2cb.html).
+**2C-B and dissociatives, most of all.** 2C-B is active at very small amounts of powder, and its effects climb steeply, so the gap between a comfortable evening and an overwhelming one is **an amount you cannot see** on a spoon or a folded paper. That is exactly where weighing pays. We don't publish 2C-B doses; no controlled trial has established a recreational range. More in [our 2C-B guide](/2cb.html).
 
-**MDMA.** The range cited across harm reduction organisations is **75 to 125 mg** orally, with 1 to 1.5 mg/kg capped at 120 mg as the common weight-based heuristic, though no trial has tested that rule. The controlled clinical numbers come from the MAPS Phase 3 PTSD trials, which used 80 mg as a starting dose and 120 mg as the higher therapeutic dose under medical supervision. Every one of those numbers sits far above where a scale gets shaky. Our [MDMA dosing guide](/blog/mdma-dosing-guide.html) covers the rest.
+**MDMA.** We don't recommend an MDMA dose, but the controlled clinical numbers give a sense of scale: the MAPS Phase 3 PTSD trials gave 80 mg and 120 mg under medical supervision. Amounts like that sit comfortably above where a consumer scale gets shaky, so a scale tells you reliably how much you actually have. Our [MDMA dose safety guide](/blog/mdma-dosing-guide.html) covers the rest.
 
 **Ketamine.** Here the reason is density. A milligram is a milligram whether the material is coarse shards or fine dust, but fine powder packs more densely, so **the same visually sized line holds meaningfully more drug**. That is the ordinary explanation for a batch that "hit way harder," and there is no way to see it. More in [R vs S ketamine](/blog/r-vs-s-ketamine.html).
 
-**Ground mushrooms.** The difference between 0.1 g and 0.3 g of powder is invisible, and microdosing is entirely about staying under a threshold you cannot see. Grind a whole batch evenly first, because a single cap is not representative of the flush. See [microdosing psilocybin](/blog/microdosing-psilocybin.html).
+**Ground mushrooms.** Small differences in ground mushroom powder are invisible, and microdosing is entirely about staying under a threshold you cannot see. Grind a whole batch evenly first, because a single cap is not representative of the flush. See [microdosing psilocybin](/blog/microdosing-psilocybin.html).
 
 A [micro scoop](/micro-scoop) helps with all of these, but know its job. It moves small amounts of powder onto the pan without spilling or static-flinging them. It does not measure. Scoop, weigh, adjust, weigh again.
 
@@ -50,7 +50,7 @@ Technique changes the reading at these masses:
 
 ## Where no scale will help you
 
-**Micrograms.** LSD at around 100 micrograms is 0.1 mg, deep inside the range where the display is showing you noise, and a pricier scale does not fix this. The method that works is **volumetric dosing**: dissolve a known quantity in a known volume of liquid, then measure the liquid. Measuring 1 mL of solution is repeatable in a way that measuring 100 micrograms of solid never will be. A [graduated pipette](/pipette) handles the liquid half, though you still need an accurate starting quantity, which means starting from a source of known content. See [our LSD guide](/lsd.html).
+**Micrograms.** LSD is active in micrograms, thousandths of a milligram, deep inside the range where the display is showing you noise, and a pricier scale does not fix this. The method that works is **volumetric dosing**: dissolve a known quantity in a known volume of liquid, then measure the liquid. Measuring a volume of solution is repeatable in a way that weighing micrograms of solid never will be. A [graduated pipette](/pipette) handles the liquid half, though you still need an accurate starting quantity, which means starting from a source of known content. See [our LSD guide](/lsd.html).
 
 **Pressed pills of unknown content.** Weighing a tablet gives you the combined mass of active ingredient, binder and filler in unknown proportions. A 300 mg pill might hold 80 mg of MDMA or 220 mg. Split and wait instead.
 
@@ -60,7 +60,7 @@ Technique changes the reading at these masses:
 
 ## What to buy, and what to expect from it
 
-If you use powders dosed above about 20 mg, a [milligram scale](/mg-scale) is one of the highest-value harm reduction purchases there is, and the DanceSafe one funds a nonprofit running free drug checking at events. Look for 0.001 g readability, a draught shield and a documented calibration procedure, and buy calibration weights separately.
+If you use powders measured in tens of milligrams or more, a [milligram scale](/mg-scale) is one of the highest-value harm reduction purchases there is, and the DanceSafe one funds a nonprofit running free drug checking at events. Look for 0.001 g readability, a draught shield and a documented calibration procedure, and buy calibration weights separately.
 
 Then hold both facts at once. It is precise enough for the doses most people actually take, and not precise enough for single milligrams or micrograms. Knowing which side of that line you are on is the whole skill. For how measurement fits into the dosing decision itself, see [our MDMA guide](/mdma.html).
 

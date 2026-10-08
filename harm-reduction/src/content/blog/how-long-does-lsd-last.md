@@ -2,7 +2,7 @@
 title: "How Long Does LSD Last?"
 description: "8 to 12 hours for most doses, peaking around 2 to 3 hours in. The hour-by-hour timeline, what stretches it, and why you cannot sleep at the end."
 date: 2026-05-13
-lastmod: 2026-08-18
+lastmod: 2026-10-08
 tags: ["lsd", "psychedelics", "harm reduction", "duration"]
 author: "Jordan Mercer"
 ---
@@ -39,7 +39,7 @@ This is the opposite of MDMA, where the felt peak tracks the plasma peak fairly 
 
 ## What stretches or shortens it
 
-**Dose, mostly.** A 50 µg tab runs closer to 6 to 8 hours. 200 µg pushes past 12. Street tabs vary enormously in what they actually contain, and nominal dose claims are worth very little, which is a separate problem covered in [is my acid real or NBOMe](/blog/is-my-acid-real-or-nbome.html).
+**Dose, mostly.** Smaller doses end sooner, while in a clinical study 200 µg lasted close to 12 hours. Street tabs vary enormously in what they actually contain, and nominal dose claims are worth very little, which is a separate problem covered in [is my acid real or NBOMe](/blog/is-my-acid-real-or-nbome.html).
 
 **Metabolism, a little.** CYP3A4 activity varies between people, but the measured half-life range is narrow, roughly 2.2 to 3.4 hours. This is not where the big differences come from.
 

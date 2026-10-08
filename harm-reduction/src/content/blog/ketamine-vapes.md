@@ -2,7 +2,7 @@
 title: "Ketamine Vapes: What Is Actually in Them"
 description: "Ketamine vapes rarely contain real ketamine. The chemistry of why, what turns up instead, and why reagent kits cannot sort this out."
 date: 2026-05-19
-lastmod: 2026-08-17
+lastmod: 2026-10-08
 tags: ["ketamine", "harm reduction", "drug checking", "novel psychoactive substances", "vaping"]
 author: "Jordan Mercer"
 ---
@@ -30,6 +30,8 @@ So if you inhale a "ketamine vape" and feel unmistakably dissociated, that feeli
 **Methoxetamine (MXE)** was the first widely used ketamine substitute, sold as the legal, bladder-friendly alternative. A 2016 review of case reports documented psychosis, cerebellar toxicity with uncoordinated movement lasting days, and fatal intoxications. A 2012 *European Journal of Clinical Pharmacology* series found emergency presentations with elevated heart rate and blood pressure, a sympathomimetic picture that is not typical of ketamine. MXE is controlled in many countries now, and whether 2-FDCK or DCK has taken its place depends on where you are.
 
 **Or nothing identifiable.** Even for ordinary powder, a meaningful share of samples sold as ketamine are not ketamine: an international cryptomarket testing service found average purity of 71%, and a 2021 Italian festival drug checking study confirmed only 78% of ketamine-labelled samples as ketamine by GC/MS. A vape with no pharmaceutical provenance and no third-party testing has no verified contents at all.
+
+**Or a different anesthetic entirely.** In parts of East Asia, the dominant drug in illicit vape liquids is now **etomidate**, a surgical anesthetic, and its analogs. A 2026 analysis of 496 seized e-liquids in eastern Taiwan found psychoactive drugs in 81%. Etomidate was in 87% of the positive samples, its analog isopropoxate in 25%, and ketamine in under 10% ([PMID 42515169](https://pubmed.ncbi.nlm.nih.gov/42515169/)). That is regional data and has not been reported at that scale in the US or Europe, but it shows what a pen sold as "K" can turn out to contain. Etomidate is a sedative-hypnotic, not a dissociative, so it behaves differently, and stacking it with other depressants is the risk.
 
 ## Your lungs are the part nobody talks about
 
@@ -68,3 +70,4 @@ If you cannot find out what is in it, you cannot make a decision about it. That 
 - Vitamin E acetate in bronchoalveolar-lavage fluid associated with EVALI. *New England Journal of Medicine*, 2020. [PMID 31860793](https://pubmed.ncbi.nlm.nih.gov/31860793/)
 - Drug checking services at music festivals and events in a Canadian setting. *Drug and Alcohol Dependence*, 2019. [PMID 31605958](https://pubmed.ncbi.nlm.nih.gov/31605958/)
 - A psychonaut's experience of intoxication with multiple classes of drugs including novel psychoactive substances. *Journal of Psychoactive Drugs*, 2022. [PMID 34842064](https://pubmed.ncbi.nlm.nih.gov/34842064/)
+- Large-scale forensic surveillance of seized e-liquids reveals an emerging etomidate-analog-centered vaping trend in Eastern Taiwan. *Toxics*, 2026. [PMID 42515169](https://pubmed.ncbi.nlm.nih.gov/42515169/)

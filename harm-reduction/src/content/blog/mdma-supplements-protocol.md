@@ -2,14 +2,16 @@
 title: "MDMA Supplements Protocol: What the Evidence Shows"
 description: "What R-ALA, magnesium, vitamin C, 5-HTP and EGCG are actually supported by, the two timing rules that matter, and which claims outrun the data."
 date: 2026-05-12
-lastmod: 2026-08-17
+lastmod: 2026-10-08
 tags: ["mdma", "harm reduction", "supplements", "neuroprotection", "5-htp", "alpha lipoic acid"]
 author: "Jordan Mercer"
 ---
 
 **The pre-loading and post-loading protocol is mechanistically reasonable and clinically unproven, and the two rules in it that genuinely matter are timing rules, not dosing ones.** No human randomised trial has tested any of this for MDMA. Most of the evidence is rats, injected, at doses that do not scale down to a capsule.
 
-That is not a reason to skip it. Low-risk supplements with a real mechanism are a fair bet. It is a reason to hold the whole thing loosely, and to take the two timing rules seriously, because those are where people actually get hurt.
+Whether to take any of it is your call. Most of these are low risk at ordinary doses, but none is proven to protect you, so hold the whole thing loosely and take the two timing rules seriously, because those are where people actually get hurt.
+
+> **Not proven in humans.** No controlled human trial has shown that any supplement in this protocol protects against MDMA harm or eases its effects. The evidence is rodent studies with injected doses, mechanism and community reports. Product links on this page are affiliate links: we earn a small commission at no cost to you, buying them is optional, and none of them replaces testing, not redosing and staying cool.
 
 ## Why anyone takes anything
 
@@ -31,11 +33,11 @@ Evidence tier: rodent only. Aguirre's rats got 100 mg/kg injected, which scales 
 
 [Nutricost R-Alpha Lipoic Acid 100mg](https://www.amazon.com/dp/B09NS4HZZB?tag=ravewellness01-20) is R-isomer only rather than racemic.
 
-## Magnesium is the one with a real job
+## Magnesium: the clearest rationale, still untested
 
-Bruxism, the jaw clenching and teeth grinding, comes from dopamine-driven motor activation and MDMA's effect on muscle tone. Magnesium is a calcium channel antagonist and NMDA receptor modulator, so it works directly against involuntary muscle contraction. Glycinate is among the most bioavailable forms and much easier on the gut than oxide.
+Bruxism, the jaw clenching and teeth grinding, comes from dopamine-driven motor activation and MDMA's effect on muscle tone. Magnesium is a calcium channel antagonist and NMDA receptor modulator, so in principle it could work against involuntary muscle contraction. Glycinate is among the most bioavailable forms and much easier on the gut than oxide.
 
-Evidence tier: no MDMA-specific trial, but magnesium's role in muscle relaxation and NMDA modulation is established clinical pharmacology in the general population, and it lines up precisely with the mechanism of MDMA bruxism. Community reports are consistent. Of everything in the protocol, this is the item with the clearest line from mechanism to the thing you noticed.
+Evidence tier: no MDMA-specific trial, but magnesium's role in muscle relaxation and NMDA modulation is established clinical pharmacology in the general population, and it lines up precisely with the mechanism of MDMA bruxism. Community reports are consistent. Of everything in the protocol, this is the item with the clearest line from mechanism to the thing you noticed, but it is still untested for MDMA, so treat any benefit as unproven.
 
 It's also worth taking in the days afterwards for sleep, and bad sleep is what turns a mild comedown into a rough week. [Doctor's Best High Absorption Magnesium Glycinate](https://www.amazon.com/dp/B000BD0RT0?tag=ravewellness01-20) is the chelated version. The graded evidence review is in the [magnesium and jaw clenching guide](/blog/mdma-magnesium-jaw-clenching.html).
 
@@ -47,7 +49,7 @@ Evidence tier: the Shankaran and Gudelsky rats, injected, no human data for this
 
 ## 5-HTP, and the rule that actually matters
 
-5-HTP is the direct precursor to serotonin, one step closer than tryptophan. After MDMA empties the stores, supplying precursor gives the brain the raw material to rebuild faster. The biochemistry is solid human physiology. The application to MDMA recovery is community consensus with no trial behind it.
+5-HTP is the direct precursor to serotonin, one step closer than tryptophan. After MDMA empties the stores, the idea is that supplying precursor gives the brain the raw material to rebuild faster; whether it actually speeds recovery has not been tested. The biochemistry is solid human physiology. The application to MDMA recovery is community consensus with no trial behind it.
 
 **Do not take 5-HTP until at least 24 hours after your last MDMA dose.**
 

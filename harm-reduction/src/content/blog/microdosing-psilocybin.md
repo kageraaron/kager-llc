@@ -2,7 +2,7 @@
 title: "Does Microdosing Psilocybin Work for Depression?"
 description: "Microdosing psilocybin is popular, but the evidence is weaker than most people realize. Here's an honest look at what the research actually shows."
 date: 2026-05-18
-lastmod: 2026-08-17
+lastmod: 2026-10-08
 tags: ["psilocybin", "mushrooms", "microdosing", "depression", "harm reduction"]
 author: "Jordan Mercer"
 ---
@@ -13,7 +13,7 @@ That is a hard finding for a practice thousands of people say changed their live
 
 ## What counts as a microdose
 
-Sub-perceptual. Small enough that nothing looks different, nothing feels strange, and you can hold a normal conversation at work. For dried *Psilocybe cubensis* that usually means **0.1 to 0.3 g**, roughly 1 to 3 mg of psilocybin.
+Sub-perceptual. Small enough that nothing looks different, nothing feels strange, and you can hold a normal conversation at work. We don't give a gram figure: the amounts quoted online are community conventions, and mushroom potency varies too much for one number to mean the same thing from batch to batch. A 2026 placebo-controlled trial of synthetic psilocybin found subjective effects became distinguishable from placebo at 2.5 mg and above, which shows how small the window is ([PMID 42797541](https://pubmed.ncbi.nlm.nih.gov/42797541/)).
 
 If you are noticing visuals or drift in your thinking, you took a low dose, not a microdose. The threshold is the entire idea.
 
@@ -35,33 +35,35 @@ Both groups improved. Microdose and placebo alike reported better wellbeing and 
 
 The caveats are real. The mushrooms were never lab verified, potency was unknown, and self-blinding is imperfect. This is the best naturalistic test anyone has run, not a pharmaceutical-grade double-blind trial. So the honest reading is narrower than "microdosing doesn't work." In this design, the drug effect could not be separated from the effect of expecting one.
 
+A 2026 meta-analysis pooling 24 studies and 3,681 healthy adults reached the same place: in the randomised trials, microdosing produced noticeable subjective and brain-activity effects but no reduction in depression, anxiety or stress that beat placebo, while the glowing results came from observational designs where expectation cannot be ruled out ([PMID 42593636](https://pubmed.ncbi.nlm.nih.gov/42593636/)). Only two parallel randomised trials (117 people) were poolable, so this is a thin evidence base, not a closed question.
+
 The mechanism people propose, sub-threshold 5-HT2A activation shifting default mode network activity, or low doses driving neuroplasticity through BDNF, is plausible and unconfirmed in humans at 1 to 3 mg. Hypothesis, not finding.
 
 ## Full-dose therapy is a different thing
 
 The trials you have heard about are good ones. A 2021 Johns Hopkins randomized trial led by Davis found that two supervised psilocybin sessions with psychological support produced significantly lower depression scores than delayed treatment, with 71% of participants clinically improved within a week. Carhart-Harris and colleagues, the same year, ran psilocybin head to head against escitalopram in a phase 2 trial; the primary outcome showed no statistically significant separation, but secondary measures favored psilocybin, including remission in 57% versus 28%.
 
-Neither study says anything about microdosing. Both used 20 to 30 mg in a supervised room with a therapist present, and the subjective experience is thought to be part of how the treatment works. That has close to nothing in common with 2 mg alone at your kitchen table on a Tuesday morning.
+Neither study says anything about microdosing. Both used 20 to 30 mg in a supervised room with a therapist present, and the subjective experience is thought to be part of how the treatment works. That has close to nothing in common with a tiny amount alone at your kitchen table on a Tuesday morning.
 
 When someone cites "the psilocybin research" to justify a microdosing protocol, this is the substitution being made.
 
 ## If you're doing it anyway
 
-**Start at 0.1 g.** You can go up next time. You cannot come back down once it is in you.
+**Start smaller than you think.** You can go up next time. You cannot come back down once it is in you.
 
-**Weigh it, do not eyeball it.** The whole premise is staying under the perceptual threshold, and 0.1 g and 0.3 g of ground mushroom look identical. A [milligram scale](/mg-scale) with calibration weights is the basic tool, and DanceSafe sells one; they are a nonprofit that also runs free drug checking at events. Grind a batch to an even powder first, because one cap is not representative of the bag.
+**Weigh it, do not eyeball it.** The whole premise is staying under the perceptual threshold, and amounts that differ several-fold look identical as ground mushroom. A [milligram scale](/mg-scale) with calibration weights is the basic tool, and DanceSafe sells one; they are a nonprofit that also runs free drug checking at events. Grind a batch to an even powder first, because one cap is not representative of the bag.
 
-**Species and batch change the math.** *P. cubensis* runs roughly 0.5 to 1% psilocybin by dry weight. *P. azurescens* and *P. semilanceata* can be two to three times stronger per gram, so the same 0.2 g is a different dose entirely. Potency also drifts between flushes of the same species.
+**Species and batch change the math.** *P. cubensis* runs roughly 0.5 to 1% psilocybin by dry weight. *P. azurescens* and *P. semilanceata* can be two to three times stronger per gram, so the same weight is a different dose entirely. Potency also drifts between flushes of the same species.
 
 **Capsules make a weighed dose repeatable.** Once ground and weighed, [gelatin capsules](https://www.amazon.com/s?k=empty+gelatin+capsules+size+0&tag=ravewellness01-20) or [vegetarian capsules](https://www.amazon.com/s?k=empty+vegetarian+capsules+size+0&tag=ravewellness01-20) let you prepare a run in one sitting, and a [capsule filling tray](https://www.amazon.com/s?k=capsule+filling+machine+size+0&tag=ravewellness01-20) helps if you are making a month at a time. They do not improve accuracy on their own. Weigh every dose; never fill by volume.
 
-**Do one day before committing to a month.** See what 0.1 g does to you before you build a six-week schedule around it.
+**Do one day before committing to a month.** See what a small amount does to you before you build a six-week schedule around it.
 
 And do not treat it as a substitute for therapy or medication. Even the people who advocate for microdosing don't claim that.
 
 ## Who should not, at any dose
 
-**Anyone with a personal or family history of psychosis, schizophrenia, or bipolar I.** Psilocybin can trigger psychotic episodes in people predisposed to them, and a small dose is not a safe workaround for that risk.
+**Anyone with a personal or family history of psychosis, schizophrenia, or bipolar I.** Psilocybin can trigger psychotic episodes in people predisposed to them, and a small dose is not a safe workaround for that risk. A 2026 systematic review of psychedelic-associated mania found rates up to 30% in naturalistic studies of people with bipolar disorder, with the highest risk in bipolar I, family history, and unsupervised use ([PMID 42215638](https://pubmed.ncbi.nlm.nih.gov/42215638/)).
 
 **Lithium.** Do not combine with psilocybin at any dose. There are case reports of seizures and cardiac events, and the risk does not appear limited to full doses.
 
@@ -77,4 +79,4 @@ For the wider picture, see our [psilocybin harm reduction guide](/psilocybin.htm
 
 ## Sources
 
-[PMID 33648632](https://pubmed.ncbi.nlm.nih.gov/33648632/) | [PMID 33146667](https://pubmed.ncbi.nlm.nih.gov/33146667/) | [PMID 33852780](https://pubmed.ncbi.nlm.nih.gov/33852780/)
+[PMID 33648632](https://pubmed.ncbi.nlm.nih.gov/33648632/) | [PMID 33146667](https://pubmed.ncbi.nlm.nih.gov/33146667/) | [PMID 33852780](https://pubmed.ncbi.nlm.nih.gov/33852780/) | [PMID 42593636](https://pubmed.ncbi.nlm.nih.gov/42593636/) | [PMID 42215638](https://pubmed.ncbi.nlm.nih.gov/42215638/)

@@ -1,6 +1,6 @@
 ---
-title: "Is Ketamine Good for Your Gut? What the Studies Actually Show"
-description: "Surgery trials, mouse colitis and gut bacteria studies get cited as proof that ketamine helps your gut. None of them involve recreational use. The human data on that points the other way."
+title: "Is Ketamine Good for Your Gut? What Studies Show"
+description: "Surgery trials, mouse colitis and microbiome studies get cited as proof ketamine helps your gut. None involve recreational use, and human data disagrees."
 date: 2026-10-05
 tags: ["ketamine", "harm reduction", "gut health", "myths"]
 author: "Jordan Mercer"

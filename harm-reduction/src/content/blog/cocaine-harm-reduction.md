@@ -2,7 +2,7 @@
 title: "Cocaine Harm Reduction: Heart, Levamisole, Nasal Care"
 description: "Cocaine's cardiac risk can strike on a first use, most of the supply carries levamisole, and no consumer kit detects it. What the evidence actually shows."
 date: 2026-05-28
-lastmod: 2026-08-17
+lastmod: 2026-10-08
 tags: ["cocaine", "harm reduction", "cardiovascular", "levamisole", "adulterants"]
 author: "Jordan Mercer"
 ---
@@ -13,7 +13,7 @@ Understanding the mechanisms is most of what you can do here, because it's what 
 
 ## Three ways cocaine hurts your heart
 
-Cocaine is the drug most often behind drug-related emergency visits for chest pain, and it gets there by three separate routes that overlap.
+Cocaine is the drug most often behind drug-related emergency visits for chest pain, and it gets there by three separate routes that overlap. Across 59,571 drug-related emergency presentations in a European network, cocaine carried about three times the odds of chest pain, palpitations, hypertension or arrhythmia (OR 3.19), and patients with those cardiovascular features were far more likely to die ([PMID 42334445](https://pubmed.ncbi.nlm.nih.gov/42334445/)).
 
 **Sympathomimetic stimulation.** Blocking norepinephrine and dopamine reuptake floods those receptors, which is the effect people take it for: faster heart rate, higher blood pressure, more myocardial oxygen demand. This alone stresses the heart even when nothing goes wrong.
 
@@ -26,6 +26,8 @@ Chronic use also remodels the organ. Regular users show higher systolic blood pr
 For scale: Qureshi and colleagues used NHANES III data on 10,085 adults aged 18 to 45 and found frequent lifetime cocaine use carried a **6.9 odds ratio for nonfatal myocardial infarction**, estimating that roughly **one in four nonfatal heart attacks in that age group** was attributable to cocaine. The same analysis found **no significant association with stroke**, so the widely repeated claim that cocaine multiplies stroke risk is not supported by that dataset. The full picture is in the [cocaine heart attack guide](/blog/cocaine-heart-attack.html).
 
 There is no established safe dose for any of this. Vasospasm is not reliably dose-dependent.
+
+Falling overdose numbers do not mean cocaine got safer. US overdose deaths fell sharply in 2024, but the fall among stimulant deaths was confined to deaths that also involved fentanyl ([PMID 42830002](https://pubmed.ncbi.nlm.nih.gov/42830002/)). Deaths from cocaine without any opioid rose slightly from 2023 to 2024 ([PMID 42701355](https://pubmed.ncbi.nlm.nih.gov/42701355/)). The heart risk is the cocaine itself.
 
 ## Levamisole is in most of it, and no kit finds it
 
@@ -77,4 +79,4 @@ For the wider profile see the [cocaine guide](/cocaine.html), and the [interacti
 
 ## Sources
 
-[PMID 7701044](https://pubmed.ncbi.nlm.nih.gov/7701044/) | [PMID 2573838](https://pubmed.ncbi.nlm.nih.gov/2573838/) | [PMID 24717541](https://pubmed.ncbi.nlm.nih.gov/24717541/) | [PMID 11157713](https://pubmed.ncbi.nlm.nih.gov/11157713/) | [PMID 22143075](https://pubmed.ncbi.nlm.nih.gov/22143075/) | [PMID 20549422](https://pubmed.ncbi.nlm.nih.gov/20549422/) | [PMID 35138441](https://pubmed.ncbi.nlm.nih.gov/35138441/)
+[PMID 7701044](https://pubmed.ncbi.nlm.nih.gov/7701044/) | [PMID 2573838](https://pubmed.ncbi.nlm.nih.gov/2573838/) | [PMID 24717541](https://pubmed.ncbi.nlm.nih.gov/24717541/) | [PMID 11157713](https://pubmed.ncbi.nlm.nih.gov/11157713/) | [PMID 22143075](https://pubmed.ncbi.nlm.nih.gov/22143075/) | [PMID 20549422](https://pubmed.ncbi.nlm.nih.gov/20549422/) | [PMID 35138441](https://pubmed.ncbi.nlm.nih.gov/35138441/) | [PMID 42334445](https://pubmed.ncbi.nlm.nih.gov/42334445/) | [PMID 42830002](https://pubmed.ncbi.nlm.nih.gov/42830002/) | [PMID 42701355](https://pubmed.ncbi.nlm.nih.gov/42701355/)

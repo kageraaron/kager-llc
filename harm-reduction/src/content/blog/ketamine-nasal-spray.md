@@ -2,7 +2,7 @@
 title: "Ketamine Nasal Spray: Spravato vs At-Home vs DIY"
 description: "Ketamine nasal spray means three different things: FDA-approved Spravato, compounded telehealth ketamine, and DIY sprays. The risks are not the same."
 date: 2026-08-14
-lastmod: 2026-08-17
+lastmod: 2026-10-08
 tags: ["ketamine", "harm reduction", "esketamine", "spravato"]
 author: "Jordan Mercer"
 ---
@@ -41,7 +41,7 @@ The harm reduction concern is not whether at-home ketamine works. It is **freque
 
 The third meaning is weighed ketamine powder dissolved into a measured volume of sterile saline and loaded into a spray bottle. No prescriber, no pharmacy, so everything rests on two numbers you set yourself: milligrams in, millilitres of solvent.
 
-**The genuine advantage is dose precision.** A line is a guess. 500 mg dissolved in 5 mL gives 100 mg/mL, and a 0.1 mL actuator delivers 10 mg per spray. That matters with ketamine, where the gap between a light intranasal dose and a k-hole is often only 50 to 100 mg.
+**The genuine advantage is precision.** A line is a guess, while a solution of known concentration and a pump of known volume deliver the same amount every press. That matters with ketamine, where the gap between a light intranasal amount and a k-hole is small.
 
 **It does nothing about harm from the drug itself.** Bladder damage, cognitive deficits and dependence all track cumulative exposure and frequency, not the device. See [ketamine bladder damage](/blog/ketamine-bladder-damage.html) and [is ketamine addictive](/blog/is-ketamine-addictive.html). A spray also tells you nothing about what the powder was, so [test it](/blog/how-to-test-ketamine.html) first.
 

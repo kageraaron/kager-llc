@@ -81,7 +81,16 @@ Use a `## Quick answers` section with 3–5 bolded Q&A pairs covering the most c
 **Body sections** (H2 headings — each targeting a secondary keyword):
 - Use evidence: cite specific studies inline as `[PMID XXXXXXXX](https://pubmed.ncbi.nlm.nih.gov/XXXXXXXX/)` or name the study/journal — **never write bare `PMID XXXXXXXX` text; it must always be a markdown hyperlink**
 - Write for someone who has already decided to participate — not preachy, practical
-- Be specific: doses, timings, mechanisms, not vague warnings
+- Be specific about timings, mechanisms and safety limits, not vague warnings. **Do not give recreational dose amounts.** See the dosing policy below.
+
+**Dosing policy (since 2026-10-08):** the site does not recommend recreational doses.
+- **Community heuristics** (weight-based formulas, light/common/strong tables, gram tiers, "start at X", combo ceilings): do not publish the number. Give relative guidance instead: test it, weigh it, start with a small amount, wait the full onset, don't redose, and take less in combinations or with a new batch.
+- **GHB/GBL:** no numbers at all, including volumes, gram ranges, potency ratios and the redose interval. Use "far less than you expect", "wait much longer than feels necessary, counted from the first dose", and "don't redose".
+- **Research doses** (trial protocols, PK study doses) may appear only framed as what a study gave, e.g. "the MAPS Phase 3 trials gave 80 mg", never as "take X". Cite the PMID.
+- **Safety limits** (redose waits derived from PK, hydration ceilings, "don't redose") stay.
+- **Prescription drugs used for harm reduction** (e.g. benzodiazepines for a bad trip): "use only as prescribed", with no amounts.
+- **Supplements** are out of scope for this policy and keep their existing figures.
+
 - Include at least one mechanism section explaining *why* the risk exists
 
 **Internal links** — link to relevant site pages using relative paths:

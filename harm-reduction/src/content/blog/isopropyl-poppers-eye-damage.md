@@ -2,7 +2,7 @@
 title: "Isopropyl Poppers and Eye Damage"
 description: "Isopropyl nitrite poppers can damage the fovea and blur central vision. Which formulation causes it, what recovery looks like, and why labels don't help."
 date: 2026-08-12
-lastmod: 2026-08-18
+lastmod: 2026-10-08
 tags: ["poppers", "alkyl nitrites", "isopropyl nitrite", "maculopathy", "harm reduction", "eye damage"]
 author: "Jordan Mercer"
 ---
@@ -49,6 +49,8 @@ What you can control:
 - **Do not escalate frequency or duration to chase a fading rush.** Tolerance to the head rush builds fast, and escalating exposure is the pattern that recurs in the injury reports.
 - **If you already have macular disease of any kind, this is a bad drug for you specifically.**
 
+**Second-hand exposure counts too.** Poppers-infused candles are sold online and appear unregulated. A 2026 case report describes a 29-year-old who lost central vision in both eyes after spending time in a small private room at a club where one was burning. He had not knowingly inhaled poppers. His vision improved over a year but the retinal damage on imaging persisted ([PMID 42756605](https://pubmed.ncbi.nlm.nih.gov/42756605/)). It is a single case, but the mechanism is the same as direct sniffing, in an enclosed space where you cannot control the dose.
+
 ## The two poppers risks that kill faster than this one
 
 Eye damage is what brings people to this page. It is not the most dangerous thing about poppers.
@@ -64,3 +66,4 @@ Dosing, technique, storage and the rest of the risk picture are in our [poppers 
 - Poppers: legal highs with questionable contents? A case series of poppers maculopathy. *British Journal of Ophthalmology*, 2017. [PMID 28396339](https://pubmed.ncbi.nlm.nih.gov/28396339/)
 - "Poppers maculopathy" and the adverse ophthalmic outcomes from the recreational use of alkyl nitrate inhalants. *Seminars in Ophthalmology*, 2023. [PMID 35938499](https://pubmed.ncbi.nlm.nih.gov/35938499/)
 - An update on deaths in the United Kingdom from "poppers" (alkyl nitrites), with a particular focus on "swallowing". *Journal of Clinical Medicine*, 2025. [PMID 39860433](https://pubmed.ncbi.nlm.nih.gov/39860433/)
+- Poppers maculopathy due to alkyl nitrite-infused candle: a case report. *Cureus*, 2026. [PMID 42756605](https://pubmed.ncbi.nlm.nih.gov/42756605/)

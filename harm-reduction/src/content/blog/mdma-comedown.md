@@ -2,7 +2,7 @@
 title: "The MDMA Comedown: Why It Happens and What Helps"
 description: "Blue Tuesday is serotonin resynthesis, not damage. The mechanism, the week-long timeline, the 24-hour 5-HTP rule, and what the evidence supports."
 date: 2026-05-12
-lastmod: 2026-08-17
+lastmod: 2026-10-08
 tags: ["mdma", "harm reduction", "supplements", "serotonin", "comedown"]
 author: "Jordan Mercer"
 ---
@@ -49,9 +49,11 @@ MDMA's half-life is roughly 7 to 8 hours, and its active metabolite MDA runs lon
 
 Some resources suggest pairing 5-HTP with carbidopa, a peripheral decarboxylase inhibitor from Parkinson's treatment, so that more 5-HTP reaches the brain instead of being converted in the gut. The pharmacology is accurate and that is exactly the problem. It sharply raises serotonin syndrome risk. **Do not combine 5-HTP with carbidopa without a prescribing physician.**
 
-Plain 5-HTP at 50 to 100 mg, 24 hours or more out, is the community standard. Evidence tier: mechanistic and anecdotal. No published trial has tested 5-HTP for MDMA comedown. It is low-risk at that dose and it may help. It is not a cure. [Nutricost 5-HTP 100mg](https://www.amazon.com/dp/B01A1DL4DW?tag=ravewellness01-20) is a plain formulation without additives.
+Plain 5-HTP at 50 to 100 mg, 24 hours or more out, is the community standard. Evidence tier: mechanistic and anecdotal. No published trial has tested 5-HTP for MDMA comedown. It is low-risk at that dose and may or may not help; that has not been tested. It is not a cure. [Nutricost 5-HTP 100mg](https://www.amazon.com/dp/B01A1DL4DW?tag=ravewellness01-20) is a plain formulation without additives.
 
 ## The supplements, honestly
+
+> **Not proven in humans.** No controlled human trial has tested any of these for MDMA comedown or recovery. Product links on this page are affiliate links: we earn a small commission at no cost to you, buying them is optional, and none of them replaces testing, not redosing and staying cool.
 
 Every antioxidant in the standard rave protocol rests on the same kind of study: a rat, an injection, and a dose that does not translate. That does not make them worthless. It means you should know what you are buying.
 
