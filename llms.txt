@@ -1,0 +1,10 @@
+# Your Site
+> One-line description of what this site lets an agent do.
+
+## Key tasks
+- Browse products: /shop
+- Add to cart: POST /cart
+- Checkout: /checkout
+
+## Notes
+- Verified agents: declare a User-Agent and follow /robots.txt.
