@@ -7,6 +7,7 @@ import Footer from '@/components/Footer';
 import Analytics from '@/components/Analytics';
 import './globals.css';
 
+
 const baseUrl = 'https://local-convert.com';
 
 export const metadata: Metadata = {
