@@ -1,0 +1,5 @@
+# local-convert.com
+> Agent guide for local-convert.com.
+
+## Notes
+- Verified agents: declare a User-Agent and follow /robots.txt.
