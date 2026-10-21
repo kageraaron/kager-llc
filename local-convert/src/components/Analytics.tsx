@@ -12,6 +12,7 @@ import Script from 'next/script';
  *   <Analytics ga4="G-XXXXXXXXXX" ads="AW-XXXXXXXXXX" adsense="ca-pub-XXXXXXXXXXXXXXXX" />
  */
 
+
 interface AnalyticsProps {
   /** Google Analytics 4 measurement ID (e.g. "G-TT7HYVRZGJ") */
   ga4?: string;
