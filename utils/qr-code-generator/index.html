@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR Code Generator</title>
     <link rel="stylesheet" href="style.css">
-</head>
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="QR Code Generator"></head>
 <body>
     <div class="container">
         <header>
@@ -27,7 +27,7 @@
                 <label for="qrErrorCorrection" data-i18n="error_correction_label">Error Correction:</label>
                 <select id="qrErrorCorrection">
                     <option value="L" data-i18n="low">Low (7%)</option>
-                    <option value="M" selected data-i18n="medium">Medium (15%)</option>
+                    <option value="M" selected="" data-i18n="medium">Medium (15%)</option>
                     <option value="Q" data-i18n="quartile">Quartile (25%)</option>
                     <option value="H" data-i18n="high">High (30%)</option>
                 </select>
@@ -39,7 +39,7 @@
             <p id="qrMessage" data-i18n="qr_message">Enter data and click Generate.</p>
         </div>
         <div class="download-section">
-            <a id="downloadQrBtn" href="#" download="qrcode.png" hidden data-i18n="download_btn">Download QR Code</a>
+            <a id="downloadQrBtn" href="#" download="qrcode.png" hidden="" data-i18n="download_btn">Download QR Code</a>
         </div>
         <div class="ad-banner">
             <!-- Ad Placeholder -->
@@ -50,5 +50,6 @@
     <!-- Include a QR code generation library, e.g., qrcode-generator -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/2.0.0/qrcode.min.js"></script>
     <script src="script.js"></script>
-</body>
-</html>
+
+
+</body></html>

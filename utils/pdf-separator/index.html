@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF Separator</title>
     <link rel="stylesheet" href="style.css">
-</head>
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="PDF Separator"></head>
 <body>
     <div class="container">
         <header>
@@ -22,37 +22,37 @@
         </header>
 
         <div class="upload-section">
-            <input type="file" id="pdfUpload" accept=".pdf" hidden>
+            <input type="file" id="pdfUpload" accept=".pdf" hidden="">
             <label for="pdfUpload" class="upload-button" data-i18n="upload_label">Upload PDF File</label>
             <p data-i18n="drag_drop_text">Or drag and drop your PDF file here</p>
         </div>
 
-        <div id="fileInfo" class="file-info-section" hidden>
+        <div id="fileInfo" class="file-info-section" hidden="">
             <p><strong data-i18n="selected_file_label">Selected File:</strong> <span id="selectedFileName"></span></p>
             <p><strong data-i18n="total_pages_label">Total Pages:</strong> <span id="totalPages"></span></p>
         </div>
 
-        <div class="options-section" id="optionsSection" hidden>
+        <div class="options-section" id="optionsSection" hidden="">
             <h2 data-i18n="split_options_title">Split Options</h2>
             <div>
-                <input type="radio" id="splitAll" name="splitMode" value="all" checked>
+                <input type="radio" id="splitAll" name="splitMode" value="all" checked="">
                 <label for="splitAll" data-i18n="split_all_label">Split all pages</label>
             </div>
             <div>
                 <input type="radio" id="splitRange" name="splitMode" value="range">
                 <label for="splitRange" data-i18n="split_range_label">Split pages from:</label>
-                <input type="number" id="startPage" placeholder="Start Page" min="1" disabled data-i18n="start_page_placeholder">
+                <input type="number" id="startPage" placeholder="Start Page" min="1" disabled="" data-i18n="start_page_placeholder">
                 <span data-i18n="to_label">to</span>
-                <input type="number" id="endPage" placeholder="End Page" min="1" disabled data-i18n="end_page_placeholder">
+                <input type="number" id="endPage" placeholder="End Page" min="1" disabled="" data-i18n="end_page_placeholder">
             </div>
         </div>
 
         <div class="controls">
-            <button id="splitPdfBtn" disabled data-i18n="split_btn">Split PDF</button>
-            <button id="downloadAllBtn" hidden data-i18n="download_all_btn">Download All Pages</button>
+            <button id="splitPdfBtn" disabled="" data-i18n="split_btn">Split PDF</button>
+            <button id="downloadAllBtn" hidden="" data-i18n="download_all_btn">Download All Pages</button>
         </div>
 
-        <div class="download-links-section" id="downloadLinksSection" hidden>
+        <div class="download-links-section" id="downloadLinksSection" hidden="">
             <h2 data-i18n="download_pages_title">Download Pages:</h2>
             <ul id="downloadLinksList">
                 <!-- Download links will be generated here -->
@@ -70,5 +70,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="script.js"></script>
-</body>
-</html>
+
+
+</body></html>
